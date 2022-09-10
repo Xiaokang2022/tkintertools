@@ -1,6 +1,5 @@
 import tkinter
 import typing
-from PIL import Image, ImageTk
 
 # 允许特定导入的类和函数
 __all__ = ['SpecialTk',
