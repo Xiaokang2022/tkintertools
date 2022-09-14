@@ -12,6 +12,9 @@ __all__ = ['SpecialTk',
            'correct_text']
 
 
+""" 特殊容器控件 """
+
+
 class SpecialCanvas(tkinter.Canvas):
     """特殊画布类
 
@@ -19,11 +22,12 @@ class SpecialCanvas(tkinter.Canvas):
 
     def __init__(self, master: tkinter.Tk, width: float, height: float, *args, **kwargs) -> None:
         # 调用父类初始化方法
-        tkinter.Canvas.__init__(self, master=master, width=width, height=height, *args, **kwargs)
+        tkinter.Canvas.__init__(self, master=master,
+                                width=width, height=height, *args, **kwargs)
         # 添加到SpecialTk的画布列表中
         self.master.canvas_list.append(self)
         # 子控件列表（与绑定有关）
-        self.widget_list = []
+        self.widget_list = []  # type:list[BaseWidget]
         # 画布界面锁（切换界面用，用不到时要改为True）
         self.canvas_lock = False
         # 初始大小
@@ -43,7 +47,7 @@ class SpecialTk(tkinter.Tk):
         # 调用父类初始化方法
         tkinter.Tk.__init__(self, *args, **kwargs)
         # 子画布列表（与缩放绑定有关）
-        self.canvas_list = []
+        self.canvas_list = []  # type:list[SpecialCanvas]
 
     @staticmethod
     def __bind_move(event: tkinter.Event, canvas: SpecialCanvas) -> None:
@@ -90,15 +94,20 @@ class SpecialTk(tkinter.Tk):
         # 遍历所有画布
         for canvas in self.canvas_list:
             # 绑定鼠标光标移动
-            canvas.bind('<Motion>', lambda event, _canvas=canvas: self.__bind_move(event, _canvas))
+            canvas.bind('<Motion>', lambda event,
+                        _canvas=canvas: self.__bind_move(event, _canvas))
             # 绑定鼠标左键按下
-            canvas.bind('<Button-1>', lambda event, _canvas=canvas: self.__bind_press(event, _canvas))
+            canvas.bind('<Button-1>', lambda event,
+                        _canvas=canvas: self.__bind_press(event, _canvas))
             # 绑定鼠标左键松开
-            canvas.bind('<ButtonRelease-1>', lambda event, _canvas=canvas: self.__bind_release(event, _canvas))
+            canvas.bind('<ButtonRelease-1>', lambda event,
+                        _canvas=canvas: self.__bind_release(event, _canvas))
             # 绑定鼠标左键按下移动
-            canvas.bind('<B1-Motion>', lambda event, _canvas=canvas: self.__bind_press(event, _canvas))
+            canvas.bind('<B1-Motion>', lambda event,
+                        _canvas=canvas: self.__bind_press(event, _canvas))
             # 绑定鼠标滚轮滚动
-            canvas.bind('<MouseWheel>', lambda event, _canvas=canvas: self.__bind_mousewheel(event, _canvas))
+            canvas.bind('<MouseWheel>', lambda event,
+                        _canvas=canvas: self.__bind_mousewheel(event, _canvas))
 
     def launch_zoom(self, init_width: int, init_height: int) -> None:
         """ 启动子画布控件缩放检测 """
@@ -109,14 +118,13 @@ class SpecialTk(tkinter.Tk):
         rate_x = window_width / init_width
         # 计算纵向缩放倍率
         rate_y = window_height / init_height
-        # 更新子画布控件的大小
-        for canvas in self.canvas_list:
-            if canvas.canvas_lock:
+        # 判断窗口大小是否变化
+        if window_width != init_width or window_height != init_height:
+            # 更新子画布控件的大小
+            for canvas in self.canvas_list:
                 # 更新画布的横纵缩放比率
                 canvas.rate_x = window_width / canvas.init_width
                 canvas.rate_y = window_height / canvas.init_height
-            # 判断窗口大小是否变化
-            if window_width != init_width or window_height != init_height:
                 # 更新子画布控件的子虚拟画布控件的位置
                 for item in canvas.find_all():
                     canvas.coords(item, [coord * rate_y if ind % 2 else coord * rate_x for ind, coord in
@@ -124,7 +132,8 @@ class SpecialTk(tkinter.Tk):
                     if (size := canvas.itemcget(item, 'tags')).isdigit():
                         # 字体大小修改
                         font = canvas.itemcget(item, 'font').split()
-                        font[1] = round(int(size) * min(canvas.rate_x, canvas.rate_y))
+                        font[1] = round(
+                            int(size) * min(canvas.rate_x, canvas.rate_y))
                         canvas.itemconfigure(item, font=font)
 
                 # 更新子画布控件的子虚拟画布控件位置数据
@@ -135,6 +144,9 @@ class SpecialTk(tkinter.Tk):
                     widget.y2 *= rate_y
         # 更新当前窗口大小的参数
         self.after(10, self.launch_zoom, window_width, window_height)
+
+
+""" 控件基类 """
 
 
 class BaseWidget:
@@ -228,7 +240,8 @@ class BaseWidget:
         # 更新按钮外框的位置
         self.canvas.coords(self.rectangle, self.x1, self.y1, self.x2, self.y2)
         # 更新显示文字的位置
-        self.canvas.coords(self.text, (self.x1 + self.x2) / 2, (self.y1 + self.y2) / 2)
+        self.canvas.coords(self.text, (self.x1 + self.x2) /
+                           2, (self.y1 + self.y2) / 2)
 
     def destroy(self) -> None:
         """ 摧毁控件释放内存 """
@@ -237,6 +250,37 @@ class BaseWidget:
         self.live = False
         self.canvas.delete(self.rectangle)
         self.canvas.delete(self.text)
+
+
+class TextWidget(BaseWidget):
+    """虚拟画布文本控件基类
+
+    内部类，供继承和调用"""
+
+    # 表面显示值
+    value_surface = ''
+    # 鼠标左键是否在输入框内按下
+    PRESS = False
+
+    def cursor(self, _cursor: bool = True, delay: int = 300) -> None:
+        """ 鼠标光标闪烁显示 """
+        if delay == 300:
+            # 更新显示
+            if self.canvas.itemcget(self.text, 'justify') == 'center':
+                self.canvas.itemconfigure(
+                    self.text, text='  ' + self.value_surface + ('▏' if _cursor else '  '))
+            else:
+                self.canvas.itemconfigure(
+                    self.text, text=self.value_surface + ('▏' if _cursor else '  '))
+            _cursor = not _cursor
+            delay = 0
+
+        if self.PRESS:
+            # 更新函数
+            self.canvas.after(10, self.cursor, _cursor, delay + 10)
+
+
+""" 虚拟画布控件 """
 
 
 class CanvasLabel(BaseWidget):
@@ -329,26 +373,21 @@ class CanvasButton(BaseWidget):
         self.canvas.itemconfigure(self.text, text=value)
 
 
-class CanvasEntry(BaseWidget):
+class CanvasEntry(TextWidget):
     """虚拟画布输入框类
 
     创建一个透明的虚拟输入框
 
     设置 `show` 属性来更改文本的显示样式
 
-    设置 `length` 属性来更改输入文本的限制长度"""
+    设置 `limit` 属性来更改输入文本的限制长度"""
 
     # 真实值
     value_real = ''
-    # 表面显示值
-    value_surface = ''
     # 显示模式
     show = ''
     # 限定文本输入的长度
-    length = 15
-
-    # 鼠标左键是否在输入框内按下
-    __PRESS = False
+    limit = 15
 
     def __init__(self,
                  canvas: SpecialCanvas,
@@ -360,23 +399,24 @@ class CanvasEntry(BaseWidget):
                  text_move: str = '',
                  *args, **kwargs) -> None:
         # 调用父类
-        BaseWidget.__init__(self, canvas, x1, y1, x2, y2, text_normal, *args, **kwargs)
+        BaseWidget.__init__(self, canvas, x1, y1, x2, y2,
+                            text_normal, *args, **kwargs)
 
         # 鼠标悬停显示文本
         self.text_move = text_move
 
-    def __press(self) -> None:
+    def __press_on(self) -> None:
         """ 鼠标左键按下状态 """
 
-        self.__PRESS = True
+        self.PRESS = True
         self.canvas.itemconfigure(self.rectangle, outline=self.CROP)
-        # 更新为表面显示值
-        self.canvas.itemconfigure(self.text, text=self.value_surface + '|')
+        # 触发鼠标光标闪烁
+        self.cursor()
 
     def __press_off(self) -> None:
         """ 鼠标左键松开状态 """
 
-        self.__PRESS = False
+        self.PRESS = False
         self.canvas.itemconfigure(self.rectangle, outline=self.CRON)
 
         # 判断是否已经输入了文本
@@ -387,10 +427,10 @@ class CanvasEntry(BaseWidget):
             # 设为显示值
             self.canvas.itemconfigure(self.text, text=self.value_surface)
 
-    def __move(self) -> None:
+    def __move_on(self) -> None:
         """ 鼠标悬停状态 """
 
-        if not self.__PRESS:
+        if not self.PRESS:
             self.canvas.itemconfigure(self.rectangle, outline=self.CROM)
 
             # 判断显示的值是否为第一默认值
@@ -401,7 +441,7 @@ class CanvasEntry(BaseWidget):
     def __move_off(self) -> None:
         """ 鼠标离开状态 """
 
-        if not self.__PRESS:
+        if not self.PRESS:
             self.canvas.itemconfigure(self.rectangle, outline=self.CRON)
 
             # 判断显示的值是否为第二默认值
@@ -415,7 +455,7 @@ class CanvasEntry(BaseWidget):
         if self.canvas.canvas_lock:
             if self.x1 < event.x < self.x2 and self.y1 < event.y < self.y2:
                 # 鼠标左键按下
-                self.__press()
+                self.__press_on()
             else:
                 # 鼠标左键松开
                 self.__press_off()
@@ -426,7 +466,7 @@ class CanvasEntry(BaseWidget):
         if self.canvas.canvas_lock:
             if self.x1 < event.x < self.x2 and self.y1 < event.y < self.y2:
                 # 鼠标悬停
-                self.__move()
+                self.__move_on()
             else:
                 # 鼠标离开
                 self.__move_off()
@@ -445,22 +485,24 @@ class CanvasEntry(BaseWidget):
         """ 文本输入 """
 
         if self.canvas.canvas_lock:
-            if self.__PRESS and self.live:
+            if self.PRESS and self.live:
                 if event.keysym == 'BackSpace':
                     # 按下退格键
                     self.value_real = self.value_real[:-1]
-                if len(event.char) and len(self.value_real) < self.length:
+                if len(event.char) and len(self.value_real) < self.limit:
                     if 32 < ord(event.char) < 127 or ord(event.char) > 255:
                         # 按下普通按键
                         self.value_real += event.char
 
                 # 更新表面显示值
-                self.value_surface = len(self.value_real) * self.show if self.show else self.value_real
+                self.value_surface = len(
+                    self.value_real) * self.show if self.show else self.value_real
                 # 更新显示
-                self.canvas.itemconfigure(self.text, text=self.value_surface + '|')
+                self.canvas.itemconfigure(
+                    self.text, text='  ' + self.value_surface + '▏')
 
 
-class CanvasText(BaseWidget):
+class CanvasText(TextWidget):
     """虚拟画布文本框类
 
     创建一个透明的虚拟文本框，
@@ -472,13 +514,8 @@ class CanvasText(BaseWidget):
 
     # 总文本默认最大输入长度
     limit = 100
-    # 文本框显示部分
-    value_surface = ''
     # 只读模式
     read = False
-
-    # 鼠标左键是否在输入框内按下
-    __PRESS = False
 
     def __init__(self, *args, **kwargs) -> None:
 
@@ -494,35 +531,36 @@ class CanvasText(BaseWidget):
         # 文本位置
         self.position = self.height
 
-    def __press(self) -> None:
+    def __press_on(self) -> None:
         """ 鼠标左键按下状态 """
 
         if not self.read:
-            self.__PRESS = True
+            self.PRESS = True
             self.canvas.itemconfigure(self.rectangle, outline=self.CROP)
             self.canvas.itemconfigure(self.text, fill=self.CTP)
-            self.canvas.itemconfigure(self.text, text=self.value + '|')
+            # 触发鼠标光标闪烁
+            self.cursor()
 
     def __press_off(self) -> None:
         """ 鼠标左键松开状态 """
 
         if not self.read:
-            self.__PRESS = False
+            self.PRESS = False
             self.canvas.itemconfigure(self.rectangle, outline=self.CRON)
             self.canvas.itemconfigure(self.text, fill=self.CTN)
             self.canvas.itemconfigure(self.text, text=self.value)
 
-    def __move(self) -> None:
+    def __move_on(self) -> None:
         """ 鼠标悬停状态 """
 
-        if not self.__PRESS:
+        if not self.PRESS:
             self.canvas.itemconfigure(self.rectangle, outline=self.CROM)
             self.canvas.itemconfigure(self.text, fill=self.CTM)
 
     def __move_off(self) -> None:
         """ 鼠标离开状态 """
 
-        if not self.__PRESS:
+        if not self.PRESS:
             self.canvas.itemconfigure(self.rectangle, outline=self.CRON)
             self.canvas.itemconfigure(self.text, fill=self.CTN)
 
@@ -532,7 +570,7 @@ class CanvasText(BaseWidget):
         if self.canvas.canvas_lock:
             if self.x1 < event.x < self.x2 and self.y1 < event.y < self.y2:
                 # 鼠标左键按下
-                self.__press()
+                self.__press_on()
             else:
                 # 鼠标左键松开
                 self.__press_off()
@@ -543,7 +581,7 @@ class CanvasText(BaseWidget):
         if self.canvas.canvas_lock:
             if self.x1 < event.x < self.x2 and self.y1 < event.y < self.y2:
                 # 鼠标悬停
-                self.__move()
+                self.__move_on()
             else:
                 # 鼠标离开
                 self.__move_off()
@@ -561,13 +599,17 @@ class CanvasText(BaseWidget):
 
         # 改变文本
         self.value += value
-        if self.value.count('\n') <= self.height:
+        key = self.value.count('\n')
+        if key <= self.height:
             # 更新显示值
             self.canvas.itemconfigure(self.text, text=self.value)
         else:
+            # 同步更新文本上下位置数据
+            self.position += value.count('\n')
             # 计算显示文本的部分
-            ind = self.value.count('\n') - self.height
-            self.value_surface = '\n'.join(self.value.split('\n')[ind:ind + self.height])
+            ind = key - self.height
+            self.value_surface = '\n'.join(
+                self.value.split('\n')[ind:ind + self.height])
             self.canvas.itemconfigure(self.text, text=self.value_surface)
 
     def scroll(self, event: tkinter.Event) -> None:
@@ -583,14 +625,15 @@ class CanvasText(BaseWidget):
                     self.position += 1
                 # 计算显示文本的部分
                 ind = self.position - self.height
-                self.value_surface = '\n'.join(self.value.split('\n')[ind:ind + self.height])
+                self.value_surface = '\n'.join(
+                    self.value.split('\n')[ind:ind + self.height])
                 self.canvas.itemconfigure(self.text, text=self.value_surface)
 
     def input(self, event: tkinter.Event) -> None:
         """ 文本输入 """
 
         if self.canvas.canvas_lock:
-            if self.__PRESS and self.live and not self.read:
+            if self.PRESS and self.live and not self.read:
                 if event.keysym == 'BackSpace':
                     # 按下退格键
                     if len(self.value) > 1 and self.value[-2] == '\n':
@@ -600,7 +643,8 @@ class CanvasText(BaseWidget):
                 elif len(event.char) and len(self.value) < self.limit:
                     # 按下普通按键
                     if 32 < ord(event.char) < 127 or ord(event.char) > 255:
-                        line = sum([1 if 32 < ord(i) < 127 else 2 for i in self.value.split('\n')[-1]])
+                        line = sum(
+                            [1 if 32 < ord(i) < 127 else 2 for i in self.value.split('\n')[-1]])
                         line += 1 if 32 < ord(event.char) < 127 else 2
                         if line > self.width:
                             self.value += '\n' + event.char
@@ -608,11 +652,15 @@ class CanvasText(BaseWidget):
                             self.value += event.char
 
                 # 更新显示
-                self.canvas.itemconfigure(self.text, text=self.value + '|')
+                self.value_surface = self.value
+                self.canvas.itemconfigure(self.text, text=self.value + '▏')
 
 
-def move_widget(root,
-                widget,
+""" 功能函数 """
+
+
+def move_widget(root: tkinter.Tk | SpecialCanvas | tkinter.Canvas,
+                widget: SpecialCanvas | BaseWidget,
                 dx: int,
                 dy: int,
                 interval: int,
@@ -651,7 +699,8 @@ def move_widget(root,
 
     if ind < 9:
         # 更新函数
-        root.after(interval, move_widget, root, widget, dx, dy, interval, mode, ind + 1)
+        root.after(interval, move_widget, root, widget,
+                   dx, dy, interval, mode, ind + 1)
 
 
 def correct_text(length: int, string: str) -> str:
