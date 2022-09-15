@@ -216,7 +216,8 @@ class BaseWidget:
         # 虚拟按钮显示的文字
         self.text = self.canvas.create_text((x1 + x2) / 2, (y1 + y2) / 2,
                                             text=text,
-                                            font=('楷体', font_size),
+                                            font=('楷体', round(
+                                                font_size * min(canvas.rate_x, canvas.rate_y))),
                                             justify='center',
                                             fill=self.CTN,
                                             tags=str(font_size))
@@ -454,8 +455,9 @@ class CanvasEntry(TextWidget):
 
         if self.canvas.canvas_lock:
             if self.x1 < event.x < self.x2 and self.y1 < event.y < self.y2:
-                # 鼠标左键按下
-                self.__press_on()
+                if not self.PRESS:
+                    # 鼠标左键按下
+                    self.__press_on()
             else:
                 # 鼠标左键松开
                 self.__press_off()
@@ -569,8 +571,9 @@ class CanvasText(TextWidget):
 
         if self.canvas.canvas_lock:
             if self.x1 < event.x < self.x2 and self.y1 < event.y < self.y2:
-                # 鼠标左键按下
-                self.__press_on()
+                if not self.PRESS:
+                    # 鼠标左键按下
+                    self.__press_on()
             else:
                 # 鼠标左键松开
                 self.__press_off()
@@ -590,7 +593,7 @@ class CanvasText(TextWidget):
         """ 重新设定显示文字 """
 
         # 改变文本
-        self.value = value
+        self.value_surface = self.value = value
         # 更新显示值
         self.append('')
 
