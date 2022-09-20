@@ -1,7 +1,23 @@
+"""tkintertools 模块是 tkinter 模块的扩展模块
+
+这个模块将给用户提供透明化的控件，以及一些特殊的功能函数
+
+作者：小康2022
+
+版本：1.3
+
+更新时间：2022/9/20
+"""
+
+
+import random
 import tkinter
 import typing
 
-# 允许特定导入的类和函数
+
+### 允许特定导入的类和函数 ###
+
+
 __all__ = ['SpecialTk',
            'SpecialCanvas',
            'CanvasLabel',
@@ -9,25 +25,29 @@ __all__ = ['SpecialTk',
            'CanvasEntry',
            'CanvasText',
            'move_widget',
-           'correct_text']
+           'correct_text',
+           'process_color']
 
 
-""" 特殊容器控件 """
+### 特殊容器控件 ###
 
 
 class SpecialCanvas(tkinter.Canvas):
     """特殊画布类
 
-    启动画布虚拟子控件的功能，需解开界面功能锁（将 `canvas_lock` 设为 `True` ）"""
+    启动画布虚拟子控件的功能，需解开界面功能锁（将 `canvas_lock` 设为 `True` ）
+    """
 
     def __init__(self, master: tkinter.Tk, width: float, height: float, *args, **kwargs) -> None:
         # 调用父类初始化方法
         tkinter.Canvas.__init__(self, master=master,
                                 width=width, height=height, *args, **kwargs)
         # 添加到SpecialTk的画布列表中
+        self.master: SpecialTk
         self.master.canvas_list.append(self)
         # 子控件列表（与绑定有关）
-        self.widget_list = []  # type:list[BaseWidget]
+        self.widget_list: list[CanvasButton |
+                               CanvasEntry | CanvasLabel | CanvasText] = []
         # 画布界面锁（切换界面用，用不到时要改为True）
         self.canvas_lock = False
         # 初始大小
@@ -41,13 +61,14 @@ class SpecialCanvas(tkinter.Canvas):
 class SpecialTk(tkinter.Tk):
     """特殊Tk类
 
-    用于集中处理 `SpecialCanvas` 绑定的关联事件"""
+    用于集中处理 `SpecialCanvas` 绑定的关联事件
+    """
 
     def __init__(self, *args, **kwargs) -> None:
         # 调用父类初始化方法
         tkinter.Tk.__init__(self, *args, **kwargs)
         # 子画布列表（与缩放绑定有关）
-        self.canvas_list = []  # type:list[SpecialCanvas]
+        self.canvas_list: list[SpecialCanvas] = []
 
     @staticmethod
     def __bind_move(event: tkinter.Event, canvas: SpecialCanvas) -> None:
@@ -129,9 +150,11 @@ class SpecialTk(tkinter.Tk):
                 for item in canvas.find_all():
                     canvas.coords(item, [coord * rate_y if ind % 2 else coord * rate_x for ind, coord in
                                          enumerate(canvas.coords(item))])
-                    if (size := canvas.itemcget(item, 'tags')).isdigit():
+                    size: str = canvas.itemcget(item, 'tags')
+                    if size.isdigit():
                         # 字体大小修改
-                        font = canvas.itemcget(item, 'font').split()
+                        font: str = canvas.itemcget(item, 'font')
+                        font = font.split()
                         font[1] = round(
                             int(size) * min(canvas.rate_x, canvas.rate_y))
                         canvas.itemconfigure(item, font=font)
@@ -146,13 +169,14 @@ class SpecialTk(tkinter.Tk):
         self.after(10, self.launch_zoom, window_width, window_height)
 
 
-""" 控件基类 """
+### 控件基类 ###
 
 
 class BaseWidget:
     """虚拟画布控件基类
 
-    内部类，供模块内部调用和继承"""
+    内部类，供模块内部调用和继承
+    """
 
     def __init__(self,
                  canvas: SpecialCanvas,
@@ -256,7 +280,8 @@ class BaseWidget:
 class TextWidget(BaseWidget):
     """虚拟画布文本控件基类
 
-    内部类，供继承和调用"""
+    内部类，供继承和调用
+    """
 
     # 表面显示值
     value_surface = ''
@@ -281,7 +306,7 @@ class TextWidget(BaseWidget):
             self.canvas.after(10, self.cursor, _cursor, delay + 10)
 
 
-""" 虚拟画布控件 """
+### 虚拟画布控件 ###
 
 
 class CanvasLabel(BaseWidget):
@@ -289,7 +314,8 @@ class CanvasLabel(BaseWidget):
 
     创建一个可透明的虚拟标签，用于显示少量文本
 
-    该虚拟控件没有鼠标点击事件"""
+    该虚拟控件没有鼠标点击事件
+    """
 
     def __move(self) -> None:
         """ 鼠标悬停状态 """
@@ -316,7 +342,8 @@ class CanvasButton(BaseWidget):
     创建一个透明且含边框的虚拟按钮
 
     确保管理其的虚拟画布的功能界面锁已开启，
-    且启动了 `special_bind` 方法"""
+    且启动了 `special_bind` 方法
+    """
 
     # 绑定的执行函数
     command = None
@@ -381,7 +408,8 @@ class CanvasEntry(TextWidget):
 
     设置 `show` 属性来更改文本的显示样式
 
-    设置 `limit` 属性来更改输入文本的限制长度"""
+    设置 `limit` 属性来更改输入文本的限制长度
+    """
 
     # 真实值
     value_real = ''
@@ -512,7 +540,8 @@ class CanvasText(TextWidget):
 
     设置 `read` 属性为 `True` 来开启只读模式
 
-    设置 `limit` 属性的值来限制输入的文本长度 """
+    设置 `limit` 属性的值来限制输入的文本长度
+    """
 
     # 总文本默认最大输入长度
     limit = 100
@@ -659,14 +688,14 @@ class CanvasText(TextWidget):
                 self.canvas.itemconfigure(self.text, text=self.value + '▏')
 
 
-""" 功能函数 """
+### 功能函数 ###
 
 
 def move_widget(root: tkinter.Tk | SpecialCanvas | tkinter.Canvas,
                 widget: SpecialCanvas | BaseWidget,
                 dx: int,
                 dy: int,
-                interval: int,
+                fps: int,
                 mode: typing.Literal['smooth', 'shake', 'flat'],
                 ind: int = 0) -> None:
     """平滑移动函数
@@ -674,15 +703,17 @@ def move_widget(root: tkinter.Tk | SpecialCanvas | tkinter.Canvas,
     以 `smooth`、`shake`、`flat` 三种模式
     平滑地移动某些或某部分图像
 
-    （此函数为Place准备，不适用于Pack和Grid）"""
+    此函数为Place准备，暂不适用于Pack和Grid
+    """
 
     # 三种模式的速度变化列表
     if mode == 'smooth':
-        lib = [3, 5, 8, 13, 21, 21, 13, 8, 5, 3]
+        lib = [1, 2, 2, 3, 3, 5, 6, 7, 9, 12, 12, 9, 7, 6, 5, 3, 3, 2, 2, 1]
     elif mode == 'shake':
-        lib = [20, 15, 15, 15, 10, 10, 10, 5, 5, - 5]
-    else:
-        lib = [10, 10, 10, 10, 10, 10, 10, 10, 10, 10]
+        lib = [10, 10, 9, 9, 8, 8, 7, 7, 6, 6,
+               5, 5, 4, 4, 3, 3, 1, -1, - 2, -3]
+    elif mode == 'flat':
+        lib = [5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5]
 
     # x偏移量
     x = int(lib[ind] * dx / 100)
@@ -700,19 +731,19 @@ def move_widget(root: tkinter.Tk | SpecialCanvas | tkinter.Canvas,
     else:
         root.move(widget, x, y)
 
-    if ind < 9:
+    if ind < 19:
         # 更新函数
-        root.after(interval, move_widget, root, widget,
-                   dx, dy, interval, mode, ind + 1)
+        root.after(1000 // fps, move_widget, root, widget,
+                   dx, dy, fps, mode, ind + 1)
 
 
 def correct_text(length: int, string: str) -> str:
-    """
-    字符串长度修正函数
+    """字符串长度修正函数
 
     针对“楷体”中英文长度不一致，无法对齐的问题
 
-    可将目标字符串改为目标长度并居中对齐"""
+    可将目标字符串改为目标长度并居中对齐
+    """
 
     # 修正长度
     n = length - sum([1 + (ord(i) > 256) for i in string])
@@ -722,3 +753,30 @@ def correct_text(length: int, string: str) -> str:
     value = space + string + space
     # 奇偶处理
     return value if n % 2 == 0 else value + ' '
+
+
+def process_color(color: str | None = None, key: float | str = '') -> str:
+    """颜色字符串处理函数（RGB码）
+
+    随机产生一个RGB颜色字符串
+
+    以及给出已有RGB颜色字符串的渐变RGB颜色字符串
+    """
+
+    lib, rgb = '0123456789ABCDEF', ''
+    if not color:
+        # 随机RGB颜色字符串
+        for _ in range(6):
+            rgb += lib[random.randint(0, 15)]
+    else:
+        # 渐变RGB颜色字符串的生成
+        *slice_seq, length = (1, 2, 3, 1) if len(color) == 4 else (1, 3, 5, 2)
+        if type(key) == float:
+            for ind in slice_seq:
+                rgb += oct(round(int(color[ind: ind +
+                           length], 16) * key) % 16)[2:]
+        elif type(key) == str:
+            for ind in slice_seq:
+                rgb += oct(int(color[ind: ind + length],
+                           16) + int(key, 16))[2:]
+    return '#' + rgb
