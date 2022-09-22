@@ -4,9 +4,9 @@
 
 作者：小康2022
 
-版本：1.3
+版本：1.4
 
-更新时间：2022/9/20
+更新时间：2022/9/21
 """
 
 
@@ -15,18 +15,10 @@ import tkinter
 import typing
 
 
-### 允许特定导入的类和函数 ###
-
-
-__all__ = ['SpecialTk',
-           'SpecialCanvas',
-           'CanvasLabel',
-           'CanvasButton',
-           'CanvasEntry',
-           'CanvasText',
-           'move_widget',
-           'correct_text',
-           'process_color']
+__all__ = ['SpecialTk', 'SpecialCanvas',
+           'CanvasLabel', 'CanvasButton',
+           'CanvasEntry', 'CanvasText',
+           'move_widget', 'correct_text', 'process_color']
 
 
 ### 特殊容器控件 ###
@@ -64,11 +56,69 @@ class SpecialTk(tkinter.Tk):
     用于集中处理 `SpecialCanvas` 绑定的关联事件
     """
 
-    def __init__(self, *args, **kwargs) -> None:
+    def __init__(self, proportion_lock: bool = False, *args, **kwargs) -> None:
         # 调用父类初始化方法
         tkinter.Tk.__init__(self, *args, **kwargs)
         # 子画布列表（与缩放绑定有关）
         self.canvas_list: list[SpecialCanvas] = []
+        # 开启窗口缩放检测
+        self.bind('<Configure>', lambda event: self.__zoom(
+            event, proportion_lock))
+
+    def __zoom(self, event: tkinter.Event, lock: bool, geometry: list = []) -> None:
+        """ 画布缩放检测 """
+        if not geometry:
+            # 记住初始化窗口宽高比例
+            geometry.append(event.width / event.height)
+            # 记住初始化的窗口大小
+            geometry.append(event.width)
+            geometry.append(event.height)
+
+        elif event.width != geometry[1] or event.height != geometry[2]:
+            # 窗口大小改变
+            if lock:
+                # 使高度和宽度成比例同步变化
+                delta = event.width / geometry[0] - event.height
+                if event.width not in (geometry[1], self.winfo_screenwidth()):
+                    # 宽度改变
+                    event.height += round(delta)
+                elif event.height not in (geometry[2], self.winfo_screenheight()):
+                    # 高度改变
+                    event.width -= round(delta * geometry[0])
+                self.geometry('%sx%s' % (event.width, event.height))
+
+            # 计算横向缩放倍率
+            rate_x = event.width / geometry[1]
+            # 计算纵向缩放倍率
+            rate_y = event.height / geometry[2]
+
+            # 更新子画布控件的大小
+            for canvas in self.canvas_list:
+                # 更新画布的横纵缩放比率
+                canvas.rate_x = event.width / canvas.init_width
+                canvas.rate_y = event.height / canvas.init_height
+                # 更新子画布控件的子虚拟画布控件的位置
+                for item in canvas.find_all():
+                    canvas.coords(item, [coord * rate_y if ind % 2 else coord * rate_x for ind, coord in
+                                         enumerate(canvas.coords(item))])
+                    size: str = canvas.itemcget(item, 'tags')
+                    if size.isdigit():
+                        # 字体大小修改
+                        font: str = canvas.itemcget(item, 'font')
+                        font = font.split()
+                        font[1] = round(
+                            int(size) * min(canvas.rate_x, canvas.rate_y))
+                        canvas.itemconfigure(item, font=font)
+
+                # 更新子画布控件的子虚拟画布控件位置数据
+                for widget in canvas.widget_list:
+                    widget.x1 *= rate_x
+                    widget.x2 *= rate_x
+                    widget.y1 *= rate_y
+                    widget.y2 *= rate_y
+
+            # 更新默认参数
+            geometry[1], geometry[2] = event.width, event.height
 
     @staticmethod
     def __bind_move(event: tkinter.Event, canvas: SpecialCanvas) -> None:
@@ -108,8 +158,7 @@ class SpecialTk(tkinter.Tk):
                     widget.input(event)
 
     def launch_bind(self) -> None:
-        """ 启动关联事件的绑定 """
-
+        """ 关联事件的绑定 """
         # 绑定键盘输入
         self.bind('<Any-Key>', self.__bind_input)
         # 遍历所有画布
@@ -130,43 +179,10 @@ class SpecialTk(tkinter.Tk):
             canvas.bind('<MouseWheel>', lambda event,
                         _canvas=canvas: self.__bind_mousewheel(event, _canvas))
 
-    def launch_zoom(self, init_width: int, init_height: int) -> None:
-        """ 启动子画布控件缩放检测 """
-
-        # 检测当前窗口的大小
-        window_width, window_height = self.winfo_width(), self.winfo_height()
-        # 计算横向缩放倍率
-        rate_x = window_width / init_width
-        # 计算纵向缩放倍率
-        rate_y = window_height / init_height
-        # 判断窗口大小是否变化
-        if window_width != init_width or window_height != init_height:
-            # 更新子画布控件的大小
-            for canvas in self.canvas_list:
-                # 更新画布的横纵缩放比率
-                canvas.rate_x = window_width / canvas.init_width
-                canvas.rate_y = window_height / canvas.init_height
-                # 更新子画布控件的子虚拟画布控件的位置
-                for item in canvas.find_all():
-                    canvas.coords(item, [coord * rate_y if ind % 2 else coord * rate_x for ind, coord in
-                                         enumerate(canvas.coords(item))])
-                    size: str = canvas.itemcget(item, 'tags')
-                    if size.isdigit():
-                        # 字体大小修改
-                        font: str = canvas.itemcget(item, 'font')
-                        font = font.split()
-                        font[1] = round(
-                            int(size) * min(canvas.rate_x, canvas.rate_y))
-                        canvas.itemconfigure(item, font=font)
-
-                # 更新子画布控件的子虚拟画布控件位置数据
-                for widget in canvas.widget_list:
-                    widget.x1 *= rate_x
-                    widget.x2 *= rate_x
-                    widget.y1 *= rate_y
-                    widget.y2 *= rate_y
-        # 更新当前窗口大小的参数
-        self.after(10, self.launch_zoom, window_width, window_height)
+    def mainloop(self, n: int = 0) -> None:
+        """ 开启窗口时开启进行事件绑定 """
+        self.launch_bind()
+        tkinter.Tk.mainloop(self, n)
 
 
 ### 控件基类 ###
@@ -764,6 +780,7 @@ def process_color(color: str | None = None, key: float | str = '') -> str:
     """
 
     lib, rgb = '0123456789ABCDEF', ''
+    
     if not color:
         # 随机RGB颜色字符串
         for _ in range(6):
