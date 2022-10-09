@@ -22,8 +22,8 @@ Python3内置图形化应用开发模块tkinter的辅助扩展模块（[详细�
 
 ### 模块结构
 
-1. **特殊容器控件**：`SpecialTk`、`SpecialCanvas`
+1. **特殊容器控件**：`Tk`、`Canvas`
 
 2. **虚拟画布控件**：`CanvasEntry`、`CanvasLabel`、`CanvasText`、`CanvasButton`
 
-3. **附加功能函数**：`move_widget`、`correct_text`
+3. **附加功能函数**：`move_widget`、`correct_text`、`process_color`
