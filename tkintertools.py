@@ -5,8 +5,8 @@ tkinter 模块的扩展模块
 这个模块将给用户提供可透明的、可自定义的、现代化的控件，以及一些特殊的功能函数
 
 模块作者: 小康2022
-模块版本: 2.2
-上次更新: 2022/10/17
+模块版本: pre-2.2
+上次更新: 2022/10/18
 ---
 ### 可用内容
 - 容器类控件: `Tk`、`Canvas`
@@ -618,6 +618,11 @@ class CanvasEntry(_TextWidget):
                  color_text: tuple[str, str, str] = COLOR_BLACK,
                  color_fill: tuple[str, str, str] = COLOR_WHITE,
                  color_outline: tuple[str, str, str] = COLOR_TEXT) -> None:
+        if type(text) == str:
+            text = (text, '')
+        elif type(text) == None:
+            text = ('', '')
+
         _TextWidget.__init__(self, canvas, x, y, width, height, text, limit, space, justify,
                              borderwidth, font, color_text, color_fill, color_outline)
         self.canvas.itemconfigure(self.text, text=self.value_normal)
@@ -693,7 +698,6 @@ class CanvasText(_TextWidget):
                  y: int,
                  width: int,
                  height: int,
-                 text: tuple[str] | str = TEXT,
                  limit: int = 100,
                  space: bool = True,
                  read: bool = False,
@@ -703,7 +707,7 @@ class CanvasText(_TextWidget):
                  color_text: tuple[str, str, str] = COLOR_BLACK,
                  color_fill: tuple[str, str, str] = COLOR_WHITE,
                  color_outline: tuple[str, str, str] = COLOR_TEXT) -> None:
-        _TextWidget.__init__(self, canvas, x, y, width, height, text, limit, space, justify,
+        _TextWidget.__init__(self, canvas, x, y, width, height, TEXT, limit, space, justify,
                              borderwidth, font, color_text, color_fill, color_outline)
         # 只读模式
         self.read = read
@@ -717,7 +721,7 @@ class CanvasText(_TextWidget):
         # 计算文本容纳行数
         self.line = round((self.y2 - self.y1) / int(font[1] * 3/2)) + 1
         # 文本位置
-        self.position = self.line
+        self._pos = self.line
 
     def touch_on(self) -> None:
         """ 鼠标悬停状态 """
@@ -746,7 +750,7 @@ class CanvasText(_TextWidget):
             self.canvas.itemconfigure(self.text, text=self.value)
         else:
             # 同步更新文本上下位置数据
-            self.position += value.count('\n')
+            self._pos += value.count('\n')
             # 计算显示文本的部分
             ind = key - self.line
             self.value_surface = '\n'.join(
@@ -757,14 +761,14 @@ class CanvasText(_TextWidget):
         """ 文本滚动 """
         if self.canvas.lock:
             if self.x1 <= event.x <= self.x2 and self.y1 <= event.y <= self.y2:
-                if event.delta > 0 and self.position > self.line:
+                if event.delta > 0 and self._pos > self.line:
                     # 鼠标向上滚动，显示文本部分向下滚动
-                    self.position -= 1
-                elif event.delta < 0 and self.position < self.value.count('\n'):
+                    self._pos -= 1
+                elif event.delta < 0 and self._pos < self.value.count('\n'):
                     # 鼠标向下滚动，显示文本部分向上滚动
-                    self.position += 1
+                    self._pos += 1
                 # 计算显示文本的部分
-                ind = self.position - self.line
+                ind = self._pos - self.line
                 self.value_surface = '\n'.join(
                     self.value.split('\n')[ind:ind + self.line])
                 self.canvas.itemconfigure(self.text, text=self.value_surface)
