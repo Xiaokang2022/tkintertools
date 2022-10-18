@@ -5,11 +5,12 @@ tkinter 模块的扩展模块
 这个模块将给用户提供可透明的、可自定义的、现代化的控件，以及一些特殊的功能函数
 
 模块作者: 小康2022
-模块版本: 2.1
-上次更新: 2022/10/9
+模块版本: 2.2
+上次更新: 2022/10/17
 ---
 ### 可用内容
 - 容器类控件: `Tk`、`Canvas`
+- 工具类: `PhotoImage`
 - 虚拟画布类控件: `CanvasLabel`、`CanvasButton`、`CanvasEntry`、`CanvasText`
 - 处理函数: `move_widget`、`correct_text`、`process_color`
 ---
@@ -84,7 +85,8 @@ class Canvas(tkinter.Canvas):
         `**kwargs`: 与原 tkinter 模块内 Canvas 类的参数相同
         """
         tkinter.Canvas.__init__(self, master,
-                                width=width, height=height, **kwargs)
+                                width=width, height=height,
+                                highlightthickness=0, **kwargs)
         self.master: Tk
         self.master.canvas_list.append(self)  # 将实例添加到 Tk 的画布列表中
         self.widget_list: list[CanvasButton | CanvasEntry |
@@ -793,6 +795,47 @@ class CanvasText(_TextWidget):
                 self.value_surface = self.value
                 self.canvas.itemconfigure(self.text, text=self.value)
                 self.cursor_update()
+
+
+# 工具类
+
+
+class PhotoImage(tkinter.PhotoImage):
+    """ 图片类 """
+
+    def __init__(self,
+                 file: str | bytes,
+                 gif: bool = False,
+                 *args, **kwargs):
+        self.file = file
+        self.gif = gif  # 是否为动图
+        self.frames = []
+
+        if not gif:
+            return tkinter.PhotoImage.__init__(self, file=file, *args, **kwargs)
+
+    def parse(self, total: int, generator: bool = False):
+        """ 解析动图 """
+        while (ind := 0) != total:
+            image = tkinter.PhotoImage(file=self.file, format='gif -index %d' % ind)
+            ind += 1
+            if generator:
+                yield image
+            else:
+                self.frames.append(image)
+        else:
+            yield self.frames
+
+    def play(self, canvas: Canvas, id, interval: int, ind: int = 0):
+        """ 播放动图 """
+        if self.gif:
+            if canvas.lock:
+                if ind == len(self.frames):
+                    ind = 0
+                canvas.configure(id, image=self.frames[ind])
+                canvas.after(interval, self.play, canvas, id, interval, ind + 1)
+            else:
+                canvas.after(interval, self.play, canvas, id, interval, ind)
 
 
 # 功能函数
