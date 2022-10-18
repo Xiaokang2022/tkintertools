@@ -68,7 +68,7 @@ TEXT = ''
 class Canvas(tkinter.Canvas):
     """
     画布类
-    
+
     用于承载虚拟的画布控件
     """
 
@@ -824,7 +824,7 @@ class PhotoImage(tkinter.PhotoImage):  # NOTE: 可改进
                  gif: bool = False,
                  *args, **kwargs):
         """
-        
+
         """
         self.file = file
         self.gif = gif  # 是否为动图
@@ -836,7 +836,8 @@ class PhotoImage(tkinter.PhotoImage):  # NOTE: 可改进
     def parse(self, total: int, generator: bool = False):
         """ 解析动图 """
         while (ind := 0) != total:
-            image = tkinter.PhotoImage(file=self.file, format='gif -index %d' % ind)
+            image = tkinter.PhotoImage(
+                file=self.file, format='gif -index %d' % ind)
             ind += 1
             if generator:
                 yield image
@@ -852,7 +853,8 @@ class PhotoImage(tkinter.PhotoImage):  # NOTE: 可改进
                 if _ind == len(self.frames):
                     _ind = 0
                 canvas.configure(id, image=self.frames[_ind])
-                canvas.after(interval, self.play, canvas, id, interval, _ind + 1)
+                canvas.after(interval, self.play, canvas,
+                             id, interval, _ind + 1)
             else:
                 canvas.after(interval, self.play, canvas, id, interval, _ind)
 
@@ -927,7 +929,7 @@ def move_widget(widget: Canvas | _BaseWidget,
     if _ind < 19:
         # 更新函数
         widget.master.after(round(times * 50), move_widget, widget,
-                   dx, dy, times, mode, _x, _y, _ind + 1)
+                            dx, dy, times, mode, _x, _y, _ind + 1)
 
 
 def correct_text(length: int, string: str) -> str:
@@ -952,36 +954,36 @@ def correct_text(length: int, string: str) -> str:
     return value if n % 2 == 0 else value + ' '
 
 
-def process_color(color: str | None = None, key: float | str = '') -> str:  # NOTE: 可改进
+def process_color(color: str = '', obj: str = '', proportion: float = 0) -> str:
     """
-    ### 颜色字符串处理函数（RGB码）
+    ### 颜色字符串处理函数（6位RGB码）
 
     随机产生一个RGB颜色字符串，以及给出已有RGB颜色字符串的渐变RGB颜色字符串
 
     #### 参数说明
 
-    `color`: 颜色字符串
-    `key`: 比值
+    `color`: 要修改的颜色（为空时随机生成一个颜色）
+    `obj`: 目标颜色
+    `proportion`: 改变比例
     """
-
-    lib, rgb = '0123456789ABCDEF', ''
 
     if not color:
         # 随机RGB颜色字符串
-        for _ in range(6):
-            rgb += lib[random.randint(0, 15)]
+        return '#' + ''.join(['0123456789ABCDEF'[random.randint(0, 15)] for _ in range(6)])
     else:
         # 渐变RGB颜色字符串的生成
-        *slice_seq, length = (1, 2, 3, 1) if len(color) == 4 else (1, 3, 5, 2)
-        if type(key) == float:
-            for ind in slice_seq:
-                rgb += oct(round(int(color[ind: ind +
-                           length], 16) * key) % 16)[2:]
-        elif type(key) == str:
-            for ind in slice_seq:
-                rgb += oct(int(color[ind: ind + length],
-                           16) + int(key, 16))[2:]
-    return '#' + rgb
+        R, G, B = int(color[1:3], 16), int(color[3:5], 16), int(color[5:7], 16)
+        _R, _G, _B = int(obj[1:3], 16), int(obj[3:5], 16), int(obj[5:7], 16)
+        R += round((_R - R) * proportion)
+        G += round((_G - G) * proportion)
+        B += round((_B - B) * proportion)
+        R = hex(R)[2:]
+        G = hex(G)[2:]
+        B = hex(B)[2:]
+        R = (2 - len(R)) * '0' + R
+        G = (2 - len(G)) * '0' + G
+        B = (2 - len(B)) * '0' + B
+        return '#' + R + G + B
 
 
 def _test():
@@ -997,5 +999,5 @@ def _test():
 
 
 if __name__ == '__main__':
-    print(__doc__.replace('# ', '').replace('#', '').replace('---', '').replace('    ', ''))
+    print(__doc__.replace('# ', '').replace('#', '').replace('---', ''))
     _test()
