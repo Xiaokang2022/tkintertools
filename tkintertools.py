@@ -66,7 +66,11 @@ TEXT = ''
 
 
 class Canvas(tkinter.Canvas):
-    """ 画布类：用于承载虚拟的画布控件 """
+    """
+    画布类
+    
+    用于承载虚拟的画布控件
+    """
 
     def __init__(self,
                  master,  # type: Tk
@@ -103,7 +107,11 @@ class Canvas(tkinter.Canvas):
 
 
 class Tk(tkinter.Tk):
-    """ Tk 类：用于集中处理 `Canvas` 绑定的关联事件以及缩放操作 """
+    """
+    Tk类
+
+    用于集中处理 `Canvas` 绑定的关联事件以及缩放操作
+    """
 
     def __init__(self,
                  title: str | None = None,
@@ -310,7 +318,7 @@ class _BaseWidget:
         # 控件活跃标志
         self.live = True
 
-        self.canvas = canvas
+        self.master = canvas
         self.value = text
         self.font = font
         self.color_text = color_text
@@ -341,9 +349,9 @@ class _BaseWidget:
         `press`: 鼠标按下时的状态
         """
         mode = 0 if mode == 'normal' else 1 if mode == 'touch' else 2
-        self.canvas.itemconfigure(self.text, fill=self.color_text[mode])
-        self.canvas.itemconfigure(self.rect, fill=self.color_fill[mode])
-        self.canvas.itemconfigure(self.rect, outline=self.color_outline[mode])
+        self.master.itemconfigure(self.text, fill=self.color_text[mode])
+        self.master.itemconfigure(self.rect, fill=self.color_fill[mode])
+        self.master.itemconfigure(self.rect, outline=self.color_outline[mode])
 
     def move(self, dx: float, dy: float) -> None:  # NOTE: 可改进
         """ 改变控件的位置 """
@@ -352,20 +360,20 @@ class _BaseWidget:
         self.y1 += dy
         self.y2 += dy
 
-        self.canvas.move(self.rect, dx, dy)
-        self.canvas.move(self.text, dx, dy)
+        self.master.move(self.rect, dx, dy)
+        self.master.move(self.text, dx, dy)
 
         if hasattr(self, 'cursor'):
             self.cursor: tkinter._CanvasItemId
-            self.canvas.move(self.cursor, dx, dy)
+            self.master.move(self.cursor, dx, dy)
 
     def coords(self, x: int, y: int, width: int, height: int) -> None:
         """ 重设控件位置 """
         self.x1, self.y1 = x, y
         self.x2, self.y2 = x + width, y + height
 
-        self.canvas.coords(self.rect, x, y, x + width, y + height)
-        self.canvas.coords(self.text, x + width / 2, y + height / 2)
+        self.master.coords(self.rect, x, y, x + width, y + height)
+        self.master.coords(self.text, x + width / 2, y + height / 2)
 
     def configure(self, **kwargs) -> None:
         """
@@ -382,15 +390,15 @@ class _BaseWidget:
         if outline := kwargs.get('color_outline', self.color_outline):
             self.color_outline = outline
 
-        self.canvas.itemconfigure(self.text, text=value, fill=text[0])
-        self.canvas.itemconfigure(self.rect, fill=fill[0], outline=outline[0])
+        self.master.itemconfigure(self.text, text=value, fill=text[0])
+        self.master.itemconfigure(self.rect, fill=fill[0], outline=outline[0])
 
     def destroy(self) -> None:
         """ 摧毁控件释放内存 """
         if hasattr(self, 'live'):
             self.live = False
-        self.canvas.delete(self.rect)
-        self.canvas.delete(self.text)
+        self.master.delete(self.rect)
+        self.master.delete(self.text)
 
 
 class _TextWidget(_BaseWidget):
@@ -438,7 +446,7 @@ class _TextWidget(_BaseWidget):
         if not getattr(self, 'read', None):
             self._press = True
             self.state('press')
-            self.canvas.itemconfigure(self.text, text=self.value_surface)
+            self.master.itemconfigure(self.text, text=self.value_surface)
             self.cursor_flash()
 
     def press_off(self) -> None:
@@ -446,11 +454,11 @@ class _TextWidget(_BaseWidget):
         if not getattr(self, 'read', None):
             self._press = False
             self.state('normal')
-            self.canvas.itemconfigure(self.text, text=self.value_surface)
+            self.master.itemconfigure(self.text, text=self.value_surface)
 
     def press(self, event: tkinter.Event) -> None:
         """ 交互状态检测 """
-        if self.canvas.lock:
+        if self.master.lock:
             if self.x1 <= event.x <= self.x2 and self.y1 <= event.y <= self.y2:
                 if not self._press:
                     self.press_on()
@@ -460,7 +468,7 @@ class _TextWidget(_BaseWidget):
     def touch(self,  # type: CanvasEntry | CanvasText
               event: tkinter.Event) -> None:  # NOTE: 可改进
         """ 触碰状态检测 """
-        if self.canvas.lock:
+        if self.master.lock:
             if self.x1 <= event.x <= self.x2 and self.y1 <= event.y <= self.y2:
                 self.touch_on()
             else:
@@ -471,34 +479,34 @@ class _TextWidget(_BaseWidget):
         if self.cursor_time >= 300:
             self.cursor_time, self._cursor = 0, not self._cursor
             if self._cursor:
-                if self.canvas.itemcget(self.text, 'justify') == tkinter.CENTER:
+                if self.master.itemcget(self.text, 'justify') == tkinter.CENTER:
                     # 居中的文本
-                    self.canvas.itemconfigure(
+                    self.master.itemconfigure(
                         self.cursor, text=self.__text(self.value) + '│')
-                elif self.canvas.itemcget(self.text, 'justify') == tkinter.LEFT:
+                elif self.master.itemcget(self.text, 'justify') == tkinter.LEFT:
                     # 靠左的文本
-                    self.canvas.itemconfigure(
+                    self.master.itemconfigure(
                         self.cursor, text=self.__text(self.value_surface) + '│')
             else:
-                self.canvas.itemconfigure(self.cursor, text='')
+                self.master.itemconfigure(self.cursor, text='')
 
         if self._press:
             self.cursor_time += 10
-            self.canvas.after(10, self.cursor_flash)
+            self.master.after(10, self.cursor_flash)
         else:
             self.cursor_time, self._cursor = 300, False  # 恢复默认值
-            self.canvas.itemconfigure(self.cursor, text='')
+            self.master.itemconfigure(self.cursor, text='')
 
     def cursor_update(self) -> None:
         """ 鼠标光标更新 """
         self.cursor_time, self._cursor = 300, False  # 恢复默认值
-        if self.canvas.itemcget(self.text, 'justify') == tkinter.CENTER:
+        if self.master.itemcget(self.text, 'justify') == tkinter.CENTER:
             # 居中的文本
-            self.canvas.itemconfigure(
+            self.master.itemconfigure(
                 self.cursor, text=self.__text(self.value) + '│')
-        elif self.canvas.itemcget(self.text, 'justify') == tkinter.LEFT:
+        elif self.master.itemcget(self.text, 'justify') == tkinter.LEFT:
             # 靠左的文本
-            self.canvas.itemconfigure(
+            self.master.itemconfigure(
                 self.cursor, text=self.__text(self.value_surface) + '│')
 
     @staticmethod
@@ -625,14 +633,14 @@ class CanvasEntry(_TextWidget):
 
         _TextWidget.__init__(self, canvas, x, y, width, height, text, limit, space, justify,
                              borderwidth, font, color_text, color_fill, color_outline)
-        self.canvas.itemconfigure(self.text, text=self.value_normal)
+        self.master.itemconfigure(self.text, text=self.value_normal)
         self.show = show
 
     def press_off(self) -> None:
         # 重写父类方法
         _TextWidget.press_off(self)
         if self.value == '':
-            self.canvas.itemconfigure(self.text, text=self.value_normal)
+            self.master.itemconfigure(self.text, text=self.value_normal)
 
     def touch_on(self) -> None:
         """ 鼠标悬停状态 """
@@ -640,9 +648,9 @@ class CanvasEntry(_TextWidget):
             self.state('touch')
 
             # 判断显示的值是否为第一默认值
-            if self.canvas.itemcget(self.text, 'text') == self.value_normal:
+            if self.master.itemcget(self.text, 'text') == self.value_normal:
                 # 更新为第二默认值
-                self.canvas.itemconfigure(self.text, text=self.value_touch)
+                self.master.itemconfigure(self.text, text=self.value_touch)
 
     def touch_off(self) -> None:
         """ 鼠标离开状态 """
@@ -650,9 +658,9 @@ class CanvasEntry(_TextWidget):
             self.state('normal')
 
             # 判断显示的值是否为第二默认值
-            if self.canvas.itemcget(self.text, 'text') == self.value_touch:
+            if self.master.itemcget(self.text, 'text') == self.value_touch:
                 # 更新为第一默认值
-                self.canvas.itemconfigure(self.text, text=self.value_normal)
+                self.master.itemconfigure(self.text, text=self.value_normal)
 
     def change_text(self, value: str) -> None:
         """ 重新设定显示文字 """
@@ -661,11 +669,11 @@ class CanvasEntry(_TextWidget):
         # 改变显示值
         self.value_surface = len(value) * self.show if self.show else value
         # 更新显示值
-        self.canvas.itemconfigure(self.text, text=self.value_surface)
+        self.master.itemconfigure(self.text, text=self.value_surface)
 
     def input(self, event: tkinter.Event) -> None:
         """ 文本输入 """
-        if self.canvas.lock:
+        if self.master.lock:
             if self._press and self.live:
                 if event.keysym == 'BackSpace':
                     # 按下退格键
@@ -680,7 +688,7 @@ class CanvasEntry(_TextWidget):
                 self.value_surface = len(
                     self.value) * self.show if self.show else self.value
                 # 更新显示
-                self.canvas.itemconfigure(
+                self.master.itemconfigure(
                     self.text, text=self.value_surface)
                 self.cursor_update()
 
@@ -712,10 +720,10 @@ class CanvasText(_TextWidget):
         # 只读模式
         self.read = read
         # 修改多行文本靠左显示
-        self.canvas.coords(self.text, self.x1 + 2, self.y1 + 2)
-        self.canvas.coords(self.cursor, self.x1 - 7, self.y1 + 2)
-        self.canvas.itemconfigure(self.text, anchor='nw', justify=justify)
-        self.canvas.itemconfigure(self.cursor, anchor='nw', justify=justify)
+        self.master.coords(self.text, self.x1 + 2, self.y1 + 2)
+        self.master.coords(self.cursor, self.x1 - 7, self.y1 + 2)
+        self.master.itemconfigure(self.text, anchor='nw', justify=justify)
+        self.master.itemconfigure(self.cursor, anchor='nw', justify=justify)
         # 计算单行文本容纳量
         self.row = round((self.x2 - self.x1) / int(font[1] * 3/4)) + 1
         # 计算文本容纳行数
@@ -747,7 +755,7 @@ class CanvasText(_TextWidget):
         key = self.value.count('\n')
         if key <= self.line:
             # 更新显示值
-            self.canvas.itemconfigure(self.text, text=self.value)
+            self.master.itemconfigure(self.text, text=self.value)
         else:
             # 同步更新文本上下位置数据
             self._pos += value.count('\n')
@@ -755,11 +763,11 @@ class CanvasText(_TextWidget):
             ind = key - self.line
             self.value_surface = '\n'.join(
                 self.value.split('\n')[ind:ind + self.line])
-            self.canvas.itemconfigure(self.text, text=self.value_surface)
+            self.master.itemconfigure(self.text, text=self.value_surface)
 
     def scroll(self, event: tkinter.Event) -> None:
         """ 文本滚动 """
-        if self.canvas.lock:
+        if self.master.lock:
             if self.x1 <= event.x <= self.x2 and self.y1 <= event.y <= self.y2:
                 if event.delta > 0 and self._pos > self.line:
                     # 鼠标向上滚动，显示文本部分向下滚动
@@ -771,11 +779,11 @@ class CanvasText(_TextWidget):
                 ind = self._pos - self.line
                 self.value_surface = '\n'.join(
                     self.value.split('\n')[ind:ind + self.line])
-                self.canvas.itemconfigure(self.text, text=self.value_surface)
+                self.master.itemconfigure(self.text, text=self.value_surface)
 
     def input(self, event: tkinter.Event) -> None:
         """ 文本输入 """
-        if self.canvas.lock:
+        if self.master.lock:
             if self._press and self.live and not self.read:
                 if event.keysym == 'BackSpace':
                     # 按下退格键
@@ -797,20 +805,27 @@ class CanvasText(_TextWidget):
 
                 # 更新显示
                 self.value_surface = self.value
-                self.canvas.itemconfigure(self.text, text=self.value)
+                self.master.itemconfigure(self.text, text=self.value)
                 self.cursor_update()
 
 
 # 工具类
 
 
-class PhotoImage(tkinter.PhotoImage):
-    """ 图片类 """
+class PhotoImage(tkinter.PhotoImage):  # NOTE: 可改进
+    """
+    图片类
+
+    生成图片并进行相应的一些处理
+    """
 
     def __init__(self,
                  file: str | bytes,
                  gif: bool = False,
                  *args, **kwargs):
+        """
+        
+        """
         self.file = file
         self.gif = gif  # 是否为动图
         self.frames = []
@@ -830,33 +845,44 @@ class PhotoImage(tkinter.PhotoImage):
         else:
             yield self.frames
 
-    def play(self, canvas: Canvas, id, interval: int, ind: int = 0):
+    def play(self, canvas: Canvas, id, interval: int, _ind: int = 0):
         """ 播放动图 """
         if self.gif:
             if canvas.lock:
-                if ind == len(self.frames):
-                    ind = 0
-                canvas.configure(id, image=self.frames[ind])
-                canvas.after(interval, self.play, canvas, id, interval, ind + 1)
+                if _ind == len(self.frames):
+                    _ind = 0
+                canvas.configure(id, image=self.frames[_ind])
+                canvas.after(interval, self.play, canvas, id, interval, _ind + 1)
             else:
-                canvas.after(interval, self.play, canvas, id, interval, ind)
+                canvas.after(interval, self.play, canvas, id, interval, _ind)
 
 
 # 功能函数
 
 
-def move_widget(root: tkinter.Tk | tkinter.Canvas,
-                widget: Canvas | _BaseWidget,
+def move_widget(widget: Canvas | _BaseWidget,
                 dx: int,
                 dy: int,
-                fps: int,
+                times: float,
                 mode: typing.Literal['smooth', 'shake', 'flat'],
-                ind: int = 0) -> None:
+                _x: int = 0,
+                _y: int = 0,
+                _ind: int = 0) -> None:
     """
-    平滑移动函数
+    ### 控件移动函数
 
-    以 `smooth`、`shake`、`flat` 三种模式，
-    移动某些或某部分控件或控件的集合或图像
+    以特定方式移动由 Place 布局的某个控件或某些控件的集合或图像
+
+    #### 参数说明
+
+    `widget`: 要移动位置的控件
+    `dx`: 横向移动的距离（单位：像素）
+    `dy`: 纵向移动的距离
+    `times`: 移动总时长（单位：秒）
+    `mode`: 模式，可选三种（如下）
+    1. `smooth`: 速度先慢后快再慢
+    2. `shake`: 和 smooth 一样，但是最后会回弹一下
+    3. `flat`: 匀速平移
     """
 
     # 三种模式的速度变化列表
@@ -867,33 +893,53 @@ def move_widget(root: tkinter.Tk | tkinter.Canvas,
     elif mode == 'flat':
         _ = [5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5]
 
-    # x偏移量
-    x = int(_[ind] * dx / 100)
-    # y偏移量
-    y = int(_[ind] * dy / 100)
+    # 总计实际应该偏移值
+    total = sum(_[:_ind + 1]) / 100
 
-    if isinstance(root, tkinter.Tk):
-        # 原x坐标
+    # 计算偏移量
+    x = int(_[_ind] * dx / 100)
+    y = int(_[_ind] * dy / 100)
+
+    # 累计偏移量（用于修正偏移）
+    _x += x
+    _y += y
+
+    # 修正值
+    _dx = round(total * dx) - _x
+    _dy = round(total * dy) - _y
+
+    # 修正值矫正
+    x += _dx
+    y += _dy
+    _x += _dx
+    _y += _dy
+
+    if isinstance(widget.master, tkinter.Tk | tkinter.Frame):
+        # 原坐标
         origin_x = int(widget.place_info()['x'])
-        # 原y坐标
         origin_y = int(widget.place_info()['y'])
         widget.place(x=origin_x + x, y=origin_y + y)
-    elif isinstance(widget, _BaseWidget):
+    elif isinstance(widget.master, Canvas):
         widget.move(x, y)
     else:
-        root.move(widget, x, y)
+        widget.master.move(widget, x, y)  # NOTE: BUG
 
-    if ind < 19:
+    if _ind < 19:
         # 更新函数
-        root.after(1000 // fps, move_widget, root, widget,
-                   dx, dy, fps, mode, ind + 1)
+        widget.master.after(round(times * 50), move_widget, widget,
+                   dx, dy, times, mode, _x, _y, _ind + 1)
 
 
 def correct_text(length: int, string: str) -> str:
     """
-    修正字符串长度
+    ### 修正字符串长度
 
     可将目标字符串改为目标长度并居中对齐
+
+    #### 参数说明
+
+    `length`: 目标长度
+    `string`: 要修改的字符串
     """
 
     # 修正长度
@@ -906,12 +952,16 @@ def correct_text(length: int, string: str) -> str:
     return value if n % 2 == 0 else value + ' '
 
 
-def process_color(color: str | None = None, key: float | str = '') -> str:
-    """颜色字符串处理函数（RGB码）
+def process_color(color: str | None = None, key: float | str = '') -> str:  # NOTE: 可改进
+    """
+    ### 颜色字符串处理函数（RGB码）
 
-    随机产生一个RGB颜色字符串
+    随机产生一个RGB颜色字符串，以及给出已有RGB颜色字符串的渐变RGB颜色字符串
 
-    以及给出已有RGB颜色字符串的渐变RGB颜色字符串
+    #### 参数说明
+
+    `color`: 颜色字符串
+    `key`: 比值
     """
 
     lib, rgb = '0123456789ABCDEF', ''
@@ -947,5 +997,5 @@ def _test():
 
 
 if __name__ == '__main__':
-    print(__doc__)
+    print(__doc__.replace('# ', '').replace('#', '').replace('---', '').replace('    ', ''))
     _test()
