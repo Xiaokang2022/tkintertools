@@ -5,28 +5,16 @@ tkinter 模块的扩展模块
 这个模块将给用户提供可透明的、可自定义的、现代化的控件，以及一些特殊的功能函数
 
 模块作者: 小康2022
-模块版本: pre-2.2
-上次更新: 2022/10/18
+模块版本: pre-2.2.4
+上次更新: 2022/10/19
 ---
-### 可用内容
+### 模块精华
 - 容器类控件: `Tk`、`Canvas`
 - 工具类: `PhotoImage`
 - 虚拟画布类控件: `CanvasLabel`、`CanvasButton`、`CanvasEntry`、`CanvasText`
 - 处理函数: `move_widget`、`correct_text`、`process_color`
 ---
-### 当前功能
-    1. 可以使控件内部透明，以衬托出背景图片
-    2. 可以自定义控件的各个细节的颜色，颜色为空字符时透明
-    3. 不修改颜色时，默认值为现代的新式控件颜色（具体效果见测试函数）
-    4. 提供了一些方便的文本处理函数
-    5. 实现了使用 Place 几何布局时也能使控件扩展（随窗口大小变化），当然，也可以设置为不扩展
----
-### 更新内容
-- 修复了文本框无法输入空格的问题
-- 修复了文本框光标移动显示错误的问题
-- 增加了测试函数
----
-##### 更多内容见: https://xiaokang2022.blog.csdn.net
+##### 更多内容见: https://blog.csdn.net/weixin_62651706/article/details/127374661
 """
 
 
@@ -399,6 +387,7 @@ class _BaseWidget:
             self.live = False
         self.master.delete(self.rect)
         self.master.delete(self.text)
+        self.master.widget_list.remove(self)
 
 
 class _TextWidget(_BaseWidget):
