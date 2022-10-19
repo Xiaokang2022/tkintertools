@@ -5,7 +5,7 @@ tkinter 模块的扩展模块
 这个模块将给用户提供可透明的、可自定义的、现代化的控件，以及一些特殊的功能函数
 
 模块作者: 小康2022
-模块版本: pre-2.2.4
+模块版本: 2.2
 上次更新: 2022/10/19
 ---
 ### 模块精华
@@ -14,7 +14,7 @@ tkinter 模块的扩展模块
 - 虚拟画布类控件: `CanvasLabel`、`CanvasButton`、`CanvasEntry`、`CanvasText`
 - 处理函数: `move_widget`、`correct_text`、`process_color`
 ---
-##### 更多内容见: https://blog.csdn.net/weixin_62651706/article/details/127374661
+##### 更多内容见: http://t.csdn.cn/gFg9A
 """
 
 
@@ -121,8 +121,8 @@ class Tk(tkinter.Tk):
             self.title(title)
         if geometry:
             self.geometry(geometry)
-            args = geometry.replace('x', '+').split('+')  # NOTE: BUG
-
+            if not minisize:
+                self.minsize(*map(int, geometry.split('+')[0].split('x')))
         if minisize:
             self.minsize(*minisize)
 
@@ -131,7 +131,7 @@ class Tk(tkinter.Tk):
         self.bind('<Configure>', lambda event: self.__zoom(
             event, proportion_lock))
 
-    def __zoom(self, event: tkinter.Event, lock: bool, geometry: list = []) -> None:  # NOTE: 可改进
+    def __zoom(self, event: tkinter.Event, lock: bool, geometry: list = []) -> None:  # NOTE: 字体缩放方法可改进
         """ 画布缩放检测 """
         if not geometry:
             # 记住初始化窗口宽高比例
@@ -341,7 +341,7 @@ class _BaseWidget:
         self.master.itemconfigure(self.rect, fill=self.color_fill[mode])
         self.master.itemconfigure(self.rect, outline=self.color_outline[mode])
 
-    def move(self, dx: float, dy: float) -> None:  # NOTE: 可改进
+    def move(self, dx: float, dy: float) -> None:
         """ 改变控件的位置 """
         self.x1 += dx
         self.x2 += dx
@@ -387,7 +387,7 @@ class _BaseWidget:
             self.live = False
         self.master.delete(self.rect)
         self.master.delete(self.text)
-        self.master.widget_list.remove(self)
+        # self.master.widget_list.remove(self)  NOTE: 暂不知道的 BUG
 
 
 class _TextWidget(_BaseWidget):
@@ -455,9 +455,9 @@ class _TextWidget(_BaseWidget):
                 self.press_off()
 
     def touch(self,  # type: CanvasEntry | CanvasText
-              event: tkinter.Event) -> None:  # NOTE: 可改进
+              event: tkinter.Event) -> None:
         """ 触碰状态检测 """
-        if self.master.lock:
+        if self.master.lock:  # NOTE: 可将 lock 的检测放到Canvas类或者Tk类去做
             if self.x1 <= event.x <= self.x2 and self.y1 <= event.y <= self.y2:
                 self.touch_on()
             else:
@@ -801,51 +801,62 @@ class CanvasText(_TextWidget):
 # 工具类
 
 
-class PhotoImage(tkinter.PhotoImage):  # NOTE: 可改进
+class PhotoImage(tkinter.PhotoImage):
     """
     图片类
 
-    生成图片并进行相应的一些处理
+    生成图片并进行相应的一些处理（支持png和gif格式）
     """
 
     def __init__(self,
                  file: str | bytes,
-                 gif: bool = False,
                  *args, **kwargs):
         """
+        ### 参数说明
 
+        `file`: 图片文件的路径
+        `*args`、`**kwargs`: 其他参数
         """
         self.file = file
-        self.gif = gif  # 是否为动图
-        self.frames = []
-
-        if not gif:
+        if file.split('.')[-1] == 'gif':
+            self.frames = []
+        else:
             return tkinter.PhotoImage.__init__(self, file=file, *args, **kwargs)
 
-    def parse(self, total: int, generator: bool = False):
-        """ 解析动图 """
-        while (ind := 0) != total:
-            image = tkinter.PhotoImage(
-                file=self.file, format='gif -index %d' % ind)
-            ind += 1
-            if generator:
-                yield image
-            else:
-                self.frames.append(image)
-        else:
-            yield self.frames
+    def parse(self, _ind: int = 0):
+        """
+        解析动图
 
-    def play(self, canvas: Canvas, id, interval: int, _ind: int = 0):
-        """ 播放动图 """
-        if self.gif:
-            if canvas.lock:
-                if _ind == len(self.frames):
-                    _ind = 0
-                canvas.configure(id, image=self.frames[_ind])
-                canvas.after(interval, self.play, canvas,
-                             id, interval, _ind + 1)
-            else:
-                canvas.after(interval, self.play, canvas, id, interval, _ind)
+        返回一个生成器
+        """
+        try:
+            while True:
+                self.frames.append(tkinter.PhotoImage(
+                    file=self.file, format='gif -index %d' % _ind))
+                _ind += 1
+                yield _ind
+        except:
+            pass
+
+    def play(self,
+             canvas: Canvas,
+             id,  # type: tkinter._CanvasItemId
+             interval: int,
+             _ind: int = 0):
+        """
+        播放动图
+
+        #### 参数说明
+
+        `canvas`: 播放动画的画布
+        `id`: 播放动画的 _CanvasItemId（就是 create_text 的返回值）
+        `interval`: 每帧动画的间隔时间
+        """
+        if _ind == len(self.frames):
+            _ind = 0
+        canvas.itemconfigure(id, image=self.frames[_ind])
+        canvas.after(interval, self.play, canvas, id,
+                     interval, _ind + canvas.lock)
 
 
 # 功能函数
@@ -912,8 +923,6 @@ def move_widget(widget: Canvas | _BaseWidget,
         widget.place(x=origin_x + x, y=origin_y + y)
     elif isinstance(widget.master, Canvas):
         widget.move(x, y)
-    else:
-        widget.master.move(widget, x, y)  # NOTE: BUG
 
     if _ind < 19:
         # 更新函数
@@ -943,40 +952,44 @@ def correct_text(length: int, string: str) -> str:
     return value if n % 2 == 0 else value + ' '
 
 
-def process_color(color: str = '', obj: str = '', proportion: float = 0) -> str:
+def process_color(color: tuple[str, str] | None = None, proportion: float = 0) -> str:
     """
-    ### 颜色字符串处理函数（6位RGB码）
+    ### 颜色字符串处理函数
 
     随机产生一个RGB颜色字符串，以及给出已有RGB颜色字符串的渐变RGB颜色字符串
 
     #### 参数说明
 
-    `color`: 要修改的颜色（为空时随机生成一个颜色）
-    `obj`: 目标颜色
-    `proportion`: 改变比例
+    `color`: 颜色元组 (要修改的颜色, 目标颜色)（为空时随机生成一个颜色）
+    `proportion`: 改变比例（范围为0~1）
     """
 
-    if not color:
+    if color:
+        # 渐变RGB颜色字符串的生成
+        key = 256 if len(color[0]) == 7 else 16
+
+        _ = int(color[0][1:], 16)
+        _, B = divmod(_, key)
+        R, G = divmod(_, key)
+
+        _ = int(color[1][1:], 16)
+        _, _B = divmod(_, key)
+        _R, _G = divmod(_, key)
+
+        RGB = R + round((_R - R) * proportion)
+        RGB *= key
+        RGB += G + round((_G - G) * proportion)
+        RGB *= key
+        RGB += B + round((_B - B) * proportion)
+        return '#%0*X' % (6 if key == 256 else 3, RGB)
+    else:
         # 随机RGB颜色字符串
         return '#' + ''.join(['0123456789ABCDEF'[random.randint(0, 15)] for _ in range(6)])
-    else:
-        # 渐变RGB颜色字符串的生成
-        R, G, B = int(color[1:3], 16), int(color[3:5], 16), int(color[5:7], 16)
-        _R, _G, _B = int(obj[1:3], 16), int(obj[3:5], 16), int(obj[5:7], 16)
-        R += round((_R - R) * proportion)
-        G += round((_G - G) * proportion)
-        B += round((_B - B) * proportion)
-        R = hex(R)[2:]
-        G = hex(G)[2:]
-        B = hex(B)[2:]
-        R = (2 - len(R)) * '0' + R
-        G = (2 - len(G)) * '0' + G
-        B = (2 - len(B)) * '0' + B
-        return '#' + R + G + B
 
 
-def _test():
-    """ 测试函数 """
+if __name__ == '__main__':
+    """ 测试 """
+    print(__doc__.replace('# ', '').replace('#', '').replace('---', ''))
     root = Tk('Test', '960x540', None, True)
     canvas = Canvas(root, 960, 540)
     canvas.pack(expand=True, fill='both')
@@ -985,8 +998,3 @@ def _test():
     CanvasEntry(canvas, 300, 100, 150, 25, ('输入框', '点击输入'), limit=9)
     CanvasText(canvas, 300, 200, 300, 200, limit=400)
     root.mainloop()
-
-
-if __name__ == '__main__':
-    print(__doc__.replace('# ', '').replace('#', '').replace('---', ''))
-    _test()
