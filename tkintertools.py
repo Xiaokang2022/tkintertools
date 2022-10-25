@@ -19,8 +19,8 @@
 ---
 ### 模块基本信息
 - 模块作者: 小康2022
-- 模块版本: 2.3
-- 上次更新: 2022/10/22
+- 模块版本: 2.3.1
+- 上次更新: 2022/10/25
 ---
 ### 模块精华速览
 - 容器类控件: `Tk`、`Canvas`
@@ -34,13 +34,19 @@
 - 模块相关专栏: https://blog.csdn.net/weixin_62651706/category_11600888.html
 """
 
-
+import sys
 import tkinter
 import typing
 
 __all__ = ['Tk', 'Canvas', 'PhotoImage',
            'CanvasLabel', 'CanvasButton', 'CanvasEntry', 'CanvasText',
            'move_widget', 'correct_text', 'gradient_color']
+
+
+if sys.version_info < (3, 10):
+    print('\033[31m你的Python无法正常使用tkintertools模块！\033[0m')
+    print('\a模块运行最低要求\033[32mPython3.10\033[0m')
+    exit()
 
 
 # 默认的文本前景颜色
@@ -114,7 +120,7 @@ class Tk(tkinter.Tk):
                 self.minsize(*map(int, geometry.split('+')[0].split('x')))
         if title:
             self.title(title)
-        if alpha:
+        if alpha != None:
             self.attributes('-alpha', alpha)
         if minisize:
             self.minsize(*minisize)
@@ -378,13 +384,13 @@ class Canvas(tkinter.Canvas):
         self.item_dict[item] = ('width', self.itemcget(item, 'width'))
         return item
 
-    def create_arc(self, *args, **kw):  # NOTE: 可能有未知的 BUG
+    def create_arc(self, *args, **kw):
         # 重载：添加对 arc 类型的 _CanvasItemId 的线条宽度的控制
         item = tkinter.Canvas.create_arc(self, *args, **kw)
         self.item_dict[item] = ('width', self.itemcget(item, 'width'))
         return item
 
-    def create_polygon(self, *args, **kw):  # NOTE: 可能有未知的 BUG
+    def create_polygon(self, *args, **kw):
         # 重载：添加对 polygon 类型的 _CanvasItemId 的线条宽度的控制
         item = tkinter.Canvas.create_polygon(self, *args, **kw)
         self.item_dict[item] = ('width', self.itemcget(item, 'width'))
@@ -615,7 +621,7 @@ class _TextWidget(_BaseWidget):
 
         # 鼠标光标（位置顺序不可乱动）
         self.cursor = canvas.create_text(x+width/2, y+height/2,
-                                         font=FONT, fill=color_text[2])
+                                         font=font, fill=color_text[2])
 
     def press_on(self) -> None:
         """ 控件获得焦点 """
@@ -1209,10 +1215,10 @@ def _test():
     def shutdown():
         """ 关闭窗口 """
         import tkinter.messagebox
-        if tkinter.messagebox.askquestion('温馨提示', '是否退出程序？'):
+        if tkinter.messagebox.askquestion('温馨提示', '是否退出测试程序？'):
             root.quit()
 
-    root = Tk('Test', '960x540', alpha=0.9, shutdown=shutdown)
+    root = Tk('测试程序', '960x540', alpha=0.9, shutdown=shutdown)
     canvas = Canvas(root, 960, 540)
     canvas.pack(expand=True, fill='both')
     CanvasButton(canvas, 50, 100, 100, 25, '测试', command=tip)
@@ -1229,7 +1235,7 @@ def _test():
         image = PhotoImage('tkinter.png')
         canvas.create_image(830, 200, image=image)
     except:
-        print('\033[31m啊哦！你没有这张图片喏……\033[0m')
+        print('\033[31m啊哦！你没有示例图片喏……\033[0m')
 
     root.mainloop()
 
