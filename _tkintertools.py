@@ -20,11 +20,11 @@
 ---
 ### 模块基本信息
 - 模块作者: 小康2022
-- 模块版本: 2.3.6
+- 模块版本: 2.4
 - 上次更新: 2022/11/2
 ---
 ### 模块精华速览
-- 容器类控件: `Tk`、`Canvas`
+- 容器类控件: `Tk`、`Toplevel`、`Canvas`
 - 工具类: `PhotoImage`
 - 虚拟画布类控件: `CanvasLabel`、`CanvasButton`、`CanvasEntry`、`CanvasText`
 - 处理函数: `move_widget`、`correct_text`、`gradient_color`
@@ -41,6 +41,7 @@ import typing
 
 __all__ = (
     'Tk',
+    'Toplevel',
     'Canvas',
     'PhotoImage',
     'CanvasLabel',
@@ -51,6 +52,10 @@ __all__ = (
     'correct_text',
     'gradient_color',
 )
+
+__author__ = '小康2022'
+
+__version__ = '2.3.6'
 
 if sys.version_info < (3, 10):
     print('\033[31m你的Python无法正常使用tkintertools模块！\033[0m')
@@ -123,6 +128,8 @@ class Tk(tkinter.Tk):
         self.width = 100
         self.height = 100
 
+        # 子窗口列表（与Toplevel有关）
+        self.toplevel_list: list[Toplevel] = []
         # 子画布列表（与缩放绑定有关）
         self.canvas_list: list[Canvas] = []
 
@@ -142,10 +149,10 @@ class Tk(tkinter.Tk):
             self.protocol('WM_DELETE_WINDOW', shutdown)
 
         # 开启窗口缩放检测
-        self.bind('<Configure>', self.__zoom)
+        self.bind('<Configure>', self.zoom)
 
-    def __zoom(self, event: tkinter.Event) -> None:
-        """ 缩放检测 """
+    def zoom(self, event: tkinter.Event) -> None:
+        """ 内部方法：缩放检测 """
         if not self._proportion:
             # 记住初始化窗口宽高比例
             self._proportion = event.width / event.height
@@ -173,21 +180,21 @@ class Tk(tkinter.Tk):
                     canvas.rate_y = event.height / canvas.height
 
                     # 相对缩放对所有Canvas生效
-                    self.__zoom_relative(
+                    self.zoom_relative(
                         canvas, event.width / self._width, event.height / self._height)
                     # 绝对缩放仅对当前Canvas生效
                     if canvas.lock:
-                        self.__zoom_absolute(canvas)
+                        self.zoom_absolute(canvas)
 
             # 更新默认参数
             self._width = event.width
             self._height = event.height
 
     @staticmethod
-    def __zoom_relative(canvas,  # type: Canvas
-                        rate_x: float,
-                        rate_y: float):
-        """ 相对缩放 """
+    def zoom_relative(canvas,  # type: Canvas
+                      rate_x: float,
+                      rate_y: float):
+        """ 内部方法：相对缩放 """
         # 更新子画布控件的子虚拟画布控件位置数据
         for widget in canvas.widget_list:
             widget.x1 *= rate_x
@@ -202,9 +209,9 @@ class Tk(tkinter.Tk):
             canvas.coords(item, coords)
 
     @staticmethod
-    def __zoom_absolute(canvas  # type: Canvas
-                        ):
-        """ 绝对缩放 """
+    def zoom_absolute(canvas  # type: Canvas
+                      ):
+        """ 内部方法：绝对缩放 """
         for item, key in canvas.item_dict.items():
             if key[0] == 'font':  # NOTE: 字体缩小时有 BUG
                 # 字体大小修改
@@ -273,8 +280,8 @@ class Tk(tkinter.Tk):
                         widget.input(event)
                 break
 
-    def __bind(self) -> None:
-        """ 关联事件的绑定 """
+    def bind_event(self) -> None:
+        """ 内部方法：关联事件的绑定 """
         # 绑定键盘输入字符
         self.bind('<Any-Key>', self.__input)
 
@@ -304,10 +311,78 @@ class Tk(tkinter.Tk):
 
     def mainloop(self) -> None:
         # 重载：开启基本事件绑定
-        self.__bind()
+        self.bind_event()
+        for toplevel in self.toplevel_list:
+            toplevel.bind_event()
         tkinter.Tk.mainloop(self)
 
-    zoom_update = __zoom_absolute
+
+class Toplevel(tkinter.Toplevel, Tk):
+    """
+    Toplevel 类
+
+    用法类似于原 tkinter 模块里的 Toplevel，
+    同时增加了 Tk 的功能
+    """
+
+    def __init__(
+        self,
+        master: Tk,
+        title: str | None = None,
+        geometry: str | None = None,
+        minisize: tuple[int, int] | None = None,
+        alpha: float | None = None,
+        proportion_lock: bool = False,
+        shutdown=None,  # type: function | None
+        *args, **kw
+    ) -> None:
+        """
+        ### 参数说明
+        `master`: 父窗口
+        `title`: 窗口标题
+        `geometry`: 窗口大小及位置（格式：'宽度x高度+左上角横坐标+左上角纵坐标' 或者 '宽度x高度'）
+        `minisize`: 窗口的最小缩放大小（默认为参数 geometry 的宽度与高度）
+        `alpha`: 窗口透明度，范围为0~1，0为完全透明
+        `proportion_lock`: 窗口缩放是否保持原比例
+        `shutdown`: 关闭窗口之前执行的函数（会覆盖关闭操作）
+        `*args`, `**kw`: 与原 tkinter 模块中的 Toplevel 类的参数相同
+        """
+
+        self.master = master
+        self.proportion_lock = proportion_lock
+
+        # 宽高比例
+        self._proportion = None
+        # 宽高值
+        self._width = 1
+        self._height = 1
+        # 初始宽高值
+        self.width = 100
+        self.height = 100
+
+        # 子画布列表（与缩放绑定有关）
+        self.canvas_list: list[Canvas] = []
+
+        tkinter.Toplevel.__init__(self, master=master, *args, **kw)
+
+        if geometry:
+            self.geometry(geometry)
+            if not minisize:
+                self.minsize(*map(int, geometry.split('+')[0].split('x')))
+        if title:
+            self.title(title)
+        if alpha != None:
+            self.attributes('-alpha', alpha)
+        if minisize:
+            self.minsize(*minisize)
+        if shutdown:
+            self.protocol('WM_DELETE_WINDOW', shutdown)
+
+        # 开启窗口缩放检测
+        self.bind('<Configure>', self.zoom)
+
+        # 将实例添加到父控件的子窗口列表中
+        master.toplevel_list.append(self)
 
 
 class Canvas(tkinter.Canvas):
@@ -366,7 +441,7 @@ class Canvas(tkinter.Canvas):
         self.lock = boolean
         self.master: Tk
         if self.lock and self.expand:
-            self.master.zoom_update(self)
+            self.master.zoom_absolute(self)
 
     def create_text(self, *args, **kw):
         # 重载：添加对 text 类型的 _CanvasItemId 的字体大小的控制
@@ -1154,7 +1229,7 @@ def move_widget(
     dx: int,
     dy: int,
     times: float,
-    mode,  # type: typing.Literal['smooth', 'shake', 'flat'] | function
+    mode,  # type: typing.Literal['smooth', 'shake', 'flat']
     _x: int = 0,
     _y: int = 0,
     _ind: int = 0
@@ -1168,7 +1243,7 @@ def move_widget(
     `dx`: 横向移动的距离（单位：像素）
     `dy`: 纵向移动的距离
     `times`: 移动总时长（单位：秒）
-    `mode`: 移动速度模式，为一个函数或以下三种
+    `mode`: 移动速度模式，为以下三种
     1. `smooth`: 速度先慢后快再慢
     2. `shake`: 和 smooth 一样，但是最后会回弹一下
     3. `flat`: 匀速平移
@@ -1182,7 +1257,7 @@ def move_widget(
     elif mode == 'flat':
         _ = [5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5]
     else:
-        _ = None
+        raise RuntimeError  # NOTE: 有待改进
 
     # 总计实际应该偏移值
     total = sum(_[:_ind + 1]) / 100
@@ -1297,7 +1372,7 @@ def _test():
     """ 测试函数 """
     import tkinter.messagebox
 
-    root = Tk('测试程序', '960x540', alpha=0.9, shutdown=lambda: root.quit()
+    root = Tk('测试程序', '960x540', alpha=0.9, shutdown=lambda: root.destroy()
               if tkinter.messagebox.askyesno('温馨提示', '是否退出测试程序？') else None)
     canvas = Canvas(root, 960, 540)
     canvas.pack(expand=True, fill='both')
