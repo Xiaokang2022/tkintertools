@@ -1,6 +1,4 @@
-"""
-## tkintertools
-
+"""## tkintertools
 【运行最低要求: Python3.10.x】
 
 这个模块是tkinter模块的扩展模块，将给用户提供以下功能：
@@ -16,28 +14,24 @@
 9. ...
 
 还有更多功能及用法，见模块使用教程（链接在下面）
-
----
 ### 模块基本信息
 * 模块作者: 小康2022
 * 模块版本: 2.4
 * 上次更新: 2022/11/2
----
 ### 模块精华速览
 * 容器类控件: `Tk`、`Toplevel`、`Canvas`
 * 工具类: `PhotoImage`
 * 虚拟画布类控件: `CanvasLabel`、`CanvasButton`、`CanvasEntry`、`CanvasText`
 * 处理函数: `move_widget`、`correct_text`、`gradient_color`
----
 ### 更多详细内容
 * 模块源码地址: https://gitcode.net/weixin_62651706/tkintertools
 * 模块使用教程: http://t.csdn.cn/gFg9A
 * 模块相关专栏: https://blog.csdn.net/weixin_62651706/category_11600888.html
 """
 
-import sys
 import tkinter
-from typing import Literal, Generator
+from sys import version_info
+from typing import Generator, Literal
 
 __all__ = (
     'Tk',
@@ -57,7 +51,7 @@ __author__ = '小康2022'
 
 __version__ = '2.4'
 
-if sys.version_info < (3, 10):
+if version_info < (3, 10):
     print('\033[31m你的Python无法正常使用tkintertools模块！\033[0m')
     print('\a模块运行最低要求\033[32mPython3.10\033[0m')
     exit()
@@ -1273,7 +1267,7 @@ def move_widget(
         v = tuple(key * _ for _ in v)
 
     # 总计实际应该偏移值
-    total = sum(v[:_ind + 1]) / 100
+    total = sum(v[:_ind + 1]) / 100  # NOTE: BUG
 
     # 计算偏移量
     x = int(v[_ind] * dx / 100)
@@ -1383,11 +1377,10 @@ def gradient_color(
 
 def _test():
     """ 测试函数 """
-    import math
-    import tkinter.messagebox
+    from tkinter.messagebox import askyesno
 
-    root = Tk('测试程序', '960x540', alpha=0.9, shutdown=lambda: root.destroy()
-              if tkinter.messagebox.askyesno('温馨提示', '是否退出测试程序？') else None)
+    def shutdown(): return root.destroy() if askyesno('提示', '是否退出?') else None
+    root = Tk('测试程序', '960x540', alpha=0.9, shutdown=shutdown)
     canvas = Canvas(root, 960, 540)
     canvas.pack(expand=True, fill='both')
 
@@ -1395,13 +1388,13 @@ def _test():
         color = gradient_color(('#FFFFFF', '#000000'), i/100)
         canvas.create_oval(
             466 - i/3, 66 - i/3, 566 + i, 166 + i,
-            outline=color, width=2.5, fill='' if i else 'white')
+            outline=color, width=2.5, fill='' if i else '#FFF')
 
     try:
         image = PhotoImage('tkinter.png')
         canvas.create_image(830, 150, image=image)
     except:
-        print('\033[31m啊哦！你没有示例图片喏……\033[0m')
+        print('\033[31m啊哦！你没有示例图片喏……\033[0m\a')
 
     label1 = CanvasLabel(canvas,
                          700 * canvas.rate_x, 550 * canvas.rate_y,
@@ -1430,5 +1423,5 @@ def _test():
 
 if __name__ == '__main__':
     """ 测试 """
-    print(__doc__.replace('---', ''))
+    print(__doc__)
     _test()
