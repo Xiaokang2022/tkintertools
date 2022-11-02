@@ -55,7 +55,7 @@ __all__ = (
 
 __author__ = '小康2022'
 
-__version__ = '2.3.6'
+__version__ = '2.4'
 
 if sys.version_info < (3, 10):
     print('\033[31m你的Python无法正常使用tkintertools模块！\033[0m')
