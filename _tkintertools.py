@@ -20,8 +20,8 @@
 ---
 ### 模块基本信息
 - 模块作者: 小康2022
-- 模块版本: 2.3.5
-- 上次更新: 2022/11/1
+- 模块版本: 2.3.6
+- 上次更新: 2022/11/2
 ---
 ### 模块精华速览
 - 容器类控件: `Tk`、`Canvas`
@@ -39,7 +39,7 @@ import sys
 import tkinter
 import typing
 
-__all__ = [
+__all__ = (
     'Tk',
     'Canvas',
     'PhotoImage',
@@ -50,8 +50,7 @@ __all__ = [
     'move_widget',
     'correct_text',
     'gradient_color',
-]
-
+)
 
 if sys.version_info < (3, 10):
     print('\033[31m你的Python无法正常使用tkintertools模块！\033[0m')
@@ -60,15 +59,17 @@ if sys.version_info < (3, 10):
 
 
 # 默认的文本前景颜色
-COLOR_BLACK = ('#000000', '#000000', '#000000')
+COLOR_BLACK = '#000000', '#000000', '#000000'
 # 默认文本背景颜色
-COLOR_WHITE = ('#FFFFFF', '#FFFFFF', '#FFFFFF')
+COLOR_WHITE = '#FFFFFF', '#FFFFFF', '#FFFFFF'
 # 默认的内部颜色
-COLOR_FILL = ('#E1E1E1', '#E5F1FB', '#CCE4F7')
+COLOR_FILL = '#E1E1E1', '#E5F1FB', '#CCE4F7'
 # 默认按钮外框颜色
-COLOR_BUTTON = ('#C0C0C0', '#4A9EE0', '#4884B4')
+COLOR_BUTTON = '#C0C0C0', '#4A9EE0', '#4884B4'
 # 默认文本外框颜色
-COLOR_TEXT = ('#C0C0C0', '#5C5C5C', '#4A9EE0')
+COLOR_TEXT = '#C0C0C0', '#5C5C5C', '#4A9EE0'
+# 透明颜色
+COLOR_NONE = '', '', ''
 
 # 默认控件外框宽度
 BORDERWIDTH = 1
@@ -77,7 +78,7 @@ RADIUS = 0
 # 默认控件显示文本
 TEXT = ''
 # 默认字体
-FONT = ('楷体', 15)
+FONT = '楷体', 15
 
 
 # 容器控件
@@ -370,7 +371,7 @@ class Canvas(tkinter.Canvas):
     def create_text(self, *args, **kw):
         # 重载：添加对 text 类型的 _CanvasItemId 的字体大小的控制
         item = tkinter.Canvas.create_text(self, *args, **kw)
-        self.item_dict[item] = ('font', kw.get('font')[1])
+        self.item_dict[item] = 'font', kw.get('font')[1]
         return item
 
     def create_image(self, *args, **kw):
@@ -382,43 +383,43 @@ class Canvas(tkinter.Canvas):
     def create_rectangle(self, *args, **kw):
         # 重载：添加对 rectangle 类型的 _CanvasItemId 的线条宽度的控制
         item = tkinter.Canvas.create_rectangle(self, *args, **kw)
-        self.item_dict[item] = ('width', self.itemcget(item, 'width'))
+        self.item_dict[item] = 'width', self.itemcget(item, 'width')
         return item
 
     def create_line(self, *args, **kw):
         # 重载：添加对 line 类型的 _CanvasItemId 的线条宽度的控制
         item = tkinter.Canvas.create_line(self, *args, **kw)
-        self.item_dict[item] = ('width', self.itemcget(item, 'width'))
+        self.item_dict[item] = 'width', self.itemcget(item, 'width')
         return item
 
     def create_oval(self, *args, **kw):
         # 重载：添加对 oval 类型的 _CanvasItemId 的线条宽度的控制
         item = tkinter.Canvas.create_oval(self, *args, **kw)
-        self.item_dict[item] = ('width', self.itemcget(item, 'width'))
+        self.item_dict[item] = 'width', self.itemcget(item, 'width')
         return item
 
     def create_arc(self, *args, **kw):
         # 重载：添加对 arc 类型的 _CanvasItemId 的线条宽度的控制
         item = tkinter.Canvas.create_arc(self, *args, **kw)
-        self.item_dict[item] = ('width', self.itemcget(item, 'width'))
+        self.item_dict[item] = 'width', self.itemcget(item, 'width')
         return item
 
     def create_polygon(self, *args, **kw):
         # 重载：添加对 polygon 类型的 _CanvasItemId 的线条宽度的控制
         item = tkinter.Canvas.create_polygon(self, *args, **kw)
-        self.item_dict[item] = ('width', self.itemcget(item, 'width'))
+        self.item_dict[item] = 'width', self.itemcget(item, 'width')
         return item
 
     def create_bitmap(self, *args, **kw):  # NOTE: 有待进一步研究
         # 重载：目前仅有防报错作用
         item = tkinter.Canvas.create_bitmap(self, *args, **kw)
-        self.item_dict[item] = (None, None)
+        self.item_dict[item] = None, None
         return item
 
     def create_window(self, *args, **kw):  # NOTE: 有待进一步研究
         # 重载：目前仅有防报错作用
         item = tkinter.Canvas.create_window(self, *args, **kw)
-        self.item_dict[item] = (None, None)
+        self.item_dict[item] = None, None
         return item
 
     def itemconfigure(
