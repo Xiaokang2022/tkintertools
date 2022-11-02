@@ -19,25 +19,25 @@
 
 ---
 ### 模块基本信息
-- 模块作者: 小康2022
-- 模块版本: 2.4
-- 上次更新: 2022/11/2
+* 模块作者: 小康2022
+* 模块版本: 2.4
+* 上次更新: 2022/11/2
 ---
 ### 模块精华速览
-- 容器类控件: `Tk`、`Toplevel`、`Canvas`
-- 工具类: `PhotoImage`
-- 虚拟画布类控件: `CanvasLabel`、`CanvasButton`、`CanvasEntry`、`CanvasText`
-- 处理函数: `move_widget`、`correct_text`、`gradient_color`
+* 容器类控件: `Tk`、`Toplevel`、`Canvas`
+* 工具类: `PhotoImage`
+* 虚拟画布类控件: `CanvasLabel`、`CanvasButton`、`CanvasEntry`、`CanvasText`
+* 处理函数: `move_widget`、`correct_text`、`gradient_color`
 ---
 ### 更多详细内容
-- 模块源码地址: https://gitcode.net/weixin_62651706/tkintertools
-- 模块使用教程: http://t.csdn.cn/gFg9A
-- 模块相关专栏: https://blog.csdn.net/weixin_62651706/category_11600888.html
+* 模块源码地址: https://gitcode.net/weixin_62651706/tkintertools
+* 模块使用教程: http://t.csdn.cn/gFg9A
+* 模块相关专栏: https://blog.csdn.net/weixin_62651706/category_11600888.html
 """
 
 import sys
 import tkinter
-import typing
+from typing import Literal, Generator
 
 __all__ = (
     'Tk',
@@ -303,14 +303,14 @@ class Tk(tkinter.Tk):
                         _canvas=canvas: self.__mousewheel(event, _canvas))
 
     def geometry(self, newGeometry: str | None = None):
-        # 重载：添加修改初始宽高值的功能
+        # 重写：添加修改初始宽高值的功能
         if newGeometry:
             self.width, self.height = map(
                 int, newGeometry.split('+')[0].split('x'))
         return tkinter.Tk.geometry(self, newGeometry)
 
     def mainloop(self) -> None:
-        # 重载：开启基本事件绑定
+        # 重写：开启基本事件绑定
         self.bind_event()
         for toplevel in self.toplevel_list:
             toplevel.bind_event()
@@ -444,55 +444,55 @@ class Canvas(tkinter.Canvas):
             self.master.zoom_absolute(self)
 
     def create_text(self, *args, **kw):
-        # 重载：添加对 text 类型的 _CanvasItemId 的字体大小的控制
+        # 重写：添加对 text 类型的 _CanvasItemId 的字体大小的控制
         item = tkinter.Canvas.create_text(self, *args, **kw)
         self.item_dict[item] = 'font', kw.get('font')[1]
         return item
 
     def create_image(self, *args, **kw):
-        # 重载：添加对 image 类型的 _CanvasItemId 的图像大小的控制
+        # 重写：添加对 image 类型的 _CanvasItemId 的图像大小的控制
         item = tkinter.Canvas.create_image(self, *args, **kw)
         self.item_dict[item] = ['image', kw.get('image'), None]
         return item
 
     def create_rectangle(self, *args, **kw):
-        # 重载：添加对 rectangle 类型的 _CanvasItemId 的线条宽度的控制
+        # 重写：添加对 rectangle 类型的 _CanvasItemId 的线条宽度的控制
         item = tkinter.Canvas.create_rectangle(self, *args, **kw)
         self.item_dict[item] = 'width', self.itemcget(item, 'width')
         return item
 
     def create_line(self, *args, **kw):
-        # 重载：添加对 line 类型的 _CanvasItemId 的线条宽度的控制
+        # 重写：添加对 line 类型的 _CanvasItemId 的线条宽度的控制
         item = tkinter.Canvas.create_line(self, *args, **kw)
         self.item_dict[item] = 'width', self.itemcget(item, 'width')
         return item
 
     def create_oval(self, *args, **kw):
-        # 重载：添加对 oval 类型的 _CanvasItemId 的线条宽度的控制
+        # 重写：添加对 oval 类型的 _CanvasItemId 的线条宽度的控制
         item = tkinter.Canvas.create_oval(self, *args, **kw)
         self.item_dict[item] = 'width', self.itemcget(item, 'width')
         return item
 
     def create_arc(self, *args, **kw):
-        # 重载：添加对 arc 类型的 _CanvasItemId 的线条宽度的控制
+        # 重写：添加对 arc 类型的 _CanvasItemId 的线条宽度的控制
         item = tkinter.Canvas.create_arc(self, *args, **kw)
         self.item_dict[item] = 'width', self.itemcget(item, 'width')
         return item
 
     def create_polygon(self, *args, **kw):
-        # 重载：添加对 polygon 类型的 _CanvasItemId 的线条宽度的控制
+        # 重写：添加对 polygon 类型的 _CanvasItemId 的线条宽度的控制
         item = tkinter.Canvas.create_polygon(self, *args, **kw)
         self.item_dict[item] = 'width', self.itemcget(item, 'width')
         return item
 
     def create_bitmap(self, *args, **kw):  # NOTE: 有待进一步研究
-        # 重载：目前仅有防报错作用
+        # 重写：目前仅有防报错作用
         item = tkinter.Canvas.create_bitmap(self, *args, **kw)
         self.item_dict[item] = None, None
         return item
 
     def create_window(self, *args, **kw):  # NOTE: 有待进一步研究
-        # 重载：目前仅有防报错作用
+        # 重写：目前仅有防报错作用
         item = tkinter.Canvas.create_window(self, *args, **kw)
         self.item_dict[item] = None, None
         return item
@@ -502,7 +502,7 @@ class Canvas(tkinter.Canvas):
         tagOrId,  # type: str | tkinter._CanvasItemId
         **kw
     ) -> dict[str, tuple[str, str, str, str, str]] | None:
-        # 重载：创建空image的_CanvasItemId时漏去对图像大小的控制
+        # 重写：创建空image的_CanvasItemId时漏去对图像大小的控制
         if type(kw.get('image')) == PhotoImage and not self.itemcget(tagOrId, 'image'):
             self.item_dict[tagOrId] = ['image', kw.get('image'), None]
         return tkinter.Canvas.itemconfigure(self, tagOrId, **kw)
@@ -639,7 +639,7 @@ class _BaseWidget:
             justify=justify,
             fill=color_text[0])
 
-    def state(self, mode: typing.Literal['normal', 'touch', 'press']) -> None:
+    def state(self, mode: Literal['normal', 'touch', 'press']) -> None:
         """
         改变虚拟控件的状态
         `normal`: 正常状态
@@ -1172,7 +1172,7 @@ class PhotoImage(tkinter.PhotoImage):
         else:
             tkinter.PhotoImage.__init__(self, file=file, *args, **kw)
 
-    def parse(self) -> typing.Generator[int, None, None]:
+    def parse(self) -> Generator[int, None, None]:
         """
         解析动图，返回一个生成器
         """
@@ -1201,8 +1201,8 @@ class PhotoImage(tkinter.PhotoImage):
         if _ind == len(self.frames):
             _ind = 0
         canvas.itemconfigure(id, image=self.frames[_ind])
-        canvas.after(interval, self.play, canvas, id,
-                     interval, _ind + canvas.lock)
+        args = canvas, id, interval, _ind + canvas.lock
+        canvas.after(interval, self.play, *args)
 
     def zoom(self, rate_x: float, rate_y: float, precision: float = 1) -> tkinter.PhotoImage:
         """
@@ -1229,7 +1229,7 @@ def move_widget(
     dx: int,
     dy: int,
     times: float,
-    mode,  # type: typing.Literal['smooth', 'shake', 'flat']
+    mode,  # type: Literal['smooth','shake','flat'] | tuple
     _x: int = 0,
     _y: int = 0,
     _ind: int = 0
@@ -1243,28 +1243,41 @@ def move_widget(
     `dx`: 横向移动的距离（单位：像素）
     `dy`: 纵向移动的距离
     `times`: 移动总时长（单位：秒）
-    `mode`: 移动速度模式，为以下三种
-    1. `smooth`: 速度先慢后快再慢
+    `mode`: 移动速度模式，为以下三种，
+    或者为 (函数, 起始值, 终止值) 的形式，
+    或者为一个长度等于20的，总和为100的元组
+    1. `smooth`: 速度先慢后快再慢（Sin函数模式）
     2. `shake`: 和 smooth 一样，但是最后会回弹一下
     3. `flat`: 匀速平移
     """
 
     # 速度变化模式
-    if mode == 'smooth':
-        _ = [1, 2, 2, 3, 3, 5, 6, 7, 9, 12, 12, 9, 7, 6, 5, 3, 3, 2, 2, 1]
+    if type(mode) == tuple and len(mode) >= 20:
+        # 记忆值
+        v = mode
+    elif mode == 'smooth':
+        # 流畅模式
+        v = 0, 1, 3, 4, 5, 6, 7, 8, 8, 8, 8, 8, 8, 7, 6, 5, 4, 3, 1, 0
     elif mode == 'shake':
-        _ = [10, 10, 9, 9, 8, 8, 7, 7, 6, 6, 5, 5, 4, 4, 3, 3, 1, -1, - 2, -3]
+        # 抖动模式
+        v = 10, 10, 9, 9, 8, 8, 7, 7, 6, 6, 5, 5, 4, 4, 3, 3, 1, -1, - 2, -3
     elif mode == 'flat':
-        _ = [5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5]
+        # 平滑模式
+        v = (5,) * 20
     else:
-        raise RuntimeError  # NOTE: 有待改进
+        # 函数模式
+        f, start, end = mode
+        end = (end - start) / 19
+        v = tuple(f(start + end * _) for _ in range(20))
+        key = 100 / sum(v)
+        v = tuple(key * _ for _ in v)
 
     # 总计实际应该偏移值
-    total = sum(_[:_ind + 1]) / 100
+    total = sum(v[:_ind + 1]) / 100
 
     # 计算偏移量
-    x = int(_[_ind] * dx / 100)
-    y = int(_[_ind] * dy / 100)
+    x = int(v[_ind] * dx / 100)
+    y = int(v[_ind] * dy / 100)
 
     # 累计偏移量（用于修正偏移）
     _x += x
@@ -1297,14 +1310,14 @@ def move_widget(
 
     if _ind != 19:
         # 迭代函数
-        widget.master.after(round(times * 50), move_widget,
-                            master, widget, dx, dy, times, mode, _x, _y, _ind + 1)
+        args = master, widget, dx, dy, times, v, _x, _y, _ind + 1
+        widget.master.after(round(times * 50), move_widget, *args)
 
 
 def correct_text(
     length: int,
     string: str,
-    position: typing.Literal['left', 'center', 'right'] = 'center'
+    position: Literal['left', 'center', 'right'] = 'center'
 ) -> str:
     """
     ### 修正字符串长度
@@ -1370,6 +1383,7 @@ def gradient_color(
 
 def _test():
     """ 测试函数 """
+    import math
     import tkinter.messagebox
 
     root = Tk('测试程序', '960x540', alpha=0.9, shutdown=lambda: root.destroy()
