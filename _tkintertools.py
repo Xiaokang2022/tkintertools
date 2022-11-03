@@ -16,8 +16,8 @@
 还有更多功能及用法，见模块使用教程（链接在下面）
 ### 模块基本信息
 * 模块作者: 小康2022
-* 模块版本: 2.4
-* 上次更新: 2022/11/2
+* 模块版本: 2.4.1
+* 上次更新: 2022/11/3
 ### 模块精华速览
 * 容器类控件: `Tk`、`Toplevel`、`Canvas`
 * 工具类: `PhotoImage`
@@ -274,10 +274,21 @@ class Tk(tkinter.Tk):
                         widget.input(event)
                 break
 
+    def __paste(self) -> None:
+        """ 快捷键粘贴 """
+        for canvas in self.canvas_list:
+            if canvas.lock:
+                for widget in canvas.widget_list:
+                    if isinstance(widget, CanvasEntry | CanvasText):
+                        widget.paste()
+                break
+
     def bind_event(self) -> None:
         """ 内部方法：关联事件的绑定 """
         # 绑定键盘输入字符
         self.bind('<Any-Key>', self.__input)
+        # 绑定粘贴快捷键
+        self.bind('<Control-KeyPress-v>', lambda _: self.__paste())
 
         for canvas in self.canvas_list:
             # 绑定鼠标触碰控件
@@ -354,6 +365,8 @@ class Toplevel(tkinter.Toplevel, Tk):
         self.width = 100
         self.height = 100
 
+        # 子窗口列表（与Toplevel有关）
+        self.toplevel_list: list[Toplevel] = []
         # 子画布列表（与缩放绑定有关）
         self.canvas_list: list[Canvas] = []
 
@@ -502,7 +515,7 @@ class Canvas(tkinter.Canvas):
         return tkinter.Canvas.itemconfigure(self, tagOrId, **kw)
 
 
-# 控件基类
+# 虚拟画布控件
 
 
 class _BaseWidget:
@@ -575,6 +588,9 @@ class _BaseWidget:
         canvas.widget_list.append(self)
 
         if radius:
+            if 2 * radius > width:
+                radius = width // 2
+                self.radius = radius
             if 2 * radius > height:
                 radius = height // 2
                 self.radius = radius
@@ -728,6 +744,85 @@ class _BaseWidget:
             pass
 
 
+class CanvasLabel(_BaseWidget):
+    """
+    虚拟画布标签控件
+
+    创建一个虚拟的标签控件，用于显示少量文本
+    """
+
+    def __init__(self,
+                 canvas: Canvas,
+                 x: int,
+                 y: int,
+                 width: int,
+                 height: int,
+                 radius: int = RADIUS,
+                 text: str = TEXT,
+                 borderwidth: int = BORDERWIDTH,
+                 justify: str = tkinter.CENTER,
+                 font: tuple[str, int, str] = FONT,
+                 color_text: tuple[str, str, str] = COLOR_BLACK,
+                 color_fill: tuple[str, str, str] = COLOR_FILL,
+                 color_outline: tuple[str, str, str] = COLOR_BUTTON) -> None:
+        _BaseWidget.__init__(self, canvas, x, y, width, height, radius, text, justify,
+                             borderwidth, font, color_text, color_fill, color_outline)
+
+    def touch(self, event: tkinter.Event) -> None:
+        """ 触碰状态检测 """
+        if self.x1 <= event.x <= self.x2 and self.y1 <= event.y <= self.y2:
+            self.state('touch')
+        else:
+            self.state('normal')
+
+
+class CanvasButton(_BaseWidget):
+    """
+    虚拟画布按钮控件
+
+    创建一个虚拟的按钮，并执行关联函数
+    """
+
+    def __init__(self,
+                 canvas: Canvas,
+                 x: int,
+                 y: int,
+                 width: int,
+                 height: int,
+                 radius: int = RADIUS,
+                 text: str = TEXT,
+                 borderwidth: int = BORDERWIDTH,
+                 justify: str = tkinter.CENTER,
+                 font: tuple[str, int, str] = FONT,
+                 command=None,  # type: function | None
+                 color_text: tuple[str, str, str] = COLOR_BLACK,
+                 color_fill: tuple[str, str, str] = COLOR_FILL,
+                 color_outline: tuple[str, str, str] = COLOR_BUTTON) -> None:
+        _BaseWidget.__init__(self, canvas, x, y, width, height, radius, text, justify,
+                             borderwidth, font, color_text, color_fill, color_outline)
+        self.command = command
+
+    def execute(self, event: tkinter.Event) -> None:
+        """ 执行关联函数 """
+        if self.x1 <= event.x <= self.x2 and self.y1 <= event.y <= self.y2:
+            if self.live and self.command:
+                self.command()
+
+    def press(self, event: tkinter.Event) -> None:
+        """ 交互状态检测 """
+        if self.x1 <= event.x <= self.x2 and self.y1 <= event.y <= self.y2:
+            self.state('press')
+        else:
+            self.state('normal')
+
+    def touch(self, event: tkinter.Event) -> None:
+        """ 触碰状态检测 """
+        if self.x1 <= event.x <= self.x2 and self.y1 <= event.y <= self.y2:
+            self.state('touch')
+        else:
+            self.state('normal')
+
+
 class _TextWidget(_BaseWidget):
     """ 内部类 """
 
@@ -840,6 +935,14 @@ class _TextWidget(_BaseWidget):
             self.master.itemconfigure(
                 self.cursor, text=self.__text(self.value_surface) + '│')
 
+    def paste(self) -> None:
+        """ 快捷键粘贴 """
+        if self._press and not getattr(self, 'show', None):  # NOTE: 有待改进
+            for string in self.master.clipboard_get()[:self.limit - len(self.value) + 1]:
+                (event := tkinter.Event()).char = string
+                event.keysym = None
+                self.input(event)
+
     @staticmethod
     def __text(string: str) -> str:
         """ 内部函数 """
@@ -852,88 +955,6 @@ class _TextWidget(_BaseWidget):
             else:
                 out += '  '
         return out
-
-
-# 虚拟画布控件
-
-
-class CanvasLabel(_BaseWidget):
-    """
-    虚拟画布标签控件
-
-    创建一个虚拟的标签控件，用于显示少量文本
-    """
-
-    def __init__(self,
-                 canvas: Canvas,
-                 x: int,
-                 y: int,
-                 width: int,
-                 height: int,
-                 radius: int = RADIUS,
-                 text: str = TEXT,
-                 borderwidth: int = BORDERWIDTH,
-                 justify: str = tkinter.CENTER,
-                 font: tuple[str, int, str] = FONT,
-                 color_text: tuple[str, str, str] = COLOR_BLACK,
-                 color_fill: tuple[str, str, str] = COLOR_FILL,
-                 color_outline: tuple[str, str, str] = COLOR_BUTTON) -> None:
-        _BaseWidget.__init__(self, canvas, x, y, width, height, radius, text, justify,
-                             borderwidth, font, color_text, color_fill, color_outline)
-
-    def touch(self, event: tkinter.Event) -> None:
-        """ 触碰状态检测 """
-        if self.x1 <= event.x <= self.x2 and self.y1 <= event.y <= self.y2:
-            self.state('touch')
-        else:
-            self.state('normal')
-
-
-class CanvasButton(_BaseWidget):
-    """
-    虚拟画布按钮控件
-
-    创建一个虚拟的按钮，并执行关联函数
-    """
-
-    def __init__(self,
-                 canvas: Canvas,
-                 x: int,
-                 y: int,
-                 width: int,
-                 height: int,
-                 radius: int = RADIUS,
-                 text: str = TEXT,
-                 borderwidth: int = BORDERWIDTH,
-                 justify: str = tkinter.CENTER,
-                 font: tuple[str, int, str] = FONT,
-                 command=None,  # type: function | None
-                 color_text: tuple[str, str, str] = COLOR_BLACK,
-                 color_fill: tuple[str, str, str] = COLOR_FILL,
-                 color_outline: tuple[str, str, str] = COLOR_BUTTON) -> None:
-        _BaseWidget.__init__(self, canvas, x, y, width, height, radius, text, justify,
-                             borderwidth, font, color_text, color_fill, color_outline)
-        self.command = command
-
-    def execute(self, event: tkinter.Event) -> None:
-        """ 执行关联函数 """
-        if self.x1 <= event.x <= self.x2 and self.y1 <= event.y <= self.y2:
-            if self.live and self.command:
-                self.command()
-
-    def press(self, event: tkinter.Event) -> None:
-        """ 交互状态检测 """
-        if self.x1 <= event.x <= self.x2 and self.y1 <= event.y <= self.y2:
-            self.state('press')
-        else:
-            self.state('normal')
-
-    def touch(self, event: tkinter.Event) -> None:
-        """ 触碰状态检测 """
-        if self.x1 <= event.x <= self.x2 and self.y1 <= event.y <= self.y2:
-            self.state('touch')
-        else:
-            self.state('normal')
 
 
 class CanvasEntry(_TextWidget):
@@ -1240,8 +1261,8 @@ def move_widget(
     `mode`: 移动速度模式，为以下三种，
     或者为 (函数, 起始值, 终止值) 的形式，
     或者为一个长度等于20的，总和为100的元组
-    1. `smooth`: 速度先慢后快再慢（Sin函数模式）
-    2. `shake`: 和 smooth 一样，但是最后会回弹一下
+    1. `smooth`: 速度先慢后快再慢（Sin函数模式，0~π）
+    2. `shake`: 和 smooth 一样，但是最后会回弹一下（Cos函数模式，0~0.6π）
     3. `flat`: 匀速平移
     """
 
@@ -1254,7 +1275,7 @@ def move_widget(
         v = 0, 1, 3, 4, 5, 6, 7, 8, 8, 8, 8, 8, 8, 7, 6, 5, 4, 3, 1, 0
     elif mode == 'shake':
         # 抖动模式
-        v = 10, 10, 9, 9, 8, 8, 7, 7, 6, 6, 5, 5, 4, 4, 3, 3, 1, -1, - 2, -3
+        v = 11, 11, 10, 10, 10, 9, 9, 8, 7, 6, 6, 5, 4, 3, 1, 0, -1, -2, -3, -4
     elif mode == 'flat':
         # 平滑模式
         v = (5,) * 20
@@ -1266,26 +1287,12 @@ def move_widget(
         key = 100 / sum(v)
         v = tuple(key * _ for _ in v)
 
-    # 总计实际应该偏移值
-    total = sum(v[:_ind + 1]) / 100  # NOTE: BUG
+    # 总计实际应该移动的百分比
+    proportion = sum(v[:_ind + 1]) / 100
 
-    # 计算偏移量
-    x = int(v[_ind] * dx / 100)
-    y = int(v[_ind] * dy / 100)
-
-    # 累计偏移量（用于修正偏移）
-    _x += x
-    _y += y
-
-    # 修正值
-    _dx = round(total * dx) - _x
-    _dy = round(total * dy) - _y
-
-    # 修正值矫正
-    x += _dx
-    y += _dy
-    _x += _dx
-    _y += _dy
+    # 计算本次移动量
+    x = round(proportion * dx - _x)
+    y = round(proportion * dy - _y)
 
     if isinstance(master, tkinter.Misc) and isinstance(widget, tkinter.BaseWidget):
         # 父控件：tkinter控件
@@ -1304,7 +1311,7 @@ def move_widget(
 
     if _ind != 19:
         # 迭代函数
-        args = master, widget, dx, dy, times, v, _x, _y, _ind + 1
+        args = master, widget, dx, dy, times, v, _x + x, _y + y, _ind + 1
         widget.master.after(round(times * 50), move_widget, *args)
 
 
@@ -1394,7 +1401,7 @@ def _test():
         image = PhotoImage('tkinter.png')
         canvas.create_image(830, 150, image=image)
     except:
-        print('\033[31m啊哦！你没有示例图片喏……\033[0m\a')
+        print('\033[31m啊哦！你没有示例图片喏……\033[0m')
 
     label1 = CanvasLabel(canvas,
                          700 * canvas.rate_x, 550 * canvas.rate_y,
@@ -1415,8 +1422,8 @@ def _test():
         command=lambda: move_widget(canvas, label2, 0, -120 * canvas.rate_y, 0.25, 'smooth'))
     CanvasEntry(canvas, 200, 50, 200, 25, 5, ('圆角输入框', '点击输入'), limit=9)
     CanvasEntry(canvas, 200, 100, 200, 25, 0, ('方角输入框', '点击输入'), '*', 16)
-    CanvasText(canvas, 50, 150, 350, 150, 10, limit=400).change_text('圆角文本框')
-    CanvasText(canvas, 50, 340, 350, 150, 0, limit=400).change_text('方角文本框')
+    CanvasText(canvas, 50, 150, 350, 150, 10, limit=200).change_text('圆角文本框')
+    CanvasText(canvas, 50, 340, 350, 150, 0, limit=200).change_text('方角文本框')
 
     root.mainloop()
 
