@@ -354,6 +354,8 @@ class Toplevel(tkinter.Toplevel, Tk):
         self.width = 100
         self.height = 100
 
+        # 子窗口列表（与Toplevel有关）
+        self.toplevel_list: list[Toplevel] = []
         # 子画布列表（与缩放绑定有关）
         self.canvas_list: list[Canvas] = []
 
@@ -575,6 +577,9 @@ class _BaseWidget:
         canvas.widget_list.append(self)
 
         if radius:
+            if 2 * radius > width:
+                radius = width // 2
+                self.radius = radius
             if 2 * radius > height:
                 radius = height // 2
                 self.radius = radius
@@ -1241,7 +1246,7 @@ def move_widget(
     或者为 (函数, 起始值, 终止值) 的形式，
     或者为一个长度等于20的，总和为100的元组
     1. `smooth`: 速度先慢后快再慢（Sin函数模式，0~π）
-    2. `shake`: 和 smooth 一样，但是最后会回弹一下(Cos函数模式，0~0.6π)
+    2. `shake`: 和 smooth 一样，但是最后会回弹一下（Cos函数模式，0~0.6π）
     3. `flat`: 匀速平移
     """
 
@@ -1364,7 +1369,6 @@ def gradient_color(
 def _test():
     """ 测试函数 """
     from tkinter.messagebox import askyesno
-    from math import cos, pi
 
     def shutdown(): return root.destroy() if askyesno('提示', '是否退出?') else None
     root = Tk('测试程序', '960x540', alpha=0.9, shutdown=shutdown)
