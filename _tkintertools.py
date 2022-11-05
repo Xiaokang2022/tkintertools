@@ -16,8 +16,8 @@
 还有更多功能及用法，见模块使用教程（链接在下面）
 ### 模块基本信息
 * 模块作者: 小康2022
-* 模块版本: 2.4.1
-* 上次更新: 2022/11/3
+* 模块版本: 2.4.2
+* 上次更新: 2022/11/5
 ### 模块精华速览
 * 容器类控件: `Tk`、`Toplevel`、`Canvas`
 * 工具类: `PhotoImage`
@@ -49,7 +49,7 @@ __all__ = (
 
 __author__ = '小康2022'
 
-__version__ = '2.4'
+__version__ = '2.4.2'
 
 if version_info < (3, 10):
     print('\033[31m你的Python无法正常使用tkintertools模块！\033[0m')
@@ -452,8 +452,10 @@ class Canvas(tkinter.Canvas):
 
     def create_text(self, *args, **kw):
         # 重写：添加对 text 类型的 _CanvasItemId 的字体大小的控制
+        if not kw.get('font'):
+            kw['font'] = ('楷体', 10)  # 默认字体
         item = tkinter.Canvas.create_text(self, *args, **kw)
-        self.item_dict[item] = 'font', kw.get('font')[1]
+        self.item_dict[item] = 'font', kw['font'][1]
         return item
 
     def create_image(self, *args, **kw):
@@ -937,8 +939,8 @@ class _TextWidget(_BaseWidget):
 
     def paste(self) -> None:
         """ 快捷键粘贴 """
-        if self._press and not getattr(self, 'show', None):  # NOTE: 有待改进
-            for string in self.master.clipboard_get()[:self.limit - len(self.value) + 1]:
+        if self._press and not getattr(self, 'show', None):
+            for string in self.master.clipboard_get()[:self.limit + 2]:  # NOTE: BUG
                 (event := tkinter.Event()).char = string
                 event.keysym = None
                 self.input(event)
@@ -1422,8 +1424,8 @@ def _test():
         command=lambda: move_widget(canvas, label2, 0, -120 * canvas.rate_y, 0.25, 'smooth'))
     CanvasEntry(canvas, 200, 50, 200, 25, 5, ('圆角输入框', '点击输入'), limit=9)
     CanvasEntry(canvas, 200, 100, 200, 25, 0, ('方角输入框', '点击输入'), '*', 16)
-    CanvasText(canvas, 50, 150, 350, 150, 10, limit=200).change_text('圆角文本框')
-    CanvasText(canvas, 50, 340, 350, 150, 0, limit=200).change_text('方角文本框')
+    CanvasText(canvas, 50, 150, 350, 150, 10, limit=100).change_text('圆角文本框')
+    CanvasText(canvas, 50, 340, 350, 150, 0, limit=100).change_text('方角文本框')
 
     root.mainloop()
 
