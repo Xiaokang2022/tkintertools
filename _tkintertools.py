@@ -16,7 +16,7 @@
 还有更多功能及用法，见模块使用教程（链接在下面）
 ### 模块基本信息
 * 模块作者: 小康2022
-* 模块版本: 2.4.6
+* 模块版本: 2.4.7
 * 上次更新: 2022/11/10
 ### 模块精华速览
 * 容器类控件: `Tk`、`Toplevel`、`Canvas`
@@ -49,7 +49,7 @@ __all__ = (
 
 __author__ = '小康2022'
 
-__version__ = '2.4.6'
+__version__ = '2.4.7'
 
 if version_info < (3, 10):
     print('\033[31m你的Python无法正常使用tkintertools模块！\033[0m')
@@ -654,7 +654,7 @@ class _BaseWidget:
 
         # 虚拟控件显示的文字
         self.text = canvas.create_text(
-            x + (radius + 2 if justify == 'left' else width - radius - 3  # NOTE: 有修正值
+            x + (radius + 2 if justify == 'left' else width - radius - 3
                  if justify == 'right' else width / 2),
             y + height / 2,
             text=text,
@@ -672,6 +672,8 @@ class _BaseWidget:
         """
         mode = 0 if mode == 'normal' else 1 if mode == 'touch' else 2
         self.master.itemconfigure(self.text, fill=self.color_text[mode])
+        if isinstance(self, CanvasText):
+            self.master.itemconfigure(self._text, fill=self.color_text[mode])
 
         if self.radius:
             # 修改色块
@@ -705,7 +707,10 @@ class _BaseWidget:
                 self.master.move(item, dx, dy)
         else:
             self.master.move(self.rect, dx, dy)
+
         self.master.move(self.text, dx, dy)
+        if isinstance(self, CanvasText):
+            self.master.move(self._text, dx, dy)
 
         if hasattr(self, 'cursor'):
             self.cursor: tkinter._CanvasItemId
@@ -715,7 +720,9 @@ class _BaseWidget:
         """
         改变原有参数的值
 
-        可供修改的参数有 `text`、`color_text`、`color_fill` 及 `color_outline`
+        可供修改的参数有
+        1. 所有控件: `color_text`、`color_fill` 及 `color_outline`
+        2. 非文本控件: `text`
         """
         if value := kw.get('text', self.value):
             self.value = value
@@ -726,7 +733,8 @@ class _BaseWidget:
         if outline := kw.get('color_outline', self.color_outline):
             self.color_outline = outline
 
-        self.master.itemconfigure(self.text, text=value, fill=text[0])
+        if isinstance(self, CanvasLabel | CanvasButton):
+            self.master.itemconfigure(self.text, text=value, fill=text[0])
 
         if self.radius:
             for item in self.inside:
@@ -751,6 +759,8 @@ class _BaseWidget:
         else:
             self.master.delete(self.rect)
         self.master.delete(self.text)
+        if isinstance(self, CanvasText):
+            self.master.delete(self._text)
 
         try:
             self.master.widget_list.remove(self)  # NOTE: 如果删掉try会有奇怪的 BUG
@@ -1026,11 +1036,14 @@ class CanvasEntry(_TextWidget):
             if event.keysym == 'BackSpace':
                 # 按下退格键
                 self.value = self.value[:-1]
-            if len(event.char) and len(self.value) < self.limit:
-                key = ord(event.char)
-                if 32 < key < 127 or key > 255 or (key == 32 and self.space):
+            elif len(event.char) and len(self.value) < self.limit:
+                if not event.char.isprintable() or (event.char == ' ' and not self.space):
+                    return True
+                else:
                     # 按下普通按键
                     self.value += event.char
+            else:
+                return True
 
             # 更新表面显示值
             self.value_surface = len(
@@ -1046,7 +1059,7 @@ class CanvasEntry(_TextWidget):
         """ 更新控件 """
         while True:
             pos = self.master.bbox(self.text)
-            if pos[2] > self.x2 - self.radius - 2 or pos[0] < self.x1 + self.radius + 2:
+            if pos[2] > self.x2 - self.radius - 2 or pos[0] < self.x1 + self.radius + 1:
                 self.value_surface = self.value_surface[1:]
                 self.master.itemconfigure(self.text, text=self.value_surface)
             else:
@@ -1088,17 +1101,15 @@ class CanvasText(_TextWidget):
                              borderwidth, font, color_text, color_fill, color_outline)
 
         _x = x + (width - radius - 3 if justify == 'right' else width /
-                  2 if justify == 'center' else radius + 2)  # NOTE: 有修正值
+                  2 if justify == 'center' else radius + 2)
         _anchor = 'n' if justify == 'center' else 'ne' if justify == 'right' else 'nw'
 
         # 位置确定文本(位置不要乱动)
-        self._text = canvas.create_text(
-            _x,
-            y + radius + 2,
-            justify=justify,
-            anchor=_anchor,
-            font=font,
-            fill='red')
+        self._text = canvas.create_text(_x, y + radius + 2,
+                                        justify=justify,
+                                        anchor=_anchor,
+                                        font=font,
+                                        fill=color_text[0])
 
         # 只读模式
         self.read = read
@@ -1135,25 +1146,30 @@ class CanvasText(_TextWidget):
     def input(self, event: tkinter.Event) -> None:
         """ 文本输入 """
         if self._press and self.live and not self.read:
-            if event.keysym == 'BackSpace':
+            if event.keysym == 'Tab':
+                # 按下Tab键
+                self.append('    ')
+            elif event.keysym == 'BackSpace':
                 # 按下退格键
                 self.input_backspace()
             elif event.keysym == 'Return' or event.char == '\n':
                 # 按下回车键
                 self.input_return()
-            elif event.char and len(self.value) < self.limit:
+            elif event.char.isprintable() and event.char and len(self.value) < self.limit:
                 # 按下其他普通的键
                 _text = self.master.itemcget(self._text, 'text')
                 self.master.itemconfigure(self._text, text=_text+event.char)
                 _pos = self.master.bbox(self._text)
 
-                if _pos[2] > self.x2 - self.radius - 2 or _pos[0] < self.x1 + self.radius + 2:
+                if _pos[2] > self.x2 - self.radius - 2 or _pos[0] < self.x1 + self.radius + 1:
                     # 文本溢出啦
                     self.master.itemconfigure(self._text, text=_text)
                     self.input_return()
                     self.master.itemconfigure(self._text, text=event.char)
 
                 self.value += event.char
+            else:
+                return True
 
             self.cursor_update()
 
@@ -1480,13 +1496,13 @@ def _test():
         canvas, 50, 100, 120, 25, 0, '方角按钮',
         command=lambda: move_widget(canvas, label2, 0, -120 * canvas.rate_y, 0.25, 'smooth'))
     CanvasEntry(canvas, 200, 50, 200, 25, 5,
-                ('圆角输入框', '点击输入'), limit=32, justify='center')
+                ('居中圆角输入框', '点击输入'), limit=32, justify='center')
     CanvasEntry(canvas, 200, 100, 200, 25, 0,
-                ('方角输入框', '点击输入'), '•', 32)
+                ('靠右方角输入框', '点击输入'), '•', 32)
     CanvasText(canvas, 50, 150, 350, 150, 10,
-               ('圆角文本框', '点击输入'), 256, justify='center')
+               ('居中圆角文本框', '点击输入'), 256, justify='center')
     CanvasText(canvas, 50, 340, 350, 150, 0,
-               ('方角文本框', '点击输入'), 512)
+               ('靠右方角文本框', '点击输入'), 512)
 
     root.mainloop()
 
