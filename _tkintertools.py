@@ -16,8 +16,8 @@
 还有更多功能及用法，见模块使用教程（链接在下面）
 ### 模块基本信息
 * 模块作者: 小康2022
-* 模块版本: 2.4.2
-* 上次更新: 2022/11/5
+* 模块版本: 2.4.6
+* 上次更新: 2022/11/10
 ### 模块精华速览
 * 容器类控件: `Tk`、`Toplevel`、`Canvas`
 * 工具类: `PhotoImage`
@@ -49,7 +49,7 @@ __all__ = (
 
 __author__ = '小康2022'
 
-__version__ = '2.4.2'
+__version__ = '2.4.6'
 
 if version_info < (3, 10):
     print('\033[31m你的Python无法正常使用tkintertools模块！\033[0m')
@@ -72,12 +72,14 @@ COLOR_NONE = '', '', ''
 
 # 默认控件外框宽度
 BORDERWIDTH = 1
-# 默认控件圆角半径
-RADIUS = 0
-# 默认控件显示文本
-TEXT = ''
 # 默认字体
 FONT = '楷体', 15
+# 默认控件圆角半径
+RADIUS = 0
+# 文本光标
+CURSOR = '│'
+# 空字符
+NULL = ''
 
 
 # 容器控件
@@ -121,6 +123,10 @@ class Tk(tkinter.Tk):
         # 初始宽高值
         self.width = 100
         self.height = 100
+
+        # 图像缩放值
+        self.image_rate_x = 10  # NOTE: 有待进一步研究
+        self.image_rate_y = 10
 
         # 子窗口列表（与Toplevel有关）
         self.toplevel_list: list[Toplevel] = []
@@ -271,8 +277,8 @@ class Tk(tkinter.Tk):
             if canvas.lock:
                 for widget in canvas.widget_list:
                     if isinstance(widget, CanvasEntry | CanvasText):
-                        widget.input(event)
-                break
+                        if widget.input(event):
+                            return
 
     def __paste(self) -> None:
         """ 快捷键粘贴 """
@@ -547,7 +553,7 @@ class _BaseWidget:
         `width`: 控件的宽度
         `height`: 控件的高度
         `radius`: 控件圆角化半径
-        `text`: 控件显示的文本
+        `text`: 控件显示的文本，对于文本控件而言，可以为一个元组：(默认文本, 鼠标触碰文本)
         `justify`: 文本的对齐方式
         `borderwidth`: 外框的宽度
         `font`: 控件的字体设定 (字体, 大小, 样式)
@@ -572,6 +578,7 @@ class _BaseWidget:
 
         self.master = canvas
         self.value = text
+        self.justify = justify
         self.font = font
         self.color_text = color_text
         self.color_fill = color_fill
@@ -581,6 +588,8 @@ class _BaseWidget:
         self.x1, self.y1 = x, y
         # 控件左下角坐标
         self.x2, self.y2 = x + width, y + height
+        # 控件的宽高值
+        self.width, self.height = width, height
         # 边角圆弧半径
         self.radius = radius
         # 控件活跃标志
@@ -601,7 +610,7 @@ class _BaseWidget:
             _x, _y, _w, _h = x+radius, y+radius, width-d, height-d
 
             # 虚拟控件内部填充颜色
-            kw = {'outline': '', 'fill': color_fill[0]}
+            kw = {'outline': NULL, 'fill': color_fill[0]}
             self.inside = [
                 canvas.create_rectangle(
                     x, _y, x+width, y+height-radius, **kw),
@@ -645,10 +654,13 @@ class _BaseWidget:
 
         # 虚拟控件显示的文字
         self.text = canvas.create_text(
-            x + width / 2, y + height / 2,
+            x + (radius + 2 if justify == 'left' else width - radius - 3  # NOTE: 有修正值
+                 if justify == 'right' else width / 2),
+            y + height / 2,
             text=text,
             font=font,
             justify=justify,
+            anchor='w' if justify == 'left' else 'e' if justify == 'right' else 'center',
             fill=color_text[0])
 
     def state(self, mode: Literal['normal', 'touch', 'press']) -> None:
@@ -760,7 +772,7 @@ class CanvasLabel(_BaseWidget):
                  width: int,
                  height: int,
                  radius: int = RADIUS,
-                 text: str = TEXT,
+                 text: str = NULL,
                  borderwidth: int = BORDERWIDTH,
                  justify: str = tkinter.CENTER,
                  font: tuple[str, int, str] = FONT,
@@ -792,7 +804,7 @@ class CanvasButton(_BaseWidget):
                  width: int,
                  height: int,
                  radius: int = RADIUS,
-                 text: str = TEXT,
+                 text: str = NULL,
                  borderwidth: int = BORDERWIDTH,
                  justify: str = tkinter.CENTER,
                  font: tuple[str, int, str] = FONT,
@@ -851,7 +863,7 @@ class _TextWidget(_BaseWidget):
         self.space = space
 
         # 表面显示值
-        self.value_surface = ''
+        self.value_surface = NULL
         # 光标闪烁间隔
         self.cursor_time = 300
         # 光标闪烁标志
@@ -864,27 +876,31 @@ class _TextWidget(_BaseWidget):
         else:
             self.value_normal = text
 
-        _BaseWidget.__init__(self, canvas, x, y, width, height, radius, '', justify,
+        _BaseWidget.__init__(self, canvas, x, y, width, height, radius, NULL, justify,
                              borderwidth, font, color_text, color_fill, color_outline)
 
         # 鼠标光标（位置顺序不可乱动）
-        self.cursor = canvas.create_text(x+width/2, y+height/2,
-                                         font=font, fill=color_text[2])
+        self.cursor = canvas.create_text(0, 0, font=font, fill=color_text[2])
 
-    def press_on(self) -> None:
-        """ 控件获得焦点 """
-        if not getattr(self, 'read', None):
-            self._press = True
-            self.state('press')
-            self.master.itemconfigure(self.text, text=self.value_surface)
-            self.cursor_flash()
+    def touch_on(self) -> None:
+        """ 鼠标悬停状态 """
+        if not self._press:
+            self.state('touch')
 
-    def press_off(self) -> None:
-        """ 控件失去焦点 """
-        if not getattr(self, 'read', None):
-            self._press = False
+            # 判断显示的值是否为第一默认值
+            if self.master.itemcget(self.text, 'text') == self.value_normal:
+                # 更新为第二默认值
+                self.master.itemconfigure(self.text, text=self.value_touch)
+
+    def touch_off(self) -> None:
+        """ 鼠标离开状态 """
+        if not self._press:
             self.state('normal')
-            self.master.itemconfigure(self.text, text=self.value_surface)
+
+            # 判断显示的值是否为第二默认值
+            if self.master.itemcget(self.text, 'text') == self.value_touch:
+                # 更新为第一默认值
+                self.master.itemconfigure(self.text, text=self.value_normal)
 
     def press(self, event: tkinter.Event) -> None:
         """ 交互状态检测 """
@@ -907,56 +923,49 @@ class _TextWidget(_BaseWidget):
         if self.cursor_time >= 300:
             self.cursor_time, self._cursor = 0, not self._cursor
             if self._cursor:
-                if self.master.itemcget(self.text, 'justify') == tkinter.CENTER:
-                    # 居中的文本
-                    self.master.itemconfigure(
-                        self.cursor, text=self.__text(self.value_surface) + '│')
-                elif self.master.itemcget(self.text, 'justify') == tkinter.LEFT:
-                    # 靠左的文本
-                    self.master.itemconfigure(
-                        self.cursor, text=self.__text(self.value_surface) + '│')
+                self.master.itemconfigure(self.cursor, text=CURSOR)
             else:
-                self.master.itemconfigure(self.cursor, text='')
+                self.master.itemconfigure(self.cursor, text=NULL)
 
         if self._press:
             self.cursor_time += 10
             self.master.after(10, self.cursor_flash)
         else:
             self.cursor_time, self._cursor = 300, False  # 恢复默认值
-            self.master.itemconfigure(self.cursor, text='')
+            self.master.itemconfigure(self.cursor, text=NULL)
 
-    def cursor_update(self) -> None:
+    def cursor_update(self, text: str = CURSOR) -> None:
         """ 鼠标光标更新 """
         self.cursor_time, self._cursor = 300, False  # 恢复默认值
-        if self.master.itemcget(self.text, 'justify') == tkinter.CENTER:
-            # 居中的文本
-            self.master.itemconfigure(
-                self.cursor, text=self.__text(self.value_surface) + '│')
-        elif self.master.itemcget(self.text, 'justify') == tkinter.LEFT:
-            # 靠左的文本
-            self.master.itemconfigure(
-                self.cursor, text=self.__text(self.value_surface) + '│')
+        if isinstance(self, CanvasEntry):
+            self.master.coords(self.cursor, self.master.bbox(
+                self.text)[2], self.y1 + self.height / 2)
+        elif isinstance(self, CanvasText):
+            _pos = self.master.bbox(self._text)
+            self.master.coords(self.cursor, _pos[2], _pos[1])
+        self.master.itemconfigure(self.cursor, text=text)
 
     def paste(self) -> None:
         """ 快捷键粘贴 """
         if self._press and not getattr(self, 'show', None):
-            for string in self.master.clipboard_get()[:self.limit + 2]:  # NOTE: BUG
-                (event := tkinter.Event()).char = string
-                event.keysym = None
-                self.input(event)
+            self.append(self.master.clipboard_get())
 
-    @staticmethod
-    def __text(string: str) -> str:
-        """ 内部函数 """
-        out = ''
-        for i in string:
-            if i == '\n':
-                out += i
-            elif 0 <= ord(i) <= 256:
-                out += ' '
-            else:
-                out += '  '
-        return out
+    def get(self) -> str:
+        """ 获取输入框的值 """
+        return self.value
+
+    def set(self, value: str) -> None:
+        """ 设置输入框的值 """
+        self.value = ''
+        self.append(value)
+
+    def append(self, value: str) -> None:
+        """ 添加输入框的值 """
+        (event := tkinter.Event()).keysym = None
+
+        for char in value:
+            event.char = char
+            self.input(event)
 
 
 class CanvasEntry(_TextWidget):
@@ -973,60 +982,43 @@ class CanvasEntry(_TextWidget):
                  width: int,
                  height: int,
                  radius: int = RADIUS,
-                 text: tuple[str] | str = TEXT,
+                 text: tuple[str] | str = NULL,
                  show: str | None = None,
                  limit: int = 15,
                  space: bool = False,
                  borderwidth: int = BORDERWIDTH,
-                 justify: str = tkinter.CENTER,
+                 justify: str = tkinter.LEFT,
                  font: tuple[str, int, str] = FONT,
                  color_text: tuple[str, str, str] = COLOR_BLACK,
                  color_fill: tuple[str, str, str] = COLOR_WHITE,
                  color_outline: tuple[str, str, str] = COLOR_TEXT) -> None:
         if type(text) == str:
-            text = (text, '')
+            text = text, NULL
         elif type(text) == None:
-            text = ('', '')
+            text = NULL, NULL
 
         _TextWidget.__init__(self, canvas, x, y, width, height, radius, text, limit, space, justify,
                              borderwidth, font, color_text, color_fill, color_outline)
         self.master.itemconfigure(self.text, text=self.value_normal)
         self.show = show
 
-    def press_off(self) -> None:
-        # 重写父类方法
-        _TextWidget.press_off(self)
-        if self.value == '':
-            self.master.itemconfigure(self.text, text=self.value_normal)
-
-    def touch_on(self) -> None:
-        """ 鼠标悬停状态 """
-        if not self._press:
-            self.state('touch')
-
-            # 判断显示的值是否为第一默认值
-            if self.master.itemcget(self.text, 'text') == self.value_normal:
-                # 更新为第二默认值
-                self.master.itemconfigure(self.text, text=self.value_touch)
-
-    def touch_off(self) -> None:
-        """ 鼠标离开状态 """
-        if not self._press:
-            self.state('normal')
-
-            # 判断显示的值是否为第二默认值
-            if self.master.itemcget(self.text, 'text') == self.value_touch:
-                # 更新为第一默认值
-                self.master.itemconfigure(self.text, text=self.value_normal)
-
-    def change_text(self, value: str) -> None:
-        """ 重新设定显示文字 """
-        # 改变真实值
-        self.value = value
-        # 改变显示值
-        self.value_surface = len(value) * self.show if self.show else value
-        # 更新显示值
+    def press_on(self) -> None:
+        """ 控件获得焦点 """
+        self._press = True
+        self.state('press')
         self.master.itemconfigure(self.text, text=self.value_surface)
+        self.cursor_update(NULL)
+        self.cursor_flash()
+
+    def press_off(self) -> None:
+        """ 控件失去焦点 """
+        self._press = False
+        self.state('normal')
+
+        if self.value == NULL:
+            self.master.itemconfigure(self.text, text=self.value_normal)
+        else:
+            self.master.itemconfigure(self.text, text=self.value_surface)
 
     def input(self, event: tkinter.Event) -> None:
         """ 文本输入 """
@@ -1043,9 +1035,24 @@ class CanvasEntry(_TextWidget):
             # 更新表面显示值
             self.value_surface = len(
                 self.value) * self.show if self.show else self.value
+
             # 更新显示
             self.master.itemconfigure(self.text, text=self.value_surface)
+            self.update()
             self.cursor_update()
+            return True
+
+    def update(self):
+        """ 更新控件 """
+        while True:
+            pos = self.master.bbox(self.text)
+            if pos[2] > self.x2 - self.radius - 2 or pos[0] < self.x1 + self.radius + 2:
+                self.value_surface = self.value_surface[1:]
+                self.master.itemconfigure(self.text, text=self.value_surface)
+            else:
+                break
+
+        # 当窗口扩大时，可能出现过短 BUG
 
 
 class CanvasText(_TextWidget):
@@ -1062,6 +1069,7 @@ class CanvasText(_TextWidget):
                  width: int,
                  height: int,
                  radius: int = RADIUS,
+                 text: tuple[str] | str = NULL,
                  limit: int = 100,
                  space: bool = True,
                  read: bool = False,
@@ -1071,100 +1079,149 @@ class CanvasText(_TextWidget):
                  color_text: tuple[str, str, str] = COLOR_BLACK,
                  color_fill: tuple[str, str, str] = COLOR_WHITE,
                  color_outline: tuple[str, str, str] = COLOR_TEXT) -> None:
-        _TextWidget.__init__(self, canvas, x, y, width, height, radius, TEXT, limit, space, justify,
+        if type(text) == str:
+            text = text, NULL
+        elif type(text) == None:
+            text = NULL, NULL
+
+        _TextWidget.__init__(self, canvas, x, y, width, height, radius, text, limit, space, justify,
                              borderwidth, font, color_text, color_fill, color_outline)
+
+        _x = x + (width - radius - 3 if justify == 'right' else width /
+                  2 if justify == 'center' else radius + 2)  # NOTE: 有修正值
+        _anchor = 'n' if justify == 'center' else 'ne' if justify == 'right' else 'nw'
+
+        # 位置确定文本(位置不要乱动)
+        self._text = canvas.create_text(
+            _x,
+            y + radius + 2,
+            justify=justify,
+            anchor=_anchor,
+            font=font,
+            fill='red')
+
         # 只读模式
         self.read = read
-        # 修改多行文本靠左显示
-        self.master.coords(self.text, self.x1 + self.radius + 2,
-                           self.y1 + self.radius + 2)
-        self.master.coords(self.cursor, self.x1 + self.radius - 9,
-                           self.y1 + self.radius + 2)  # NOTE: BUG
-        self.master.itemconfigure(self.text, anchor='nw', justify=justify)
-        self.master.itemconfigure(self.cursor, anchor='nw', justify=justify)
-        # 计算单行文本容纳量
-        self.row = round((self.x2 - self.x1 - self.radius) /
-                         int(font[1] * 3/4)) + 1
-        # 计算文本容纳行数
-        self.line = round((self.y2 - self.y1 - self.radius) /
-                          int(font[1] * 3/2)) + 1
-        # 文本位置
-        self._pos = self.line
+        # # 修改多行文本靠左显示
+        self.master.coords(self.text, _x, y + radius + 2)
+        self.master.itemconfigure(
+            self.text, text=self.value_normal, anchor=_anchor)
+        self.master.itemconfigure(self.cursor, anchor='n')
 
-    def touch_on(self) -> None:
-        """ 鼠标悬停状态 """
-        if not self._press:
-            self.state('touch')
+    def press_on(self) -> None:
+        """ 控件获得焦点 """
+        if not self.read:
+            self._press = True
+            self.state('press')
+            *__, _ = [''] + self.value_surface.rsplit('\n', 1)
+            self.master.itemconfigure(self.text, text=''.join(__))
+            self.master.itemconfigure(self._text, text=_)
+            self.cursor_update(NULL)
+            self.cursor_flash()
 
-    def touch_off(self) -> None:
-        """ 鼠标离开状态 """
-        if not self._press:
+    def press_off(self) -> None:
+        """ 控件失去焦点 """
+        if not self.read:
+            self._press = False
             self.state('normal')
 
-    def change_text(self, value: str) -> None:
-        """ 重新设定显示文字 """
-        # 改变文本
-        self.value_surface = self.value = value
-        # 更新显示值
-        self.append('')
-
-    def append(self, value: str) -> None:
-        """ 添加文本 """
-        # 改变文本
-        self.value += value
-        key = self.value.count('\n')
-        if key <= self.line:
-            # 更新显示值
-            self.master.itemconfigure(self.text, text=self.value)
-        else:
-            # 同步更新文本上下位置数据
-            self._pos += value.count('\n')
-            # 计算显示文本的部分
-            ind = key - self.line
-            self.value_surface = '\n'.join(
-                self.value.split('\n')[ind:ind + self.line])
-            self.master.itemconfigure(self.text, text=self.value_surface)
-
-    def scroll(self, event: tkinter.Event) -> None:
-        """ 文本滚动 """
-        if self.x1 <= event.x <= self.x2 and self.y1 <= event.y <= self.y2:
-            if event.delta > 0 and self._pos > self.line:
-                # 鼠标向上滚动，显示文本部分向下滚动
-                self._pos -= 1
-            elif event.delta < 0 and self._pos < self.value.count('\n'):
-                # 鼠标向下滚动，显示文本部分向上滚动
-                self._pos += 1
-            # 计算显示文本的部分
-            ind = self._pos - self.line
-            self.value_surface = '\n'.join(
-                self.value.split('\n')[ind:ind + self.line])
-            self.master.itemconfigure(self.text, text=self.value_surface)
+            if self.value == NULL:
+                self.master.itemconfigure(self.text, text=self.value_normal)
+            else:
+                *__, _ = [''] + self.value_surface.rsplit('\n', 1)
+                self.master.itemconfigure(self.text, text=''.join(__))
+                self.master.itemconfigure(self._text, text=_)
 
     def input(self, event: tkinter.Event) -> None:
         """ 文本输入 """
         if self._press and self.live and not self.read:
             if event.keysym == 'BackSpace':
                 # 按下退格键
-                if len(self.value) > 1 and self.value[-2] == '\n':
-                    self.value = self.value[:-2]
-                elif len(self.value):
-                    self.value = self.value[:-1]
-            elif len(event.char) and len(self.value) < self.limit:
-                # 按下普通按键
-                key = ord(event.char)
-                if 32 < key < 127 or key > 255 or (key == 32 and self.space):
-                    line = sum(
-                        [1 if 32 <= ord(i) < 127 else 2 for i in self.value.split('\n')[-1]])
-                    line += 1 if 32 <= key < 127 else 2
-                    if line > self.row:
-                        self.value += '\n' + event.char
-                    else:
-                        self.value += event.char
+                self.input_backspace()
+            elif event.keysym == 'Return' or event.char == '\n':
+                # 按下回车键
+                self.input_return()
+            elif event.char and len(self.value) < self.limit:
+                # 按下其他普通的键
+                _text = self.master.itemcget(self._text, 'text')
+                self.master.itemconfigure(self._text, text=_text+event.char)
+                _pos = self.master.bbox(self._text)
 
-            # 更新显示
-            self.value_surface = self.value
-            self.master.itemconfigure(self.text, text=self.value)
+                if _pos[2] > self.x2 - self.radius - 2 or _pos[0] < self.x1 + self.radius + 2:
+                    # 文本溢出啦
+                    self.master.itemconfigure(self._text, text=_text)
+                    self.input_return()
+                    self.master.itemconfigure(self._text, text=event.char)
+
+                self.value += event.char
+
             self.cursor_update()
+
+            # 更新表面显示值
+            text = self.master.itemcget(self.text, 'text')
+            _text = self.master.itemcget(self._text, 'text')
+            self.value_surface = text + '\n' + _text
+
+            return True
+
+    def input_return(self):
+        """ 回车键功能 """
+        if len(self.value) == self.limit:
+            # 达到限制字数
+            return
+
+        self.value += '\n'
+
+        # 相关数据获取
+        text = self.master.itemcget(self.text, 'text')
+        _text = self.master.itemcget(self._text, 'text')
+        _pos = self.master.bbox(self._text)
+
+        self.master.itemconfigure(self._text, text='')
+
+        if _pos[3] + _pos[3] - _pos[1] < self.y2 - self.radius - 2:
+            # 还没填满文本框
+            self.master.move(self._text, 0, _pos[3] - _pos[1])
+            self.master.itemconfigure(
+                self.text, text=text+bool(text)*'\n'+_text)
+        else:
+            # 文本框已经被填满了
+            text = text.split('\n', 1)[-1]
+            self.master.itemconfigure(self.text, text=text+'\n'+_text)
+
+    def input_backspace(self):
+        """ 退格键功能 """
+        if not self.value:
+            # 没有内容，删个毛啊
+            return
+
+        _text = self.master.itemcget(self._text, 'text')
+        self.value = self.value[:-1]
+
+        if _text:
+            # 正常地删除字符
+            self.master.itemconfigure(self._text, text=_text[:-1])
+        else:
+            # 遇到换行符
+            _ = self.value.rsplit('\n', 1)[-1]
+            self.master.itemconfigure(self._text, text=_)
+
+            if self.value == self.master.itemcget(self.text, 'text'):
+                # 内容未超出框的大小
+                _pos = self.master.bbox(self._text)
+                self.master.move(self._text, 0, _pos[1] - _pos[3])
+                __ = self.value.removesuffix(_)[:-('\n' in self.value)]
+            else:
+                # 内容已经超出框框的大小啦
+                text = self.master.itemcget(self.text, 'text')
+                __ = self.value.removesuffix(
+                    text)[:-1].rsplit('\n', 1)[-1] + '\n' + text.removesuffix(_)[:-1]
+
+            self.master.itemconfigure(self.text, text=__)
+
+    def scroll(self, event: tkinter.Event) -> None:
+        """ 文本滚动 """
+        # TODO
 
 
 # 工具类
@@ -1185,7 +1242,7 @@ class PhotoImage(tkinter.PhotoImage):
         self.file = file
 
         if file.split('.')[-1] == 'gif':
-            self.frames = []
+            self.frames: list[tkinter.PhotoImage] = []
         else:
             tkinter.PhotoImage.__init__(self, file=file, *args, **kw)
 
@@ -1397,7 +1454,7 @@ def _test():
         color = gradient_color(('#FFFFFF', '#000000'), i/100)
         canvas.create_oval(
             466 - i/3, 66 - i/3, 566 + i, 166 + i,
-            outline=color, width=2.5, fill='' if i else '#FFF')
+            outline=color, width=2.5, fill=NULL if i else '#FFF')
 
     try:
         image = PhotoImage('tkinter.png')
@@ -1422,10 +1479,14 @@ def _test():
     CanvasButton(
         canvas, 50, 100, 120, 25, 0, '方角按钮',
         command=lambda: move_widget(canvas, label2, 0, -120 * canvas.rate_y, 0.25, 'smooth'))
-    CanvasEntry(canvas, 200, 50, 200, 25, 5, ('圆角输入框', '点击输入'), limit=9)
-    CanvasEntry(canvas, 200, 100, 200, 25, 0, ('方角输入框', '点击输入'), '*', 16)
-    CanvasText(canvas, 50, 150, 350, 150, 10, limit=100).change_text('圆角文本框')
-    CanvasText(canvas, 50, 340, 350, 150, 0, limit=100).change_text('方角文本框')
+    CanvasEntry(canvas, 200, 50, 200, 25, 5,
+                ('圆角输入框', '点击输入'), limit=32, justify='center')
+    CanvasEntry(canvas, 200, 100, 200, 25, 0,
+                ('方角输入框', '点击输入'), '•', 32)
+    CanvasText(canvas, 50, 150, 350, 150, 10,
+               ('圆角文本框', '点击输入'), 256, justify='center')
+    CanvasText(canvas, 50, 340, 350, 150, 0,
+               ('方角文本框', '点击输入'), 512)
 
     root.mainloop()
 
