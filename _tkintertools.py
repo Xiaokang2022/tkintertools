@@ -16,7 +16,7 @@
 还有更多功能及用法，见模块使用教程（链接在下面）
 ### 模块基本信息
 * 模块作者: 小康2022
-* 模块版本: 2.4.7
+* 模块版本: 2.4.8
 * 上次更新: 2022/11/10
 ### 模块精华速览
 * 容器类控件: `Tk`、`Toplevel`、`Canvas`
@@ -49,7 +49,7 @@ __all__ = (
 
 __author__ = '小康2022'
 
-__version__ = '2.4.7'
+__version__ = '2.4.8'
 
 if version_info < (3, 10):
     print('\033[31m你的Python无法正常使用tkintertools模块！\033[0m')
@@ -213,11 +213,11 @@ class Tk(tkinter.Tk):
                       ):
         """ 内部方法：绝对缩放 """
         for item, key in canvas.item_dict.items():
-            if key[0] == 'font':  # NOTE: 字体缩小时有 BUG
+            if key[0] == 'font':  # BUG: 字体缩小时有 bug
                 # 字体大小修改
                 font: str = canvas.itemcget(item, 'font')
                 font = font.split()
-                if font:  # NOTE: 不加if判断会有 BUG
+                if font:  # BUG: 不加if判断会有 bug
                     font[1] = int(key[1] * min(canvas.rate_x, canvas.rate_y))
                     canvas.itemconfigure(item, font=font)
             elif key[0] == 'width':
@@ -763,9 +763,16 @@ class _BaseWidget:
             self.master.delete(self._text)
 
         try:
-            self.master.widget_list.remove(self)  # NOTE: 如果删掉try会有奇怪的 BUG
+            self.master.widget_list.remove(self)  # BUG: 如果删掉try会有奇怪的 bug
         except:
             pass
+    
+    def set_live(self, boolean: bool | None = None) -> bool | None:
+        """ 设定或查询live值 """
+        if boolean == None:
+            return self.live
+        else:
+            self.live = boolean
 
 
 class CanvasLabel(_BaseWidget):
@@ -966,16 +973,20 @@ class _TextWidget(_BaseWidget):
 
     def set(self, value: str) -> None:
         """ 设置输入框的值 """
-        self.value = ''
+        self.press_on()
+        (event := tkinter.Event()).keysym = 'BackSpace'
+        for _ in range(len(self.value)):
+            self.input(event)
         self.append(value)
 
     def append(self, value: str) -> None:
         """ 添加输入框的值 """
+        self.press_on()
         (event := tkinter.Event()).keysym = None
-
         for char in value:
             event.char = char
             self.input(event)
+        self.press_off()
 
 
 class CanvasEntry(_TextWidget):
