@@ -25,7 +25,7 @@
 * 处理函数: `move_widget`、`correct_text`、`gradient_color`
 ### 更多详细内容
 * 模块源码地址: https://gitcode.net/weixin_62651706/tkintertools
-* 模块使用教程: http://t.csdn.cn/gFg9A
+* 模块使用教程: https://xiaokang2022.blog.csdn.net/article/details/127374661
 * 模块相关专栏: https://blog.csdn.net/weixin_62651706/category_11600888.html
 """
 
