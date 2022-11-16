@@ -11,13 +11,14 @@
 6. 对文本的基础处理，控制长度及位置
 7. 用Place实现复杂的布局，控件位置精准控制
 8. 实现圆角化控件
-9. ...
+9. 实现界面简单的动画切换
+10. ...
 
 还有更多功能及用法，见模块使用教程（链接在下面）
 ### 模块基本信息
 * 模块作者: 小康2022
-* 模块版本: 2.4.11
-* 上次更新: 2022/11/13
+* 模块版本: 2.4.12
+* 上次更新: 2022/11/16
 ### 模块精华速览
 * 容器类控件: `Tk`、`Toplevel`、`Canvas`
 * 工具类: `PhotoImage`
@@ -34,7 +35,7 @@ from sys import version_info
 from typing import Generator, Literal
 
 __author__ = '小康2022'
-__version__ = '2.4.11'
+__version__ = '2.4.12'
 __all__ = (
     'Tk',
     'Toplevel',
@@ -164,8 +165,15 @@ class Tk(tkinter.Tk):
                     # 相对缩放对所有Canvas生效
                     self.zoom_relative(
                         canvas, event.width / self._width, event.height / self._height)
-                    # 绝对缩放仅对当前Canvas生效
                     if canvas.lock:
+                        # 缩放画布的大小
+                        info = canvas.place_info()
+                        canvas._place(x=float(info['x'])*canvas.rate_x,
+                                      y=float(info['y'])*canvas.rate_y,
+                                      width=canvas.width*canvas.rate_x,
+                                      height=canvas.height*canvas.rate_y)
+
+                        # 绝对缩放仅对当前Canvas生效
                         self.zoom_absolute(canvas)
 
             # 更新默认参数
@@ -508,6 +516,16 @@ class Canvas(tkinter.Canvas):
         if type(kw.get('image')) == PhotoImage and not self.itemcget(tagOrId, 'image'):
             self.item_dict[tagOrId] = ['image', kw.get('image'), None]
         return tkinter.Canvas.itemconfigure(self, tagOrId, **kw)
+
+    def place(self, *args, **kw) -> None:
+        # 重写：增加一些特定功能
+        kw['width'] = self.width = kw.get('wdith', self.width)
+        kw['height'] = self.height = kw.get('height', self.height)
+        return tkinter.Canvas.place(self, *args, **kw)
+
+    def _place(self, *args, **kw) -> None:
+        """ 原 place 方法，避免重名 """
+        return tkinter.Canvas.place(self, *args, **kw)
 
 
 class _BaseWidget:
@@ -1126,13 +1144,13 @@ class CanvasText(_TextWidget):
                                         font=font,
                                         fill=color_text[0])
 
-        # 滚动条
-        if radius:
-            self.scrollbar = CanvasButton(
-                canvas, x+width-7, y+radius, 5, height-2*radius, 2.5, NULL)
-        else:
-            self.scrollbar = CanvasButton(
-                canvas, x+width-7, y+2, 5, height-4, 0, NULL)
+        # # 滚动条
+        # if radius:
+        #     self.scrollbar = CanvasButton(
+        #         canvas, x+width-7, y+radius, 5, height-2*radius, 2.5, NULL)
+        # else:
+        #     self.scrollbar = CanvasButton(
+        #         canvas, x+width-7, y+2, 5, height-4, 0, NULL)
 
         # 只读模式
         self.read = read
@@ -1502,7 +1520,7 @@ def _test():
     def shutdown(): return root.destroy() if askyesno('提示', '是否退出?') else None
     root = Tk('测试程序', '960x540', alpha=0.9, shutdown=shutdown)
     canvas = Canvas(root, 960, 540)
-    canvas.pack(expand=True, fill='both')
+    canvas.place(x=0, y=0)
 
     for i in range(100):
         color = gradient_color(('#FFFFFF', '#000000'), i/100)
