@@ -18,7 +18,7 @@
 ### 模块基本信息
 * 模块作者: 小康2022
 * 模块版本: 2.4.12
-* 上次更新: 2022/11/16
+* 上次更新: 2022/11/17
 ### 模块精华速览
 * 容器类控件: `Tk`、`Toplevel`、`Canvas`
 * 工具类: `PhotoImage`
@@ -1517,49 +1517,70 @@ def _test():
     """ 测试函数 """
     from tkinter.messagebox import askyesno
 
-    def shutdown(): return root.destroy() if askyesno('提示', '是否退出?') else None
-    root = Tk('测试程序', '960x540', alpha=0.9, shutdown=shutdown)
-    canvas = Canvas(root, 960, 540)
-    canvas.place(x=0, y=0)
+    # 【创建窗口】
+    root = Tk('测试程序', '960x540', alpha=0.9, shutdown=lambda: root.destroy()
+              if askyesno('提示', '是否退出?') else None)
+    # 【创建并放置画布（界面）】
+    canvas_1 = Canvas(root, 960, 540)
+    canvas_2 = Canvas(root, 960, 540)
+    canvas_1.place(x=0, y=0)
+    canvas_2.place(x=-960, y=0)
+
+    # 【以下内容为 canvas_1 的界面】
 
     for i in range(100):
         color = gradient_color(('#FFFFFF', '#000000'), i/100)
-        canvas.create_oval(
+        canvas_1.create_oval(
             466-i/3, 66-i/3, 566+i, 166+i,
             outline=color, width=2.5, fill=NULL if i else '#FFF')
 
     try:
         image = PhotoImage('tkinter.png')
-        canvas.create_image(830, 150, image=image)
+        canvas_1.create_image(830, 150, image=image)
     except:
         print('\033[31m啊哦！你没有示例图片喏……\033[0m')
 
-    label1 = CanvasLabel(canvas,
-                         700 * canvas.rate_x, 550 * canvas.rate_y,
-                         250 * canvas.rate_x, 100 * canvas.rate_y,
+    label1 = CanvasLabel(canvas_1,
+                         700 * canvas_1.rate_x, 550 * canvas_1.rate_y,
+                         250 * canvas_1.rate_x, 100 * canvas_1.rate_y,
                          10, '圆角标签\n移动模式:shake',
-                         font=('楷体', round(15 * canvas.rate_x)))
-    label2 = CanvasLabel(canvas,
-                         430 * canvas.rate_x, 550 * canvas.rate_y,
-                         250 * canvas.rate_x, 100 * canvas.rate_y,
+                         font=('楷体', round(15 * canvas_1.rate_x)))
+    label2 = CanvasLabel(canvas_1,
+                         430 * canvas_1.rate_x, 550 * canvas_1.rate_y,
+                         250 * canvas_1.rate_x, 100 * canvas_1.rate_y,
                          0, '方角标签\n移动模式:smooth',
-                         font=('楷体', round(15 * canvas.rate_x)))
+                         font=('楷体', round(15 * canvas_1.rate_x)))
 
     CanvasButton(
-        canvas, 50, 50, 120, 25, 5, '圆角按钮',
-        command=lambda: move_widget(canvas, label1, 0, -120 * canvas.rate_y, 0.25, 'shake'))
+        canvas_1, 50, 50, 120, 25, 5, '圆角按钮',
+        command=lambda: move_widget(canvas_1, label1, 0, -120 * canvas_1.rate_y, 0.25, 'shake'))
     CanvasButton(
-        canvas, 50, 100, 120, 25, 0, '方角按钮',
-        command=lambda: move_widget(canvas, label2, 0, -120 * canvas.rate_y, 0.25, 'smooth'))
-    CanvasEntry(canvas, 200, 50, 200, 25, 5,
+        canvas_1, 50, 100, 120, 25, 0, '方角按钮',
+        command=lambda: move_widget(canvas_1, label2, 0, -120 * canvas_1.rate_y, 0.25, 'smooth'))
+    CanvasButton(
+        canvas_1, 165, 500, 120, 30, 0, '切换界面',
+        command=lambda: (move_widget(root, canvas_1, 960, 0, 0.25, 'smooth'),
+                         move_widget(root, canvas_2, 960, 0, 0.25, 'smooth')))
+    CanvasEntry(canvas_1, 200, 50, 200, 25, 5,
                 ('居中圆角输入框', '点击输入'), justify='center')
-    CanvasEntry(canvas, 200, 100, 200, 25, 0,
+    CanvasEntry(canvas_1, 200, 100, 200, 25, 0,
                 ('靠右方角输入框', '点击输入'), '•')
-    CanvasText(canvas, 50, 150, 350, 150, 10,
+    CanvasText(canvas_1, 50, 150, 350, 150, 10,
                ('居中圆角文本框', '点击输入'), justify='center')
-    CanvasText(canvas, 50, 340, 350, 150, 0,
+    CanvasText(canvas_1, 50, 340, 350, 150, 0,
                ('靠右方角文本框', '点击输入'), cursor=' _')
 
+    # 【以下内容为 canvas_2 的界面】
+
+    CanvasButton(
+        canvas_2, 830, 500, 120, 30, 0, '切换界面',
+        command=lambda: (move_widget(root, canvas_1, -960, 0, 0.25, 'smooth'),
+                         move_widget(root, canvas_2, -960, 0, 0.25, 'smooth')))
+
+    canvas_2.create_text(480, 270, text=__doc__,
+                         font=('楷体', 12), justify='center')
+
+    # 【最后一笔：消息事件循环】
     root.mainloop()
 
 
