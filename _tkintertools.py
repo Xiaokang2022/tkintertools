@@ -1,5 +1,6 @@
-"""## tkintertools
-【运行最低要求: Python3.10】
+"""
+## tkintertools
+运行最低要求: Python3.10
 
 这个模块是tkinter模块的扩展模块，将给用户提供以下功能：
 
@@ -17,7 +18,7 @@
 还有更多功能及用法，见模块使用教程（链接在下面）
 ### 模块基本信息
 * 模块作者: 小康2022
-* 模块版本: 2.4.12
+* 模块版本: 2.4.13
 * 上次更新: 2022/11/17
 ### 模块精华速览
 * 容器类控件: `Tk`、`Toplevel`、`Canvas`
@@ -35,7 +36,7 @@ from sys import version_info
 from typing import Generator, Literal
 
 __author__ = '小康2022'
-__version__ = '2.4.12'
+__version__ = '2.4.13'
 __all__ = (
     'Tk',
     'Toplevel',
@@ -162,14 +163,18 @@ class Tk(tkinter.Tk):
                     canvas.rate_x = event.width / canvas.width
                     canvas.rate_y = event.height / canvas.height
 
+                    # 相对缩放度
+                    rate_x = event.width / self._width
+                    rate_y = event.height / self._height
+
                     # 相对缩放对所有Canvas生效
                     self.zoom_relative(
-                        canvas, event.width / self._width, event.height / self._height)
+                        canvas, rate_x, rate_y)
                     if canvas.lock:
                         # 缩放画布的大小
                         info = canvas.place_info()
-                        canvas._place(x=float(info['x'])*canvas.rate_x,
-                                      y=float(info['y'])*canvas.rate_y,
+                        canvas._place(x=round(float(info['x'])*rate_x),
+                                      y=round(float(info['y'])*rate_y),
                                       width=canvas.width*canvas.rate_x,
                                       height=canvas.height*canvas.rate_y)
 
@@ -1430,7 +1435,10 @@ def move_widget(
         # 子控件：tkinter控件
         origin_x = int(widget.place_info()['x'])
         origin_y = int(widget.place_info()['y'])
-        widget.place(x=origin_x+x, y=origin_y+y)
+        if isinstance(widget, Canvas):
+            widget._place(x=origin_x+x, y=origin_y+y)
+        else:
+            widget.place(x=origin_x+x, y=origin_y+y)
     elif isinstance(master, Canvas) and isinstance(widget, _BaseWidget):
         # 父控件：Canvas
         # 子控件：_BaseWidget
@@ -1522,7 +1530,7 @@ def _test():
               if askyesno('提示', '是否退出?') else None)
     # 【创建并放置画布（界面）】
     canvas_1 = Canvas(root, 960, 540)
-    canvas_2 = Canvas(root, 960, 540)
+    canvas_2 = Canvas(root, 960, 540, bg='lightyellow')
     canvas_1.place(x=0, y=0)
     canvas_2.place(x=-960, y=0)
 
@@ -1559,8 +1567,8 @@ def _test():
         command=lambda: move_widget(canvas_1, label2, 0, -120 * canvas_1.rate_y, 0.25, 'smooth'))
     CanvasButton(
         canvas_1, 165, 500, 120, 30, 0, '切换界面',
-        command=lambda: (move_widget(root, canvas_1, 960, 0, 0.25, 'smooth'),
-                         move_widget(root, canvas_2, 960, 0, 0.25, 'smooth')))
+        command=lambda: (move_widget(root, canvas_1, 960*canvas_1.rate_x, 0, 0.25, 'smooth'),
+                         move_widget(root, canvas_2, 960*canvas_2.rate_x, 0, 0.25, 'smooth')))
     CanvasEntry(canvas_1, 200, 50, 200, 25, 5,
                 ('居中圆角输入框', '点击输入'), justify='center')
     CanvasEntry(canvas_1, 200, 100, 200, 25, 0,
@@ -1574,16 +1582,19 @@ def _test():
 
     CanvasButton(
         canvas_2, 830, 500, 120, 30, 0, '切换界面',
-        command=lambda: (move_widget(root, canvas_1, -960, 0, 0.25, 'smooth'),
-                         move_widget(root, canvas_2, -960, 0, 0.25, 'smooth')))
+        command=lambda: (move_widget(root, canvas_1, -960*canvas_1.rate_x, 0, 0.25, 'smooth'),
+                         move_widget(root, canvas_2, -960*canvas_2.rate_x, 0, 0.25, 'smooth')))
 
-    canvas_2.create_text(480, 270, text=__doc__,
-                         font=('楷体', 12), justify='center')
+    canvas_2.create_text(340, 270, text=__doc__, font=('楷体', 12))
 
     # 【最后一笔：消息事件循环】
     root.mainloop()
 
 
 if __name__ == '__main__':
-    print(__doc__)
     _test()
+
+"""
+BUG: 2022/11/17
+1. setlock的是否有用得到质疑，lock疑似无用
+"""
