@@ -18,7 +18,7 @@
 还有更多功能及用法，见模块使用教程（链接在下面）
 ### 模块基本信息
 * 模块作者: 小康2022
-* 模块版本: 2.4.13
+* 模块版本: 2.4.14
 * 上次更新: 2022/11/17
 ### 模块精华速览
 * 容器类控件: `Tk`、`Toplevel`、`Canvas`
@@ -36,7 +36,7 @@ from sys import version_info
 from typing import Generator, Literal
 
 __author__ = '小康2022'
-__version__ = '2.4.13'
+__version__ = '2.4.14'
 __all__ = (
     'Tk',
     'Toplevel',
@@ -163,21 +163,10 @@ class Tk(tkinter.Tk):
                     canvas.rate_x = event.width / canvas.width
                     canvas.rate_y = event.height / canvas.height
 
-                    # 相对缩放度
-                    rate_x = event.width / self._width
-                    rate_y = event.height / self._height
-
                     # 相对缩放对所有Canvas生效
                     self.zoom_relative(
-                        canvas, rate_x, rate_y)
+                        canvas, event.width / self._width, event.height / self._height)
                     if canvas.lock:
-                        # 缩放画布的大小
-                        info = canvas.place_info()
-                        canvas._place(x=round(float(info['x'])*rate_x),
-                                      y=round(float(info['y'])*rate_y),
-                                      width=canvas.width*canvas.rate_x,
-                                      height=canvas.height*canvas.rate_y)
-
                         # 绝对缩放仅对当前Canvas生效
                         self.zoom_absolute(canvas)
 
@@ -190,6 +179,14 @@ class Tk(tkinter.Tk):
                       rate_x: float,
                       rate_y: float):
         """ 内部方法：相对缩放 """
+        # 更新画布位置
+        if canvas.lock:
+            info = canvas.place_info()
+            tkinter.Canvas.place(
+                canvas,
+                x=round(float(info['x'])*rate_x),
+                y=round(float(info['y'])*rate_y))
+
         # 更新子画布控件的子虚拟画布控件位置数据
         for widget in canvas.widget_list:
             widget.x1 *= rate_x
@@ -207,6 +204,13 @@ class Tk(tkinter.Tk):
     def zoom_absolute(canvas  # type: Canvas
                       ):
         """ 内部方法：绝对缩放 """
+        # 缩放画布
+        tkinter.Canvas.place(
+            canvas,
+            width=canvas.width*canvas.rate_x,
+            height=canvas.height*canvas.rate_y)
+
+        # 缩放控件
         for item, key in canvas.item_dict.items():
             if key[0] == 'font':  # BUG: 字体缩小时有 bug
                 # 字体大小修改
@@ -455,6 +459,7 @@ class Canvas(tkinter.Canvas):
         self.master: Tk
         if self.lock and self.expand:
             self.master.zoom_absolute(self)
+            # self.master.zoom_canvas(self, )
 
     def create_text(self, *args, **kw):
         # 重写：添加对 text 类型的 _CanvasItemId 的字体大小的控制
@@ -524,12 +529,8 @@ class Canvas(tkinter.Canvas):
 
     def place(self, *args, **kw) -> None:
         # 重写：增加一些特定功能
-        kw['width'] = self.width = kw.get('wdith', self.width)
-        kw['height'] = self.height = kw.get('height', self.height)
-        return tkinter.Canvas.place(self, *args, **kw)
-
-    def _place(self, *args, **kw) -> None:
-        """ 原 place 方法，避免重名 """
+        self.width = kw.get('wdith', self.width)
+        self.height = kw.get('height', self.height)
         return tkinter.Canvas.place(self, *args, **kw)
 
 
@@ -1435,10 +1436,7 @@ def move_widget(
         # 子控件：tkinter控件
         origin_x = int(widget.place_info()['x'])
         origin_y = int(widget.place_info()['y'])
-        if isinstance(widget, Canvas):
-            widget._place(x=origin_x+x, y=origin_y+y)
-        else:
-            widget.place(x=origin_x+x, y=origin_y+y)
+        widget.place(x=origin_x+x, y=origin_y+y)
     elif isinstance(master, Canvas) and isinstance(widget, _BaseWidget):
         # 父控件：Canvas
         # 子控件：_BaseWidget
@@ -1567,8 +1565,8 @@ def _test():
         command=lambda: move_widget(canvas_1, label2, 0, -120 * canvas_1.rate_y, 0.25, 'smooth'))
     CanvasButton(
         canvas_1, 165, 500, 120, 30, 0, '切换界面',
-        command=lambda: (move_widget(root, canvas_1, 960*canvas_1.rate_x, 0, 0.25, 'smooth'),
-                         move_widget(root, canvas_2, 960*canvas_2.rate_x, 0, 0.25, 'smooth')))
+        command=lambda: (move_widget(root, canvas_1, 960*canvas_1.rate_x, 0, 0.3, 'shake'),
+                         move_widget(root, canvas_2, 960*canvas_2.rate_x, 0, 0.3, 'shake')))
     CanvasEntry(canvas_1, 200, 50, 200, 25, 5,
                 ('居中圆角输入框', '点击输入'), justify='center')
     CanvasEntry(canvas_1, 200, 100, 200, 25, 0,
@@ -1582,8 +1580,8 @@ def _test():
 
     CanvasButton(
         canvas_2, 830, 500, 120, 30, 0, '切换界面',
-        command=lambda: (move_widget(root, canvas_1, -960*canvas_1.rate_x, 0, 0.25, 'smooth'),
-                         move_widget(root, canvas_2, -960*canvas_2.rate_x, 0, 0.25, 'smooth')))
+        command=lambda: (move_widget(root, canvas_1, -960*canvas_1.rate_x, 0, 0.3, 'shake'),
+                         move_widget(root, canvas_2, -960*canvas_2.rate_x, 0, 0.3, 'shake')))
 
     canvas_2.create_text(340, 270, text=__doc__, font=('楷体', 12))
 
@@ -1593,8 +1591,3 @@ def _test():
 
 if __name__ == '__main__':
     _test()
-
-"""
-BUG: 2022/11/17
-1. setlock的是否有用得到质疑，lock疑似无用
-"""
