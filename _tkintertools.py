@@ -1,42 +1,43 @@
 """
-## tkintertools
-运行最低要求: Python3.10
+tkintertools
+============
+Minimum Requirement: Python3.10
 
-这个模块是tkinter模块的扩展模块，将给用户提供以下功能：
+Provides:
+1. Transparent, rounded and customized widgets
+2. Automatic control of picture size and widget size
+3. Scalable png pictures and playable gif pictures
+4. Regular mobile widgets and canvas interfaces
+5. Gradient color and directional conversion color
+6. Text with controllable length and alignment
 
-1. 可透明的、可自定义的、美观的控件
-2. 让控件大小、图像大小、图形大小均随窗口动态变化的功能
-3. 缩放png图片的功能、播放gif图片的功能
-4. 对控件基本的移动位置操作，形成简单的动画
-5. 对颜色的一些处理，便捷地产生渐变色
-6. 对文本的基础处理，控制长度及位置
-7. 用Place实现复杂的布局，控件位置精准控制
-8. 实现圆角化控件
-9. 实现界面简单的动画切换
-10. ...
+Base Information
+----------------
+* Author: XiaoKang2022<2951256653@qq.com>
+* Version: 2.4.15
+* Update: 2022/11/18
 
-还有更多功能及用法，见模块使用教程（链接在下面）
-### 模块基本信息
-* 模块作者: 小康2022
-* 模块版本: 2.4.14
-* 上次更新: 2022/11/17
-### 模块精华速览
-* 容器类控件: `Tk`、`Toplevel`、`Canvas`
-* 工具类: `PhotoImage`
-* 虚拟画布类控件: `CanvasLabel`、`CanvasButton`、`CanvasEntry`、`CanvasText`
-* 处理函数: `move_widget`、`correct_text`、`gradient_color`
-### 更多详细内容
-* 模块源码地址: https://gitcode.net/weixin_62651706/tkintertools
-* 模块使用教程: https://xiaokang2022.blog.csdn.net/article/details/127374661
-* 模块相关专栏: https://blog.csdn.net/weixin_62651706/category_11600888.html
+Contents
+--------
+* Container Widget: `Tk`, `Toplevel`, `Canvas`
+* Virtual Canvas Widget: `CanvasLabel`, `CanvasButton`, `CanvasEntry`, `CanvasText`
+* Tool Class: `PhotoImage`
+* Tool Function: `move_widget`, `correct_text`, `gradient_color`
+
+More
+----
+* GitHub: https://github.com/392126563/tkintertools
+* GitCode: https://gitcode.net/weixin_62651706/tkintertools
+* Column: https://blog.csdn.net/weixin_62651706/category_11600888.html
+* Tutorials: https://xiaokang2022.blog.csdn.net/article/details/127374661
 """
 
 import tkinter
 from sys import version_info
 from typing import Generator, Literal
 
-__author__ = '小康2022'
-__version__ = '2.4.14'
+__author__ = 'XiaoKang2022'
+__version__ = '2.4.15'
 __all__ = (
     'Tk',
     'Toplevel',
@@ -52,10 +53,7 @@ __all__ = (
 )
 
 if version_info < (3, 10):
-    # 版本检测，符合要求的才可以使用哦
-    print('\033[31m你的Python无法正常使用tkintertools模块！\033[0m')
-    print('\a模块运行最低要求\033[32mPython3.10\033[0m')
-    exit()
+    raise RuntimeError('\033[36mPython version is too low!\033[0m\a')
 
 
 COLOR_FILL_BUTTON = '#E1E1E1', '#E5F1FB', '#CCE4F7', '#F0F0F0'      # 默认的按钮内部颜色
@@ -75,8 +73,7 @@ RADIUS = 0          # 默认控件圆角半径
 
 class Tk(tkinter.Tk):
     """
-    Tk类
-
+    ### Tk类
     用于集中处理 `Canvas` 绑定的关联事件以及缩放操作
     """
 
@@ -195,7 +192,7 @@ class Tk(tkinter.Tk):
             widget.y2 *= rate_y
 
         # 更新子画布控件的子虚拟画布控件的位置
-        for item in canvas.item_dict.keys():
+        for item in canvas.item_dict:
             coords = [c * rate_y if i % 2 else c * rate_x for i,
                       c in enumerate(canvas.coords(item))]
             canvas.coords(item, coords)
@@ -215,8 +212,8 @@ class Tk(tkinter.Tk):
             if key[0] == 'font':  # BUG: 字体缩小时有 bug
                 # 字体大小修改
                 font: str = canvas.itemcget(item, 'font')
-                font = font.split()
-                if font:  # NOTE: 不加if判断会有 bug
+                if font:
+                    font = font.split()
                     font[1] = int(key[1] * min(canvas.rate_x, canvas.rate_y))
                     canvas.itemconfigure(item, font=font)
             elif key[0] == 'width':
@@ -259,8 +256,8 @@ class Tk(tkinter.Tk):
             for widget in canvas.widget_list:
                 if isinstance(widget, CanvasButton):
                     if widget.live:
-                        widget.execute(event)
                         widget.touch(event)
+                        widget.execute(event)
 
     @staticmethod
     def __mousewheel(event: tkinter.Event,
@@ -334,8 +331,7 @@ class Tk(tkinter.Tk):
 
 class Toplevel(tkinter.Toplevel, Tk):
     """
-    Toplevel 类
-
+    ### Toplevel 类
     用法类似于原 tkinter 模块里的 Toplevel，
     同时增加了 Tk 的功能
     """
@@ -404,8 +400,7 @@ class Toplevel(tkinter.Toplevel, Tk):
 
 class Canvas(tkinter.Canvas):
     """
-    画布类
-
+    ### 画布类
     用于承载虚拟的画布控件
     """
 
@@ -463,8 +458,10 @@ class Canvas(tkinter.Canvas):
 
     def create_text(self, *args, **kw):
         # 重写：添加对 text 类型的 _CanvasItemId 的字体大小的控制
-        if not kw.get('font'):
+        if not (_ := kw.get('font')):
             kw['font'] = ('楷体', 10)  # 默认字体
+        elif type(_) == str:
+            kw['font'] = (_, 10)
         item = tkinter.Canvas.create_text(self, *args, **kw)
         self.item_dict[item] = 'font', kw['font'][1]
         return item
@@ -765,19 +762,18 @@ class _BaseWidget:
     def destroy(self) -> None:
         """ 摧毁控件释放内存 """
         self.live = False
+        self.master.widget_list.remove(self)
+
         if self.radius:
             for item in self.inside+self.outside:
                 self.master.delete(item)
         else:
             self.master.delete(self.rect)
-        self.master.delete(self.text)
+        if isinstance(self, _TextWidget):
+            self.master.delete(self.cursor)
         if isinstance(self, CanvasText):
             self.master.delete(self._text)
-
-        try:
-            self.master.widget_list.remove(self)  # NOTE: 如果删掉try会有奇怪的 bug
-        except:
-            pass
+        self.master.delete(self.text)
 
     def set_live(self, boolean: bool | None = None) -> bool | None:
         """ 设定或查询live值 """
@@ -789,16 +785,15 @@ class _BaseWidget:
                 self.state('normal')
             else:
                 self.state('disabled')
-                if isinstance(self, CanvasText):
-                    self.scrollbar.configure(
-                        color_fill=COLOR_NONE,
-                        color_outline=COLOR_NONE)
+                # if isinstance(self, CanvasText):
+                #     self.scrollbar.configure(
+                #         color_fill=COLOR_NONE,
+                #         color_outline=COLOR_NONE)
 
 
 class CanvasLabel(_BaseWidget):
     """
-    虚拟画布标签控件
-
+    ### 虚拟画布标签控件
     创建一个虚拟的标签控件，用于显示少量文本
     """
 
@@ -829,8 +824,7 @@ class CanvasLabel(_BaseWidget):
 
 class CanvasButton(_BaseWidget):
     """
-    虚拟画布按钮控件
-
+    ### 虚拟画布按钮控件
     创建一个虚拟的按钮，并执行关联函数
     """
 
@@ -1014,8 +1008,7 @@ class _TextWidget(_BaseWidget):
 
 class CanvasEntry(_TextWidget):
     """
-    虚拟画布输入框控件
-
+    ### 虚拟画布输入框控件
     创建一个虚拟的输入框控件，可输入单行少量字符，并获取这些字符
     """
 
@@ -1103,12 +1096,12 @@ class CanvasEntry(_TextWidget):
             else:
                 break
 
-        # 当窗口扩大时，可能出现过短 BUG
+        # BUG: 当窗口扩大再缩小时，可能出现过短情况
 
 
 class CanvasText(_TextWidget):
-    """虚拟画布文本框类
-
+    """
+    ### 虚拟画布文本框类
     创建一个透明的虚拟文本框，
     用于输入多行文本和显示多行文本（只读模式）
     """
@@ -1150,6 +1143,7 @@ class CanvasText(_TextWidget):
                                         font=font,
                                         fill=color_text[0])
 
+        # TODO: 待写
         # # 滚动条
         # if radius:
         #     self.scrollbar = CanvasButton(
@@ -1290,13 +1284,13 @@ class CanvasText(_TextWidget):
 
     def scroll(self, event: tkinter.Event) -> None:
         """ 文本滚动 """
+        # TODO: 待写
         # if self.value != self.value_surface:
         #     if event.delta > 0:
         #         # 滚轮向上滑动，文本下移
         #         text = self.master.itemcget(self.text, 'text')
         #         _ = text.rsplit('\n', 1)[-1]
         #         self.master.itemconfigure(self._text, text=_)
-        #         # TODO
         #     else:
         #         pass
 
@@ -1381,7 +1375,7 @@ def move_widget(
     dx: int,
     dy: int,
     times: float,
-    mode,  # type: Literal['smooth','shake','flat'] | tuple
+    mode,  # type: Literal['smooth','rebound','flat'] | tuple
     _x: int = 0,
     _y: int = 0,
     _ind: int = 0
@@ -1398,8 +1392,8 @@ def move_widget(
     `mode`: 移动速度模式，为以下三种，
     或者为 (函数, 起始值, 终止值) 的形式，
     或者为一个长度等于20的，总和为100的元组
-    1. `smooth`: 速度先慢后快再慢（Sin函数模式，0~π）
-    2. `shake`: 和 smooth 一样，但是最后会回弹一下（Cos函数模式，0~0.6π）
+    1. `smooth`: 速度先慢后快再慢 (Sin, 0, π)
+    2. `rebound`: 和 smooth 一样，但是最后会回弹一下 (Cos, 0, 0.6π)
     3. `flat`: 匀速平移
     """
 
@@ -1410,7 +1404,7 @@ def move_widget(
     elif mode == 'smooth':
         # 流畅模式
         v = 0, 1, 3, 4, 5, 6, 7, 8, 8, 8, 8, 8, 8, 7, 6, 5, 4, 3, 1, 0
-    elif mode == 'shake':
+    elif mode == 'rebound':
         # 抖动模式
         v = 11, 11, 10, 10, 10, 9, 9, 8, 7, 6, 6, 5, 4, 3, 1, 0, -1, -2, -3, -4
     elif mode == 'flat':
@@ -1458,7 +1452,7 @@ def correct_text(
     position: Literal['left', 'center', 'right'] = 'center'
 ) -> str:
     """
-    ### 修正字符串长度
+    ### 文本控制函数
     可将目标字符串改为目标长度并居中对齐，ASCII码字符算1个长度，中文及其他字符算2个
     #### 参数说明
     `length`: 目标长度
@@ -1519,75 +1513,84 @@ def gradient_color(
     return '#%0*X' % (6 if key == 256 else 3, RGB)
 
 
-def _test():
+def test():
     """ 测试函数 """
     from tkinter.messagebox import askyesno
+    from random import randint
 
-    # 【创建窗口】
-    root = Tk('测试程序', '960x540', alpha=0.9, shutdown=lambda: root.destroy()
-              if askyesno('提示', '是否退出?') else None)
-    # 【创建并放置画布（界面）】
-    canvas_1 = Canvas(root, 960, 540)
-    canvas_2 = Canvas(root, 960, 540, bg='lightyellow')
-    canvas_1.place(x=0, y=0)
-    canvas_2.place(x=-960, y=0)
+    def shutdown():
+        """ 关闭窗口 """
+        if askyesno('提示', '是否退出测试程序?'):
+            root.destroy()
 
-    # 【以下内容为 canvas_1 的界面】
+    def change_bg(ind=0, color=[None, '#E9E9CD']):
+        """ 背景变幻 """
+        if not ind:
+            color[0], color[1] = color[1], '#%06X' % randint(0, 16777216)
+        canvas_doc.configure(bg=gradient_color(color, ind))
+        root.after(20, change_bg, 0 if ind >= 1 else ind+0.01)
+
+    root = Tk('Test', '960x540', alpha=0.9, shutdown=shutdown)
+
+    canvas_home = Canvas(root, 960, 540)
+    canvas_doc = Canvas(root, 960, 540, bg='lightyellow')
+    canvas_home.place(x=0, y=0)
+    canvas_doc.place(x=-960, y=0)
 
     for i in range(100):
         color = gradient_color(('#FFFFFF', '#000000'), i/100)
-        canvas_1.create_oval(
+        canvas_home.create_oval(
             466-i/3, 66-i/3, 566+i, 166+i,
             outline=color, width=2.5, fill=NULL if i else '#FFF')
 
     try:
         image = PhotoImage('tkinter.png')
-        canvas_1.create_image(830, 150, image=image)
+        canvas_home.create_image(830, 150, image=image)
     except:
         print('\033[31m啊哦！你没有示例图片喏……\033[0m')
 
-    label1 = CanvasLabel(canvas_1,
-                         700 * canvas_1.rate_x, 550 * canvas_1.rate_y,
-                         250 * canvas_1.rate_x, 100 * canvas_1.rate_y,
-                         10, '圆角标签\n移动模式:shake',
-                         font=('楷体', round(15 * canvas_1.rate_x)))
-    label2 = CanvasLabel(canvas_1,
-                         430 * canvas_1.rate_x, 550 * canvas_1.rate_y,
-                         250 * canvas_1.rate_x, 100 * canvas_1.rate_y,
+    label1 = CanvasLabel(canvas_home,
+                         700 * canvas_home.rate_x, 550 * canvas_home.rate_y,
+                         250 * canvas_home.rate_x, 100 * canvas_home.rate_y,
+                         10, '圆角标签\n移动模式:rebound',
+                         font=('楷体', round(15 * canvas_home.rate_x)))
+    label2 = CanvasLabel(canvas_home,
+                         430 * canvas_home.rate_x, 550 * canvas_home.rate_y,
+                         250 * canvas_home.rate_x, 100 * canvas_home.rate_y,
                          0, '方角标签\n移动模式:smooth',
-                         font=('楷体', round(15 * canvas_1.rate_x)))
+                         font=('楷体', round(15 * canvas_home.rate_x)))
 
     CanvasButton(
-        canvas_1, 50, 50, 120, 25, 5, '圆角按钮',
-        command=lambda: move_widget(canvas_1, label1, 0, -120 * canvas_1.rate_y, 0.25, 'shake'))
+        canvas_home, 50, 50, 120, 25, 5, '圆角按钮',
+        command=lambda: move_widget(canvas_home, label1, 0, -120 * canvas_home.rate_y, 0.25, 'rebound'))
     CanvasButton(
-        canvas_1, 50, 100, 120, 25, 0, '方角按钮',
-        command=lambda: move_widget(canvas_1, label2, 0, -120 * canvas_1.rate_y, 0.25, 'smooth'))
+        canvas_home, 50, 100, 120, 25, 0, '方角按钮',
+        command=lambda: move_widget(canvas_home, label2, 0, -120 * canvas_home.rate_y, 0.25, 'smooth'))
     CanvasButton(
-        canvas_1, 165, 500, 120, 30, 0, '切换界面',
-        command=lambda: (move_widget(root, canvas_1, 960*canvas_1.rate_x, 0, 0.3, 'shake'),
-                         move_widget(root, canvas_2, 960*canvas_2.rate_x, 0, 0.3, 'shake')))
-    CanvasEntry(canvas_1, 200, 50, 200, 25, 5,
+        canvas_home, 165, 500, 120, 30, 0, '模块文档',
+        command=lambda: (move_widget(root, canvas_home, 960*canvas_home.rate_x, 0, 0.3, 'rebound'),
+                         move_widget(root, canvas_doc, 960*canvas_doc.rate_x, 0, 0.3, 'rebound')))
+    CanvasEntry(canvas_home, 200, 50, 200, 25, 5,
                 ('居中圆角输入框', '点击输入'), justify='center')
-    CanvasEntry(canvas_1, 200, 100, 200, 25, 0,
+    CanvasEntry(canvas_home, 200, 100, 200, 25, 0,
                 ('靠右方角输入框', '点击输入'), '•')
-    CanvasText(canvas_1, 50, 150, 350, 150, 10,
+    CanvasText(canvas_home, 50, 150, 350, 150, 10,
                ('居中圆角文本框', '点击输入'), justify='center')
-    CanvasText(canvas_1, 50, 340, 350, 150, 0,
+    CanvasText(canvas_home, 50, 340, 350, 150, 0,
                ('靠右方角文本框', '点击输入'), cursor=' _')
 
-    # 【以下内容为 canvas_2 的界面】
-
     CanvasButton(
-        canvas_2, 830, 500, 120, 30, 0, '切换界面',
-        command=lambda: (move_widget(root, canvas_1, -960*canvas_1.rate_x, 0, 0.3, 'shake'),
-                         move_widget(root, canvas_2, -960*canvas_2.rate_x, 0, 0.3, 'shake')))
+        canvas_doc, 830, 500, 120, 30, 0, '返回主页',
+        command=lambda: (move_widget(root, canvas_home, -960*canvas_home.rate_x, 0, 0.3, 'rebound'),
+                         move_widget(root, canvas_doc, -960*canvas_doc.rate_x, 0, 0.3, 'rebound')))
 
-    canvas_2.create_text(340, 270, text=__doc__, font=('楷体', 12))
+    bg = CanvasButton(canvas_doc, 830, 10, 120, 30, 0, '背景变幻',
+                      command=lambda: (change_bg(), bg.set_live(False)))
 
-    # 【最后一笔：消息事件循环】
+    canvas_doc.create_text(360, 270, text=__doc__, font=('楷体', 12))
+
     root.mainloop()
 
 
 if __name__ == '__main__':
-    _test()
+    test()
