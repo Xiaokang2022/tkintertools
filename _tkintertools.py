@@ -14,7 +14,7 @@ Provides:
 Base Information
 ----------------
 * Author: XiaoKang2022<2951256653@qq.com>
-* Version: 2.4.15
+* Version: 2.5
 * Update: 2022/11/18
 
 Contents
@@ -37,7 +37,7 @@ from sys import version_info
 from typing import Generator, Literal
 
 __author__ = 'XiaoKang2022'
-__version__ = '2.4.15'
+__version__ = '2.5'
 __all__ = (
     'Tk',
     'Toplevel',
@@ -85,7 +85,7 @@ class Tk(tkinter.Tk):
         alpha: float | None = None,
         proportion_lock: bool = False,
         shutdown=None,  # type: function | None
-        *args, **kw
+        **kw
     ) -> None:
         """
         ### 参数说明
@@ -94,8 +94,8 @@ class Tk(tkinter.Tk):
         `minisize`: 窗口的最小缩放大小（默认为参数 geometry 的宽度与高度）
         `alpha`: 窗口透明度，范围为0~1，0为完全透明
         `proportion_lock`: 窗口缩放是否保持原比例
-        `shutdown`: 关闭窗口之前执行的函数（会覆盖关闭操作）
-        `*args`, `**kw`: 与原 tkinter 模块中的 Tk 类的参数相同
+        `shutdown`: 关闭窗口之前执行的函数（会覆盖原关闭操作）
+        `**kw`: 与原 tkinter 模块中的 Tk 类的参数相同
         """
 
         self.proportion_lock = proportion_lock
@@ -114,7 +114,7 @@ class Tk(tkinter.Tk):
         # 子画布列表（与缩放绑定有关）
         self.canvas_list: list[Canvas] = []
 
-        tkinter.Tk.__init__(self, *args, **kw)
+        tkinter.Tk.__init__(self, **kw)
 
         if geometry:
             self.geometry(geometry)
@@ -172,9 +172,11 @@ class Tk(tkinter.Tk):
             self._height = event.height
 
     @staticmethod
-    def zoom_relative(canvas,  # type: Canvas
-                      rate_x: float,
-                      rate_y: float):
+    def zoom_relative(
+        canvas,  # type: Canvas
+        rate_x: float,
+        rate_y: float
+    ) -> None:
         """ 内部方法：相对缩放 """
         # 更新画布位置
         if canvas.lock:
@@ -198,8 +200,9 @@ class Tk(tkinter.Tk):
             canvas.coords(item, coords)
 
     @staticmethod
-    def zoom_absolute(canvas  # type: Canvas
-                      ):
+    def zoom_absolute(
+        canvas  # type: Canvas
+    ) -> None:
         """ 内部方法：绝对缩放 """
         # 缩放画布
         tkinter.Canvas.place(
@@ -227,9 +230,10 @@ class Tk(tkinter.Tk):
                     canvas.itemconfigure(item, image=key[2])
 
     @staticmethod
-    def __touch(event: tkinter.Event,
-                canvas  # type: Canvas
-                ) -> None:
+    def __touch(
+        event: tkinter.Event,
+        canvas  # type: Canvas
+    ) -> None:
         """ 绑定鼠标触碰控件事件 """
         if canvas.lock:
             for widget in canvas.widget_list:
@@ -237,9 +241,10 @@ class Tk(tkinter.Tk):
                     widget.touch(event)
 
     @staticmethod
-    def __press(event: tkinter.Event,
-                canvas  # type: Canvas
-                ) -> None:
+    def __press(
+        event: tkinter.Event,
+        canvas  # type: Canvas
+    ) -> None:
         """ 绑定鼠标左键按下事件 """
         if canvas.lock:
             for widget in canvas.widget_list:
@@ -248,9 +253,10 @@ class Tk(tkinter.Tk):
                         widget.press(event)
 
     @staticmethod
-    def __release(event: tkinter.Event,
-                  canvas  # type: Canvas
-                  ) -> None:
+    def __release(
+        event: tkinter.Event,
+        canvas  # type: Canvas
+    ) -> None:
         """ 绑定鼠标左键松开事件 """
         if canvas.lock:
             for widget in canvas.widget_list:
@@ -260,9 +266,10 @@ class Tk(tkinter.Tk):
                         widget.execute(event)
 
     @staticmethod
-    def __mousewheel(event: tkinter.Event,
-                     canvas  # type: Canvas
-                     ) -> None:
+    def __mousewheel(
+        event: tkinter.Event,
+        canvas  # type: Canvas
+    ) -> None:
         """ 绑定鼠标滚轮滚动事件 """
         if canvas.lock:
             for widget in canvas.widget_list:
@@ -314,7 +321,7 @@ class Tk(tkinter.Tk):
             canvas.bind('<MouseWheel>', lambda event,
                         _=canvas: self.__mousewheel(event, _))
 
-    def geometry(self, newGeometry: str | None = None):
+    def geometry(self, newGeometry: str | None = None) -> str | None:
         # 重写：添加修改初始宽高值的功能
         if newGeometry:
             self.width, self.height = map(
@@ -345,7 +352,7 @@ class Toplevel(tkinter.Toplevel, Tk):
         alpha: float | None = None,
         proportion_lock: bool = False,
         shutdown=None,  # type: function | None
-        *args, **kw
+        **kw
     ) -> None:
         """
         ### 参数说明
@@ -356,7 +363,7 @@ class Toplevel(tkinter.Toplevel, Tk):
         `alpha`: 窗口透明度，范围为0~1，0为完全透明
         `proportion_lock`: 窗口缩放是否保持原比例
         `shutdown`: 关闭窗口之前执行的函数（会覆盖关闭操作）
-        `*args`, `**kw`: 与原 tkinter 模块中的 Toplevel 类的参数相同
+        `**kw`: 与原 tkinter 模块中的 Toplevel 类的参数相同
         """
 
         self.master = master
@@ -376,7 +383,7 @@ class Toplevel(tkinter.Toplevel, Tk):
         # 子画布列表（与缩放绑定有关）
         self.canvas_list: list[Canvas] = []
 
-        tkinter.Toplevel.__init__(self, master=master, *args, **kw)
+        tkinter.Toplevel.__init__(self, master=master, **kw)
 
         if geometry:
             self.geometry(geometry)
@@ -437,18 +444,13 @@ class Canvas(tkinter.Canvas):
         # 子item列表（与大小缩放有关）
         self.item_dict = {}  # type: dict[tkinter._CanvasItemId, tuple | list]
 
-        tkinter.Canvas.__init__(
-            self,
-            master,
-            width=width,
-            height=height,
-            highlightthickness=0,
-            **kw)
+        tkinter.Canvas.__init__(self, master, width=width,
+                                height=height, highlightthickness=0, **kw)
 
         # 将实例添加到 Tk 的画布列表中
         master.canvas_list.append(self)
 
-    def setlock(self, boolean: bool):
+    def setlock(self, boolean: bool) -> None:
         """ 设置画布锁 """
         self.lock = boolean
         self.master: Tk
@@ -785,6 +787,7 @@ class _BaseWidget:
                 self.state('normal')
             else:
                 self.state('disabled')
+                # TODO
                 # if isinstance(self, CanvasText):
                 #     self.scrollbar.configure(
                 #         color_fill=COLOR_NONE,
@@ -797,20 +800,22 @@ class CanvasLabel(_BaseWidget):
     创建一个虚拟的标签控件，用于显示少量文本
     """
 
-    def __init__(self,
-                 canvas: Canvas,
-                 x: int,
-                 y: int,
-                 width: int,
-                 height: int,
-                 radius: int = RADIUS,
-                 text: str = NULL,
-                 borderwidth: int = BORDERWIDTH,
-                 justify: str = tkinter.CENTER,
-                 font: tuple[str, int, str] = FONT,
-                 color_text: tuple[str, str, str] = COLOR_TEXT,
-                 color_fill: tuple[str, str, str] = COLOR_FILL_BUTTON,
-                 color_outline: tuple[str, str, str] = COLOR_OUTLINE_BUTTON) -> None:
+    def __init__(
+        self,
+        canvas: Canvas,
+        x: int,
+        y: int,
+        width: int,
+        height: int,
+        radius: int = RADIUS,
+        text: str = NULL,
+        borderwidth: int = BORDERWIDTH,
+        justify: str = tkinter.CENTER,
+        font: tuple[str, int, str] = FONT,
+        color_text: tuple[str, str, str] = COLOR_TEXT,
+        color_fill: tuple[str, str, str] = COLOR_FILL_BUTTON,
+        color_outline: tuple[str, str, str] = COLOR_OUTLINE_BUTTON
+    ) -> None:
         _BaseWidget.__init__(self, canvas, x, y, width, height, radius, text, justify,
                              borderwidth, font, color_text, color_fill, color_outline)
 
@@ -828,21 +833,23 @@ class CanvasButton(_BaseWidget):
     创建一个虚拟的按钮，并执行关联函数
     """
 
-    def __init__(self,
-                 canvas: Canvas,
-                 x: int,
-                 y: int,
-                 width: int,
-                 height: int,
-                 radius: int = RADIUS,
-                 text: str = NULL,
-                 borderwidth: int = BORDERWIDTH,
-                 justify: str = tkinter.CENTER,
-                 font: tuple[str, int, str] = FONT,
-                 command=None,  # type: function | None
-                 color_text: tuple[str, str, str] = COLOR_TEXT,
-                 color_fill: tuple[str, str, str] = COLOR_FILL_BUTTON,
-                 color_outline: tuple[str, str, str] = COLOR_OUTLINE_BUTTON) -> None:
+    def __init__(
+        self,
+        canvas: Canvas,
+        x: int,
+        y: int,
+        width: int,
+        height: int,
+        radius: int = RADIUS,
+        text: str = NULL,
+        borderwidth: int = BORDERWIDTH,
+        justify: str = tkinter.CENTER,
+        font: tuple[str, int, str] = FONT,
+        command=None,  # type: function | None
+        color_text: tuple[str, str, str] = COLOR_TEXT,
+        color_fill: tuple[str, str, str] = COLOR_FILL_BUTTON,
+        color_outline: tuple[str, str, str] = COLOR_OUTLINE_BUTTON
+    ) -> None:
         _BaseWidget.__init__(self, canvas, x, y, width, height, radius, text, justify,
                              borderwidth, font, color_text, color_fill, color_outline)
         self.command = command
@@ -904,10 +911,10 @@ class _TextWidget(_BaseWidget):
         # 鼠标左键按下标志
         self._press = False
 
-        if type(text) == tuple:
-            self.value_normal, self.value_touch = text
+        if type(text) == str:
+            self.value_normal, self.value_touch = text, NULL
         else:
-            self.value_normal = text
+            self.value_normal, self.value_touch = text
 
         _BaseWidget.__init__(self, canvas, x, y, width, height, radius, NULL, justify,
                              borderwidth, font, color_text, color_fill, color_outline)
@@ -943,8 +950,10 @@ class _TextWidget(_BaseWidget):
         else:
             self.press_off()
 
-    def touch(self,  # type: CanvasEntry | CanvasText
-              event: tkinter.Event) -> None:
+    def touch(
+        self,  # type: CanvasEntry | CanvasText
+        event: tkinter.Event
+    ) -> None:
         """ 触碰状态检测 """
         if self.x1 <= event.x <= self.x2 and self.y1 <= event.y <= self.y2:
             self.touch_on()
@@ -1012,29 +1021,26 @@ class CanvasEntry(_TextWidget):
     创建一个虚拟的输入框控件，可输入单行少量字符，并获取这些字符
     """
 
-    def __init__(self,
-                 canvas: Canvas,
-                 x: int,
-                 y: int,
-                 width: int,
-                 height: int,
-                 radius: int = RADIUS,
-                 text: tuple[str] | str = NULL,
-                 show: str | None = None,
-                 limit: int = LIMIT,
-                 space: bool = False,
-                 cursor: str = CURSOR,
-                 borderwidth: int = BORDERWIDTH,
-                 justify: str = tkinter.LEFT,
-                 font: tuple[str, int, str] = FONT,
-                 color_text: tuple[str, str, str] = COLOR_TEXT,
-                 color_fill: tuple[str, str, str] = COLOR_FILL_TEXT,
-                 color_outline: tuple[str, str, str] = COLOR_OUTLINE_TEXT) -> None:
-        if type(text) == str:
-            text = text, NULL
-        elif type(text) == None:
-            text = NULL, NULL
-
+    def __init__(
+        self,
+        canvas: Canvas,
+        x: int,
+        y: int,
+        width: int,
+        height: int,
+        radius: int = RADIUS,
+        text: tuple[str] | str = NULL,
+        show: str | None = None,
+        limit: int = LIMIT,
+        space: bool = False,
+        cursor: str = CURSOR,
+        borderwidth: int = BORDERWIDTH,
+        justify: str = tkinter.LEFT,
+        font: tuple[str, int, str] = FONT,
+        color_text: tuple[str, str, str] = COLOR_TEXT,
+        color_fill: tuple[str, str, str] = COLOR_FILL_TEXT,
+        color_outline: tuple[str, str, str] = COLOR_OUTLINE_TEXT
+    ) -> None:
         _TextWidget.__init__(self, canvas, x, y, width, height, radius, text, limit, space, justify,
                              cursor, borderwidth, font, color_text, color_fill, color_outline)
         self.master.itemconfigure(self.text, text=self.value_normal)
@@ -1106,29 +1112,26 @@ class CanvasText(_TextWidget):
     用于输入多行文本和显示多行文本（只读模式）
     """
 
-    def __init__(self,
-                 canvas: Canvas,
-                 x: int,
-                 y: int,
-                 width: int,
-                 height: int,
-                 radius: int = RADIUS,
-                 text: tuple[str] | str = NULL,
-                 limit: int = LIMIT,
-                 space: bool = True,
-                 read: bool = False,
-                 cursor: bool = CURSOR,
-                 borderwidth: int = BORDERWIDTH,
-                 justify: str = tkinter.LEFT,
-                 font: tuple[str, int, str] = FONT,
-                 color_text: tuple[str, str, str] = COLOR_TEXT,
-                 color_fill: tuple[str, str, str] = COLOR_FILL_TEXT,
-                 color_outline: tuple[str, str, str] = COLOR_OUTLINE_TEXT) -> None:
-        if type(text) == str:
-            text = text, NULL
-        elif type(text) == None:
-            text = NULL, NULL
-
+    def __init__(
+        self,
+        canvas: Canvas,
+        x: int,
+        y: int,
+        width: int,
+        height: int,
+        radius: int = RADIUS,
+        text: tuple[str] | str = NULL,
+        limit: int = LIMIT,
+        space: bool = True,
+        read: bool = False,
+        cursor: bool = CURSOR,
+        borderwidth: int = BORDERWIDTH,
+        justify: str = tkinter.LEFT,
+        font: tuple[str, int, str] = FONT,
+        color_text: tuple[str, str, str] = COLOR_TEXT,
+        color_fill: tuple[str, str, str] = COLOR_FILL_TEXT,
+        color_outline: tuple[str, str, str] = COLOR_OUTLINE_TEXT
+    ) -> None:
         _TextWidget.__init__(self, canvas, x, y, width, height, radius, text, limit, space, justify,
                              cursor, borderwidth, font, color_text, color_fill, color_outline)
 
@@ -1185,7 +1188,7 @@ class CanvasText(_TextWidget):
             self.master.itemconfigure(self.text, text=''.join(__))
             self.master.itemconfigure(self._text, text=_)
 
-    def input(self, event: tkinter.Event) -> None:
+    def input(self, event: tkinter.Event) -> bool:
         """ 文本输入 """
         if self._press:
             if event.keysym == 'BackSpace':
@@ -1225,7 +1228,7 @@ class CanvasText(_TextWidget):
 
             return True
 
-    def input_return(self):
+    def input_return(self) -> None:
         """ 回车键功能 """
         self.value += '\n'
 
@@ -1249,7 +1252,7 @@ class CanvasText(_TextWidget):
             self.position[0] += 1
             self.position[1] += 1
 
-    def input_backspace(self):
+    def input_backspace(self) -> None:
         """ 退格键功能 """
         if not self.value:
             # 没有内容，删个毛啊
@@ -1308,18 +1311,22 @@ class PhotoImage(tkinter.PhotoImage):
     生成图片并进行相应的一些处理（支持png和gif格式）
     """
 
-    def __init__(self, file: str | bytes, *args, **kw) -> None:
+    def __init__(
+        self,
+        file: str | bytes,
+        **kw
+    ) -> None:
         """
         ### 参数说明
         `file`: 图片文件的路径
-        `*args`、`**kw`: 其他参数
+        `**kw`: 其他参数
         """
         self.file = file
 
         if file.split('.')[-1] == 'gif':
             self.frames: list[tkinter.PhotoImage] = []
         else:
-            tkinter.PhotoImage.__init__(self, file=file, *args, **kw)
+            tkinter.PhotoImage.__init__(self, file=file, **kw)
 
     def parse(self) -> Generator[int, None, None]:
         """
@@ -1336,11 +1343,13 @@ class PhotoImage(tkinter.PhotoImage):
         except:
             pass
 
-    def play(self,
-             canvas: Canvas,
-             id,  # type: tkinter._CanvasItemId
-             interval: int,
-             _ind: int = 0) -> None:
+    def play(
+        self,
+        canvas: Canvas,
+        id,  # type: tkinter._CanvasItemId
+        interval: int,
+        _ind: int = 0
+    ) -> None:
         """
         播放动图，canvas.lock为False会暂停
         `canvas`: 播放动画的画布
@@ -1371,7 +1380,7 @@ class PhotoImage(tkinter.PhotoImage):
 
 def move_widget(
     master: Tk | Canvas | tkinter.Misc | tkinter.BaseWidget,
-    widget: Canvas | _BaseWidget | tkinter.Misc | tkinter.BaseWidget,
+    widget: Canvas | _BaseWidget | tkinter.BaseWidget,
     dx: int,
     dy: int,
     times: float,
@@ -1478,14 +1487,14 @@ def correct_text(
 
 
 def gradient_color(
-    color: tuple[str, str],
+    color:  tuple[str, str] | list[str],
     proportion: float = 0
 ) -> str:
     """
     ### 渐变色函数
     按一定比例给出已有RGB颜色字符串的渐变RGB颜色字符串
     #### 参数说明
-    `color`: 颜色元组 (初始颜色, 目标颜色)
+    `color`: 颜色元组或列表 (初始颜色, 目标颜色)
     `proportion`: 渐变比例（浮点数，范围为0~1）
     """
 
@@ -1513,7 +1522,7 @@ def gradient_color(
     return '#%0*X' % (6 if key == 256 else 3, RGB)
 
 
-def test():
+def test() -> None:
     """ 测试函数 """
     from tkinter.messagebox import askyesno
     from random import randint
@@ -1523,71 +1532,76 @@ def test():
         if askyesno('提示', '是否退出测试程序?'):
             root.destroy()
 
-    def change_bg(ind=0, color=[None, '#E9E9CD']):
+    def change_bg(ind=0, color=[None, '#F1F1F1']):
         """ 背景变幻 """
         if not ind:
-            color[0], color[1] = color[1], '#%06X' % randint(0, 16777216)
+            color[0], color[1] = color[1], '#%06X' % randint(0, 1 << 24)
         canvas_doc.configure(bg=gradient_color(color, ind))
-        root.after(20, change_bg, 0 if ind >= 1 else ind+0.01)
+        root.after(10, change_bg, 0 if ind >= 1 else ind+0.01)
+
+    def draw(ind=0):
+        """ 绘制球体 """
+        canvas_graph.create_oval(
+            (300-ind/3)*canvas_graph.rate_x, (100-ind/3)*canvas_graph.rate_y,
+            (400+ind)*canvas_graph.rate_x, (200+ind)*canvas_graph.rate_y,
+            outline=gradient_color(('#FFFFFF', '#000000'), ind/100),
+            width=2.5, fill=NULL if ind else '#FFF')
+        if ind < 100:
+            root.after(30, draw, ind+1)
 
     root = Tk('Test', '960x540', alpha=0.9, shutdown=shutdown)
+    (canvas_main := Canvas(root, 960, 540)).place(x=0, y=0)
+    (canvas_doc := Canvas(root, 960, 540)).place(x=-960, y=0)
+    (canvas_graph := Canvas(root, 960, 540)).place(x=960, y=0)
 
-    canvas_home = Canvas(root, 960, 540)
-    canvas_doc = Canvas(root, 960, 540, bg='lightyellow')
-    canvas_home.place(x=0, y=0)
-    canvas_doc.place(x=-960, y=0)
-
-    for i in range(100):
-        color = gradient_color(('#FFFFFF', '#000000'), i/100)
-        canvas_home.create_oval(
-            466-i/3, 66-i/3, 566+i, 166+i,
-            outline=color, width=2.5, fill=NULL if i else '#FFF')
+    CanvasButton(
+        canvas_main, 10, 500, 120, 30, 0, '模块文档',
+        command=lambda: (move_widget(root, canvas_main, 960*canvas_main.rate_x, 0, 0.3, 'rebound'),
+                         move_widget(root, canvas_doc, 960*canvas_doc.rate_x, 0, 0.3, 'rebound')))
+    CanvasButton(
+        canvas_main, 830, 500, 120, 30, 0, '图像测试',
+        command=lambda: (move_widget(root, canvas_main, -960*canvas_main.rate_x, 0, 0.3, 'rebound'),
+                         move_widget(root, canvas_graph, -960*canvas_graph.rate_x, 0, 0.3, 'rebound')))
+    CanvasButton(
+        canvas_doc, 830, 500, 120, 30, 0, '返回主页',
+        command=lambda: (move_widget(root, canvas_main, -960*canvas_main.rate_x, 0, 0.3, 'rebound'),
+                         move_widget(root, canvas_doc, -960*canvas_doc.rate_x, 0, 0.3, 'rebound')))
+    CanvasButton(
+        canvas_graph, 10, 500, 120, 30, 0, '返回主页',
+        command=lambda: (move_widget(root, canvas_main, 960*canvas_main.rate_x, 0, 0.3, 'rebound'),
+                         move_widget(root, canvas_graph, 960*canvas_graph.rate_x, 0, 0.3, 'rebound')))
 
     try:
         image = PhotoImage('tkinter.png')
-        canvas_home.create_image(830, 150, image=image)
+        canvas_graph.create_image(830, 130, image=image)
     except:
         print('\033[31m啊哦！你没有示例图片喏……\033[0m')
 
-    label1 = CanvasLabel(canvas_home,
-                         700 * canvas_home.rate_x, 550 * canvas_home.rate_y,
-                         250 * canvas_home.rate_x, 100 * canvas_home.rate_y,
-                         10, '圆角标签\n移动模式:rebound',
-                         font=('楷体', round(15 * canvas_home.rate_x)))
-    label2 = CanvasLabel(canvas_home,
-                         430 * canvas_home.rate_x, 550 * canvas_home.rate_y,
-                         250 * canvas_home.rate_x, 100 * canvas_home.rate_y,
-                         0, '方角标签\n移动模式:smooth',
-                         font=('楷体', round(15 * canvas_home.rate_x)))
-
-    CanvasButton(
-        canvas_home, 50, 50, 120, 25, 5, '圆角按钮',
-        command=lambda: move_widget(canvas_home, label1, 0, -120 * canvas_home.rate_y, 0.25, 'rebound'))
-    CanvasButton(
-        canvas_home, 50, 100, 120, 25, 0, '方角按钮',
-        command=lambda: move_widget(canvas_home, label2, 0, -120 * canvas_home.rate_y, 0.25, 'smooth'))
-    CanvasButton(
-        canvas_home, 165, 500, 120, 30, 0, '模块文档',
-        command=lambda: (move_widget(root, canvas_home, 960*canvas_home.rate_x, 0, 0.3, 'rebound'),
-                         move_widget(root, canvas_doc, 960*canvas_doc.rate_x, 0, 0.3, 'rebound')))
-    CanvasEntry(canvas_home, 200, 50, 200, 25, 5,
+    CanvasText(canvas_main, 10, 10, 465, 200, 10,
+               ('居中圆角文本框', '竖线光标'), justify='center')
+    CanvasText(canvas_main, 485, 10, 465, 200, 0,
+               ('靠右方角文本框', '下划线光标'), cursor=' _')
+    CanvasEntry(canvas_main, 10, 220, 200, 25, 5,
                 ('居中圆角输入框', '点击输入'), justify='center')
-    CanvasEntry(canvas_home, 200, 100, 200, 25, 0,
+    CanvasEntry(canvas_main, 750, 220, 200, 25, 0,
                 ('靠右方角输入框', '点击输入'), '•')
-    CanvasText(canvas_home, 50, 150, 350, 150, 10,
-               ('居中圆角文本框', '点击输入'), justify='center')
-    CanvasText(canvas_home, 50, 340, 350, 150, 0,
-               ('靠右方角文本框', '点击输入'), cursor=' _')
-
     CanvasButton(
-        canvas_doc, 830, 500, 120, 30, 0, '返回主页',
-        command=lambda: (move_widget(root, canvas_home, -960*canvas_home.rate_x, 0, 0.3, 'rebound'),
-                         move_widget(root, canvas_doc, -960*canvas_doc.rate_x, 0, 0.3, 'rebound')))
-
-    bg = CanvasButton(canvas_doc, 830, 10, 120, 30, 0, '背景变幻',
-                      command=lambda: (change_bg(), bg.set_live(False)))
+        canvas_main, 10, 250, 120, 25, 5, '圆角按钮',
+        command=lambda: move_widget(canvas_main, label_1, 0, -120 * canvas_main.rate_y, 0.25, 'rebound'))
+    CanvasButton(
+        canvas_main, 830, 250, 120, 25, 0, '方角按钮',
+        command=lambda: move_widget(canvas_main, label_2, 0, -120 * canvas_main.rate_y, 0.25, 'smooth'))
 
     canvas_doc.create_text(360, 270, text=__doc__, font=('楷体', 12))
+
+    label_1 = CanvasLabel(canvas_main, 225, 550, 250,
+                          100, 10, '圆角标签\n移动模式:rebound')
+    label_2 = CanvasLabel(canvas_main, 485, 550, 250,
+                          100, 0, '方角标签\n移动模式:smooth')
+    button_1 = CanvasButton(canvas_doc, 830, 10, 120, 30, 0, '背景变幻',
+                            command=lambda: (button_1.set_live(False), change_bg()))
+    button_2 = CanvasButton(canvas_graph, 10, 10, 120, 30, 0, '绘制图形',
+                            command=lambda: (button_2.set_live(False), draw()))
 
     root.mainloop()
 
