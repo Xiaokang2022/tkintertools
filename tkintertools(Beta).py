@@ -1,21 +1,22 @@
 """
 tkintertools
 ============
-Minimum Requirement: Python3.10
+The tkindertools module is an auxiliary module of the tkinder module.
+Minimum Requirement: Python3.10.
 
 Provides:
 1. Transparent, rounded and customized widgets
 2. Automatic control of picture size and widget size
 3. Scalable png pictures and playable gif pictures
 4. Regular mobile widgets and canvas interfaces
-5. Gradient color and directional conversion color
+5. Gradient colors and contrast colors
 6. Text with controllable length and alignment
 
 Base Information
 ----------------
 * Author: XiaoKang2022<2951256653@qq.com>
 * Version: 2.5
-* Update: 2022/11/18
+* Update: 2022/11/21
 
 Contents
 --------
@@ -49,7 +50,7 @@ __all__ = (
     'CanvasText',
     'move_widget',
     'correct_text',
-    'gradient_color',
+    'change_color',
 )
 
 if version_info < (3, 10):
@@ -226,7 +227,7 @@ class Tk(tkinter.Tk):
             elif key[0] == 'image':
                 # 图像大小缩放
                 if key[1] and key[1].file.split('.')[-1] == 'png':
-                    key[2] = key[1].zoom(canvas.rate_x, canvas.rate_y)
+                    key[2] = key[1].zoom(canvas.rate_x, canvas.rate_y, 1.1)
                     canvas.itemconfigure(item, image=key[2])
 
     @staticmethod
@@ -590,9 +591,9 @@ class _BaseWidget:
         self.value = text
         self.justify = justify
         self.font = font
-        self.color_text = color_text
-        self.color_fill = color_fill
-        self.color_outline = color_outline
+        self.color_text = list(color_text)
+        self.color_fill = list(color_fill)
+        self.color_outline = list(color_outline)
 
         # 控件左上角坐标
         self.x1, self.y1 = x, y
@@ -604,6 +605,8 @@ class _BaseWidget:
         self.radius = radius
         # 控件活跃标志
         self.live = True
+        # 控件的状态
+        self._state = 'normal'
 
         # 将实例添加到父画布控件
         canvas.widget_list.append(self)
@@ -673,15 +676,26 @@ class _BaseWidget:
             anchor='w' if justify == 'left' else 'e' if justify == 'right' else 'center',
             fill=color_text[0])
 
-    def state(self, mode: Literal['normal', 'touch', 'press', 'disabled']) -> None:
+    def state(self, mode: Literal['normal', 'touch', 'press', 'disabled'] | None = None) -> None:
         """
-        改变虚拟控件的外观
+        mode 参数为 None 时仅更新控件，否则改变虚拟控件的外观
         `normal`: 正常状态
         `touch`: 鼠标触碰时的状态
         `press`: 鼠标按下时的状态
         `disabled`: 禁用状态
         """
-        mode = 0 if mode == 'normal' else 1 if mode == 'touch' else 2 if mode == 'press' else 3
+        if mode:
+            self._state = mode
+
+        if self._state == 'normal':
+            mode = 0
+        elif self._state == 'touch':
+            mode = 1
+        elif self._state == 'press':
+            mode = 2
+        else:
+            mode = 3
+
         self.master.itemconfigure(self.text, fill=self.color_text[mode])
         if isinstance(self, CanvasText):
             self.master.itemconfigure(self._text, fill=self.color_text[mode])
@@ -727,39 +741,29 @@ class _BaseWidget:
             self.cursor: tkinter._CanvasItemId
             self.master.move(self.cursor, dx, dy)
 
-    def configure(self, **kw) -> None:
+    def configure(self, *args, **kw) -> str | tuple | None:
         """
-        改变原有参数的值
-
-        可供修改的参数有
+        修改或查询原有参数的值，可供修改或查询的参数有
         1. 所有控件: `color_text`、`color_fill`、`color_outline`
         2. 非文本控件: `text`
         """
-        if value := kw.get('text', self.value):
+        if args:
+            if args[0] == 'text':
+                return self.value
+            else:
+                return getattr(self, args[0])
+
+        if value := kw.get('text', None):
             self.value = value
-        if text := kw.get('color_text', self.color_text):
+        if text := kw.get('color_text', None):
             self.color_text = text
-        if fill := kw.get('color_fill', self.color_fill):
+        if fill := kw.get('color_fill', None):
             self.color_fill = fill
-        if outline := kw.get('color_outline', self.color_outline):
+        if outline := kw.get('color_outline', None):
             self.color_outline = outline
 
-        if isinstance(self, CanvasLabel | CanvasButton):
-            self.master.itemconfigure(self.text, text=value, fill=text[0])
-
-        if self.radius:
-            for item in self.inside:
-                self.master.itemconfigure(item, fill=fill[0])
-            for item in self.outside[:4]:
-                self.master.itemconfigure(item, fill=outline[0])
-            for item in self.outside[4:]:
-                self.master.itemconfigure(item, outline=outline[0])
-        else:
-            self.master.itemconfigure(
-                self.rect, fill=fill[0], outline=outline[0])
-
-        if hasattr(self, 'cursor'):
-            self.master.itemconfigure(self.cursor, fill=text[2])
+        if isinstance(self, CanvasLabel | CanvasButton) and value:
+            self.master.itemconfigure(self.text, text=value)
 
     def destroy(self) -> None:
         """ 摧毁控件释放内存 """
@@ -908,8 +912,6 @@ class _TextWidget(_BaseWidget):
         self.cursor_time = 300
         # 光标闪烁标志
         self._cursor = False
-        # 鼠标左键按下标志
-        self._press = False
 
         if type(text) == str:
             self.value_normal, self.value_touch = text, NULL
@@ -924,7 +926,7 @@ class _TextWidget(_BaseWidget):
 
     def touch_on(self) -> None:
         """ 鼠标悬停状态 """
-        if not self._press:
+        if self._state != 'press':
             self.state('touch')
 
             # 判断显示的值是否为第一默认值
@@ -934,7 +936,7 @@ class _TextWidget(_BaseWidget):
 
     def touch_off(self) -> None:
         """ 鼠标离开状态 """
-        if not self._press:
+        if self._state != 'press':
             self.state('normal')
 
             # 判断显示的值是否为第二默认值
@@ -945,7 +947,7 @@ class _TextWidget(_BaseWidget):
     def press(self, event: tkinter.Event) -> None:
         """ 交互状态检测 """
         if self.x1 <= event.x <= self.x2 and self.y1 <= event.y <= self.y2:
-            if not self._press:
+            if self._state != 'press':
                 self.press_on()
         else:
             self.press_off()
@@ -969,7 +971,7 @@ class _TextWidget(_BaseWidget):
             else:
                 self.master.itemconfigure(self.cursor, text=NULL)
 
-        if self._press:
+        if self._state == 'press':
             self.cursor_time += 10
             self.master.after(10, self.cursor_flash)
         else:
@@ -990,7 +992,7 @@ class _TextWidget(_BaseWidget):
 
     def paste(self) -> None:
         """ 快捷键粘贴 """
-        if self._press and not getattr(self, 'show', None):
+        if self._state == 'press' and not getattr(self, 'show', None):
             self.append(self.master.clipboard_get())
 
     def get(self) -> str:
@@ -1048,7 +1050,6 @@ class CanvasEntry(_TextWidget):
 
     def press_on(self) -> None:
         """ 控件获得焦点 """
-        self._press = True
         self.state('press')
         self.master.itemconfigure(self.text, text=self.value_surface)
         self.cursor_update(NULL)
@@ -1056,7 +1057,6 @@ class CanvasEntry(_TextWidget):
 
     def press_off(self) -> None:
         """ 控件失去焦点 """
-        self._press = False
         self.state('normal')
 
         if self.value == NULL:
@@ -1066,7 +1066,7 @@ class CanvasEntry(_TextWidget):
 
     def input(self, event: tkinter.Event) -> None:
         """ 文本输入 """
-        if self._press:
+        if self._state == 'press':
             if event.keysym == 'BackSpace':
                 # 按下退格键
                 self.value = self.value[:-1]
@@ -1088,11 +1088,11 @@ class CanvasEntry(_TextWidget):
 
             # 更新显示
             self.master.itemconfigure(self.text, text=self.value_surface)
-            self.update()
+            self.update_text()
             self.cursor_update()
             return True
 
-    def update(self):
+    def update_text(self):
         """ 更新控件 """
         while True:
             pos = self.master.bbox(self.text)
@@ -1168,7 +1168,6 @@ class CanvasText(_TextWidget):
 
     def press_on(self) -> None:
         """ 控件获得焦点 """
-        self._press = True
         self.state('press')
         *__, _ = [''] + self.value_surface.rsplit('\n', 1)
         self.master.itemconfigure(self.text, text=''.join(__))
@@ -1178,7 +1177,6 @@ class CanvasText(_TextWidget):
 
     def press_off(self) -> None:
         """ 控件失去焦点 """
-        self._press = False
         self.state('normal')
 
         if self.value == NULL:
@@ -1190,7 +1188,7 @@ class CanvasText(_TextWidget):
 
     def input(self, event: tkinter.Event) -> bool:
         """ 文本输入 """
-        if self._press:
+        if self._state == 'press':
             if event.keysym == 'BackSpace':
                 # 按下退格键
                 self.input_backspace()
@@ -1486,17 +1484,20 @@ def correct_text(
         return ' '*length+string+(length+key)*' '
 
 
-def gradient_color(
-    color:  tuple[str, str] | list[str],
-    proportion: float = 0
+def change_color(
+    color:  tuple[str, str] | list[str] | str,
+    proportion: float = 1
 ) -> str:
     """
-    ### 渐变色函数
-    按一定比例给出已有RGB颜色字符串的渐变RGB颜色字符串
+    ### 颜色处理函数
+    按一定比例给出已有RGB颜色字符串的渐变RGB颜色字符串，或颜色的对比色
     #### 参数说明
-    `color`: 颜色元组或列表 (初始颜色, 目标颜色)
+    `color`: 颜色元组或列表 (初始颜色, 目标颜色)，或者一个颜色字符串
     `proportion`: 渐变比例（浮点数，范围为0~1）
     """
+
+    if type(color) == str:
+        color = color, None
 
     # 判断颜色字符串格式（#FFF或者#FFFFFF格式）
     key = 256 if len(color[0]) == 7 else 16
@@ -1507,9 +1508,12 @@ def gradient_color(
     R, G = divmod(_, key)
 
     # 解析目标颜色的RGB
-    _ = int(color[1][1:], 16)
-    _, _B = divmod(_, key)
-    _R, _G = divmod(_, key)
+    if color[1]:
+        _ = int(color[1][1:], 16)
+        _, _B = divmod(_, key)
+        _R, _G = divmod(_, key)
+    else:
+        _R, _G, _B = 255 - R, 255 - G, 255 - B
 
     # 根据比率计算返回值
     RGB = R + round((_R - R) * proportion)
@@ -1533,18 +1537,24 @@ def test() -> None:
             root.destroy()
 
     def change_bg(ind=0, color=[None, '#F1F1F1']):
-        """ 背景变幻 """
+        """ 颜色变幻 """
         if not ind:
             color[0], color[1] = color[1], '#%06X' % randint(0, 1 << 24)
-        canvas_doc.configure(bg=gradient_color(color, ind))
-        root.after(10, change_bg, 0 if ind >= 1 else ind+0.01)
+        color = change_color(color, ind)
+        _color = change_color(color)
+        canvas_doc.configure(bg=color)
+        canvas_doc.itemconfigure(doc, fill=_color)
+        for widget in canvas_main.widget_list:
+            widget.color_fill[0], widget.color_text[0] = color, _color
+            widget.state()
+        root.after(20, change_bg, 0 if ind >= 1 else ind+0.01)
 
     def draw(ind=0):
         """ 绘制球体 """
         canvas_graph.create_oval(
             (300-ind/3)*canvas_graph.rate_x, (100-ind/3)*canvas_graph.rate_y,
             (400+ind)*canvas_graph.rate_x, (200+ind)*canvas_graph.rate_y,
-            outline=gradient_color(('#FFFFFF', '#000000'), ind/100),
+            outline=change_color(('#FFFFFF', '#000000'), ind/100),
             width=2.5, fill=NULL if ind else '#FFF')
         if ind < 100:
             root.after(30, draw, ind+1)
@@ -1592,13 +1602,13 @@ def test() -> None:
         canvas_main, 830, 250, 120, 25, 0, '方角按钮',
         command=lambda: move_widget(canvas_main, label_2, 0, -120 * canvas_main.rate_y, 0.25, 'smooth'))
 
-    canvas_doc.create_text(360, 270, text=__doc__, font=('楷体', 12))
+    doc = canvas_doc.create_text(360, 270, text=__doc__, font=('楷体', 12))
 
     label_1 = CanvasLabel(canvas_main, 225, 550, 250,
                           100, 10, '圆角标签\n移动模式:rebound')
     label_2 = CanvasLabel(canvas_main, 485, 550, 250,
                           100, 0, '方角标签\n移动模式:smooth')
-    button_1 = CanvasButton(canvas_doc, 830, 10, 120, 30, 0, '背景变幻',
+    button_1 = CanvasButton(canvas_doc, 830, 10, 120, 30, 0, '颜色变幻',
                             command=lambda: (button_1.set_live(False), change_bg()))
     button_2 = CanvasButton(canvas_graph, 10, 10, 120, 30, 0, '绘制图形',
                             command=lambda: (button_2.set_live(False), draw()))
