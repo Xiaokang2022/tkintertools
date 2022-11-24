@@ -15,15 +15,15 @@ Provides:
 Base Information
 ----------------
 * Author: XiaoKang2022<2951256653@qq.com>
-* Version: 2.5.1
-* Update: 2022/11/23
+* Version: 2.5
+* Update: 2022/11/21
 
 Contents
 --------
 * Container Widget: `Tk`, `Toplevel`, `Canvas`
 * Virtual Canvas Widget: `CanvasLabel`, `CanvasButton`, `CanvasEntry`, `CanvasText`
 * Tool Class: `PhotoImage`
-* Tool Function: `move_widget`, `correct_text`, `change_color`
+* Tool Function: `move_widget`, `correct_text`, `gradient_color`
 
 More
 ----
@@ -38,7 +38,7 @@ from sys import version_info
 from typing import Generator, Literal
 
 __author__ = 'XiaoKang2022'
-__version__ = '2.5.1'
+__version__ = '2.5'
 __all__ = (
     'Tk',
     'Toplevel',
@@ -59,8 +59,8 @@ if version_info < (3, 10):
 
 COLOR_FILL_BUTTON = '#E1E1E1', '#E5F1FB', '#CCE4F7', '#F0F0F0'      # 默认的按钮内部颜色
 COLOR_FILL_TEXT = '#FFFFFF', '#FFFFFF', '#FFFFFF', '#F0F0F0'        # 默认的文本内部颜色
-COLOR_OUTLINE_BUTTON = '#C0C0C0', '#4A9EE0', '#4884B4', '#D5D5D5'   # 默认的按钮外框颜色
-COLOR_OUTLINE_TEXT = '#C0C0C0', '#5C5C5C', '#4A9EE0', '#D5D5D5'     # 默认的文本外框颜色
+COLOR_OUTLINE_BUTTON = '#C0C0C0', '#4A9EE0', '#4884B4', '#D5D5D5'   # 默认按钮外框颜色
+COLOR_OUTLINE_TEXT = '#C0C0C0', '#5C5C5C', '#4A9EE0', '#D5D5D5'     # 默认文本外框颜色
 COLOR_TEXT = '#000000', '#000000', '#000000', '#A3A9AC'             # 默认的文本颜色
 COLOR_NONE = '', '', '', ''                                         # 透明颜色
 
@@ -239,14 +239,7 @@ class Tk(tkinter.Tk):
         if canvas.lock:
             for widget in canvas.widget_list:
                 if widget.live:
-                    if widget.touch(event):
-                        if isinstance(widget, CanvasButton):
-                            canvas.configure(cursor='hand2')
-                        else:
-                            canvas.configure(cursor='arrow')
-                        return
-                    else:
-                        canvas.configure(cursor='arrow')
+                    widget.touch(event)
 
     @staticmethod
     def __press(
@@ -258,7 +251,6 @@ class Tk(tkinter.Tk):
             for widget in canvas.widget_list:
                 if isinstance(widget, CanvasButton | CanvasEntry | CanvasText):
                     if widget.live:
-                        # press 无需加速，其有额外作用
                         widget.press(event)
 
     @staticmethod
@@ -272,8 +264,7 @@ class Tk(tkinter.Tk):
                 if isinstance(widget, CanvasButton):
                     if widget.live:
                         widget.touch(event)
-                        if widget.execute(event):
-                            return
+                        widget.execute(event)
 
     @staticmethod
     def __mousewheel(
@@ -285,8 +276,7 @@ class Tk(tkinter.Tk):
             for widget in canvas.widget_list:
                 if isinstance(widget, CanvasText):
                     if widget.live:
-                        if widget.scroll(event):
-                            return
+                        widget.scroll(event)
 
     def __input(self, event: tkinter.Event) -> None:
         """ 绑定键盘输入字符事件 """
@@ -305,8 +295,8 @@ class Tk(tkinter.Tk):
                 for widget in canvas.widget_list:
                     if isinstance(widget, CanvasEntry | CanvasText):
                         if widget.live:
-                            if widget.paste():
-                                return
+                            widget.paste()
+                break
 
     def bind_event(self) -> None:
         """ 内部方法：关联事件的绑定 """
@@ -452,7 +442,7 @@ class Canvas(tkinter.Canvas):
 
         # 子控件列表（与事件绑定有关）
         self.widget_list: list[_BaseWidget] = []
-        # 子item字典（与大小缩放有关）
+        # 子item列表（与大小缩放有关）
         self.item_dict = {}  # type: dict[tkinter._CanvasItemId, tuple | list]
 
         tkinter.Canvas.__init__(self, master, width=width,
@@ -467,6 +457,7 @@ class Canvas(tkinter.Canvas):
         self.master: Tk
         if self.lock and self.expand:
             self.master.zoom_absolute(self)
+            # self.master.zoom_canvas(self, )
 
     def create_text(self, *args, **kw):
         # 重写：添加对 text 类型的 _CanvasItemId 的字体大小的控制
@@ -832,11 +823,12 @@ class CanvasLabel(_BaseWidget):
         _BaseWidget.__init__(self, canvas, x, y, width, height, radius, text, justify,
                              borderwidth, font, color_text, color_fill, color_outline)
 
-    def touch(self, event: tkinter.Event) -> bool:
+    def touch(self, event: tkinter.Event) -> None:
         """ 触碰状态检测 """
-        condition = self.x1 <= event.x <= self.x2 and self.y1 <= event.y <= self.y2
-        self.state('touch' if condition else 'normal')
-        return condition
+        if self.x1 <= event.x <= self.x2 and self.y1 <= event.y <= self.y2:
+            self.state('touch')
+        else:
+            self.state('normal')
 
 
 class CanvasButton(_BaseWidget):
@@ -866,12 +858,11 @@ class CanvasButton(_BaseWidget):
                              borderwidth, font, color_text, color_fill, color_outline)
         self.command = command
 
-    def execute(self, event: tkinter.Event) -> bool:
+    def execute(self, event: tkinter.Event) -> None:
         """ 执行关联函数 """
-        condition = self.x1 <= event.x <= self.x2 and self.y1 <= event.y <= self.y2
-        if condition and self.command:
-            self.command()
-        return condition
+        if self.x1 <= event.x <= self.x2 and self.y1 <= event.y <= self.y2:
+            if self.command:
+                self.command()
 
     def press(self, event: tkinter.Event) -> None:
         """ 交互状态检测 """
@@ -880,11 +871,12 @@ class CanvasButton(_BaseWidget):
         else:
             self.state('normal')
 
-    def touch(self, event: tkinter.Event) -> bool:
+    def touch(self, event: tkinter.Event) -> None:
         """ 触碰状态检测 """
-        condition = self.x1 <= event.x <= self.x2 and self.y1 <= event.y <= self.y2
-        self.state('touch' if condition else 'normal')
-        return condition
+        if self.x1 <= event.x <= self.x2 and self.y1 <= event.y <= self.y2:
+            self.state('touch')
+        else:
+            self.state('normal')
 
 
 class _TextWidget(_BaseWidget):
@@ -917,7 +909,7 @@ class _TextWidget(_BaseWidget):
         # 表面显示值
         self.value_surface = NULL
         # 光标闪烁间隔
-        self._cursor_time = 300
+        self.cursor_time = 300
         # 光标闪烁标志
         self._cursor = False
 
@@ -963,46 +955,45 @@ class _TextWidget(_BaseWidget):
     def touch(
         self,  # type: CanvasEntry | CanvasText
         event: tkinter.Event
-    ) -> bool:
+    ) -> None:
         """ 触碰状态检测 """
-        condition = self.x1 <= event.x <= self.x2 and self.y1 <= event.y <= self.y2
-        self.touch_on() if condition else self.touch_off()
-        return condition
+        if self.x1 <= event.x <= self.x2 and self.y1 <= event.y <= self.y2:
+            self.touch_on()
+        else:
+            self.touch_off()
 
     def cursor_flash(self) -> None:
         """ 鼠标光标闪烁 """
-        if self._cursor_time >= 300:
-            self._cursor_time, self._cursor = 0, not self._cursor
+        if self.cursor_time >= 300:
+            self.cursor_time, self._cursor = 0, not self._cursor
             if self._cursor:
                 self.master.itemconfigure(self.cursor, text=self.icursor)
             else:
                 self.master.itemconfigure(self.cursor, text=NULL)
 
         if self._state == 'press':
-            self._cursor_time += 10
+            self.cursor_time += 10
             self.master.after(10, self.cursor_flash)
         else:
-            self._cursor_time, self._cursor = 300, False  # 恢复默认值
+            self.cursor_time, self._cursor = 300, False  # 恢复默认值
             self.master.itemconfigure(self.cursor, text=NULL)
 
     def cursor_update(self, text: str = ' ') -> None:
         """ 鼠标光标更新 """
-        self._cursor_time, self._cursor = 300, False  # 恢复默认值
+        self.cursor_time, self._cursor = 300, False  # 恢复默认值
         if isinstance(self, CanvasEntry):
             self.master.coords(self.cursor, self.master.bbox(
-                self.text)[2], self.y1+self.height * self.master.rate_y / 2)
+                self.text)[2], self.y1+self.height/2)
         elif isinstance(self, CanvasText):
             _pos = self.master.bbox(self._text)
             self.master.coords(self.cursor, _pos[2], _pos[1])
         self.master.itemconfigure(
             self.cursor, text=NULL if not text else self.icursor)
 
-    def paste(self) -> bool:
+    def paste(self) -> None:
         """ 快捷键粘贴 """
-        condition = self._state == 'press' and not getattr(self, 'show', None)
-        if condition:
+        if self._state == 'press' and not getattr(self, 'show', None):
             self.append(self.master.clipboard_get())
-        return condition
 
     def get(self) -> str:
         """ 获取输入框的值 """
@@ -1010,6 +1001,7 @@ class _TextWidget(_BaseWidget):
 
     def set(self, value: str) -> None:
         """ 设置输入框的值 """
+        self.press_on()
         (event := tkinter.Event()).keysym = 'BackSpace'
         for _ in range(len(self.value)):
             self.input(event)
@@ -1017,10 +1009,12 @@ class _TextWidget(_BaseWidget):
 
     def append(self, value: str) -> None:
         """ 添加输入框的值 """
+        self.press_on()
         (event := tkinter.Event()).keysym = None
         for char in value:
             event.char = char
             self.input(event)
+        self.press_off()
 
 
 class CanvasEntry(_TextWidget):

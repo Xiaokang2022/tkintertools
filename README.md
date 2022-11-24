@@ -3,22 +3,23 @@
 
 Last-Update/最近更新
 -------------------
-update version: 2.5.1
+> Version: 2.5.2  
+> Time: 2022/11/24
 
-1. Solved the bug that the input prompt position was not aligned after the input box was enlarged  
-解决了输入框放大后输入提示符位置没对齐的bug
+1. Change the mouse position detection order to further improve the running speed  
+改变鼠标位置检测顺序，进一步提升运行速度
 
-2. Some redundant codes are deleted to improve the overall running speed  
-删除了部分冗余代码，提升总体运行速度
+2. Solved the bug that the set and append methods of text virtual controls may fail in some cases  
+解决了文本类虚拟控件set、append方法某些时候会失效的bug
 
-3. Optimized the mouse position determination mechanism, improved the running speed, and added changes in the mouse style (for buttons)  
-优化了鼠标位置判定机制，提升运行速度，并加入了鼠标样式的变化（对于按钮）
+3. Solved the bug that the mouse style flickers when the mouse cursor moves over the button  
+解决了鼠标光标移动到按钮上时的鼠标样式会闪烁的bug
 
-4. Solved the bug that text virtual controls will lose focus after being pasted once  
-解决了文本类虚拟控件粘贴一次后会失去焦点的bug
+4. Added mouse style for text type virtual control  
+添加了对文本类虚拟控件的鼠标样式
 
-5. Fix a few errors in the module documentation  
-修复模块文档中的少许错误
+5. Fixed the bug that the read parameter of the text box control failed  
+修复了文本框控件read参数失效的bug
 
 Description/模块描述
 -------------------
@@ -47,12 +48,7 @@ Provides/提供:
 6. Text with controllable length and alignment  
 长度和对齐方式可控的文本
 
-Base-Information/基本信息
-------------------------
-* Author/作者: [XiaoKang2022](https://xiaokang2022.blog.csdn.net/)
-* Mail/邮箱: 2951256653@qq.com
-* Version/版本: 2.5
-* Update/更新: 2022/11/21
+7. ...
 
 Contents/模块内容
 ----------------
@@ -65,13 +61,13 @@ Contents/模块内容
 * Tool Function/工具函数:  
 `move_widget`, `correct_text`, `change_color`
 
-Attention/特别注意
------------------
-* `tkintertools.py` is a stable version module, with related tutorials  
-`tkintertools.py` 是一个稳定的版本模块，有相关的教程
+Attentions/特别注意
+------------------
+* `tkinertools.py` is the latest version, and its version number is not necessarily the same as the tutorial (generally newer than the tutorial)  
+`tkintertools.py` 是目前的最新版本，其版本号不一定与教程一致（一般比教程的要新）
 
-* `tkintertools(Beta).py` is a beta version of a new version. There are no tutorials, but there are new functions and uncertain bugs. Use it with caution!  
-`tkintertools(Beta).py` 是新版本的测试版。没有教程，但有新功能和不确定的bug。慎用！
+* In the `Release Version` folder is the source code of the `tkinertools` module with a large version number in the past  
+`Release Version` 文件夹里面的是过去的大版本号的 `tkintertools` 模块的源代码
 
 More/更多
 --------
@@ -83,3 +79,7 @@ https://gitcode.net/weixin_62651706/tkintertools
 https://blog.csdn.net/weixin_62651706/category_11600888.html
 * Tutorials/教程:  
 https://xiaokang2022.blog.csdn.net/article/details/127374661
+* Author/作者:  
+https://xiaokang2022.blog.csdn.net
+* Contact/联系我:  
+2951256653@qq.com
