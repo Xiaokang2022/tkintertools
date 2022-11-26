@@ -3,7 +3,7 @@
 
 Update/最近更新
 -------------------
-> Version: 2.5.3  
+> Version: 2.5.3(pre)  
 > Time: 2022/11/26
 
 1. Added singleton pattern class for inheritance  
