@@ -11,18 +11,19 @@ Provides:
 4. Regular mobile widgets and canvas interfaces
 5. Gradient colors and contrast colors
 6. Text with controllable length and alignment
+7. Convenient, inheritable singleton pattern class
 
 Base Information
 ----------------
 * Author: XiaoKang2022<2951256653@qq.com>
-* Version: 2.5.2
-* Update: 2022/11/24
+* Version: 2.5.3
+* Update: 2022/11/26
 
 Contents
 --------
 * Container Widget: `Tk`, `Toplevel`, `Canvas`
 * Virtual Canvas Widget: `CanvasLabel`, `CanvasButton`, `CanvasEntry`, `CanvasText`
-* Tool Class: `PhotoImage`
+* Tool Class: `PhotoImage`, `Singleton`
 * Tool Function: `move_widget`, `correct_text`, `change_color`
 
 More
@@ -35,10 +36,10 @@ More
 
 import tkinter
 from sys import version_info
-from typing import Generator, Literal
+from typing import Generator, Literal, Self
 
 __author__ = 'XiaoKang2022'
-__version__ = '2.5.2'
+__version__ = '2.5.3'
 __all__ = (
     'Tk',
     'Toplevel',
@@ -51,6 +52,7 @@ __all__ = (
     'move_widget',
     'correct_text',
     'change_color',
+    'Singleton',
 )
 
 if version_info < (3, 10):
@@ -348,6 +350,10 @@ class Tk(tkinter.Tk):
             toplevel.bind_event()
         tkinter.Tk.mainloop(self)
 
+    def all_canvas(self) -> tuple:
+        """ 返回窗口所有画布的元组 """
+        return tuple(self.canvas_list)
+
 
 class Toplevel(tkinter.Toplevel, Tk):
     """
@@ -470,6 +476,10 @@ class Canvas(tkinter.Canvas):
         if self.lock and self.expand:
             self.master.zoom_absolute(self)
 
+    def all_widget(self) -> tuple:
+        """ 返回画布所有控件元组 """
+        return tuple(self.widget_list)
+
     def create_text(self, *args, **kw):
         # 重写：添加对 text 类型的 _CanvasItemId 的字体大小的控制
         if not (_ := kw.get('font')):
@@ -543,6 +553,13 @@ class Canvas(tkinter.Canvas):
         self.width = kw.get('wdith', self.width)
         self.height = kw.get('height', self.height)
         return tkinter.Canvas.place(self, *args, **kw)
+
+    def destroy(self) -> None:
+        # 重写：兼容
+        for widget in self.widget_list[:]:
+            widget.destroy()
+        self.master.canvas_list.remove(self)
+        return tkinter.Canvas.destroy(self)
 
 
 class _BaseWidget:
@@ -1386,6 +1403,17 @@ class PhotoImage(tkinter.PhotoImage):
         return image
 
 
+class Singleton(object):
+    """ 单例模式类 """
+
+    _instance = None
+
+    def __new__(cls: type[Self]) -> Self:
+        if not cls._instance:
+            cls._instance = object.__new__(cls)
+        return cls._instance
+
+
 def move_widget(
     master: Tk | Canvas | tkinter.Misc | tkinter.BaseWidget,
     widget: Canvas | _BaseWidget | tkinter.BaseWidget,
@@ -1598,7 +1626,7 @@ def test() -> None:
         print('\033[31m啊哦！你没有示例图片喏……\033[0m')
 
     CanvasText(canvas_main, 10, 10, 465, 200, 10,
-               ('居中圆角文本框', '竖线光标'), justify='center', read=True)
+               ('居中圆角文本框', '竖线光标'), justify='center')
     CanvasText(canvas_main, 485, 10, 465, 200, 0,
                ('靠右方角文本框', '下划线光标'), cursor=' _')
     CanvasEntry(canvas_main, 10, 220, 200, 25, 5,
