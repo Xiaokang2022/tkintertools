@@ -1,4 +1,28 @@
-version: 2.5.2
+version 2.5.3
+--------------
+
+1. Added singleton pattern class for inheritance  
+增加了单例模式类供继承
+
+2. Canvas class overrides destroy method to be compatible with the original destroy method  
+Canvas 类重写 destroy 方法以兼容原 destroy 方法
+
+3. Solved the bug that the destroy method of the control can only delete half of the controls when traversing  
+解决了控件的 destroy 方法在遍历使用时只能删除一半控件的bug
+
+4. Add some methods (attributes) of Tk, Toplevel and Canvas to access some attributes that should not be directly accessed  
+增加 Tk、Toplevel、Canvas 的一些方法(属性)来访问一些不应该被直接访问的属性
+
+5. Some codes of Tk and Toplevel are optimized, and the code amount of Toplevel controls is greatly reduced  
+优化了 Tk、Toplevel 的部分代码，Toplevel 控件的代码量大大缩减
+
+6. The proportion_lock parameter and its function of Tk and Toplevel are deleted  
+删除了 Tk、Toplevel 的 proportion_lock 参数及其功能
+
+7. Toplevel class overrides destroy method to be compatible with the original destroy method  
+Toplevel 类重写 destroy 方法以兼容原 destroy 方法
+
+version 2.5.2
 --------------
 
 1. Change the mouse position detection order to further improve the running speed  
@@ -16,7 +40,7 @@ version: 2.5.2
 5. Fixed the bug that the read parameter of the text box control failed  
 修复了文本框控件read参数失效的bug
 
-version: 2.5.1
+version 2.5.1
 --------------
 
 1. Solved the bug that the input prompt position was not aligned after the input box was enlarged  
@@ -34,7 +58,7 @@ version: 2.5.1
 5. Fix a few errors in the module documentation  
 修复模块文档中的少许错误
 
-version: 2.5
+version 2.5
 ------------
 
 * Big update  

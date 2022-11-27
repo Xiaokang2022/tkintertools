@@ -3,8 +3,8 @@
 
 Update/最近更新
 -------------------
-> Version: 2.5.3(pre)  
-> Time: 2022/11/26
+> Version: 2.5.3  
+> Date: 2022/11/27
 
 1. Added singleton pattern class for inheritance  
 增加了单例模式类供继承
@@ -15,8 +15,17 @@ Canvas 类重写 destroy 方法以兼容原 destroy 方法
 3. Solved the bug that the destroy method of the control can only delete half of the controls when traversing  
 解决了控件的 destroy 方法在遍历使用时只能删除一半控件的bug
 
-4. Add Tk, Toplevel and Canvas methods to access some attributes that should not be directly accessed  
-增加 Tk、Toplevel、Canvas 的一些方法来访问一些不应该被直接访问的属性
+4. Add some methods (attributes) of Tk, Toplevel and Canvas to access some attributes that should not be directly accessed  
+增加 Tk、Toplevel、Canvas 的一些方法(属性)来访问一些不应该被直接访问的属性
+
+5. Some codes of Tk and Toplevel are optimized, and the code amount of Toplevel controls is greatly reduced  
+优化了 Tk、Toplevel 的部分代码，Toplevel 控件的代码量大大缩减
+
+6. The proportion_lock parameter and its function of Tk and Toplevel are deleted  
+删除了 Tk、Toplevel 的 proportion_lock 参数及其功能
+
+7. Toplevel class overrides destroy method to be compatible with the original destroy method  
+Toplevel 类重写 destroy 方法以兼容原 destroy 方法
 
 > Thanks/特别感谢  
 Thanks [-ShuiGuang-](https://blog.csdn.net/atlantis618) for finding a bug (point 3)  
@@ -30,6 +39,15 @@ Todo/下一步
 
 2. Solve the bug that the vertical position of the text is wrong when the text box is enlarged  
 解决文本框放大时，文本纵向位置错误的bug
+
+3. Solve the bug that the cursor will flash faster and faster after pasting text for text control  
+解决文本类控件在粘贴文本后光标会越闪越快的bug
+
+4. Solve the bug that there is no change in reducing the font size under certain conditions  
+解决字体大小进行缩放时，在某种条件下缩小没有变化的bug
+
+5. Solve the bug that text shrinks and overflows after zooming text controls  
+解决文本类控件缩放后文本产生缩水和溢出的bug
 
 Description/模块描述
 -------------------

@@ -17,7 +17,7 @@ Base Information
 ----------------
 * Author: XiaoKang2022<2951256653@qq.com>
 * Version: 2.5.3
-* Update: 2022/11/26
+* Update: 2022/11/27
 
 Contents
 --------
@@ -38,21 +38,22 @@ import tkinter
 from sys import version_info
 from typing import Generator, Literal, Self
 
+
 __author__ = 'XiaoKang2022'
 __version__ = '2.5.3'
 __all__ = (
     'Tk',
     'Toplevel',
     'Canvas',
-    'PhotoImage',
     'CanvasLabel',
     'CanvasButton',
     'CanvasEntry',
     'CanvasText',
+    'PhotoImage',
+    'Singleton',
     'move_widget',
     'correct_text',
     'change_color',
-    'Singleton',
 )
 
 if version_info < (3, 10):
@@ -86,7 +87,6 @@ class Tk(tkinter.Tk):
         geometry: str | None = None,
         minisize: tuple[int, int] | None = None,
         alpha: float | None = None,
-        proportion_lock: bool = False,
         shutdown=None,  # type: function | None
         **kw
     ) -> None:
@@ -96,92 +96,74 @@ class Tk(tkinter.Tk):
         `geometry`: 窗口大小及位置（格式：'宽度x高度+左上角横坐标+左上角纵坐标' 或者 '宽度x高度'）
         `minisize`: 窗口的最小缩放大小（默认为参数 geometry 的宽度与高度）
         `alpha`: 窗口透明度，范围为0~1，0为完全透明
-        `proportion_lock`: 窗口缩放是否保持原比例
         `shutdown`: 关闭窗口之前执行的函数（会覆盖原关闭操作）
         `**kw`: 与原 tkinter 模块中的 Tk 类的参数相同
         """
 
-        self.proportion_lock = proportion_lock
+        if type(self) == Tk:
+            tkinter.Tk.__init__(self, **kw)
 
-        # 宽高比例
-        self._proportion = None
-        # 宽高值
-        self._width = 1
-        self._height = 1
-        # 初始宽高值
-        self.width = 100
-        self.height = 100
+        self.proportion = None  # 宽高比例
+        self.init_width, self.width = 100, 1  # 初始宽度与当前宽度
+        self.init_height, self.height = 100, 1  # 初始高度与当前高度
 
-        # 子窗口列表（与Toplevel有关）
-        self.toplevel_list: list[Toplevel] = []
-        # 子画布列表（与缩放绑定有关）
-        self.canvas_list: list[Canvas] = []
+        self._canvas: list[Canvas] = []  # 子画布列表
+        self._toplevel: list[Toplevel] = []  # 子窗口列表
 
-        tkinter.Tk.__init__(self, **kw)
-
-        if geometry:
-            self.geometry(geometry)
-            if not minisize:
-                self.minsize(*map(int, geometry.split('+')[0].split('x')))
-        if title:
-            self.title(title)
-        if alpha != None:
-            self.attributes('-alpha', alpha)
         if minisize:
             self.minsize(*minisize)
-        if shutdown:
-            self.protocol('WM_DELETE_WINDOW', shutdown)
+        elif geometry:
+            self.minsize(*map(int, geometry.split('+')[0].split('x')))
 
-        # 开启窗口缩放检测
-        self.bind('<Configure>', self.zoom)
+        self.title(title if title else None)
+        self.geometry(geometry if geometry else None)
+        self.attributes('-alpha', alpha if alpha else None)
+        self.protocol('WM_DELETE_WINDOW', shutdown if shutdown else None)
 
-    def zoom(self, event: tkinter.Event) -> None:
+        self.bind('<Configure>', self.__zoom)  # 开启窗口缩放检测
+
+    @property
+    def canvas(self) -> tuple:
+        return tuple(self._canvas)
+
+    @property
+    def toplevel(self) -> tuple:
+        return tuple(self._toplevel)
+
+    def __zoom(self, event: tkinter.Event) -> None:
         """ 内部方法：缩放检测 """
-        if not self._proportion:
+        if not self.proportion:
             # 记住初始化窗口宽高比例
-            self._proportion = event.width / event.height
+            self.proportion = event.width / event.height
             # 记住初始化的窗口大小
-            self._width = event.width
-            self._height = event.height
+            self.width, self.height = event.width, event.height
             return
 
-        if event.width != self._width or event.height != self._height:
-            # 窗口大小改变
-            if self.proportion_lock:  # NOTE: 比例同步有待优化
-                # 使高度和宽度成比例同步变化
-                delta = event.width / self._proportion-event.height
-                if event.width not in (self._width, self.winfo_screenwidth()):  # 宽度改变
-                    event.height += round(delta)
-                elif event.height not in (self._height, self.winfo_screenheight()):  # 高度改变
-                    event.width -= round(delta * self._proportion)
-                self.geometry('%sx%s' % (event.width, event.height))
-
+        if event.width != self.width or event.height != self.height:
             # 更新子画布控件的大小
-            for canvas in self.canvas_list:
+            for canvas in self._canvas:
                 if canvas.expand:
                     # 更新画布的横纵缩放比率
                     canvas.rate_x = event.width / canvas.width
                     canvas.rate_y = event.height / canvas.height
 
                     # 相对缩放对所有Canvas生效
-                    self.zoom_relative(
-                        canvas, event.width / self._width, event.height / self._height)
+                    self.__zoom_relative(
+                        canvas, event.width / self.width, event.height / self.height)
                     if canvas.lock:
                         # 绝对缩放仅对当前Canvas生效
                         self.zoom_absolute(canvas)
 
             # 更新默认参数
-            self._width = event.width
-            self._height = event.height
+            self.width, self.height = event.width, event.height
 
     @staticmethod
-    def zoom_relative(
+    def __zoom_relative(
         canvas,  # type: Canvas
         rate_x: float,
         rate_y: float
     ) -> None:
         """ 内部方法：相对缩放 """
-        # 更新画布位置
         if canvas.lock:
             info = canvas.place_info()
             tkinter.Canvas.place(
@@ -190,31 +172,29 @@ class Tk(tkinter.Tk):
                 y=round(float(info['y'])*rate_y))
 
         # 更新子画布控件的子虚拟画布控件位置数据
-        for widget in canvas.widget_list:
+        for widget in canvas._widget:
             widget.x1 *= rate_x
             widget.x2 *= rate_x
             widget.y1 *= rate_y
             widget.y2 *= rate_y
 
         # 更新子画布控件的子虚拟画布控件的位置
-        for item in canvas.item_dict:
-            coords = [c * rate_y if i % 2 else c * rate_x for i,
-                      c in enumerate(canvas.coords(item))]
-            canvas.coords(item, coords)
+        for item in canvas._item_dict:
+            canvas.coords(item, [c * rate_y if i % 2 else c * rate_x for i,
+                                 c in enumerate(canvas.coords(item))])
 
     @staticmethod
     def zoom_absolute(
         canvas  # type: Canvas
     ) -> None:
-        """ 内部方法：绝对缩放 """
-        # 缩放画布
+        """ 绝对缩放 """
         tkinter.Canvas.place(
             canvas,
             width=canvas.width*canvas.rate_x,
             height=canvas.height*canvas.rate_y)
 
         # 缩放控件
-        for item, key in canvas.item_dict.items():
+        for item, key in canvas._item_dict.items():
             if key[0] == 'font':  # BUG: 字体缩小时有 bug
                 # 字体大小修改
                 font: str = canvas.itemcget(item, 'font')
@@ -239,7 +219,7 @@ class Tk(tkinter.Tk):
     ) -> None:
         """ 绑定鼠标触碰控件事件 """
         if canvas.lock:
-            for widget in canvas.widget_list[::-1]:
+            for widget in canvas._widget[::-1]:
                 if widget.live:
                     if widget.touch(event):
                         if isinstance(widget, CanvasButton):
@@ -259,10 +239,10 @@ class Tk(tkinter.Tk):
     ) -> None:
         """ 绑定鼠标左键按下事件 """
         if canvas.lock:
-            for widget in canvas.widget_list:
+            for widget in canvas._widget:
                 if isinstance(widget, CanvasButton | CanvasEntry | CanvasText):
                     if widget.live:
-                        # press 无需加速，其有额外作用
+                        # press 无需使用break加速，其有额外作用
                         widget.press(event)
 
     @staticmethod
@@ -272,7 +252,7 @@ class Tk(tkinter.Tk):
     ) -> None:
         """ 绑定鼠标左键松开事件 """
         if canvas.lock:
-            for widget in canvas.widget_list[::-1]:
+            for widget in canvas._widget[::-1]:
                 if isinstance(widget, CanvasButton):
                     if widget.live:
                         widget.touch(event)
@@ -286,7 +266,7 @@ class Tk(tkinter.Tk):
     ) -> None:
         """ 绑定鼠标滚轮滚动事件 """
         if canvas.lock:
-            for widget in canvas.widget_list[::-1]:
+            for widget in canvas._widget[::-1]:
                 if isinstance(widget, CanvasText):
                     if widget.live:
                         if widget.scroll(event):
@@ -294,9 +274,9 @@ class Tk(tkinter.Tk):
 
     def __input(self, event: tkinter.Event) -> None:
         """ 绑定键盘输入字符事件 """
-        for canvas in self.canvas_list:
+        for canvas in self._canvas:
             if canvas.lock:
-                for widget in canvas.widget_list[::-1]:
+                for widget in canvas._widget[::-1]:
                     if isinstance(widget, CanvasEntry | CanvasText):
                         if widget.live:
                             if widget.input(event):
@@ -304,9 +284,9 @@ class Tk(tkinter.Tk):
 
     def __paste(self) -> None:
         """ 快捷键粘贴 """
-        for canvas in self.canvas_list:
+        for canvas in self._canvas:
             if canvas.lock:
-                for widget in canvas.widget_list[::-1]:
+                for widget in canvas._widget[::-1]:
                     if isinstance(widget, CanvasEntry | CanvasText):
                         if widget.live:
                             if widget.paste():
@@ -317,49 +297,41 @@ class Tk(tkinter.Tk):
         # 绑定键盘输入字符
         self.bind('<Any-Key>', self.__input)
         # 绑定粘贴快捷键
-        self.bind('<Control-KeyPress-v>', lambda _: self.__paste())
+        self.bind('<Control-v>', lambda _: self.__paste())
 
-        for canvas in self.canvas_list:
-            # 绑定鼠标触碰控件
-            canvas.bind('<Motion>', lambda event,
-                        _=canvas: self.__touch(event, _))
-            # 绑定鼠标左键按下
-            canvas.bind('<Button-1>', lambda event,
-                        _=canvas: self.__press(event, _))
-            # 绑定鼠标左键松开
-            canvas.bind('<ButtonRelease-1>', lambda event,
-                        _=canvas: self.__release(event, _))
-            # 绑定鼠标左键按下移动
-            canvas.bind('<B1-Motion>', lambda event,
-                        _=canvas: self.__press(event, _))
-            # 绑定鼠标滚轮滚动
-            canvas.bind('<MouseWheel>', lambda event,
-                        _=canvas: self.__mousewheel(event, _))
+        for canvas in self._canvas:
+            canvas.bind('<Motion>',  # 绑定鼠标触碰控件
+                        lambda event, _=canvas: self.__touch(event, _))
+            canvas.bind('<Button-1>',  # 绑定鼠标左键按下
+                        lambda event, _=canvas: self.__press(event, _))
+            canvas.bind('<ButtonRelease-1>',  # 绑定鼠标左键松开
+                        lambda event, _=canvas: self.__release(event, _))
+            canvas.bind('<B1-Motion>',  # 绑定鼠标左键按下移动
+                        lambda event, _=canvas: self.__press(event, _))
+            canvas.bind('<MouseWheel>',  # 绑定鼠标滚轮滚动
+                        lambda event, _=canvas: self.__mousewheel(event, _))
 
-    def geometry(self, newGeometry: str | None = None) -> str | None:
+    def wm_geometry(self, newGeometry: str | None = None) -> str | None:
         # 重写：添加修改初始宽高值的功能
         if newGeometry:
-            self.width, self.height = map(
+            self.init_width, self.init_height = map(
                 int, newGeometry.split('+')[0].split('x'))
-        return tkinter.Tk.geometry(self, newGeometry)
+        return tkinter.Tk.wm_geometry(self, newGeometry)
+
+    geometry = wm_geometry
 
     def mainloop(self) -> None:
         # 重写：开启基本事件绑定
         self.bind_event()
-        for toplevel in self.toplevel_list:
+        for toplevel in self._toplevel:
             toplevel.bind_event()
         tkinter.Tk.mainloop(self)
-
-    def all_canvas(self) -> tuple:
-        """ 返回窗口所有画布的元组 """
-        return tuple(self.canvas_list)
 
 
 class Toplevel(tkinter.Toplevel, Tk):
     """
     ### Toplevel 类
-    用法类似于原 tkinter 模块里的 Toplevel，
-    同时增加了 Tk 的功能
+    用法类似于原 tkinter 模块里的 Toplevel，同时增加了 Tk 的功能
     """
 
     def __init__(
@@ -369,7 +341,6 @@ class Toplevel(tkinter.Toplevel, Tk):
         geometry: str | None = None,
         minisize: tuple[int, int] | None = None,
         alpha: float | None = None,
-        proportion_lock: bool = False,
         shutdown=None,  # type: function | None
         **kw
     ) -> None:
@@ -380,48 +351,21 @@ class Toplevel(tkinter.Toplevel, Tk):
         `geometry`: 窗口大小及位置（格式：'宽度x高度+左上角横坐标+左上角纵坐标' 或者 '宽度x高度'）
         `minisize`: 窗口的最小缩放大小（默认为参数 geometry 的宽度与高度）
         `alpha`: 窗口透明度，范围为0~1，0为完全透明
-        `proportion_lock`: 窗口缩放是否保持原比例
         `shutdown`: 关闭窗口之前执行的函数（会覆盖关闭操作）
         `**kw`: 与原 tkinter 模块中的 Toplevel 类的参数相同
         """
 
-        self.master = master
-        self.proportion_lock = proportion_lock
-
-        # 宽高比例
-        self._proportion = None
-        # 宽高值
-        self._width = 1
-        self._height = 1
-        # 初始宽高值
-        self.width = 100
-        self.height = 100
-
-        # 子窗口列表（与Toplevel有关）
-        self.toplevel_list: list[Toplevel] = []
-        # 子画布列表（与缩放绑定有关）
-        self.canvas_list: list[Canvas] = []
-
         tkinter.Toplevel.__init__(self, master=master, **kw)
-
-        if geometry:
-            self.geometry(geometry)
-            if not minisize:
-                self.minsize(*map(int, geometry.split('+')[0].split('x')))
-        if title:
-            self.title(title)
-        if alpha != None:
-            self.attributes('-alpha', alpha)
-        if minisize:
-            self.minsize(*minisize)
-        if shutdown:
-            self.protocol('WM_DELETE_WINDOW', shutdown)
-
-        # 开启窗口缩放检测
-        self.bind('<Configure>', self.zoom)
+        Tk.__init__(self, title=title, geometry=geometry, minisize=minisize,
+                    alpha=alpha, shutdown=shutdown, **kw)
 
         # 将实例添加到父控件的子窗口列表中
-        master.toplevel_list.append(self)
+        master._toplevel.append(self)
+
+    def destroy(self) -> None:
+        # 重写：兼容
+        self.master._toplevel.remove(self)
+        return tkinter.Toplevel.destroy(self)
 
 
 class Canvas(tkinter.Canvas):
@@ -449,36 +393,31 @@ class Canvas(tkinter.Canvas):
         `**kw`: 与原 tkinter 模块内 Canvas 类的参数相同
         """
 
-        self.width = width
-        self.height = height
+        self.width, self.height = width, height
         self.lock = lock
         self.expand = expand
 
-        # 放缩比率
-        self.rate_x = 1
-        self.rate_y = 1
+        self.rate_x, self.rate_y = 1, 1  # 放缩比率
 
-        # 子控件列表（与事件绑定有关）
-        self.widget_list: list[_BaseWidget] = []
+        self._widget: list[_BaseWidget] = []  # 子控件列表（与事件绑定有关）
         # 子item字典（与大小缩放有关）
-        self.item_dict = {}  # type: dict[tkinter._CanvasItemId, tuple | list]
+        self._item_dict = {}  # type: dict[tkinter._CanvasItemId, tuple | list]
 
         tkinter.Canvas.__init__(self, master, width=width,
                                 height=height, highlightthickness=0, **kw)
 
         # 将实例添加到 Tk 的画布列表中
-        master.canvas_list.append(self)
+        master._canvas.append(self)
 
-    def setlock(self, boolean: bool) -> None:
+    @property
+    def widget(self) -> tuple:
+        return tuple(self._widget)
+
+    def set_lock(self, boolean: bool) -> None:
         """ 设置画布锁 """
         self.lock = boolean
-        self.master: Tk
-        if self.lock and self.expand:
+        if boolean and self.expand:
             self.master.zoom_absolute(self)
-
-    def all_widget(self) -> tuple:
-        """ 返回画布所有控件元组 """
-        return tuple(self.widget_list)
 
     def create_text(self, *args, **kw):
         # 重写：添加对 text 类型的 _CanvasItemId 的字体大小的控制
@@ -487,55 +426,55 @@ class Canvas(tkinter.Canvas):
         elif type(_) == str:
             kw['font'] = (_, 10)
         item = tkinter.Canvas.create_text(self, *args, **kw)
-        self.item_dict[item] = 'font', kw['font'][1]
+        self._item_dict[item] = 'font', kw['font'][1]
         return item
 
     def create_image(self, *args, **kw):
         # 重写：添加对 image 类型的 _CanvasItemId 的图像大小的控制
         item = tkinter.Canvas.create_image(self, *args, **kw)
-        self.item_dict[item] = ['image', kw.get('image'), None]
+        self._item_dict[item] = ['image', kw.get('image'), None]
         return item
 
     def create_rectangle(self, *args, **kw):
         # 重写：添加对 rectangle 类型的 _CanvasItemId 的线条宽度的控制
         item = tkinter.Canvas.create_rectangle(self, *args, **kw)
-        self.item_dict[item] = 'width', self.itemcget(item, 'width')
+        self._item_dict[item] = 'width', self.itemcget(item, 'width')
         return item
 
     def create_line(self, *args, **kw):
         # 重写：添加对 line 类型的 _CanvasItemId 的线条宽度的控制
         item = tkinter.Canvas.create_line(self, *args, **kw)
-        self.item_dict[item] = 'width', self.itemcget(item, 'width')
+        self._item_dict[item] = 'width', self.itemcget(item, 'width')
         return item
 
     def create_oval(self, *args, **kw):
         # 重写：添加对 oval 类型的 _CanvasItemId 的线条宽度的控制
         item = tkinter.Canvas.create_oval(self, *args, **kw)
-        self.item_dict[item] = 'width', self.itemcget(item, 'width')
+        self._item_dict[item] = 'width', self.itemcget(item, 'width')
         return item
 
     def create_arc(self, *args, **kw):
         # 重写：添加对 arc 类型的 _CanvasItemId 的线条宽度的控制
         item = tkinter.Canvas.create_arc(self, *args, **kw)
-        self.item_dict[item] = 'width', self.itemcget(item, 'width')
+        self._item_dict[item] = 'width', self.itemcget(item, 'width')
         return item
 
     def create_polygon(self, *args, **kw):
         # 重写：添加对 polygon 类型的 _CanvasItemId 的线条宽度的控制
         item = tkinter.Canvas.create_polygon(self, *args, **kw)
-        self.item_dict[item] = 'width', self.itemcget(item, 'width')
+        self._item_dict[item] = 'width', self.itemcget(item, 'width')
         return item
 
     def create_bitmap(self, *args, **kw):  # NOTE: 有待进一步研究
         # 重写：目前仅有防报错作用
         item = tkinter.Canvas.create_bitmap(self, *args, **kw)
-        self.item_dict[item] = None, None
+        self._item_dict[item] = None, None
         return item
 
     def create_window(self, *args, **kw):  # NOTE: 有待进一步研究
         # 重写：目前仅有防报错作用
         item = tkinter.Canvas.create_window(self, *args, **kw)
-        self.item_dict[item] = None, None
+        self._item_dict[item] = None, None
         return item
 
     def itemconfigure(
@@ -545,7 +484,7 @@ class Canvas(tkinter.Canvas):
     ) -> dict[str, tuple[str, str, str, str, str]] | None:
         # 重写：创建空image的_CanvasItemId时漏去对图像大小的控制
         if type(kw.get('image')) == PhotoImage and not self.itemcget(tagOrId, 'image'):
-            self.item_dict[tagOrId] = ['image', kw.get('image'), None]
+            self._item_dict[tagOrId] = ['image', kw.get('image'), None]
         return tkinter.Canvas.itemconfigure(self, tagOrId, **kw)
 
     def place(self, *args, **kw) -> None:
@@ -556,9 +495,9 @@ class Canvas(tkinter.Canvas):
 
     def destroy(self) -> None:
         # 重写：兼容
-        for widget in self.widget_list[:]:
+        for widget in self.widget:
             widget.destroy()
-        self.master.canvas_list.remove(self)
+        self.master._canvas.remove(self)
         return tkinter.Canvas.destroy(self)
 
 
@@ -637,7 +576,7 @@ class _BaseWidget:
         self._state = 'normal'
 
         # 将实例添加到父画布控件
-        canvas.widget_list.append(self)
+        canvas._widget.append(self)
 
         if radius:
             if 2 * radius > width:
@@ -796,7 +735,7 @@ class _BaseWidget:
     def destroy(self) -> None:
         """ 摧毁控件释放内存 """
         self.live = False
-        self.master.widget_list.remove(self)
+        self.master._widget.remove(self)
 
         if self.radius:
             for item in self.inside+self.outside:
@@ -1582,7 +1521,7 @@ def test() -> None:
         _color = change_color(color)
         canvas_doc.configure(bg=color)
         canvas_doc.itemconfigure(doc, fill=_color)
-        for widget in canvas_main.widget_list:
+        for widget in canvas_main._widget:
             widget.color_fill[0], widget.color_text[0] = color, _color
             widget.state()
         root.after(20, change_bg, 0 if ind >= 1 else ind+0.01)
