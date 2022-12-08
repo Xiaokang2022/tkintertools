@@ -3,35 +3,25 @@
 
 Update/最近更新
 -------------------
-> Version: 2.5.3  
-> Date: 2022/11/27
+> Version: 2.5.4-pre  
+> Date: 2022/12/8
 
-1. Added singleton pattern class for inheritance  
-增加了单例模式类供继承
+1. A new widget has been added: progress bar(ProcessBar)  
+增加了一个新的控件：进度条（ProcessBar）
 
-2. Canvas class overrides destroy method to be compatible with the original destroy method  
-Canvas 类重写 destroy 方法以兼容原 destroy 方法
+2. Some colors are beautified  
+美化了部分颜色
 
-3. Solved the bug that the destroy method of the control can only delete half of the controls when traversing  
-解决了控件的 destroy 方法在遍历使用时只能删除一半控件的bug
+3. Delete some redundant codes in the function move_widget and solve the bug that tkinter._CanvasItemId cannot be moved  
+删除函数 move_widget 中的部分冗余代码并解决了无法移动 tkinter._CanvasItemId 的 bug
 
-4. Add some methods (attributes) of Tk, Toplevel and Canvas to access some attributes that should not be directly accessed  
-增加 Tk、Toplevel、Canvas 的一些方法(属性)来访问一些不应该被直接访问的属性
+4. Fixed the bug that the screen size would be abnormal when creating Canvas of different sizes  
+修复了新建不同大小的 Canvas 时，画面大小会异常的 bug
 
-5. Some codes of Tk and Toplevel are optimized, and the code amount of Toplevel controls is greatly reduced  
-优化了 Tk、Toplevel 的部分代码，Toplevel 控件的代码量大大缩减
+5. The binding mechanism of associated events has been modified so that Canvas classes can be created at any time  
+修改了关联事件的绑定机制，使得 Canvas 类可以被随时创建
 
-6. The proportion_lock parameter and its function of Tk and Toplevel are deleted  
-删除了 Tk、Toplevel 的 proportion_lock 参数及其功能
-
-7. Toplevel class overrides destroy method to be compatible with the original destroy method  
-Toplevel 类重写 destroy 方法以兼容原 destroy 方法
-
-> Thanks/特别感谢  
-Thanks [-ShuiGuang-](https://blog.csdn.net/atlantis618) for finding a bug (point 3)  
-感谢 [-ShuiGuang-](https://blog.csdn.net/atlantis618) 发现一个bug（第3点）
-
-Todo/下一步
+Todos/下一步
 ----------
 
 1. Solve the bug that the text box class set and append methods will not be updated immediately after use  

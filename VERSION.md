@@ -1,5 +1,5 @@
 version 2.5.3
---------------
+-------------
 
 1. Added singleton pattern class for inheritance  
 增加了单例模式类供继承
@@ -23,7 +23,7 @@ Canvas 类重写 destroy 方法以兼容原 destroy 方法
 Toplevel 类重写 destroy 方法以兼容原 destroy 方法
 
 version 2.5.2
---------------
+-------------
 
 1. Change the mouse position detection order to further improve the running speed  
 改变鼠标位置检测顺序，进一步提升运行速度
@@ -41,7 +41,7 @@ version 2.5.2
 修复了文本框控件read参数失效的bug
 
 version 2.5.1
---------------
+-------------
 
 1. Solved the bug that the input prompt position was not aligned after the input box was enlarged  
 解决了输入框放大后输入提示符位置没对齐的bug
@@ -59,7 +59,7 @@ version 2.5.1
 修复模块文档中的少许错误
 
 version 2.5
-------------
+-----------
 
 * Big update  
 大更新

@@ -16,13 +16,13 @@ Provides:
 Base Information
 ----------------
 * Author: XiaoKang2022<2951256653@qq.com>
-* Version: 2.5.3
-* Update: 2022/11/27
+* Version: 2.5.4
+* Update: 2022/12/8
 
 Contents
 --------
 * Container Widget: `Tk`, `Toplevel`, `Canvas`
-* Virtual Canvas Widget: `CanvasLabel`, `CanvasButton`, `CanvasEntry`, `CanvasText`
+* Virtual Canvas Widget: `CanvasLabel`, `CanvasButton`, `CanvasEntry`, `CanvasText`, `ProcessBar`
 * Tool Class: `PhotoImage`, `Singleton`
 * Tool Function: `move_widget`, `correct_text`, `change_color`
 
@@ -40,7 +40,7 @@ from typing import Generator, Literal, Self
 
 
 __author__ = 'XiaoKang2022'
-__version__ = '2.5.3'
+__version__ = '2.5.4'
 __all__ = (
     'Tk',
     'Toplevel',
@@ -49,6 +49,7 @@ __all__ = (
     'CanvasButton',
     'CanvasEntry',
     'CanvasText',
+    'ProcessBar',
     'PhotoImage',
     'Singleton',
     'move_widget',
@@ -61,11 +62,12 @@ if version_info < (3, 10):
 
 
 COLOR_FILL_BUTTON = '#E1E1E1', '#E5F1FB', '#CCE4F7', '#F0F0F0'      # 默认的按钮内部颜色
+COLOR_OUTLINE_BUTTON = '#C0C0C0', '#288CDB', '#4884B4', '#D5D5D5'   # 默认的按钮外框颜色
 COLOR_FILL_TEXT = '#FFFFFF', '#FFFFFF', '#FFFFFF', '#F0F0F0'        # 默认的文本内部颜色
-COLOR_OUTLINE_BUTTON = '#C0C0C0', '#4A9EE0', '#4884B4', '#D5D5D5'   # 默认的按钮外框颜色
-COLOR_OUTLINE_TEXT = '#C0C0C0', '#5C5C5C', '#4A9EE0', '#D5D5D5'     # 默认的文本外框颜色
-COLOR_TEXT = '#000000', '#000000', '#000000', '#A3A9AC'             # 默认的文本颜色
+COLOR_OUTLINE_TEXT = '#C0C0C0', '#414141', '#288CDB', '#D5D5D5'     # 默认的文本外框颜色
+COLOR_TEXT = '#000000', '#000000', '#000000', '#A3A3A3'             # 默认的文本颜色
 COLOR_NONE = '', '', '', ''                                         # 透明颜色
+COLOR_BAR = '#E1E1E1', '#06b025'                                    # 默认的进度条颜色
 
 BORDERWIDTH = 1     # 默认控件外框宽度
 CURSOR = '│'        # 文本光标
@@ -103,9 +105,7 @@ class Tk(tkinter.Tk):
         if type(self) == Tk:
             tkinter.Tk.__init__(self, **kw)
 
-        self.proportion = None  # 宽高比例
-        self.init_width, self.width = 100, 1  # 初始宽度与当前宽度
-        self.init_height, self.height = 100, 1  # 初始高度与当前高度
+        self.width, self.height = [100, 1], [100, 1]
 
         self._canvas: list[Canvas] = []  # 子画布列表
         self._toplevel: list[Toplevel] = []  # 子窗口列表
@@ -120,7 +120,7 @@ class Tk(tkinter.Tk):
         self.attributes('-alpha', alpha if alpha else None)
         self.protocol('WM_DELETE_WINDOW', shutdown if shutdown else None)
 
-        self.bind('<Configure>', self.__zoom)  # 开启窗口缩放检测
+        self.bind('<Configure>', lambda _: self.__zoom())  # 开启窗口缩放检测
 
     @property
     def canvas(self) -> tuple:
@@ -130,32 +130,27 @@ class Tk(tkinter.Tk):
     def toplevel(self) -> tuple:
         return tuple(self._toplevel)
 
-    def __zoom(self, event: tkinter.Event) -> None:
+    def __zoom(self) -> None:
         """ 内部方法：缩放检测 """
-        if not self.proportion:
-            # 记住初始化窗口宽高比例
-            self.proportion = event.width / event.height
-            # 记住初始化的窗口大小
-            self.width, self.height = event.width, event.height
-            return
-
-        if event.width != self.width or event.height != self.height:
+        width, height = map(int, self.geometry().split('+')[0].split('x'))
+        # NOTE: 此处必须用 geometry 方法，直接用 event 会有画面异常的 bug
+        if width != self.width[1] or height != self.height[1]:
             # 更新子画布控件的大小
             for canvas in self._canvas:
                 if canvas.expand:
                     # 更新画布的横纵缩放比率
-                    canvas.rate_x = event.width / canvas.width
-                    canvas.rate_y = event.height / canvas.height
+                    canvas.rate_x = width / self.width[0]
+                    canvas.rate_y = height / self.height[0]
 
                     # 相对缩放对所有Canvas生效
                     self.__zoom_relative(
-                        canvas, event.width / self.width, event.height / self.height)
+                        canvas, width/self.width[1], height/self.height[1])
                     if canvas.lock:
-                        # 绝对缩放仅对当前Canvas生效
+                        # 绝对缩放仅对 lock 为 True 的 Canvas 生效
                         self.zoom_absolute(canvas)
 
             # 更新默认参数
-            self.width, self.height = event.width, event.height
+            self.width[1], self.height[1] = width, height
 
     @staticmethod
     def __zoom_relative(
@@ -314,8 +309,9 @@ class Tk(tkinter.Tk):
     def wm_geometry(self, newGeometry: str | None = None) -> str | None:
         # 重写：添加修改初始宽高值的功能
         if newGeometry:
-            self.init_width, self.init_height = map(
+            self.width[0], self.height[0] = map(
                 int, newGeometry.split('+')[0].split('x'))
+            self.width[1], self.height[1] = self.width[0], self.height[0]
         return tkinter.Tk.wm_geometry(self, newGeometry)
 
     geometry = wm_geometry
@@ -679,9 +675,14 @@ class _BaseWidget:
                 self.master.itemconfigure(
                     item, outline=self.color_outline[mode])
         else:
-            self.master.itemconfigure(self.rect, fill=self.color_fill[mode])
             self.master.itemconfigure(
                 self.rect, outline=self.color_outline[mode])
+            if isinstance(self, ProcessBar):
+                self.master.itemconfigure(self.bottom, fill=self.color_fill[0])
+                self.master.itemconfigure(self.bar, fill=self.color_fill[1])
+            else:
+                self.master.itemconfigure(
+                    self.rect, fill=self.color_fill[mode])
 
     def move(self, dx: float, dy: float) -> None:
         """
@@ -701,12 +702,13 @@ class _BaseWidget:
             self.master.move(self.rect, dx, dy)
 
         self.master.move(self.text, dx, dy)
+
+        if isinstance(self, _TextWidget):
+            self.master.move(self.cursor, dx, dy)
         if isinstance(self, CanvasText):
             self.master.move(self._text, dx, dy)
-
-        if hasattr(self, 'cursor'):
-            self.cursor: tkinter._CanvasItemId
-            self.master.move(self.cursor, dx, dy)
+        if isinstance(self, ProcessBar):
+            self.master.move(self.bar, dx, dy)
 
     def configure(self, *args, **kw) -> str | tuple | None:
         """
@@ -729,7 +731,7 @@ class _BaseWidget:
         if outline := kw.get('color_outline', None):
             self.color_outline = outline
 
-        if isinstance(self, CanvasLabel | CanvasButton) and value:
+        if isinstance(self, CanvasLabel | CanvasButton | ProcessBar) and value:
             self.master.itemconfigure(self.text, text=value)
 
     def destroy(self) -> None:
@@ -742,10 +744,14 @@ class _BaseWidget:
                 self.master.delete(item)
         else:
             self.master.delete(self.rect)
+
         if isinstance(self, _TextWidget):
             self.master.delete(self.cursor)
         if isinstance(self, CanvasText):
             self.master.delete(self._text)
+        if isinstance(self, ProcessBar):
+            self.master.delete(self.bar)
+
         self.master.delete(self.text)
 
     def set_live(self, boolean: bool | None = None) -> bool | None:
@@ -1269,6 +1275,51 @@ class CanvasText(_TextWidget):
         #     return True
 
 
+class ProcessBar(_BaseWidget):
+    """
+    ### 进度条控件
+    可以直观的方式显示任务进度
+    """
+
+    def __init__(
+        self,
+        canvas: Canvas,
+        x: int,
+        y: int,
+        width: int,
+        height: int,
+        borderwidth: int = BORDERWIDTH,
+        justify: str = tkinter.CENTER,
+        font: tuple[str, int, str] = FONT,
+        color_text: tuple[str, str, str] = COLOR_TEXT,
+        color_outline: tuple[str, str, str] = COLOR_OUTLINE_TEXT,
+        color_bar: tuple[str, str] = COLOR_BAR
+    ) -> None:
+
+        self.bottom = canvas.create_rectangle(
+            x, y, x+width, y+height, width=borderwidth, fill=color_bar[0])
+        self.bar = canvas.create_rectangle(
+            x, y, x, y+height, width=borderwidth, outline='', fill=color_bar[1])
+
+        _BaseWidget.__init__(self, canvas, x, y, width, height, 0, '0.00%', justify,
+                             borderwidth, font, color_text, COLOR_NONE, color_outline)
+
+        self.color_fill = list(color_bar)
+
+    def touch(self, event: tkinter.Event) -> bool:
+        """ 触碰状态检测 """
+        condition = self.x1 <= event.x <= self.x2 and self.y1 <= event.y <= self.y2
+        self.state('touch' if condition else 'normal')
+        return condition
+
+    def load(self, percentage: float) -> None:
+        """ 进度条加载 """
+        percentage = 0 if percentage < 0 else 1 if percentage > 1 else percentage
+        x2 = self.x1 + self.width * percentage * self.master.rate_x
+        self.master.coords(self.bar, self.x1, self.y1, x2, self.y2)
+        self.configure(text='%.2f%%' % (percentage * 100))
+
+
 class PhotoImage(tkinter.PhotoImage):
     """
     ### 图片类
@@ -1355,7 +1406,7 @@ class Singleton(object):
 
 def move_widget(
     master: Tk | Canvas | tkinter.Misc | tkinter.BaseWidget,
-    widget: Canvas | _BaseWidget | tkinter.BaseWidget,
+    widget: Canvas | _BaseWidget | tkinter.BaseWidget | int,
     dx: int,
     dy: int,
     times: float,
@@ -1427,7 +1478,7 @@ def move_widget(
     if _ind != 19:
         # 迭代函数
         args = master, widget, dx, dy, times, v, _x+x, _y+y, _ind+1
-        widget.master.after(round(times*50), move_widget, *args)
+        master.after(round(times*50), move_widget, *args)
 
 
 def correct_text(
@@ -1536,6 +1587,11 @@ def test() -> None:
         if ind < 100:
             root.after(30, draw, ind+1)
 
+    def processbar(ind=0):
+        """ 进度条更新 """
+        bar.load(ind)
+        root.after(1, processbar, ind+0.0001)
+
     root = Tk('Test', '960x540', alpha=0.9, shutdown=shutdown)
     (canvas_main := Canvas(root, 960, 540)).place(x=0, y=0)
     (canvas_doc := Canvas(root, 960, 540)).place(x=-960, y=0)
@@ -1579,7 +1635,12 @@ def test() -> None:
         canvas_main, 830, 250, 120, 25, 0, '方角按钮',
         command=lambda: move_widget(canvas_main, label_2, 0, -120 * canvas_main.rate_y, 0.25, 'smooth'))
 
-    doc = canvas_doc.create_text(360, 270, text=__doc__, font=('楷体', 12))
+    bar = ProcessBar(canvas_main, 220, 220, 520, 25)
+    load = CanvasButton(canvas_main, 420, 250, 120, 25, 0, '加载进度',
+                        command=lambda: (processbar(), load.set_live(False)))
+
+    doc = canvas_doc.create_text(
+        15, 270, text=__doc__, font=('楷体', 12), anchor='w')
 
     label_1 = CanvasLabel(canvas_main, 225, 550, 250,
                           100, 10, '圆角标签\n移动模式:rebound')
