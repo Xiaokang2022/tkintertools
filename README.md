@@ -3,7 +3,7 @@
 
 Update/最近更新
 -------------------
-> Version: 2.5.4-pre  
+> Version: 2.5.4  
 > Date: 2022/12/8
 
 1. A new widget has been added: progress bar(ProcessBar)  
@@ -21,6 +21,9 @@ Update/最近更新
 5. The binding mechanism of associated events has been modified so that Canvas classes can be created at any time  
 修改了关联事件的绑定机制，使得 Canvas 类可以被随时创建
 
+6. Solved the bug that there is no change when the font size is scaled under certain conditions  
+解决了字体大小进行缩放时，在某种条件下缩小没有变化的bug
+
 Todos/下一步
 ----------
 
@@ -33,10 +36,7 @@ Todos/下一步
 3. Solve the bug that the cursor will flash faster and faster after pasting text for text control  
 解决文本类控件在粘贴文本后光标会越闪越快的bug
 
-4. Solve the bug that there is no change in reducing the font size under certain conditions  
-解决字体大小进行缩放时，在某种条件下缩小没有变化的bug
-
-5. Solve the bug that text shrinks and overflows after zooming text controls  
+4. Solve the bug that text shrinks and overflows after zooming text controls  
 解决文本类控件缩放后文本产生缩水和溢出的bug
 
 Description/模块描述

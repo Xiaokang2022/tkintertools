@@ -35,9 +35,9 @@ More
 """
 
 import tkinter
+from math import sqrt
 from sys import version_info
 from typing import Generator, Literal, Self
-
 
 __author__ = 'XiaoKang2022'
 __version__ = '2.5.4'
@@ -121,6 +121,8 @@ class Tk(tkinter.Tk):
         self.protocol('WM_DELETE_WINDOW', shutdown if shutdown else None)
 
         self.bind('<Configure>', lambda _: self.__zoom())  # 开启窗口缩放检测
+        self.bind('<Any-Key>', self.__input)  # 绑定键盘输入字符
+        self.bind('<Control-v>', lambda _: self.__paste())  # 绑定粘贴快捷键
 
     @property
     def canvas(self) -> tuple:
@@ -174,9 +176,16 @@ class Tk(tkinter.Tk):
             widget.y2 *= rate_y
 
         # 更新子画布控件的子虚拟画布控件的位置
-        for item in canvas._item_dict:
+        for item, key in canvas._item_dict.items():
             canvas.coords(item, [c * rate_y if i % 2 else c * rate_x for i,
                                  c in enumerate(canvas.coords(item))])
+            if key[0] == 'font':
+                # 字体大小修改
+                key[1] *= sqrt(rate_x*rate_y)
+                if font := canvas.itemcget(item, 'font').split():
+                    # NOTE: 不加 if 有时会有 bug
+                    font[1] = int(key[1])
+                    canvas.itemconfigure(item, font=font)
 
     @staticmethod
     def zoom_absolute(
@@ -190,14 +199,7 @@ class Tk(tkinter.Tk):
 
         # 缩放控件
         for item, key in canvas._item_dict.items():
-            if key[0] == 'font':  # BUG: 字体缩小时有 bug
-                # 字体大小修改
-                font: str = canvas.itemcget(item, 'font')
-                if font:
-                    font = font.split()
-                    font[1] = int(key[1] * min(canvas.rate_x, canvas.rate_y))
-                    canvas.itemconfigure(item, font=font)
-            elif key[0] == 'width':
+            if key[0] == 'width':
                 # 宽度大小修改
                 rate = min(canvas.rate_x, canvas.rate_y)
                 canvas.itemconfigure(item, width=float(key[1])*rate)
@@ -206,66 +208,6 @@ class Tk(tkinter.Tk):
                 if key[1] and key[1].file.split('.')[-1] == 'png':
                     key[2] = key[1].zoom(canvas.rate_x, canvas.rate_y, 1.1)
                     canvas.itemconfigure(item, image=key[2])
-
-    @staticmethod
-    def __touch(
-        event: tkinter.Event,
-        canvas  # type: Canvas
-    ) -> None:
-        """ 绑定鼠标触碰控件事件 """
-        if canvas.lock:
-            for widget in canvas._widget[::-1]:
-                if widget.live:
-                    if widget.touch(event):
-                        if isinstance(widget, CanvasButton):
-                            canvas.configure(cursor='hand2')
-                        elif isinstance(widget, _TextWidget):
-                            canvas.configure(cursor='xterm')
-                        else:
-                            canvas.configure(cursor='arrow')
-                        return
-            else:
-                canvas.configure(cursor='arrow')
-
-    @staticmethod
-    def __press(
-        event: tkinter.Event,
-        canvas  # type: Canvas
-    ) -> None:
-        """ 绑定鼠标左键按下事件 """
-        if canvas.lock:
-            for widget in canvas._widget:
-                if isinstance(widget, CanvasButton | CanvasEntry | CanvasText):
-                    if widget.live:
-                        # press 无需使用break加速，其有额外作用
-                        widget.press(event)
-
-    @staticmethod
-    def __release(
-        event: tkinter.Event,
-        canvas  # type: Canvas
-    ) -> None:
-        """ 绑定鼠标左键松开事件 """
-        if canvas.lock:
-            for widget in canvas._widget[::-1]:
-                if isinstance(widget, CanvasButton):
-                    if widget.live:
-                        widget.touch(event)
-                        if widget.execute(event):
-                            return
-
-    @staticmethod
-    def __mousewheel(
-        event: tkinter.Event,
-        canvas  # type: Canvas
-    ) -> None:
-        """ 绑定鼠标滚轮滚动事件 """
-        if canvas.lock:
-            for widget in canvas._widget[::-1]:
-                if isinstance(widget, CanvasText):
-                    if widget.live:
-                        if widget.scroll(event):
-                            return
 
     def __input(self, event: tkinter.Event) -> None:
         """ 绑定键盘输入字符事件 """
@@ -287,25 +229,6 @@ class Tk(tkinter.Tk):
                             if widget.paste():
                                 return
 
-    def bind_event(self) -> None:
-        """ 内部方法：关联事件的绑定 """
-        # 绑定键盘输入字符
-        self.bind('<Any-Key>', self.__input)
-        # 绑定粘贴快捷键
-        self.bind('<Control-v>', lambda _: self.__paste())
-
-        for canvas in self._canvas:
-            canvas.bind('<Motion>',  # 绑定鼠标触碰控件
-                        lambda event, _=canvas: self.__touch(event, _))
-            canvas.bind('<Button-1>',  # 绑定鼠标左键按下
-                        lambda event, _=canvas: self.__press(event, _))
-            canvas.bind('<ButtonRelease-1>',  # 绑定鼠标左键松开
-                        lambda event, _=canvas: self.__release(event, _))
-            canvas.bind('<B1-Motion>',  # 绑定鼠标左键按下移动
-                        lambda event, _=canvas: self.__press(event, _))
-            canvas.bind('<MouseWheel>',  # 绑定鼠标滚轮滚动
-                        lambda event, _=canvas: self.__mousewheel(event, _))
-
     def wm_geometry(self, newGeometry: str | None = None) -> str | None:
         # 重写：添加修改初始宽高值的功能
         if newGeometry:
@@ -315,13 +238,6 @@ class Tk(tkinter.Tk):
         return tkinter.Tk.wm_geometry(self, newGeometry)
 
     geometry = wm_geometry
-
-    def mainloop(self) -> None:
-        # 重写：开启基本事件绑定
-        self.bind_event()
-        for toplevel in self._toplevel:
-            toplevel.bind_event()
-        tkinter.Tk.mainloop(self)
 
 
 class Toplevel(tkinter.Toplevel, Tk):
@@ -405,6 +321,56 @@ class Canvas(tkinter.Canvas):
         # 将实例添加到 Tk 的画布列表中
         master._canvas.append(self)
 
+        self.bind('<Motion>', self.__touch)  # 绑定鼠标触碰控件
+        self.bind('<Button-1>', self.__press)  # 绑定鼠标左键按下
+        self.bind('<B1-Motion>', self.__press)  # 绑定鼠标左键按下移动
+        self.bind('<MouseWheel>', self.__mousewheel)  # 绑定鼠标滚轮滚动
+        self.bind('<ButtonRelease-1>', self.__release)  # 绑定鼠标左键松开
+
+    def __touch(self, event: tkinter.Event) -> None:
+        """ 绑定鼠标触碰控件事件 """
+        if self.lock:
+            for widget in self._widget[::-1]:
+                if widget.live:
+                    if widget.touch(event):
+                        if isinstance(widget, CanvasButton):
+                            self.configure(cursor='hand2')
+                        elif isinstance(widget, _TextWidget):
+                            self.configure(cursor='xterm')
+                        else:
+                            self.configure(cursor='arrow')
+                        return
+            else:
+                self.configure(cursor='arrow')
+
+    def __press(self, event: tkinter.Event) -> None:
+        """ 绑定鼠标左键按下事件 """
+        if self.lock:
+            for widget in self._widget:
+                if isinstance(widget, CanvasButton | CanvasEntry | CanvasText):
+                    if widget.live:
+                        # press 无需使用break加速，其有额外作用
+                        widget.press(event)
+
+    def __release(self, event: tkinter.Event) -> None:
+        """ 绑定鼠标左键松开事件 """
+        if self.lock:
+            for widget in self._widget[::-1]:
+                if isinstance(widget, CanvasButton):
+                    if widget.live:
+                        widget.touch(event)
+                        if widget.execute(event):
+                            return
+
+    def __mousewheel(self, event: tkinter.Event) -> None:
+        """ 绑定鼠标滚轮滚动事件 """
+        if self.lock:
+            for widget in self._widget[::-1]:
+                if isinstance(widget, CanvasText):
+                    if widget.live:
+                        if widget.scroll(event):
+                            return
+
     @property
     def widget(self) -> tuple:
         return tuple(self._widget)
@@ -422,7 +388,7 @@ class Canvas(tkinter.Canvas):
         elif type(_) == str:
             kw['font'] = (_, 10)
         item = tkinter.Canvas.create_text(self, *args, **kw)
-        self._item_dict[item] = 'font', kw['font'][1]
+        self._item_dict[item] = ['font', kw['font'][1]]
         return item
 
     def create_image(self, *args, **kw):
@@ -1556,8 +1522,8 @@ def change_color(
 
 def test() -> None:
     """ 测试函数 """
-    from tkinter.messagebox import askyesno
     from random import randint
+    from tkinter.messagebox import askyesno
 
     def shutdown():
         """ 关闭窗口 """
