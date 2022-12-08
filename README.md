@@ -6,37 +6,48 @@ Update/最近更新
 > Version: 2.5.4  
 > Date: 2022/12/8
 
-1. A new widget has been added: progress bar(ProcessBar)  
+### Features/新增
+
+* A new widget has been added: progress bar(ProcessBar)  
 增加了一个新的控件：进度条（ProcessBar）
 
-2. Some colors are beautified  
-美化了部分颜色
+### Fixed/修复
 
-3. Delete some redundant codes in the function move_widget and solve the bug that tkinter._CanvasItemId cannot be moved  
-删除函数 move_widget 中的部分冗余代码并解决了无法移动 tkinter._CanvasItemId 的 bug
-
-4. Fixed the bug that the screen size would be abnormal when creating Canvas of different sizes  
+* Fixed the bug that the screen size would be abnormal when creating Canvas of different sizes  
 修复了新建不同大小的 Canvas 时，画面大小会异常的 bug
 
-5. The binding mechanism of associated events has been modified so that Canvas classes can be created at any time  
+* Solved the bug that there is no change when the font size is scaled under certain conditions  
+解决了字体大小进行缩放时，在某种条件下缩小没有变化的 bug
+
+* Solved the bug that function move_widget cannot move tkinter._CanvasItemId  
+解决了函数 move_widget 无法移动 tkinter._CanvasItemId 的 bug
+
+### Changed/变更
+
+* The binding mechanism of associated events has been modified so that Canvas classes can be created at any time  
 修改了关联事件的绑定机制，使得 Canvas 类可以被随时创建
 
-6. Solved the bug that there is no change when the font size is scaled under certain conditions  
-解决了字体大小进行缩放时，在某种条件下缩小没有变化的bug
+### Refactored/优化
+
+* Some colors are beautified  
+美化了部分颜色
+
+* Optimized some codes in function move_widget
+优化了函数 move_widget 中的部分代码
 
 Todos/下一步
 ----------
 
-1. Solve the bug that the text box class set and append methods will not be updated immediately after use  
+* Solve the bug that the text box class set and append methods will not be updated immediately after use  
 解决文本框类 set、append 方法使用后不会立即更新的bug
 
-2. Solve the bug that the vertical position of the text is wrong when the text box is enlarged  
+* Solve the bug that the vertical position of the text is wrong when the text box is enlarged  
 解决文本框放大时，文本纵向位置错误的bug
 
-3. Solve the bug that the cursor will flash faster and faster after pasting text for text control  
+* Solve the bug that the cursor will flash faster and faster after pasting text for text control  
 解决文本类控件在粘贴文本后光标会越闪越快的bug
 
-4. Solve the bug that text shrinks and overflows after zooming text controls  
+* Solve the bug that text shrinks and overflows after zooming text controls  
 解决文本类控件缩放后文本产生缩水和溢出的bug
 
 Description/模块描述
