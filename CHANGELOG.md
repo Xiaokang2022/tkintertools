@@ -30,7 +30,7 @@ Change Log/更新日志
 * Some colors are beautified  
 美化了部分颜色
 
-* Optimized some codes in function move_widget
+* Optimized some codes in function move_widget  
 优化了函数 move_widget 中的部分代码
 
 [2.5.3] - 2022-11-27
