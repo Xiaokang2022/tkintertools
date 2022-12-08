@@ -15,7 +15,7 @@ Provides:
 
 Base Information
 ----------------
-* Author: XiaoKang2022<2951256653@qq.com>
+* Author: Xiaokang2022<2951256653@qq.com>
 * Version: 2.5.4
 * Update: 2022/12/8
 
@@ -39,7 +39,7 @@ from math import sqrt
 from sys import version_info
 from typing import Generator, Literal, Self
 
-__author__ = '小康2022'
+__author__ = 'Xiaokang2022'
 __version__ = '2.5.4'
 __all__ = (
     'Tk',
