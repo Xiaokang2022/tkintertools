@@ -50,8 +50,8 @@ Change Log/更新日志
 解决了控件的 destroy 方法在遍历使用时只能删除一半控件的 bug
 
     > Thanks/特别感谢  
-    Thanks [-ShuiGuang-](https://blog.csdn.net/atlantis618) for finding a bug (point 3)  
-    感谢 [-ShuiGuang-](https://blog.csdn.net/atlantis618) 发现一个bug（第3点）
+    Thanks to [-ShuiGuang-](https://blog.csdn.net/atlantis618) for finding the above bug  
+    感谢 [-ShuiGuang-](https://blog.csdn.net/atlantis618) 发现了上面的 bug
 
 ### Refactored/优化
 
