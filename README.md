@@ -2,46 +2,38 @@
 ================
 
 Update/最近更新
--------------------
-> Version: 2.5.4  
-> Date: 2022/12/8
+--------------
+> Version: 2.5.5  
+> Date: 2022/12/11
 
 ### Features/新增
 
-* A new widget has been added: progress bar(ProcessBar)  
-增加了一个新的控件：进度条（ProcessBar）
+* Added type prompt `Self` for the `self` parameter of instance methods of all classes  
+为所有类的实例方法的`self`参数添加了类型提示`Self`
 
 ### Fixed/修复
 
-* Fixed the bug that the screen size would be abnormal when creating Canvas of different sizes  
-修复了新建不同大小的 Canvas 时，画面大小会异常的 bug
-
-* Solved the bug that there is no change when the font size is scaled under certain conditions  
-解决了字体大小进行缩放时，在某种条件下缩小没有变化的 bug
-
-* Solved the bug that function move_widget cannot move tkinter._CanvasItemId  
-解决了函数 move_widget 无法移动 tkinter._CanvasItemId 的 bug
+* Fixed the bug that the width and height will not change in some cases when scaling `Canvas` classes  
+修复了`Canvas`类缩放时，宽高在某些情况下不会改变的 bug
 
 ### Changed/变更
 
-* The binding mechanism of associated events has been modified so that Canvas classes can be created at any time  
-修改了关联事件的绑定机制，使得 Canvas 类可以被随时创建
+* Modified the access method of `Tk` class, `Toplevel` class and `Canvas` class protection attributes  
+修改了`Tk`类、`Toplevel`类、`Canvas`类的保护属性的获取方式
+
+* Greatly modified the canvas scaling mechanism, fully adapted to all situations, and accelerated the scaling speed  
+大幅度地修改了画布缩放的机制，完全适应所有情况，并加快了缩放速度
 
 ### Refactored/优化
 
-* Some colors are beautified  
-美化了部分颜色
+* Optimize the structure of all multiple loops and judgment statements, making the code more beautiful  
+优化了所有多重循环加判断语句的结构，使代码更为美观
 
-* Optimized some codes in function move_widget  
-优化了函数 move_widget 中的部分代码
+Todos/待办
+---------
 
-[More updated information/更多更新信息](https://gitcode.net/weixin_62651706/tkintertools/-/blob/master/CHANGELOG.md)
-
-Todos/下一步
-----------
-
-* Solve the bug that the text box class set and append methods will not be updated immediately after use  
-解决文本框类 set、append 方法使用后不会立即更新的bug
+* Solve the bug that the text box class `set` and `append` methods will not be updated immediately after use  
+解决文本框类`set`、`append`方法使用后不会立即更新的bug
 
 * Solve the bug that the vertical position of the text is wrong when the text box is enlarged  
 解决文本框放大时，文本纵向位置错误的bug
@@ -55,8 +47,8 @@ Todos/下一步
 Description/模块描述
 -------------------
 
-The tkindertools module is an auxiliary module of the tkinder module  
-tkindertools 模块是tkinder模块的辅助模块
+The `tkintertools` module is an auxiliary module of the `tkinter` module  
+`tkintertools`模块是`tkinter`模块的辅助模块
 
 Minimum Requirement: Python3.10  
 最低要求：Python3.10
@@ -89,7 +81,7 @@ Contents/模块内容
 * Container Widget/容器控件:  
 `Tk`, `Toplevel`, `Canvas`
 * Virtual Canvas Widget/虚拟画布控件:  
-`CanvasLabel`, `CanvasButton`, `CanvasEntry`, `CanvasText`
+`CanvasLabel`, `CanvasButton`, `CanvasEntry`, `CanvasText`, `ProcessBar`
 * Tool Class/工具类:  
 `PhotoImage`, `singleton`
 * Tool Function/工具函数:  
@@ -107,10 +99,12 @@ Attentions/特别注意
 More/更多
 --------
 
-* GitHub:  
-https://github.com/392126563/tkintertools
 * GitCode:  
 https://gitcode.net/weixin_62651706/tkintertools
+* GitHub(Mirror/镜像):  
+https://github.com/Xiaokang2022/tkintertools
+* Gitee(Mirror/镜像):  
+https://gitee.com/xiaokang-2022/tkintertools
 * Column/专栏:  
 https://blog.csdn.net/weixin_62651706/category_11600888.html
 * Tutorials/教程:  
@@ -118,4 +112,4 @@ https://xiaokang2022.blog.csdn.net/article/details/127374661
 * Author/作者:  
 https://xiaokang2022.blog.csdn.net
 * Contact/联系我:  
-2951256653@qq.com
+<2951256653@qq.com>
