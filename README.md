@@ -3,31 +3,31 @@
 
 Update/最近更新
 --------------
-> Version: 2.5.5  
+> Version: 2.5.6-pre  
 > Date: 2022/12/11
-
-### Features/新增
-
-* Added type prompt `Self` for the `self` parameter of instance methods of all classes  
-为所有类的实例方法的`self`参数添加了类型提示`Self`
 
 ### Fixed/修复
 
-* Fixed the bug that the width and height will not change in some cases when scaling `Canvas` classes  
-修复了`Canvas`类缩放时，宽高在某些情况下不会改变的 bug
+* Fixed the bug that the singleton mode class (`Singleton`) could not pass parameters during initialization  
+修复了单例模式类（`Singleton`）在初始化时无法传递参数的bug
 
 ### Changed/变更
 
-* Modified the access method of `Tk` class, `Toplevel` class and `Canvas` class protection attributes  
-修改了`Tk`类、`Toplevel`类、`Canvas`类的保护属性的获取方式
-
-* Greatly modified the canvas scaling mechanism, fully adapted to all situations, and accelerated the scaling speed  
-大幅度地修改了画布缩放的机制，完全适应所有情况，并加快了缩放速度
+* The zoom method of the picture is changed from absolute zoom to relative absolute zoom  
+图片的缩放方式由绝对缩放变更为相对的绝对缩放方式
 
 ### Refactored/优化
 
-* Optimize the structure of all multiple loops and judgment statements, making the code more beautiful  
-优化了所有多重循环加判断语句的结构，使代码更为美观
+* Optimized the structure of the `PhotoImage` class  
+优化了`PhotoImage`类的结构
+
+* All useless codes (TODO marked) are deleted  
+删除了所有无用的代码（TODO标记的）
+
+### Removed/删除
+
+* `Canvas` class deletes two redundant and overridden instance methods: `create_ bitmap` and `create_ window`  
+`Canvas`类删除了两个冗余的、重写的实例方法：`create_bitmap`和`create_window`
 
 Todos/待办
 ---------
@@ -43,6 +43,9 @@ Todos/待办
 
 * Solve the bug that text shrinks and overflows after zooming text controls  
 解决文本类控件缩放后文本产生缩水和溢出的bug
+
+* Perfect the scroll bar function of `CanvasText` class  
+完善`CanvasText`类的滚动条功能
 
 Description/模块描述
 -------------------
