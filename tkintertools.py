@@ -16,8 +16,8 @@ Provides:
 Base Information
 ----------------
 * Author: Xiaokang2022<2951256653@qq.com>
-* Version: 2.5.6-pre
-* Update: 2022/12/11
+* Version: 2.5.6
+* Update: 2022/12/12
 
 Contents
 --------
@@ -34,13 +34,14 @@ More
 * Tutorials: https://xiaokang2022.blog.csdn.net/article/details/127374661
 """
 
-import sys
-import tkinter
-from math import sqrt
-from typing import Generator, Iterable, Literal, Self, Type
+import sys  # 用于检测 Python 版本
+import tkinter  # 基础模块
+from fractions import Fraction  # 用于图片缩放功能
+from math import sqrt  # 用于实现缩放功能
+from typing import Generator, Iterable, Literal, Self, Type  # 用于类型提示
 
 __author__ = 'Xiaokang2022'
-__version__ = '2.5.6-pre'
+__version__ = '2.5.6'
 __all__ = (
     'Tk',
     'Toplevel',
@@ -312,10 +313,10 @@ class Canvas(tkinter.Canvas):
                                c in enumerate(self.coords(item))])
 
         for item in self._font_dict:  # 字体大小缩放
-            self._font_dict[item] *= sqrt(rate_x*rate_y)
-            if font := self.itemcget(item, 'font').split():  # BUG: 不加 if 有时会有 bug
-                font[1] = int(self._font_dict[item])
-                self.itemconfigure(item, font=font)
+            self._font_dict[item][1] *= sqrt(rate_x*rate_y)
+            font = self._font_dict[item][:]
+            font[1] = int(font[1])
+            self.itemconfigure(item, font=font)
 
         for item in self._width_dict:  # 宽度粗细缩放
             self._width_dict[item] *= sqrt(rate_x*rate_y)
@@ -412,7 +413,7 @@ class Canvas(tkinter.Canvas):
         elif type(font) == str:
             kw['font'] = (font, 10)
         item = tkinter.Canvas.create_text(self, *args, **kw)
-        self._font_dict[item] = kw['font'][1]
+        self._font_dict[item] = list(kw['font'])
         return item
 
     def create_image(self: Self, *args, **kw):
@@ -1037,8 +1038,6 @@ class CanvasEntry(_TextWidget):
             else:
                 break
 
-        # BUG: 当窗口扩大再缩小时，可能出现过短情况
-
 
 class CanvasText(_TextWidget):
     """ 创建一个透明的虚拟文本框，用于输入多行文本和显示多行文本（只读模式）"""
@@ -1319,9 +1318,13 @@ class PhotoImage(tkinter.PhotoImage):
         `precision`: 精度到小数点后的位数，越大运算就越慢(默认值代表绝对精确)
         """
         if precision:
-            key = round(10**precision)  # TODO: 需要算法以提高精度和速度（浮点数->小的近似分数）
-            image = tkinter.PhotoImage.zoom(self, key, key)
-            image = image.subsample(round(key / rate_x), round(key / rate_y))
+            limit = round(10**precision)
+            rate_x = Fraction(str(rate_x)).limit_denominator(
+                limit).as_integer_ratio()
+            rate_y = Fraction(str(rate_y)).limit_denominator(
+                limit).as_integer_ratio()
+            image = tkinter.PhotoImage.zoom(self, rate_x[0], rate_y[0])
+            image = image.subsample(rate_x[1], rate_y[1])
         else:
             width, height = int(self.width()*rate_x), int(self.height()*rate_y)
             image = tkinter.PhotoImage(width=width, height=height)

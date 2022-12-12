@@ -3,13 +3,16 @@
 
 Update/最近更新
 --------------
-> Version: 2.5.6-pre  
-> Date: 2022/12/11
+> Version: 2.5.6  
+> Date: 2022/12/12
 
 ### Fixed/修复
 
 * Fixed the bug that the singleton mode class (`Singleton`) could not pass parameters during initialization  
 修复了单例模式类（`Singleton`）在初始化时无法传递参数的bug
+
+* Fixed the bug that sometimes the font parameters of `_CanvasItemId` could not be found when scaling fonts in `Canvas` class  
+修复了`Canvas`类在缩放字体时，有时会找不到`_CanvasItemId`的字体参数的bug
 
 ### Changed/变更
 
@@ -24,6 +27,9 @@ Update/最近更新
 * All useless codes (TODO marked) are deleted  
 删除了所有无用的代码（TODO标记的）
 
+* The `fractions` module is introduced to improve the precision of image scaling and reduce the operation time  
+引入了fractions模块并提高了图片缩放时的精度且减少了运算时间
+
 ### Removed/删除
 
 * `Canvas` class deletes two redundant and overridden instance methods: `create_ bitmap` and `create_ window`  
@@ -32,11 +38,11 @@ Update/最近更新
 Todos/待办
 ---------
 
-* Solve the bug that the text box class `set` and `append` methods will not be updated immediately after use  
-解决文本框类`set`、`append`方法使用后不会立即更新的bug
+* Solve the bug that the `CanvasText` class `set` and `append` methods will not be updated immediately after use  
+解决`CanvasText`类`set`、`append`方法使用后不会立即更新的bug
 
-* Solve the bug that the vertical position of the text is wrong when the text box is enlarged  
-解决文本框放大时，文本纵向位置错误的bug
+* Solve the bug that the vertical position of the text is wrong when the `CanvasText` class is enlarged  
+解决`CanvasText`类放大时，文本纵向位置错误的bug
 
 * Solve the bug that the cursor will flash faster and faster after pasting text for text control  
 解决文本类控件在粘贴文本后光标会越闪越快的bug
