@@ -1,6 +1,38 @@
 Change Log/更新日志
 ==================
 
+[2.5.6] - 2022-12-12
+--------------------
+
+### Fixed/修复
+
+* Fixed the bug that the singleton mode class (`Singleton`) could not pass parameters during initialization  
+修复了单例模式类（`Singleton`）在初始化时无法传递参数的bug
+
+* Fixed the bug that sometimes the font parameters of `_CanvasItemId` could not be found when scaling fonts in `Canvas` class  
+修复了`Canvas`类在缩放字体时，有时会找不到`_CanvasItemId`的字体参数的bug
+
+### Changed/变更
+
+* The zoom method of the picture is changed from absolute zoom to relative absolute zoom  
+图片的缩放方式由绝对缩放变更为相对的绝对缩放方式
+
+### Refactored/优化
+
+* Optimized the structure of the `PhotoImage` class  
+优化了`PhotoImage`类的结构
+
+* All useless codes (TODO marked) are deleted  
+删除了所有无用的代码（TODO标记的）
+
+* The `fractions` module is introduced to improve the precision of image scaling and reduce the operation time  
+引入了fractions模块并提高了图片缩放时的精度且减少了运算时间
+
+### Removed/删除
+
+* `Canvas` class deletes two redundant and overridden instance methods: `create_ bitmap` and `create_ window`  
+`Canvas`类删除了两个冗余的、重写的实例方法：`create_bitmap`和`create_window`
+
 [2.5.5] - 2022-12-11
 --------------------
 
