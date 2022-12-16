@@ -3,54 +3,42 @@
 
 Update/最近更新
 --------------
-> Version: 2.5.6  
+> Version: 2.5.7-pre  
 > Date: 2022/12/12
 
-### Fixed/修复
+### Features/新增
 
-* Fixed the bug that the singleton mode class (`Singleton`) could not pass parameters during initialization  
-修复了单例模式类（`Singleton`）在初始化时无法传递参数的bug
-
-* Fixed the bug that sometimes the font parameters of `_CanvasItemId` could not be found when scaling fonts in `Canvas` class  
-修复了`Canvas`类在缩放字体时，有时会找不到`_CanvasItemId`的字体参数的bug
+- [X] The `move` function adds the parameter `frames`, which can change the number of frames of the animation when moving  
+`move`函数新增参数`frames`，可改变移动时的动画的帧数
 
 ### Changed/变更
 
-* The zoom method of the picture is changed from absolute zoom to relative absolute zoom  
-图片的缩放方式由绝对缩放变更为相对的绝对缩放方式
+- [X] Change the function names of functions `move_widget`, `correct_text` and `change_color` to `move`, `text` and `color` respectively  
+分别将函数`move_widget`、`correct_text`和`change_color`的函数名变更为`move`、`text`和`color`
 
 ### Refactored/优化
 
-* Optimized the structure of the `PhotoImage` class  
-优化了`PhotoImage`类的结构
+- [X] Optimized the code structure of the `color` function and the `move` function to make it more concise  
+优化了`color`函数和`move`函数的代码结构，使其更加简洁
 
-* All useless codes (TODO marked) are deleted  
-删除了所有无用的代码（TODO标记的）
-
-* The `fractions` module is introduced to improve the precision of image scaling and reduce the operation time  
-引入了fractions模块并提高了图片缩放时的精度且减少了运算时间
-
-### Removed/删除
-
-* `Canvas` class deletes two redundant and overridden instance methods: `create_ bitmap` and `create_ window`  
-`Canvas`类删除了两个冗余的、重写的实例方法：`create_bitmap`和`create_window`
+> 更多信息见更新日志: [CHANGELOG](./CHANGELOG.md)
 
 Todos/待办
 ---------
 
-* Solve the bug that the `CanvasText` class `set` and `append` methods will not be updated immediately after use  
+- [ ] Solve the bug that the `CanvasText` class `set` and `append` methods will not be updated immediately after use  
 解决`CanvasText`类`set`、`append`方法使用后不会立即更新的bug
 
-* Solve the bug that the vertical position of the text is wrong when the `CanvasText` class is enlarged  
+- [ ] Solve the bug that the vertical position of the text is wrong when the `CanvasText` class is enlarged  
 解决`CanvasText`类放大时，文本纵向位置错误的bug
 
-* Solve the bug that the cursor will flash faster and faster after pasting text for text control  
+- [ ] Solve the bug that the cursor will flash faster and faster after pasting text for text control  
 解决文本类控件在粘贴文本后光标会越闪越快的bug
 
-* Solve the bug that text shrinks and overflows after zooming text controls  
+- [ ] Solve the bug that text shrinks and overflows after zooming text controls  
 解决文本类控件缩放后文本产生缩水和溢出的bug
 
-* Perfect the scroll bar function of `CanvasText` class  
+- [ ] Perfect the scroll bar function of `CanvasText` class  
 完善`CanvasText`类的滚动条功能
 
 Description/模块描述
@@ -92,9 +80,9 @@ Contents/模块内容
 * Virtual Canvas Widget/虚拟画布控件:  
 `CanvasLabel`, `CanvasButton`, `CanvasEntry`, `CanvasText`, `ProcessBar`
 * Tool Class/工具类:  
-`PhotoImage`, `singleton`
+`PhotoImage`, `Singleton`
 * Tool Function/工具函数:  
-`move_widget`, `correct_text`, `change_color`
+`move`, `text`, `color`
 
 Attentions/特别注意
 ------------------

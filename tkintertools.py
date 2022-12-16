@@ -16,7 +16,7 @@ Provides:
 Base Information
 ----------------
 * Author: Xiaokang2022<2951256653@qq.com>
-* Version: 2.5.6
+* Version: 2.5.7-pre
 * Update: 2022/12/12
 
 Contents
@@ -24,7 +24,7 @@ Contents
 * Container Widget: `Tk`, `Toplevel`, `Canvas`
 * Virtual Canvas Widget: `CanvasLabel`, `CanvasButton`, `CanvasEntry`, `CanvasText`, `ProcessBar`
 * Tool Class: `PhotoImage`, `Singleton`
-* Tool Function: `move_widget`, `correct_text`, `change_color`
+* Tool Function: `move`, `text`, `color`
 
 More
 ----
@@ -36,12 +36,12 @@ More
 
 import sys  # 用于检测 Python 版本
 import tkinter  # 基础模块
-from fractions import Fraction  # 用于图片缩放功能
-from math import sqrt  # 用于实现缩放功能
+from fractions import Fraction  # 用于实现图片缩放功能
+from math import cos, pi, sin, sqrt  # 用于实现缩放功能及移动函数功能
 from typing import Generator, Iterable, Literal, Self, Type  # 用于类型提示
 
 __author__ = 'Xiaokang2022'
-__version__ = '2.5.6'
+__version__ = '2.5.7-pre'
 __all__ = (
     'Tk',
     'Toplevel',
@@ -53,9 +53,9 @@ __all__ = (
     'ProcessBar',
     'PhotoImage',
     'Singleton',
-    'move_widget',
-    'correct_text',
-    'change_color',
+    'move',
+    'text',
+    'color',
 )
 
 if sys.version_info < (3, 10):
@@ -477,7 +477,7 @@ class Canvas(tkinter.Canvas):
 
 
 class _BaseWidget:
-    """ 内部类: 虚拟画布控件基类 """
+    """ 虚拟画布控件基类 """
 
     def __init__(
         self: Self,
@@ -510,7 +510,6 @@ class _BaseWidget:
         `color_text`: 控件文本的颜色
         `color_fill`: 控件内部的颜色
         `color_outline`: 控件外框的颜色
-        ---
         ### 特定参数
         `command`: 按钮控件的关联函数
         `show`: 文本控件的显示文本
@@ -518,7 +517,6 @@ class _BaseWidget:
         `space`: 文本控件能否输入空格的标识
         `read`: 文本控件的只读模式
         `cursor`: 输入提示符的字符，默认为一竖线
-        ---
         ### 详细说明
         字体的值为一个包含两个或三个值的元组，共两种形式
         形式一: `(字体名称, 字体大小)`
@@ -820,7 +818,7 @@ class CanvasButton(_BaseWidget):
 
 
 class _TextWidget(_BaseWidget):
-    """ 内部类 """
+    """ 文本类控件基类 """
 
     def __init__(
         self: Self,
@@ -1028,7 +1026,7 @@ class CanvasEntry(_TextWidget):
             self.cursor_update()
             return True
 
-    def update_text(self: Self):
+    def update_text(self: Self) -> None:
         """ 更新控件 """
         while True:
             pos = self.master.bbox(self.text)
@@ -1296,7 +1294,7 @@ class PhotoImage(tkinter.PhotoImage):
         canvas: Canvas,
         itemid,  # type: tkinter._CanvasItemId
         interval: int,
-        _ind: int = 0
+        **kw,
     ) -> None:
         """
         播放动图，canvas.lock为False会暂停
@@ -1304,20 +1302,21 @@ class PhotoImage(tkinter.PhotoImage):
         `itemid`: 播放动画的 _CanvasItemId（就是 create_text 的返回值）
         `interval`: 每帧动画的间隔时间
         """
-        if _ind == len(self.frames):
-            _ind = 0
-        canvas.itemconfigure(itemid, image=self.frames[_ind])
-        args = canvas, itemid, interval, _ind+canvas.lock
-        canvas.after(interval, self.play, *args)
+        if kw.get('_ind', 0) == len(self.frames):
+            kw['_ind'] = 0
+        canvas.itemconfigure(itemid, image=self.frames[kw.get('_ind', 0)])
+        args = canvas, itemid, interval
+        kw['_ind'] = kw.get('_ind', 0) + canvas.lock
+        canvas.after(interval, lambda: self.play(*args, **kw))
 
     def zoom(self: Self, rate_x: float, rate_y: float, precision: float | None = None) -> tkinter.PhotoImage:
         """
         缩放图片
         `rate_x`: 横向缩放倍率
         `rate_y`: 纵向缩放倍率
-        `precision`: 精度到小数点后的位数，越大运算就越慢(默认值代表绝对精确)
+        `precision`: 精度到小数点后的位数（推荐 1.2），越大运算就越慢（默认值代表绝对精确）
         """
-        if precision:
+        if precision != None:
             limit = round(10**precision)
             rate_x = Fraction(str(rate_x)).limit_denominator(
                 limit).as_integer_ratio()
@@ -1347,92 +1346,80 @@ class Singleton(object):
         return cls._instance_
 
 
-def move_widget(
+def move(
     master: Tk | Canvas | tkinter.Misc | tkinter.BaseWidget,
-    widget: Canvas | _BaseWidget | tkinter.BaseWidget | int,
+    widget: Canvas | _BaseWidget | tkinter.BaseWidget,
     dx: int,
     dy: int,
-    times: float,
-    mode: Literal['smooth', 'rebound', 'flat'] | tuple,
-    _x: int = 0,
-    _y: int = 0,
-    _ind: int = 0
+    times: int,
+    mode: Iterable | Literal['smooth', 'rebound', 'flat'],
+    frames: int = 25,
+    **kw
 ) -> None:
     """
-    ### 控件移动函数
-    以特定方式移动由 Place 布局的某个控件或某些控件的集合或图像
-    #### 参数说明
+    ### 移动函数
+    以特定方式移动由 Place 布局的某个控件或某些控件的集合或图像\n
     `master`: 控件所在的父控件
     `widget`: 要移动位置的控件
     `dx`: 横向移动的距离（单位：像素）
-    `dy`: 纵向移动的距离
-    `times`: 移动总时长（单位：秒）
-    `mode`: 移动速度模式，为以下三种，或者为 (函数, 起始值, 终止值) 的形式，或者为一个长度等于 20 的，总和为 100 的元组
-    1. `smooth`: 速度先慢后快再慢 (Sin, 0, π)
-    2. `rebound`: 和 smooth 一样，但是最后会回弹一下 (Cos, 0, 0.6π)
-    3. `flat`: 匀速平移
+    `dy`: 纵向移动的距离（单位：像素）
+    `times`: 移动总时长（单位：毫秒）
+    `mode`: 移动速度模式，为 smooth（顺滑）、rebound（回弹）和 flat（平移）这三种，或者为元组 (函数, 起始值, 终止值) 的形式
+    `frames`: 帧数，越大移动就越流畅，但计算越慢（范围为 1~100）
     """
-    # 速度变化模式
-    if isinstance(mode, tuple) and len(mode) >= 20:  # 记忆值
-        v = mode
-    elif mode == 'smooth':  # 流畅模式
-        v = 0, 1, 3, 4, 5, 6, 7, 8, 8, 8, 8, 8, 8, 7, 6, 5, 4, 3, 1, 0
-    elif mode == 'rebound':  # 回弹模式
-        v = 11, 11, 10, 10, 10, 9, 9, 8, 7, 6, 6, 5, 4, 3, 1, 0, -1, -2, -3, -4
+    if kw.get('_ind'):  # 记忆值
+        displacement = mode
     elif mode == 'flat':  # 平滑模式
-        v = (5,) * 20
+        displacement = (100/frames,) * frames
+    elif mode == 'smooth':  # 流畅模式
+        return move(master, widget, dx, dy, times, (sin, 0, pi), frames)
+    elif mode == 'rebound':  # 回弹模式
+        return move(master, widget, dx, dy, times, (cos, 0, 0.6*pi), frames)
     else:  # 函数模式
-        f, start, end = mode
-        end = (end-start) / 19
-        v = tuple(f(start+end*_) for _ in range(20))
-        key = 100 / sum(v)
-        v = tuple(key*_ for _ in v)
+        func, start, end = mode
+        interval = (end-start) / frames
+        displacement = [func(start+interval*i) for i in range(1, frames+1)]
+        key = 100 / sum(displacement)
+        displacement = [key*i for i in displacement]
 
-    # 总计实际应该移动的百分比
-    proportion = sum(v[:_ind+1]) / 100
+    if kw.get('_ind'):
+        displacement[kw['_ind']] += displacement[kw['_ind']-1]
+    proportion = displacement[kw.get('_ind', 0)] / 100  # 总计实际应该移动的百分比
+    x = round(proportion * dx - kw.get('_x', 0))  # 此次横向移动量
+    y = round(proportion * dy - kw.get('_y', 0))  # 此次纵向移动量
 
-    # 计算本次移动量
-    x = round(proportion * dx - _x)
-    y = round(proportion * dy - _y)
-
-    if isinstance(master, tkinter.Misc) and isinstance(widget, tkinter.BaseWidget):
-        # 父控件：tkinter控件
-        # 子控件：tkinter控件
-        origin_x = int(widget.place_info()['x'])
-        origin_y = int(widget.place_info()['y'])
+    if isinstance(master, tkinter.Misc) and isinstance(widget, tkinter.BaseWidget):  # tkinter 的控件
+        place_info = widget.place_info()
+        origin_x, origin_y = int(place_info['x']), int(place_info['y'])
         widget.place(x=origin_x+x, y=origin_y+y)
-    elif isinstance(master, Canvas) and isinstance(widget, _BaseWidget):
-        # 父控件：Canvas
-        # 子控件：_BaseWidget
+    elif isinstance(master, Canvas) and isinstance(widget, _BaseWidget):  # 虚拟画布控件
         widget.move(x, y)
-    else:
-        # 父控件：Canvas | tkinter.Canvas
-        # 子控件：tkinter._CanvasItemId
+    else:  # tkinter.CanvasItemId
         master.move(widget, x, y)
 
-    if _ind != 19:
-        # 迭代函数
-        args = master, widget, dx, dy, times, v, _x+x, _y+y, _ind+1
-        master.after(round(times*50), move_widget, *args)
+    if kw.get('_ind', 0)+1 == frames:  # 停止条件
+        return
+
+    args = master, widget, dx, dy, times, displacement, frames
+    kw = {'_x': kw.get('_x', 0) + x,
+          '_y': kw.get('_y', 0) + y,
+          '_ind': kw.get('_ind', 0) + 1}
+    master.after(round(times/frames), lambda: move(*args, **kw))  # 间隔一定时间执行函数
 
 
-def correct_text(
+def text(
     length: int,
     string: str,
     position: Literal['left', 'center', 'right'] = 'center'
 ) -> str:
     """
-    ### 文本控制函数
-    可将目标字符串改为目标长度并居中对齐，ASCII码字符算1个长度，中文及其他字符算2个
-    #### 参数说明
+    ### 文本函数
+    可将目标字符串改为目标长度并居中对齐，ASCII 码字符算 1 个长度，中文及其他字符算 2 个\n
     `length`: 目标长度
     `string`: 要修改的字符串
-    `position`: 文本处于该长度范围的位置，可选三个值
-    1. `left`: 文本靠左
-    2. `center`: 文本居中
-    3. `right`: 文本靠右
+    `position`: 文本处于该长度范围的位置，可选 left（靠左）、center（居中）和 right（靠右）这三个值
     """
-    length -= sum(1 + (ord(i) > 256) for i in string)  # 计算空格总个数
+    length -= sum(ord(i) >= 256 for i in string) + len(string)  # 计算空格总个数
     if position == 'left':  # 靠左
         return ' '*length+string
     elif position == 'right':  # 靠右
@@ -1442,45 +1429,31 @@ def correct_text(
         return ' '*length+string+(length+key)*' '
 
 
-def change_color(
+def color(
     color: Iterable[str] | str,
-    proportion: float = 1
+    proportion: float = 1.
 ) -> str:
     """
-    ### 颜色处理函数
-    按一定比例给出已有RGB颜色字符串的渐变RGB颜色字符串，或颜色的对比色
-    #### 参数说明
-    `color`: 颜色元组或列表 (初始颜色, 目标颜色)，或者一个颜色字符串
-    `proportion`: 渐变比例（浮点数，范围为0~1）
+    ### 颜色函数
+    按一定比例给出已有 RGB 颜色字符串的渐变 RGB 颜色字符串，或颜色的对比色\n
+    `color`: 颜色元组或列表 (初始颜色, 目标颜色)，或者一个颜色字符串（此时返回对比色）
+    `proportion`: 改变比例（浮点数，范围为 0~1）
     """
-    if isinstance(color, str):
-        color = color, None
+    rgb, _rgb = [[None]*3, [None]*3], 0
 
-    # 判断颜色字符串格式（#FFF或者#FFFFFF格式）
-    key = 256 if len(color[0]) == 7 else 16
+    if isinstance(color, str):  # 对比色的情况处理
+        color = color, '#%06X' % (16777216-int(color[1:], 16))
 
-    # 解析初始颜色的RGB
-    _ = int(color[0][1:], 16)
-    _, B = divmod(_, key)
-    R, G = divmod(_, key)
+    for i, c in enumerate(color):  # 解析颜色的 RGB
+        _ = int(c[1:], 16)
+        _, rgb[i][2] = divmod(_, 256)
+        rgb[i][:2] = divmod(_, 256)
 
-    # 解析目标颜色的RGB
-    if color[1]:
-        _ = int(color[1][1:], 16)
-        _, _B = divmod(_, key)
-        _R, _G = divmod(_, key)
-    else:
-        _R, _G, _B = 255 - R, 255 - G, 255 - B
+    for c, _c in zip(*rgb):  # 根据比率计算返回值
+        _rgb <<= 8
+        _rgb += c + round((_c - c) * proportion)
 
-    # 根据比率计算返回值
-    RGB = R + round((_R - R) * proportion)
-    RGB *= key
-    RGB += G + round((_G - G) * proportion)
-    RGB *= key
-    RGB += B + round((_B - B) * proportion)
-
-    # 以对应格式返回结果
-    return '#%0*X' % (6 if key == 256 else 3, RGB)
+    return '#%06X' % _rgb
 
 
 def test() -> None:
@@ -1493,16 +1466,16 @@ def test() -> None:
         if askyesno('提示', '是否退出测试程序?'):
             root.destroy()
 
-    def change_bg(ind=0, color=[None, '#F1F1F1']):
+    def change_bg(ind=0, color_=[None, '#F1F1F1']):
         """ 颜色变幻 """
         if not ind:
-            color[0], color[1] = color[1], '#%06X' % randint(0, 1 << 24)
-        color = change_color(color, ind)
-        _color = change_color(color)
-        canvas_doc.configure(bg=color)
+            color_[0], color_[1] = color_[1], '#%06X' % randint(0, 1 << 24)
+        color_ = color(color_, ind)
+        _color = color(color_)
+        canvas_doc.configure(bg=color_)
         canvas_doc.itemconfigure(doc, fill=_color)
         for widget in canvas_main._widget:
-            widget.color_fill[0], widget.color_text[0] = color, _color
+            widget.color_fill[0], widget.color_text[0] = color_, _color
             widget.state()
         root.after(20, change_bg, 0 if ind >= 1 else ind+0.01)
 
@@ -1511,7 +1484,7 @@ def test() -> None:
         canvas_graph.create_oval(
             (300-ind/3)*canvas_graph.rate_x, (100-ind/3)*canvas_graph.rate_y,
             (400+ind)*canvas_graph.rate_x, (200+ind)*canvas_graph.rate_y,
-            outline=change_color(('#FFFFFF', '#000000'), ind/100),
+            outline=color(('#FFFFFF', '#000000'), ind/100),
             width=2.5, fill=NULL if ind else '#FFF')
         if ind < 100:
             root.after(30, draw, ind+1)
@@ -1528,20 +1501,20 @@ def test() -> None:
 
     CanvasButton(
         canvas_main, 10, 500, 120, 30, 0, '模块文档',
-        command=lambda: (move_widget(root, canvas_main, 960*canvas_main.rate_x, 0, 0.3, 'rebound'),
-                         move_widget(root, canvas_doc, 960*canvas_doc.rate_x, 0, 0.3, 'rebound')))
+        command=lambda: (move(root, canvas_main, 960*canvas_main.rate_x, 0, 300, 'rebound'),
+                         move(root, canvas_doc, 960*canvas_doc.rate_x, 0, 300, 'rebound')))
     CanvasButton(
         canvas_main, 830, 500, 120, 30, 0, '图像测试',
-        command=lambda: (move_widget(root, canvas_main, -960*canvas_main.rate_x, 0, 0.3, 'rebound'),
-                         move_widget(root, canvas_graph, -960*canvas_graph.rate_x, 0, 0.3, 'rebound')))
+        command=lambda: (move(root, canvas_main, -960*canvas_main.rate_x, 0, 300, 'rebound'),
+                         move(root, canvas_graph, -960*canvas_graph.rate_x, 0, 300, 'rebound')))
     CanvasButton(
         canvas_doc, 830, 500, 120, 30, 0, '返回主页',
-        command=lambda: (move_widget(root, canvas_main, -960*canvas_main.rate_x, 0, 0.3, 'rebound'),
-                         move_widget(root, canvas_doc, -960*canvas_doc.rate_x, 0, 0.3, 'rebound')))
+        command=lambda: (move(root, canvas_main, -960*canvas_main.rate_x, 0, 300, 'rebound'),
+                         move(root, canvas_doc, -960*canvas_doc.rate_x, 0, 300, 'rebound')))
     CanvasButton(
         canvas_graph, 10, 500, 120, 30, 0, '返回主页',
-        command=lambda: (move_widget(root, canvas_main, 960*canvas_main.rate_x, 0, 0.3, 'rebound'),
-                         move_widget(root, canvas_graph, 960*canvas_graph.rate_x, 0, 0.3, 'rebound')))
+        command=lambda: (move(root, canvas_main, 960*canvas_main.rate_x, 0, 300, 'rebound'),
+                         move(root, canvas_graph, 960*canvas_graph.rate_x, 0, 300, 'rebound')))
 
     try:
         image = PhotoImage('tkinter.png')
@@ -1559,10 +1532,10 @@ def test() -> None:
                 ('靠右方角输入框', '点击输入'), '•')
     CanvasButton(
         canvas_main, 10, 250, 120, 25, 5, '圆角按钮',
-        command=lambda: move_widget(canvas_main, label_1, 0, -120 * canvas_main.rate_y, 0.25, 'rebound'))
+        command=lambda: move(canvas_main, label_1, 0, -120 * canvas_main.rate_y, 200, 'rebound'))
     CanvasButton(
         canvas_main, 830, 250, 120, 25, 0, '方角按钮',
-        command=lambda: move_widget(canvas_main, label_2, 0, -120 * canvas_main.rate_y, 0.25, 'smooth'))
+        command=lambda: move(canvas_main, label_2, 0, -120 * canvas_main.rate_y, 200, 'smooth'))
 
     bar = ProcessBar(canvas_main, 220, 220, 520, 25)
     load = CanvasButton(canvas_main, 420, 250, 120, 25, 0, '加载进度',
