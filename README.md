@@ -3,8 +3,8 @@
 
 Update/最近更新
 --------------
-> Version: 2.5.7-pre  
-> Date: 2022/12/12
+> Version: 2.5.7-pre2  
+> Date: 2022/12/17
 
 ### Features/新增
 
@@ -15,6 +15,9 @@ Update/最近更新
 
 - [X] Change the function names of functions `move_widget`, `correct_text` and `change_color` to `move`, `text` and `color` respectively  
 分别将函数`move_widget`、`correct_text`和`change_color`的函数名变更为`move`、`text`和`color`
+
+- [X] Corrected some parameters  
+修正了些许参数
 
 ### Refactored/优化
 

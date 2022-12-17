@@ -16,8 +16,8 @@ Provides:
 Base Information
 ----------------
 * Author: Xiaokang2022<2951256653@qq.com>
-* Version: 2.5.7-pre
-* Update: 2022/12/12
+* Version: 2.5.7-pre2
+* Update: 2022/12/17
 
 Contents
 --------
@@ -41,7 +41,7 @@ from math import cos, pi, sin, sqrt  # 用于实现缩放功能及移动函数�
 from typing import Generator, Iterable, Literal, Self, Type  # 用于类型提示
 
 __author__ = 'Xiaokang2022'
-__version__ = '2.5.7-pre'
+__version__ = '2.5.7-pre2'
 __all__ = (
     'Tk',
     'Toplevel',
@@ -569,13 +569,13 @@ class _BaseWidget:
                 canvas.create_rectangle(
                     _x, y, x+width-radius, y+height, **kw),
                 canvas.create_arc(
-                    x, y, x+d, y+d, start=90, extent=100, **kw),
+                    x, y, x+d, y+d, start=90, **kw),
                 canvas.create_arc(
-                    x+_w, y, x+width, y+d, start=0, extent=100, **kw),
+                    x+_w, y, x+width, y+d, start=0, **kw),
                 canvas.create_arc(
-                    x, y+_h, x+d, y+height, start=180, extent=100, **kw),
+                    x, y+_h, x+d, y+height, start=180, **kw),
                 canvas.create_arc(
-                    x+_w, y+_h, x+width, y+height, start=270, extent=100, **kw)]
+                    x+_w, y+_h, x+width, y+height, start=270, **kw)]
 
             # 虚拟控件外框
             kw = {'extent': 100, 'style': 'arc', 'outline': color_outline[0]}
