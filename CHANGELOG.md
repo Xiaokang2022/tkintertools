@@ -1,5 +1,35 @@
-Change Log/更新日志
+ChangeLog/更新日志
 ==================
+
+[2.5.7] - 2023-01-10
+--------------------
+
+### Features/新增
+
+* The `move` function adds the parameter `frames`, which can change the number of frames of the animation when moving  
+`move`函数新增参数`frames`，可改变移动时的动画的帧数
+
+* `Tk` class adds the adaptation function to screen DPI, which can make the window clearer  
+`Tk` 类新增对屏幕DPI的适配功能，可使窗口更加清晰
+
+* New compatible version and compatible version conversion file  
+新增兼容版本以及兼容版本转换文件
+
+### Changed/变更
+
+* Change the function names of functions `move_widget`, `correct_text` and `change_color` to `move`, `text` and `color` respectively  
+分别将函数`move_widget`、`correct_text`和`change_color`的函数名变更为`move`、`text`和`color`
+
+* Corrected some parameters  
+修正了些许参数
+
+* Increase the default frame rate parameter of the move function to 30  
+提高了移动函数的默认帧率参数至30
+
+### Refactored/优化
+
+* Optimized the code structure of the `color` function and the `move` function to make it more concise  
+优化了`color`函数和`move`函数的代码结构，使其更加简洁
 
 [2.5.6] - 2022-12-12
 --------------------
