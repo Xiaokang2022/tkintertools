@@ -3,55 +3,18 @@
 
 Update/最近更新
 --------------
-> Version: 2.5.7  
-> Date: 2023/01/10
-
-### Features/新增
-
-- [X] The `move` function adds the parameter `frames`, which can change the number of frames of the animation when moving  
-`move`函数新增参数`frames`，可改变移动时的动画的帧数
-
-- [X] `Tk` class adds the adaptation function to screen DPI, which can make the window clearer  
-`Tk` 类新增对屏幕DPI的适配功能，可使窗口更加清晰
-
-- [X] New compatible version and compatible version conversion file  
-新增兼容版本以及兼容版本转换文件
-
-### Changed/变更
-
-- [X] Change the function names of functions `move_widget`, `correct_text` and `change_color` to `move`, `text` and `color` respectively  
-分别将函数`move_widget`、`correct_text`和`change_color`的函数名变更为`move`、`text`和`color`
-
-- [X] Corrected some parameters  
-修正了些许参数
-
-- [X] Increase the default frame rate parameter of the move function to 30  
-提高了移动函数的默认帧率参数至30
+> Version: 2.5.8-pre  
+> Date: 2023/01/11
 
 ### Refactored/优化
 
-- [X] Optimized the code structure of the `color` function and the `move` function to make it more concise  
-优化了`color`函数和`move`函数的代码结构，使其更加简洁
+- [X] `move` function has been optimized to improve applicability, accuracy and speed  
+优化了`move`函数，提升了适用性、精度以及速度
+
+- [X] `Canvas` class adds compatibility methods `coords`, `move`, `moveto` and `bbox` to improve the DPI adaptation problem  
+`Canvas`类新增兼容方法`coords`、`move`、`moveto`和`bbox`，完善了DPI的适配问题
 
 > 更多信息见更新日志: [CHANGELOG](./CHANGELOG.md)
-
-Todos/待办
----------
-
-- [ ] Solve the bug that the `CanvasText` class `set` and `append` methods will not be updated immediately after use  
-解决`CanvasText`类`set`、`append`方法使用后不会立即更新的bug
-
-- [ ] Solve the bug that the vertical position of the text is wrong when the `CanvasText` class is enlarged  
-解决`CanvasText`类放大时，文本纵向位置错误的bug
-
-- [ ] Solve the bug that the cursor will flash faster and faster after pasting text for text control  
-解决文本类控件在粘贴文本后光标会越闪越快的bug
-
-- [ ] Solve the bug that text shrinks and overflows after zooming text controls  
-解决文本类控件缩放后文本产生缩水和溢出的bug
-
-- [ ] Perfect the scroll bar function of `CanvasText` class  
-完善`CanvasText`类的滚动条功能
 
 Description/模块描述
 -------------------

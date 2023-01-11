@@ -1,7 +1,4 @@
-"""
-### 转换文件
-将 tkintertools.py 转换至 Python3.8以下的兼容版本
-"""
+""" 将 tkintertools.py 转换至 Python3.7 的兼容版本 """
 
 
 replace_dict = {
@@ -17,6 +14,8 @@ replace_dict = {
     " -> str | tuple | None": "",
     ": str | bytes | None": "",
     " | None": "",
+    " -> tuple[int, int, int, int]": "",
+    " -> None | list[float]": "",
     ": tuple[str] | str": "",
     ": Tk | Canvas | tkinter.Misc | tkinter.BaseWidget": "",
     ": Canvas | _BaseWidget | tkinter.BaseWidget": "",
@@ -26,6 +25,7 @@ replace_dict = {
     ": tuple[str, str, str]": "",
     ": tuple[str, int, str]": "",
     ": tuple[str, str]": "",
+    "isinstance(widget, tkinter.Tk | tkinter.Toplevel)": "isinstance(widget, tkinter.Tk) or isinstance(widget, tkinter.Toplevel)",
     "isinstance(widget, CanvasButton | _TextWidget)": "(isinstance(widget, CanvasButton) or isinstance(widget, _TextWidget))",
     "isinstance(self, CanvasLabel | CanvasButton | ProcessBar)": "isinstance(self, CanvasLabel) or isinstance(self, CanvasButton) or isinstance(self, ProcessBar)",
     "if sys.version_info < (3, 10)": "if sys.version_info < (3, 6)"
