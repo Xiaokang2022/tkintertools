@@ -16,7 +16,7 @@ Provides:
 Base Information
 ----------------
 * Author: Xiaokang2022<2951256653@qq.com>
-* Version: 2.5.8.2
+* Version: 2.5.7.2
 * Update: 2023/01/12
 
 Contents
@@ -42,7 +42,7 @@ from math import cos, pi, sin, sqrt  # 实现缩放功能及移动函数功能
 from typing import Generator, Iterable, Literal, Self, Type  # 类型提示
 
 __author__ = 'Xiaokang2022'
-__version__ = '2.5.8.2'
+__version__ = '2.5.7.2'
 __all__ = [
     'Tk',
     'Toplevel',
@@ -1635,7 +1635,7 @@ def test() -> None:
                         command=lambda: (processbar(), load.set_live(False)))
 
     doc = canvas_doc.create_text(
-        15, 270, text=__doc__, font=('楷体', 12), anchor='w')
+        15, 270, text=__doc__, font=('consolas', 10), anchor='w')
 
     label_1 = CanvasLabel(canvas_main, 225, 550, 250,
                           100, 10, '圆角标签\n移动模式:rebound')
