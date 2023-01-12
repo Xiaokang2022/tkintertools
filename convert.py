@@ -25,10 +25,11 @@ replace_dict = {
     ": tuple[str, str, str]": "",
     ": tuple[str, int, str]": "",
     ": tuple[str, str]": "",
+    " -> tuple[int, int]": "",
     "isinstance(widget, tkinter.Tk | tkinter.Toplevel)": "isinstance(widget, tkinter.Tk) or isinstance(widget, tkinter.Toplevel)",
     "isinstance(widget, CanvasButton | _TextWidget)": "(isinstance(widget, CanvasButton) or isinstance(widget, _TextWidget))",
     "isinstance(self, CanvasLabel | CanvasButton | ProcessBar)": "isinstance(self, CanvasLabel) or isinstance(self, CanvasButton) or isinstance(self, ProcessBar)",
-    "if sys.version_info < (3, 10)": "if sys.version_info < (3, 6)"
+    "if sys.version_info < (3, 10)": "if sys.version_info < (3, 7)"
 }
 
 with open('tkintertools.py', 'r', encoding='utf-8') as file:
