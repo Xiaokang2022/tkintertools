@@ -3,21 +3,16 @@ tkintertools
 ============
 The tkindertools module is an auxiliary module of the tkinder module.
 
-Provides:
-1. Transparent, rounded and customized widgets
-2. Automatic control of picture size and widget size
-3. Scalable png pictures and playable gif pictures
-4. Regular mobile widgets and canvas interfaces
-5. Gradient colors and contrast colors
-6. Text with controllable length and alignment
-7. Convenient, inheritable singleton pattern class
-8. Display clear window and its contents
-
-Base Information
-----------------
-* Author: Xiaokang2022<2951256653@qq.com>
-* Version: 2.5.7.2
-* Update: 2023/01/12
+Provides
+--------
+* Transparent, rounded and customized widgets
+* Automatic control of picture size and widget size
+* Scalable png pictures and playable gif pictures
+* Regular mobile widgets and canvas interfaces
+* Gradient colors and contrast colors
+* Text with controllable length and alignment
+* Convenient, inheritable singleton pattern class
+* Display clear window and its contents
 
 Contents
 --------
@@ -34,15 +29,15 @@ More
 * Tutorials: https://xiaokang2022.blog.csdn.net/article/details/127374661
 """
 
+import math  # 数学函数
 import sys  # 检测 Python 版本
 import tkinter  # 基础模块
 from ctypes import OleDLL  # DPI适配
 from fractions import Fraction  # 实现图片缩放功能
-from math import cos, pi, sin, sqrt  # 实现缩放功能及移动函数功能
 from typing import Generator, Iterable, Literal, Self, Type  # 类型提示
 
 __author__ = 'Xiaokang2022'
-__version__ = '2.5.7.2'
+__version__ = '2.5.7.3'
 __all__ = [
     'Tk',
     'Toplevel',
@@ -56,7 +51,7 @@ __all__ = [
     'Singleton',
     'move',
     'text',
-    'color',
+    'color'
 ]
 
 
@@ -344,17 +339,17 @@ class Canvas(tkinter.Canvas):
                                 c in enumerate(self.coords(item))])
 
         for item in self._font_dict:  # 字体大小缩放
-            self._font_dict[item][1] *= sqrt(rate_x*rate_y)
+            self._font_dict[item][1] *= math.sqrt(rate_x*rate_y)
             font = self._font_dict[item][:]
             font[1] = int(font[1])
             self.itemconfigure(item, font=font)
 
         for item in self._width_dict:  # 宽度粗细缩放
-            self._width_dict[item] *= sqrt(rate_x*rate_y)
+            self._width_dict[item] *= math.sqrt(rate_x*rate_y)
             self.itemconfigure(item, width=self._width_dict[item])
 
         for item in self._image_dict:  # 图像大小缩放（采用相对的绝对缩放）
-            if self._image_dict[item][0] and self._image_dict[item][0].file.split('.')[-1] == 'png':
+            if self._image_dict[item][0] and self._image_dict[item][0].extension != 'gif':
                 self._image_dict[item][1] = self._image_dict[item][0].zoom(
                     temp_x*rate_x, temp_y*rate_y, 1.2)
                 self.itemconfigure(item, image=self._image_dict[item][1])
@@ -825,7 +820,6 @@ class _BaseWidget:
                 self.state('normal')
             else:
                 self.state('disabled')
-                # TODO: 滚动条的状态设定
 
 
 class CanvasLabel(_BaseWidget):
@@ -1160,8 +1154,6 @@ class CanvasText(_TextWidget):
                                         font=font,
                                         fill=color_text[0])
 
-        # TODO: 滚动条待写
-
         # 只读模式
         self.read = read
         # # 修改多行文本靠左显示
@@ -1293,7 +1285,6 @@ class CanvasText(_TextWidget):
 
     def scroll(self: Self, event: tkinter.Event) -> None:
         """ 文本滚动 """
-        # TODO: 滚动条关联的操作待写
 
 
 class ProcessBar(_BaseWidget):
@@ -1353,13 +1344,14 @@ class PhotoImage(tkinter.PhotoImage):
         `**kw`: 与 tkinter.PhotoImage 的参数相同
         """
         self.file = file
+        self.image = None
+        self.extension = file.rsplit('.', 1)[-1]
 
-        if file.rsplit('.', 1)[-1] == 'gif':
-            self.frames: list[tkinter.PhotoImage] = []
-        elif file.rsplit('.', 1)[-1] == 'png':
-            return tkinter.PhotoImage.__init__(self, file=file, **kw)
+        if self.extension == 'gif':
+            self.image: list[tkinter.PhotoImage] = []
         else:
-            raise
+            self.image = tkinter.PhotoImage.__init__(self, file=file, **kw)
+            return self.image
 
     def parse(self: Self, start: int = 0) -> Generator[int, None, None]:
         """
@@ -1368,7 +1360,7 @@ class PhotoImage(tkinter.PhotoImage):
         """
         try:
             while True:
-                self.frames.append(tkinter.PhotoImage(
+                self.image.append(tkinter.PhotoImage(
                     file=self.file, format='gif -index %d' % start))
                 start += 1
                 yield start
@@ -1388,9 +1380,9 @@ class PhotoImage(tkinter.PhotoImage):
         `itemid`: 播放动画的 _CanvasItemId（就是 create_text 的返回值）
         `interval`: 每帧动画的间隔时间
         """
-        if kw.get('_ind', 0) == len(self.frames):
+        if kw.get('_ind', 0) == len(self.image):
             kw['_ind'] = 0
-        canvas.itemconfigure(itemid, image=self.frames[kw.get('_ind', 0)])
+        canvas.itemconfigure(itemid, image=self.image[kw.get('_ind', 0)])
         args = canvas, itemid, interval
         kw['_ind'] = kw.get('_ind', 0) + canvas.lock
         canvas.after(interval, lambda: self.play(*args, **kw))
@@ -1455,11 +1447,11 @@ def move(
     if kw.get('_ind'):  # 记忆值
         displacement = mode
     elif mode == 'flat':  # 平滑模式
-        displacement = (100/frames,) * frames
+        displacement = [100/frames] * frames
     elif mode == 'smooth':  # 流畅模式
-        return move(master, widget, dx, dy, times, (sin, 0, pi), frames)
+        return move(master, widget, dx, dy, times, (math.sin, 0, math.pi), frames)
     elif mode == 'rebound':  # 回弹模式
-        return move(master, widget, dx, dy, times, (cos, 0, 0.6*pi), frames)
+        return move(master, widget, dx, dy, times, (math.cos, 0, 0.6*math.pi), frames)
     else:  # 函数模式
         func, start, end = mode
         interval = (end-start) / frames
@@ -1544,110 +1536,3 @@ def color(
         _rgb += c + round((_c - c) * proportion)
 
     return '#%06X' % _rgb
-
-
-def test() -> None:
-    """ 测试函数 """
-    from random import randint
-    from tkinter.messagebox import askyesno
-
-    def shutdown():
-        """ 关闭窗口 """
-        if askyesno('提示', '是否退出测试程序?'):
-            root.destroy()
-
-    def change_bg(ind=0, color_=[None, '#F1F1F1']):
-        """ 颜色变幻 """
-        if not ind:
-            color_[0], color_[1] = color_[1], '#%06X' % randint(0, 1 << 24)
-        color_ = color(color_, ind)
-        _color = color(color_)
-        canvas_doc.configure(bg=color_)
-        canvas_doc.itemconfigure(doc, fill=_color)
-        for widget in canvas_main._widget:
-            widget.color_fill[0], widget.color_text[0] = color_, _color
-            widget.state()
-        root.after(20, change_bg, 0 if ind >= 1 else ind+0.01)
-
-    def draw(ind=0):
-        """ 绘制球体 """
-        canvas_graph.create_oval(
-            (300-ind/3)*canvas_graph.rate_x, (100-ind/3)*canvas_graph.rate_y,
-            (400+ind)*canvas_graph.rate_x, (200+ind)*canvas_graph.rate_y,
-            outline=color(('#000000', '#FFFFFF'), cos(ind*pi/200)),
-            width=4, fill='' if ind else '#FFF')
-        if ind < 100:
-            root.after(20, draw, ind+1)
-
-    def processbar(ind=0):
-        """ 进度条更新 """
-        bar.load(ind)
-        root.after(1, processbar, ind+0.0001)
-
-    root = Tk('Test', '960x540', alpha=0.9, shutdown=shutdown)
-    canvas_main = Canvas(root, 960, 540)
-    canvas_main.place(x=0, y=0)
-    canvas_doc = Canvas(root, 960, 540)
-    canvas_doc.place(x=-960, y=0)
-    canvas_graph = Canvas(root, 960, 540)
-    canvas_graph.place(x=960, y=0)
-
-    CanvasButton(
-        canvas_main, 10, 500, 120, 30, 0, '模块文档',
-        command=lambda: (move(root, canvas_main, 960*canvas_main.rate_x, 0, 300, 'rebound'),
-                         move(root, canvas_doc, 960*canvas_doc.rate_x, 0, 300, 'rebound')))
-    CanvasButton(
-        canvas_main, 830, 500, 120, 30, 0, '图像测试',
-        command=lambda: (move(root, canvas_main, -960*canvas_main.rate_x, 0, 300, 'rebound'),
-                         move(root, canvas_graph, -960*canvas_graph.rate_x, 0, 300, 'rebound')))
-    CanvasButton(
-        canvas_doc, 830, 500, 120, 30, 0, '返回主页',
-        command=lambda: (move(root, canvas_main, -960*canvas_main.rate_x, 0, 300, 'rebound'),
-                         move(root, canvas_doc, -960*canvas_doc.rate_x, 0, 300, 'rebound')))
-    CanvasButton(
-        canvas_graph, 10, 500, 120, 30, 0, '返回主页',
-        command=lambda: (move(root, canvas_main, 960*canvas_main.rate_x, 0, 300, 'rebound'),
-                         move(root, canvas_graph, 960*canvas_graph.rate_x, 0, 300, 'rebound')))
-
-    try:
-        image = PhotoImage('tkinter.png')
-        canvas_graph.create_image(860, 100, image=image)
-    except tkinter.TclError:
-        print('\033[31m啊哦！你没有示例图片喏……\033[0m')
-
-    CanvasText(canvas_main, 10, 10, 465, 200, 10,
-               ('居中圆角文本框', '竖线光标'), justify='center')
-    CanvasText(canvas_main, 485, 10, 465, 200, 0,
-               ('靠右方角文本框', '下划线光标'), cursor=' _')
-    CanvasEntry(canvas_main, 10, 220, 200, 25, 6,
-                ('居中圆角输入框', '点击输入'), justify='center')
-    CanvasEntry(canvas_main, 750, 220, 200, 25, 0,
-                ('靠右方角输入框', '点击输入'), '•')
-    CanvasButton(
-        canvas_main, 10, 250, 120, 25, 6, '圆角按钮',
-        command=lambda: move(canvas_main, label_1, 0, -120 * canvas_main.rate_y, 300, 'rebound'))
-    CanvasButton(
-        canvas_main, 830, 250, 120, 25, 0, '方角按钮',
-        command=lambda: move(canvas_main, label_2, 0, -120 * canvas_main.rate_y, 300, 'smooth'))
-
-    bar = ProcessBar(canvas_main, 220, 220, 520, 25)
-    load = CanvasButton(canvas_main, 420, 250, 120, 25, 0, '加载进度',
-                        command=lambda: (processbar(), load.set_live(False)))
-
-    doc = canvas_doc.create_text(
-        15, 270, text=__doc__, font=('consolas', 10), anchor='w')
-
-    label_1 = CanvasLabel(canvas_main, 225, 550, 250,
-                          100, 10, '圆角标签\n移动模式:rebound')
-    label_2 = CanvasLabel(canvas_main, 485, 550, 250,
-                          100, 0, '方角标签\n移动模式:smooth')
-    button_1 = CanvasButton(canvas_doc, 830, 10, 120, 30, 0, '颜色变幻',
-                            command=lambda: (button_1.set_live(False), change_bg()))
-    button_2 = CanvasButton(canvas_graph, 10, 10, 120, 30, 0, '绘制图形',
-                            command=lambda: (button_2.set_live(False), draw()))
-
-    root.mainloop()
-
-
-if __name__ == '__main__':
-    test()
