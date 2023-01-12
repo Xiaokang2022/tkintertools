@@ -1,4 +1,4 @@
-Todos/待办
+TODO/待办
 ---------
 
 - [ ] Solve the bug that the `CanvasText` class `set` and `append` methods will not be updated immediately after use  

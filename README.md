@@ -3,8 +3,8 @@
 
 Update/最近更新
 --------------
-> Version: 2.5.8-pre  
-> Date: 2023/01/11
+> Version: 2.5.8.2  
+> Date: 2023/01/12
 
 ### Refactored/优化
 
@@ -14,6 +14,9 @@ Update/最近更新
 - [X] `Canvas` class adds compatibility methods `coords`, `move`, `moveto` and `bbox` to improve the DPI adaptation problem  
 `Canvas`类新增兼容方法`coords`、`move`、`moveto`和`bbox`，完善了DPI的适配问题
 
+- [x] `Tk` Class Add Method `wm_minszie`, `wm_maxsize` to be compatible with DPI adaptation problems  
+`Tk`类新增方法`wm_minszie`、`wm_maxsize`以兼容DPI适配问题
+
 > 更多信息见更新日志: [CHANGELOG](./CHANGELOG.md)
 
 Description/模块描述
@@ -21,9 +24,6 @@ Description/模块描述
 
 The `tkintertools` module is an auxiliary module of the `tkinter` module  
 `tkintertools`模块是`tkinter`模块的辅助模块
-
-Minimum Requirement: Python3.10  
-最低要求：Python3.10
 
 Provides/提供:
 1. Transparent, rounded and customized widgets  
@@ -70,6 +70,9 @@ Attentions/特别注意
 
 * In the `Release Version` folder is the source code of the `tkinertools` module with a large version number in the past  
 `Release Version` 文件夹里面的是过去的大版本号的 `tkintertools` 模块的源代码
+
+* `Compatible Version` folder contains the latest compatible version, which is compatible with python 3.7  
+`Compatible Version`文件夹里面是当前最新版本的兼容版本，可兼容python3.7版本
 
 More/更多
 --------

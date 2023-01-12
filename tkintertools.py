@@ -2,7 +2,6 @@
 tkintertools
 ============
 The tkindertools module is an auxiliary module of the tkinder module.
-Minimum Requirement: Python3.10.
 
 Provides:
 1. Transparent, rounded and customized widgets
@@ -17,8 +16,8 @@ Provides:
 Base Information
 ----------------
 * Author: Xiaokang2022<2951256653@qq.com>
-* Version: 2.5.8-pre
-* Update: 2023/01/11
+* Version: 2.5.8.2
+* Update: 2023/01/12
 
 Contents
 --------
@@ -43,8 +42,8 @@ from math import cos, pi, sin, sqrt  # 实现缩放功能及移动函数功能
 from typing import Generator, Iterable, Literal, Self, Type  # 类型提示
 
 __author__ = 'Xiaokang2022'
-__version__ = '2.5.8-pre'
-__all__ = (
+__version__ = '2.5.8.2'
+__all__ = [
     'Tk',
     'Toplevel',
     'Canvas',
@@ -58,7 +57,7 @@ __all__ = (
     'move',
     'text',
     'color',
-)
+]
 
 
 PROCESS_SYSTEM_DPI_AWARE = 1                                        # 进程DPI级别
@@ -76,7 +75,6 @@ BORDERWIDTH = 1     # 默认控件外框宽度
 CURSOR = '│'        # 文本光标
 FONT = '楷体', 15   # 默认字体
 LIMIT = -1          # 默认文本长度
-NULL = ''           # 空字符
 RADIUS = 0          # 默认控件圆角半径
 
 
@@ -118,8 +116,7 @@ class Tk(tkinter.Tk):
         if minisize:
             self.minsize(*minisize)
         elif geometry:
-            self.minsize(
-                *[round(int(i)*S) for i in geometry.split('+')[0].split('x')])
+            self.minsize(*map(int, geometry.split('+')[0].split('x')))
 
         self.title(title if title else None)
         self.geometry(geometry if geometry else None)
@@ -190,6 +187,22 @@ class Tk(tkinter.Tk):
     @toplevel.getter
     def toplevel(self: Self) -> tuple:
         return tuple(self._toplevel)
+
+    def wm_maxsize(self: Self, width: int | None = None, height: int | None = None) -> tuple[int, int] | None:
+        # 重写：DPI适配
+        if width:
+            return tkinter.Tk.wm_maxsize(self, round(width*S), round(height*S))
+        return tuple(i/S for i in tkinter.Tk.wm_maxsize(self))
+
+    maxsize = wm_maxsize
+
+    def wm_minsize(self: Self, width: int | None = None, height: int | None = None) -> tuple[int, int] | None:
+        # 重写：DPI适配
+        if width:
+            return tkinter.Tk.wm_minsize(self, round(width*S), round(height*S))
+        return tuple(i/S for i in tkinter.Tk.wm_minsize(self))
+
+    minsize = wm_minsize
 
     def wm_geometry(self: Self, newGeometry: str | None = None) -> str | None:
         # 重写: 添加修改初始宽高值的功能
@@ -629,7 +642,7 @@ class _BaseWidget:
             _x, _y, _w, _h = x+radius, y+radius, width-d, height-d
 
             # 虚拟控件内部填充颜色
-            kw = {'outline': NULL, 'fill': color_fill[0]}
+            kw = {'outline': '', 'fill': color_fill[0]}
             self.inside = [
                 canvas.create_rectangle(
                     x, _y, x+width, y+height-radius, **kw),
@@ -826,7 +839,7 @@ class CanvasLabel(_BaseWidget):
         width: int,
         height: int,
         radius: float = RADIUS,
-        text: str = NULL,
+        text: str = '',
         borderwidth: int = BORDERWIDTH,
         justify: str = tkinter.CENTER,
         font: tuple[str, int, str] = FONT,
@@ -855,7 +868,7 @@ class CanvasButton(_BaseWidget):
         width: int,
         height: int,
         radius: float = RADIUS,
-        text: str = NULL,
+        text: str = '',
         borderwidth: int = BORDERWIDTH,
         justify: str = tkinter.CENTER,
         font: tuple[str, int, str] = FONT,
@@ -917,18 +930,18 @@ class _TextWidget(_BaseWidget):
         self.icursor = icursor
 
         # 表面显示值
-        self.value_surface = NULL
+        self.value_surface = ''
         # 光标闪烁间隔
         self._cursor_time = 300
         # 光标闪烁标志
         self._cursor = False
 
         if type(text) == str:
-            self.value_normal, self.value_touch = text, NULL
+            self.value_normal, self.value_touch = text, ''
         else:
             self.value_normal, self.value_touch = text
 
-        _BaseWidget.__init__(self, canvas, x, y, width, height, radius, NULL, justify,
+        _BaseWidget.__init__(self, canvas, x, y, width, height, radius, '', justify,
                              borderwidth, font, color_text, color_fill, color_outline)
 
         # 鼠标光标（位置顺序不可乱动）
@@ -978,14 +991,14 @@ class _TextWidget(_BaseWidget):
             if self._cursor:
                 self.master.itemconfigure(self.cursor, text=self.icursor)
             else:
-                self.master.itemconfigure(self.cursor, text=NULL)
+                self.master.itemconfigure(self.cursor, text='')
 
         if self._state == 'press':
             self._cursor_time += 10
             self.master.after(10, self.cursor_flash)
         else:
             self._cursor_time, self._cursor = 300, False  # 恢复默认值
-            self.master.itemconfigure(self.cursor, text=NULL)
+            self.master.itemconfigure(self.cursor, text='')
 
     def cursor_update(self: Self, text: str = ' ') -> None:
         """ 鼠标光标更新 """
@@ -997,7 +1010,7 @@ class _TextWidget(_BaseWidget):
             _pos = self.master.bbox(self._text)
             self.master.coords(self.cursor, _pos[2], _pos[1])
         self.master.itemconfigure(
-            self.cursor, text=NULL if not text else self.icursor)
+            self.cursor, text='' if not text else self.icursor)
 
     def paste(self: Self) -> bool:
         """ 快捷键粘贴 """
@@ -1038,7 +1051,7 @@ class CanvasEntry(_TextWidget):
         width: int,
         height: int,
         radius: float = RADIUS,
-        text: tuple[str] | str = NULL,
+        text: tuple[str] | str = '',
         show: str | None = None,
         limit: int = LIMIT,
         space: bool = False,
@@ -1059,14 +1072,14 @@ class CanvasEntry(_TextWidget):
         """ 控件获得焦点 """
         self.state('press')
         self.master.itemconfigure(self.text, text=self.value_surface)
-        self.cursor_update(NULL)
+        self.cursor_update('')
         self.cursor_flash()
 
     def press_off(self: Self) -> None:
         """ 控件失去焦点 """
         self.state('normal')
 
-        if self.value == NULL:
+        if self.value == '':
             self.master.itemconfigure(self.text, text=self.value_normal)
         else:
             self.master.itemconfigure(self.text, text=self.value_surface)
@@ -1121,7 +1134,7 @@ class CanvasText(_TextWidget):
         width: int,
         height: int,
         radius: float = RADIUS,
-        text: tuple[str] | str = NULL,
+        text: tuple[str] | str = '',
         limit: int = LIMIT,
         space: bool = True,
         read: bool = False,
@@ -1167,14 +1180,14 @@ class CanvasText(_TextWidget):
             *__, _ = [''] + self.value_surface.rsplit('\n', 1)
             self.master.itemconfigure(self.text, text=''.join(__))
             self.master.itemconfigure(self._text, text=_)
-            self.cursor_update(NULL)
+            self.cursor_update('')
             self.cursor_flash()
 
     def press_off(self: Self) -> None:
         """ 控件失去焦点 """
         self.state('normal')
 
-        if self.value == NULL:
+        if self.value == '':
             self.master.itemconfigure(self.text, text=self.value_normal)
         else:
             *__, _ = [''] + self.value_surface.rsplit('\n', 1)
@@ -1562,7 +1575,7 @@ def test() -> None:
             (300-ind/3)*canvas_graph.rate_x, (100-ind/3)*canvas_graph.rate_y,
             (400+ind)*canvas_graph.rate_x, (200+ind)*canvas_graph.rate_y,
             outline=color(('#000000', '#FFFFFF'), cos(ind*pi/200)),
-            width=4, fill=NULL if ind else '#FFF')
+            width=4, fill='' if ind else '#FFF')
         if ind < 100:
             root.after(20, draw, ind+1)
 
