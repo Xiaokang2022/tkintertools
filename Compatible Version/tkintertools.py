@@ -43,7 +43,7 @@ from fractions import Fraction  # 图片缩放
 
 
 __author__ = 'Xiaokang2022'
-__version__ = '2.5.8.1'
+__version__ = '2.5.9'
 __all__ = [
     'Tk',
     'Toplevel',
@@ -443,7 +443,7 @@ class Canvas(tkinter.Canvas):
     def destroy(self) -> None:
         # 重写：兼容
         self.master._canvas.remove(self)
-        for widget in self.widget:
+        for widget in self.widget():
             widget.destroy()
         return tkinter.Canvas.destroy(self)
 
@@ -1197,12 +1197,13 @@ class PhotoImage(tkinter.PhotoImage):
         `file`: 图片文件的路径
         `**kw`: 与 tkinter.PhotoImage 的参数相同
         """
-        self.file = file
-        self.extension = file.rsplit('.', 1)[-1]
+        self.file = file  # 图片文件的路径
+        self.extension = file.rsplit('.', 1)[-1]  # 文件扩展名
+        self._item = {}  # type: dict[tkinter._CanvasItemId, Canvas]
 
-        if self.extension == 'gif':
+        if self.extension == 'gif':  # 动态图片
             self.image: list[tkinter.PhotoImage] = []
-        else:
+        else:  # 静态图片
             self.image = tkinter.PhotoImage.__init__(self, file=file, **kw)
 
     def parse(self, start: int = 0):
@@ -1214,30 +1215,47 @@ class PhotoImage(tkinter.PhotoImage):
             while True:
                 self.image.append(tkinter.PhotoImage(
                     file=self.file, format='gif -index %d' % start))
-                start += 1
-                yield start
+                value = yield start  # 抛出索引
+                start += value if value else 1
         except tkinter.TclError:
             return
 
     def play(
         self,
         canvas: Canvas,
-        itemid,  # type: tkinter._CanvasItemId
+        item,  # type: tkinter._CanvasItemId
         interval: int,
-        **kw,
+        **kw
     ) -> None:
         """
         播放动图，canvas.lock为False会暂停
         `canvas`: 播放动画的画布
-        `itemid`: 播放动画的 _CanvasItemId（就是 create_text 的返回值）
+        `item`: 播放动画的 _CanvasItemId（create_text 的返回值）
         `interval`: 每帧动画的间隔时间
         """
-        if kw.get('_ind', 0) == len(self.image):
-            kw['_ind'] = 0
-        canvas.itemconfigure(itemid, image=self.image[kw.get('_ind', 0)])
-        args = canvas, itemid, interval
-        kw['_ind'] = kw.get('_ind', 0) + canvas._lock
-        canvas.after(interval, lambda: self.play(*args, **kw))
+        if kw.get('ind', None) == None:  # 初始化的判定
+            self._item[item], kw['ind'] = canvas, -1
+        if not self._item[item]:  # 终止播放的判定
+            return
+        if canvas._lock:  # 暂停播放的判定
+            canvas.itemconfigure(item, image=self.image[kw['ind']])
+        ind = kw['ind']+1
+        canvas.after(interval, lambda: self.play(  # 迭代执行函数
+            canvas, item, interval, ind=0 if ind == len(self.image) else ind))
+
+    def stop(
+        self,
+        item,  # type: tkinter._CanvasItemId
+        clear: bool = False
+    ) -> None:
+        """
+        终止动图的播放
+        `item`: 播放动画的 _CanvasItemId（create_text 的返回值）
+        `clear`: 清除图片的标识
+        """
+        self._item[item] = None
+        if clear:  # 清除背景
+            self._item[item].itemconfigure(item, image=None)
 
     def zoom(self, rate_x: float, rate_y: float, precision: float = None) -> tkinter.PhotoImage:
         """
@@ -1287,7 +1305,7 @@ def move(
 ) -> None:
     """
     ### 移动函数
-    以特定方式移动由 Place 布局的某个控件或某些控件的集合或图像
+    以特定方式移动由 Place 布局的某个控件或某些控件的集合或图像\n
     `master`: 控件所在的父控件
     `widget`: 要移动位置的控件
     `dx`: 横向移动的距离（单位：像素）
@@ -1348,12 +1366,12 @@ def text(
 ) -> str:
     """
     ### 文本函数
-    可将目标字符串改为目标长度并居中对齐，ASCII 码字符算 1 个长度，中文及其他字符算 2 个
+    可将目标字符串改为目标长度并居中对齐，ASCII 码字符算 1 个长度，中文及其他字符算 2 个\n
     `length`: 目标长度
     `string`: 要修改的字符串
     `position`: 文本处于该长度范围的位置，可选 left（靠左）、center（居中）和 right（靠右）这三个值
     """
-    length -= sum(ord(i) >= 256 for i in string) + len(string)  # 计算空格总个数
+    length -= sum(1 + (ord(i) >= 256) for i in string)  # 计算空格总个数
     if position == 'left':  # 靠左
         return ' '*length+string
     elif position == 'right':  # 靠右

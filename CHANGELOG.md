@@ -1,32 +1,61 @@
 ChangeLog/更新日志
 ==================
 
+[2.5.9] - 2023-01-13
+--------------------
+
+### Features/新增
+
+* Class `PhotoImage` new method `stop` is used to stop the playback of moving pictures  
+类`PhotoImage`新增方法`stop`用于停止动图的播放
+
+### Fixed/修复
+
+* Fixed an incomplete parameter bug in the `moveto` method of the `Canvas` class  
+修复了`Canvas`类的方法`moveto`在参数上不完备的bug
+
+* Fixed a bug that sometimes causes multiple controls to touch at the same time  
+修复了有时候会产生多个控件同时触碰的bug
+
+* Fixed parameter error of class `PhotoImage`  
+修复了类`PhotoImage`的参数错误
+
+### Refactored/优化
+
+* Optimize codes, simplify some codes and delete redundant parts  
+优化代码，简化部分代码，删去冗余部分
+
+### Removed/删除
+
+* The redundant parameters `minsize` and `alpha` of the `Tk` and `Toplevel` classes have been deleted  
+删除了`Tk`类和`Toplevel`类的冗余参数`minsize`和`alpha`
+
 [2.5.8] - 2023-01-12
 --------------------
 
 ### Fixed/修复
 
-- [X] Fixed a bug that the function `move` cannot perform the default move mode `flat`  
+* Fixed a bug that the function `move` cannot perform the default move mode `flat`  
 修复了函数`move`无法进行默认的移动模式`flat`的bug
 
-- [X] Solve the bug that the cursor will flash faster and faster after pasting text for text control  
+* Solve the bug that the cursor will flash faster and faster after pasting text for text control  
 解决文本类控件在粘贴文本后光标会越闪越快的bug
 
 ### Refactored/优化
 
-- [X] `move` function has been optimized to improve applicability, accuracy and speed  
+* `move` function has been optimized to improve applicability, accuracy and speed  
 优化了`move`函数，提升了适用性、精度以及速度
 
-- [X] `Canvas` class adds compatibility methods `coords`, `move`, `moveto` and `bbox` to improve the DPI adaptation problem  
+* `Canvas` class adds compatibility methods `coords`, `move`, `moveto` and `bbox` to improve the DPI adaptation problem  
 `Canvas`类新增兼容方法`coords`、`move`、`moveto`和`bbox`，完善了DPI的适配问题
 
 - [x] `Tk` Class Add Method `wm_minszie`, `wm_maxsize` to be compatible with DPI adaptation problems  
 `Tk`类新增方法`wm_minszie`、`wm_maxsize`以兼容DPI适配问题
 
-- [X] Optimize the `PhotoImage` class so that it can be used without globalization  
+* Optimize the `PhotoImage` class so that it can be used without globalization  
 优化`PhotoImage`类，使之无需全局化，即可使用
 
-- [X] Overall optimization of code and reduction of code volume  
+* Overall optimization of code and reduction of code volume  
 总体优化了代码，减少了代码量
 
 [2.5.7] - 2023-01-10
@@ -241,4 +270,4 @@ ChangeLog/更新日志
 [2.5.0] - 2022-11-21
 --------------------
 
-No more logging
+* No more logging

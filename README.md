@@ -5,8 +5,13 @@
 
 Update/最近更新
 --------------
-> Version: 2.5.8.1  
-> Date: 2023/01/12
+> Version: 2.5.9  
+> Date: 2023/01/13
+
+### Features/新增
+
+- [X] Class `PhotoImage` new method `stop` is used to stop the playback of moving pictures  
+类`PhotoImage`新增方法`stop`用于停止动图的播放
 
 ### Fixed/修复
 
