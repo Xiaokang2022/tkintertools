@@ -56,8 +56,8 @@ def shutdown() -> None:
         root.quit()  # 退出测试程序
 
 
-root = tkintertools.Tk('测试程序', '960x540', shutdown)
-# root.minsize(960, 540)
+root = tkintertools.Tk('测试程序', 960, 540, shutdown=shutdown)
+root.minsize(960, 540)
 
 
 canvas_main = tkintertools.Canvas(root, 960, 540)

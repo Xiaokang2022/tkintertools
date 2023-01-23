@@ -43,7 +43,7 @@ from fractions import Fraction  # 图片缩放
 from typing import Generator, Iterable, Literal, Self, Type  # 类型提示
 
 __author__ = 'Xiaokang2022'
-__version__ = '2.5.9'
+__version__ = '2.5.9.1'
 __all__ = [
     'Tk',
     'Toplevel',
@@ -87,13 +87,19 @@ class Tk(tkinter.Tk):
     def __init__(
         self: Self,
         title: str | None = None,
-        geometry: str | None = None,
+        width: int | None = None,
+        height: int | None = None,
+        x: int | None = None,
+        y: int | None = None,
         shutdown=None,  # type: function | None
         **kw
     ) -> None:
         """
         `title`: 窗口标题
-        `geometry`: 窗口大小及位置（格式：'宽度x高度+左上角横坐标+左上角纵坐标' 或者 '宽度x高度'）
+        `width`: 窗口宽度（单位:像素）
+        `height`: 窗口高度
+        `x`: 窗口左上角横坐标（单位:像素）
+        `y`: 窗口左上角纵坐标
         `shutdown`: 关闭窗口之前执行的函数（会覆盖原关闭操作）
         `**kw`: 与 tkinter.Tk 类的参数相同
         """
@@ -104,11 +110,14 @@ class Tk(tkinter.Tk):
         self.height: list[int] = [100, 1]  # [初始高度, 当前高度]
         self._canvas: list[Canvas] = []  # 子画布列表
 
-        self.title(title if title else None)
-        self.geometry(geometry if geometry else None)
-        self.protocol('WM_DELETE_WINDOW', shutdown if shutdown else None)
+        if width and height:
+            if x and y:
+                self.geometry('%dx%d+%d+%d' % (width, height, x, y))
+            else:
+                self.geometry('%dx%d' % (width, height))
 
-        self.minsize(100, 100)  # 防止缩放出现 ZeroDivisionError 报错
+        self.title(title if title else None)
+        self.protocol('WM_DELETE_WINDOW', shutdown if shutdown else None)
 
         self.bind('<Configure>', lambda _: self.__zoom())  # 开启窗口缩放检测
         self.bind('<Any-Key>', self.__input)  # 绑定键盘输入字符（代码顺序不可错）
@@ -187,19 +196,25 @@ class Toplevel(tkinter.Toplevel, Tk):
         self: Self,
         master: Tk,
         title: str | None = None,
-        geometry: str | None = None,
+        width: int | None = None,
+        height: int | None = None,
+        x: int | None = None,
+        y: int | None = None,
         shutdown=None,  # type: function | None
         **kw
     ) -> None:
         """
         `master`: 父窗口
         `title`: 窗口标题
-        `geometry`: 窗口大小及位置（格式：'宽度x高度+左上角横坐标+左上角纵坐标' 或者 '宽度x高度'）
+        `width`: 窗口宽度（单位:像素）
+        `height`: 窗口高度
+        `x`: 窗口左上角横坐标（单位:像素）
+        `y`: 窗口左上角纵坐标
         `shutdown`: 关闭窗口之前执行的函数（会覆盖关闭操作）
         `**kw`: 与 tkinter.Toplevel 类的参数相同
         """
         tkinter.Toplevel.__init__(self, master, **kw)
-        Tk.__init__(self, title, geometry, shutdown, **kw)
+        Tk.__init__(self, title, width, height, x, y, shutdown, **kw)
 
 
 class Canvas(tkinter.Canvas):

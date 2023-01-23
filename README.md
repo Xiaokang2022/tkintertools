@@ -5,34 +5,13 @@
 
 Update/最近更新
 --------------
-> Version: 2.5.9  
-> Date: 2023/01/13
+> Version: 2.5.9.1  
+> Date: 2023/01/23
 
-### Features/新增
+### Changed/变更
 
-- [X] Class `PhotoImage` new method `stop` is used to stop the playback of moving pictures  
-类`PhotoImage`新增方法`stop`用于停止动图的播放
-
-### Fixed/修复
-
-- [X] Fixed an incomplete parameter bug in the `moveto` method of the `Canvas` class  
-修复了`Canvas`类的方法`moveto`在参数上不完备的bug
-
-- [X] Fixed a bug that sometimes causes multiple controls to touch at the same time  
-修复了有时候会产生多个控件同时触碰的bug
-
-- [X] Fixed parameter error of class `PhotoImage`  
-修复了类`PhotoImage`的参数错误
-
-### Refactored/优化
-
-- [X] Optimize codes, simplify some codes and delete redundant parts  
-优化代码，简化部分代码，删去冗余部分
-
-### Removed/删除
-
-- [X] The redundant parameters `minsize` and `alpha` of the `Tk` and `Toplevel` classes have been deleted  
-删除了`Tk`类和`Toplevel`类的冗余参数`minsize`和`alpha`
+- [X] The initialization parameters of `Tk` class and `Toplevel` class have become more concise  
+`Tk`类和`Toplevel`类的初始化参数变得更加简洁了
 
 > 更多信息见更新日志: [CHANGELOG](./CHANGELOG.md)
 

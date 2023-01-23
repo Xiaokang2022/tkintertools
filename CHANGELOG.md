@@ -49,7 +49,7 @@ ChangeLog/更新日志
 * `Canvas` class adds compatibility methods `coords`, `move`, `moveto` and `bbox` to improve the DPI adaptation problem  
 `Canvas`类新增兼容方法`coords`、`move`、`moveto`和`bbox`，完善了DPI的适配问题
 
-- [x] `Tk` Class Add Method `wm_minszie`, `wm_maxsize` to be compatible with DPI adaptation problems  
+* `Tk` Class Add Method `wm_minszie`, `wm_maxsize` to be compatible with DPI adaptation problems  
 `Tk`类新增方法`wm_minszie`、`wm_maxsize`以兼容DPI适配问题
 
 * Optimize the `PhotoImage` class so that it can be used without globalization  
