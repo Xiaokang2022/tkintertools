@@ -5,8 +5,13 @@
 
 Update/最近更新
 --------------
-> Version: 2.5.9.1  
-> Date: 2023/01/23
+> Version: 2.5.9.2  
+> Date: 2023/01/25
+
+### Features/新增
+
+- [X] Function `move` adds parameter `end` to enhance function  
+函数`move`新增参数`end`以增强功能
 
 ### Changed/变更
 

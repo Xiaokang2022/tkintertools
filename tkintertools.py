@@ -43,7 +43,7 @@ from fractions import Fraction  # 图片缩放
 from typing import Generator, Iterable, Literal, Self, Type  # 类型提示
 
 __author__ = 'Xiaokang2022'
-__version__ = '2.5.9.1'
+__version__ = '2.5.9.2'
 __all__ = [
     'Tk',
     'Toplevel',
@@ -1314,6 +1314,7 @@ def move(
     dy: int,
     times: int,
     mode: Iterable | Literal['smooth', 'rebound', 'flat'],
+    end=None,  # type: function | None
     frames: int = 30,
     **kw
 ) -> None:
@@ -1326,6 +1327,7 @@ def move(
     `dy`: 纵向移动的距离（单位：像素）
     `times`: 移动总时长（单位：毫秒）
     `mode`: 移动速度模式，为 smooth（顺滑）、rebound（回弹）和 flat（平移）这三种，或者为元组 (函数, 起始值, 终止值) 的形式
+    `end`: 移动结束时执行的函数
     `frames`: 帧数，越大移动就越流畅，但计算越慢（范围为 1~100）
     """
     if kw.get('_ind'):  # 记忆值
@@ -1333,12 +1335,12 @@ def move(
     elif mode == 'flat':  # 平滑模式
         displacement = [100/frames] * frames
     elif mode == 'smooth':  # 流畅模式
-        return move(master, widget, dx, dy, times, (math.sin, 0, math.pi), frames)
+        return move(master, widget, dx, dy, times, (math.sin, 0, math.pi), end, frames)
     elif mode == 'rebound':  # 回弹模式
-        return move(master, widget, dx, dy, times, (math.cos, 0, 0.6*math.pi), frames)
+        return move(master, widget, dx, dy, times, (math.cos, 0, 0.6*math.pi), end, frames)
     else:  # 函数模式
-        func, start, end = mode
-        interval = (end-start) / frames
+        func, start, stop = mode
+        interval = (stop-start) / frames
         displacement = [func(start+interval*i) for i in range(1, frames+1)]
         key = 100 / sum(displacement)
         displacement = [key*i for i in displacement]
@@ -1364,9 +1366,9 @@ def move(
         widget.move(x, y)
 
     if kw.get('_ind', 0)+1 == frames:  # 停止条件
-        return
+        return end() if end else None
 
-    args = master, widget, dx, dy, times, displacement, frames
+    args = master, widget, dx, dy, times, displacement, end, frames
     kw = {'_x': kw.get('_x', 0) + x,
           '_y': kw.get('_y', 0) + y,
           '_ind': kw.get('_ind', 0) + 1}
