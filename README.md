@@ -5,18 +5,26 @@
 
 Update/最近更新
 --------------
-> Version: 2.5.9.2  
-> Date: 2023/01/25
+> Version: 2.5.9.3  
+> Date: 2023/01/29
 
 ### Features/新增
 
 - [X] Function `move` adds parameter `end` to enhance function  
 函数`move`新增参数`end`以增强功能
 
+- [X] New method of canvas virtual control base class `moveto`  
+画布虚拟控件基类新增方法`moveto`
+
 ### Changed/变更
 
 - [X] The initialization parameters of `Tk` class and `Toplevel` class have become more concise  
 `Tk`类和`Toplevel`类的初始化参数变得更加简洁了
+
+### Refactored/优化
+
+- [X] The performance of function `move` has been optimized  
+函数`move`的性能得到了优化
 
 > 更多信息见更新日志: [CHANGELOG](./CHANGELOG.md)
 

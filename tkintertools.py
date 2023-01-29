@@ -43,7 +43,7 @@ from fractions import Fraction  # 图片缩放
 from typing import Generator, Iterable, Literal, Self, Type  # 类型提示
 
 __author__ = 'Xiaokang2022'
-__version__ = '2.5.9.2'
+__version__ = '2.5.9.3'
 __all__ = [
     'Tk',
     'Toplevel',
@@ -76,6 +76,7 @@ CURSOR = '│'        # 文本光标
 FONT = '楷体', 15   # 默认字体
 LIMIT = -1          # 默认文本长度
 RADIUS = 0          # 默认控件圆角半径
+FRAMES = 60         # 默认帧数
 
 
 OleDLL('shcore').SetProcessDpiAwareness(PROCESS_SYSTEM_DPI_AWARE)  # 设置DPI级别
@@ -215,6 +216,7 @@ class Toplevel(tkinter.Toplevel, Tk):
         """
         tkinter.Toplevel.__init__(self, master, **kw)
         Tk.__init__(self, title, width, height, x, y, shutdown, **kw)
+        self.focus_set()
 
 
 class Canvas(tkinter.Canvas):
@@ -659,6 +661,30 @@ class _BaseWidget:
             self.master.move(self._text, dx, dy)
         if isinstance(self, ProcessBar):
             self.master.move(self.bar, dx, dy)
+
+    def moveto(self: Self, x: float, y: float) -> None:
+        """
+        改变控件的位置
+        `x`: 改变到的横坐标（单位：像素）
+        `y`: 改变到的纵坐标
+        """
+        self.x1, self.x2 = x, x+self.width
+        self.y1, self.y2 = y, y+self.height
+
+        if self.radius:
+            for item in self.inside+self.outside:
+                self.master.moveto(item, x, y)
+        else:
+            self.master.moveto(self.rect, x, y)
+
+        self.master.moveto(self.text, x, y)
+
+        if isinstance(self, _TextWidget):
+            self.master.moveto(self._cursor, x, y)
+        if isinstance(self, CanvasText):
+            self.master.moveto(self._text, x, y)
+        if isinstance(self, ProcessBar):
+            self.master.moveto(self.bar, x, y)
 
     def configure(self: Self, *args, **kw) -> str | tuple | None:
         """
@@ -1248,14 +1274,14 @@ class PhotoImage(tkinter.PhotoImage):
         `item`: 播放动画的 _CanvasItemId（create_text 的返回值）
         `interval`: 每帧动画的间隔时间
         """
-        if kw.get('ind', None) == None:  # 初始化的判定
+        if kw.get('_ind', None) == None:  # 初始化的判定
             self._item[item], kw['ind'] = canvas, -1
         if not self._item[item]:  # 终止播放的判定
             return
         if canvas._lock:  # 暂停播放的判定
-            canvas.itemconfigure(item, image=self.image[kw['ind']])
+            canvas.itemconfigure(item, image=self.image[kw['_ind']])
         canvas.after(interval, lambda: self.play(  # 迭代执行函数
-            canvas, item, interval, ind=0 if (ind := kw['ind']+1) == len(self.image) else ind))
+            canvas, item, interval, _ind=0 if (_ind := kw['_ind']+1) == len(self.image) else _ind))
 
     def stop(
         self: Self,
@@ -1314,9 +1340,9 @@ def move(
     dy: int,
     times: int,
     mode: Iterable | Literal['smooth', 'rebound', 'flat'],
+    frames: int = FRAMES,
     end=None,  # type: function | None
-    frames: int = 30,
-    **kw
+    _ind: int = 0
 ) -> None:
     """
     ### 移动函数
@@ -1327,52 +1353,44 @@ def move(
     `dy`: 纵向移动的距离（单位：像素）
     `times`: 移动总时长（单位：毫秒）
     `mode`: 移动速度模式，为 smooth（顺滑）、rebound（回弹）和 flat（平移）这三种，或者为元组 (函数, 起始值, 终止值) 的形式
-    `end`: 移动结束时执行的函数
     `frames`: 帧数，越大移动就越流畅，但计算越慢（范围为 1~100）
+    `end`: 移动结束时执行的函数
     """
-    if kw.get('_ind'):  # 记忆值
-        displacement = mode
+    if _ind:  # 记忆值
+        dis = mode
     elif mode == 'flat':  # 平滑模式
-        displacement = [100/frames] * frames
+        return move(master, widget, dx, dy, times, (lambda _: 1, 0, 1), frames, end)
     elif mode == 'smooth':  # 流畅模式
-        return move(master, widget, dx, dy, times, (math.sin, 0, math.pi), end, frames)
+        return move(master, widget, dx, dy, times, (math.sin, 0, math.pi), frames, end)
     elif mode == 'rebound':  # 回弹模式
-        return move(master, widget, dx, dy, times, (math.cos, 0, 0.6*math.pi), end, frames)
+        return move(master, widget, dx, dy, times, (math.cos, 0, 0.6*math.pi), frames, end)
     else:  # 函数模式
-        func, start, stop = mode
-        interval = (stop-start) / frames
-        displacement = [func(start+interval*i) for i in range(1, frames+1)]
-        key = 100 / sum(displacement)
-        displacement = [key*i for i in displacement]
-
-    if kw.get('_ind'):
-        displacement[kw['_ind']] += displacement[kw['_ind']-1]
-    proportion = displacement[kw.get('_ind', 0)] / 100  # 总计实际应该移动的百分比
-    x = proportion * dx - kw.get('_x', 0)  # 此次横向移动量
-    y = proportion * dy - kw.get('_y', 0)  # 此次纵向移动量
+        func, start, stop, count = *mode, round(times*frames/1000)
+        interval = (stop-start) / count
+        dis = tuple(func(start+interval*i) for i in range(1, count+1))
+        key = 1 / sum(dis)
+        dis = tuple((key*i*dx, key*i*dy) for i in dis)
 
     if isinstance(widget, tkinter.Tk | tkinter.Toplevel):  # 窗口
         geometry, ox, oy = widget.geometry().split('+')
-        widget.geometry('%s+%d+%d' % (geometry, int(ox)+x, int(oy)+y))
+        widget.geometry(
+            '%s+%d+%d' % (geometry, int(ox)+dis[_ind][0], int(oy)+dis[_ind][1]))
     elif isinstance(master, tkinter.Misc) and isinstance(widget, tkinter.BaseWidget):  # tkinter 的控件
         place_info = widget.place_info()
         origin_x, origin_y = float(place_info['x'])/S, float(place_info['y'])/S
-        widget.place(x=origin_x+x, y=origin_y+y)
+        widget.place(x=origin_x+dis[_ind][0], y=origin_y+dis[_ind][1])
     elif isinstance(master, Canvas) and isinstance(widget, _BaseWidget):  # 虚拟画布控件
-        widget.move(x, y)
+        widget.move(dis[_ind][0], dis[_ind][1])
     elif isinstance(widget, int):  # tkinter._CanvasItemId
-        master.move(widget, x, y)
+        master.move(widget, dis[_ind][0], dis[_ind][1])
     else:  # 其他自定义情况
-        widget.move(x, y)
+        widget.move(dis[_ind][0], dis[_ind][1])
 
-    if kw.get('_ind', 0)+1 == frames:  # 停止条件
+    if _ind+1 == round(times*frames/1000):  # 停止条件
         return end() if end else None
 
-    args = master, widget, dx, dy, times, displacement, end, frames
-    kw = {'_x': kw.get('_x', 0) + x,
-          '_y': kw.get('_y', 0) + y,
-          '_ind': kw.get('_ind', 0) + 1}
-    master.after(round(times/frames), lambda: move(*args, **kw))  # 间隔一定时间执行函数
+    master.after(
+        round(times/frames), move, master, widget, dx, dy, times, dis, frames, end, _ind+1)  # 间隔一定时间执行函数
 
 
 def text(
