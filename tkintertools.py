@@ -43,7 +43,7 @@ from fractions import Fraction  # 图片缩放
 from typing import Generator, Iterable, Literal, Self, Type  # 类型提示
 
 __author__ = 'Xiaokang2022'
-__version__ = '2.5.9.3'
+__version__ = '2.5.9.4'
 __all__ = [
     'Tk',
     'Toplevel',
@@ -528,6 +528,10 @@ class _BaseWidget:
         self.radius = radius  # 边角圆弧半径
         self.live = True  # 控件活跃标志
         self._state = 'normal'  # 控件的状态
+        self.command_ex = {
+            'normal': None, 'touch': None,
+            'press': None, 'disabled': None
+        }  # type: dict[str, function | None]
 
         canvas._widget.append(self)  # 将实例添加到父画布控件
 
@@ -635,6 +639,9 @@ class _BaseWidget:
             else:
                 self.master.itemconfigure(
                     self.rect, fill=self.color_fill[mode])
+
+        if self.command_ex[self._state]:
+            self.command_ex[self._state]()
 
     def move(self: Self, dx: float, dy: float) -> None:
         """

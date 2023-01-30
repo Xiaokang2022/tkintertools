@@ -5,15 +5,18 @@
 
 Update/最近更新
 --------------
-> Version: 2.5.9.3  
-> Date: 2023/01/29
+> Version: 2.5.9.4  
+> Date: 2023/01/30
 
 ### Features/新增
+
+- [X] Canvas virtual widget base class `_BaseWidget` Add instance attribute `command_ex` to extend functions  
+画布虚拟控件基类`_BaseWidget`新增实例属性`command_ex`以扩展功能
 
 - [X] Function `move` adds parameter `end` to enhance function  
 函数`move`新增参数`end`以增强功能
 
-- [X] New method of canvas virtual control base class `moveto`  
+- [X] New method of canvas virtual widget base class `moveto`  
 画布虚拟控件基类新增方法`moveto`
 
 ### Changed/变更
@@ -39,7 +42,7 @@ The `tkintertools` module is an auxiliary module of the `tkinter` module
 * Transparent, rounded and customized widgets  
 透明、圆角化和可自定义的控件
 
-* Automatic control of picture size and widget size  
+* Automatic widget of picture size and widget size  
 自动控制图片大小和控件大小
 
 * Scalable png pictures and playable gif pictures  
