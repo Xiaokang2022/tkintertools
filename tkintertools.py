@@ -43,7 +43,7 @@ from fractions import Fraction  # 图片缩放
 from typing import Generator, Iterable, Literal, Self, Type  # 类型提示
 
 __author__ = 'Xiaokang2022'
-__version__ = '2.5.9.4'
+__version__ = '2.5.9.5'
 __all__ = [
     'Tk',
     'Toplevel',
@@ -528,6 +528,7 @@ class _BaseWidget:
         self.radius = radius  # 边角圆弧半径
         self.live = True  # 控件活跃标志
         self._state = 'normal'  # 控件的状态
+        self.pre_state = None  # 记录之前的状态
         self.command_ex = {
             'normal': None, 'touch': None,
             'press': None, 'disabled': None
@@ -605,7 +606,9 @@ class _BaseWidget:
         `disabled`: 禁用状态
         """
         if mode:
-            self._state = mode
+            self._state, self.pre_state = mode, self._state
+            if self._state == self.pre_state:  # 保持状态时直接跳过
+                return
 
         if self._state == 'normal':
             mode = 0

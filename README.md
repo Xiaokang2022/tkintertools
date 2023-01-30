@@ -5,7 +5,7 @@
 
 Update/最近更新
 --------------
-> Version: 2.5.9.4  
+> Version: 2.5.9.5  
 > Date: 2023/01/30
 
 ### Features/新增
@@ -25,6 +25,9 @@ Update/最近更新
 `Tk`类和`Toplevel`类的初始化参数变得更加简洁了
 
 ### Refactored/优化
+
+- [X] The state change of the canvas virtual widget adds a previous state detection, greatly improving performance  
+画布虚拟控件的状态改变加了个先前状态检测，大幅提高性能
 
 - [X] The performance of function `move` has been optimized  
 函数`move`的性能得到了优化
