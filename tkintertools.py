@@ -43,7 +43,7 @@ from fractions import Fraction  # 图片缩放
 from typing import Generator, Iterable, Literal, Self, Type  # 类型提示
 
 __author__ = 'Xiaokang2022'
-__version__ = '2.5.9.5'
+__version__ = '2.5.10'
 __all__ = [
     'Tk',
     'Toplevel',
@@ -112,7 +112,7 @@ class Tk(tkinter.Tk):
         self._canvas: list[Canvas] = []  # 子画布列表
 
         if width and height:
-            if x and y:
+            if x != None and y != None:
                 self.geometry('%dx%d+%d+%d' % (width, height, x, y))
             else:
                 self.geometry('%dx%d' % (width, height))
@@ -565,21 +565,21 @@ class _BaseWidget:
             kw = {'extent': 100, 'style': 'arc', 'outline': color_outline[0]}
             self.outside = [  # 虚拟控件外框
                 canvas.create_line(
-                    _x, y, x+width-radius, y, fill=color_outline[0]),
+                    _x, y, x+width-radius, y, fill=color_outline[0], width=borderwidth),
                 canvas.create_line(
-                    _x, y+height, x+width-radius, y+height, fill=color_outline[0]),
+                    _x, y+height, x+width-radius, y+height, fill=color_outline[0], width=borderwidth),
                 canvas.create_line(
-                    x, _y, x, y+height-radius, fill=color_outline[0]),
+                    x, _y, x, y+height-radius, fill=color_outline[0], width=borderwidth),
                 canvas.create_line(
-                    x+width, _y, x+width, y+height-radius+1, fill=color_outline[0]),
+                    x+width, _y, x+width, y+height-radius+1, fill=color_outline[0], width=borderwidth),
                 canvas.create_arc(
-                    x, y, x+d, y+d, start=90, **kw),
+                    x, y, x+d, y+d, start=90, width=borderwidth, **kw),
                 canvas.create_arc(
-                    x+_w, y, x+width, y+d, start=0, **kw),
+                    x+_w, y, x+width, y+d, start=0, width=borderwidth, **kw),
                 canvas.create_arc(
-                    x, y+_h, x+d, y+height, start=180, **kw),
+                    x, y+_h, x+d, y+height, start=180, width=borderwidth, **kw),
                 canvas.create_arc(
-                    x+_w, y+_h, x+width, y+height, start=270, **kw)]
+                    x+_w, y+_h, x+width, y+height, start=270, width=borderwidth, **kw)]
         else:
             self.rect = canvas.create_rectangle(  # 虚拟控件的外框
                 x, y, x+width, y+height,

@@ -1,6 +1,41 @@
 ChangeLog/更新日志
 ==================
 
+[2.5.10] - 2023-02-04
+---------------------
+
+### Features/新增
+
+* Canvas virtual widget base class `_BaseWidget` Add instance attribute `command_ex` to extend functions  
+画布虚拟控件基类`_BaseWidget`新增实例属性`command_ex`以扩展功能
+
+* Function `move` adds parameter `end` to enhance function  
+函数`move`新增参数`end`以增强功能
+
+* New method of canvas virtual widget base class `moveto`  
+画布虚拟控件基类新增方法`moveto`
+
+### Fixed/修复
+
+* Fixed the bug that the class `Tk` cannot make the distance between the window and the screen 0  
+修复了类`Tk`无法使窗口与屏幕距离为0的bug
+
+* Fixed the bug that the parameter `borderwidth` of the control is invalid when it has rounded corners  
+修复了控件在有圆角状态下参数`borderwidth`失效的bug
+
+### Changed/变更
+
+* The initialization parameters of `Tk` class and `Toplevel` class have become more concise  
+`Tk`类和`Toplevel`类的初始化参数变得更加简洁了
+
+### Refactored/优化
+
+* The state change of the canvas virtual widget adds a previous state detection, greatly improving performance  
+画布虚拟控件的状态改变加了个先前状态检测，大幅提高性能
+
+* The performance of function `move` has been optimized  
+函数`move`的性能得到了优化
+
 [2.5.9] - 2023-01-13
 --------------------
 

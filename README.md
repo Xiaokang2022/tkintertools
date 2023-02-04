@@ -5,8 +5,8 @@
 
 Update/最近更新
 --------------
-> Version: 2.5.9.5  
-> Date: 2023/01/30
+> Version: 2.5.10  
+> Date: 2023/02/04
 
 ### Features/新增
 
@@ -18,6 +18,14 @@ Update/最近更新
 
 - [X] New method of canvas virtual widget base class `moveto`  
 画布虚拟控件基类新增方法`moveto`
+
+### Fixed/修复
+
+- [X] Fixed the bug that the class `Tk` cannot make the distance between the window and the screen 0  
+修复了类`Tk`无法使窗口与屏幕距离为0的bug
+
+- [X] Fixed the bug that the parameter `borderwidth` of the control is invalid when it has rounded corners  
+修复了控件在有圆角状态下参数`borderwidth`失效的bug
 
 ### Changed/变更
 
