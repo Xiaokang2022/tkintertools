@@ -31,7 +31,7 @@ More
 
 import sys  # 检测 Python 版本
 
-if sys.version_info < (3, 10):
+if sys.version_info < (3, 11):
     # 版本检测，低版本缺失部分语法
     raise RuntimeError('\033[36mPython version is too low!\033[0m\a')
 
@@ -43,7 +43,7 @@ from fractions import Fraction  # 图片缩放
 from typing import Generator, Iterable, Literal, Self, Type  # 类型提示
 
 __author__ = 'Xiaokang2022'
-__version__ = '2.5.10'
+__version__ = '2.5.10.1'
 __all__ = [
     'Tk',
     'Toplevel',
@@ -229,6 +229,7 @@ class Canvas(tkinter.Canvas):
         height: int,
         lock: bool = True,
         expand: bool = True,
+        keep: bool = False,
         **kw
     ) -> None:
         """
@@ -237,12 +238,14 @@ class Canvas(tkinter.Canvas):
         `height`: 画布高度
         `lock`: 画布内控件的功能锁（False时功能暂时失效）
         `expand`: 画布内控件是否能缩放
+        `keep`: 保持画布比例不变
         `**kw`: 与 tkinter.Canvas 类的参数相同
         """
         self.width = [width]*2  # [初始宽度, 当前宽度]
         self.height = [height]*2  # [初始高度, 当前高度]
         self._lock = lock
         self.expand = expand
+        self.keep = keep
 
         self.rate_x = 1.  # 横向放缩比率
         self.rate_y = 1.  # 纵向放缩比率
@@ -285,6 +288,11 @@ class Canvas(tkinter.Canvas):
             rate_x = self.master.width[1]/self.master.width[0]/self.rate_x
         if not rate_y:
             rate_y = self.master.height[1]/self.master.height[0]/self.rate_y
+
+        if self.keep:  # 维持比例
+            rx = rate_x*self.master.width[1]/self.master.width[0]/self.rate_x
+            ry = rate_y*self.master.height[1]/self.master.height[0]/self.rate_y
+            rate_x = rate_y = min(rx, ry)
 
         # 更新画布的位置及大小数据
         self.width[1] *= rate_x
