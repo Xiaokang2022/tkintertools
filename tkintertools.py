@@ -42,7 +42,7 @@ from fractions import Fraction  # 图片缩放
 from typing import Generator, Iterable, Literal, Self, Type  # 类型提示
 
 __author__ = 'Xiaokang2022'
-__version__ = '2.5.10.2'
+__version__ = '2.5.10.3'
 __all__ = [
     'Tk',
     'Toplevel',

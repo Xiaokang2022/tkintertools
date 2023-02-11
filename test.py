@@ -131,7 +131,7 @@ canvas_doc.create_text(  # 模块说明文档
 
 try:  # 加载图片
     canvas_graph.create_image(
-        1150, 130, image=tkt.PhotoImage('tkinter.png'))
+        1150, 130, image=tkt.PhotoImage('tkintertools.png'))
 except TclError:  # 缺少图片
     print('\033[31m缺少示例图片tkinter.png\033[0m')
 
