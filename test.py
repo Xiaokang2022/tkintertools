@@ -3,13 +3,14 @@
 
 import sys
 
-if sys.version_info < (3, 10):
+if sys.version_info < (3, 11):
     raise RuntimeError('\033[31mPython版本低于3.10，无法运行测试程序！\033[0m')
 
 
 from math import cos, pi
 from random import randint
 from tkinter import TclError, messagebox
+from winsound import Beep
 
 import tkintertools as tkt
 
@@ -27,27 +28,25 @@ def colorful(ind: int = 0, color: list[str | None] = [None, '#F1F1F1']) -> None:
     root.after(20, colorful, 0 if ind >= 1 else ind+0.01)  # 迭代执行函数
 
 
-def draw(ind: int = 0, n: int = 100) -> None:
+def draw(ind: int = 0, n: int = 200) -> None:
     """ 绘制球体 """
     canvas_graph.create_oval(
-        canvas_graph.rate_x*(300-ind/3),  # 椭圆左上角横坐标
-        canvas_graph.rate_y*(100-ind/3),  # 椭圆左上角纵坐标
-        canvas_graph.rate_x*(400+ind),  # 椭圆右下角横坐标
-        canvas_graph.rate_y*(200+ind),  # 椭圆右下角纵坐标
+        canvas_graph.rate_x*(500-ind/3),  # 椭圆左上角横坐标
+        canvas_graph.rate_y*(300-ind/3),  # 椭圆左上角纵坐标
+        canvas_graph.rate_x*(600+ind),  # 椭圆右下角横坐标
+        canvas_graph.rate_y*(400+ind),  # 椭圆右下角纵坐标
         fill='' if ind else 'white',  # 中心椭圆填充白色，其他透明
-        outline=tkt.color(
-            ('#000000', '#FFFFFF'), cos(ind*pi/2/n)),  # 渐变色
-        width=4  # 宽度为 4
-    )
+        outline=tkt.color(('#000000', '#FFFFFF'), cos(ind*pi/2/n)),  # 渐变色
+        width=3)
     if ind < n:  # 终止条件
-        root.after(20, draw, ind+1)  # 迭代执行函数
+        root.after(10, draw, ind+1)  # 迭代执行函数
 
 
 def update(ind: int = 0) -> None:
     """ 进度条更新 """
     bar.load(ind)  # 更新进度条
     if ind < 1:  # 终止条件
-        root.after(1, update, ind+0.0001)  # 迭代执行函数
+        root.after(1, update, ind+0.0002)  # 迭代执行函数
 
 
 def shutdown() -> None:
@@ -56,70 +55,83 @@ def shutdown() -> None:
         root.quit()  # 退出测试程序
 
 
-root = tkt.Tk('测试程序', 960, 540, shutdown=shutdown)
-root.minsize(960, 540)
-
-
-canvas_main = tkt.Canvas(root, 960, 540)
+tkt.SetProcessDpiAwareness()
+root = tkt.Tk('测试程序', 1280, 720, shutdown=shutdown)
+root.minsize(640, 360)
+canvas_main = tkt.Canvas(root, 1280, 720)
 canvas_main.place(x=0, y=0)
-canvas_doc = tkt.Canvas(root, 960, 540)
-canvas_doc.place(x=-960, y=0)
-canvas_graph = tkt.Canvas(root, 960, 540)
-canvas_graph.place(x=960, y=0)
+canvas_doc = tkt.Canvas(root, 1280, 720)
+canvas_doc.place(x=-1280, y=0)
+canvas_graph = tkt.Canvas(root, 1280, 720)
+canvas_graph.place(x=1280, y=0)
+
+
+def sound(): return Beep(600, 100)
 
 
 tkt.CanvasButton(
-    canvas_main, 10, 500, 120, 30, 0, '模块文档',
-    command=lambda: (tkt.move(root, canvas_main, 960*canvas_main.rate_x, 0, 500, 'rebound'),
-                     tkt.move(root, canvas_doc, 960*canvas_doc.rate_x, 0, 500, 'rebound')))
+    canvas_main, 10, 660, 200, 50, 0, '模块文档',
+    command=lambda: (tkt.move(root, canvas_main, 1280*canvas_main.rate_x, 0, 500, 'rebound'),
+                     tkt.move(root, canvas_doc, 1280*canvas_doc.rate_x, 0, 500, 'rebound'))
+).command_ex['press'] = sound
 tkt.CanvasButton(
-    canvas_main, 830, 500, 120, 30, 0, '图像测试',
-    command=lambda: (tkt.move(root, canvas_main, -960*canvas_main.rate_x, 0, 500, 'rebound'),
-                     tkt.move(root, canvas_graph, -960*canvas_graph.rate_x, 0, 500, 'rebound')))
+    canvas_main, 1070, 660, 200, 50, 0, '图像测试',
+    command=lambda: (tkt.move(root, canvas_main, -1280*canvas_main.rate_x, 0, 500, 'rebound'),
+                     tkt.move(root, canvas_graph, -1280*canvas_graph.rate_x, 0, 500, 'rebound'))
+).command_ex['press'] = sound
 tkt.CanvasButton(
-    canvas_doc, 830, 500, 120, 30, 0, '返回主页',
-    command=lambda: (tkt.move(root, canvas_main, -960*canvas_main.rate_x, 0, 500, 'rebound'),
-                     tkt.move(root, canvas_doc, -960*canvas_doc.rate_x, 0, 500, 'rebound')))
+    canvas_doc, 1070, 660, 200, 50, 0, '返回主页',
+    command=lambda: (tkt.move(root, canvas_main, -1280*canvas_main.rate_x, 0, 500, 'rebound'),
+                     tkt.move(root, canvas_doc, -1280*canvas_doc.rate_x, 0, 500, 'rebound'))
+).command_ex['press'] = sound
 tkt.CanvasButton(
-    canvas_graph, 10, 500, 120, 30, 0, '返回主页',
-    command=lambda: (tkt.move(root, canvas_main, 960*canvas_main.rate_x, 0, 500, 'rebound'),
-                     tkt.move(root, canvas_graph, 960*canvas_graph.rate_x, 0, 500, 'rebound')))
+    canvas_graph, 10, 660, 200, 50, 0, '返回主页',
+    command=lambda: (tkt.move(root, canvas_main, 1280*canvas_main.rate_x, 0, 500, 'rebound'),
+                     tkt.move(root, canvas_graph, 1280*canvas_graph.rate_x, 0, 500, 'rebound'))
+).command_ex['press'] = sound
 
 tkt.CanvasText(
-    canvas_main, 10, 10, 465, 200, 10, ('居中圆角文本框', '竖线光标'), justify='center')
+    canvas_main, 10, 10, 625, 300, 20, ('居中圆角文本框', '竖线光标'), justify='center')
 tkt.CanvasText(
-    canvas_main, 485, 10, 465, 200, 0, ('靠右方角文本框', '下划线光标'), cursor=' _')
+    canvas_main, 645, 10, 625, 300, 0, ('靠右方角文本框', '下划线光标'), cursor=' _')
 tkt.CanvasEntry(
-    canvas_main, 10, 220, 200, 25, 6, ('居中圆角输入框', '点击输入'), justify='center')
+    canvas_main, 10, 320, 300, 35, 10, ('居中圆角输入框', '点击输入'), justify='center')
 tkt.CanvasEntry(
-    canvas_main, 750, 220, 200, 25, 0, ('靠右方角输入框', '点击输入'), '•')
+    canvas_main, 970, 320, 300, 35, 0, ('靠右方角输入框', '点击输入'), '•')
 
 tkt.CanvasButton(
-    canvas_main, 10, 250, 120, 25, 6, '圆角按钮',
-    command=lambda: tkt.move(canvas_main, label_1, 0, -120 * canvas_main.rate_y, 500, 'flat'))
+    canvas_main, 10, 365, 200, 40, 10, '圆角按钮',
+    command=lambda: tkt.move(
+        canvas_main, label_1, 0, -170 * canvas_main.rate_y, 500, 'flat')
+).command_ex['press'] = sound
 tkt.CanvasButton(
-    canvas_main, 830, 250, 120, 25, 0, '方角按钮',
-    command=lambda: tkt.move(canvas_main, label_2, 0, -120 * canvas_main.rate_y, 500, 'smooth'))
+    canvas_main, 1070, 365, 200, 40, 0, '方角按钮',
+    command=lambda: tkt.move(
+        canvas_main, label_2, 0, -170 * canvas_main.rate_y, 500, 'smooth')
+).command_ex['press'] = sound
 
 label_1 = tkt.CanvasLabel(
-    canvas_main, 225, 550, 250, 100, 10, '圆角标签\n移动模式:flat')
+    canvas_main, 235, 730, 400, 150, 20, '圆角标签\n移动模式:flat')
 label_2 = tkt.CanvasLabel(
-    canvas_main, 485, 550, 250, 100, 0, '方角标签\n移动模式:smooth')
+    canvas_main, 645, 730, 400, 150, 0, '方角标签\n移动模式:smooth')
 button_1 = tkt.CanvasButton(
-    canvas_doc, 830, 10, 120, 30, 0, '颜色变幻', command=lambda: (button_1.set_live(False), colorful()))
+    canvas_doc, 1070, 10, 200, 50, 0, '颜色变幻', command=lambda: (button_1.set_live(False), colorful()))
+button_1.command_ex['press'] = sound
 button_2 = tkt.CanvasButton(
-    canvas_graph, 10, 10, 120, 30, 0, '绘制图形',  command=lambda: (button_2.set_live(False), draw()))
+    canvas_graph, 10, 10, 200, 50, 0, '绘制图形',  command=lambda: (button_2.set_live(False), draw()))
+button_2.command_ex['press'] = sound
 
 load = tkt.CanvasButton(
-    canvas_main, 420, 250, 120, 25, 0, '加载进度', command=lambda: (update(), load.set_live(False)))
-bar = tkt.ProcessBar(canvas_main, 220, 220, 520, 25)
+    canvas_main, 540, 365, 200, 40, 0, '加载进度', command=lambda: (update(), load.set_live(False)))
+load.command_ex['press'] = sound
+bar = tkt.ProcessBar(canvas_main, 320, 320, 640, 35)
 
 canvas_doc.create_text(  # 模块说明文档
-    15, 270, text=tkt.__doc__, font=('consolas', 12), anchor='w')
+    15, 360, text=tkt.__doc__, font=tkt.font('consolas', 17, 'italic'), anchor='w')
 
 try:  # 加载图片
     canvas_graph.create_image(
-        860, 100, image=tkt.PhotoImage('tkinter.png'))
+        1150, 130, image=tkt.PhotoImage('tkinter.png'))
 except TclError:  # 缺少图片
     print('\033[31m缺少示例图片tkinter.png\033[0m')
 

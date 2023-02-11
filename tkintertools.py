@@ -19,13 +19,12 @@ Contents
 * Container Widget: `Tk`, `Toplevel`, `Canvas`
 * Virtual Canvas Widget: `CanvasLabel`, `CanvasButton`, `CanvasEntry`, `CanvasText`, `ProcessBar`
 * Tool Class: `PhotoImage`, `Singleton`
-* Tool Function: `move`, `text`, `color`
+* Tool Function: `move`, `text`, `color`, `font`, `SetProcessDpiAwareness`
 
 More
 ----
 * GitCode: https://gitcode.net/weixin_62651706/tkintertools
-* GitHub(Mirror): https://github.com/392126563/tkintertools
-* Gitee(Mirror): https://gitee.com/xiaokang-2022/tkintertools
+* GitHub(Mirror): https://github.com/XiaoKang2022-CSDN/tkintertools
 * Tutorials: https://xiaokang2022.blog.csdn.net/article/details/127374661
 """
 
@@ -43,7 +42,7 @@ from fractions import Fraction  # 图片缩放
 from typing import Generator, Iterable, Literal, Self, Type  # 类型提示
 
 __author__ = 'Xiaokang2022'
-__version__ = '2.5.10.1'
+__version__ = '2.5.10.2'
 __all__ = [
     'Tk',
     'Toplevel',
@@ -57,29 +56,29 @@ __all__ = [
     'Singleton',
     'move',
     'text',
-    'color'
+    'color',
+    'SetProcessDpiAwareness'
 ]
 
-S = OleDLL('shcore').GetScaleFactorForDevice(0)/100     # 屏幕缩放因子
-PROCESS_SYSTEM_DPI_AWARE = 1                            # DPI级别
+PROCESS_SYSTEM_DPI_AWARE = 1  # DPI级别
+SCALE = OleDLL('shcore').GetScaleFactorForDevice(0)/100  # 屏幕缩放因子
 
-COLOR_BUTTON_FILL = '#E1E1E1', '#E5F1FB', '#CCE4F7', '#F0F0F0'      # 默认的按钮内部颜色
-COLOR_BUTTON_OUTLINE = '#C0C0C0', '#288CDB', '#4884B4', '#D5D5D5'   # 默认的按钮外框颜色
-COLOR_TEXT_FILL = '#FFFFFF', '#FFFFFF', '#FFFFFF', '#F0F0F0'        # 默认的文本内部颜色
-COLOR_TEXT_OUTLINE = '#C0C0C0', '#414141', '#288CDB', '#D5D5D5'     # 默认的文本外框颜色
+COLOR_BUTTON_FILL = '#E1E1E1', '#E5F1FB', '#CCE4F7', '#E0E0E0'      # 默认的按钮内部颜色
+COLOR_BUTTON_OUTLINE = '#C0C0C0', '#288CDB', '#4884B4', '#D0D0D0'   # 默认的按钮外框颜色
+COLOR_TEXT_FILL = '#FFFFFF', '#FFFFFF', '#FFFFFF', '#E0E0E0'        # 默认的文本内部颜色
+COLOR_TEXT_OUTLINE = '#C0C0C0', '#414141', '#288CDB', '#D0D0D0'     # 默认的文本外框颜色
 COLOR_TEXT = '#000000', '#000000', '#000000', '#A3A3A3'             # 默认的文本颜色
 COLOR_NONE = '', '', '', ''                                         # 透明颜色
 COLOR_BAR = '#E1E1E1', '#06b025'                                    # 默认的进度条颜色
 
-BORDERWIDTH = 1     # 默认控件外框宽度
-CURSOR = '│'        # 文本光标
-FONT = '楷体', 15   # 默认字体
-LIMIT = -1          # 默认文本长度
-RADIUS = 0          # 默认控件圆角半径
-FRAMES = 60         # 默认帧数
-
-
-OleDLL('shcore').SetProcessDpiAwareness(PROCESS_SYSTEM_DPI_AWARE)  # 设置DPI级别
+BORDERWIDTH = 1             # 默认控件外框宽度
+CURSOR = '│'                # 文本光标
+FONT = '楷体'               # 默认字体
+_SIZE = 24                  # 默认字体大小
+SIZE = round(_SIZE/SCALE)   # 默认字体大小（适配DPI）
+LIMIT = -1                  # 默认文本长度
+RADIUS = 0                  # 默认控件圆角半径
+FRAMES = 60                 # 默认帧数
 
 
 class Tk(tkinter.Tk):
@@ -160,34 +159,22 @@ class Tk(tkinter.Tk):
                         if widget.paste():
                             return
 
-    def wm_maxsize(self: Self, width: int | None = None, height: int | None = None) -> tuple[int, int] | None:
-        # 重写：兼容不同的DPI缩放
-        if width:
-            return tkinter.Tk.wm_maxsize(self, round(width*S), round(height*S))
-        return tuple(i/S for i in tkinter.Tk.wm_maxsize(self))
-
-    def wm_minsize(self: Self, width: int | None = None, height: int | None = None) -> tuple[int, int] | None:
-        # 重写：兼容不同的DPI缩放
-        if width:
-            return tkinter.Tk.wm_minsize(self, round(width*S), round(height*S))
-        return tuple(i/S for i in tkinter.Tk.wm_minsize(self))
-
     def wm_geometry(self: Self, newGeometry: str | None = None) -> str | None:
         # 重写: 添加修改初始宽高值的功能并兼容不同的DPI缩放
         if newGeometry:
             width, height, _width, _height, * \
                 _ = map(int, (newGeometry+'+0+0').replace('+', 'x').split('x'))
             self.width, self.height = [width]*2, [height]*2
-            geometry = '%dx%d+%d+%d' % (width*S, height*S, _width, _height)
+            geometry = '%dx%d+%d+%d' % (width, height, _width, _height)
             if not _:
                 geometry = geometry.split('+')[0]
             return tkinter.Tk.wm_geometry(self, geometry)
         geometry = tkinter.Tk.wm_geometry(self, newGeometry)
         width, height, _width, _height, * \
             _ = map(int, (geometry+'+0+0').replace('+', 'x').split('x'))
-        return '%dx%d+%d+%d' % (width/S, height/S, _width, _height)
+        return '%dx%d+%d+%d' % (width, height, _width, _height)
 
-    maxsize, minsize, geometry = wm_maxsize, wm_minsize, wm_geometry
+    geometry = wm_geometry
 
 
 class Toplevel(tkinter.Toplevel, Tk):
@@ -254,7 +241,7 @@ class Canvas(tkinter.Canvas):
         self._image = {}  # type: dict[tkinter._CanvasItemId, list]
 
         tkinter.Canvas.__init__(
-            self, master, width=width*S, height=height*S, highlightthickness=0, **kw)
+            self, master, width=width, height=height, highlightthickness=0, **kw)
 
         master._canvas.append(self)  # 将实例添加到 Tk 的画布列表中
 
@@ -303,8 +290,8 @@ class Canvas(tkinter.Canvas):
         place_info = self.place_info()
         tkinter.Canvas.place(  # 更新画布的位置及大小
             self,
-            width=self.width[1]*S,
-            height=self.height[1]*S,
+            width=self.width[1],
+            height=self.height[1],
             x=float(place_info['x'])*rate_x,
             y=float(place_info['y'])*rate_y)
 
@@ -373,45 +360,18 @@ class Canvas(tkinter.Canvas):
         # 重写：添加对 text 类型的 _CanvasItemId 的字体大小的控制
         font = kw.get('font')
         if not font:
-            kw['font'] = FONT
+            kw['font'] = FONT, SIZE
         elif type(font) == str:
-            kw['font'] = (font, FONT[1])
-        args = tuple(i*S for i in args)
+            kw['font'] = font, SIZE
         item = tkinter.Canvas.create_text(self, *args, **kw)
         self._font[item] = list(kw['font'])
         return item
 
     def create_image(self: Self, *args, **kw):
         # 重写：添加对 image 类型的 _CanvasItemId 的图像大小的控制
-        args = tuple(i*S for i in args)
         item = tkinter.Canvas.create_image(self, *args, **kw)
         self._image[item] = [kw.get('image'), None]
         return item
-
-    def create_rectangle(self: Self, *args, **kw):
-        # 重写：兼容不同缩放的DPI
-        args = tuple(i*S for i in args)
-        return tkinter.Canvas.create_rectangle(self, *args, **kw)
-
-    def create_line(self: Self, *args, **kw):
-        # 重写：兼容不同缩放的DPI
-        args = tuple(i*S for i in args)
-        return tkinter.Canvas.create_line(self, *args, **kw)
-
-    def create_oval(self: Self, *args, **kw):
-        # 重写：兼容不同缩放的DPI
-        args = tuple(i*S for i in args)
-        return tkinter.Canvas.create_oval(self, *args, **kw)
-
-    def create_arc(self: Self, *args, **kw):
-        # 重写：兼容不同缩放的DPI
-        args = tuple(i*S for i in args)
-        return tkinter.Canvas.create_arc(self, *args, **kw)
-
-    def create_polygon(self: Self, *args, **kw):
-        # 重写：兼容不同缩放的DPI
-        args = tuple(i*S for i in args)
-        return tkinter.Canvas.create_polygon(self, *args, **kw)
 
     def itemconfigure(
         self: Self,
@@ -423,46 +383,10 @@ class Canvas(tkinter.Canvas):
             self._image[tagOrId] = [kw.get('image'), None]
         return tkinter.Canvas.itemconfigure(self, tagOrId, **kw)
 
-    def coords(
-        self: Self,
-        __tagOrId,  # type: str | tkinter._CanvasItemId
-        *args
-    ) -> list[float] | None:
-        # 重写: 兼容不同的DPI缩放
-        if not args:
-            return [i/S for i in tkinter.Canvas.coords(self, __tagOrId)]
-        tkinter.Canvas.coords(self, __tagOrId, *tuple(i*S for i in args))
-
-    def move(
-        self: Self,
-        tagOrId,  # type: str | tkinter._CanvasItemId
-        x: float,
-        y: float
-    ) -> None:
-        # 重写：兼容不同的DPI缩放
-        return tkinter.Canvas.move(self, tagOrId, x*S, y*S)
-
-    def moveto(
-        self: Self,
-        tagOrId,  # type: str | tkinter._CanvasItemId
-        x: float | Literal[''],
-        y: float | Literal['']
-    ) -> None:
-        # 重写：兼容不同的DPI缩放
-        return tkinter.Canvas.moveto(self, tagOrId, x*S if x else x, y*S if y else y)
-
-    def bbox(
-        self: Self,
-        *args  # type: str | tkinter._CanvasItemId
-    ) -> tuple[int, int, int, int]:
-        # 重写：兼容不同的DPI缩放
-        return tuple(i/S for i in tkinter.Canvas.bbox(self, *args))
-
     def place(self: Self, *args, **kw) -> None:
-        # 重写：增加一些特定功能并兼容不同的DPI缩放
+        # 重写：增加一些特定功能
         self.width[0] = kw.get('wdith', self.width[0])
         self.height[0] = kw.get('height', self.height[0])
-        kw.update({key: kw[key]*S for key in kw if key in 'xywidtheight'})
         return tkinter.Canvas.place(self, *args, **kw)
 
     def destroy(self: Self) -> None:
@@ -779,7 +703,7 @@ class CanvasLabel(_BaseWidget):
         text: str = '',
         borderwidth: int = BORDERWIDTH,
         justify: str = tkinter.CENTER,
-        font: tuple[str, int, str] = FONT,
+        font: tuple[str, int, str] = (FONT, SIZE),
         color_text: tuple[str, str, str] = COLOR_TEXT,
         color_fill: tuple[str, str, str] = COLOR_BUTTON_FILL,
         color_outline: tuple[str, str, str] = COLOR_BUTTON_OUTLINE
@@ -789,7 +713,7 @@ class CanvasLabel(_BaseWidget):
 
     def touch(self: Self, event: tkinter.Event) -> bool:
         """ 触碰状态检测 """
-        condition = self.x1 <= event.x/S <= self.x2 and self.y1 <= event.y/S <= self.y2
+        condition = self.x1 <= event.x <= self.x2 and self.y1 <= event.y <= self.y2
         self.state('touch' if condition else 'normal')
         return condition
 
@@ -808,7 +732,7 @@ class CanvasButton(_BaseWidget):
         text: str = '',
         borderwidth: int = BORDERWIDTH,
         justify: str = tkinter.CENTER,
-        font: tuple[str, int, str] = FONT,
+        font: tuple[str, int, str] = (FONT, SIZE),
         command=None,  # type: function | None
         color_text: tuple[str, str, str] = COLOR_TEXT,
         color_fill: tuple[str, str, str] = COLOR_BUTTON_FILL,
@@ -820,20 +744,20 @@ class CanvasButton(_BaseWidget):
 
     def execute(self: Self, event: tkinter.Event) -> None:
         """ 执行关联函数 """
-        condition = self.x1 <= event.x/S <= self.x2 and self.y1 <= event.y/S <= self.y2
+        condition = self.x1 <= event.x <= self.x2 and self.y1 <= event.y <= self.y2
         if condition and self.command:
             self.command()
 
     def press(self: Self, event: tkinter.Event) -> None:
         """ 交互状态检测 """
-        if self.x1 <= event.x/S <= self.x2 and self.y1 <= event.y/S <= self.y2:
+        if self.x1 <= event.x <= self.x2 and self.y1 <= event.y <= self.y2:
             self.state('press')
         else:
             self.state('normal')
 
     def touch(self: Self, event: tkinter.Event) -> bool:
         """ 触碰状态检测 """
-        condition = self.x1 <= event.x/S <= self.x2 and self.y1 <= event.y/S <= self.y2
+        condition = self.x1 <= event.x <= self.x2 and self.y1 <= event.y <= self.y2
         self.state('touch' if condition else 'normal')
         return condition
 
@@ -892,7 +816,7 @@ class _TextWidget(_BaseWidget):
 
     def press(self: Self, event: tkinter.Event) -> None:
         """ 交互状态检测 """
-        if self.x1 <= event.x/S <= self.x2 and self.y1 <= event.y/S <= self.y2:
+        if self.x1 <= event.x <= self.x2 and self.y1 <= event.y <= self.y2:
             if self._state != 'press':
                 self.press_on()
         else:
@@ -903,7 +827,7 @@ class _TextWidget(_BaseWidget):
         event: tkinter.Event
     ) -> bool:
         """ 触碰状态检测 """
-        condition = self.x1 <= event.x/S <= self.x2 and self.y1 <= event.y/S <= self.y2
+        condition = self.x1 <= event.x <= self.x2 and self.y1 <= event.y <= self.y2
         self.touch_on() if condition else self.touch_off()
         return condition
 
@@ -983,7 +907,7 @@ class CanvasEntry(_TextWidget):
         cursor: str = CURSOR,
         borderwidth: int = BORDERWIDTH,
         justify: str = tkinter.LEFT,
-        font: tuple[str, int, str] = FONT,
+        font: tuple[str, int, str] = (FONT, SIZE),
         color_text: tuple[str, str, str] = COLOR_TEXT,
         color_fill: tuple[str, str, str] = COLOR_TEXT_FILL,
         color_outline: tuple[str, str, str] = COLOR_TEXT_OUTLINE
@@ -1061,7 +985,7 @@ class CanvasText(_TextWidget):
         cursor: bool = CURSOR,
         borderwidth: int = BORDERWIDTH,
         justify: str = tkinter.LEFT,
-        font: tuple[str, int, str] = FONT,
+        font: tuple[str, int, str] = (FONT, SIZE),
         color_text: tuple[str, str, str] = COLOR_TEXT,
         color_fill: tuple[str, str, str] = COLOR_TEXT_FILL,
         color_outline: tuple[str, str, str] = COLOR_TEXT_OUTLINE
@@ -1212,7 +1136,7 @@ class ProcessBar(_BaseWidget):
         height: int,
         borderwidth: int = BORDERWIDTH,
         justify: str = tkinter.CENTER,
-        font: tuple[str, int, str] = FONT,
+        font: tuple[str, int, str] = (FONT, SIZE),
         color_text: tuple[str, str, str] = COLOR_TEXT,
         color_outline: tuple[str, str, str] = COLOR_TEXT_OUTLINE,
         color_bar: tuple[str, str] = COLOR_BAR
@@ -1229,7 +1153,7 @@ class ProcessBar(_BaseWidget):
 
     def touch(self: Self, event: tkinter.Event) -> bool:
         """ 触碰状态检测 """
-        condition = self.x1 <= event.x/S <= self.x2 and self.y1 <= event.y/S <= self.y2
+        condition = self.x1 <= event.x <= self.x2 and self.y1 <= event.y <= self.y2
         self.state('touch' if condition else 'normal')
         return condition
 
@@ -1395,7 +1319,7 @@ def move(
             '%s+%d+%d' % (geometry, int(ox)+dis[_ind][0], int(oy)+dis[_ind][1]))
     elif isinstance(master, tkinter.Misc) and isinstance(widget, tkinter.BaseWidget):  # tkinter 的控件
         place_info = widget.place_info()
-        origin_x, origin_y = float(place_info['x'])/S, float(place_info['y'])/S
+        origin_x, origin_y = float(place_info['x']), float(place_info['y'])
         widget.place(x=origin_x+dis[_ind][0], y=origin_y+dis[_ind][1])
     elif isinstance(master, Canvas) and isinstance(widget, _BaseWidget):  # 虚拟画布控件
         widget.move(dis[_ind][0], dis[_ind][1])
@@ -1458,3 +1382,23 @@ def color(
         _rgb += c + round((_c - c) * proportion)
 
     return '#%06X' % _rgb
+
+
+def font(family: str = FONT, size: int = _SIZE, *args: str) -> tuple:
+    """
+    ### 字体函数
+    字体大小将自动适配 DPI 级别\n
+    `family`: 字体名称
+    `size`: 字体大小
+    `args`: 其他参数，如 'bold'（粗体），'italic'（斜体），'underline'（下划线），'overstrike'（删除线）
+    """
+    return family, round(size/SCALE), *args
+
+
+def SetProcessDpiAwareness(awareness: int = PROCESS_SYSTEM_DPI_AWARE) -> None:
+    """
+    ### 设定程序DPI级别
+    设定窗口程序的DPI级别，让系统知道该对程序如何缩放\n
+    `awareness`: DPI级别，值可以为0、1和2，程序默认为0，默认值为1
+    """
+    OleDLL('shcore').SetProcessDpiAwareness(awareness)

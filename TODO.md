@@ -12,6 +12,3 @@ TODO/待办
 
 - [ ] Perfect the scroll bar function of `CanvasText` class  
 完善`CanvasText`类的滚动条功能
-
-- [ ] Solve the DPI problem of pictures  
-解决图片的DPI问题

@@ -5,18 +5,29 @@
 
 Update/最近更新
 --------------
-> Version: 2.5.10.1  
-> Date: 2023/02/09
+> Version: 2.5.10.2  
+> Date: 2023/02/11
 
 ### Features/新增
 
 - [X] Class `Canvas` adds parameter `keep` to extend function  
 类`Canvas`新增参数`keep`以扩展功能
 
+- [X] Add the tool function `SetProcessDpiAwareness` to enhance the function  
+新增工具函数`SetProcessDpiAwareness`以增强功能
+
+- [x] New tool function `font` is added to solve the problem of font size matching DPI level  
+新增工具函数`font`以解决字体大小适配DPI级别的问题
+
 ### Fixed/修复
 
 - [X] Fixed the problem of inaccurate Python version requirements. The minimum module operation requirement should be Python 3.11  
 修复了 Python 版本要求不准确的问题，模块最低运行要求应为 Python3.11
+
+### Refactored/优化
+
+- [X] Optimize the solution to the adaptive DPI problem  
+优化解决适配 DPI 问题的方案
 
 > 更多信息见更新日志: [CHANGELOG](./CHANGELOG.md)
 
@@ -61,7 +72,7 @@ The `tkintertools` module is an auxiliary module of the `tkinter` module
 * Tool Class/工具类:  
 `PhotoImage`, `Singleton`
 * Tool Function/工具函数:  
-`move`, `text`, `color`
+`move`, `text`, `color`, `font`, `SetProcessDpiAwareness`
 
 ### Attentions/特别注意
 
@@ -81,10 +92,8 @@ The `tkintertools` module is an auxiliary module of the `tkinter` module
 
 * GitCode:  
 https://gitcode.net/weixin_62651706/tkintertools
-* GitHub:  
-https://github.com/Xiaokang2022/tkintertools
-* Gitee(Mirror/镜像):  
-https://gitee.com/xiaokang-2022/tkintertools
+* GitHub(Mirror/镜像):  
+https://github.com/XiaoKang2022-CSDN/tkintertools
 * Column/专栏:  
 https://blog.csdn.net/weixin_62651706/category_11600888.html
 * Tutorials/教程:  
