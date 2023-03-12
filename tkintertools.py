@@ -42,7 +42,7 @@ from fractions import Fraction  # 图片缩放
 from typing import Generator, Iterable, Literal, Self, Type  # 类型提示
 
 __author__ = 'Xiaokang2022'
-__version__ = '2.5.10.3'
+__version__ = '2.5.10.4'
 __all__ = [
     'Tk',
     'Toplevel',
@@ -73,9 +73,8 @@ COLOR_BAR = '#E1E1E1', '#06b025'                                    # 默认的�
 
 BORDERWIDTH = 1             # 默认控件外框宽度
 CURSOR = '│'                # 文本光标
-FONT = '楷体'               # 默认字体
-_SIZE = 24                  # 默认字体大小
-SIZE = round(_SIZE/SCALE)   # 默认字体大小（适配DPI）
+FONT = '楷体'               # 默认字体               
+SIZE = 24                   # 默认字体大小
 LIMIT = -1                  # 默认文本长度
 RADIUS = 0                  # 默认控件圆角半径
 FRAMES = 60                 # 默认帧数
@@ -1384,7 +1383,7 @@ def color(
     return '#%06X' % _rgb
 
 
-def font(family: str = FONT, size: int = _SIZE, *args: str) -> tuple:
+def font(family: str = FONT, size: int = SIZE, *args: str) -> tuple:
     """
     ### 字体函数
     字体大小将自动适配 DPI 级别\n

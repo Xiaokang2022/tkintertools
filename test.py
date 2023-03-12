@@ -4,12 +4,12 @@
 import sys
 
 if sys.version_info < (3, 11):
-    raise RuntimeError('\033[31mPython版本低于3.10，无法运行测试程序！\033[0m')
+    raise RuntimeError('\033[31mPython version is too low！\033[0m')
 
 
 from math import cos, pi
 from random import randint
-from tkinter import TclError, messagebox
+from tkinter import Menu, TclError, messagebox
 from winsound import Beep
 
 import tkintertools as tkt
@@ -55,9 +55,10 @@ def shutdown() -> None:
         root.quit()  # 退出测试程序
 
 
-tkt.SetProcessDpiAwareness()
-root = tkt.Tk('测试程序', 1280, 720, shutdown=shutdown)
+root = tkt.Tk('tkintertools - 测试程序', 1280, 720, shutdown=shutdown)
 root.minsize(640, 360)
+menu = Menu(root, tearoff=False)
+root.configure(menu=menu)
 canvas_main = tkt.Canvas(root, 1280, 720)
 canvas_main.place(x=0, y=0)
 canvas_doc = tkt.Canvas(root, 1280, 720)
@@ -67,6 +68,11 @@ canvas_graph.place(x=1280, y=0)
 
 
 def sound(): return Beep(600, 100)
+
+
+m = Menu(menu, tearoff=False)
+menu.add_cascade(menu=m, label='帮助(H)')
+m.add_command(label='关于', accelerator='Ctrl+A')
 
 
 tkt.CanvasButton(
@@ -127,7 +133,7 @@ load.command_ex['press'] = sound
 bar = tkt.ProcessBar(canvas_main, 320, 320, 640, 35)
 
 canvas_doc.create_text(  # 模块说明文档
-    15, 360, text=tkt.__doc__, font=tkt.font('consolas', 17, 'italic'), anchor='w')
+    15, 360, text=tkt.__doc__, font=('consolas', 16, 'italic'), anchor='w')
 
 try:  # 加载图片
     canvas_graph.create_image(
@@ -135,4 +141,5 @@ try:  # 加载图片
 except TclError:  # 缺少图片
     print('\033[31m缺少示例图片tkinter.png\033[0m')
 
+tkt.SetProcessDpiAwareness()
 root.mainloop()  # 消息事件循环

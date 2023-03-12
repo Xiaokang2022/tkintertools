@@ -5,8 +5,8 @@
 
 Update/最近更新
 --------------
-> Version: 2.5.10.3  
-> Date: 2023/02/11
+> Version: 2.5.10.4
+> Date: 2023/03/12
 
 ### Features/新增
 
@@ -28,6 +28,9 @@ Update/最近更新
 
 - [X] Optimize the solution to the adaptive DPI problem  
 优化解决适配 DPI 问题的方案
+
+- [X] Optimized the way font size fits DPI  
+优化了字体大小适配 DPI 的方式
 
 > 更多信息见更新日志: [CHANGELOG](./CHANGELOG.md)
 
@@ -85,8 +88,8 @@ The `tkintertools` module is an auxiliary module of the `tkinter` module
 * `Compatible Version` folder contains the latest compatible version, which is compatible with python 3.7  
 `Compatible Version`文件夹里面是当前最新版本的兼容版本，可兼容python3.7版本
 
-> 兼容版本: [Compatible Version](./Compatible%20Version/)  
-过去版本: [Release Version](./Release%20Version/)
+> 兼容版本: [Compatible Version](./Compatible%20Version/)
+> 过去版本: [Release Version](./Release%20Version/)
 
 ### More/更多
 
