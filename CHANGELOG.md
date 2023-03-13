@@ -219,8 +219,8 @@ ChangeLog/更新日志
 
 ### Features/新增
 
-* A new widget has been added: progress bar(`ProcessBar`)  
-增加了一个新的控件：进度条（`ProcessBar`）
+* A new widget has been added: progress bar(`Progressbar`)  
+增加了一个新的控件：进度条（`Progressbar`）
 
 ### Fixed/修复
 
