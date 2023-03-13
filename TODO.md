@@ -12,3 +12,6 @@ TODO/待办
 
 - [ ] Perfect the scroll bar function of `CanvasText` class  
 完善`CanvasText`类的滚动条功能
+
+- [ ] Perfection and optimization of zoom function  
+对缩放功能的完善和优化

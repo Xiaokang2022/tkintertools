@@ -5,8 +5,8 @@
 
 Update/最近更新
 --------------
-> Version: 2.5.10.4
-> Date: 2023/03/12
+> Version: 2.5.11  
+> Date: 2023/03/13
 
 ### Features/新增
 
@@ -24,6 +24,9 @@ Update/最近更新
 - [X] Fixed the problem of inaccurate Python version requirements. The minimum module operation requirement should be Python 3.11  
 修复了 Python 版本要求不准确的问题，模块最低运行要求应为 Python3.11
 
+- [X] Fixed the problem that the `configure` method of `_BaseWidget` cannot get the normal effect when modifying the parameter `text` to an empty string  
+修复了控件基类`_BaseWidget`的方法`configure`在将参数`text`修改为空字符串时无法得到正常效果的问题
+
 ### Refactored/优化
 
 - [X] Optimize the solution to the adaptive DPI problem  
@@ -31,6 +34,9 @@ Update/最近更新
 
 - [X] Optimized the way font size fits DPI  
 优化了字体大小适配 DPI 的方式
+
+- [X] The canvas widget will be scaled according to the scale of the canvas when it is placed, rather than after it is placed  
+画布控件在放置时就会根据画布的缩放而缩放，而不是在放置后才进行缩放
 
 > 更多信息见更新日志: [CHANGELOG](./CHANGELOG.md)
 
@@ -81,15 +87,6 @@ The `tkintertools` module is an auxiliary module of the `tkinter` module
 
 * `tkinertools.py` is the latest version, and its version number is not necessarily the same as the tutorial (generally newer than the tutorial)  
 `tkintertools.py` 是目前的最新版本，其版本号不一定与教程一致（一般比教程的要新）
-
-* In the `Release Version` folder is the source code of the `tkinertools` module with a large version number in the past  
-`Release Version` 文件夹里面的是过去的大版本号的 `tkintertools` 模块的源代码
-
-* `Compatible Version` folder contains the latest compatible version, which is compatible with python 3.7  
-`Compatible Version`文件夹里面是当前最新版本的兼容版本，可兼容python3.7版本
-
-> 兼容版本: [Compatible Version](./Compatible%20Version/)
-> 过去版本: [Release Version](./Release%20Version/)
 
 ### More/更多
 

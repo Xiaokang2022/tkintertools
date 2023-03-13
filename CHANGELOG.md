@@ -1,6 +1,39 @@
 ChangeLog/更新日志
 ==================
 
+[2.5.11] - 2023-03-13
+---------------------
+
+### Features/新增
+
+* Class `Canvas` adds parameter `keep` to extend function  
+类`Canvas`新增参数`keep`以扩展功能
+
+* Add the tool function `SetProcessDpiAwareness` to enhance the function  
+新增工具函数`SetProcessDpiAwareness`以增强功能
+
+- [x] New tool function `font` is added to solve the problem of font size matching DPI level  
+新增工具函数`font`以解决字体大小适配DPI级别的问题
+
+### Fixed/修复
+
+* Fixed the problem of inaccurate Python version requirements. The minimum module operation requirement should be Python 3.11  
+修复了 Python 版本要求不准确的问题，模块最低运行要求应为 Python3.11
+
+* Fixed the problem that the `configure` method of `_BaseWidget` cannot get the normal effect when modifying the parameter `text` to an empty string  
+修复了控件基类`_BaseWidget`的方法`configure`在将参数`text`修改为空字符串时无法得到正常效果的问题
+
+### Refactored/优化
+
+* Optimize the solution to the adaptive DPI problem  
+优化解决适配 DPI 问题的方案
+
+* Optimized the way font size fits DPI  
+优化了字体大小适配 DPI 的方式
+
+* The canvas widget will be scaled according to the scale of the canvas when it is placed, rather than after it is placed  
+画布控件在放置时就会根据画布的缩放而缩放，而不是在放置后才进行缩放
+
 [2.5.10] - 2023-02-04
 ---------------------
 

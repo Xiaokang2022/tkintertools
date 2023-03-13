@@ -42,7 +42,7 @@ from fractions import Fraction  # 图片缩放
 from typing import Generator, Iterable, Literal, Self, Type  # 类型提示
 
 __author__ = 'Xiaokang2022'
-__version__ = '2.5.10.4'
+__version__ = '2.5.11'
 __all__ = [
     'Tk',
     'Toplevel',
@@ -73,8 +73,8 @@ COLOR_BAR = '#E1E1E1', '#06b025'                                    # 默认的�
 
 BORDERWIDTH = 1             # 默认控件外框宽度
 CURSOR = '│'                # 文本光标
-FONT = '楷体'               # 默认字体               
-SIZE = 24                   # 默认字体大小
+FONT = '楷体'               # 默认字体
+SIZE = 20                   # 默认字体大小
 LIMIT = -1                  # 默认文本长度
 RADIUS = 0                  # 默认控件圆角半径
 FRAMES = 60                 # 默认帧数
@@ -453,6 +453,11 @@ class _BaseWidget:
         self.color_fill = list(color_fill)
         self.color_outline = list(color_outline)
 
+        x *= canvas.rate_x
+        y *= canvas.rate_y
+        width *= canvas.rate_x
+        height *= canvas.rate_y
+
         self.x1, self.y1 = x, y  # 控件左上角坐标
         self.x2, self.y2 = x+width, y+height  # 控件左下角坐标
         self.width, self.height = width, height  # 控件的宽高值
@@ -476,39 +481,40 @@ class _BaseWidget:
                 self.radius = radius
 
             d = 2*radius  # 圆角直径
-            _x, _y, _w, _h = x+radius, y+radius, width-d, height-d
+            _x, _y = x+radius*canvas.rate_x, y+radius*canvas.rate_y
+            _w, _h = width-d*canvas.rate_x, height-d*canvas.rate_y
 
             kw = {'outline': '', 'fill': color_fill[0]}
             self.inside = [  # 虚拟控件内部填充颜色
                 canvas.create_rectangle(
-                    x, _y, x+width, y+height-radius, **kw),
+                    x, _y, x+width, y+height-radius*canvas.rate_y, **kw),
                 canvas.create_rectangle(
-                    _x, y, x+width-radius, y+height, **kw),
+                    _x, y, x+width-radius*canvas.rate_x, y+height, **kw),
                 canvas.create_arc(
-                    x, y, x+d, y+d, start=90, **kw),
+                    x, y, x+d*canvas.rate_x, y+d*canvas.rate_y, start=90, **kw),
                 canvas.create_arc(
-                    x+_w, y, x+width, y+d, start=0, **kw),
+                    x+_w, y, x+width, y+d*canvas.rate_y, start=0, **kw),
                 canvas.create_arc(
-                    x, y+_h, x+d, y+height, start=180, **kw),
+                    x, y+_h, x+d*canvas.rate_x, y+height, start=180, **kw),
                 canvas.create_arc(
                     x+_w, y+_h, x+width, y+height, start=270, **kw)]
 
             kw = {'extent': 100, 'style': 'arc', 'outline': color_outline[0]}
             self.outside = [  # 虚拟控件外框
                 canvas.create_line(
-                    _x, y, x+width-radius, y, fill=color_outline[0], width=borderwidth),
+                    _x, y, x+width-radius*canvas.rate_x, y, fill=color_outline[0], width=borderwidth),
                 canvas.create_line(
-                    _x, y+height, x+width-radius, y+height, fill=color_outline[0], width=borderwidth),
+                    _x, y+height, x+width-radius*canvas.rate_x, y+height, fill=color_outline[0], width=borderwidth),
                 canvas.create_line(
-                    x, _y, x, y+height-radius, fill=color_outline[0], width=borderwidth),
+                    x, _y, x, y+height-radius*canvas.rate_y, fill=color_outline[0], width=borderwidth),
                 canvas.create_line(
-                    x+width, _y, x+width, y+height-radius+1, fill=color_outline[0], width=borderwidth),
+                    x+width, _y, x+width, y+height-radius*canvas.rate_y, fill=color_outline[0], width=borderwidth),
                 canvas.create_arc(
-                    x, y, x+d, y+d, start=90, width=borderwidth, **kw),
+                    x, y, x+d*canvas.rate_x, y+d*canvas.rate_y, start=90, width=borderwidth, **kw),
                 canvas.create_arc(
-                    x+_w, y, x+width, y+d, start=0, width=borderwidth, **kw),
+                    x+_w, y, x+width, y+d*canvas.rate_y, start=0, width=borderwidth, **kw),
                 canvas.create_arc(
-                    x, y+_h, x+d, y+height, start=180, width=borderwidth, **kw),
+                    x, y+_h, x+d*canvas.rate_x, y+height, start=180, width=borderwidth, **kw),
                 canvas.create_arc(
                     x+_w, y+_h, x+width, y+height, start=270, width=borderwidth, **kw)]
         else:
@@ -527,6 +533,12 @@ class _BaseWidget:
             justify=justify,
             anchor='w' if justify == 'left' else 'e' if justify == 'right' else 'center',
             fill=color_text[0])
+
+        if type(font) != str:
+            font = list(font)
+            font[1] = int(font[1]*math.sqrt(canvas.rate_x*canvas.rate_y))
+            canvas._font[self.text][1] = font[1]
+            canvas.itemconfigure(self.text, font=font)
 
     def state(self: Self, mode: Literal['normal', 'touch', 'press', 'disabled'] | None = None) -> None:
         """
@@ -644,7 +656,7 @@ class _BaseWidget:
         fill = kw.get('color_fill', None)
         outline = kw.get('color_outline', None)
 
-        if value:
+        if value != None:
             self.value = value
         if text:
             self.color_text = text
@@ -653,7 +665,7 @@ class _BaseWidget:
         if outline:
             self.color_outline = outline
 
-        if isinstance(self, CanvasLabel | CanvasButton | ProcessBar) and value:
+        if isinstance(self, CanvasLabel | CanvasButton | ProcessBar) and value != None:
             self.master.itemconfigure(self.text, text=value)
 
     def destroy(self: Self) -> None:
@@ -783,6 +795,7 @@ class _TextWidget(_BaseWidget):
         color_outline: tuple[str, str, str]
     ) -> None:
 
+        self.canvas = canvas
         self.limit = limit
         self.icursor = icursor
 
@@ -794,8 +807,11 @@ class _TextWidget(_BaseWidget):
         _BaseWidget.__init__(self, canvas, x, y, width, height, radius, '', justify,
                              borderwidth, font, color_text, color_fill, color_outline)
 
-        # 提示光标 NOTE:位置顺序不可乱动
-        self._cursor = canvas.create_text(0, 0, font=font, fill=color_text[2])
+        # 提示光标 NOTE:位置顺序不可乱动，font不可乱改
+        self._cursor = canvas.create_text(0, 0, fill=color_text[2], font=font)
+        canvas._font[self._cursor][1] = canvas._font[self.text][1]
+        font = canvas.itemcget(self.text, 'font')
+        canvas.itemconfigure(self._cursor, font=font)
 
     def touch_on(self: Self) -> None:
         """ 鼠标悬停状态 """
@@ -851,7 +867,7 @@ class _TextWidget(_BaseWidget):
         self.interval, self.flag = 300, False  # 恢复默认值
         if isinstance(self, CanvasEntry):
             self.master.coords(self._cursor, self.master.bbox(
-                self.text)[2], self.y1+self.height * self.master.rate_y / 2)
+                self.text)[2], self.y1+self.height * self.master.rate_y / 2)  # BUG
         elif isinstance(self, CanvasText):
             _pos = self.master.bbox(self._text)
             self.master.coords(self._cursor, _pos[2], _pos[1])
