@@ -5,8 +5,8 @@
 
 Update/最近更新
 --------------
-> Version: 2.5.11.1  
-> Date: 2023/03/14
+> Version: 2.5.11.2  
+> Date: 2023/03/16
 
 ### Refactored/优化
 

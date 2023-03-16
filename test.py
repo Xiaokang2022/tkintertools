@@ -2,8 +2,9 @@
 
 import sys
 
-if sys.version_info < (3, 11):
-    raise RuntimeError('\033[31mPython version is too low！\033[0m')
+if sys.version_info < (3, 10):
+    error_info = '\n\033[31mOperation Requirements: \033[32m\nPython version shall not be less than\033[33m 3.10.0!\033[0m'
+    raise RuntimeError(error_info)
 
 from math import cos, pi
 from random import randint
