@@ -42,7 +42,7 @@ from fractions import Fraction  # 图片缩放
 from typing import Generator, Iterable, Literal  # 类型提示
 
 __author__ = 'Xiaokang2022<2951256653@qq.com>'
-__version__ = '2.5.11.2'
+__version__ = '2.5.11.3'
 __all__ = [
     'Tk', 'Toplevel', 'Canvas',
     'Label', 'Button', 'Entry', 'Text', 'Progressbar',
@@ -400,6 +400,7 @@ class _BaseWidget:
         justify: str,
         borderwidth: float,
         font: tuple[str, int, str],
+        image,  # type: PhotoImage | None
         color_text: tuple[str, str, str],
         color_fill: tuple[str, str, str],
         color_outline: tuple[str, str, str]
@@ -416,6 +417,7 @@ class _BaseWidget:
         `justify`: 文本的对齐方式
         `borderwidth`: 外框的宽度
         `font`: 控件的字体设定 (字体, 大小, 样式)
+        `image`: 控件的背景（支持 png 类型，大小必须小于控件，否则会溢出）
         `color_text`: 控件文本的颜色
         `color_fill`: 控件内部的颜色
         `color_outline`: 控件外框的颜色
@@ -438,6 +440,7 @@ class _BaseWidget:
         self.value = text
         self.justify = justify
         self.font = font
+        self.photoimage = image
         self.color_text = list(color_text)
         self.color_fill = list(color_fill)
         self.color_outline = list(color_outline)
@@ -512,6 +515,9 @@ class _BaseWidget:
                 width=borderwidth,
                 outline=color_outline[0],
                 fill=color_fill[0])
+
+        self.image = canvas.create_image(
+            x+width/2, y+height/2, image=image)  # 背景图片
 
         self.text = canvas.create_text(  # 虚拟控件显示的文字
             x + (radius+2 if justify == 'left' else width-radius-3
@@ -595,6 +601,7 @@ class _BaseWidget:
         else:
             self.master.move(self.rect, dx, dy)
 
+        self.master.move(self.image, dx, dy)
         self.master.move(self.text, dx, dy)
 
         if isinstance(self, _TextWidget):
@@ -619,6 +626,7 @@ class _BaseWidget:
         else:
             self.master.moveto(self.rect, x, y)
 
+        self.master.moveto(self.image, x, y)
         self.master.moveto(self.text, x, y)
 
         if isinstance(self, _TextWidget):
@@ -675,6 +683,7 @@ class _BaseWidget:
         if isinstance(self, Progressbar):
             self.master.delete(self.bar)
 
+        self.master.delete(self.image)
         self.master.delete(self.text)
 
     def set_live(self, boolean: bool | None = None) -> bool | None:
@@ -706,6 +715,7 @@ class _TextWidget(_BaseWidget):
         icursor: str,
         borderwidth: int,
         font: tuple[str, int, str],
+        image,  # type: PhotoImage | None
         color_text: tuple[str, str, str],
         color_fill: tuple[str, str, str],
         color_outline: tuple[str, str, str]
@@ -721,7 +731,7 @@ class _TextWidget(_BaseWidget):
         self._value = ['', text, ''] if type(text) == str else ['', *text]
 
         _BaseWidget.__init__(self, canvas, x, y, width, height, radius, '', justify,
-                             borderwidth, font, color_text, color_fill, color_outline)
+                             borderwidth, font, image, color_text, color_fill, color_outline)
 
         # 提示光标 NOTE:位置顺序不可乱动，font不可乱改
         self._cursor = canvas.create_text(0, 0, fill=color_text[2], font=font)
@@ -836,12 +846,13 @@ class Label(_BaseWidget):
         borderwidth: int = BORDERWIDTH,
         justify: str = tkinter.CENTER,
         font: tuple[str, int, str] = (FONT, SIZE),
+        image=None,  # type: PhotoImage | None
         color_text: tuple[str, str, str] = COLOR_TEXT,
         color_fill: tuple[str, str, str] = COLOR_BUTTON_FILL,
         color_outline: tuple[str, str, str] = COLOR_BUTTON_OUTLINE
     ) -> None:
         _BaseWidget.__init__(self, canvas, x, y, width, height, radius, text, justify,
-                             borderwidth, font, color_text, color_fill, color_outline)
+                             borderwidth, font, image, color_text, color_fill, color_outline)
 
     def touch(self, event: tkinter.Event) -> bool:
         """ 触碰状态检测 """
@@ -866,12 +877,13 @@ class Button(_BaseWidget):
         justify: str = tkinter.CENTER,
         font: tuple[str, int, str] = (FONT, SIZE),
         command=None,  # type: function | None
+        image=None,  # type: PhotoImage | None
         color_text: tuple[str, str, str] = COLOR_TEXT,
         color_fill: tuple[str, str, str] = COLOR_BUTTON_FILL,
         color_outline: tuple[str, str, str] = COLOR_BUTTON_OUTLINE
     ) -> None:
         _BaseWidget.__init__(self, canvas, x, y, width, height, radius, text, justify,
-                             borderwidth, font, color_text, color_fill, color_outline)
+                             borderwidth, font, image, color_text, color_fill, color_outline)
         self.command = command
 
     def execute(self, event: tkinter.Event) -> None:
@@ -912,12 +924,13 @@ class Entry(_TextWidget):
         borderwidth: int = BORDERWIDTH,
         justify: str = tkinter.LEFT,
         font: tuple[str, int, str] = (FONT, SIZE),
+        image=None,  # type: PhotoImage | None
         color_text: tuple[str, str, str] = COLOR_TEXT,
         color_fill: tuple[str, str, str] = COLOR_TEXT_FILL,
         color_outline: tuple[str, str, str] = COLOR_TEXT_OUTLINE
     ) -> None:
         _TextWidget.__init__(self, canvas, x, y, width, height, radius, text, limit, justify,
-                             cursor, borderwidth, font, color_text, color_fill, color_outline)
+                             cursor, borderwidth, font, image, color_text, color_fill, color_outline)
         self.master.itemconfigure(self.text, text=self._value[1])
         self.show = show
 
@@ -990,12 +1003,13 @@ class Text(_TextWidget):
         borderwidth: int = BORDERWIDTH,
         justify: str = tkinter.LEFT,
         font: tuple[str, int, str] = (FONT, SIZE),
+        image=None,  # type: PhotoImage | None
         color_text: tuple[str, str, str] = COLOR_TEXT,
         color_fill: tuple[str, str, str] = COLOR_TEXT_FILL,
         color_outline: tuple[str, str, str] = COLOR_TEXT_OUTLINE
     ) -> None:
         _TextWidget.__init__(self, canvas, x, y, width, height, radius, text, limit, justify,
-                             cursor, borderwidth, font, color_text, color_fill, color_outline)
+                             cursor, borderwidth, font, image, color_text, color_fill, color_outline)
 
         _x = x + (width-radius-3 if justify == 'right' else width /
                   2 if justify == 'center' else radius+2)
@@ -1141,6 +1155,7 @@ class Progressbar(_BaseWidget):
         borderwidth: int = BORDERWIDTH,
         justify: str = tkinter.CENTER,
         font: tuple[str, int, str] = (FONT, SIZE),
+        image=None,  # type: PhotoImage | None
         color_text: tuple[str, str, str] = COLOR_TEXT,
         color_outline: tuple[str, str, str] = COLOR_TEXT_OUTLINE,
         color_bar: tuple[str, str] = COLOR_BAR
@@ -1151,7 +1166,7 @@ class Progressbar(_BaseWidget):
             x, y, x, y+height, width=borderwidth, outline='', fill=color_bar[1])
 
         _BaseWidget.__init__(self, canvas, x, y, width, height, 0, '0.00%', justify,
-                             borderwidth, font, color_text, COLOR_NONE, color_outline)
+                             borderwidth, font, image, color_text, COLOR_NONE, color_outline)
 
         self.color_fill = list(color_bar)
 

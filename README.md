@@ -5,8 +5,13 @@
 
 Update/最近更新
 --------------
-> Version: 2.5.11.2  
-> Date: 2023/03/16
+> Version: 2.5.11.3  
+> Date: 2023/03/17
+
+### Features/新增
+
+- [X] Add a `image` parameter to all widgets to add a background image  
+所有控件新增参数`image`来添加背景图片
 
 ### Refactored/优化
 
