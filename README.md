@@ -3,12 +3,12 @@
     <img height="120px" alt="logo" src="https://gitcode.net/weixin_62651706/tkintertools/-/raw/master/tkintertools.png"/>
     <p>The <code>tkintertools</code> module is an auxiliary module of the <code>tkinter</code> module</p>
     <p><code>tkintertools</code> 模块是 <code>tkinter</code> 模块的辅助模块</p>
-    <img src="https://img.shields.io/badge/Version-2.5.11.3-blue" alt="latest version" />
+    <img src="https://img.shields.io/badge/Version-2.5.11.4-blue" alt="latest version" />
     <a href="./LICENSE">
         <img src="https://img.shields.io/badge/License-Mulan PSL v2-green" alt="License" />
     </a>
     <a href="./CHANGELOG.md">
-        <img src="https://img.shields.io/badge/ChangeLog-2023/03/13-orange" alt="CHANGELOG" />
+        <img src="https://img.shields.io/badge/ChangeLog-2023/03/19-orange" alt="CHANGELOG" />
     </a>
     <a href="./TODO.md">
     <img src="https://img.shields.io/badge/ToDo-6-yellow" alt="TODO" />
@@ -82,39 +82,208 @@ Each non internal class and function in the module will be described in detail h
     标签控件的功能和 `tkinter.Label` 的功能类似，但更加的多元化  
     下面是 `Label` 控件的外观：  
     <img width="720px" src="https://gitcode.net/weixin_62651706/tkintertools/-/raw/master/docs/images/LabelTest.png" alt="LabelTest.png" />
-    > SourceCode/源代码 : [test_label.py](./test_label.py)
+
+    ```python
+    """ Label Test """
+
+    import tkintertools as tkt
+
+    root = tkt.Tk('LabelTest', 1000, 400)
+    canvas = tkt.Canvas(root, 1000, 400)
+    canvas.place(x=0, y=0)
+
+
+    def colorful(x: int, y: int, width: int, height: int) -> None:
+        """ Gradient colors """
+        for i in range(width):
+            color = tkt.color(('#FF0000', '#0000FF'), i/width)
+            canvas.create_line(x+i, y, x+i, y+height, fill=color)
+
+
+    colorful(510, 175, 480, 150)
+
+    tkt.Label(canvas, 50, 50, 400, 100, 0, 'NormalLabel\nHere is the text')
+    tkt.Label(canvas, 50, 200, 400, 100, 20, 'RoundCornerLabel')
+    tkt.Label(canvas, 550, 50, 400, 100, 0, 'DisableLabel').set_live(False)
+    tkt.Label(canvas, 550, 200, 400, 100, 20,
+            'TransparentLabel', color_fill=tkt.COLOR_NONE)
+
+    tkt.SetProcessDpiAwareness()
+    root.mainloop()
+    ```
 
 2. `Button` : 按钮控件
 
     按钮控件相较于 `tkinter.Button` ，其自由度更高，`tkinter.Button` 只有在按下的时候才能触发绑定的关联事件，而 `Button` 却可以在鼠标移至按钮上方时、鼠标按下时、鼠标松开时都可以绑定关联事件  
     下面是 `Button` 控件的外观：  
     <img width="360px" src="https://gitcode.net/weixin_62651706/tkintertools/-/raw/master/docs/images/ButtonTest.png" alt="ButtonTest.png" />
-    > SourceCode/源代码 : [test_button.py](./test_button.py)
+
+    ```python
+    """ Button Test """
+
+    import tkintertools as tkt
+
+    root = tkt.Tk('ButtonTest', 500, 500)
+    canvas = tkt.Canvas(root, 500, 500)
+    canvas.place(x=0, y=0)
+
+
+    def colorful(x: int, y: int, width: int, height: int) -> None:
+        """ Gradient colors """
+        for i in range(width):
+            color = tkt.color(('#FF0000', '#0000FF'), i/width)
+            canvas.create_line(x+i, y, x+i, y+height, fill=color)
+
+
+    colorful(50, 280, 400, 100)
+
+    tkt.Button(canvas, 150, 135, 200, 50, 0, 'NormalButton')
+    tkt.Button(canvas, 100, 195, 300, 50, 10, 'RoundCornerButton')
+    tkt.Button(canvas, 150, 255, 200, 50, 0, 'DisableButton').set_live(False)
+    tkt.Button(canvas, 100, 315, 300, 50, 10,
+            'TransparentButton', color_fill=tkt.COLOR_NONE)
+
+    tkt.SetProcessDpiAwareness()
+    root.mainloop()
+    ```
 
 3. `Entry` : 输入框控件
 
     输入框控件可以轻松地设置输入的文本位置（靠左、居中和靠右），同时，它可以在鼠标移至输入框上方、鼠标未在输入框上方两种状态显示不同的默认文本  
     下面是 `Entry` 控件的外观：  
     <img width="360px" src="https://gitcode.net/weixin_62651706/tkintertools/-/raw/master/docs/images/EntryTest.png" alt="EntryTest.png" />
-    > SourceCode/源代码 : [test_entry.py](./test_entry.py)
+    
+    ```python
+    """ Entry Test """
+
+    import tkintertools as tkt
+
+    root = tkt.Tk('EntryTest', 500, 400)
+    canvas = tkt.Canvas(root, 500, 400)
+    canvas.place(x=0, y=0)
+
+
+    def colorful(x: int, y: int, width: int, height: int) -> None:
+        """ Gradient colors """
+        for i in range(width):
+            color = tkt.color(('#FF0000', '#0000FF'), i/width)
+            canvas.create_line(x+i, y, x+i, y+height, fill=color)
+
+
+    colorful(50, 193, 400, 100)
+    tkt.Entry(canvas, 20, 20, 200, 30, 0, ('LeftEntry', 'Enter'))
+    tkt.Entry(canvas, 20, 55, 200, 30, 0,
+            ('CenterEntry', 'Enter'), justify='center')
+    tkt.Entry(canvas, 20, 90, 200, 30, 0, ('RightEntry', 'Enter'), justify='right')
+    tkt.Entry(canvas, 270, 20, 200, 30, 8, 'LeftEntry')
+    tkt.Entry(canvas, 270, 55, 200, 30, 8, 'CenterEntry', justify='center')
+    tkt.Entry(canvas, 270, 90, 200, 30, 8, 'RightEntry', justify='right')
+
+    tkt.Entry(canvas, 100, 150, 300, 35, 0,
+            ('PasswordEntry', 'Click To Enter'), justify='center', show='•')
+    tkt.Entry(canvas, 100, 200, 300, 35, 0, 'DisableEntry',
+            justify='center').set_live(False)
+    tkt.Entry(canvas, 100, 250, 300, 35, 0, 'TransparentEntry',
+            justify='center', color_fill=tkt.COLOR_NONE)
+
+    tkt.SetProcessDpiAwareness()
+    root.mainloop()
+    ```
 
 4. `Text` : 文本框控件
 
     文本框类似于输入框，这里就不再赘述  
     下面是 `Text` 控件的外观：  
     <img width="720px" src="https://gitcode.net/weixin_62651706/tkintertools/-/raw/master/docs/images/TextTest.png" alt="TextTest.png" />
-    > SourceCode/源代码 : [test_text.py](./test_text.py)
+
+    ```python
+    """ Text Test """
+
+    import tkintertools as tkt
+
+    root = tkt.Tk('TextTest', 1000, 400)
+    canvas = tkt.Canvas(root, 1000, 400)
+    canvas.place(x=0, y=0)
+
+
+    def colorful(x: int, y: int, width: int, height: int) -> None:
+        """ Gradient colors """
+        for i in range(width):
+            color = tkt.color(('#FF0000', '#0000FF'), i/width)
+            canvas.create_line(x+i, y, x+i, y+height, fill=color)
+
+
+    colorful(510, 175, 480, 150)
+
+    tkt.Text(canvas, 50, 50, 400, 100, 0, ('NormalText(Left)', 'Click To Enter'))
+    tkt.Text(canvas, 50, 200, 400, 100, 20,
+            'RoundCornerText(Center)', justify='center')
+    tkt.Text(canvas, 550, 50, 400, 100, 0, 'DisableText').set_live(False)
+    tkt.Text(canvas, 550, 200, 400, 100, 20,
+            'TransparentText(Right)', justify='right', color_fill=tkt.COLOR_NONE)
+
+    tkt.SetProcessDpiAwareness()
+    root.mainloop()
+    ```
 
 5. `Progressbar` : 进度条控件
 
     进度条控件相比 `tkinter.ttk.Progressbar`，外观上的自由度较大  
     下面是 `Progressbar` 控件的外观：  
     <img width="360px" src="https://gitcode.net/weixin_62651706/tkintertools/-/raw/master/docs/images/ProgressbarTest.png" alt="ProgressbarTest.png" />
-    > SourceCode/源代码 : [test_progressbar.py](./test_progressbar.py)
+
+    ```python
+    """ Progressbar Test """
+
+    import tkintertools as tkt
+
+    root = tkt.Tk('ProgressbarTest', 500, 500)
+    canvas = tkt.Canvas(root, 500, 500)
+    canvas.place(x=0, y=0)
+
+
+    def colorful(x: int, y: int, width: int, height: int) -> None:
+        """ Gradient colors """
+        for i in range(width):
+            color = tkt.color(('#FF0000', '#0000FF'), i/width)
+            canvas.create_line(x+i, y, x+i, y+height, fill=color)
+
+
+    colorful(30, 290, 440, 50)
+
+    tkt.Progressbar(canvas, 50, 50, 400, 30)
+    tkt.Progressbar(canvas, 50, 100, 400, 30).load(.6667)
+    tkt.Progressbar(canvas, 50, 150, 400, 30, 5).load(1)
+    (_ := tkt.Progressbar(canvas, 50, 200, 400, 30)).load(0.3333)
+    _.set_live(False)
+    tkt.Progressbar(canvas, 50, 250, 400, 30, color_bar=(
+        'lightyellow', 'skyblue')).load(.5)
+    tkt.Progressbar(canvas, 50, 300, 400, 30, color_bar=('', 'orange')).load(.1667)
+
+    progressbar = tkt.Progressbar(canvas, 50, 375, 400, 30)
+    progressbar_2 = tkt.Progressbar(canvas, 50, 425, 400, 30)
+
+
+    def load(total: int, count: int = 0) -> None:
+        """ load progressbar """
+        progressbar.load(count/total)
+        progressbar_2.load(1-count/total)
+        if count < total:
+            root.after(3, load, total, count+1)
+
+
+    load(10000)
+
+    tkt.SetProcessDpiAwareness()
+    root.mainloop()
+    ```
 
 ### ⭐Tool Class/工具类
 
-1. `PhotoImage` : 图片类，继承于 `tkinter.PhotoImage`
+1. `PhotoImage` : 图片类
+
+    `PhotoImage` 类继承于 `tkinter.PhotoImage`，它是在 `tkinter.PhotoImage` 的基础上做功能的强化，对 gif 动图有很好的支持，仅需极少量代码即可实现动图的显示，还可以设置动图显示的速度，此外，对 png 类型的图片的支持也有强化，可以在不依赖任何第三方模块或者库的情况下，对图片进行缩放
+
 2. `Singleton` : 单例模式类
 
     单例模式，不用介绍了吧？通过继承它来使用
@@ -125,15 +294,52 @@ Each non internal class and function in the module will be described in detail h
 
     移动函数可以轻松地按一定的规律、移动速度、移动时间去移动 `tkintertools` 模块内的所有对象，同时兼容了 `tkinter` 内的对象，即 `tkinter` 中的对象也可以很方便地移动，甚至它还可以移动窗口的位置！  
     <img width="720px" src="https://gitcode.net/weixin_62651706/tkintertools/-/raw/master/docs/images/MoveTest.gif" alt="MoveTest.gif" />
-    > SourceCode/源代码 : [test_move.py](./test_move.py)
+    
+    ```python
+    """ Move Test """
+
+    import tkintertools as tkt
+
+    root = tkt.Tk('MoveTest', 500, 500)
+    canvas = tkt.Canvas(root, 500, 500)
+    canvas.place(x=0, y=0)
+
+    rect = canvas.create_rectangle(50, 350, 150, 450)
+
+
+    def move_window(switch: list[bool] = [True]) -> None:
+        tkt.move(root, None, 1000 if switch[0] else -1000, 0, 800, 'flat')
+        switch[0] = not switch[0]
+
+
+    def move_button(switch: list[bool] = [True]) -> None:
+        tkt.move(canvas, button, 200 if switch[0] else -200, 0, 500, 'rebound')
+        switch[0] = not switch[0]
+
+
+    def move_rect(switch: list[bool] = [True]) -> None:
+        tkt.move(canvas, rect, 200 if switch[0] else -200, 0, 500, 'smooth')
+        switch[0] = not switch[0]
+
+
+    tkt.Button(canvas, 50, 50, 200, 40, 10, 'MoveWindow', command=move_window)
+    tkt.Button(canvas, 50, 100, 200, 40, 10, 'MoveRect', command=move_rect)
+    button = tkt.Button(canvas, 50, 150, 200, 40, 10,
+                        'MoveButton', command=move_button)
+
+
+    tkt.SetProcessDpiAwareness()
+    root.mainloop()
+    ```
 
 2. `text` : 文本函数
 
     可以快速并方便地得到一个参数长度的字符串，且字符串的内容可以指定位置  
     如：得到一个20长度的字符串“tkintertools”  
+    <pre>
     `left`   : "tkintertools        "  
     `center` : "    tkintertools    "  
-    `right`  : "        tkintertools"  
+    `right`  : "        tkintertools"</pre>
 
 3. `color` : 颜色函数
 
@@ -141,7 +347,32 @@ Each non internal class and function in the module will be described in detail h
     第二张图是 test.py 在图像测试中绘制的图案  
     <img width="360px" src="https://gitcode.net/weixin_62651706/tkintertools/-/raw/master/docs/images/ColorTest.png" alt="ColorTest.png" />
     <img width="360px" src="https://gitcode.net/weixin_62651706/tkintertools/-/raw/master/docs/images/Test_Draw.png" alt="Test_Draw.png" />
-    > SourceCode/源代码 : [test_color.py](./test_color.py)
+
+    ```python
+    """ Color Test """
+
+    import tkintertools as tkt
+
+    root = tkt.Tk('ColorTest', 500, 500)
+    canvas = tkt.Canvas(root, 500, 500)
+    canvas.place(x=0, y=0)
+
+
+    def colorful(x: int, y: int, width: int, height: int) -> None:
+        """ Gradient colors """
+        for i in range(width):
+            color = tkt.color(('#FF0000', '#00FF00'), i/width)
+            color_2 = tkt.color(('#FFFFFF', '#000000'), i/width)
+            canvas.create_line(x+i, y, x+i, y+height, fill=color)
+            canvas.create_oval(250-i/3, 300-i/3, 250+i/3, 300 +
+                            i/3, outline=color_2, width=2)
+
+
+    colorful(50, 50, 400, 100)
+
+    tkt.SetProcessDpiAwareness()
+    root.mainloop()
+    ```
 
 4. `SetProcessDpiAwareness` : DPI 级别设置函数
 
@@ -165,5 +396,5 @@ Each non internal class and function in the module will be described in detail h
 > Column/专栏:  
 > https://blog.csdn.net/weixin_62651706/category_11600888.html
 
-> Tutorials/教程:  
+> Tutorials(v2.5)/教程(v2.5):  
 > https://xiaokang2022.blog.csdn.net/article/details/127374661
