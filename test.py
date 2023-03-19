@@ -54,7 +54,7 @@ def shutdown() -> None:
         root.quit()  # 退出测试程序
 
 
-root = tkt.Tk('tkintertools - 测试程序', 1280, 720, shutdown=shutdown)
+root = tkt.Tk('tkintertools', 1280, 720, shutdown=shutdown)
 root.minsize(640, 360)
 menu = Menu(root, tearoff=False)
 root.configure(menu=menu)
@@ -67,11 +67,6 @@ canvas_graph.place(x=1280, y=0)
 
 
 def sound(): return Beep(600, 100)
-
-
-m = Menu(menu, tearoff=False)
-menu.add_cascade(menu=m, label='帮助(H)')
-m.add_command(label='关于', accelerator='Ctrl+A')
 
 
 tkt.Button(

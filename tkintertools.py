@@ -1295,7 +1295,7 @@ class Singleton(object):
 
 
 def move(
-    master: Tk | Canvas | tkinter.Misc | tkinter.BaseWidget,
+    master: Tk | Canvas | tkinter.Misc | tkinter.BaseWidget | None,
     widget: Canvas | _BaseWidget | tkinter.BaseWidget,
     dx: int,
     dy: int,
@@ -1332,9 +1332,9 @@ def move(
         key = 1 / sum(dis)
         dis = tuple((key*i*dx, key*i*dy) for i in dis)
 
-    if isinstance(widget, tkinter.Tk | tkinter.Toplevel):  # 窗口
-        geometry, ox, oy = widget.geometry().split('+')
-        widget.geometry(
+    if widget is None:  # 窗口
+        geometry, ox, oy = master.geometry().split('+')
+        master.geometry(
             '%s+%d+%d' % (geometry, int(ox)+dis[_ind][0], int(oy)+dis[_ind][1]))
     elif isinstance(master, tkinter.Misc) and isinstance(widget, tkinter.BaseWidget):  # tkinter 的控件
         place_info = widget.place_info()
