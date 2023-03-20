@@ -1,8 +1,8 @@
 ChangeLog/更新日志
 ==================
 
-[2.5.11.4] - 2023-03-19
------------------------
+[2.5.12] - 2023-03-20
+---------------------
 
 ### Features/新增
 
@@ -18,6 +18,9 @@ ChangeLog/更新日志
 
 - [X] Move the binding code of the associated keyboard from class `Tk` to class `Canvas`  
 将关联键盘的绑定代码全部由类`Tk`移到类`Canvas`中
+
+- [X] Optimized some of the code to prevent bugs that shouldn't occur  
+优化了部分代码，防止出现一些不应该出现的bug
 
 ### Removed/删除
 

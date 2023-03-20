@@ -1,14 +1,14 @@
 <div align="center">
     <h1>🚀<b>tkintertools</b>🚀</h1>
-    <img height="120px" alt="logo" src="https://gitcode.net/weixin_62651706/tkintertools/-/raw/master/tkintertools.png"/>
+    <img height="120px" alt="logo.png" src="https://gitcode.net/weixin_62651706/tkintertools/-/raw/master/tkintertools.png"/>
     <p>The <code>tkintertools</code> module is an auxiliary module of the <code>tkinter</code> module</p>
     <p><code>tkintertools</code> 模块是 <code>tkinter</code> 模块的辅助模块</p>
-    <img src="https://img.shields.io/badge/Version-2.5.11.4-blue" alt="latest version" />
+    <img src="https://img.shields.io/badge/Version-2.5.12-blue" alt="latest version" />
     <a href="./LICENSE">
         <img src="https://img.shields.io/badge/License-Mulan PSL v2-green" alt="License" />
     </a>
     <a href="./CHANGELOG.md">
-        <img src="https://img.shields.io/badge/ChangeLog-2023/03/19-orange" alt="CHANGELOG" />
+        <img src="https://img.shields.io/badge/ChangeLog-2023/03/20-orange" alt="CHANGELOG" />
     </a>
     <a href="./TODO.md">
     <img src="https://img.shields.io/badge/ToDo-6-yellow" alt="TODO" />
@@ -19,6 +19,27 @@
         <img src="https://img.shields.io/badge/Blog-https://xiaokang2022.blog.csdn.net-red" alt="Blog" />
     </a>
 </div>
+
+🚀Installation/模块安装
+-----------------------
+
+### 👉Stable version/稳定版本
+
+* Version/版本 : 2.5.0
+* Release Date/发布日期 : 2022/11/21
+
+```
+pip install tkintertools
+```
+
+### 👉Development version/开发版本
+
+* Version/版本 : 2.5.12
+* Release Date/发布日期 : 2023/03/20
+
+```
+pip install tkintertools-dev
+```
 
 🚀Description/模块说明
 ----------------------
@@ -55,6 +76,8 @@ Here, only the more distinctive features will be listed
 ### ⭐Automatically adapt to DPI/自动适应DPI
 
 ### ⭐Scalable Picture/可缩放图片
+
+### ⭐Detailed type tips/详细的类型提示
 
 🚀Contents/模块内容
 -------------------

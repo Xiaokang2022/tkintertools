@@ -1,39 +1,4 @@
-"""
-tkintertools
-============
-The tkindertools module is an auxiliary module of the tkinder module.
-
-Provides
---------
-* Transparent, rounded and customized widgets
-* Automatic control of picture size and widget size
-* Scalable png pictures and playable gif pictures
-* Regular mobile widgets and canvas interfaces
-* Gradient colors and contrast colors
-* Text with controllable length and alignment
-* Convenient, inheritable singleton pattern class
-* Display clear window and its contents
-
-Contents
---------
-* Container Widget: `Tk`, `Toplevel`, `Canvas`
-* Virtual Widget: `Label`, `Button`, `Entry`, `Text`, `Progressbar`
-* Tool Class: `PhotoImage`, `Singleton`
-* Tool Function: `move`, `text`, `color`, `SetProcessDpiAwareness`
-
-More
-----
-* GitCode: https://gitcode.net/weixin_62651706/tkintertools
-* GitHub(Mirror): https://github.com/XiaoKang2022-CSDN/tkintertools
-* Tutorials: https://xiaokang2022.blog.csdn.net/article/details/127374661
-"""
-
-import sys  # 检测 Python 版本
-
-if sys.version_info < (3, 10):
-    # 版本检测，低版本缺失部分语法
-    error_info = '\n\033[31mOperation Requirements: \033[32m\nPython version shall not be less than\033[33m 3.10.0!\033[0m'
-    raise RuntimeError(error_info)
+""" Main File """
 
 import math  # 数学函数
 import tkinter  # 基础模块
@@ -41,33 +6,7 @@ from ctypes import OleDLL  # DPI兼容
 from fractions import Fraction  # 图片缩放
 from typing import Generator, Iterable, Literal  # 类型提示
 
-__author__ = 'Xiaokang2022<2951256653@qq.com>'
-__version__ = '2.5.11.3'
-__all__ = [
-    'Tk', 'Toplevel', 'Canvas',
-    'Label', 'Button', 'Entry', 'Text', 'Progressbar',
-    'PhotoImage', 'Singleton',
-    'move', 'text', 'color', 'SetProcessDpiAwareness'
-]
-
-PROCESS_SYSTEM_DPI_AWARE = 1  # DPI级别
-SCALE = OleDLL('shcore').GetScaleFactorForDevice(0)/100  # 屏幕缩放因子
-
-COLOR_BUTTON_FILL = '#E1E1E1', '#E5F1FB', '#CCE4F7', '#E0E0E0'      # 默认的按钮内部颜色
-COLOR_BUTTON_OUTLINE = '#C0C0C0', '#288CDB', '#4884B4', '#D0D0D0'   # 默认的按钮外框颜色
-COLOR_TEXT_FILL = '#FFFFFF', '#FFFFFF', '#FFFFFF', '#E0E0E0'        # 默认的文本内部颜色
-COLOR_TEXT_OUTLINE = '#C0C0C0', '#414141', '#288CDB', '#D0D0D0'     # 默认的文本外框颜色
-COLOR_TEXT = '#000000', '#000000', '#000000', '#A3A3A3'             # 默认的文本颜色
-COLOR_NONE = '', '', '', ''                                         # 透明颜色
-COLOR_BAR = '#E1E1E1', '#06b025'                                    # 默认的进度条颜色
-
-BORDERWIDTH = 1             # 默认控件外框宽度
-CURSOR = '│'                # 文本光标
-FONT = 'KaiTi'              # 默认字体
-SIZE = 20                   # 默认字体大小
-LIMIT = -1                  # 默认文本长度
-RADIUS = 0                  # 默认控件圆角半径
-FRAMES = 60                 # 默认帧数
+from .constants import *
 
 
 class Tk(tkinter.Tk):
@@ -85,11 +24,11 @@ class Tk(tkinter.Tk):
     ) -> None:
         """
         `title`: 窗口标题
-        `width`: 窗口宽度（单位:像素）
+        `width`: 窗口宽度
         `height`: 窗口高度
-        `x`: 窗口左上角横坐标（单位:像素）
+        `x`: 窗口左上角横坐标
         `y`: 窗口左上角纵坐标
-        `shutdown`: 关闭窗口之前执行的函数（会覆盖原关闭操作）
+        `shutdown`: 关闭窗口之前执行的函数，但会覆盖原关闭操作
         `**kw`: 与 tkinter.Tk 类的参数相同
         """
         if type(self) == Tk:  # NOTE:方便后面的 Toplevel 类继承
@@ -163,11 +102,11 @@ class Toplevel(tkinter.Toplevel, Tk):
         """
         `master`: 父窗口
         `title`: 窗口标题
-        `width`: 窗口宽度（单位:像素）
+        `width`: 窗口宽度
         `height`: 窗口高度
-        `x`: 窗口左上角横坐标（单位:像素）
+        `x`: 窗口左上角横坐标
         `y`: 窗口左上角纵坐标
-        `shutdown`: 关闭窗口之前执行的函数（会覆盖关闭操作）
+        `shutdown`: 关闭窗口之前执行的函数，但会覆盖关闭操作
         `**kw`: 与 tkinter.Toplevel 类的参数相同
         """
         tkinter.Toplevel.__init__(self, master, **kw)
@@ -192,7 +131,7 @@ class Canvas(tkinter.Canvas):
         `master`: 父控件
         `width`: 画布宽度
         `height`: 画布高度
-        `lock`: 画布内控件的功能锁（False时功能暂时失效）
+        `lock`: 画布内控件的功能锁，False 时功能暂时失效
         `expand`: 画布内控件是否能缩放
         `keep`: 保持画布比例不变
         `**kw`: 与 tkinter.Canvas 类的参数相同
@@ -231,7 +170,7 @@ class Canvas(tkinter.Canvas):
         设置画布锁
         `value`: 布尔值，True则可操作，False反之，None则返回当前值
         """
-        if value == None:
+        if value is None:
             return self._lock
         self._lock = value
         if value and self.expand:
@@ -688,7 +627,7 @@ class _BaseWidget:
 
     def set_live(self, boolean: bool | None = None) -> bool | None:
         """ 设定或查询live值 """
-        if boolean == None:
+        if boolean is None:
             return self.live
         else:
             self.live = boolean
@@ -1235,7 +1174,7 @@ class PhotoImage(tkinter.PhotoImage):
         `item`: 播放动画的 _CanvasItemId（create_text 的返回值）
         `interval`: 每帧动画的间隔时间
         """
-        if kw.get('_ind', None) == None:  # 初始化的判定
+        if kw.get('_ind', None) is None:  # 初始化的判定
             self._item[item], kw['ind'] = canvas, -1
         if not self._item[item]:  # 终止播放的判定
             return

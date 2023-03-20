@@ -1,11 +1,5 @@
 """ 测试程序 """
 
-import sys
-
-if sys.version_info < (3, 10):
-    error_info = '\n\033[31mOperation Requirements: \033[32m\nPython version shall not be less than\033[33m 3.10.0!\033[0m'
-    raise RuntimeError(error_info)
-
 from math import cos, pi
 from random import randint
 from tkinter import Menu, TclError, messagebox
@@ -133,7 +127,7 @@ try:  # 加载图片
     canvas_graph.create_image(
         1150, 130, image=tkt.PhotoImage('tkintertools.png'))
 except TclError:  # 缺少图片
-    print('\033[31m缺少示例图片tkinter.png\033[0m')
+    print('\033[31mLoad tkintertools.png Error\033[0m')
 
 tkt.SetProcessDpiAwareness()  # 设置DPI级别
 root.mainloop()  # 消息事件循环
