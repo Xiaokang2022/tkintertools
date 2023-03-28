@@ -17,9 +17,9 @@ Provides
 Contents
 --------
 * Container Widget: `Tk`, `Toplevel`, `Canvas`
-* Virtual Widget: `Label`, `Button`, `Entry`, `Text`, `Progressbar`
+* Virtual Widget: `Label`, `Button`, `CheckButton`, `Entry`, `Text`, `Progressbar`
 * Tool Class: `PhotoImage`, `Singleton`
-* Tool Function: `move`, `text`, `color`, `SetProcessDpiAwareness`
+* Tool Function: `move`, `text`, `color`, `askfont`, `SetProcessDpiAwareness`
 
 More
 ----
@@ -35,13 +35,16 @@ if sys.version_info < (3, 10):
     error_info = '\n\033[31mOperation Requirements: \033[32m\nPython version shall not be less than\033[33m 3.10.0!\033[0m'
     raise RuntimeError(error_info)
 
-from .__main__ import *
+from .__main__ import (Button, Canvas, CheckButton, Entry, Label, PhotoImage,
+                       Progressbar, SetProcessDpiAwareness, Singleton, Text,
+                       Tk, Toplevel, askfont, color, move, text)
+from .constants import *
 
 __author__ = 'Xiaokang2022<2951256653@qq.com>'
-__version__ = '2.5.12'
+__version__ = '2.6.0'
 __all__ = [
     'Tk', 'Toplevel', 'Canvas',
-    'Label', 'Button', 'Entry', 'Text', 'Progressbar',
+    'Label', 'Button', 'CheckButton', 'Entry', 'Text', 'Progressbar',
     'PhotoImage', 'Singleton',
-    'move', 'text', 'color', 'SetProcessDpiAwareness'
+    'move', 'text', 'color', 'askfont', 'SetProcessDpiAwareness'
 ]

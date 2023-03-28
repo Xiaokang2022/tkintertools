@@ -3,15 +3,15 @@
     <img height="120px" alt="logo.png" src="https://gitcode.net/weixin_62651706/tkintertools/-/raw/master/tkintertools.png"/>
     <p>The <code>tkintertools</code> module is an auxiliary module of the <code>tkinter</code> module</p>
     <p><code>tkintertools</code> 模块是 <code>tkinter</code> 模块的辅助模块</p>
-    <img src="https://img.shields.io/badge/Version-2.5.12-blue" alt="latest version" />
+    <img src="https://img.shields.io/badge/Version-2.6.0-blue" alt="latest version" />
     <a href="./LICENSE">
         <img src="https://img.shields.io/badge/License-Mulan PSL v2-green" alt="License" />
     </a>
     <a href="./CHANGELOG.md">
-        <img src="https://img.shields.io/badge/ChangeLog-2023/03/20-orange" alt="CHANGELOG" />
+        <img src="https://img.shields.io/badge/ChangeLog-2023/03/28-orange" alt="CHANGELOG" />
     </a>
     <a href="./TODO.md">
-    <img src="https://img.shields.io/badge/ToDo-6-yellow" alt="TODO" />
+    <img src="https://img.shields.io/badge/ToDo-5-yellow" alt="TODO" />
     </a>
     <br>
     <img src="https://img.shields.io/badge/Mail-2951256653@qq.com-purple" alt="Contact" />
@@ -25,24 +25,25 @@
 
 ### 👉Stable version/稳定版本
 
-* Version/版本 : 2.5.0
-* Release Date/发布日期 : 2022/11/21
+* Version/版本 : 2.6.0
+* Release Date/发布日期 : 2023/03/28
 
 ```
-pip install tkintertools
+pip install tkintertools==2.6.0
 ```
 
 ### 👉Development version/开发版本
 
-* Version/版本 : 2.5.12
+* Version/版本 : 2.6.0
 * Release Date/发布日期 : 2023/03/20
 
 ```
-pip install tkintertools-dev
+pip install tkintertools-dev==2.6.0
 ```
 
 🚀Description/模块说明
 ----------------------
+
 `tkintertools` 是一个完全没有使用任何第三方模块和库的Python界面开发模块，同时，它也没有任何依赖包，它的功能完全由内置模块和函数实现。
 
 `tkintertools` 是一款基于 `tkinter` 模块的二次开发的界面编程模块，它和 `tkinter` 最大的不同在于，它的控件并非真实的控件，而是在 `tkinter` 模块中 `Canvas` 对象中绘制而成的，这就赋予了 `tkintertools` 控件一些特性，列举如下：
@@ -62,6 +63,7 @@ pip install tkintertools-dev
 
 🚀Provides/模块功能
 -------------------
+
 Here, only the more distinctive features will be listed  
 这里只会列举出比较具有特色的功能
 
@@ -81,6 +83,7 @@ Here, only the more distinctive features will be listed
 
 🚀Contents/模块内容
 -------------------
+
 Each non internal class and function in the module will be described in detail here  
 这里会详细说明模块中的每个非内部类和函数
 
@@ -170,7 +173,11 @@ Each non internal class and function in the module will be described in detail h
     root.mainloop()
     ```
 
-3. `Entry` : 输入框控件
+3. `CheckButton` : 复选框控件
+
+文档正在制造中...
+
+4. `Entry` : 输入框控件
 
     输入框控件可以轻松地设置输入的文本位置（靠左、居中和靠右），同时，它可以在鼠标移至输入框上方、鼠标未在输入框上方两种状态显示不同的默认文本  
     下面是 `Entry` 控件的外观：  
@@ -213,7 +220,7 @@ Each non internal class and function in the module will be described in detail h
     root.mainloop()
     ```
 
-4. `Text` : 文本框控件
+5. `Text` : 文本框控件
 
     文本框类似于输入框，这里就不再赘述  
     下面是 `Text` 控件的外观：  
@@ -249,7 +256,7 @@ Each non internal class and function in the module will be described in detail h
     root.mainloop()
     ```
 
-5. `Progressbar` : 进度条控件
+6. `Progressbar` : 进度条控件
 
     进度条控件相比 `tkinter.ttk.Progressbar`，外观上的自由度较大  
     下面是 `Progressbar` 控件的外观：  
@@ -397,7 +404,13 @@ Each non internal class and function in the module will be described in detail h
     root.mainloop()
     ```
 
-4. `SetProcessDpiAwareness` : DPI 级别设置函数
+4. `askfont` : 字体选择对话框
+
+    详细文档正在生成中...
+
+    <img width="540px" src="https://gitcode.net/weixin_62651706/tkintertools/-/raw/master/docs/images/font.png" alt="font.png" />
+
+5. `SetProcessDpiAwareness` : DPI 级别设置函数
 
     这个函数实际上只是对函数 `ctypes.OleDLL('shcore').SetProcessDpiAwareness` 的一个简单包装，其值可为 0、1 和 2，分别代表程序 DPI 的不同级别，那么缩放效果也就不同，`tkintertools` 选择的值是 1，但程序默认值实际为 0  
     下面是执行了这个函数的效果  
@@ -406,10 +419,11 @@ Each non internal class and function in the module will be described in detail h
     <img width="720px" src="https://gitcode.net/weixin_62651706/tkintertools/-/raw/master/docs/images/SetProcessDpiAwareness_1.png" alt="SetProcessDpiAwareness_1.png" />  
     从上面的两张图中可以很明显的看出第一张很模糊，第二张很清晰，这就是 DPI 级别不同的原因，不过这一点在平面缩放比不是 100% 的时候才会出现  
     大家对上面的图肯定很熟悉，这不就是 IDLE 吗！？对，这个的问题的解决办法也是来自于 IDLE 的源代码 [pyshell.py line 18~20]  
-    注意：该函数在程序的不同位置执行的效果不一样！一般用在 `mainloop` 前面
+    注意：该函数在程序的不同位置执行的效果不一样！一般用在`mainloop`之前。
 
 🚀More/更多
 -----------
+
 > GitCode:  
 > https://gitcode.net/weixin_62651706/tkintertools
 
@@ -419,5 +433,7 @@ Each non internal class and function in the module will be described in detail h
 > Column/专栏:  
 > https://blog.csdn.net/weixin_62651706/category_11600888.html
 
-> Tutorials(v2.5)/教程(v2.5):  
+> Tutorials/教程:  
 > https://xiaokang2022.blog.csdn.net/article/details/127374661
+
+还有更多内容请在源码中探索！

@@ -1,5 +1,23 @@
 ChangeLog/更新日志
-==================
+=================
+
+[2.6.0] - 2023-03-28
+--------------------
+
+### Features/新增
+
+- [X] New virtual canvas widget check box: `CheckButton`  
+新增虚拟画布控件复选框：`CheckButton`
+
+### Fixed/修复
+
+- [X] Solve the bug that the `Text` class `set` and `append` methods will not be updated immediately after use  
+解决`Text`类`set`、`append`方法使用后不会立即更新的bug
+
+### Refactored/优化
+
+- [X] Optimize the parameters of some classes and functions  
+优化部分类和函数的参数
 
 [2.5.12] - 2023-03-20
 ---------------------
