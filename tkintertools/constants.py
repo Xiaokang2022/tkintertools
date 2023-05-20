@@ -1,56 +1,56 @@
 """ All constants """
 
-from ctypes import OleDLL
+import sys
 
 PROCESS_SYSTEM_DPI_AWARE = 1
-""" DPI级别 """
-
-SCALE = OleDLL('shcore').GetScaleFactorForDevice(0)/100
-""" 屏幕缩放系数 """
+""" default DPI aware """
 
 
 COLOR_BUTTON_FILL = '#E1E1E1', '#E5F1FB', '#CCE4F7', '#E0E0E0'
-""" 默认的按钮内部颜色 """
+""" default button fill color """
 
 COLOR_BUTTON_OUTLINE = '#C0C0C0', '#288CDB', '#4884B4', '#D0D0D0'
-""" 默认的按钮外框颜色 """
+""" default button outline color """
 
 COLOR_TEXT_FILL = '#FFFFFF', '#FFFFFF', '#FFFFFF', '#E0E0E0'
-""" 默认的文本内部颜色 """
+""" default text widget fill color """
 
 COLOR_TEXT_OUTLINE = '#C0C0C0', '#414141', '#288CDB', '#D0D0D0'
-""" 默认的文本外框颜色 """
+""" default text widget outline color """
 
 COLOR_TEXT = '#000000', '#000000', '#000000', '#A3A3A3'
-""" 默认的文本颜色 """
+""" default text color """
 
 COLOR_NONE = '', '', '', ''
-""" 透明颜色 """
+""" default transparent color tuple """
 
 COLOR_BAR = '#E1E1E1', '#06b025'
-""" 默认的进度条颜色 """
+""" default progress bar color """
+
+BACKGROUND = '#F1F1F1'
+""" default Canvas background color """
 
 
 BORDERWIDTH = 1
-""" 默认控件外框宽度 """
+""" default widget borderwidth """
 
 CURSOR = '│'
-""" 文本光标 """
+""" text cursor """
 
-FONT = 'KaiTi'
-""" 默认字体 """
+FONT = 'Microsoft YaHei' if sys.platform == 'win32' else 'DejaVu Sans' if sys.platform == 'linux' else 'Arial'
+""" default font """
 
 SIZE = 20
-""" 默认字体大小 """
+""" default font size """
 
 LIMIT = -1
-""" 默认文本长度 """
+""" default widget text length limit """
 
 RADIUS = 0
-""" 默认控件圆角半径 """
+""" default widget fillet radius """
 
 FRAMES = 60
-""" 默认帧数 """
+""" default move frame rate """
 
 TICK = '✓'
-""" 默认复选框符号 """
+""" default checkbox symbol """

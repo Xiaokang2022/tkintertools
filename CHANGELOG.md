@@ -1,6 +1,36 @@
 ChangeLog/更新日志
 =================
 
+[2.6.1] - 2023-05-21
+--------------------
+
+### Optimized/优化
+
+- [X] Enhance the cross platform functionality of the module, which can run on the Windows and Linux platform  
+提升模块的跨平台性，可在 Windows 和 Linux 平台上运行
+
+- [X] Optimized reference documentation for classes and functions  
+优化了类和函数的参考文档
+
+- [X] Improved module compatibility to Python 3.7  
+提升模块兼容性，向下兼容至 Python3.7
+
+- [X] Optimized test files, compatible with different operating systems, and fixed a small number of bugs  
+优化了测试文件，兼容不同操作系统，修复少量 bug
+
+- [X] Optimize the methods of the widget checkbox `CheckButton`  
+优化控件复选框`CheckButton`的各项功能
+
+### Fixed/修复
+
+- [X] Fixed a bug where widgets would misalign after calling the method `moveto`  
+修复了控件在调用了方法`moveto`后会发生错位的 bug
+
+### Removed/删除
+
+- [X] Remove Unused Constants `SCALE`  
+删除无用常量`SCALE`
+
 [2.6.0] - 2023-03-28
 --------------------
 
@@ -14,7 +44,7 @@ ChangeLog/更新日志
 - [X] Solve the bug that the `Text` class `set` and `append` methods will not be updated immediately after use  
 解决`Text`类`set`、`append`方法使用后不会立即更新的bug
 
-### Refactored/优化
+### Optimized/优化
 
 - [X] Optimize the parameters of some classes and functions  
 优化部分类和函数的参数
@@ -32,7 +62,7 @@ ChangeLog/更新日志
 - [X] Fixed a bug where the `move` function cannot move a window  
 修复了`move`函数无法移动窗口的bug
 
-### Refactored/优化
+### Optimized/优化
 
 - [X] Move the binding code of the associated keyboard from class `Tk` to class `Canvas`  
 将关联键盘的绑定代码全部由类`Tk`移到类`Canvas`中
@@ -68,7 +98,7 @@ ChangeLog/更新日志
 - [X] Fixed the problem that the `configure` method of `_BaseWidget` cannot get the normal effect when modifying the parameter `text` to an empty string  
 修复了控件基类`_BaseWidget`的方法`configure`在将参数`text`修改为空字符串时无法得到正常效果的问题
 
-### Refactored/优化
+### Optimized/优化
 
 - [X] Optimize the solution to the adaptive DPI problem  
 优化解决适配 DPI 问题的方案
@@ -106,7 +136,7 @@ ChangeLog/更新日志
 - [X] The initialization parameters of `Tk` class and `Toplevel` class have become more concise  
 `Tk`类和`Toplevel`类的初始化参数变得更加简洁了
 
-### Refactored/优化
+### Optimized/优化
 
 - [X] The state change of the canvas virtual widget adds a previous state detection, greatly improving performance  
 画布虚拟控件的状态改变加了个先前状态检测，大幅提高性能
@@ -133,7 +163,7 @@ ChangeLog/更新日志
 - [X] Fixed parameter error of class `PhotoImage`  
 修复了类`PhotoImage`的参数错误
 
-### Refactored/优化
+### Optimized/优化
 
 - [X] Optimize codes, simplify some codes and delete redundant parts  
 优化代码，简化部分代码，删去冗余部分
@@ -154,7 +184,7 @@ ChangeLog/更新日志
 - [X] Solve the bug that the cursor will flash faster and faster after pasting text for text control  
 解决文本类控件在粘贴文本后光标会越闪越快的bug
 
-### Refactored/优化
+### Optimized/优化
 
 - [X] `move` function has been optimized to improve applicability, accuracy and speed  
 优化了`move`函数，提升了适用性、精度以及速度
@@ -196,7 +226,7 @@ ChangeLog/更新日志
 - [X] Increase the default frame rate parameter of the move function to 30  
 提高了移动函数的默认帧率参数至30
 
-### Refactored/优化
+### Optimized/优化
 
 - [X] Optimized the code structure of the `color` function and the `move` function to make it more concise  
 优化了`color`函数和`move`函数的代码结构，使其更加简洁
@@ -217,7 +247,7 @@ ChangeLog/更新日志
 - [X] The zoom method of the picture is changed from absolute zoom to relative absolute zoom  
 图片的缩放方式由绝对缩放变更为相对的绝对缩放方式
 
-### Refactored/优化
+### Optimized/优化
 
 - [X] Optimized the structure of the `PhotoImage` class  
 优化了`PhotoImage`类的结构
@@ -254,7 +284,7 @@ ChangeLog/更新日志
 - [X] Greatly modified the canvas scaling mechanism, fully adapted to all situations, and accelerated the scaling speed  
 大幅度地修改了画布缩放的机制，完全适应所有情况，并加快了缩放速度
 
-### Refactored/优化
+### Optimized/优化
 
 - [X] Optimize the structure of all multiple loops and judgment statements, making the code more beautiful  
 优化了所有多重循环加判断语句的结构，使代码更为美观
@@ -283,7 +313,7 @@ ChangeLog/更新日志
 - [X] The binding mechanism of associated events has been modified so that `Canvas` classes can be created at any time  
 修改了关联事件的绑定机制，使得`Canvas`类可以被随时创建
 
-### Refactored/优化
+### Optimized/优化
 
 - [X] Some colors are beautified  
 美化了部分颜色
@@ -311,7 +341,7 @@ ChangeLog/更新日志
     Thanks to [-ShuiGuang-](https://blog.csdn.net/atlantis618) for finding the above bug  
     感谢 [-ShuiGuang-](https://blog.csdn.net/atlantis618) 发现了上面的 bug
 
-### Refactored/优化
+### Optimized/优化
 
 - [X] `Canvas` class overrides `destroy` method to be compatible with the original `destroy` method  
 `Canvas`类重写`destroy`方法以兼容原`destroy`方法
@@ -346,7 +376,7 @@ ChangeLog/更新日志
 - [X] Fixed the bug that the `read` parameter of the text box control failed  
 修复了文本框控件`read`参数失效的 bug
 
-### Refactored/优化
+### Optimized/优化
 
 - [X] Change the mouse position detection order to further improve the running speed  
 改变鼠标位置检测顺序，进一步提升运行速度
@@ -375,7 +405,7 @@ ChangeLog/更新日志
 - [X] Modified the mouse position determination mechanism and improved the running speed  
 修改了鼠标位置判定机制，同时提升运行速度
 
-### Refactored/优化
+### Optimized/优化
 
 - [X] Some redundant codes are deleted to improve the overall running speed  
 删除了部分冗余代码，提升总体运行速度

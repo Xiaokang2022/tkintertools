@@ -16,10 +16,10 @@ Provides
 
 Contents
 --------
-* Container Widget: `Tk`, `Toplevel`, `Canvas`
-* Virtual Widget: `Label`, `Button`, `CheckButton`, `Entry`, `Text`, `Progressbar`
-* Tool Class: `PhotoImage`, `Singleton`
-* Tool Function: `move`, `text`, `color`, `askfont`, `SetProcessDpiAwareness`
+* Container Widgets: `Tk`, `Toplevel`, `Canvas`
+* Virtual Canvas Widgets: `Label`, `Button`, `CheckButton`, `Entry`, `Text`, `Progressbar`
+* Tool Classes: `PhotoImage`, `Singleton`
+* Tool Functions: `move`, `text`, `color`, `askfont`, `SetProcessDpiAwareness`
 
 More
 ----
@@ -28,11 +28,10 @@ More
 * Tutorials: https://xiaokang2022.blog.csdn.net/article/details/127374661
 """
 
-import sys  # 检测 Python 版本
+import sys
 
-if sys.version_info < (3, 10):
-    # 版本检测，低版本缺失部分语法
-    error_info = '\n\033[31mOperation Requirements: \033[32m\nPython version shall not be less than\033[33m 3.10.0!\033[0m'
+if sys.version_info < (3, 7):  # Version Check
+    error_info = '\n\033[31mOperation Requirements: \033[32m\nPython version shall not be less than\033[33m 3.7.0 !\033[0m'
     raise RuntimeError(error_info)
 
 from .__main__ import (Button, Canvas, CheckButton, Entry, Label, PhotoImage,
@@ -41,10 +40,14 @@ from .__main__ import (Button, Canvas, CheckButton, Entry, Label, PhotoImage,
 from .constants import *
 
 __author__ = 'Xiaokang2022<2951256653@qq.com>'
-__version__ = '2.6.0'
+__version__ = '2.6.1'
 __all__ = [
+    # Container Widgets
     'Tk', 'Toplevel', 'Canvas',
+    # Virtual Canvas Widgets
     'Label', 'Button', 'CheckButton', 'Entry', 'Text', 'Progressbar',
+    # Tool Classes
     'PhotoImage', 'Singleton',
+    # Tool Functions
     'move', 'text', 'color', 'askfont', 'SetProcessDpiAwareness'
 ]
