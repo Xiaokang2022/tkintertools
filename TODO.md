@@ -27,3 +27,6 @@ TODO/待办
 
 - [ ] Try adding a new pattern of no progress to the `Progressbar` widget  
 尝试为进度条控件增加无进度的新模式
+
+- [ ] Fixed the bug where the method `place` of class `anvas` did not work correctly  
+解决类`Canvas`的方法`place`无法正常工作的 bug

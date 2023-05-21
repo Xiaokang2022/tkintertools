@@ -16,7 +16,7 @@
             <img src="https://img.shields.io/badge/ChangeLog-2023/05/21-orange" alt="ChangeLog" />
         </a>
         <a href="./TODO.md">
-            <img src="https://img.shields.io/badge/ToDos-9-yellow" alt="ToDos" />
+            <img src="https://img.shields.io/badge/ToDos-10-yellow" alt="ToDos" />
         </a>
         <a href="https://pypistats.org/packages/tkintertools">
             <img src="https://img.shields.io/badge/Downloads-3k-purple" alt="Downloads" />
@@ -40,11 +40,11 @@ Installation/模块安装
 
 ### Stable version/稳定版本
 
-* Version/版本 : 2.6.0
-* Release Date/发布日期 : 2023/03/28
+* Version/版本 : 2.6.1
+* Release Date/发布日期 : 2023/05/21
 
 ```
-pip install tkintertools==2.6.0
+pip install tkintertools==2.6.1
 ```
 或者
 ```
@@ -86,7 +86,7 @@ tkintertools 模块还具有一些特色的功能：
 * 可以迅速实现渐变色的效果
 * 窗口缩放，所有的控件的大小跟着缩放（当然，也可以设置为不跟随缩放）
 
-注意：需要 Python3.7 及更高版本才能运行 tkintertools！
+注意：需要 **Python3.7** 及更高版本才能运行 tkintertools！
 
 Provides/模块功能
 -------------------
@@ -173,7 +173,6 @@ Each non internal class and function in the module will be described in detail h
 
     root = tkt.Tk('LabelTest', 1000, 400)
     canvas = tkt.Canvas(root, 1000, 400)
-    canvas.place(x=0, y=0)
 
 
     def colorful(x, y, width, height):  # type: (int, int, int, int) -> None
@@ -208,7 +207,6 @@ Each non internal class and function in the module will be described in detail h
 
     root = tkt.Tk('ButtonTest', 500, 500)
     canvas = tkt.Canvas(root, 500, 500)
-    canvas.place(x=0, y=0)
 
 
     def colorful(x, y, width, height):  # type: (int, int, int, int) -> None
@@ -243,7 +241,6 @@ Each non internal class and function in the module will be described in detail h
 
     root = tkt.Tk('CheckButtonTest', 500, 300)
     canvas = tkt.Canvas(root, 500, 300)
-    canvas.place(x=0, y=0)
 
 
     def colorful(x, y, width, height):  # type: (int, int, int, int) -> None
@@ -279,7 +276,6 @@ Each non internal class and function in the module will be described in detail h
 
     root = tkt.Tk('EntryTest', 500, 400)
     canvas = tkt.Canvas(root, 500, 400)
-    canvas.place(x=0, y=0)
 
 
     def colorful(x, y, width, height):  # type: (int, int, int, int) -> None
@@ -301,7 +297,7 @@ Each non internal class and function in the module will be described in detail h
     tkt.Entry(canvas, 270, 90, 200, 30, radius=8,
             text='RightEntry', justify='right')
     tkt.Entry(canvas, 100, 150, 300, 35, text=('PasswordEntry',
-            'Click To Enter'), justify='center', show='•')
+            'Click To Enter'), justify='center', show='●')
     tkt.Entry(canvas, 100, 200, 300, 35, text='DisableEntry',
             justify='center').set_live(False)
     tkt.Entry(canvas, 100, 250, 300, 35, text='TransparentEntry',
@@ -325,7 +321,6 @@ Each non internal class and function in the module will be described in detail h
 
     root = tkt.Tk('TextTest', 1000, 400)
     canvas = tkt.Canvas(root, 1000, 400)
-    canvas.place(x=0, y=0)
 
 
     def colorful(x, y, width, height) -> None:  # type: (int, int, int, int) -> None
@@ -361,7 +356,6 @@ Each non internal class and function in the module will be described in detail h
 
     root = tkt.Tk('ProgressbarTest', 500, 500)
     canvas = tkt.Canvas(root, 500, 500)
-    canvas.place(x=0, y=0)
 
 
     def colorful(x, y, width, height) -> None:  # type: (int, int, int, int) -> None
@@ -372,7 +366,6 @@ Each non internal class and function in the module will be described in detail h
 
 
     colorful(30, 290, 440, 50)
-
     tkt.Progressbar(canvas, 50, 50, 400, 30)
     tkt.Progressbar(canvas, 50, 100, 400, 30).load(.6667)
     tkt.Progressbar(canvas, 50, 150, 400, 30, borderwidth=5).load(1)
@@ -424,7 +417,6 @@ Each non internal class and function in the module will be described in detail h
 
     root = tkt.Tk('MoveTest', 500, 500)
     canvas = tkt.Canvas(root, 500, 500)
-    canvas.place(x=0, y=0)
     rect = canvas.create_rectangle(50, 350, 150, 450)
 
 
@@ -450,7 +442,6 @@ Each non internal class and function in the module will be described in detail h
             text='MoveRect', command=move_rect)
     button = tkt.Button(canvas, 50, 150, 200, 40, radius=10,
                         text='MoveButton', command=move_button)
-
 
     root.mainloop()
     ```
@@ -480,7 +471,6 @@ Each non internal class and function in the module will be described in detail h
 
     root = tkt.Tk('ColorTest', 500, 500)
     canvas = tkt.Canvas(root, 500, 500)
-    canvas.place(x=0, y=0)
 
 
     def colorful(x, y, width, height):  # type: (int, int, int, int) -> None
@@ -508,10 +498,14 @@ Each non internal class and function in the module will be described in detail h
 5. `SetProcessDpiAwareness`: <a name="DPI">DPI 级别设置函数</a>
 
     这个函数实际上只是对函数`ctypes.WinDLL('shcore').SetProcessDpiAwareness`的一个简单包装，其值可为 0、1 和 2，分别代表程序 DPI 的不同级别，那么缩放效果也就不同，`tkintertools`选择的值是 1，但程序默认值实际为 0  
-    下面是执行了这个函数的效果
-    <p><img width="720px" src="https://gitcode.net/weixin_62651706/tkintertools/-/raw/master/docs/images/SetProcessDpiAwareness_0.png" alt="SetProcessDpiAwareness_1.png" /></p>
-    <p>下面是未执行这个函数的效果</p>
-    <p><img width="720px" src="https://gitcode.net/weixin_62651706/tkintertools/-/raw/master/docs/images/SetProcessDpiAwareness_1.png" alt="SetProcessDpiAwareness_0.png" /></p>
+    下面是未执行这个函数的效果
+    
+    <p><img width="720px" src="https://gitcode.net/weixin_62651706/tkintertools/-/raw/master/docs/images/SetProcessDpiAwareness_0.png" alt="SetProcessDpiAwareness_0.png" /></p>
+
+    <p>下面是执行了这个函数的效果</p>
+
+    <p><img width="720px" src="https://gitcode.net/weixin_62651706/tkintertools/-/raw/master/docs/images/SetProcessDpiAwareness_1.png" alt="SetProcessDpiAwareness_1.png" /></p>
+
     从上面的两张图中可以很明显的看出第一张很模糊，第二张很清晰，这就是 DPI 级别不同的原因，不过这一点在屏幕缩放比不是 100% 的时候才会出现  
     大家对上面的图肯定很熟悉，这不就是 IDLE 吗！？对，这个的问题的解决办法也是来自于 IDLE 的源代码 [pyshell.py line 18~20]  
     注意：该函数在程序的不同位置执行的效果不一样！一般用在`mainloop`之前，但`tkintertools`已经在`mainloop`函数中嵌入了该函数，无需再设置一次 DPI 级别，此函数是为了原生`tkinter`程序用的。

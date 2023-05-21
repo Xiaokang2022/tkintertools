@@ -1,6 +1,8 @@
 ChangeLog/更新日志
 =================
 
+### Optimized/优化
+
 [2.6.1] - 2023-05-21
 --------------------
 
@@ -20,6 +22,9 @@ ChangeLog/更新日志
 
 - [X] Optimize the methods of the widget checkbox `CheckButton`  
 优化控件复选框`CheckButton`的各项功能
+
+- [X] The class `Canvas` adds parameters `x` and `y` to reduce redundant code  
+类`Canvas`新增参数`x`和`y`以减少多余代码
 
 ### Fixed/修复
 

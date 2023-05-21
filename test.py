@@ -52,11 +52,8 @@ def shutdown():  # type: () -> None
 root = tkt.Tk('tkintertools', 1280, 720, shutdown=shutdown)
 root.minsize(640, 360)
 canvas_main = tkt.Canvas(root, 1280, 720)
-canvas_main.place(x=0, y=0)
-canvas_doc = tkt.Canvas(root, 1280, 720)
-canvas_doc.place(x=-1280, y=0)
-canvas_graph = tkt.Canvas(root, 1280, 720)
-canvas_graph.place(x=1280, y=0)
+canvas_doc = tkt.Canvas(root, 1280, 720, -1280)
+canvas_graph = tkt.Canvas(root, 1280, 720, 1280)
 
 
 tkt.Button(
@@ -110,7 +107,7 @@ font_chooseer = tkt.Button(canvas_main, 500, 465, 280, 40, text='Select a Font',
     root, lambda font: canvas_main.itemconfigure(font_chooseer.text, font=font)))
 
 canvas_doc.create_text(
-    15, 360, text=tkt.__doc__, font=('Microsoft YaHei', 14), anchor='w')
+    15, 360, text=tkt.__doc__, font=(tkt.FONT, 14), anchor='w')
 
 try:
     canvas_graph.create_image(

@@ -45,19 +45,18 @@ class Tk(tkinter.Tk):
         if type(self) == Tk:  # NOTE:方便后面的 Toplevel 类继承
             tkinter.Tk.__init__(self, **kw)
 
-        self.width: list[int] = [100, 1]  # [初始宽度, 当前宽度]
-        self.height: list[int] = [100, 1]  # [初始高度, 当前高度]
-        self._canvas: list[Canvas] = []  # 子画布列表
+        self.width = [100, 1]  # type: list[int]  # [初始宽度, 当前宽度]
+        self.height = [100, 1]  # type: list[int]  # [初始高度, 当前高度]
+        self._canvas = []  # type: list[Canvas]  # 子画布列表
 
         if width and height:
-            if x != None and y != None:
+            if x != None and y != None:  # BUG: 可能需要修改
                 self.geometry('%dx%d+%d+%d' % (width, height, x, y))
             else:
                 self.geometry('%dx%d' % (width, height))
 
         self.title(title if title else None)
         self.protocol('WM_DELETE_WINDOW', shutdown if shutdown else None)
-
         self.bind('<Configure>', lambda _: self.__zoom())  # 开启窗口缩放检测
 
     def canvas(self):  # type: () -> tuple[Canvas]
@@ -102,7 +101,7 @@ class Tk(tkinter.Tk):
         dpi_awareness=1  # type: Literal[1, 2, 3]
     ):  # type: (...) -> None
         """
-        Call the mainloop of Tk.\n
+        根（主）窗口的消息循环\n
         `dpi_awareness`: 程序的DPI级别，值可以为0、1和2，程序默认为0，默认值为1
         """
         SetProcessDpiAwareness(dpi_awareness)
@@ -144,9 +143,11 @@ class Canvas(tkinter.Canvas):
 
     def __init__(
         self,
-        master,  # type: Tk
+        master,  # type: Tk | Toplevel
         width,  # type: int
         height,  # type: int
+        x=0,  # type: int
+        y=0,  # type: int
         *,
         lock=True,  # type: bool
         expand=True,  # type: bool
@@ -157,9 +158,11 @@ class Canvas(tkinter.Canvas):
         `master`: 父控件\n
         `width`: 画布宽度\n
         `height`: 画布高度\n
+        `x`: 画布左上角的横坐标\n
+        `y`: 画布左上角的纵坐标\n
         `lock`: 画布内控件的功能锁，False 时功能暂时失效\n
         `expand`: 画布内控件是否能缩放\n
-        `keep`: 保持画布比例不变\n
+        `keep`: 画布比例是否保持不变\n
         `**kw`: 与 tkinter.Canvas 类的参数相同\n
         """
         self.width = [width]*2  # [初始宽度, 当前宽度]
@@ -168,9 +171,11 @@ class Canvas(tkinter.Canvas):
         self.expand = expand
         self.keep = keep
 
+        self.master = master  # type: Tk | Toplevel  # NOTE: 此语句虽冗余，实则为类型提示
+
         self.rx = 1.  # 横向放缩比率
         self.ry = 1.  # 纵向放缩比率
-        self._widget: list[BaseWidget] = []  # 子控件列表（与事件绑定有关）
+        self._widget = []  # type: list[BaseWidget]  # 子控件列表（与事件绑定有关）
         self._font = {}  # type: dict[tkinter._CanvasItemId, float]
         self._image = {}  # type: dict[tkinter._CanvasItemId, list]
 
@@ -182,6 +187,7 @@ class Canvas(tkinter.Canvas):
             self.configure(bg=BACKGROUND)
 
         master._canvas.append(self)  # 将实例添加到 Tk 的画布列表中
+        self.place(x=x, y=y)
 
         self.bind('<Motion>', self.__touch)  # 绑定鼠标触碰控件
         self.bind('<Any-Key>', self.__input)  # 绑定键盘输入字符（和Ctrl+v的代码顺序不可错）
@@ -337,12 +343,12 @@ class Canvas(tkinter.Canvas):
         tagOrId,  # type: str | tkinter._CanvasItemId
         **kw
     ):  # type: (...) -> dict[str, tuple[str, str, str, str, str]] | None
-        # 重写：创建空image的_CanvasItemId时漏去对图像大小的控制
+        # 重写：创建空 image 的 _CanvasItemId 时漏去对图像大小的控制
         if type(kw.get('image')) == PhotoImage:
             self._image[tagOrId] = [kw.get('image'), None]
         return tkinter.Canvas.itemconfigure(self, tagOrId, **kw)
 
-    def place(self, *args, **kw):  # type: (...) -> None
+    def place(self, *args, **kw):  # type: (...) -> None  # BUG: 缩放就会恢复原样
         # 重写：增加一些特定功能
         self.width[0] = kw.get('wdith', self.width[0])
         self.height[0] = kw.get('height', self.height[0])
@@ -378,6 +384,8 @@ class BaseWidget:
     ):  # type: (...) -> None
         """
         ### 标准参数
+        标准参数是所有控件都有的\n
+        ---
         `canvas`: 父画布容器控件\n
         `x`: 控件左上角的横坐标\n
         `y`: 控件左上角的纵坐标\n
@@ -392,19 +400,25 @@ class BaseWidget:
         `color_text`: 控件文本的颜色\n
         `color_fill`: 控件内部的颜色\n
         `color_outline`: 控件外框的颜色\n
+        ---
         ### 特定参数
+        特定参数只有某些控件类才有\n
+        ---
         `command`: 按钮控件的关联函数\n
         `show`: 文本控件的显示文本\n
         `limit`: 文本控件的输入字数限制，为负数时表示没有字数限制\n
         `read`: 文本控件的只读模式\n
         `cursor`: 输入提示符的字符，默认为一竖线\n
+        ---
         ### 详细说明
-        字体的值为一个包含两个或三个值的元组，共两种形式\n
-        形式一: `(字体名称, 字体大小)`\n
-        形式二: `(字体名称, 字体大小, 字体样式)`\n
-        颜色为一个包含三个或四个 RGB 颜色字符串的元组，共两种形式\n
-        不使用禁用功能时: `(正常颜色, 触碰颜色, 交互颜色)`\n
-        需使用禁用功能时: `(正常颜色, 触碰颜色, 交互颜色, 禁用颜色)`\n
+        1. 字体的值为一个包含两个或三个值的元组或者单个的字符串，共三种形式\n
+            * 形式一: `字体名称`
+            * 形式二: `(字体名称, 字体大小)`
+            * 形式三: `(字体名称, 字体大小, 字体样式)`
+        2. 颜色为一个包含三个或四个 RGB 颜色字符串的元组，共两种形式\n
+            * 不使用禁用功能时: `(正常颜色, 触碰颜色, 交互颜色)`
+            * 需使用禁用功能时: `(正常颜色, 触碰颜色, 交互颜色, 禁用颜色)`
+            * 特别地，进度条控件的参数`color_bar`为: `(底色, 进度条颜色)`
         """
         self.master = canvas
         self.value = text
@@ -505,8 +519,7 @@ class BaseWidget:
             canvas._font[self.text][1] = font[1]
             canvas.itemconfigure(self.text, font=font)
 
-    # type: (Literal['normal', 'touch', 'click', 'disabled'] | None) -> None
-    def state(self, mode=None):
+    def state(self, mode=None):  # type: (Literal['normal', 'touch', 'click', 'disabled'] | None) -> None
         """
         mode 参数为 None 时仅更新控件，否则改变虚拟控件的外观\n
         ---
@@ -596,7 +609,6 @@ class BaseWidget:
     def configure(self, *args, **kw):  # type: (...) -> str | tuple | None
         """
         修改或查询原有参数的值，可供修改或查询的参数有\n
-        ---
         1. 所有控件: `color_text`、`color_fill`、`color_outline`
         2. 非文本控件: `text`\n
         注意：颜色修改不会立即生效，可通过鼠标经过生效，或者调用 state 方法立即刷新状态！
@@ -818,7 +830,7 @@ class Label(BaseWidget):
         radius=RADIUS,  # type: float
         text='',  # type: str
         borderwidth=BORDERWIDTH,  # type: int
-        justify=tkinter.CENTER,  # type: str
+        justify='center',  # type: Literal['left', 'center', 'right']
         font=(FONT, SIZE),  # type: tuple[str, int, str]
         image=None,  # type: PhotoImage | None
         color_text=COLOR_TEXT,  # type: tuple[str, str, str]
@@ -849,7 +861,7 @@ class Button(BaseWidget):
         radius=RADIUS,  # type: float
         text='',  # type: str
         borderwidth: int = BORDERWIDTH,  # type: int
-        justify=tkinter.CENTER,  # type: str
+        justify='center',  # type: Literal['left', 'center', 'right']
         font=(FONT, SIZE),  # type: tuple[str, int, str]
         command=None,  # type: Callable | None
         image=None,  # type: PhotoImage | None
@@ -935,12 +947,12 @@ class Entry(TextWidget):
         height,  # type: int
         *,
         radius=RADIUS,  # type: float
-        text='',  # type: tuple[str] | str
+        text='',  # type: tuple[str, str] | str
         show=None,  # type: str | None
         limit=LIMIT,  # type: int
         cursor=CURSOR,  # type: str
         borderwidth=BORDERWIDTH,  # type: int
-        justify=tkinter.LEFT,  # type: str
+        justify='left',  # type: Literal['left', 'center', 'right']
         font=(FONT, SIZE),  # type: tuple[str, int, str]
         image=None,  # type: PhotoImage | None
         color_text=COLOR_TEXT,  # type: tuple[str, str, str]
@@ -1015,12 +1027,12 @@ class Text(TextWidget):
         height,  # type: int
         *,
         radius=RADIUS,  # type: float
-        text='',  # type: tuple[str] | str
+        text='',  # type: tuple[str, str] | str
         limit=LIMIT,  # type: int
         read=False,  # type: bool
         cursor=CURSOR,  # type: str
         borderwidth=BORDERWIDTH,  # type: int
-        justify=tkinter.LEFT,  # type: str
+        justify='left',  # type: Literal['left', 'center', 'right']
         font=(FONT, SIZE),  # type: tuple[str, int, str]
         image=None,  # type: PhotoImage | None
         color_text=COLOR_TEXT,  # type: tuple[str, str, str]
@@ -1167,7 +1179,7 @@ class Progressbar(BaseWidget):
         height,  # type: int
         *,
         borderwidth=BORDERWIDTH,  # type: int
-        justify=tkinter.CENTER,  # type: str
+        justify='center',  # type: Literal['left', 'center', 'right']
         font=(FONT, SIZE),  # type: tuple[str, int, str]
         image=None,  # type: PhotoImage | None
         color_text=COLOR_TEXT,  # type: tuple[str, str, str]
@@ -1221,7 +1233,7 @@ class PhotoImage(tkinter.PhotoImage):
         self._item = {}  # type: dict[tkinter._CanvasItemId, Canvas | None]
 
         if self.extension == 'gif':  # 动态图片
-            self.image: list[tkinter.PhotoImage] = []
+            self.image = []  # type: list[tkinter.PhotoImage]
         else:  # 静态图片
             self.image = tkinter.PhotoImage.__init__(self, file=file, **kw)
 
