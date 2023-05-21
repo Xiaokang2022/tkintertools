@@ -172,7 +172,7 @@ Each non internal class and function in the module will be described in detail h
     import tkintertools as tkt
 
     root = tkt.Tk('LabelTest', 1000, 400)
-    canvas = tkt.Canvas(root, 1000, 400)
+    canvas = tkt.Canvas(root, 1000, 400, 0, 0)
 
 
     def colorful(x, y, width, height):  # type: (int, int, int, int) -> None
@@ -206,7 +206,7 @@ Each non internal class and function in the module will be described in detail h
     import tkintertools as tkt
 
     root = tkt.Tk('ButtonTest', 500, 500)
-    canvas = tkt.Canvas(root, 500, 500)
+    canvas = tkt.Canvas(root, 500, 500, 0, 0)
 
 
     def colorful(x, y, width, height):  # type: (int, int, int, int) -> None
@@ -240,7 +240,7 @@ Each non internal class and function in the module will be described in detail h
     import tkintertools as tkt
 
     root = tkt.Tk('CheckButtonTest', 500, 300)
-    canvas = tkt.Canvas(root, 500, 300)
+    canvas = tkt.Canvas(root, 500, 300, 0, 0)
 
 
     def colorful(x, y, width, height):  # type: (int, int, int, int) -> None
@@ -275,7 +275,7 @@ Each non internal class and function in the module will be described in detail h
     import tkintertools as tkt
 
     root = tkt.Tk('EntryTest', 500, 400)
-    canvas = tkt.Canvas(root, 500, 400)
+    canvas = tkt.Canvas(root, 500, 400, 0, 0)
 
 
     def colorful(x, y, width, height):  # type: (int, int, int, int) -> None
@@ -320,7 +320,7 @@ Each non internal class and function in the module will be described in detail h
     import tkintertools as tkt
 
     root = tkt.Tk('TextTest', 1000, 400)
-    canvas = tkt.Canvas(root, 1000, 400)
+    canvas = tkt.Canvas(root, 1000, 400, 0, 0)
 
 
     def colorful(x, y, width, height) -> None:  # type: (int, int, int, int) -> None
@@ -355,7 +355,7 @@ Each non internal class and function in the module will be described in detail h
     import tkintertools as tkt
 
     root = tkt.Tk('ProgressbarTest', 500, 500)
-    canvas = tkt.Canvas(root, 500, 500)
+    canvas = tkt.Canvas(root, 500, 500, 0, 0)
 
 
     def colorful(x, y, width, height) -> None:  # type: (int, int, int, int) -> None
@@ -416,7 +416,7 @@ Each non internal class and function in the module will be described in detail h
     import tkintertools as tkt
 
     root = tkt.Tk('MoveTest', 500, 500)
-    canvas = tkt.Canvas(root, 500, 500)
+    canvas = tkt.Canvas(root, 500, 500, 0, 0)
     rect = canvas.create_rectangle(50, 350, 150, 450)
 
 
@@ -470,7 +470,7 @@ Each non internal class and function in the module will be described in detail h
     import tkintertools as tkt
 
     root = tkt.Tk('ColorTest', 500, 500)
-    canvas = tkt.Canvas(root, 500, 500)
+    canvas = tkt.Canvas(root, 500, 500, 0, 0)
 
 
     def colorful(x, y, width, height):  # type: (int, int, int, int) -> None

@@ -51,9 +51,9 @@ def shutdown():  # type: () -> None
 
 root = tkt.Tk('tkintertools', 1280, 720, shutdown=shutdown)
 root.minsize(640, 360)
-canvas_main = tkt.Canvas(root, 1280, 720)
-canvas_doc = tkt.Canvas(root, 1280, 720, -1280)
-canvas_graph = tkt.Canvas(root, 1280, 720, 1280)
+canvas_main = tkt.Canvas(root, 1280, 720, 0, 0)
+canvas_doc = tkt.Canvas(root, 1280, 720, -1280, 0)
+canvas_graph = tkt.Canvas(root, 1280, 720, 1280, 0)
 
 
 tkt.Button(

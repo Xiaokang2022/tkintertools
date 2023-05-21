@@ -50,7 +50,7 @@ class Tk(tkinter.Tk):
         self._canvas = []  # type: list[Canvas]  # 子画布列表
 
         if width and height:
-            if x != None and y != None:  # BUG: 可能需要修改
+            if x is not None and y is not None:  # BUG: 可能需要修改
                 self.geometry('%dx%d+%d+%d' % (width, height, x, y))
             else:
                 self.geometry('%dx%d' % (width, height))
@@ -146,8 +146,8 @@ class Canvas(tkinter.Canvas):
         master,  # type: Tk | Toplevel
         width,  # type: int
         height,  # type: int
-        x=0,  # type: int
-        y=0,  # type: int
+        x=None,  # type: int | None
+        y=None,  # type: int | None
         *,
         lock=True,  # type: bool
         expand=True,  # type: bool
@@ -187,7 +187,8 @@ class Canvas(tkinter.Canvas):
             self.configure(bg=BACKGROUND)
 
         master._canvas.append(self)  # 将实例添加到 Tk 的画布列表中
-        self.place(x=x, y=y)
+        if x and y:
+            self.place(x=x, y=y)
 
         self.bind('<Motion>', self.__touch)  # 绑定鼠标触碰控件
         self.bind('<Any-Key>', self.__input)  # 绑定键盘输入字符（和Ctrl+v的代码顺序不可错）
@@ -519,7 +520,8 @@ class BaseWidget:
             canvas._font[self.text][1] = font[1]
             canvas.itemconfigure(self.text, font=font)
 
-    def state(self, mode=None):  # type: (Literal['normal', 'touch', 'click', 'disabled'] | None) -> None
+    # type: (Literal['normal', 'touch', 'click', 'disabled'] | None) -> None
+    def state(self, mode=None):
         """
         mode 参数为 None 时仅更新控件，否则改变虚拟控件的外观\n
         ---
@@ -626,7 +628,7 @@ class BaseWidget:
         fill = kw.get('color_fill', None)
         outline = kw.get('color_outline', None)
 
-        if value != None:
+        if value is not None:
             if isinstance(self, CheckButton):
                 self.master.itemconfigure(self._text, text=value)
             else:
@@ -638,7 +640,7 @@ class BaseWidget:
         if outline:
             self.color_outline = outline
 
-        if isinstance(self, (Label, Button, Progressbar)) and value != None and not isinstance(self, CheckButton):
+        if isinstance(self, (Label, Button, Progressbar)) and value is not None and not isinstance(self, CheckButton):
             self.master.itemconfigure(self.text, text=value)
 
     def destroy(self):  # type: () -> None
@@ -1308,7 +1310,7 @@ class PhotoImage(tkinter.PhotoImage):
         `rate_y`: 纵向缩放倍率\n
         `precision`: 精度到小数点后的位数（推荐 1.2），越大运算就越慢（默认值代表绝对精确）\n
         """
-        if precision != None:
+        if precision is not None:
             limit = round(10**precision)
             rate_x = Fraction(str(rate_x)).limit_denominator(limit)
             rate_y = Fraction(str(rate_y)).limit_denominator(limit)
