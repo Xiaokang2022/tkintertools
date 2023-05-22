@@ -187,7 +187,7 @@ class Canvas(tkinter.Canvas):
             self.configure(bg=BACKGROUND)
 
         master._canvas.append(self)  # 将实例添加到 Tk 的画布列表中
-        if x and y:
+        if x is not None and y is not None:
             self.place(x=x, y=y)
 
         self.bind('<Motion>', self.__touch)  # 绑定鼠标触碰控件

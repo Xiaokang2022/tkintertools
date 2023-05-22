@@ -572,7 +572,4 @@ More/更多
 > Column/专栏:  
 > https://blog.csdn.net/weixin_62651706/category_11600888.html
 
-> Tutorials/教程:  
-> https://xiaokang2022.blog.csdn.net/article/details/127374661
-
 还有更多内容请在 [源代码](./tkintertools/) 中探索！
