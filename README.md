@@ -124,7 +124,7 @@ tkintertools 中的控件，其大小和形状可以随着窗口的变化而成�
 参考 [PEP 526](https://peps.python.org/pep-0526/)、[PEP 586](https://peps.python.org/pep-0586/)、[PEP 604](https://peps.python.org/pep-0604/) 和 [PEP 612](https://peps.python.org/pep-0612/)，我采用了最兼容的方式去实现详细的类型提示，可适用 IDE 有 VScode、Pycharm 等。  
 那什么是类型提示呢？话不多说，直接看图就行：
 
-<p><img height="350px" src="https://gitcode.net/weixin_62651706/tkintertools/-/raw/master/docs/images/type_hint_vscode.png" alt="type_hint.png"/></p>
+![type_hint.png](docs/images/type_hint_vscode.png)
 
 在 VSCode 编辑器中，当鼠标移至类或者函数的名字上面时，会自动显示该类或者函数的注释文档。通过这种方式，不需要看太多的帮助文档和资料就能熟练地使用 tkintertools 模块！
 
@@ -132,11 +132,11 @@ tkintertools 中的控件，其大小和形状可以随着窗口的变化而成�
 
 [test.py](./test.py) 在 Windows 系统（Windows10）上运行的界面如下：
 
-<p><img height="383px" src="https://gitcode.net/weixin_62651706/tkintertools/-/raw/master/docs/images/test_win32.png" alt="test_win32.png"/></p>
+![test_win32.png](docs/images/test_win32.png)
 
 [test.py](./test.py) 在 Linux 系统（Ubuntu22.04）上运行的界面如下：
 
-<p><img height="408px" src="https://gitcode.net/weixin_62651706/tkintertools/-/raw/master/docs/images/test_linux.png" alt="test_linux.png"/></p>
+![test_linux.png](docs/images/test_linux.png)
 
 Contents/模块内容
 -------------------
@@ -164,7 +164,8 @@ Each non internal class and function in the module will be described in detail h
 
     标签控件的功能和`tkinter.Label`的功能类似，但更加的多元化  
     下面是`Label`控件的外观：  
-    <p><img width="720px" src="https://gitcode.net/weixin_62651706/tkintertools/-/raw/master/docs/images/LabelTest.png" alt="LabelTest.png" /></p>
+
+    ![LabelTest.png](docs/images/LabelTest.png)
 
     <details><summary><b>源代码</b></summary>
 
@@ -197,8 +198,9 @@ Each non internal class and function in the module will be described in detail h
 2. `Button`: 按钮控件
 
     按钮控件相较于`tkinter.Button`，其自由度更高，`tkinter.Button`只有在按下的时候才能触发绑定的关联事件，而`Button`却可以在鼠标移至按钮上方时、鼠标按下时、鼠标松开时都可以绑定关联事件  
-    下面是`Button`控件的外观：  
-    <p><img width="360px" src="https://gitcode.net/weixin_62651706/tkintertools/-/raw/master/docs/images/ButtonTest.png" alt="ButtonTest.png" /></p>
+    下面是`Button`控件的外观：
+
+    ![ButtonTest.png](docs/images/ButtonTest.png)
 
     <details><summary><b>源代码</b></summary>
 
@@ -232,7 +234,8 @@ Each non internal class and function in the module will be described in detail h
 
     复选框控件相对于`tkinter`原生的`tkinter.CheckButton`在使用方面更加地简单，同时颜值也上升了不少  
     下面是`CheckButton`控件的外观：
-    <p><img width="360px" src="https://gitcode.net/weixin_62651706/tkintertools/-/raw/master/docs/images/CheckButtonTest.png" alt="CheckButtonTest.png"/></p>
+
+    ![CheckButtonTest.png](docs/images/CheckButtonTest.png)
 
     <details><summary><b>源代码</b></summary>
 
@@ -266,8 +269,9 @@ Each non internal class and function in the module will be described in detail h
 4. `Entry`: 输入框控件
 
     输入框控件可以轻松地设置输入的文本位置（靠左、居中和靠右），同时，它可以在鼠标移至输入框上方、鼠标未在输入框上方两种状态显示不同的默认文本  
-    下面是`Entry`控件的外观：  
-    <p><img width="360px" src="https://gitcode.net/weixin_62651706/tkintertools/-/raw/master/docs/images/EntryTest.png" alt="EntryTest.png" /></p>
+    下面是`Entry`控件的外观：
+
+    ![EntryTest.png](docs/images/EntryTest.png)
     
     <details><summary><b>源代码</b></summary>
 
@@ -311,8 +315,9 @@ Each non internal class and function in the module will be described in detail h
 5. `Text`: 文本框控件
 
     文本框类似于输入框，这里就不再赘述  
-    下面是`Text`控件的外观：  
-    <p><img width="720px" src="https://gitcode.net/weixin_62651706/tkintertools/-/raw/master/docs/images/TextTest.png" alt="TextTest.png" /></p>
+    下面是`Text`控件的外观：
+
+    ![TextTest.png](docs/images/TextTest.png)
     
     <details><summary><b>源代码</b></summary>
 
@@ -346,8 +351,9 @@ Each non internal class and function in the module will be described in detail h
 6. `Progressbar`: 进度条控件
 
     进度条控件相比`tkinter.ttk.Progressbar`，外观上的自由度较大  
-    下面是`Progressbar`控件的外观：  
-    <p><img width="360px" src="https://gitcode.net/weixin_62651706/tkintertools/-/raw/master/docs/images/ProgressbarTest.png" alt="ProgressbarTest.png" /></p>
+    下面是`Progressbar`控件的外观：
+
+    ![ProgressbarTest.png](docs/images/ProgressbarTest.png)
 
     <details><summary><b>源代码</b></summary>
 
@@ -407,8 +413,9 @@ Each non internal class and function in the module will be described in detail h
 
 1. `move`: <a name="move">移动函数</a>
 
-    移动函数可以轻松地按一定的规律、移动速度、移动时间去移动`tkintertools`模块内的所有对象，同时兼容了`tkinter`内的对象，即`tkinter`中的对象也可以很方便地移动，甚至它还可以移动窗口的位置！  
-    <p><img width="720px" src="https://gitcode.net/weixin_62651706/tkintertools/-/raw/master/docs/images/MoveTest.gif" alt="MoveTest.gif" /></p>
+    移动函数可以轻松地按一定的规律、移动速度、移动时间去移动`tkintertools`模块内的所有对象，同时兼容了`tkinter`内的对象，即`tkinter`中的对象也可以很方便地移动，甚至它还可以移动窗口的位置！
+
+    ![MoveTest.gif](docs/images/MoveTest.gif)
     
     <details><summary><b>源代码</b></summary>
 
@@ -460,9 +467,11 @@ Each non internal class and function in the module will be described in detail h
 3. `color`: <a name="Gradient">颜色函数</a>
 
     颜色函数可以轻松求出一个颜色到另外一个颜色的过渡颜色，因此可以轻松得到渐变色的效果，同时，改变传入的参数还可以得到传入颜色的对比色  
-    第二张图是 test.py 在图像测试中绘制的图案  
-    <p><img width="360px" src="https://gitcode.net/weixin_62651706/tkintertools/-/raw/master/docs/images/ColorTest.png" alt="ColorTest.png" />
-    <img width="360px" src="https://gitcode.net/weixin_62651706/tkintertools/-/raw/master/docs/images/Test_Draw.png" alt="Test_Draw.png" /></p>
+    第二张图是 test.py 在图像测试中绘制的图案
+
+    ![ColorTest.png](docs/images/ColorTest.png)
+
+    ![Test_Draw.png](docs/images/Test_Draw.png)
 
     <details><summary><b>源代码</b></summary>
 
@@ -500,11 +509,11 @@ Each non internal class and function in the module will be described in detail h
     这个函数实际上只是对函数`ctypes.WinDLL('shcore').SetProcessDpiAwareness`的一个简单包装，其值可为 0、1 和 2，分别代表程序 DPI 的不同级别，那么缩放效果也就不同，`tkintertools`选择的值是 1，但程序默认值实际为 0  
     下面是未执行这个函数的效果
     
-    <p><img width="720px" src="https://gitcode.net/weixin_62651706/tkintertools/-/raw/master/docs/images/SetProcessDpiAwareness_0.png" alt="SetProcessDpiAwareness_0.png" /></p>
+    ![SetProcessDpiAwareness_0.png](docs/images/SetProcessDpiAwareness_0.png)
 
     <p>下面是执行了这个函数的效果</p>
 
-    <p><img width="720px" src="https://gitcode.net/weixin_62651706/tkintertools/-/raw/master/docs/images/SetProcessDpiAwareness_1.png" alt="SetProcessDpiAwareness_1.png" /></p>
+    ![SetProcessDpiAwareness_1.png](docs/images/SetProcessDpiAwareness_1.png)
 
     从上面的两张图中可以很明显的看出第一张很模糊，第二张很清晰，这就是 DPI 级别不同的原因，不过这一点在屏幕缩放比不是 100% 的时候才会出现  
     大家对上面的图肯定很熟悉，这不就是 IDLE 吗！？对，这个的问题的解决办法也是来自于 IDLE 的源代码 [pyshell.py line 18~20]  
@@ -555,10 +564,8 @@ Examples/实战示例
 
 这个案例使用了最新稳定版的 tkintertools-v2.6.0，界面非常稳定，几乎没有 bug，完全采用 tkintertools 的控件，颜值很高，界面非常流畅。体现了 tkintertools 模块与 tkinter 模块相比在性能上的优越性！
 
-<p>
-    <img width="720px" src="https://gitcode.net/weixin_62651706/tkintertools/-/raw/master/docs/examples/exam3_1.png" alt="client.png"/>
-    <img width="720px" src="https://gitcode.net/weixin_62651706/tkintertools/-/raw/master/docs/examples/exam3_2.png" alt="client.png"/>
-</p>
+![exam3_1.png](docs/examples/exam3_1.png)
+![exam3_2.png](docs/examples/exam3_2.png)
 
 More/更多
 ---------
