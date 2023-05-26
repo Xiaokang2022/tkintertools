@@ -1,6 +1,14 @@
 ChangeLog/更新日志
 =================
 
+[2.6.2] - 2023-05-26
+--------------------
+
+### Features/新增
+
+- [X] Added `tkintertools` sub-module `tools_3d` to support drawing 3D graphics  
+新增`tkintertools`子模块`tools_3d`以支持绘制3d图形
+
 ### Optimized/优化
 
 [2.6.1] - 2023-05-21

@@ -1,6 +1,6 @@
 """ Main File """
 
-import math  # 数学函数
+import math  # 数学支持
 import sys  # DPI 兼容
 import tkinter  # 基础模块
 from fractions import Fraction  # 图片缩放

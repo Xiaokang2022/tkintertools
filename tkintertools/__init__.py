@@ -37,7 +37,6 @@ if sys.version_info < (3, 7):  # Version Check
 from .__main__ import (Button, Canvas, CheckButton, Entry, Label, PhotoImage,
                        Progressbar, SetProcessDpiAwareness, Singleton, Text,
                        Tk, Toplevel, askfont, color, move, text)
-from .constants import *
 
 __author__ = 'Xiaokang2022<2951256653@qq.com>'
 __version__ = '2.6.1'
@@ -49,5 +48,5 @@ __all__ = [
     # Tool Classes
     'PhotoImage', 'Singleton',
     # Tool Functions
-    'move', 'text', 'color', 'askfont', 'SetProcessDpiAwareness'
+    'move', 'text', 'color', 'askfont', 'SetProcessDpiAwareness',
 ]
