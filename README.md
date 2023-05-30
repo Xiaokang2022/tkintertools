@@ -7,16 +7,16 @@
     <p><code>tkintertools</code> 模块是 <code>tkinter</code> 模块的辅助模块</p>
     <p>
         <a href="./tkintertools/__init__.py">
-            <img src="https://img.shields.io/badge/Version-2.6.1-blue" alt="latest version" />
+            <img src="https://img.shields.io/badge/Version-2.6.2-blue" alt="latest version" />
         </a>
         <a href="./LICENSE">
             <img src="https://img.shields.io/badge/License-Mulan PSL v2-green" alt="License" />
         </a>
         <a href="./CHANGELOG.md">
-            <img src="https://img.shields.io/badge/ChangeLog-2023/05/26-orange" alt="ChangeLog" />
+            <img src="https://img.shields.io/badge/ChangeLog-2023/05/30-orange" alt="ChangeLog" />
         </a>
         <a href="./TODO.md">
-            <img src="https://img.shields.io/badge/ToDos-10-yellow" alt="ToDos" />
+            <img src="https://img.shields.io/badge/ToDos-13-yellow" alt="ToDos" />
         </a>
         <a href="https://pypistats.org/packages/tkintertools">
             <img src="https://img.shields.io/badge/Downloads-3k-purple" alt="Downloads" />
@@ -40,18 +40,18 @@ Installation/模块安装
 
 ### Stable version/稳定版本
 
-* Version/版本 : 2.6.1
-* Release Date/发布日期 : 2023/05/21
+* Version/版本 : 2.6.2
+* Release Date/发布日期 : 2023/05/30
 
 ```
-pip install tkintertools==2.6.1
+pip install tkintertools==2.6.2
 ```
 或者
 ```
 pip install tkintertools
 ```
 
-这个是目前的最新版，比较稳定，bug 没有那么多，推荐使用这个。  
+这个是目前的最新稳定版，比较稳定，bug 没有那么多，推荐使用这个。  
 稳定版有文档可以查看，有 issue 我会去查看并尝试解决 issue。
 
 ### Development version/开发版本
@@ -65,6 +65,115 @@ pip install tkintertools-dev==2.6.2
 
 这个是作者正在开发的版本，有新功能，但不能保证稳定，bug 可能会比较多。  
 开发版本没有对应的文档，大家可以在 issue 中提出建议，我会适当采纳一些并在开发版本中更改或实现。
+
+News/最新功能
+------------
+
+最新版的`tkintertools`为`2.6.2`，新增一项极为强大的功能：3d绘图！  
+同时修复一些bug，优化了一部分代码，提升了一部分性能。
+
+通过以下代码来使用3d绘图功能：
+
+```python
+from tkintertools import tools_3d as t3d
+import tkintertools.tools_3d as t3d
+# 两种引入方式都可以
+```
+
+子模块: [tools_3d.py](./tkintertools/tools_3d.py)
+
+目前3d绘图功能还比较简陋，仅能绘制点、线、面以及直边的空间几何体，对于曲边的空间几何体还在开发中！  
+以下是一个使用3d绘图的示例：
+
+在这个示例中，按住鼠标左键可以旋转几何体，按住鼠标右键可以平移几何体，滚动鼠标滚轮可以缩放几何体！  
+x、y 和 z 轴分别是红色、绿色和蓝色的线。
+
+![3d绘图](./docs/images/3d.png)
+
+<details><summary><b>源代码</b></summary>
+
+```python
+import random
+import tkinter
+
+import tkintertools as tkt
+from tkintertools import tools_3d as t3d
+
+root = tkt.Tk('tools_3d', 1280, 720)
+canvas = t3d.Canvas_3D(root, 1280, 720, 0, 0)
+
+geos = []  # type: list[t3d.Geometry]
+origin = t3d.Point(canvas, [0, 0, 0], size=5)  # 原点
+axes = [t3d.Line(canvas, [0, 0, 0], [100, 0, 0], width=3, fill='red'),  # 创建坐标轴
+        t3d.Line(canvas, [0, 0, 0], [0, 100, 0], width=3, fill='green'),
+        t3d.Line(canvas, [0, 0, 0], [0, 0, -100], width=3, fill='blue')]
+
+for _ in range(8):
+    # 创建正方体
+    cube = t3d.Cuboid(
+        canvas, *random.sample(range(-200, 200), 3), *random.sample(range(50, 100), 3))
+    geos.append(cube)
+    # 创建四面体
+    x, y, z = random.sample(range(-200, 200), 3)
+    tetr = t3d.Tetrahedron(
+        canvas, *[[x+random.randint(-100, 100), y+random.randint(-100, 100), z+random.randint(-100, 100)] for _ in range(4)])
+    geos.append(tetr)
+
+
+def translate(event, flag=False, _cache=[]):
+    # type: (tkinter.Event, bool, list[float]) -> None
+    """ 平移事件 """
+    if flag:
+        _cache[:] = [event.x, event.y]
+        return
+    dx = (event.x - _cache[0]) / 6
+    dy = (event.y - _cache[1]) / 6
+    _cache[:] = [event.x, event.y]
+    for axis in axes:
+        axis.translate(0, 6*dx, 6*dy)
+        axis.update()
+    for geo in geos:
+        geo.translate(0, dx, dy)
+        geo.update()
+    origin.translate(0, 6*dx, 6*dy)
+    origin.update()
+
+
+def rotate(event, flag=False, _cache=[]):  # type: (tkinter.Event, bool, list[float]) -> None
+    """ 旋转事件 """
+    if flag:
+        _cache[:] = [event.x, event.y]
+        return
+    dy = (event.x - _cache[0]) / 200
+    dx = (_cache[1] - event.y) / 200
+    _cache[:] = [event.x, event.y]
+    for axis in axes:
+        axis.rotate(0, 6*dx, 6*dy, center=origin.coords)
+        axis.update()
+    for geo in geos:
+        geo.rotate(0, dx, dy, center=origin.coords)
+        geo.update()
+
+
+def scale(event):  # type: (tkinter.Event) -> None
+    """ 缩放事件 """
+    k = 1.01 if event.delta > 0 else 0.99
+    for geo in geos:
+        geo.scale(k, k, k)
+        geo.update()
+
+
+root.bind('<Button-1>', lambda event: rotate(event, True))
+root.bind('<B1-Motion>', rotate)
+root.bind('<Button-3>', lambda event: translate(event, True))
+root.bind('<B3-Motion>', translate)
+root.bind('<MouseWheel>', scale)
+root.mainloop()
+```
+
+</details>
+
+更多更新信息请见：[CHANGELOG.md](./CHANGELOG.md)
 
 Description/模块说明
 ----------------------
@@ -570,13 +679,13 @@ Examples/实战示例
 More/更多
 ---------
 
-> GitCode:  
+> GitHub:  
+> https://github.com/Xiaokang2022/tkintertools
+
+> GitCode(Mirror/镜像):  
 > https://gitcode.net/weixin_62651706/tkintertools
 
-> GitHub(Mirror/镜像):  
-> https://github.com/XiaoKang2022-CSDN/tkintertools
-
-> Column/专栏:  
-> https://blog.csdn.net/weixin_62651706/category_11600888.html
+> Gitee(Mirror/镜像):  
+> https://gitee.com/xiaokang-2022/tkintertools
 
 还有更多内容请在 [源代码](./tkintertools/) 中探索！

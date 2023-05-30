@@ -39,7 +39,7 @@ from .__main__ import (Button, Canvas, CheckButton, Entry, Label, PhotoImage,
                        Tk, Toplevel, askfont, color, move, text)
 
 __author__ = 'Xiaokang2022<2951256653@qq.com>'
-__version__ = '2.6.1'
+__version__ = '2.6.2'
 __all__ = [
     # Container Widgets
     'Tk', 'Toplevel', 'Canvas',

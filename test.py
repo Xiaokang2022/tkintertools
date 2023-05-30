@@ -17,12 +17,18 @@ class Application:
         self.canvas_main = tkt.Canvas(self.root, 1280, 720, 0, 0)
         self.canvas_doc = tkt.Canvas(self.root, 1280, 720, -1280, 0)
         self.canvas_graph = tkt.Canvas(self.root, 1280, 720, 1280, 0)
-        self.canvas_3d = tkt.Canvas(self.root, 1280, 720, 1280, 0)
+        self.canvas_3d = t3d.Canvas_3D(self.root, 1280, 720, 1280, 0)
 
         self.canvas_main_init()
         self.canvas_doc_init()
         self.canvas_graph_init()
         self.canvas_3d_init()
+
+        self.root.bind('<Button-1>', lambda event: self.rotate(event, True))
+        self.root.bind('<B1-Motion>', self.rotate)
+        self.root.bind('<Button-3>', lambda event: self.translate(event, True))
+        self.root.bind('<B3-Motion>', self.translate)
+        self.root.bind('<MouseWheel>', self.scale)
 
         self.root.mainloop()
 
@@ -129,40 +135,70 @@ class Application:
             print('\033[31mLoad tkintertools.png Error\033[0m')
 
     def canvas_3d_init(self):
-        self.create_3d()
         tkt.Button(
             self.canvas_3d, 10, 660, 200, 50, text='Back',
             command=lambda: (tkt.move(self.root, self.canvas_graph, 1280*self.canvas_main.rx, 0, 500, mode='rebound'),
                              tkt.move(self.root, self.canvas_3d, 1280*self.canvas_graph.rx, 0, 500, mode='rebound')))
 
-    def spin(self, event):  # type: (Event, list[float]) -> None
-        dx, dy = event.x - self.pos[0], event.y - self.pos[1]
-        self.pos = [event.x, event.y]
-        for item in self.lst_3ditems:
-            item.rotate(0, -dy/100, dx/100)
-        for item in self.lst_3ditems:
-            item.update(500, 640, 360)
-
-    def create_3d(self):
-        self.lst_3ditems = []  # type: list[t3d.Cuboid]
-        self.pos = [0, 0]  # type: list[float]
-
-        def modify(event):
-            self.pos = [event.x, event.y]
+        self.geos = []  # type: list[t3d.Geometry]
 
         for _ in range(10):
+            # 创建正方体
             cube = t3d.Cuboid(
                 self.canvas_3d, *sample(range(-200, 200), 3), *sample(range(50, 100), 3))
-            cube.draw(500, 640, 360)
-            self.lst_3ditems.append(cube)
+            self.geos.append(cube)
+            # 创建四面体
             x, y, z = sample(range(-200, 200), 3)
             tetr = t3d.Tetrahedron(
-                self.canvas_3d, *[(x+randint(-100, 100), y+randint(-100, 100), z+randint(-100, 100)) for _ in range(4)])
-            tetr.draw(500, 640, 360)
-            self.lst_3ditems.append(tetr)
-        self.canvas_3d.focus_set()
-        self.canvas_3d.bind('<Button-1>', lambda event: modify(event))
-        self.canvas_3d.bind('<B1-Motion>', self.spin)
+                self.canvas_3d, *[[x+randint(-100, 100), y+randint(-100, 100), z+randint(-100, 100)] for _ in range(4)])
+            self.geos.append(tetr)
+
+        self.origin = t3d.Point(self.canvas_3d, [0, 0, 0], size=5)  # 原点
+        self.axes = [t3d.Line(self.canvas_3d, [0, 0, 0], [100, 0, 0], width=3, fill='red'),  # 创建坐标轴
+                     t3d.Line(self.canvas_3d, [0, 0, 0], [0, 100, 0],
+                              width=3, fill='green'),
+                     t3d.Line(self.canvas_3d, [0, 0, 0], [0, 0, -100], width=3, fill='blue')]
+
+    def translate(self, event, flag=False, _cache=[]):
+        # type: (Event, bool, list[float]) -> None
+        """ 平移事件 """
+        if flag:
+            _cache[:] = [event.x, event.y]
+            return
+        dx = (event.x - _cache[0]) / 6
+        dy = (event.y - _cache[1]) / 6
+        _cache[:] = [event.x, event.y]
+        for axis in self.axes:
+            axis.translate(0, 6*dx, 6*dy)
+            axis.update()
+        for geo in self.geos:
+            geo.translate(0, dx, dy)
+            geo.update()
+        self.origin.translate(0, 6*dx, 6*dy)
+        self.origin.update()
+
+    def rotate(self, event, flag=False, _cache=[]):
+        # type: (Event, bool, list[float]) -> None
+        """ 旋转事件 """
+        if flag:
+            _cache[:] = [event.x, event.y]
+            return
+        dy = (event.x - _cache[0]) / 200
+        dx = (_cache[1] - event.y) / 200
+        _cache[:] = [event.x, event.y]
+        for item in self.axes:
+            item.rotate(0, 6*dx, 6*dy, center=self.origin.coords)
+            item.update()
+        for item in self.geos:
+            item.rotate(0, dx, dy, center=self.origin.coords)
+            item.update()
+
+    def scale(self, event):  # type: (Event) -> None
+        """ 缩放事件 """
+        k = 1.01 if event.delta > 0 else 0.99
+        for geo in self.geos:
+            geo.scale(k, k, k)
+            geo.update()
 
 
 if __name__ == '__main__':

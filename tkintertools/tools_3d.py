@@ -2,44 +2,81 @@
 
 import math  # 数学支持
 import statistics  # 数据统计
-import tkinter  # 基础模块
 from typing import Iterable  # 类型提示
 
-import tkintertools  # 类型提示
+from .__main__ import Canvas, Tk, Toplevel  # 继承和类型提示
+from .constants import *
 
 
-def _cross(
-    matrix,  # type: list[list[float]]
-    vector,  # type: list[float]
-):  # type: (...) -> list[float]
-    """ 转换矩阵 """
-    for i in range(3):
-        matrix[0][i] = sum(matrix[i][j]*vector[j] for j in range(3))
-    return matrix[0]
+class Canvas_3D(Canvas):
+    """ 3D画布，支持3d绘图 """
+
+    def __init__(
+        self,
+        master,  # type: Tk | Toplevel
+        width,  # type: int
+        height,  # type: int
+        x=None,  # type: int | None
+        y=None,  # type: int | None
+        *,
+        lock=True,  # type: bool
+        expand=True,  # type: bool
+        keep=False,  # type: bool
+        cfg_3d=CFG_3D,  # type: Iterable[float, float | None, float | None]
+        **kw
+    ):  # type: (...) -> None
+        """
+        `master`: 父控件\n
+        `width`: 画布宽度\n
+        `height`: 画布高度\n
+        `x`: 画布左上角的横坐标\n
+        `y`: 画布左上角的纵坐标\n
+        `lock`: 画布内控件的功能锁，False 时功能暂时失效\n
+        `expand`: 画布内控件是否能缩放\n
+        `keep`: 画布比例是否保持不变\n
+        `cfg_3d`: 3d绘图的配置，一个包含三个值的列表，[相机距离，横坐标偏移，纵坐标偏移]，默认值相机距离500，图像居中\n
+        `**kw`: 与 tkinter.Canvas 类的参数相同\n
+        """
+        Canvas.__init__(self, master, width, height, x, y,
+                        lock=lock, expand=expand, keep=keep)
+        self.distance = cfg_3d[0]
+        self.dx = width / 2 if cfg_3d[1] is None else cfg_3d[1]
+        self.dy = height / 2 if cfg_3d[2] is None else cfg_3d[2]
 
 
-class Point:
+class _Point:
     """ 点 """
 
     def __init__(self, coords):  # type: (list[float]) -> None
-        self.coords = list(coords)  # 利用列表引用
+        self.coords = coords  # 利用列表引用
 
-    def translate(self, dx=0, dy=0, dz=0):  # type: (float, float, float) -> Point
+    def translate(self, dx=0, dy=0, dz=0):  # type: (float, float, float) -> None
         """ 平移 """
         self.coords[0] += dx
         self.coords[1] += dy
         self.coords[2] += dz
-        return self
 
-    def rotate(self, dx=0, dy=0, dz=0):  # type: (float, float, float) -> Point
+    def rotate(self, dx=1, dy=1, dz=1, *, center=[0, 0, 0]):
+        # type: (float, float, float, ..., Iterable[float]) -> None
         """ 旋转 """
-        sa, sb, sc = math.sin(dx), math.sin(dy), math.sin(dz)
-        ca, cb, cc = math.cos(dx), math.cos(dy), math.cos(dz)
-        M = [[cc*cb, cc*sb*sa-sc*ca, cc*sb*ca+sc*sa],
-             [sc*cb, sc*sb*sa+cc*ca, sc*sb*ca-cc*sa],
-             [-sb,   cb*sa,          cb*ca]]
-        self.coords[0], self.coords[1], self.coords[2] = _cross(M, self.coords)
-        return self
+        sx, sy, sz = math.sin(dx), math.sin(dy), math.sin(dz)
+        cx, cy, cz = math.cos(dx), math.cos(dy), math.cos(dz)
+
+        matrix = [[cz*cy, cz*sy*sx-sz*cx, cz*sy*cx+sz*sx],
+                  [sz*cy, sz*sy*sx+cz*cx, sz*sy*cx-cz*sx],
+                  [-sy,   cy*sx,          cy*cx]]
+
+        for i in range(3):
+            matrix[0][i] = center[i] + \
+                sum(matrix[i][j]*(self.coords[j]-center[j]) for j in range(3))
+
+        self.coords[:] = matrix[0]
+
+    def scale(self, kx=1, ky=1, kz=1, *, center=None):
+        # type: (float, float, float, ..., Iterable[float] | None) -> None
+        """ 缩放 """
+        for i, k in zip(range(3), (kx, ky, kz)):
+            self.coords[i] += (self.coords[i] - center[i]) * (k - 1)
 
     def project(self, distance):  # type: (float) -> list[float]
         """ 投影 """
@@ -50,98 +87,247 @@ class Point:
         return [self.coords[1]*coefficient, self.coords[2]*coefficient]
 
 
-class Line:
+class _Line:
     """ 线 """
 
     def __init__(
         self,
-        x1,  # type: float
-        y1,  # type: float
-        z1,  # type: float
-        x2,  # type: float
-        y2,  # type: float
-        z2,  # type: float
+        point1,  # type: list[float]
+        point2,  # type: list[float]
     ):  # type: (...) -> None
-        self.coords = [[x1, y1, z1], [x2, y2, z2]]
-        self.points = [Point(coord) for coord in self.coords]
+        self.coords = [point1, point2]
+        self.points = [_Point(point) for point in self.coords]
 
-    def translate(self, dx=0, dy=0, dz=0):  # type: (float, float, float) -> Line
+    def translate(self, dx=0, dy=0, dz=0):  # type: (float, float, float) -> None
         """ 平移 """
         for point in self.points:
             point.translate(dx, dy, dz)
-        return self
 
-    def rotate(self, dx=0, dy=0, dz=0):  # type: (float, float, float) -> Line
+    def rotate(self, dx=1, dy=1, dz=1, *, center=[0, 0, 0]):
+        # type: (float, float, float, ..., Iterable[float]) -> None
         """ 旋转 """
         for point in self.points:
-            point.rotate(dx, dy, dz)
-        return self
+            point.rotate(dx, dy, dz, center=center)
+
+    def scale(self, kx=1, ky=1, kz=1, *, center=None):
+        # type: (float, float, float, ..., Iterable[float] | None) -> None
+        """ 缩放 """
+        if center is None:
+            center = [statistics.mean(axis) for axis in zip(*self.coords)]
+        for point in self.points:
+            point.scale(kx, ky, kz, center=center)
 
     def project(self, distance):  # type: (float) -> list[list[float]]
         """ 投影 """
         return [point.project(distance) for point in self.points]
 
 
-class Side:
+class _Side:
     """ 面 """
 
-    def __init__(self, *coords):  # type: (list[float]) -> None
-        self.coords = list(coords)
-        self.lines = [Line(*coords[ind-1], *coords[ind])
-                      for ind in range(len(coords))]
+    def __init__(self, *points):  # type: (list[float]) -> None
+        self.coords = list(points)
+        self.lines = [_Line(points[ind-1], points[ind])
+                      for ind in range(len(points))]
 
-    def translate(self, dx=0, dy=0, dz=0):  # type: (float, float, float) -> Side
+    def translate(self, dx=0, dy=0, dz=0):  # type: (float, float, float) -> None
         """ 平移 """
-        for line in self.lines:
-            line.translate(dx, dy, dz)
-        return self
+        for point in set(point for line in self.lines for point in line.points):
+            point.translate(dx, dy, dz)
 
-    def rotate(self, dx=0, dy=0, dz=0):  # type: (float, float, float) -> Side
+    def rotate(self, dx=1, dy=1, dz=1, *, center=[0, 0, 0]):
+        # type: (float, float, float, ..., Iterable[float]) -> None
         """ 旋转 """
-        for line in self.lines:
-            line.rotate(dx, dy, dz)
-        return self
+        for point in set(point for line in self.lines for point in line.points):
+            point.rotate(dx, dy, dz, center=center)
+
+    def scale(self, kx=1, ky=1, kz=1, *, center=None):
+        # type: (float, float, float, ..., Iterable[float] | None) -> None
+        """ 缩放 """
+        if center is None:
+            center = [statistics.mean(axis) for axis in zip(*self.coords)]
+        for point in set(point for line in self.lines for point in line.points):
+            point.scale(kx, ky, kz, center=center)
 
     def project(self, distance):  # type: (float) -> list[list[list[float]]]
         """ 投影 """
         return [line.project(distance) for line in self.lines]
 
 
+class Point(_Point):
+    """ 点 """
+
+    def __init__(
+        self,
+        canvas,  # type: Canvas_3D
+        coords,  # type: list[float]
+        *,
+        size=1,  # type: float
+        width=1,  # type: float
+        fill='grey',  # type: str
+        outline='black',  # type: str
+    ):  # type: (...) -> None
+        """
+        `canvas`: 父画布\n
+        `coords`: 点的空间坐标\n
+        `size`: 点的大小\n
+        `width`: 点轮廓的宽度\n
+        `fill`: 点内部的填充颜色\n
+        `outline`: 点轮廓的颜色\n
+        """
+        _Point.__init__(self, coords)
+        self.canvas = canvas
+        self.size = size
+        self.width = width
+        self.fill = fill
+        self.item = canvas.create_oval(
+            -1, -1, -1, -1, fill=fill, outline=outline, width=width)
+        self.update()
+
+    def update(self) -> None:
+        """ 更新 """
+        x, y = self.project(self.canvas.distance)
+        x += self.canvas.dx
+        y += self.canvas.dy
+        self.canvas.coords(
+            self.item, x-self.size, y-self.size, x+self.size, y+self.size)
+
+
+class Line(_Line):
+    """ 线 """
+
+    def __init__(
+        self,
+        canvas,  # type: Canvas_3D
+        point1,  # type: list[float]
+        point2,  # type: list[float]
+        *,
+        width=1,  # type: float
+        fill='black',  # type: str
+    ):  # type: (...) -> None
+        """
+        `canvas`: 父画布\n
+        `point1`: 起点坐标\n
+        `point2`: 终点坐标\n
+        `width`: 线的宽度\n
+        `fill`: 线的颜色\n
+        """
+        _Line.__init__(self, point1, point2)
+        self.canvas = canvas
+        self.width = width
+        self.fill = fill
+        self.item = canvas.create_line(-1, -1, -1, -1, width=width, fill=fill)
+        self.update()
+
+    def update(self) -> None:
+        """ 更新 """
+        data = self.project(self.canvas.distance)
+        for point in data:
+            point[0] += self.canvas.dx
+            point[1] += self.canvas.dy
+        self.canvas.coords(
+            self.item, *[coord for point in data for coord in point])
+
+
+class Side(_Side):
+    """ 面 """
+
+    def __init__(
+        self,
+        canvas,  # type: Canvas_3D
+        *points,  # type: list[float]
+        width=1,  # type: float
+        fill='',  # type: str
+        outline='black',  # type: str
+    ):  # type: (...) -> None
+        """
+        `canvas`: 父画布\n
+        `points`: 各点的空间坐标\n
+        `width`: 面轮廓的宽度\n
+        `fill`: 面内部的填充颜色\n
+        `outline`: 面轮廓的颜色\n
+        """
+        _Side.__init__(self, *points)
+        self.canvas = canvas
+        self.width = width
+        self.fill = fill
+        self.outline = outline
+        self.item = canvas.create_polygon(-1, -1, -1, -1,
+                                          width=width, fill=fill, outline=outline)
+        self.update()
+
+    def update(self) -> None:
+        """ 更新 """
+        data = self.project(self.canvas.distance)
+        for line in data:
+            for point in line:
+                point[0] += self.canvas.dx
+                point[1] += self.canvas.dy
+        self.canvas.coords(
+            self.item, *[coord for line in data for point in line for coord in point])
+
+
 class Geometry:
     """ 几何体 """
 
-    def __init__(self, canvas, *sides):  # type: (tkintertools.Canvas, Side) -> None
+    def __init__(self, canvas, *sides):  # type: (Canvas_3D, _Side) -> None
         """
         `canvas`: 显示的画布\n
-        `size`: 平面类`Side`\n
+        `sides`: 平面类`Side`\n
         """
         self.canvas = canvas
         self.coords = []  # type: list[list[float]]
         self.sides = []  # type: list[Side]
-        self.items = []  # type: list[tkinter._CanvasItemId]
         if sides:
             self.append(*sides)
 
     def translate(self, dx=0, dy=0, dz=0):  # type: (float, float, float) -> None
-        """ 平移 """
-        for side in self.sides:
-            side.translate(dx, dy, dz)
+        """
+        平移\n
+        `dx`: x轴方向位移距离\n
+        `dy`: y轴方向位移距离\n
+        `dz`: z轴方向位移距离\n
+        """
+        for point in set(point for side in self.sides for line in side.lines for point in line.points):
+            point.translate(dx, dy, dz)
 
-    def rotate(self, dx=0, dy=0, dz=0):  # type: (float, float, float) -> None
-        """ 旋转 """
-        for side in self.sides:
-            side.rotate(dx, dy, dz)
+    def rotate(self, dx=1, dy=1, dz=1, *, center=[0, 0, 0]):
+        # type: (float, float, float, ..., Iterable[float]) -> None
+        """
+        旋转\n
+        `dx`: 绕x轴方向旋转角度\n
+        `dy`: 绕y轴方向旋转角度\n
+        `dz`: 绕z轴方向旋转角度\n
+        `center`: 旋转中心\n
+        """
+        for point in set(point for side in self.sides for line in side.lines for point in line.points):
+            point.rotate(dx, dy, dz, center=center)
 
-    def center(self):  # type: () -> tuple[float, float, float]
-        """ 几何中心 """  # NOTE: 对凹面几何体无效
-        data = list(zip(*self.coords))  # 转置
-        x_c = statistics.mean(data[0])
-        y_c = statistics.mean(data[1])
-        z_c = statistics.mean(data[2])
-        return x_c, y_c, z_c
+    def scale(self, kx=1, ky=1, kz=1, *, center=None):
+        # type: (float, float, float, ..., Iterable[float] | None) -> None
+        """
+        缩放\n
+        `kx`: x轴方向缩放比例\n
+        `ky`: y轴方向缩放比例\n
+        `kz`: z轴方向缩放比例\n
+        `center`: 缩放中心，默认为几何中心\n
+        """
+        if center is None:
+            # NOTE: 对凹面几何体无效
+            center = [statistics.mean(axis) for axis in zip(*self.coords)]
+        for point in set(point for side in self.sides for line in side.lines for point in line.points):
+            point.scale(kx, ky, kz, center=center)
+
+    def update(self):  # type: () -> None
+        """ 更新几何体 """
+        for side in self.sides:
+            side.update()
 
     def append(self, *sides):  # type: (Side) -> None
-        """ 添加面 """
+        """
+        添加面\n
+        `sides`: `Side`类\n
+        """
         for side in sides:
             for line in side.lines:
                 for point in line.points:
@@ -149,46 +335,13 @@ class Geometry:
                         self.coords.append(point)
             self.sides.append(side)
 
-    def update(self, distance, dx=0, dy=0):  # type: (float, float, float) -> None
-        """ 更新几何体 """
-        c = 0
-        for side in self.sides:
-            coords = side.project(distance)
-            for coord in coords:
-
-                k = []
-
-                for lst in coord:
-                    if dx or dy:
-                        lst[0] += 640
-                        lst[1] += 360
-                    k.append(lst[0])
-                    k.append(lst[1])
-
-                self.canvas.coords(self.items[c], k)
-                c += 1
-
-    def draw(self, distance, dx=0, dy=0):  # type: (float, float, float) -> None
-        """ 绘制 """
-        for side in self.sides:
-            coords = side.project(distance)
-            for coord in coords:
-
-                if dx or dy:
-                    for lst in coord:
-                        lst[0] += dx
-                        lst[1] += dy
-
-                self.items.append(self.canvas.create_polygon(
-                    *coord, outline='black'))
-
 
 class Cuboid(Geometry):
     """ 长方体 """
 
     def __init__(
         self,
-        canvas,  # type: tkintertools.Canvas
+        canvas,  # type: Canvas_3D
         x,  # type: float
         y,  # type: float
         z,  # type: float
@@ -211,20 +364,19 @@ class Cuboid(Geometry):
                        for w in (0, width)
                        for h in (0, height)]
         self.sides = [
-            Side(self.coords[0], self.coords[1],
+            Side(canvas, self.coords[0], self.coords[1],
                  self.coords[3], self.coords[2]),
-            Side(self.coords[0], self.coords[1],
+            Side(canvas, self.coords[0], self.coords[1],
                  self.coords[5], self.coords[4]),
-            Side(self.coords[0], self.coords[2],
+            Side(canvas, self.coords[0], self.coords[2],
                  self.coords[6], self.coords[4]),
-            Side(self.coords[1], self.coords[3],
+            Side(canvas, self.coords[1], self.coords[3],
                  self.coords[7], self.coords[5]),
-            Side(self.coords[2], self.coords[3],
+            Side(canvas, self.coords[2], self.coords[3],
                  self.coords[7], self.coords[6]),
-            Side(self.coords[4], self.coords[5],
+            Side(canvas, self.coords[4], self.coords[5],
                  self.coords[7], self.coords[6]),
         ]
-        self.items = []  # type: list[tkinter._CanvasItemId]
 
 
 class Tetrahedron(Geometry):
@@ -232,7 +384,7 @@ class Tetrahedron(Geometry):
 
     def __init__(
         self,
-        canvas,  # type: tkintertools.Canvas
+        canvas,  # type: Canvas_3D
         p1,  # type: Iterable[float]
         p2,  # type: Iterable[float]
         p3,  # type: Iterable[float]
@@ -248,62 +400,8 @@ class Tetrahedron(Geometry):
         self.canvas = canvas
         self.coords = [list(p1), list(p2), list(p3), list(p4)]
         self.sides = [
-            Side(p1, p2, p3),
-            Side(p1, p2, p4),
-            Side(p1, p3, p4),
-            Side(p2, p3, p4),
+            Side(canvas, self.coords[0], self.coords[1], self.coords[2]),
+            Side(canvas, self.coords[0], self.coords[1], self.coords[3]),
+            Side(canvas, self.coords[0], self.coords[2], self.coords[3]),
+            Side(canvas, self.coords[1], self.coords[2], self.coords[3]),
         ]
-        self.items = []  # type: list[tkinter._CanvasItemId]
-
-
-ORIGIN = Point((0,)*3)
-""" 原点 """
-
-LINE_X = Line(0, 0, 0, 1, 0, 0)
-""" X 轴单位直线 """
-LINE_Y = Line(0, 0, 0, 0, 1, 0)
-""" Y 轴单位直线 """
-LINE_Z = Line(0, 0, 0, 0, 0, 1)
-""" Z 轴单位直线 """
-
-SIDE_YZ = Side((0, 1, 1), (0, 1, -1), (0, -1, -1), (0, -1, 1))
-""" 垂直 X 轴单位平面 """
-SIDE_ZX = Side((1, 0, 1), (1, 0, -1), (-1, 0, -1), (-1, 0, 1))
-""" 垂直 Y 轴单位平面 """
-SIDE_XY = Side((1, 1, 0), (1, -1, 0), (-1, -1, 0), (-1, 1, 0))
-""" 垂直 Z 轴单位平面 """
-
-
-# class Ellipsoid:
-#     """ 椭球体 """
-
-#     def __init__(
-#         self,
-#         x,  # type: float
-#         y,  # type: float
-#         z,  # type: float
-#         length,  # type: float
-#         width,  # type: float
-#         height  # type: float
-#     ):  # type: (...) -> None
-#         self.coords = [[x+l, y+w, z+h]
-#                        for l in (0, length)
-#                        for w in (0, width)
-#                        for h in (0, height)]
-#         self.points = [Point(coord) for coord in self.coords]
-
-#     def translate(self, dx=0, dy=0, dz=0):  # type: (float, float, float) -> None
-#         """ 平移 """
-#         for point in self.points:
-#             point.translate(dx, dy, dz)
-
-#     def rotate(self, dx=0, dy=0, dz=0):  # type: (float, float, float) -> None
-#         """ 旋转 """
-#         for point in self.points:
-#             point.rotate(dx, dy, dz)
-
-#     # type: (float) -> tuple[list[float], list[float]]
-#     def project(self, distance):
-#         """ 投影 """
-#         coefficient = distance/(distance - self.coords[0])
-#         return [self.coords[1]*coefficient, self.coords[2]*coefficient]
