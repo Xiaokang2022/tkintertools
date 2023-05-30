@@ -1,7 +1,7 @@
 <div align="center">
     <h1>🚀tkintertools🚀</h1>
     <p><img height="120px" alt="logo.png"
-        src="https://gitcode.net/weixin_62651706/tkintertools/-/raw/master/tkintertools.png" />
+        src="./tkintertools.png" />
     </p>
     <p>The <code>tkintertools</code> module is an auxiliary module of the <code>tkinter</code> module</p>
     <p><code>tkintertools</code> 模块是 <code>tkinter</code> 模块的辅助模块</p>
@@ -29,7 +29,7 @@
         <a href="https://xiaokang2022.blog.csdn.net">
             <img src="https://img.shields.io/badge/Blog-小康2022@CSDN-red" alt="Blog" />
         </a>
-        <a href="https://gitcode.net/weixin_62651706">
+        <a href="https://github.com/Xiaokang2022">
             <img src="https://img.shields.io/badge/Author-小康2022-white" alt="Author" />
         </a>
     </p>
