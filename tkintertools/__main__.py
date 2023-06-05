@@ -226,7 +226,9 @@ class Canvas(tkinter.Canvas):
         if not rate_y:
             rate_y = self.master.height[1]/self.master.height[0]/self.ry
 
-        if self.keep:  # 维持比例
+        rate_x_pos, rate_y_pos = rate_x, rate_y  # 避免受 keep 影响
+
+        if self.keep is True:  # 维持比例
             rx = rate_x*self.master.width[1]/self.master.width[0]/self.rx
             ry = rate_y*self.master.height[1]/self.master.height[0]/self.ry
             rate_x = rate_y = min(rx, ry)
@@ -242,8 +244,8 @@ class Canvas(tkinter.Canvas):
             self,
             width=self.width[1],
             height=self.height[1],
-            x=float(place_info['x'])*rate_x,
-            y=float(place_info['y'])*rate_y)
+            x=float(place_info['x'])*rate_x_pos,
+            y=float(place_info['y'])*rate_y_pos)
 
         for widget in self._widget:  # 更新子画布控件的子虚拟画布控件位置数据
             widget.x1 *= rate_x

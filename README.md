@@ -13,7 +13,7 @@
             <img src="https://img.shields.io/badge/License-Mulan PSL v2-green" alt="License" />
         </a>
         <a href="./CHANGELOG.md">
-            <img src="https://img.shields.io/badge/ChangeLog-2023/05/30-orange" alt="ChangeLog" />
+            <img src="https://img.shields.io/badge/ChangeLog-2023/06/06-orange" alt="ChangeLog" />
         </a>
         <a href="./TODO.md">
             <img src="https://img.shields.io/badge/ToDos-13-yellow" alt="ToDos" />
@@ -56,14 +56,14 @@ pip install tkintertools
 
 ### Development version/开发版本
 
-* Version/版本 : 2.6.2
-* Release Date/发布日期 : 2023/05/26
+* Version/版本 : 2.6.3
+* Release Date/发布日期 : 2023/06/06
 
 ```
-pip install tkintertools-dev==2.6.2
+pip install tkintertools-dev==2.6.3
 ```
 
-这个是作者正在开发的版本，有新功能，但不能保证稳定，bug 可能会比较多。  
+这个是我正在开发的版本，有新功能，但不能保证稳定，bug 可能会比较多。  
 开发版本没有对应的文档，大家可以在 issue 中提出建议，我会适当采纳一些并在开发版本中更改或实现。
 
 News/最新功能

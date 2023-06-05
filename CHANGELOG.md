@@ -1,6 +1,27 @@
 ChangeLog/更新日志
 =================
 
+[2.6.3-dev] - 2023-06-06
+--------------------
+
+### Optimized/优化
+
+- [X] The 3D object implementation varies with the size of the canvas  
+3d对象实现随画布大小变化而变化
+
+- [X] Make the default value of the corner radius more intelligent, 4 when the system is `Windows11`, `Linux`, `Mac`, and 0 for the rest  
+使圆角半径的默认值更加智能，当系统为`Windows11`、`Linux`、`Mac`时为 4，其余情况为 0
+
+### Fixed/修复
+
+- [X] Fixed a bug where the parameter `keep` would affect the position of class `Canvas`  
+修复参数`keep`会对类`Canvas`的位置产生影响的 bug
+
+### Changed/变更
+
+- [X] Set the default value of the parameter `keep` of the class `Canvas_3d` in the 3D module to `True`, i.e. keep the canvas width and height scaled proportionally by default  
+将3d模块中的类`Canvas_3d`的参数`keep`的默认值设为`True`，即默认保持画布宽高缩放成比例
+
 [2.6.2] - 2023-05-30
 --------------------
 
@@ -8,8 +29,6 @@ ChangeLog/更新日志
 
 - [X] Added `tkintertools` sub-module `tools_3d` to support drawing 3D graphics  
 新增`tkintertools`子模块`tools_3d`以支持绘制3d图形
-
-### Optimized/优化
 
 [2.6.1] - 2023-05-21
 --------------------

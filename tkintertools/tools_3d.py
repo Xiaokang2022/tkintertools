@@ -21,7 +21,7 @@ class Canvas_3D(Canvas):
         *,
         lock=True,  # type: bool
         expand=True,  # type: bool
-        keep=False,  # type: bool
+        keep=True,  # type: bool
         cfg_3d=CFG_3D,  # type: Iterable[float, float | None, float | None]
         **kw
     ):  # type: (...) -> None
@@ -42,6 +42,11 @@ class Canvas_3D(Canvas):
         self.distance = cfg_3d[0]
         self.dx = width / 2 if cfg_3d[1] is None else cfg_3d[1]
         self.dy = height / 2 if cfg_3d[2] is None else cfg_3d[2]
+        self._items_3d = []  # type: list[Point | Line | Side | Geometry]
+
+    def items_3d(self):  # type: () -> tuple[Point | Line | Side | Geometry]
+        """ 返回`Canvas_3d`类的`items_3d`元组 """
+        return tuple(self._items_3d)
 
 
 class _Point:
@@ -81,10 +86,10 @@ class _Point:
     def project(self, distance):  # type: (float) -> list[float]
         """ 投影 """
         try:
-            coefficient = distance/(distance - self.coords[0])
-        except:
+            k = distance/(distance - self.coords[0])
+        except ZeroDivisionError:
             return [distance, distance]
-        return [self.coords[1]*coefficient, self.coords[2]*coefficient]
+        return [self.coords[1]*k, self.coords[2]*k]
 
 
 class _Line:
@@ -162,10 +167,10 @@ class Point(_Point):
         canvas,  # type: Canvas_3D
         coords,  # type: list[float]
         *,
-        size=1,  # type: float
-        width=1,  # type: float
-        fill='grey',  # type: str
-        outline='black',  # type: str
+        size=POINT_SIZE,  # type: float
+        width=POINT_WIDTH,  # type: float
+        fill=COLOR_POINT_FILL,  # type: str
+        outline=COLOR_POINT_OUTLINE,  # type: str
     ):  # type: (...) -> None
         """
         `canvas`: 父画布\n
@@ -176,6 +181,7 @@ class Point(_Point):
         `outline`: 点轮廓的颜色\n
         """
         _Point.__init__(self, coords)
+        canvas._items_3d.append(self)
         self.canvas = canvas
         self.size = size
         self.width = width
@@ -187,10 +193,11 @@ class Point(_Point):
     def update(self) -> None:
         """ 更新 """
         x, y = self.project(self.canvas.distance)
+        kx, ky = self.canvas.rx, self.canvas.ry
         x += self.canvas.dx
         y += self.canvas.dy
         self.canvas.coords(
-            self.item, x-self.size, y-self.size, x+self.size, y+self.size)
+            self.item, (x-self.size)*kx, (y-self.size)*ky, (x+self.size)*kx, (y+self.size)*ky)
 
 
 class Line(_Line):
@@ -202,8 +209,8 @@ class Line(_Line):
         point1,  # type: list[float]
         point2,  # type: list[float]
         *,
-        width=1,  # type: float
-        fill='black',  # type: str
+        width=LINE_WDITH,  # type: float
+        fill=COLOR_LINE_FILL,  # type: str
     ):  # type: (...) -> None
         """
         `canvas`: 父画布\n
@@ -213,6 +220,7 @@ class Line(_Line):
         `fill`: 线的颜色\n
         """
         _Line.__init__(self, point1, point2)
+        canvas._items_3d.append(self)
         self.canvas = canvas
         self.width = width
         self.fill = fill
@@ -221,12 +229,13 @@ class Line(_Line):
 
     def update(self) -> None:
         """ 更新 """
+        kx, ky = self.canvas.rx, self.canvas.ry
         data = self.project(self.canvas.distance)
         for point in data:
             point[0] += self.canvas.dx
             point[1] += self.canvas.dy
         self.canvas.coords(
-            self.item, *[coord for point in data for coord in point])
+            self.item, *[coord*(ky if i else kx) for point in data for i, coord in enumerate(point)])
 
 
 class Side(_Side):
@@ -236,9 +245,9 @@ class Side(_Side):
         self,
         canvas,  # type: Canvas_3D
         *points,  # type: list[float]
-        width=1,  # type: float
-        fill='',  # type: str
-        outline='black',  # type: str
+        width=SIDE_WIDTH,  # type: float
+        fill=COLOR_SIDE_FILL,  # type: str
+        outline=COLOR_SIDE_OUTLINE,  # type: str
     ):  # type: (...) -> None
         """
         `canvas`: 父画布\n
@@ -248,6 +257,7 @@ class Side(_Side):
         `outline`: 面轮廓的颜色\n
         """
         _Side.__init__(self, *points)
+        canvas._items_3d.append(self)
         self.canvas = canvas
         self.width = width
         self.fill = fill
@@ -258,13 +268,14 @@ class Side(_Side):
 
     def update(self) -> None:
         """ 更新 """
+        kx, ky = self.canvas.rx, self.canvas.ry
         data = self.project(self.canvas.distance)
         for line in data:
             for point in line:
                 point[0] += self.canvas.dx
                 point[1] += self.canvas.dy
         self.canvas.coords(
-            self.item, *[coord for line in data for point in line for coord in point])
+            self.item, *[coord*(ky if i else kx) for line in data for point in line for i, coord in enumerate(point)])
 
 
 class Geometry:
@@ -275,6 +286,7 @@ class Geometry:
         `canvas`: 显示的画布\n
         `sides`: 平面类`Side`\n
         """
+        canvas._items_3d.append(self)
         self.canvas = canvas
         self.coords = []  # type: list[list[float]]
         self.sides = []  # type: list[Side]

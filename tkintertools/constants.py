@@ -1,6 +1,9 @@
 """ All constants """
 
-import sys
+import platform
+
+SYSTEM = platform.system()
+""" Operating System """
 
 PROCESS_SYSTEM_DPI_AWARE = 1
 """ Default DPI aware """
@@ -37,7 +40,7 @@ BORDERWIDTH = 1
 CURSOR = '│'
 """ text cursor """
 
-FONT = 'Microsoft YaHei' if sys.platform == 'win32' else 'DejaVu Sans' if sys.platform == 'linux' else 'Arial'
+FONT = 'Microsoft YaHei' if SYSTEM == 'Windows' else 'DejaVu Sans' if SYSTEM == 'linux' else 'Arial'
 """ Default font """
 
 SIZE = 20
@@ -46,7 +49,8 @@ SIZE = 20
 LIMIT = -1
 """ Default widget text length limit """
 
-RADIUS = 0
+RADIUS = 0 if SYSTEM == 'Windows' and int(
+    platform.version()[-5:]) < 22000 else 4
 """ Default widget fillet radius """
 
 FRAMES = 60
@@ -58,3 +62,36 @@ TICK = '✓'
 
 CFG_3D = 500, None, None
 """ Default 3D configuration """
+
+
+COLOR_POINT_FILL = '#000000'
+""" Default point fill color """
+
+COLOR_POINT_OUTLINE = '#000000'
+""" Default point outline color """
+
+COLOR_LINE_FILL = '#000000'
+""" Default line fill color """
+
+COLOR_SIDE_FILL = ''
+""" Default side fill color """
+
+COLOR_SIDE_OUTLINE = '#000000'
+""" Default side outline color """
+
+POINT_SIZE = 1
+""" Default point size """
+
+POINT_WIDTH = 1
+""" Default point width """
+
+LINE_WDITH = 1
+""" Default line width """
+
+SIDE_WIDTH = 1
+""" Default side width """
+
+
+if __name__ == '__main__':
+    print(', '.join(name for name in globals()
+          if '__' not in name and name.isupper()))

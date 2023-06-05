@@ -37,9 +37,18 @@ if sys.version_info < (3, 7):  # Version Check
 from .__main__ import (Button, Canvas, CheckButton, Entry, Label, PhotoImage,
                        Progressbar, SetProcessDpiAwareness, Singleton, Text,
                        Tk, Toplevel, askfont, color, move, text)
+from .constants import (BACKGROUND, BORDERWIDTH, CFG_3D, COLOR_BAR,
+                        COLOR_BUTTON_FILL, COLOR_BUTTON_OUTLINE,
+                        COLOR_LINE_FILL, COLOR_NONE, COLOR_POINT_FILL,
+                        COLOR_POINT_OUTLINE, COLOR_SIDE_FILL,
+                        COLOR_SIDE_OUTLINE, COLOR_TEXT, COLOR_TEXT_FILL,
+                        COLOR_TEXT_OUTLINE, CURSOR, FONT, FRAMES, LIMIT,
+                        LINE_WDITH, POINT_SIZE, POINT_WIDTH,
+                        PROCESS_SYSTEM_DPI_AWARE, RADIUS, SIDE_WIDTH, SIZE,
+                        SYSTEM, TICK)
 
 __author__ = 'Xiaokang2022<2951256653@qq.com>'
-__version__ = '2.6.2'
+__version__ = '2.6.3'
 __all__ = [
     # Container Widgets
     'Tk', 'Toplevel', 'Canvas',
@@ -49,4 +58,11 @@ __all__ = [
     'PhotoImage', 'Singleton',
     # Tool Functions
     'move', 'text', 'color', 'askfont', 'SetProcessDpiAwareness',
+    # Constants
+    'SYSTEM', 'PROCESS_SYSTEM_DPI_AWARE', 'COLOR_BUTTON_FILL', 'COLOR_BUTTON_OUTLINE',
+    'COLOR_TEXT_FILL', 'COLOR_TEXT_OUTLINE', 'COLOR_TEXT', 'COLOR_NONE', 'COLOR_BAR',
+    'BACKGROUND', 'BORDERWIDTH', 'CURSOR', 'FONT', 'SIZE', 'LIMIT', 'RADIUS', 'FRAMES',
+    'TICK', 'CFG_3D', 'COLOR_POINT_FILL', 'COLOR_POINT_OUTLINE', 'COLOR_LINE_FILL',
+    'COLOR_SIDE_FILL', 'COLOR_SIDE_OUTLINE', 'POINT_SIZE', 'POINT_WIDTH', 'LINE_WDITH',
+    'SIDE_WIDTH',
 ]

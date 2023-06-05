@@ -87,7 +87,7 @@ class Application:
         tkt.Entry(self.canvas_main, 10, 320, 300, 35, radius=10,
                   text=('Rounded InputBox', 'Click to Input'), justify='center')
         tkt.Entry(self.canvas_main, 970, 320, 300, 35, text=(
-            'InputBox', 'Click to Input'), show='•')
+            'InputBox', 'Click to Input'), show='●')
         tkt.Button(self.canvas_main, 10, 365, 300, 40, radius=10, text='Rounded Button', command=lambda: tkt.move(
             self.canvas_main, label_1, 0, -170 * self.canvas_main.ry, 500, mode='flat'))
         tkt.Button(self.canvas_main, 1070, 365, 200, 40, text='Button', command=lambda: tkt.move(
