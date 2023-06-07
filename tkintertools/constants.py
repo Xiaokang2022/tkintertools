@@ -92,6 +92,4 @@ SIDE_WIDTH = 1
 """ Default side width """
 
 
-if __name__ == '__main__':
-    print(', '.join(name for name in globals()
-          if '__' not in name and name.isupper()))
+__all__ = [name for name in globals() if name.isupper()]

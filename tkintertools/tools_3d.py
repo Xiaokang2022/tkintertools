@@ -417,3 +417,6 @@ class Tetrahedron(Geometry):
             Side(canvas, self.coords[0], self.coords[2], self.coords[3]),
             Side(canvas, self.coords[1], self.coords[2], self.coords[3]),
         ]
+
+
+__all__ = [name for name in globals() if '__' not in name]

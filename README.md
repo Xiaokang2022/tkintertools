@@ -1,25 +1,25 @@
 <div align="center">
     <h1>🚀tkintertools🚀</h1>
     <p><img height="120px" alt="logo.png"
-        src="./tkintertools.png" />
+        src="tkintertools.png" />
     </p>
     <p>The <code>tkintertools</code> module is an auxiliary module of the <code>tkinter</code> module</p>
     <p><code>tkintertools</code> 模块是 <code>tkinter</code> 模块的辅助模块</p>
     <p>
-        <a href="./tkintertools/__init__.py">
-            <img src="https://img.shields.io/badge/Version-2.6.2-blue" alt="latest version" />
+        <a href="tkintertools/__init__.py">
+            <img src="https://img.shields.io/badge/Version-2.6.3-blue" alt="latest version" />
         </a>
-        <a href="./LICENSE">
+        <a href="LICENSE">
             <img src="https://img.shields.io/badge/License-Mulan PSL v2-green" alt="License" />
         </a>
-        <a href="./CHANGELOG.md">
-            <img src="https://img.shields.io/badge/ChangeLog-2023/06/06-orange" alt="ChangeLog" />
+        <a href="CHANGELOG.md">
+            <img src="https://img.shields.io/badge/ChangeLog-2023/06/07-orange" alt="ChangeLog" />
         </a>
-        <a href="./TODO.md">
-            <img src="https://img.shields.io/badge/ToDos-13-yellow" alt="ToDos" />
+        <a href="TODO.md">
+            <img src="https://img.shields.io/badge/ToDos-14-yellow" alt="ToDos" />
         </a>
         <a href="https://pypistats.org/packages/tkintertools">
-            <img src="https://img.shields.io/badge/Downloads-3k-purple" alt="Downloads" />
+            <img src="https://img.shields.io/badge/Downloads-4k-purple" alt="Downloads" />
         </a>
     </p>
     <p>
@@ -36,15 +36,15 @@
 </div>
 
 Installation/模块安装
------------------------
+--------------------
 
 ### Stable version/稳定版本
 
-* Version/版本 : 2.6.2
-* Release Date/发布日期 : 2023/05/30
+* Version/版本 : 2.6.3
+* Release Date/发布日期 : 2023/06/07
 
 ```
-pip install tkintertools==2.6.2
+pip install tkintertools==2.6.3
 ```
 或者
 ```
@@ -69,7 +69,7 @@ pip install tkintertools-dev==2.6.3
 News/最新功能
 ------------
 
-最新版的`tkintertools`为`2.6.2`，新增一项极为强大的功能：3d绘图！  
+最新版的tkintertools新增一项极为强大的功能：3d绘图！  
 同时修复一些bug，优化了一部分代码，提升了一部分性能。
 
 通过以下代码来使用3d绘图功能：
@@ -80,7 +80,7 @@ import tkintertools.tools_3d as t3d
 # 两种引入方式都可以
 ```
 
-子模块: [tools_3d.py](./tkintertools/tools_3d.py)
+子模块: [tools_3d.py](tkintertools/tools_3d.py)
 
 目前3d绘图功能还比较简陋，仅能绘制点、线、面以及直边的空间几何体，对于曲边的空间几何体还在开发中！  
 以下是一个使用3d绘图的示例：
@@ -88,7 +88,7 @@ import tkintertools.tools_3d as t3d
 在这个示例中，按住鼠标左键可以旋转几何体，按住鼠标右键可以平移几何体，滚动鼠标滚轮可以缩放几何体！  
 x、y 和 z 轴分别是红色、绿色和蓝色的线。
 
-![3d绘图](./docs/images/3d.png)
+![3d绘图](docs/images/3d.png)
 
 <details><summary><b>源代码</b></summary>
 
@@ -173,7 +173,7 @@ root.mainloop()
 
 </details>
 
-更多更新信息请见：[CHANGELOG.md](./CHANGELOG.md)
+更多更新信息请见：[CHANGELOG.md](CHANGELOG.md)
 
 Description/模块说明
 ----------------------
@@ -209,7 +209,7 @@ tkintertools 模块的控件拥有许多参数供我们设置，比如圆角的�
 这里要说明的是，每个控件可以设置的关联事件不止一种，在鼠标经过控件时可以绑定事件，鼠标点击控件也可以，鼠标点击后松开也行等等。  
 文本和边框以及控件的填充色也是类似的，在鼠标经过控件、点击控件、点击后松开都可以设定颜色。  
 文本类控件还能够从右边逐步输入文本，文本输入提示符也可以不是单调无趣的竖线，可以是其他的，比如下划线等。  
-最后，大家可以看一下 [test.py](./test.py) 文件里面的示例，这个示例展示了 tkintertools 模块的绝大部分功能，示例中更有隐藏的 “多彩变幻” 彩蛋哦！
+最后，大家可以看一下 [test.py](test.py) 文件里面的示例，这个示例展示了 tkintertools 模块的绝大部分功能，示例中更有隐藏的 “多彩变幻” 彩蛋哦！
 
 ### Automatically control size/自动控制大小
 
@@ -239,13 +239,17 @@ tkintertools 中的控件，其大小和形状可以随着窗口的变化而成�
 
 ### Across Platforms/跨平台
 
-[test.py](./test.py) 在 Windows 系统（Windows10）上运行的界面如下：
+[test.py](test.py) 在 Windows 系统（**Windows10**）上运行的界面如下：
 
-![test_win32.png](docs/images/test_win32.png)
+![test_windows10.png](docs/images/test_windows10.png)
 
-[test.py](./test.py) 在 Linux 系统（Ubuntu22.04）上运行的界面如下：
+[test.py](test.py) 在 Linux 系统（**Ubuntu22.04**）上运行的界面如下：
 
 ![test_linux.png](docs/images/test_linux.png)
+
+[test.py](test.py) 在 Windows 系统（**Windows11**）上运行的界面如下(智能控制圆角半径)：
+
+![test_windows11.png](docs/images/test_windows11.png)
 
 Contents/模块内容
 -------------------
@@ -682,10 +686,10 @@ More/更多
 > GitHub:  
 > https://github.com/Xiaokang2022/tkintertools
 
-> GitCode(Mirror/镜像):  
-> https://gitcode.net/weixin_62651706/tkintertools
-
 > Gitee(Mirror/镜像):  
 > https://gitee.com/xiaokang-2022/tkintertools
 
-还有更多内容请在 [源代码](./tkintertools/) 中探索！
+> GitCode(Mirror/镜像):  
+> https://gitcode.net/weixin_62651706/tkintertools
+
+还有更多内容请在 [源代码](tkintertools/) 中探索！

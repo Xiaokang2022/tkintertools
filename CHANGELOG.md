@@ -1,7 +1,7 @@
 ChangeLog/更新日志
 =================
 
-[2.6.3-dev] - 2023-06-06
+[2.6.3] - 2023-06-07
 --------------------
 
 ### Optimized/优化
@@ -12,6 +12,9 @@ ChangeLog/更新日志
 - [X] Make the default value of the corner radius more intelligent, 4 when the system is `Windows11`, `Linux`, `Mac`, and 0 for the rest  
 使圆角半径的默认值更加智能，当系统为`Windows11`、`Linux`、`Mac`时为 4，其余情况为 0
 
+- [X] Added more type hints, especially for overloads  
+添加了更多类型提示，尤其是对重载的提示
+
 ### Fixed/修复
 
 - [X] Fixed a bug where the parameter `keep` would affect the position of class `Canvas`  
@@ -19,8 +22,8 @@ ChangeLog/更新日志
 
 ### Changed/变更
 
-- [X] Set the default value of the parameter `keep` of the class `Canvas_3d` in the 3D module to `True`, i.e. keep the canvas width and height scaled proportionally by default  
-将3d模块中的类`Canvas_3d`的参数`keep`的默认值设为`True`，即默认保持画布宽高缩放成比例
+- [X] Set the default value of the parameter `keep` of the class `Canvas_3D` in the 3D module to `True`, i.e. keep the canvas width and height scaled proportionally by default  
+将3d模块中的类`Canvas_3D`的参数`keep`的默认值设为`True`，即默认保持画布宽高缩放成比例
 
 [2.6.2] - 2023-05-30
 --------------------

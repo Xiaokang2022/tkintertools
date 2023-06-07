@@ -5,7 +5,6 @@ from random import randint, sample
 from tkinter import Event, TclError, messagebox
 
 import tkintertools as tkt
-from tkintertools import constants as cnt
 from tkintertools import tools_3d as t3d
 
 
@@ -115,7 +114,7 @@ class Application:
         button_1 = tkt.Button(self.canvas_doc, 1070, 10, 200, 50, text='Colorful',
                               command=lambda: (button_1.set_live(False), self.colorful()))
         self.canvas_doc.create_text(
-            15, 360, text=tkt.__doc__, font=(cnt.FONT, 14), anchor='w')
+            15, 360, text=tkt.__doc__, font=(tkt.FONT, 14), anchor='w')
 
     def canvas_graph_init(self):
         tkt.Button(

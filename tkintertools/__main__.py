@@ -4,7 +4,7 @@ import math  # 数学支持
 import sys  # DPI 兼容
 import tkinter  # 基础模块
 from fractions import Fraction  # 图片缩放
-from typing import Any, Callable, Generator, Iterable  # 类型提示
+from typing import Any, Callable, Generator, Iterable, overload  # 类型提示
 
 try:  # NOTE: 为了兼容 Python3.7，从 typing_extensions 引入 Literal 而不是 typing
     from typing_extensions import Literal
@@ -49,8 +49,8 @@ class Tk(tkinter.Tk):
         self.height = [100, 1]  # type: list[int]  # [初始高度, 当前高度]
         self._canvas = []  # type: list[Canvas]  # 子画布列表
 
-        if width and height:
-            if x is not None and y is not None:  # BUG: 可能需要修改
+        if width is not None and height is not None:
+            if x is not None and y is not None:
                 self.geometry('%dx%d+%d+%d' % (width, height, x, y))
             else:
                 self.geometry('%dx%d' % (width, height))
@@ -78,7 +78,7 @@ class Tk(tkinter.Tk):
         self.width[1], self.height[1] = width, height  # 更新窗口当前的宽高值
 
     def wm_geometry(self, newGeometry=None):  # type: (str | None) -> str | None
-        # 重写: 添加修改初始宽高值的功能并兼容不同的DPI缩放
+        # override: 添加修改初始宽高值的功能并兼容不同的DPI缩放
         if newGeometry:
             width, height, _width, _height, * \
                 _ = map(int, (newGeometry+'+0+0').replace('+', 'x').split('x'))
@@ -202,11 +202,19 @@ class Canvas(tkinter.Canvas):
         """ 返回`Canvas`类的`BaseWidget`元组 """
         return tuple(self._widget)
 
+    @overload
+    def lock(self, value):  # type: (bool) -> None
+        ...
+
+    @overload
+    def lock(self):  # type: () -> None
+        ...
+
     def lock(self, value=None):  # type: (bool | None) -> bool | None
         """
-        设置画布锁\n
+        设置或者查询画布锁\n
         ---
-        `value`: 布尔值，True则可操作，False反之，None则返回当前值\n
+        `value`: 布尔值，True则可操作，False反之，无参数或参数为None则返回当前值\n
         """
         if value is None:
             return self._lock
@@ -325,7 +333,7 @@ class Canvas(tkinter.Canvas):
                         return
 
     def create_text(self, *args, **kw):  # type: (...) -> tkinter._CanvasItemId
-        # 重写：添加对 text 类型的 _CanvasItemId 的字体大小的控制
+        # override: 添加对 text 类型的 _CanvasItemId 的字体大小的控制
         font = kw.get('font')
         if not font:
             kw['font'] = FONT, SIZE
@@ -336,7 +344,7 @@ class Canvas(tkinter.Canvas):
         return item
 
     def create_image(self, *args, **kw):  # type: (...) -> tkinter._CanvasItemId
-        # 重写：添加对 image 类型的 _CanvasItemId 的图像大小的控制
+        # override: 添加对 image 类型的 _CanvasItemId 的图像大小的控制
         item = tkinter.Canvas.create_image(self, *args, **kw)
         self._image[item] = [kw.get('image'), None]
         return item
@@ -346,19 +354,19 @@ class Canvas(tkinter.Canvas):
         tagOrId,  # type: str | tkinter._CanvasItemId
         **kw
     ):  # type: (...) -> dict[str, tuple[str, str, str, str, str]] | None
-        # 重写：创建空 image 的 _CanvasItemId 时漏去对图像大小的控制
+        # override: 创建空 image 的 _CanvasItemId 时漏去对图像大小的控制
         if type(kw.get('image')) == PhotoImage:
             self._image[tagOrId] = [kw.get('image'), None]
         return tkinter.Canvas.itemconfigure(self, tagOrId, **kw)
 
     def place(self, *args, **kw):  # type: (...) -> None  # BUG: 缩放就会恢复原样
-        # 重写：增加一些特定功能
+        # override: 增加一些特定功能
         self.width[0] = kw.get('wdith', self.width[0])
         self.height[0] = kw.get('height', self.height[0])
         return tkinter.Canvas.place(self, *args, **kw)
 
     def destroy(self):  # type: () -> None
-        # 重写：兼容
+        # override: 兼容
         self.master._canvas.remove(self)
         for widget in self.widget():
             widget.destroy()
@@ -522,10 +530,19 @@ class BaseWidget:
             canvas._font[self.text][1] = font[1]
             canvas.itemconfigure(self.text, font=font)
 
-    # type: (Literal['normal', 'touch', 'click', 'disabled'] | None) -> None
+    @overload
+    def state(self, mode):
+        # type: (Literal['normal', 'touch', 'click', 'disabled']) -> None
+        ...
+
+    @overload
+    def state(self):  # type: () -> None
+        ...
+
     def state(self, mode=None):
+        # type: (Literal['normal', 'touch', 'click', 'disabled'] | None) -> None
         """
-        mode 参数为 None 时仅更新控件，否则改变虚拟控件的外观\n
+        mode参数为None或者无参数时仅更新控件，否则改变虚拟控件的外观\n
         ---
         `normal`: 正常状态\n
         `touch`: 鼠标触碰时的状态\n
@@ -610,6 +627,14 @@ class BaseWidget:
         """
         self.move(x - self.x1, y - self.y1)
 
+    @overload
+    def configure(self, **kw):  # type: (...) -> None
+        ...
+
+    @overload
+    def configure(self, *args):  # type: (...) -> str | tuple
+        ...
+
     def configure(self, *args, **kw):  # type: (...) -> str | tuple | None
         """
         修改或查询原有参数的值，可供修改或查询的参数有\n
@@ -666,13 +691,21 @@ class BaseWidget:
         self.master.delete(self.image)
         self.master.delete(self.text)
 
-    def set_live(self, boolean=None):  # type: (bool | None) -> bool | None
+    @overload
+    def set_live(self, value):  # type: (bool) -> None
+        ...
+
+    @overload
+    def set_live(self):  # type: () -> bool
+        ...
+
+    def set_live(self, value=None):  # type: (bool | None) -> bool | None
         """ 设定或查询live值 """
-        if boolean is None:
+        if value is None:
             return self.live
         else:
-            self.live = boolean
-            if boolean:
+            self.live = value
+            if value:
                 self.state('normal')
             else:
                 self.state('disabled')
@@ -1020,7 +1053,7 @@ class Entry(TextWidget):
 
 
 class Text(TextWidget):
-    """ 创建一个透明的虚拟文本框，用于输入多行文本和显示多行文本（只读模式）"""
+    """ 创建一个透明的虚拟文本框，用于输入多行文本和显示多行文本 """
 
     def __init__(
         self,
@@ -1341,6 +1374,7 @@ class Singleton(object):
         return cls._instance
 
 
+@overload
 def move(
     master,  # type: Tk | Canvas | tkinter.Misc | tkinter.BaseWidget | None
     widget,  # type: Canvas | BaseWidget | tkinter.BaseWidget
@@ -1348,8 +1382,39 @@ def move(
     dy,  # type: int
     times,  # type: int
     *,
-    # type: tuple[Callable[[float], float], float, float] | Literal['smooth', 'rebound', 'flat']  # NOTE
+    mode,  # type: Literal['smooth', 'rebound', 'flat']
+    frames=FRAMES,  # type: int
+    end=None,  # type: Callable | None
+    _ind=0  # type: int
+):  # type: (...) -> None
+    ...
+
+
+@overload
+def move(
+    master,  # type: Tk | Canvas | tkinter.Misc | tkinter.BaseWidget | None
+    widget,  # type: Canvas | BaseWidget | tkinter.BaseWidget
+    dx,  # type: int
+    dy,  # type: int
+    times,  # type: int
+    *,
+    mode,  # type: tuple[Callable[[float], float], float, float]
+    frames=FRAMES,  # type: int
+    end=None,  # type: Callable | None
+    _ind=0  # type: int
+):  # type: (...) -> None
+    ...
+
+
+def move(
+    master,  # type: Tk | Canvas | tkinter.Misc | tkinter.BaseWidget | None
+    widget,  # type: Canvas | BaseWidget | tkinter.BaseWidget
+    dx,  # type: int
+    dy,  # type: int
+    times,  # type: int
+    *,
     mode,
+    # type: tuple[Callable[[float], float], float, float] | Literal['smooth', 'rebound', 'flat']
     frames=FRAMES,  # type: int
     end=None,  # type: Callable | None
     _ind=0  # type: int
@@ -1426,6 +1491,22 @@ def text(
     else:  # 居中
         length, key = divmod(length, 2)
         return ' '*length+string+(length+key)*' '
+
+
+@overload
+def color(
+    color,  # type: Iterable[str]
+    proportion=1.  # type: float
+):  # type: (...) -> str
+    ...
+
+
+@overload
+def color(
+    color,  # type: str
+    proportion=1.  # type: float
+):  # type: (...) -> str
+    ...
 
 
 def color(
