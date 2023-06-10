@@ -60,8 +60,8 @@ TICK = '✓'
 """ Default checkbox symbol """
 
 
-CFG_3D = 500, None, None
-""" Default 3D configuration """
+CAMERA_DISTANCE = 1000
+""" Default 3D camera distance """
 
 
 COLOR_POINT_FILL = '#000000'

@@ -4,12 +4,8 @@ import math  # 数学支持
 import sys  # DPI 兼容
 import tkinter  # 基础模块
 from fractions import Fraction  # 图片缩放
-from typing import Any, Callable, Generator, Iterable, overload  # 类型提示
-
-try:  # NOTE: 为了兼容 Python3.7，从 typing_extensions 引入 Literal 而不是 typing
-    from typing_extensions import Literal
-except ImportError:
-    pass
+from typing import Any, Callable, Generator, Iterable, Literal, overload
+# 类型提示
 
 if sys.platform == 'win32':  # 仅在 Windows 平台下支持设置 DPI 级别
     from ctypes import WinDLL
@@ -1190,7 +1186,7 @@ class Text(TextWidget):
             if self.value == self.master.itemcget(self.text, 'text'):
                 _pos = self.master.bbox(self._text)
                 self.master.move(self._text, 0, _pos[1] - _pos[3])
-                # NOTE: 为了兼容Python3.7/3.8,放弃使用str.removesuffix方法，以temp取而代之
+                # NOTE: 为了兼容Python3.8,放弃使用str.removesuffix方法，以temp取而代之
                 temp = self.value[:-
                                   len(_)] if self.value.endswith(_) else self.value
                 __ = temp[:-('\n' in self.value)]

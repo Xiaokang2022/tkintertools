@@ -7,13 +7,13 @@
     <p><code>tkintertools</code> 模块是 <code>tkinter</code> 模块的辅助模块</p>
     <p>
         <a href="tkintertools/__init__.py">
-            <img src="https://img.shields.io/badge/Version-2.6.3-blue" alt="latest version" />
+            <img src="https://img.shields.io/badge/Version-2.6.4(dev)-blue" alt="latest version" />
         </a>
         <a href="LICENSE">
             <img src="https://img.shields.io/badge/License-Mulan PSL v2-green" alt="License" />
         </a>
         <a href="CHANGELOG.md">
-            <img src="https://img.shields.io/badge/ChangeLog-2023/06/07-orange" alt="ChangeLog" />
+            <img src="https://img.shields.io/badge/ChangeLog-2023/06/11-orange" alt="ChangeLog" />
         </a>
         <a href="TODO.md">
             <img src="https://img.shields.io/badge/ToDos-14-yellow" alt="ToDos" />
@@ -45,129 +45,121 @@ Installation/模块安装
 
 ```
 pip install tkintertools==2.6.3
-```
 或者
-```
 pip install tkintertools
 ```
 
-这个是目前的最新稳定版，比较稳定，bug 没有那么多，推荐使用这个。  
-稳定版有文档可以查看，有 issue 我会去查看并尝试解决 issue。
+这个是目前的最新稳定版，比较稳定，bug （可能）没有那么多，推荐使用这个。  
+关于稳定版有 Issue 的话，我会去查看并尝试解决 Issue。
 
 ### Development version/开发版本
 
-* Version/版本 : 2.6.3
-* Release Date/发布日期 : 2023/06/06
+* Version/版本 : 2.6.4
+* Release Date/发布日期 : 2023/06/11
 
 ```
-pip install tkintertools-dev==2.6.3
+pip install tkintertools-dev==2.6.4
+或者
+pip install tkintertools-dev
 ```
 
-这个是我正在开发的版本，有新功能，但不能保证稳定，bug 可能会比较多。  
-开发版本没有对应的文档，大家可以在 issue 中提出建议，我会适当采纳一些并在开发版本中更改或实现。
+这个是我正在开发的版本，可能有新功能，bug 也可能会比较多，但也可能会比原来的版本更加稳定。  
+大家可以在 Issue 中提出一些建议，我会适当采纳一些并在开发版本中更改或实现。
 
-News/最新功能
+**特别注意**
+* 开发版仅作示例，各函数或类的API并非最终确定结果，直接使用开发版可能导致后续无法与正式版兼容！
+* 若要使用开发版，请先卸载正式版后再进行pip安装，再次使用正式版时也是一样，先卸载开发版再安装正式版！
+* 需要 **Python3.8** 及更高版本才能运行 tkintertools！
+
+<a name="news">News/最新功能</a>
 ------------
 
-最新版的tkintertools新增一项极为强大的功能：3d绘图！  
-同时修复一些bug，优化了一部分代码，提升了一部分性能。
+最新版的 tkintertools **开发版**(2.6.4-dev)新增了对3d几何体空间位置排序的支持，使得几何体不再只有粗略的线条，而拥有丰富的颜色。
 
-通过以下代码来使用3d绘图功能：
+在 Windows 系统下运行下面的示例程序时，其拥有以下功能：
+* 按住鼠标左键拖动可以旋转这多个几何体；
+* 按住鼠标右键拖动可以移动这些几何体在空间中的位置；
+* 按“=”和“-”键分别可以放大和缩小几何体的大小；
+* 滚动鼠标中键可以放大和缩小画面。
 
-```python
-from tkintertools import tools_3d as t3d
-import tkintertools.tools_3d as t3d
-# 两种引入方式都可以
-```
+下面是示例程序的效果图：
 
-子模块: [tools_3d.py](tkintertools/tools_3d.py)
-
-目前3d绘图功能还比较简陋，仅能绘制点、线、面以及直边的空间几何体，对于曲边的空间几何体还在开发中！  
-以下是一个使用3d绘图的示例：
-
-在这个示例中，按住鼠标左键可以旋转几何体，按住鼠标右键可以平移几何体，滚动鼠标滚轮可以缩放几何体！  
-x、y 和 z 轴分别是红色、绿色和蓝色的线。
-
-![3d绘图](docs/images/3d.png)
+![news.png](news.png)
 
 <details><summary><b>源代码</b></summary>
 
 ```python
-import random
-import tkinter
+from tkinter import Event
 
 import tkintertools as tkt
 from tkintertools import tools_3d as t3d
 
-root = tkt.Tk('tools_3d', 1280, 720)
-canvas = t3d.Canvas_3D(root, 1280, 720, 0, 0)
+root = tkt.Tk('tool_3d', 1280, 720)
+cv3d = t3d.Canvas_3D(root, 1280, 720, 0, 0)
 
-geos = []  # type: list[t3d.Geometry]
-origin = t3d.Point(canvas, [0, 0, 0], size=5)  # 原点
-axes = [t3d.Line(canvas, [0, 0, 0], [100, 0, 0], width=3, fill='red'),  # 创建坐标轴
-        t3d.Line(canvas, [0, 0, 0], [0, 100, 0], width=3, fill='green'),
-        t3d.Line(canvas, [0, 0, 0], [0, 0, -100], width=3, fill='blue')]
-
-for _ in range(8):
-    # 创建正方体
-    cube = t3d.Cuboid(
-        canvas, *random.sample(range(-200, 200), 3), *random.sample(range(50, 100), 3))
-    geos.append(cube)
-    # 创建四面体
-    x, y, z = random.sample(range(-200, 200), 3)
-    tetr = t3d.Tetrahedron(
-        canvas, *[[x+random.randint(-100, 100), y+random.randint(-100, 100), z+random.randint(-100, 100)] for _ in range(4)])
-    geos.append(tetr)
+origin = t3d.Point(cv3d, [0, 0, 0])  # 原点
+k = -100, 0, 100
+geos = [t3d.Cuboid(cv3d, a-50, b-50, c-50, 100, 100, 100, color_up='white', color_down='yellow', color_left='red',
+                   color_right='orange', color_front='blue', color_back='green') for a in k for b in k for c in k]
+cv3d.space_sort()
 
 
 def translate(event, flag=False, _cache=[]):
-    # type: (tkinter.Event, bool, list[float]) -> None
+    # type: (Event, bool, list[float]) -> None
     """ 平移事件 """
     if flag:
         _cache[:] = [event.x, event.y]
         return
-    dx = (event.x - _cache[0]) / 6
-    dy = (event.y - _cache[1]) / 6
+    dx = (event.x - _cache[0])
+    dy = (event.y - _cache[1])
     _cache[:] = [event.x, event.y]
-    for axis in axes:
-        axis.translate(0, 6*dx, 6*dy)
-        axis.update()
     for geo in geos:
         geo.translate(0, dx, dy)
         geo.update()
-    origin.translate(0, 6*dx, 6*dy)
+    origin.translate(0, dx, dy)
     origin.update()
+    cv3d.space_sort()
 
 
-def rotate(event, flag=False, _cache=[]):  # type: (tkinter.Event, bool, list[float]) -> None
+def rotate(event, flag=False, _cache=[]):
+    # type: (Event, bool, list[float]) -> None
     """ 旋转事件 """
     if flag:
         _cache[:] = [event.x, event.y]
         return
-    dy = (event.x - _cache[0]) / 200
-    dx = (_cache[1] - event.y) / 200
+    dy = (event.x - _cache[0]) / 100
+    dx = (_cache[1] - event.y) / 100
     _cache[:] = [event.x, event.y]
-    for axis in axes:
-        axis.rotate(0, 6*dx, 6*dy, center=origin.coords)
-        axis.update()
-    for geo in geos:
-        geo.rotate(0, dx, dy, center=origin.coords)
-        geo.update()
+    for item in geos:
+        item.rotate(0, dx, dy, center=origin.coords)
+        item.update()
+    cv3d.space_sort()
 
 
-def scale(event):  # type: (tkinter.Event) -> None
+def scale(event):  # type: (Event) -> None
     """ 缩放事件 """
-    k = 1.01 if event.delta > 0 else 0.99
+    k = 1.05 if event.keysym == 'equal' else 0.95 if event.keysym == 'minus' else 1
     for geo in geos:
         geo.scale(k, k, k)
         geo.update()
+    cv3d.space_sort()
+
+
+def scale_center(event):  # type: (Event) -> None
+    """ 中心缩放事件 """
+    k = 1.05 if event.delta > 0 else 0.95
+    for geo in geos:
+        geo.scale(k, k, k, center=origin.coords)
+        geo.update()
+    cv3d.space_sort()
 
 
 root.bind('<Button-1>', lambda event: rotate(event, True))
 root.bind('<B1-Motion>', rotate)
 root.bind('<Button-3>', lambda event: translate(event, True))
 root.bind('<B3-Motion>', translate)
-root.bind('<MouseWheel>', scale)
+root.bind('<Any-Key>', scale)
+root.bind('<MouseWheel>', scale_center)
 root.mainloop()
 ```
 
@@ -194,8 +186,7 @@ tkintertools 模块还具有一些特色的功能：
 * 利用 tkinter 和 tkintertools 创建的程序，在高分辨率的情况下，tkintertools 的会更加清晰（这点对于笔记本用户很友好，比如我）
 * 可以迅速实现渐变色的效果
 * 窗口缩放，所有的控件的大小跟着缩放（当然，也可以设置为不跟随缩放）
-
-注意：需要 **Python3.7** 及更高版本才能运行 tkintertools！
+* 子模块 tools_3d 可以是满足简单的 3D 绘图需求
 
 Provides/模块功能
 -------------------
@@ -233,7 +224,7 @@ tkintertools 中的控件，其大小和形状可以随着窗口的变化而成�
 参考 [PEP 526](https://peps.python.org/pep-0526/)、[PEP 586](https://peps.python.org/pep-0586/)、[PEP 604](https://peps.python.org/pep-0604/) 和 [PEP 612](https://peps.python.org/pep-0612/)，我采用了最兼容的方式去实现详细的类型提示，可适用 IDE 有 VScode、Pycharm 等。  
 那什么是类型提示呢？话不多说，直接看图就行：
 
-![type_hint.png](docs/images/type_hint_vscode.png)
+![type_hint.png](readme_res/type_hint_vscode.png)
 
 在 VSCode 编辑器中，当鼠标移至类或者函数的名字上面时，会自动显示该类或者函数的注释文档。通过这种方式，不需要看太多的帮助文档和资料就能熟练地使用 tkintertools 模块！
 
@@ -241,15 +232,19 @@ tkintertools 中的控件，其大小和形状可以随着窗口的变化而成�
 
 [test.py](test.py) 在 Windows 系统（**Windows10**）上运行的界面如下：
 
-![test_windows10.png](docs/images/test_windows10.png)
+![test_windows10.png](readme_res/test_windows10.png)
 
 [test.py](test.py) 在 Linux 系统（**Ubuntu22.04**）上运行的界面如下：
 
-![test_linux.png](docs/images/test_linux.png)
+![test_linux.png](readme_res/test_linux.png)
 
 [test.py](test.py) 在 Windows 系统（**Windows11**）上运行的界面如下(智能控制圆角半径)：
 
-![test_windows11.png](docs/images/test_windows11.png)
+![test_windows11.png](readme_res/test_windows11.png)
+
+### 3D Drawing/3D绘图
+
+见 [News/最新功能](#news)
 
 Contents/模块内容
 -------------------
@@ -278,7 +273,7 @@ Each non internal class and function in the module will be described in detail h
     标签控件的功能和`tkinter.Label`的功能类似，但更加的多元化  
     下面是`Label`控件的外观：  
 
-    ![LabelTest.png](docs/images/LabelTest.png)
+    ![LabelTest.png](readme_res/LabelTest.png)
 
     <details><summary><b>源代码</b></summary>
 
@@ -313,7 +308,7 @@ Each non internal class and function in the module will be described in detail h
     按钮控件相较于`tkinter.Button`，其自由度更高，`tkinter.Button`只有在按下的时候才能触发绑定的关联事件，而`Button`却可以在鼠标移至按钮上方时、鼠标按下时、鼠标松开时都可以绑定关联事件  
     下面是`Button`控件的外观：
 
-    ![ButtonTest.png](docs/images/ButtonTest.png)
+    ![ButtonTest.png](readme_res/ButtonTest.png)
 
     <details><summary><b>源代码</b></summary>
 
@@ -348,7 +343,7 @@ Each non internal class and function in the module will be described in detail h
     复选框控件相对于`tkinter`原生的`tkinter.CheckButton`在使用方面更加地简单，同时颜值也上升了不少  
     下面是`CheckButton`控件的外观：
 
-    ![CheckButtonTest.png](docs/images/CheckButtonTest.png)
+    ![CheckButtonTest.png](readme_res/CheckButtonTest.png)
 
     <details><summary><b>源代码</b></summary>
 
@@ -384,7 +379,7 @@ Each non internal class and function in the module will be described in detail h
     输入框控件可以轻松地设置输入的文本位置（靠左、居中和靠右），同时，它可以在鼠标移至输入框上方、鼠标未在输入框上方两种状态显示不同的默认文本  
     下面是`Entry`控件的外观：
 
-    ![EntryTest.png](docs/images/EntryTest.png)
+    ![EntryTest.png](readme_res/EntryTest.png)
     
     <details><summary><b>源代码</b></summary>
 
@@ -430,7 +425,7 @@ Each non internal class and function in the module will be described in detail h
     文本框类似于输入框，这里就不再赘述  
     下面是`Text`控件的外观：
 
-    ![TextTest.png](docs/images/TextTest.png)
+    ![TextTest.png](readme_res/TextTest.png)
     
     <details><summary><b>源代码</b></summary>
 
@@ -466,7 +461,7 @@ Each non internal class and function in the module will be described in detail h
     进度条控件相比`tkinter.ttk.Progressbar`，外观上的自由度较大  
     下面是`Progressbar`控件的外观：
 
-    ![ProgressbarTest.png](docs/images/ProgressbarTest.png)
+    ![ProgressbarTest.png](readme_res/ProgressbarTest.png)
 
     <details><summary><b>源代码</b></summary>
 
@@ -528,7 +523,7 @@ Each non internal class and function in the module will be described in detail h
 
     移动函数可以轻松地按一定的规律、移动速度、移动时间去移动`tkintertools`模块内的所有对象，同时兼容了`tkinter`内的对象，即`tkinter`中的对象也可以很方便地移动，甚至它还可以移动窗口的位置！
 
-    ![MoveTest.gif](docs/images/MoveTest.gif)
+    ![MoveTest.gif](readme_res/MoveTest.gif)
     
     <details><summary><b>源代码</b></summary>
 
@@ -582,9 +577,9 @@ Each non internal class and function in the module will be described in detail h
     颜色函数可以轻松求出一个颜色到另外一个颜色的过渡颜色，因此可以轻松得到渐变色的效果，同时，改变传入的参数还可以得到传入颜色的对比色  
     第二张图是 test.py 在图像测试中绘制的图案
 
-    ![ColorTest.png](docs/images/ColorTest.png)
+    ![ColorTest.png](readme_res/ColorTest.png)
 
-    ![Test_Draw.png](docs/images/Test_Draw.png)
+    ![Test_Draw.png](readme_res/Test_Draw.png)
 
     <details><summary><b>源代码</b></summary>
 
@@ -615,18 +610,18 @@ Each non internal class and function in the module will be described in detail h
 
     `askfont`函数可以打开默认的字体选择窗口，这个窗口虽然是默认的，但它实际上无法在`tkinter`中打开，因为`tkinter`并没有对应的 API 能够做到这一点。但是，`tkintertools`调用并封装了原生的 tcl 的命令，使得字体选择框能够被我们使用。
 
-    <p><img width="540px" src="https://gitcode.net/weixin_62651706/tkintertools/-/raw/master/docs/images/font.png" alt="font.png" /></p>
+    ![font.png](readme_res/font.png)
 
 5. `SetProcessDpiAwareness`: <a name="DPI">DPI 级别设置函数</a>
 
     这个函数实际上只是对函数`ctypes.WinDLL('shcore').SetProcessDpiAwareness`的一个简单包装，其值可为 0、1 和 2，分别代表程序 DPI 的不同级别，那么缩放效果也就不同，`tkintertools`选择的值是 1，但程序默认值实际为 0  
     下面是未执行这个函数的效果
     
-    ![SetProcessDpiAwareness_0.png](docs/images/SetProcessDpiAwareness_0.png)
+    ![SetProcessDpiAwareness_0.png](readme_res/SetProcessDpiAwareness_0.png)
 
     <p>下面是执行了这个函数的效果</p>
 
-    ![SetProcessDpiAwareness_1.png](docs/images/SetProcessDpiAwareness_1.png)
+    ![SetProcessDpiAwareness_1.png](readme_res/SetProcessDpiAwareness_1.png)
 
     从上面的两张图中可以很明显的看出第一张很模糊，第二张很清晰，这就是 DPI 级别不同的原因，不过这一点在屏幕缩放比不是 100% 的时候才会出现  
     大家对上面的图肯定很熟悉，这不就是 IDLE 吗！？对，这个的问题的解决办法也是来自于 IDLE 的源代码 [pyshell.py line 18~20]  
@@ -648,10 +643,9 @@ Examples/实战示例
 
 这个案例使用了 tkintertools-v2.5.7 版本（新版已无法兼容），含有一些 bug，大量采用了 tkintertools 的控件，取得了比较好的界面效果。体现了 tkintertools 模块与 tkinter 模块相比在颜值上的碾压性！
 
-<p>
-    <img width="720px" src="https://img-blog.csdnimg.cn/img_convert/dc1a598c3f082253c1ebc7bbca0b98ce.gif" alt="todolist.png"/>
-    <img width="720px" src="https://img-blog.csdnimg.cn/img_convert/7f34451deda1af13712a9edcb37f20b4.gif" alt="todolist.png"/>
-</p>
+![todolist.gif](https://img-blog.csdnimg.cn/img_convert/dc1a598c3f082253c1ebc7bbca0b98ce.gif)
+
+![todolist.gif](https://img-blog.csdnimg.cn/img_convert/7f34451deda1af13712a9edcb37f20b4.gif)
 
 ### 中国象棋游戏
 
@@ -663,10 +657,9 @@ Examples/实战示例
 注意：源代码有解压密码，解压密码在链接文章中，请仔细查找！  
 这个案例使用了 tkintertools-v2.5.9.5 版本（新版已无法兼容）, 含有少量 bug，部分 UI 采用了 tkintertools，部分 UI 采用了 tkinter，属于混合使用。体现了 tkintertools 模块对 tkinter 模块的兼容性！
 
-<p>
-    <img height="640px" src="https://img-blog.csdnimg.cn/43df0568d4b34078a443a098b67c126a.png" alt="chess.png"/>
-    <img height="640px" src="https://img-blog.csdnimg.cn/fc768093715d47d7b14bea015a921e3d.png" alt="chess.png"/>
-</p>
+![chess.png](https://img-blog.csdnimg.cn/43df0568d4b34078a443a098b67c126a.png)
+
+![chess.png](https://img-blog.csdnimg.cn/fc768093715d47d7b14bea015a921e3d.png)
 
 ### 简易登录界面
 
@@ -677,8 +670,9 @@ Examples/实战示例
 
 这个案例使用了最新稳定版的 tkintertools-v2.6.0，界面非常稳定，几乎没有 bug，完全采用 tkintertools 的控件，颜值很高，界面非常流畅。体现了 tkintertools 模块与 tkinter 模块相比在性能上的优越性！
 
-![exam3_1.png](docs/examples/exam3_1.png)
-![exam3_2.png](docs/examples/exam3_2.png)
+![exam3_1.png](readme_res/exam3_1.png)
+
+![exam3_2.png](readme_res/exam3_2.png)
 
 More/更多
 ---------

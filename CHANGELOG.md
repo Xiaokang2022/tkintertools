@@ -1,6 +1,33 @@
 ChangeLog/更新日志
 =================
 
+[2.6.4-dev] - 2023-06-11
+--------------------
+
+### Features/新增
+
+- [X] The class `tool_3d` submodule `Canvas_3D` has added the function `pos_sort` to calculate and sort the actual position of space to support the correct display of geometry colors  
+`tool_3d`子模块的类`Canvas_3D`新增对空间实际位置进行计算和排序的函数`pos_sort`，以支持几何体颜色的正确显示
+
+### Fixed/修复
+
+- [X] Fixed a bug where movement and rotation between points, lines, and sides in the 3D module are out of sync  
+修复了3D模块中的点、线与面之间移动和旋转不同步的bug
+
+- [X] Fixed a bug where class `Canvas_3D` in the 3D module would be invalid when passing arguments to class `Canvas` in the original `tkinter` module  
+修复了3D模块中的类`Canvas_3D`在传递原`tkinter`模块中的类`Canvas`的参数时会无效的bug
+
+### Changed/变更
+
+- [X] The parameter `cfg_3d` of class `Canvas_3D` is changed to 3 specific parameters, namely camera distance `camera_distance`, picture abscissa deviation `dx` and screen ordinate deviation `dy`  
+类`Canvas_3D`的参数`cfg_3d`被更改为3个具体的参数，分别为相机距离`camera_distance`、画面横坐标偏差`dx`和画面纵坐标偏差`dy`
+
+- [X] In the 3D submodule, the value of the camera distance constant is changed to 1000  
+3D子模块中相机距离常量的值更改为1000
+
+- [X] Compatibility changes, because Python 3.7 is about to enter the end-of-life stage, and in order to improve program performance, Python3.7 is not compatible, but Python3.8 is compatible  
+兼容性更改，由于Python3.7即将步入 end-of-life 阶段，且为了提高程序性能，现无法兼容Python3.7，但能够兼容Python3.8
+
 [2.6.3] - 2023-06-07
 --------------------
 

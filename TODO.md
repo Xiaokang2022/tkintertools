@@ -40,5 +40,5 @@ TODO/待办
 13. [ ] Add more 3D spatial geometry classes  
 增加更多3d空间几何体类
 
-14. [ ] Solve a bug where movement and rotation between points, lines, and sides in the 3D module are out of sync  
-解决3D模块中的点、线与面之间移动和旋转不同步的bug
+14. [ ] Fixed a bug where objects in the 3D submodule were displayed incorrectly when they exceeded the display range of the screen  
+解决3D子模块中对象超过画面显示范围时显示错误的bug
