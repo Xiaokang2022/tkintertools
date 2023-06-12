@@ -1,13 +1,13 @@
 ChangeLog/更新日志
 =================
 
-[2.6.4-dev] - 2023-06-11
+[2.6.4] - 2023-06-12
 --------------------
 
 ### Features/新增
 
-- [X] The class `tool_3d` submodule `Canvas_3D` has added the function `pos_sort` to calculate and sort the actual position of space to support the correct display of geometry colors  
-`tool_3d`子模块的类`Canvas_3D`新增对空间实际位置进行计算和排序的函数`pos_sort`，以支持几何体颜色的正确显示
+- [X] The class `tool_3d` submodule `Canvas_3D` has added the function `space_sort` to calculate and sort the actual position of space to support the correct display of geometry colors  
+`tool_3d`子模块的类`Canvas_3D`新增对空间实际位置进行计算和排序的函数`space_sort`，以支持几何体颜色的正确显示
 
 ### Fixed/修复
 
@@ -475,4 +475,10 @@ ChangeLog/更新日志
 [2.5.0] - 2022-11-21
 --------------------
 
-- [X] No more logging
+- [X] No more logging  
+没有更多日志了
+
+--------------------
+
+TIP: Since I didn't get into the habit of logging before, there are no more logs, but fortunately the version number is inherited ಥ_ಥ  
+提示: 由于我以前没有养成记录日志的习惯，故没有更多的日志了，好在版本号继承了下来 ಥ_ಥ

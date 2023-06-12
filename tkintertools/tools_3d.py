@@ -24,7 +24,7 @@ def translate(coords, dx=0, dy=0, dz=0):
     coords[2] += dz
 
 
-def rotate(coords, dx=1, dy=1, dz=1, *, center=[0, 0, 0]):
+def rotate(coords, dx=0, dy=0, dz=0, *, center=[0, 0, 0]):
     # type: (list[float], float, float, float, ..., Iterable[float]) -> None
     """
     ### 旋转
@@ -133,10 +133,10 @@ class _Point():
         """ 平移 """
         translate(self.coords, dx, dy, dz)
 
-    def rotate(self, dx=1, dy=1, dz=1, *, center=[0, 0, 0]):
-        # type: (float, float, float, ..., Iterable[float]) -> None
+    def rotate(self, dx=0, dy=0, dz=0, *, center=[0, 0, 0], axes=None, delta=0):
+        # type: (float, float, float, ..., Iterable[float], Line | None, float) -> None
         """ 旋转 """
-        rotate(self.coords, dx, dy, dz, center=center)
+        rotate(self.coords, dx, dy, dz, center=center, axes=axes, delta=delta)
 
     def scale(self, kx=1, ky=1, kz=1, *, center=None):
         # type: (float, float, float, ..., Iterable[float] | None) -> None
@@ -168,7 +168,7 @@ class _Line:
         for coord in self.coords:
             translate(coord, dx, dy, dz)
 
-    def rotate(self, dx=1, dy=1, dz=1, *, center=[0, 0, 0]):
+    def rotate(self, dx=0, dy=0, dz=0, *, center=[0, 0, 0]):
         # type: (float, float, float, ..., Iterable[float]) -> None
         """ 旋转 """
         for coord in self.coords:
@@ -200,7 +200,7 @@ class _Side:
         for coord in self.coords:
             translate(coord, dx, dy, dz)
 
-    def rotate(self, dx=1, dy=1, dz=1, *, center=[0, 0, 0]):
+    def rotate(self, dx=0, dy=0, dz=0, *, center=[0, 0, 0]):
         # type: (float, float, float, ..., Iterable[float]) -> None
         """ 旋转 """
         for coord in self.coords:
@@ -381,9 +381,9 @@ class Geometry:
         # type: (float, float, float, ..., Iterable[float]) -> None
         """
         旋转\n
-        `dx`: 绕x轴方向旋转角度\n
-        `dy`: 绕y轴方向旋转角度\n
-        `dz`: 绕z轴方向旋转角度\n
+        `dx`: 绕x轴方向旋转弧度\n
+        `dy`: 绕y轴方向旋转弧度\n
+        `dz`: 绕z轴方向旋转弧度\n
         `center`: 旋转中心\n
         """
         coords = [coord for side in self.sides for coord in side.coords]

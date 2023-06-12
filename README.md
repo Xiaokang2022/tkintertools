@@ -1,36 +1,36 @@
 <div align="center">
     <h1>🚀tkintertools🚀</h1>
-    <p><img height="120px" alt="logo.png"
-        src="tkintertools.png" />
+    <p><img height="120px" alt="logo.png" src="tkintertools.png" /></p>
+    <p>
+    The <code>tkintertools</code> module is an auxiliary module of the <code>tkinter</code> module
+    <br />
+    <code>tkintertools</code> 模块是 <code>tkinter</code> 模块的辅助模块
     </p>
-    <p>The <code>tkintertools</code> module is an auxiliary module of the <code>tkinter</code> module</p>
-    <p><code>tkintertools</code> 模块是 <code>tkinter</code> 模块的辅助模块</p>
     <p>
         <a href="tkintertools/__init__.py">
-            <img src="https://img.shields.io/badge/Version-2.6.4(dev)-blue" alt="latest version" />
+            <img src="https://img.shields.io/badge/Version-2.6.4-blue" alt="latest version" />
         </a>
         <a href="LICENSE">
             <img src="https://img.shields.io/badge/License-Mulan PSL v2-green" alt="License" />
         </a>
         <a href="CHANGELOG.md">
-            <img src="https://img.shields.io/badge/ChangeLog-2023/06/11-orange" alt="ChangeLog" />
+            <img src="https://img.shields.io/badge/ChangeLog-2023/06/12-orange" alt="ChangeLog" />
         </a>
         <a href="TODO.md">
-            <img src="https://img.shields.io/badge/ToDos-14-yellow" alt="ToDos" />
+            <img src="https://img.shields.io/badge/ToDo-15-yellow?logo=cachet" alt="ToDos" />
         </a>
         <a href="https://pypistats.org/packages/tkintertools">
-            <img src="https://img.shields.io/badge/Downloads-4k-purple" alt="Downloads" />
+            <img src="https://img.shields.io/badge/Download-4k-purple?logo=pypi" alt="Downloads" />
         </a>
-    </p>
-    <p>
+        <br />
         <a href="mailto:2951256653@qq.com">
             <img src="https://img.shields.io/badge/Email-2951256653@qq.com-cyan" alt="Email" />
         </a>
-        <a href="https://xiaokang2022.blog.csdn.net">
-            <img src="https://img.shields.io/badge/Blog-小康2022@CSDN-red" alt="Blog" />
-        </a>
         <a href="https://github.com/Xiaokang2022">
             <img src="https://img.shields.io/badge/Author-小康2022-white" alt="Author" />
+        </a>
+        <a href="https://xiaokang2022.blog.csdn.net">
+            <img src="https://img.shields.io/badge/Blog-小康2022@CSDN-red" alt="Blog" />
         </a>
     </p>
 </div>
@@ -40,36 +40,47 @@ Installation/模块安装
 
 ### Stable version/稳定版本
 
-* Version/版本 : 2.6.3
-* Release Date/发布日期 : 2023/06/07
-
-```
-pip install tkintertools==2.6.3
-或者
-pip install tkintertools
-```
+* Version/版本 : 2.6.4
+* Release Date/发布日期 : 2023/06/12
 
 这个是目前的最新稳定版，比较稳定，bug （可能）没有那么多，推荐使用这个。  
 关于稳定版有 Issue 的话，我会去查看并尝试解决 Issue。
+
+```
+pip install tkintertools==2.6.4
+```
 
 ### Development version/开发版本
 
 * Version/版本 : 2.6.4
 * Release Date/发布日期 : 2023/06/11
 
-```
-pip install tkintertools-dev==2.6.4
-或者
-pip install tkintertools-dev
-```
-
 这个是我正在开发的版本，可能有新功能，bug 也可能会比较多，但也可能会比原来的版本更加稳定。  
 大家可以在 Issue 中提出一些建议，我会适当采纳一些并在开发版本中更改或实现。
+
+```
+pip install tkintertools-dev==2.6.4
+```
 
 **特别注意**
 * 开发版仅作示例，各函数或类的API并非最终确定结果，直接使用开发版可能导致后续无法与正式版兼容！
 * 若要使用开发版，请先卸载正式版后再进行pip安装，再次使用正式版时也是一样，先卸载开发版再安装正式版！
-* 需要 **Python3.8** 及更高版本才能运行 tkintertools！
+
+### Environmental requirements/环境需求
+
+没有任何额外的依赖包（除了tkinter），但只支持以下 Python 版本:
+
+![Python3.8](https://img.shields.io/badge/Python-3.8.*-blue?logo=python)
+![Python3.9](https://img.shields.io/badge/Python-3.9.*-blue?logo=python)
+![Python3.10](https://img.shields.io/badge/Python-3.10.*-blue?logo=python)
+![Python3.11](https://img.shields.io/badge/Python-3.11.*-blue?logo=python)
+![Python3.12](https://img.shields.io/badge/Python-3.12.*-blue?logo=python)
+
+可能在某些操作系统上也可运行，但目前以下操作系统已经测试通过:
+
+![Windows10](https://img.shields.io/badge/Windows-10-green?logo=windows)
+![Windows11](https://img.shields.io/badge/Windows-11-green?logo=windows11)
+![Ubuntu22.04](https://img.shields.io/badge/Ubuntu-22.04-green?logo=ubuntu)
 
 <a name="news">News/最新功能</a>
 ------------

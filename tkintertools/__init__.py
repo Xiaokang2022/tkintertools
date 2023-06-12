@@ -12,7 +12,7 @@ Provides
 * Gradient colors and contrast colors
 * Text with controllable length and alignment
 * Convenient, inheritable singleton pattern class
-* Display clear window and its contents
+* 3D drawing
 
 Contents
 --------
@@ -20,18 +20,19 @@ Contents
 * Virtual Canvas Widgets: `Label`, `Button`, `CheckButton`, `Entry`, `Text`, `Progressbar`
 * Tool Classes: `PhotoImage`, `Singleton`
 * Tool Functions: `move`, `text`, `color`, `askfont`, `SetProcessDpiAwareness`
+* Tool Submodules: `tool_3d`
 
 More
 ----
-* GitCode: https://gitcode.net/weixin_62651706/tkintertools
-* GitHub(Mirror): https://github.com/XiaoKang2022-CSDN/tkintertools
-* Tutorials: https://xiaokang2022.blog.csdn.net/article/details/127374661
+* GitHub: https://github.com/Xiaokang2022/tkintertools
+* Gitee(Mirror): https://gitee.com/xiaokang-2022/tkintertools
+* GitCode(Mirror): https://gitcode.net/weixin_62651706/tkintertools
 """
 
 import sys
 
 if sys.version_info < (3, 8):  # Version Check
-    error_info = '\n\033[31mOperation Requirements: \033[32m\nPython version shall not be less than\033[33m 3.7.0 !\033[0m'
+    error_info = '\n\033[31mOperation Requirements: \033[32m\nPython version shall not be less than\033[33m 3.8 !\033[0m'
     raise RuntimeError(error_info)
 
 from .__main__ import (Button, Canvas, CheckButton, Entry, Label, PhotoImage,
