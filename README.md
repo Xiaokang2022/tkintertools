@@ -1,6 +1,6 @@
 <div align="center">
     <h1>🚀tkintertools🚀</h1>
-    <p><img height="120px" alt="logo.png" src="tkintertools.png" /></p>
+    <p><img height="128px" alt="logo.png" src="tkt.png" /></p>
     <p>
     The <code>tkintertools</code> module is an auxiliary module of the <code>tkinter</code> module
     <br />
@@ -35,8 +35,8 @@
     </p>
 </div>
 
-Installation/模块安装
---------------------
+Install/模块安装
+---------------
 
 ### Stable version/稳定版本
 

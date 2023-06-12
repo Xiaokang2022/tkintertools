@@ -133,9 +133,9 @@ class Application:
                               command=lambda: (button_2.set_live(False), self.draw()))
         try:
             self.canvas_graph.create_image(
-                1150, 130, image=tkt.PhotoImage('tkintertools.png'))
+                1150, 130, image=tkt.PhotoImage('tkt.png'))
         except TclError:
-            print('\033[31mLoad tkintertools.png Error\033[0m')
+            print('\033[31mLoad logo Error\033[0m')
 
     def canvas_3d_init(self):
         tkt.Button(
