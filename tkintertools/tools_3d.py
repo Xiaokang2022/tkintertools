@@ -2,6 +2,7 @@
 
 import math  # 数学支持
 import statistics  # 数据统计
+from tkinter import Event  # 类型提示
 from typing import Iterable  # 类型提示
 
 from .__main__ import Canvas, Tk, Toplevel  # 继承和类型提示
@@ -117,13 +118,86 @@ class Canvas_3D(Canvas):
 
     def space_sort(self):  # type: () -> None
         """ 空间位置排序 """
-        items = [item for item in self._items_3d]
-        items.sort(key=lambda item: item.camera_distance())
-        for item in items:
+        self._items_3d.sort(key=lambda item: item.camera_distance())
+        for item in self._items_3d:
             self.lower(item.item)
 
 
-class _Point():
+class Space(Canvas_3D):
+    """ 三维空间 """
+
+    def __init__(
+        self,
+        master,  # type: Tk | Toplevel
+        width,  # type: int
+        height,  # type: int
+        x=None,  # type: int | None
+        y=None,  # type: int | None
+        *,
+        lock=True,  # type: bool
+        expand=True,  # type: bool
+        keep=True,  # type: bool
+        camera_distance=CAMERA_DISTANCE,  # type: float
+        dx=None,  # type: float | None
+        dy=None,  # type: float | None
+        origin_color='',  # type: str
+        **kw
+    ):  # type: (...) -> None
+        Canvas_3D.__init__(self, master, width, height, x, y, lock=lock, expand=expand,
+                           keep=keep, camera_distance=camera_distance, dx=dx, dy=dy, **kw)
+        self._origin = Point(self, [0, 0, 0], size=1,
+                             fill=origin_color, outline=origin_color)
+        self.space_sort()
+        self.bind('<B3-Motion>', self._translate)
+        self.bind('<Button-3>', lambda _: self._translate(_, True))
+        self.bind('<ButtonRelease-3>', lambda _: self._translate(_, False))
+        self.bind('<B1-Motion>', self._rotate)
+        self.bind('<Button-1>', lambda _: self._rotate(_, True))
+        self.bind('<ButtonRelease-1>', lambda _: self._rotate(_, False))
+        self.bind('<MouseWheel>', self._zoom)
+        # NOTE: https://www.tcl.tk/man/tcl8.6/TkCmd/cursors.html
+
+    def _translate(self, event, flag=None, cache=[]):
+        # type: (Event, bool | None, list[float]) -> None
+        """ 平移视角 """
+        if flag is True:  # 按下
+            cache[:] = [event.x, event.y]
+            return self.configure(cursor='size')
+        elif flag is False:  # 松开
+            return self.configure(cursor='arrow')
+        dx, dy = event.x-cache[0], event.y-cache[1]
+        cache[:] = [event.x, event.y]
+        for item in self._geos+[self._origin]:
+            item.translate(0, dx, dy)
+            item.update()
+        self.space_sort()
+
+    def _rotate(self, event, flag=None, cache=[]):
+        # type: (Event, bool | None, list[float]) -> None
+        """ 旋转视角 """
+        if flag is True:
+            cache[:] = [event.x, event.y]
+            return self.configure(cursor='size')
+        elif flag is False:
+            return self.configure(cursor='arrow')
+        dx, dy = event.x-cache[0], event.y-cache[1]
+        cache[:] = [event.x, event.y]
+        for item in self._geos+[self._origin]:
+            item.rotate(0, -dy/self.dx*math.pi, dx /
+                        self.dy*math.pi, center=self._origin.coords)
+            item.update()
+        self.space_sort()
+
+    def _zoom(self, event):  # type: (Event) -> None
+        """ 缩放视角 """
+        k = 1.1 if event.delta > 0 else 0.9
+        for item in self.geos():
+            item.scale(k, k, k, center=self._origin.coords)
+            item.update()
+        self.space_sort()
+
+
+class _Point:
     """ 点 """
 
     def __init__(self, coords):  # type: (list[float]) -> None
@@ -133,10 +207,10 @@ class _Point():
         """ 平移 """
         translate(self.coords, dx, dy, dz)
 
-    def rotate(self, dx=0, dy=0, dz=0, *, center=[0, 0, 0], axes=None, delta=0):
-        # type: (float, float, float, ..., Iterable[float], Line | None, float) -> None
+    def rotate(self, dx=0, dy=0, dz=0, *, center=[0, 0, 0]):
+        # type: (float, float, float, ..., Iterable[float]) -> None
         """ 旋转 """
-        rotate(self.coords, dx, dy, dz, center=center, axes=axes, delta=delta)
+        rotate(self.coords, dx, dy, dz, center=center)
 
     def scale(self, kx=1, ky=1, kz=1, *, center=None):
         # type: (float, float, float, ..., Iterable[float] | None) -> None
@@ -145,10 +219,10 @@ class _Point():
 
     def project(self, distance):  # type: (float) -> list[float]
         """ 投影 """
-        try:
-            k = distance/(distance - self.coords[0])
-        except ZeroDivisionError:
-            return [distance*10, distance*10]
+        relative_dis = distance - self.coords[0]
+        if relative_dis <= 1e-16:
+            return [float('INF')]*2  # BUG
+        k = distance/relative_dis
         return [self.coords[1]*k, self.coords[2]*k]
 
 
@@ -377,7 +451,7 @@ class Geometry:
             if coord not in coords[:ind]:
                 translate(coord, dx, dy, dz)
 
-    def rotate(self, dx=1, dy=1, dz=1, *, center=[0, 0, 0]):
+    def rotate(self, dx=0, dy=0, dz=0, *, center=[0, 0, 0]):
         # type: (float, float, float, ..., Iterable[float]) -> None
         """
         旋转\n
@@ -460,6 +534,7 @@ class Cuboid(Geometry):
         `color_front`: 正面颜色\n
         `color_back`: 后面颜色\n
         """
+        canvas._geos.append(self)
         self.canvas = canvas
         self.coords = [[x+l, y+w, z+h]
                        for l in (0, length)
@@ -502,6 +577,7 @@ class Tetrahedron(Geometry):
         `p4`: 第四个顶点\n
         `colors`: 颜色序列\n
         """
+        canvas._geos.append(self)
         self.canvas = canvas
         self.coords = [list(p1), list(p2), list(p3), list(p4)]
         self.sides = [

@@ -1,6 +1,25 @@
 ChangeLog/更新日志
 =================
 
+[2.6.5-dev] - 2023-06-13
+--------------------
+
+### Features/新增
+
+- [X] The new class `Space` added to the submodule `tools_3d` can provide the ability to translate, rotate and scale 3D objects  
+子模块`tools_3d`新增类`Space`可以提供对3D对象进行平移、旋转和缩放等操作的功能
+
+### Fixed/修复
+
+- [X] Fixed a bug where class `Cuboid` and class `Tetrahedron` did not add instances to parent class `Canvas_3D`  
+修复了类`Cuboid`和类`Tetrahedron`没有将实例添加到父类`Canvas_3D`的bug
+
+- [X] Fixed a bug where an error was displayed when a 3D object appeared behind the camera position  
+修复了当3D对象出现在相机位置后面时会显示错误的bug
+
+- [X] Fixed some incorrect type hints  
+修复了部分错误的类型提示
+
 [2.6.4] - 2023-06-12
 --------------------
 

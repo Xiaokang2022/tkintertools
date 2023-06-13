@@ -8,16 +8,16 @@
     </p>
     <p>
         <a href="tkintertools/__init__.py">
-            <img src="https://img.shields.io/badge/Version-2.6.4-blue" alt="latest version" />
+            <img src="https://img.shields.io/badge/Version-2.6.5(dev)-blue" alt="latest version" />
         </a>
         <a href="LICENSE">
             <img src="https://img.shields.io/badge/License-Mulan PSL v2-green" alt="License" />
         </a>
         <a href="CHANGELOG.md">
-            <img src="https://img.shields.io/badge/ChangeLog-2023/06/12-orange" alt="ChangeLog" />
+            <img src="https://img.shields.io/badge/ChangeLog-2023/06/13-orange" alt="ChangeLog" />
         </a>
         <a href="TODO.md">
-            <img src="https://img.shields.io/badge/ToDo-15-yellow?logo=cachet" alt="ToDos" />
+            <img src="https://img.shields.io/badge/ToDo-14-yellow?logo=cachet" alt="ToDos" />
         </a>
         <a href="https://pypistats.org/packages/tkintertools">
             <img src="https://img.shields.io/badge/Download-4k-purple?logo=pypi" alt="Downloads" />
@@ -52,17 +52,17 @@ pip install tkintertools==2.6.4
 
 ### Development version/开发版本
 
-* Version/版本 : 2.6.4
-* Release Date/发布日期 : 2023/06/11
+* Version/版本 : 2.6.5
+* Release Date/发布日期 : 2023/06/13
 
 这个是我正在开发的版本，可能有新功能，bug 也可能会比较多，但也可能会比原来的版本更加稳定。  
 大家可以在 Issue 中提出一些建议，我会适当采纳一些并在开发版本中更改或实现。
 
 ```
-pip install tkintertools-dev==2.6.4
+pip install tkintertools-dev==2.6.5
 ```
 
-**特别注意**
+**Attention/特别注意**
 * 开发版仅作示例，各函数或类的API并非最终确定结果，直接使用开发版可能导致后续无法与正式版兼容！
 * 若要使用开发版，请先卸载正式版后再进行pip安装，再次使用正式版时也是一样，先卸载开发版再安装正式版！
 
@@ -85,7 +85,16 @@ pip install tkintertools-dev==2.6.4
 <a name="news">News/最新功能</a>
 ------------
 
-最新版的 tkintertools **开发版**(2.6.4-dev)新增了对3d几何体空间位置排序的支持，使得几何体不再只有粗略的线条，而拥有丰富的颜色。
+最新开发版（2.6.5-dev）新内容:
+
+- [X] 子模块`tools_3d`新增类`Space`可以直接提供对3D对象进行平移、旋转和缩放等操作的功能
+- [X] 修复了类`Cuboid`和类`Tetrahedron`没有将实例添加到父类`Canvas_3D`的bug
+- [X] 修复了当3D对象出现在相机位置后面时会显示错误的bug
+- [X] 修复了部分错误的类型提示
+
+最新稳定版（2.6.4）新内容:
+
+新增了对3d几何体空间位置排序的支持，使得几何体不再只有粗略的线条，而拥有丰富的颜色。
 
 在 Windows 系统下运行下面的示例程序时，其拥有以下功能：
 * 按住鼠标左键拖动可以旋转这多个几何体；

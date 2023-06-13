@@ -2,13 +2,10 @@
 
 from math import cos, pi
 from random import randint
-from tkinter import Event, TclError, messagebox
+from tkinter import TclError, messagebox
 
 import tkintertools as tkt
 from tkintertools import tools_3d as t3d
-
-if tkt.__version__ != '2.6.4':  # Check version
-    raise RuntimeError('This test requires tkintertools version 2.6.4')
 
 
 class Application:
@@ -19,20 +16,12 @@ class Application:
         self.canvas_main = tkt.Canvas(self.root, 1280, 720, 0, 0)
         self.canvas_doc = tkt.Canvas(self.root, 1280, 720, -1280, 0)
         self.canvas_graph = tkt.Canvas(self.root, 1280, 720, 1280, 0)
-        self.canvas_3d = t3d.Canvas_3D(self.root, 1280, 720, 1280, 0)
+        self.canvas_3d = t3d.Space(self.root, 1280, 720, 1280, 0)
 
         self.canvas_main_init()
         self.canvas_doc_init()
         self.canvas_graph_init()
         self.canvas_3d_init()
-
-        self.root.bind('<Button-1>', lambda event: self.rotate(event, True))
-        self.root.bind('<B1-Motion>', self.rotate)
-        self.root.bind('<Button-3>', lambda event: self.translate(event, True))
-        self.root.bind('<B3-Motion>', self.translate)
-        self.root.bind('<Any-Key>', self.scale)
-        self.root.bind('<MouseWheel>', self.scale_center)
-
         self.root.mainloop()
 
     def shutdown(self):  # type: () -> None
@@ -143,60 +132,12 @@ class Application:
             command=lambda: (tkt.move(self.root, self.canvas_graph, 1280*self.canvas_main.rx, 0, 500, mode='rebound'),
                              tkt.move(self.root, self.canvas_3d, 1280*self.canvas_graph.rx, 0, 500, mode='rebound')))
 
-        self.geos = []  # type: list[t3d.Geometry]
-        k = -100, 0, 100
-        self.geos = [t3d.Cuboid(self.canvas_3d, a-50, b-50, c-50, 100, 100, 100,
-                                color_up='white', color_down='yellow', color_left='red',
-                                color_right='orange', color_front='blue', color_back='green')
-                     for a in k for b in k for c in k]
+        for a in -100, 0, 100:
+            for b in -100, 0, 100:
+                for c in -100, 0, 100:
+                    t3d.Cuboid(self.canvas_3d, a-50, b-50, c-50, 100, 100, 100, color_up='white', color_down='yellow',
+                               color_left='red', color_right='orange', color_front='blue', color_back='green')
 
-        self.origin = t3d.Point(self.canvas_3d, [0, 0, 0], size=5)  # 原点
-        self.canvas_3d.space_sort()
-
-    def translate(self, event, flag=False, _cache=[]):
-        # type: (Event, bool, list[float]) -> None
-        """ 平移事件 """
-        if flag:
-            _cache[:] = [event.x, event.y]
-            return
-        dx = (event.x - _cache[0])
-        dy = (event.y - _cache[1])
-        _cache[:] = [event.x, event.y]
-        for geo in self.geos:
-            geo.translate(0, dx, dy)
-            geo.update()
-        self.origin.translate(0, dx, dy)
-        self.origin.update()
-        self.canvas_3d.space_sort()
-
-    def rotate(self, event, flag=False, _cache=[]):
-        # type: (Event, bool, list[float]) -> None
-        """ 旋转事件 """
-        if flag:
-            _cache[:] = [event.x, event.y]
-            return
-        dy = (event.x - _cache[0]) / 100
-        dx = (_cache[1] - event.y) / 100
-        _cache[:] = [event.x, event.y]
-        for item in self.geos:
-            item.rotate(0, dx, dy, center=self.origin.coords)
-            item.update()
-        self.canvas_3d.space_sort()
-
-    def scale(self, event):  # type: (Event) -> None
-        """ 缩放事件 """
-        k = 1.05 if event.keysym == 'equal' else 0.95 if event.keysym == 'minus' else 1
-        for geo in self.geos:
-            geo.scale(k, k, k)
-            geo.update()
-        self.canvas_3d.space_sort()
-
-    def scale_center(self, event):  # type: (Event) -> None
-        """ 中心缩放事件 """
-        k = 1.05 if event.delta > 0 else 0.95
-        for geo in self.geos:
-            geo.scale(k, k, k, center=self.origin.coords)
-            geo.update()
         self.canvas_3d.space_sort()
 
 

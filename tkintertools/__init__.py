@@ -50,7 +50,7 @@ from .__main__ import (Button, Canvas, CheckButton, Entry, Label, PhotoImage,
 from .constants import *
 
 __author__ = 'Xiaokang2022<2951256653@qq.com>'
-__version__ = '2.6.4'
+__version__ = '2.6.5'
 __all__ = [
     # Container Widgets
     'Tk', 'Toplevel', 'Canvas',

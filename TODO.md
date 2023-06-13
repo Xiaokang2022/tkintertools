@@ -40,8 +40,5 @@ TODO/待办
 13. [ ] Add more 3D spatial geometry classes  
 增加更多3d空间几何体类
 
-14. [ ] Fixed a bug where objects in the 3D submodule were displayed incorrectly when they exceeded the display range of the screen  
-解决3D子模块中对象超过画面显示范围时显示错误的bug
-
-15. [ ] The position relationship between the space before and after the 3D object is still problematic at some point  
+14. [ ] The position relationship between the space before and after the 3D object is still problematic at some point  
 3D对象前后空间的位置关系在某些时候仍有问题
