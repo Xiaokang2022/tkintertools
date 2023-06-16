@@ -10,7 +10,7 @@
 """
 tkintertools
 ============
-The tkindertools module is an auxiliary module of the tkinder module.
+The tkintertools module is an auxiliary module of the tkinter module.
 
 Provides
 --------
@@ -34,8 +34,8 @@ Contents
 More
 ----
 * GitHub: https://github.com/Xiaokang2022/tkintertools
-* Gitee(Mirror): https://gitee.com/xiaokang-2022/tkintertools
-* GitCode(Mirror): https://gitcode.net/weixin_62651706/tkintertools
+* License: https://github.com/Xiaokang2022/tkintertools/blob/master/LICENSE.txt
+* ChangeLog: https://github.com/Xiaokang2022/tkintertools/blob/master/CHANGELOG.md
 """
 
 import sys
@@ -63,8 +63,7 @@ __all__ = [
     # Constants
     'SYSTEM', 'PROCESS_SYSTEM_DPI_AWARE', 'COLOR_BUTTON_FILL', 'COLOR_BUTTON_OUTLINE',
     'COLOR_TEXT_FILL', 'COLOR_TEXT_OUTLINE', 'COLOR_TEXT', 'COLOR_NONE', 'COLOR_BAR',
-    'BACKGROUND', 'BORDERWIDTH', 'CURSOR', 'FONT', 'SIZE', 'LIMIT', 'RADIUS', 'FRAMES',
-    'TICK', 'CFG_3D', 'COLOR_POINT_FILL', 'COLOR_POINT_OUTLINE', 'COLOR_LINE_FILL',
-    'COLOR_SIDE_FILL', 'COLOR_SIDE_OUTLINE', 'POINT_SIZE', 'POINT_WIDTH', 'LINE_WDITH',
-    'SIDE_WIDTH',
+    'BORDERWIDTH', 'CURSOR', 'FONT', 'SIZE', 'LIMIT', 'RADIUS', 'FRAMES', 'TICK', 'CFG_3D',
+    'COLOR_POINT_FILL', 'COLOR_POINT_OUTLINE', 'COLOR_LINE_FILL', 'COLOR_SIDE_FILL',
+    'COLOR_SIDE_OUTLINE', 'POINT_SIZE', 'POINT_WIDTH', 'LINE_WDITH', 'SIDE_WIDTH',
 ]

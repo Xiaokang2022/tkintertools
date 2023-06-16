@@ -178,10 +178,6 @@ class Canvas(tkinter.Canvas):
         tkinter.Canvas.__init__(
             self, master, width=width, height=height, highlightthickness=0, **kw)
 
-        if not (kw.get('bg', None) or kw.get('background', None)):
-            # Linux 系统上背景默认值不是 #F1F1F1，影响模块默认值的效果
-            self.configure(bg=BACKGROUND)
-
         master._canvas.append(self)  # 将实例添加到 Tk 的画布列表中
         if x is not None and y is not None:
             self.place(x=x, y=y)

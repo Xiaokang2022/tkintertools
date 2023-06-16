@@ -30,9 +30,6 @@ COLOR_NONE = '', '', '', ''
 COLOR_BAR = '#E1E1E1', '#06b025'
 """ Default progress bar color """
 
-BACKGROUND = '#F1F1F1'
-""" Default Canvas background color """
-
 
 BORDERWIDTH = 1
 """ Default widget borderwidth """

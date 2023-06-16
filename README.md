@@ -7,30 +7,33 @@
     <code>tkintertools</code> 模块是 <code>tkinter</code> 模块的辅助模块
     </p>
     <p>
-        <a href="tkintertools/__init__.py">
-            <img src="https://img.shields.io/badge/Version-2.6.5(dev)-blue" alt="latest version" />
+        <a href="https://github.com/Xiaokang2022/tkintertools">
+            <img src="https://img.shields.io/badge/Version-2.6.5-blue" alt="latest version" />
         </a>
-        <a href="LICENSE">
+        <a href="LICENSE.txt">
             <img src="https://img.shields.io/badge/License-Mulan PSL v2-green" alt="License" />
         </a>
         <a href="CHANGELOG.md">
-            <img src="https://img.shields.io/badge/ChangeLog-2023/06/13-orange" alt="ChangeLog" />
+            <img src="https://img.shields.io/badge/ChangeLog-2023/06/17-orange" alt="ChangeLog" />
         </a>
         <a href="TODO.md">
-            <img src="https://img.shields.io/badge/ToDo-14-yellow?logo=cachet" alt="ToDos" />
+            <img src="https://img.shields.io/badge/ToDo-14-yellow?logo=cachet" alt="ToDo" />
         </a>
-        <a href="https://pypistats.org/packages/tkintertools">
-            <img src="https://img.shields.io/badge/Download-4k-purple?logo=pypi" alt="Downloads" />
+        <a href="https://github.com/Xiaokang2022/tkintertools/wiki">
+            <img src="https://img.shields.io/badge/Wiki-15-purple" alt="Wiki" />
         </a>
         <br />
-        <a href="mailto:2951256653@qq.com">
-            <img src="https://img.shields.io/badge/Email-2951256653@qq.com-cyan" alt="Email" />
+        <a href="https://pypistats.org/packages/tkintertools">
+            <img src="https://img.shields.io/badge/Download-6k-white?logo=pypi" alt="Downloads" />
         </a>
         <a href="https://github.com/Xiaokang2022">
-            <img src="https://img.shields.io/badge/Author-小康2022-white" alt="Author" />
+            <img src="https://img.shields.io/badge/Author-小康2022-springgreen" alt="Author" />
         </a>
         <a href="https://xiaokang2022.blog.csdn.net">
             <img src="https://img.shields.io/badge/Blog-小康2022@CSDN-red" alt="Blog" />
+        </a>
+        <a href="mailto:2951256653@qq.com">
+            <img src="https://img.shields.io/badge/Email-2951256653@qq.com-cyan" alt="Email" />
         </a>
     </p>
 </div>
@@ -40,35 +43,36 @@ Install/模块安装
 
 ### Stable version/稳定版本
 
-* Version/版本 : 2.6.4
-* Release Date/发布日期 : 2023/06/12
+* Version/版本 : `2.6.5`
+* Release Date/发布日期 : 2023/06/17 (UTC+08)
 
-这个是目前的最新稳定版，比较稳定，bug （可能）没有那么多，推荐使用这个。  
-关于稳定版有 Issue 的话，我会去查看并尝试解决 Issue。
+这个是目前的最新稳定版，比较稳定，bug（可能）没有那么多，推荐使用这个。  
+稳定版 bug 不一定少，但它至少是我在多个操作系统中测试过的，是跨平台的，兼容的。
 
 ```
-pip install tkintertools==2.6.4
+pip install tkintertools==2.6.5
 ```
 
 ### Development version/开发版本
 
-* Version/版本 : 2.6.5
-* Release Date/发布日期 : 2023/06/13
+* Version/版本 : `2.6.5`
+* Release Date/发布日期 : 2023/06/13 (UTC+08)
 
 这个是我正在开发的版本，可能有新功能，bug 也可能会比较多，但也可能会比原来的版本更加稳定。  
-大家可以在 Issue 中提出一些建议，我会适当采纳一些并在开发版本中更改或实现。
+开发版没有经过多操作系统的测试，仅能保证在 Windows 系统下运行所有功能，在其他的操作系统上，可能有部分功能无法正常运行。  
+大家可以在 Issues 中提出一些建议，我可能会适当采纳一些并在开发版本中更改或实现。
 
 ```
 pip install tkintertools-dev==2.6.5
 ```
 
 **Attention/特别注意**
-* 开发版仅作示例，各函数或类的API并非最终确定结果，直接使用开发版可能导致后续无法与正式版兼容！
-* 若要使用开发版，请先卸载正式版后再进行pip安装，再次使用正式版时也是一样，先卸载开发版再安装正式版！
+* 开发版仅作示例，各函数或类的 API 并非最终确定结果，直接使用开发版可能导致后续无法与稳定版兼容！
+* 若要使用开发版，请先卸载稳定版后再进行 pip 安装，再次使用稳定版时也是一样，先卸载开发版再安装稳定版！
 
 ### Environmental requirements/环境需求
 
-没有任何额外的依赖包（除了tkinter），但只支持以下 Python 版本:
+没有任何额外的依赖包（除了 tkinter），但只支持以下 Python 版本:
 
 ![Python3.8](https://img.shields.io/badge/Python-3.8.*-blue?logo=python)
 ![Python3.9](https://img.shields.io/badge/Python-3.9.*-blue?logo=python)
@@ -82,25 +86,30 @@ pip install tkintertools-dev==2.6.5
 ![Windows11](https://img.shields.io/badge/Windows-11-green?logo=windows11)
 ![Ubuntu22.04](https://img.shields.io/badge/Ubuntu-22.04-green?logo=ubuntu)
 
-<a name="news">News/最新功能</a>
+News/最新功能
 ------------
 
-最新开发版（2.6.5-dev）新内容:
+**最新版本: tkintertools-2.6.5 稳定版**
 
-- [X] 子模块`tools_3d`新增类`Space`可以直接提供对3D对象进行平移、旋转和缩放等操作的功能
-- [X] 修复了类`Cuboid`和类`Tetrahedron`没有将实例添加到父类`Canvas_3D`的bug
-- [X] 修复了当3D对象出现在相机位置后面时会显示错误的bug
-- [X] 修复了部分错误的类型提示
+**【重磅炸裂更新：新增了 Wiki 供大家查看，方便大家迅速掌握 tkintertools 的使用方法和小技巧！[点此传送](https://github.com/Xiaokang2022/tkintertools/wiki)】**
 
-最新稳定版（2.6.4）新内容:
+    【特别说明】
+    近期本人将暂时停止对 tkintertools 模块本身的更新，本人先去完善 Wiki 再继续更新 tkintertools！
+    此外，README.md 中关于模块内容详细介绍的部分将逐步转移到 Wiki 中！
 
-新增了对3d几何体空间位置排序的支持，使得几何体不再只有粗略的线条，而拥有丰富的颜色。
+下面是本次版本更新内容条目：
 
-在 Windows 系统下运行下面的示例程序时，其拥有以下功能：
+- [X] 子模块 `tools_3d` 新增类 `Space` 可以直接提供对 3D 对象进行平移、旋转和缩放等操作的功能
+- [X] 修复了类 `Cuboid` 和类 `Tetrahedron` 没有将实例添加到父类 `Canvas_3D` 的 bug
+- [X] 修复了当 3D 对象出现在相机位置后面时会显示错误的 bug（目前更改为透视，即不显示）
+- [X] 修复了部分错误的类型提示和错误的参数默认值
+- [X] 移除常量 `BACKGROUND` 并且不再对类 `Canvas` 的默认背景颜色做限定
+
+下面是一个主要新功能的示例程序，运行下面的示例程序时，其拥有以下功能：
 * 按住鼠标左键拖动可以旋转这多个几何体；
 * 按住鼠标右键拖动可以移动这些几何体在空间中的位置；
+* 滚动鼠标中键可以放大和缩小画面；
 * 按“=”和“-”键分别可以放大和缩小几何体的大小；
-* 滚动鼠标中键可以放大和缩小画面。
 
 下面是示例程序的效果图：
 
@@ -109,83 +118,42 @@ pip install tkintertools-dev==2.6.5
 <details><summary><b>源代码</b></summary>
 
 ```python
-from tkinter import Event
-
 import tkintertools as tkt
 from tkintertools import tools_3d as t3d
 
-root = tkt.Tk('tool_3d', 1280, 720)
-cv3d = t3d.Canvas_3D(root, 1280, 720, 0, 0)
+root = tkt.Tk('tkintertools-2.6.5', 1280, 720)
+cv3d = t3d.Space(root, 1280, 720, 0, 0)
 
-origin = t3d.Point(cv3d, [0, 0, 0])  # 原点
-k = -100, 0, 100
-geos = [t3d.Cuboid(cv3d, a-50, b-50, c-50, 100, 100, 100, color_up='white', color_down='yellow', color_left='red',
-                   color_right='orange', color_front='blue', color_back='green') for a in k for b in k for c in k]
+for a in -100, 0, 100:
+    for b in -100, 0, 100:
+        for c in -100, 0, 100:
+            t3d.Cuboid(cv3d, a-50, b-50, c-50, 100, 100, 100,
+                       color_up='white', color_down='yellow', color_left='red',
+                       color_right='orange', color_front='blue', color_back='green')
 cv3d.space_sort()
 
 
-def translate(event, flag=False, _cache=[]):
-    # type: (Event, bool, list[float]) -> None
-    """ 平移事件 """
-    if flag:
-        _cache[:] = [event.x, event.y]
-        return
-    dx = (event.x - _cache[0])
-    dy = (event.y - _cache[1])
-    _cache[:] = [event.x, event.y]
-    for geo in geos:
-        geo.translate(0, dx, dy)
-        geo.update()
-    origin.translate(0, dx, dy)
-    origin.update()
-    cv3d.space_sort()
-
-
-def rotate(event, flag=False, _cache=[]):
-    # type: (Event, bool, list[float]) -> None
-    """ 旋转事件 """
-    if flag:
-        _cache[:] = [event.x, event.y]
-        return
-    dy = (event.x - _cache[0]) / 100
-    dx = (_cache[1] - event.y) / 100
-    _cache[:] = [event.x, event.y]
-    for item in geos:
-        item.rotate(0, dx, dy, center=origin.coords)
-        item.update()
-    cv3d.space_sort()
-
-
-def scale(event):  # type: (Event) -> None
+def scale(event):
     """ 缩放事件 """
     k = 1.05 if event.keysym == 'equal' else 0.95 if event.keysym == 'minus' else 1
-    for geo in geos:
+    for geo in cv3d.geos():
         geo.scale(k, k, k)
         geo.update()
     cv3d.space_sort()
 
 
-def scale_center(event):  # type: (Event) -> None
-    """ 中心缩放事件 """
-    k = 1.05 if event.delta > 0 else 0.95
-    for geo in geos:
-        geo.scale(k, k, k, center=origin.coords)
-        geo.update()
-    cv3d.space_sort()
-
-
-root.bind('<Button-1>', lambda event: rotate(event, True))
-root.bind('<B1-Motion>', rotate)
-root.bind('<Button-3>', lambda event: translate(event, True))
-root.bind('<B3-Motion>', translate)
 root.bind('<Any-Key>', scale)
-root.bind('<MouseWheel>', scale_center)
 root.mainloop()
 ```
 
 </details>
 
 更多更新信息请见：[CHANGELOG.md](CHANGELOG.md)
+
+---
+**特别说明**
+
+    后面的内容即将移植到 Wiki 中！
 
 Description/模块说明
 ----------------------

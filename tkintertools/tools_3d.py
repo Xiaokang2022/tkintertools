@@ -154,15 +154,18 @@ class Space(Canvas_3D):
         self.bind('<B1-Motion>', self._rotate)
         self.bind('<Button-1>', lambda _: self._rotate(_, True))
         self.bind('<ButtonRelease-1>', lambda _: self._rotate(_, False))
-        self.bind('<MouseWheel>', self._zoom)
-        # NOTE: https://www.tcl.tk/man/tcl8.6/TkCmd/cursors.html
+        if SYSTEM == 'Linux':  # 兼容 Linux 系统
+            self.bind('<Button-4>', lambda _: self._zoom(_, True))
+            self.bind('<Button-5>', lambda _: self._zoom(_, False))
+        else:
+            self.bind('<MouseWheel>', self._zoom)
 
     def _translate(self, event, flag=None, cache=[]):
         # type: (Event, bool | None, list[float]) -> None
         """ 平移视角 """
         if flag is True:  # 按下
             cache[:] = [event.x, event.y]
-            return self.configure(cursor='size')
+            return self.configure(cursor='fleur')
         elif flag is False:  # 松开
             return self.configure(cursor='arrow')
         dx, dy = event.x-cache[0], event.y-cache[1]
@@ -177,7 +180,7 @@ class Space(Canvas_3D):
         """ 旋转视角 """
         if flag is True:
             cache[:] = [event.x, event.y]
-            return self.configure(cursor='size')
+            return self.configure(cursor='fleur')
         elif flag is False:
             return self.configure(cursor='arrow')
         dx, dy = event.x-cache[0], event.y-cache[1]
@@ -188,8 +191,10 @@ class Space(Canvas_3D):
             item.update()
         self.space_sort()
 
-    def _zoom(self, event):  # type: (Event) -> None
+    def _zoom(self, event, flag=None):  # type: (Event, bool | None) -> None
         """ 缩放视角 """
+        if flag is not None:
+            event.delta = flag
         k = 1.1 if event.delta > 0 else 0.9
         for item in self.geos():
             item.scale(k, k, k, center=self._origin.coords)
