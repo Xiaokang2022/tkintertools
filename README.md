@@ -24,7 +24,7 @@
         </a>
         <br />
         <a href="https://pypistats.org/packages/tkintertools">
-            <img src="https://img.shields.io/badge/Download-6k-white?logo=pypi" alt="Downloads" />
+            <img src="https://img.shields.io/badge/Download-7k-white?logo=pypi" alt="Downloads" />
         </a>
         <a href="https://github.com/Xiaokang2022">
             <img src="https://img.shields.io/badge/Author-小康2022-springgreen" alt="Author" />
@@ -36,6 +36,7 @@
             <img src="https://img.shields.io/badge/Email-2951256653@qq.com-cyan" alt="Email" />
         </a>
     </p>
+    <p><img src="https://repobeats.axiom.co/api/embed/ab8fae686a5a96f91fa71c40c53c189310924f5e.svg" alt="Repobeats analytics image" /></p>
 </div>
 
 Install/模块安装
