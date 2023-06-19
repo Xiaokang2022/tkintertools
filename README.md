@@ -7,13 +7,14 @@
 `tkintertools` 模块是 `tkinter` 模块的一个辅助模块\
 The `tkintertools` module is an auxiliary module of the `tkinter` module
 
-[![Version](https://img.shields.io/badge/Version-2.6.5-blue)](.)
-[![License](https://img.shields.io/badge/License-Mulan%20PSL%20v2-green)](LICENSE.txt)
+[![Version](https://img.shields.io/pypi/v/tkintertools?label=Version)](.)
+[![License](https://img.shields.io/pypi/l/tkintertools?label=License)](LICENSE.txt)
 [![ChangeLog](https://img.shields.io/badge/ChangeLog-2023/06/17-orange)](CHANGELOG.md)
-[![ToDo](https://img.shields.io/badge/ToDo-14-yellow?logo=cachet)](TODO.md)
+[![ToDo](https://img.shields.io/badge/ToDo-14-yellow)](TODO.md)
+[![Size](https://img.shields.io/github/languages/code-size/Xiaokang2022/tkintertools?label=Size)](tkintertools)
 [![Wiki](https://img.shields.io/badge/Wiki-15-purple)](https://github.com/Xiaokang2022/tkintertools/wiki)\
-[![Downloads](https://img.shields.io/badge/Download-8k-white?logo=pypi)](https://pypistats.org/packages/tkintertools)
-[![Author](https://img.shields.io/badge/Author-小康2022-springgreen)](https://github.com/Xiaokang2022)
+[![Downloads](https://img.shields.io/pypi/dm/tkintertools?label=Downloads&logo=pypi)](https://pypistats.org/packages/tkintertools)
+[![Owner](https://img.shields.io/badge/Owner-Xiaokang2022-white)](https://github.com/Xiaokang2022)
 [![Blog](https://img.shields.io/badge/Blog-小康2022@CSDN-red)](https://xiaokang2022.blog.csdn.net)
 [![Email](https://img.shields.io/badge/Email-2951256653@qq.com-cyan)](mailto:2951256653@qq.com)
 
@@ -138,6 +139,12 @@ root.mainloop()
 More/更多👇
 -----------
 
-[GitHub](https://github.com/Xiaokang2022/tkintertools): 仓库根源，完整无误  
-[Gitee(镜像源)](https://gitee.com/xiaokang-2022/tkintertools): 主镜像源，（应该）完整无误  
-[GitCode(镜像源)](https://gitcode.net/weixin_62651706/tkintertools): 次镜像源，缺少 Wiki  
+[![GitHub](https://img.shields.io/badge/GitHub-仓库根源%20完整无误%20以此为准-blue?logo=github)](https://github.com/Xiaokang2022/tkintertools)
+[![Gitee](https://img.shields.io/badge/Gitee-主镜像源%20比较完整%20可能延迟-green?logo=gitee)](https://gitee.com/xiaokang-2022/tkintertools)
+[![GitCode](https://img.shields.io/badge/GitCode-次镜像源%20缺少Wiki%20CSDN-yellow)](https://gitcode.net/weixin_62651706/tkintertools)\
+[![GitHub Watchers](https://img.shields.io/github/watchers/Xiaokang2022/tkintertools?label=GitHub%20Watchers&color=green)](https://github.com/Xiaokang2022/tkintertools/watchers)
+[![GitHub Forks](https://img.shields.io/github/forks/Xiaokang2022/tkintertools?label=GitHub%20Forks)](https://github.com/Xiaokang2022/tkintertools/forks)
+[![GitHub Stars](https://img.shields.io/github/stars/Xiaokang2022/tkintertools?label=GitHub%20Stars&color=gold)](https://github.com/Xiaokang2022/tkintertools/stargazers)
+[![GitHub Contributors](https://img.shields.io/github/contributors/Xiaokang2022/tkintertools?label=GitHub%20Contributors)](https://github.com/Xiaokang2022/tkintertools/graphs/contributors)
+[![GitHub Issues](https://img.shields.io/github/issues/Xiaokang2022/tkintertools?label=GitHub%20Issues)](https://github.com/Xiaokang2022/tkintertools/issues)
+[![GitHub Pull Requests](https://img.shields.io/github/issues-pr/Xiaokang2022/tkintertools?label=GitHub%20Pull%20Requests)](https://github.com/Xiaokang2022/tkintertools/pulls)
