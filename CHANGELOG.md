@@ -1,8 +1,8 @@
 ChangeLog/更新日志
 =================
 
-[2.6.5] - 2023-06-17
---------------------
+[`2.6.5`] - 2023-06-17
+----------------------
 
 ### Features/新增
 
@@ -25,8 +25,8 @@ ChangeLog/更新日志
 - [X] Removed the constant `BACKGROUND` and no longer qualified the default background color of class `Canvas`    
 移除常量 `BACKGROUND` 并且不再对类 `Canvas` 的默认背景颜色做限定
 
-[2.6.4] - 2023-06-12
---------------------
+[`2.6.4`] - 2023-06-12
+----------------------
 
 ### Features/新增
 
@@ -52,8 +52,8 @@ ChangeLog/更新日志
 - [X] Compatibility changes, because Python 3.7 is about to enter the end-of-life stage, and in order to improve program performance, Python3.7 is not compatible, but Python3.8 is compatible  
 兼容性更改，由于 Python3.7 即将步入 end-of-life 阶段，且为了提高程序性能，现无法兼容 Python3.7，但能够兼容 Python3.8
 
-[2.6.3] - 2023-06-07
---------------------
+[`2.6.3`] - 2023-06-07
+----------------------
 
 ### Optimized/优化
 
@@ -76,16 +76,16 @@ ChangeLog/更新日志
 - [X] Set the default value of the parameter `keep` of the class `Canvas_3D` in the 3D module to `True`, i.e. keep the canvas width and height scaled proportionally by default  
 将3d模块中的类 `Canvas_3D` 的参数 `keep` 的默认值设为 `True`，即默认保持画布宽高缩放成比例
 
-[2.6.2] - 2023-05-30
---------------------
+[`2.6.2`] - 2023-05-30
+----------------------
 
 ### Features/新增
 
 - [X] Added `tkintertools` sub-module `tools_3d` to support drawing 3D graphics  
 新增 `tkintertools` 子模块 `tools_3d` 以支持绘制 3D 图形
 
-[2.6.1] - 2023-05-21
---------------------
+[`2.6.1`] - 2023-05-21
+----------------------
 
 ### Optimized/优化
 
@@ -117,8 +117,8 @@ ChangeLog/更新日志
 - [X] Remove Unused Constants `SCALE`  
 删除无用常量 `SCALE`
 
-[2.6.0] - 2023-03-28
---------------------
+[`2.6.0`] - 2023-03-28
+----------------------
 
 ### Features/新增
 
@@ -135,8 +135,8 @@ ChangeLog/更新日志
 - [X] Optimize the parameters of some classes and functions  
 优化部分类和函数的参数
 
-[2.5.12] - 2023-03-20
----------------------
+[`2.5.12`] - 2023-03-20
+-----------------------
 
 ### Features/新增
 
@@ -162,8 +162,8 @@ ChangeLog/更新日志
 删除了函数 `font`
 
 
-[2.5.11] - 2023-03-13
----------------------
+[`2.5.11`] - 2023-03-13
+-----------------------
 
 ### Features/新增
 
@@ -195,8 +195,8 @@ ChangeLog/更新日志
 - [X] The canvas widget will be scaled according to the scale of the canvas when it is placed, rather than after it is placed  
 画布控件在放置时就会根据画布的缩放而缩放，而不是在放置后才进行缩放
 
-[2.5.10] - 2023-02-04
----------------------
+[`2.5.10`] - 2023-02-04
+-----------------------
 
 ### Features/新增
 
@@ -230,8 +230,8 @@ ChangeLog/更新日志
 - [X] The performance of function `move` has been optimized  
 函数 `move` 的性能得到了优化
 
-[2.5.9] - 2023-01-13
---------------------
+[`2.5.9`] - 2023-01-13
+----------------------
 
 ### Features/新增
 
@@ -259,8 +259,8 @@ ChangeLog/更新日志
 - [X] The redundant parameters `minsize` and `alpha` of the `Tk` and `Toplevel` classes have been deleted  
 删除了 `Tk` 类和 `Toplevel` 类的冗余参数 `minsize` 和 `alpha`
 
-[2.5.8] - 2023-01-12
---------------------
+[`2.5.8`] - 2023-01-12
+----------------------
 
 ### Fixed/修复
 
@@ -287,8 +287,8 @@ ChangeLog/更新日志
 - [X] Overall optimization of code and reduction of code volume  
 总体优化了代码，减少了代码量
 
-[2.5.7] - 2023-01-10
---------------------
+[`2.5.7`] - 2023-01-10
+----------------------
 
 ### Features/新增
 
@@ -317,8 +317,8 @@ ChangeLog/更新日志
 - [X] Optimized the code structure of the `color` function and the `move` function to make it more concise  
 优化了 `color` 函数和 `move` 函数的代码结构，使其更加简洁
 
-[2.5.6] - 2022-12-12
---------------------
+[`2.5.6`] - 2022-12-12
+----------------------
 
 ### Fixed/修复
 
@@ -349,8 +349,8 @@ ChangeLog/更新日志
 - [X] `Canvas` class deletes two redundant and overridden instance methods: `create_ bitmap` and `create_ window`  
 `Canvas` 类删除了两个冗余的、重写的实例方法：`create_bitmap` 和 `create_window`
 
-[2.5.5] - 2022-12-11
---------------------
+[`2.5.5`] - 2022-12-11
+----------------------
 
 ### Features/新增
 
@@ -375,8 +375,8 @@ ChangeLog/更新日志
 - [X] Optimize the structure of all multiple loops and judgment statements, making the code more beautiful  
 优化了所有多重循环加判断语句的结构，使代码更为美观
 
-[2.5.4] - 2022-12-08
---------------------
+[`2.5.4`] - 2022-12-08
+----------------------
 
 ### Features/新增
 
@@ -407,8 +407,8 @@ ChangeLog/更新日志
 - [X] Optimized some codes in function `move_widget`  
 优化了函数 `move_widget` 中的部分代码
 
-[2.5.3] - 2022-11-27
---------------------
+[`2.5.3`] - 2022-11-27
+----------------------
 
 ### Features/新增
 
@@ -422,7 +422,7 @@ ChangeLog/更新日志
 
 - [X] Solved the bug that the `destroy` method of the control can only delete half of the controls when traversing  
 解决了控件的 `destroy` 方法在遍历使用时只能删除一半控件的 bug
- 
+
         Thanks to [-ShuiGuang-](https://blog.csdn.net/atlantis618) for finding the above bug  
         感谢 [-ShuiGuang-](https://blog.csdn.net/atlantis618) 发现了上面的 bug
 
@@ -442,8 +442,8 @@ ChangeLog/更新日志
 - [X] The `proportion_lock` parameter and its function of `Tk` and `Toplevel` are deleted  
 删除了 `Tk`、`Toplevel` 的 `proportion_lock` 参数及其功能
 
-[2.5.2] - 2022-11-25
---------------------
+[`2.5.2`] - 2022-11-25
+----------------------
 
 ### Features/新增
 
@@ -466,8 +466,8 @@ ChangeLog/更新日志
 - [X] Change the mouse position detection order to further improve the running speed  
 改变鼠标位置检测顺序，进一步提升运行速度
 
-[2.5.1] - 2022-11-23
---------------------
+[`2.5.1`] - 2022-11-23
+----------------------
 
 ### Features/新增
 
@@ -495,13 +495,65 @@ ChangeLog/更新日志
 - [X] Some redundant codes are deleted to improve the overall running speed  
 删除了部分冗余代码，提升总体运行速度
 
-[2.5.0] - 2022-11-21
---------------------
+Older Logs/旧版日志
+------------------
 
-- [X] No more logging  
-没有更多日志了
+> **Note**  
+> The following logs belong to the ones found from ancient commit records, only date and version number, no specific content... Since I didn't get into the habit of logging before, there are no more detailed logs, but fortunately the version number is inherited ಥ_ಥ    
+> 下面的日志属于从远古的提交记录中找到的，只有日期和版本号，没有具体的内容…… 由于我以前没有养成记录日志的习惯，故没有更多的详细的日志了，好在版本号继承了下来 ಥ_ಥ
 
---------------------
+### [`2.5.0`] - 2022-11-21
 
-TIP: Since I didn't get into the habit of logging before, there are no more logs, but fortunately the version number is inherited ಥ_ಥ  
-提示: 由于我以前没有养成记录日志的习惯，故没有更多的日志了，好在版本号继承了下来 ಥ_ಥ
+- [X] Upload the package to PyPi  
+将包上传到 PyPi 上去了
+
+### [`2.4.15`] - 2022-11-18
+
+- [X] Drew and uploaded the first version of the logo  
+绘制并上传了第一版的 Logo
+
+### [`2.4.14`] - 2022-11-14
+
+### [`2.4.11`] - 2022-11-13
+
+### [`2.4.10`] - 2022-11-10
+
+### [`2.4.2`] - 2022-11-05
+
+### [`2.4.1`] - 2022-11-03
+
+### [`2.4.0`] - 2022-11-02
+
+### [`2.3.5`] - 2022-11-01
+
+### [`2.3.1`] - 2022-10-25
+
+- [X] Added project license  
+添加了项目许可证
+
+### [`2.3.0`] - 2022-10-22
+
+### [`2.2.4`] - 2022-10-20
+
+### [`2.2`] - 2022-10-19
+
+### [`2.0`] - 2022-10-17
+
+### [`1.4`] - 2022-09-21
+
+### [`1.3`] - 2022-09-20
+
+### [`1.0`] - 2022-09-10
+
+- [X] The repository was created and uploaded  
+创建了代码仓库并进行了上传
+
+### [`0.2`] - 2022-08-29
+
+- [X] Modularize codes gradually  
+逐渐将代码模块化
+
+### [`0.1`] - 2022-07-23
+
+- [X] Wrote the first piece of code and tried it  
+写了第一段代码并进行尝试
