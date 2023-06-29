@@ -18,6 +18,9 @@ TODO/待办
 5. [ ] The position relationship between the space before and after the 3D object is still problematic at some point  
 3D 对象前后空间的位置关系在某些时候仍有问题
 
+6. [ ] When creating a 3D object of concave geometry, calling its `scale` method displays an error  
+创建凹面几何体的 3D 对象时，调用其 `scale` 方法会显示错误
+
 ### Features/期望功能
 
 1. [ ] Perfect the scroll bar function of `Text` class  
@@ -46,3 +49,6 @@ TODO/待办
 
 9. [ ] Add more 3D spatial geometry classes  
 增加更多 3D 空间几何体类
+
+10. [ ] Add lights and achieve simple light and shadow renderings  
+添加光源，并实现简单的光影渲染的效果

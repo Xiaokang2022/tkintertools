@@ -1,6 +1,44 @@
 ChangeLog/更新日志
 =================
 
+[`2.6.6.dev0`] - 2023-06-29
+---------------------------
+
+### Features/新增
+
+- [X] Added abstract class `_3D_Object` as the metabase class for classes `_Point`, `_Line`, and `_Side`  
+新增抽象类 `_3D_Object` 来作为类 `_Point`、`_Line` 和 `_Side` 的元基类
+
+### Optimized/优化
+
+- [X] Optimized parameter passing in 3D submodules, users do not need to ensure the transitivity of `list` at all times, and parameters that used to only use the `list` type are now `Iterable` type  
+优化了 3D 子模块中的参数传递，使用者不需要时刻保证 `list` 的传递性，且原来只能使用 `list` 类型的参数现在为 `Iterable` 类型
+
+- [X] The way 3D objects are centered in the 3D submodule has changed, which has improved performance and reduced the amount of code  
+3D 子模块中 3D 对象居中方式改变，相比原来性能提升了不少，代码量也减少了
+
+- [X] Corrected some incorrect type hints and improved some missing method comments  
+改正了部分错误的类型提示，完善了部分缺少的方法注释
+
+- [X] In the 3D submodule, the distance between two points was originally calculated with the function `hypot`, and now the function `dist` is used directly to calculate the Euclidean distance between two points to improve performance  
+3D 子模块中原来用函数 `hypot` 计算两点间距离，现在直接用函数 `dist` 计算两点间欧几里得距离，提高性能
+
+- [X] The position display of controls of class `Point` has been optimized in the 3D submodule so that it is always at the forefront  
+3D 子模块中优化了类 `Point` 的控件位置显示，让其始终保持在最前
+
+### Changed/变更
+
+- [X] The parameters `point1` and `point2` of class `Point` of the 3D submodule and its parent class `_Point` were renamed to `point_start` and `point_end` respectively  
+3D 子模块的类 `Point` 及其父类 `_Point` 的参数 `point1` 和 `point2` 分别被重命名为 `point_start` 和 `point_end`
+
+- [X] The parameter `origin_color` of the class `Space` of the 3D submodule has been changed to four new parameters, namely `origin_size`, `origin_width`, `origin_fill` and `origin_outline`  
+3D 子模块的类 `Space` 的参数 `origin_color` 被更改为四个新的参数，分别是 `origin_size`、`origin_width`、`origin_fill` 和 `origin_outline`
+
+### Removed/移除
+
+- [X] The classes `Canvas_3D` and `Space` of the 3D submodule remove the parameters `dx` and `dy`, and the default field of view of the canvas remains centered, i.e. their center is now the original upper-left vertex  
+3D 子模块的类 `Canvas_3D` 和 `Space` 移除参数 `dx` 和 `dy`，画布默认视野保持居中，也就是说，现在它们的中心位置才是原来的左上角顶点
+
 [`2.6.5`] - 2023-06-17
 ----------------------
 
@@ -423,8 +461,8 @@ ChangeLog/更新日志
 - [X] Solved the bug that the `destroy` method of the control can only delete half of the controls when traversing  
 解决了控件的 `destroy` 方法在遍历使用时只能删除一半控件的 bug
 
-        Thanks to [-ShuiGuang-](https://blog.csdn.net/atlantis618) for finding the above bug  
-        感谢 [-ShuiGuang-](https://blog.csdn.net/atlantis618) 发现了上面的 bug
+> Thanks to [-ShuiGuang-](https://blog.csdn.net/atlantis618) for finding the above bug  
+感谢 [-ShuiGuang-](https://blog.csdn.net/atlantis618) 发现了上面的 bug
 
 ### Optimized/优化
 

@@ -128,7 +128,7 @@ class Application:
 
     def canvas_3d_init(self):
         tkt.Button(
-            self.canvas_3d, 10, 660, 200, 50, text='Back',
+            self.canvas_3d, 10-640, 660-360, 200, 50, text='Back',
             command=lambda: (tkt.move(self.root, self.canvas_graph, 1280*self.canvas_main.rx, 0, 500, mode='rebound'),
                              tkt.move(self.root, self.canvas_3d, 1280*self.canvas_graph.rx, 0, 500, mode='rebound')))
 
