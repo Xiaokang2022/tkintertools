@@ -9,10 +9,10 @@ The `tkintertools` module is an auxiliary module of the `tkinter` module
 
 [![Version](https://img.shields.io/pypi/v/tkintertools?label=Version)](.)
 [![License](https://img.shields.io/pypi/l/tkintertools?label=License)](LICENSE.txt)
-[![ChangeLog](https://img.shields.io/badge/ChangeLog-2023/06/29-orange)](CHANGELOG.md)
+[![ChangeLog](https://img.shields.io/badge/ChangeLog-2023/07/01-orange)](CHANGELOG.md)
 [![ToDo](https://img.shields.io/badge/ToDo-16-yellow)](TODO.md)
 [![Size](https://img.shields.io/github/languages/code-size/Xiaokang2022/tkintertools?label=Size)](tkintertools)
-[![Wiki](https://img.shields.io/badge/Wiki-15-purple)](https://github.com/Xiaokang2022/tkintertools/wiki)\
+[![Wiki](https://img.shields.io/badge/Wiki-14-purple)](https://github.com/Xiaokang2022/tkintertools/wiki)\
 [![Downloads](https://img.shields.io/pypi/dm/tkintertools?label=Downloads&logo=pypi)](https://pypistats.org/packages/tkintertools)
 [![Owner](https://img.shields.io/badge/Owner-Xiaokang2022-white?logo=about.me)](https://github.com/Xiaokang2022)
 [![Blog](https://img.shields.io/badge/Blog-小康2022@CSDN-red)](https://xiaokang2022.blog.csdn.net)
@@ -27,8 +27,8 @@ Install/模块安装👇
 
 ### Stable Version/稳定版本
 
-* Version/最新版本 : `2.6.5`
-* Release/发布日期 : 2023/06/17 (UTC+08)
+* Version/最新版本 : `2.6.6`
+* Release/发布日期 : 2023/07/01 (UTC+08)
 
 这个是目前的最新稳定版，相对于开发版本而言比较稳定，bug 大体上是没有那么多的，推荐使用这个。  
 稳定版和开发版相比，它在发布之前有个测试的步骤，经过测试之后（各项功能正常运行，多平台兼容）才会发布。
@@ -36,7 +36,7 @@ Install/模块安装👇
 **PIP Cmd/安装命令：**
 
 ```
-pip install tkintertools==2.6.5
+pip install tkintertools==2.6.6
 ```
 
 ### Development Version/开发版本
@@ -78,19 +78,21 @@ pip install tkintertools==2.6.6.dev0
 News/最新功能👇
 --------------
 
-**最新版本: tkintertools-v2.6.6.dev0**
+**最新版本: tkintertools-v2.6.6**
 
 > **Note**  
 > 现将开发版（`tkintertools-dev`）合并到稳定版（`tkintertools`）中，版本号格式变为 `*.*.*.dev*`，大家在通过 pip 工具进行下载时请注意！近段时间内将删除 PyPi 上的 tkintertools-dev！
 
 下面是本次版本更新内容条目：
 
+- [X] 3D 子模块的类 `_Point`、`_Line`、`_Side` 和 `Geometry` 都新增一个方法 `center` 返回该 3D 对象的几何中心；
 - [X] 新增抽象类 `_3D_Object` 来作为类 `_Point`、`_Line` 和 `_Side` 的元基类；
 - [X] 优化了 3D 子模块中的参数传递，使用者不需要时刻保证 `list` 的传递性，且原来只能使用 `list` 类型的参数现在为 `Iterable` 类型；
 - [X] 3D 子模块中 3D 对象居中方式改变，相比原来性能提升了不少，代码量也减少了；
 - [X] 改正了部分错误的类型提示，完善了部分缺少的方法注释；
 - [X] 3D 子模块中原来用函数 `hypot` 计算两点间距离，现在直接用函数 `dist` 计算两点间欧几里得距离，提高性能；
 - [X] 3D 子模块中优化了类 `Point` 的控件位置显示，让其始终保持在最前；
+- [X] 3D 子模块中相机距离的计算公式优化，提高了一点性能；
 - [X] 3D 子模块的类 `Point` 及其父类 `_Point` 的参数 `point1` 和 `point2` 分别被重命名为 `point_start` 和 `point_end`；
 - [X] 3D 子模块的类 `Space` 的参数 `origin_color` 被更改为四个新的参数，分别是 `origin_size`、`origin_width`、`origin_fill` 和 `origin_outline`；
 - [X] 3D 子模块的类 `Canvas_3D` 和 `Space` 移除参数 `dx` 和 `dy`，画布默认视野保持居中，也就是说，现在它们的中心位置才是原来的左上角顶点；
@@ -100,10 +102,11 @@ News/最新功能👇
 * 按住鼠标左键拖动可以旋转这多个几何体；
 * 按住鼠标右键拖动可以移动这些几何体在空间中的位置；
 * 滚动鼠标中键可以放大和缩小画面；
+* 这多个几何体会自动地旋转以及上下浮动；
 
 下面是示例程序的效果图（运行环境为 Windows11-Python3.11.4）：
 
-![news](news.png)
+![news](news.gif)
 
 <details><summary><b>点击查看源代码</b></summary>
 
@@ -115,21 +118,49 @@ from tkintertools import tools_3d as t3d  # 引入 3d 子模块
 
 root = tkt.Tk('3D', 1280, 720)  # 创建窗口
 space = t3d.Space(root, 1280, 720, 0, 0)  # 创建空间
-last_point = [0, 100*math.cos(-math.pi/3), 100*math.sin(-math.pi/3)]
-color_lst = ['red', 'orange', 'yellow', 'green', 'blue', 'purple']
-color_lst += color_lst
 
-for i in range(6):
-    rad = i*math.pi/3
-    next_point = [0, 100*math.cos(rad), 100*math.sin(rad)]
-    point_h2 = [0, 150*math.cos(rad), 150*math.sin(rad)]
-    t3d.Line(space, last_point, next_point, width=3, fill=color_lst[i])
-    t3d.Line(space, next_point, point_h2, width=3, fill=color_lst[i+1])
-    t3d.Point(space, last_point, size=20, fill=color_lst[i+2])
-    t3d.Point(space, point_h2, size=10, fill=color_lst[i+3])
-    last_point = next_point
+for a in -100, 0, 100:
+    for b in -100, 0, 100:
+        for c in -100, 0, 100:
+            t3d.Cuboid(space, a-50, b-50, c-50, 100, 100, 100,  # 创建正方体
+                       color_up='white', color_down='yellow', color_left='red',
+                       color_right='orange', color_front='blue', color_back='green')
 
-space.space_sort()  # 给它们的空间位置排序以正确显示
+
+def spin():
+    """ 自动旋转 """
+    for geo in space.geos():
+        geo.rotate(dz=0.01)
+
+
+def floating(value):
+    """ 上下浮动 """
+    for geo in space.geos():
+        geo.translate(dz=math.sin(value))
+
+
+def animation(value=0):
+    """ 形成动画 """
+    spin()
+    floating(value)
+    space.space_sort()  # 给它们的空间位置排序以正确显示
+    for geo in space.geos():
+        geo.update()
+    space.after(10, animation, value+math.pi/60)
+
+
+def scale(event):
+    """ 缩放事件 """
+    k = 1.05 if event.keysym == 'equal' else 0.95 if event.keysym == 'minus' else 1  # 缩放比率
+    for geo in space.geos():  # 遍历所有的几何体（不包括基本 3D 对象）
+        geo.scale(k, k, k)  # 缩放
+        geo.update()  # 更新改对象的实际画面
+    space.space_sort()  # 空间前后位置排序
+
+
+animation()
+root.bind('<Key-equal>', scale)  # 绑定等号按键
+root.bind('<Key-minus>', scale)  # 绑定减号按键
 root.mainloop()  # 消息事件循环
 ```
 

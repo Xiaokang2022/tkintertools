@@ -121,7 +121,7 @@ class Canvas_3D(Canvas):
         return tuple(self._geos)
 
     def space_sort(self):  # type: () -> None
-        """ 空间位置排序 """
+        """ 空间位置排序 """  # BUG: 在距离比较近的两个对象时，仍会显示不正确
         self._items_3d.sort(key=lambda item: (
             not isinstance(item, Point), item.camera_distance()))
         for item in self._items_3d:
@@ -259,6 +259,10 @@ class _3D_Object(metaclass=ABCMeta):
         """
 
     @abstractmethod
+    def center(self):
+        """ 几何中心 """
+
+    @abstractmethod
     def project(self, distance):
         """
         投影\n
@@ -283,10 +287,13 @@ class _Point(_3D_Object):
         # type: (float, float, float, ..., Iterable[float] | None) -> None
         scale(self.coords, kx, ky, kz, center=center)
 
+    def center(self):  # type: () -> tuple[float, float, float]
+        return tuple(self.coords)
+
     def project(self, distance):  # type: (float) -> list[float]
         relative_dis = distance - self.coords[0]
         if relative_dis <= 1e-16:
-            return [float('INF')]*2  # BUG: 目前超出范围只能让其消失
+            return [float('inf')]*2  # BUG: 目前超出范围只能让其消失
         k = distance/relative_dis
         return [self.coords[1]*k, self.coords[2]*k]
 
@@ -318,6 +325,9 @@ class _Line(_3D_Object):
         for coord in self.coords:
             scale(coord, kx, ky, kz, center=center)
 
+    def center(self):  # type: () -> tuple[float, float, float]
+        return tuple(statistics.mean(coords) for coords in zip(*self.coords))
+
     def project(self, distance):  # type: (float) -> list[list[float]]
         return [point.project(distance) for point in self.points]
 
@@ -345,6 +355,9 @@ class _Side(_3D_Object):
             center = [statistics.mean(axis) for axis in zip(*self.coords)]
         for coord in self.coords:
             scale(coord, kx, ky, kz, center=center)
+
+    def center(self):  # type: () -> tuple[float, float, float]
+        return tuple(statistics.mean(coords) for coords in zip(*self.coords))
 
     def project(self, distance):  # type: (float) -> list[list[list[float]]]
         return [line.project(distance) for line in self.lines]
@@ -389,7 +402,8 @@ class Point(_Point):
 
     def camera_distance(self):  # type: () -> float
         """ 与相机距离 """
-        return math.dist([self.canvas.distance, 0, 0], self.coords)
+        sign = math.copysign(1, self.canvas.distance - self.coords[0])
+        return sign*math.dist([self.canvas.distance, 0, 0], self.coords)
 
 
 class Line(_Line):
@@ -426,7 +440,9 @@ class Line(_Line):
 
     def camera_distance(self):  # type: () -> float
         """ 与相机距离 """
-        return statistics.mean(math.dist([self.canvas.distance, 0, 0], coord) for coord in self.coords)
+        center = self.center()
+        sign = math.copysign(1, self.canvas.distance - center[0])
+        return sign*math.dist([self.canvas.distance, 0, 0], center)
 
 
 class Side(_Side):
@@ -464,7 +480,9 @@ class Side(_Side):
 
     def camera_distance(self):  # type: () -> float
         """ 与相机距离 """
-        return statistics.mean(math.dist([self.canvas.distance, 0, 0], coord) for coord in self.coords)
+        center = self.center()
+        sign = math.copysign(1, self.canvas.distance - center[0])
+        return sign*math.dist([self.canvas.distance, 0, 0], center)
 
 
 class Geometry:
@@ -484,21 +502,45 @@ class Geometry:
         self.sides = list(sides)
 
     def translate(self, dx=0, dy=0, dz=0):  # type: (float, float, float) -> None
+        """
+        平移\n
+        `dx`: x 轴方向位移距离\n
+        `dy`: y 轴方向位移距离\n
+        `dz`: z 轴方向位移距离\n
+        """
         for side in self.sides:
             side.translate(dx, dy, dz)
 
     def rotate(self, dx=0, dy=0, dz=0, *, center=[0, 0, 0]):
         # type: (float, float, float, ..., Iterable[float]) -> None
+        """
+        旋转\n
+        `dx`: 绕x 轴方向旋转弧度\n
+        `dy`: 绕y 轴方向旋转弧度\n
+        `dz`: 绕z 轴方向旋转弧度\n
+        `center`: 旋转中心\n
+        """
         for side in self.sides:
             side.rotate(dx, dy, dz, center=center)
 
     def scale(self, kx=1, ky=1, kz=1, *, center=None):
         # type: (float, float, float, ..., Iterable[float] | None) -> None
-        if center is None:  # BUG: 公式对凹面几何体不成立
-            center = [statistics.mean(axis) for axis in zip(
-                *set(tuple(coord) for side in self.sides for coord in side.coords))]
+        """
+        缩放\n
+        `kx`: x 轴方向缩放比例\n
+        `ky`: y 轴方向缩放比例\n
+        `kz`: z 轴方向缩放比例\n
+        `center`: 缩放中心，默认为几何中心\n
+        """
+        if center is None:
+            center = self.center()
         for side in self.sides:
             side.scale(kx, ky, kz, center=center)
+
+    def center(self):  # type: () -> tuple[float, float, float]
+        """ 几何中心 """
+        # BUG: 公式对凹面几何体不成立
+        return tuple(statistics.mean(axis) for axis in zip(*set(tuple(coord) for side in self.sides for coord in side.coords)))
 
     def update(self):  # type: () -> None
         """ 更新几何体 """

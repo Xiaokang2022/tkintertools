@@ -1,10 +1,13 @@
 ChangeLog/更新日志
 =================
 
-[`2.6.6.dev0`] - 2023-06-29
----------------------------
+[`2.6.6`] - 2023-07-01
+----------------------
 
 ### Features/新增
+
+- [X] The classes `_Point`, `_Line`, `_Side`, and `Geometry` of the 3D submodule all have a new method `center` that returns the geometric center of the 3D object  
+3D 子模块的类 `_Point`、`_Line`、`_Side` 和 `Geometry` 都新增一个方法 `center` 返回该 3D 对象的几何中心
 
 - [X] Added abstract class `_3D_Object` as the metabase class for classes `_Point`, `_Line`, and `_Side`  
 新增抽象类 `_3D_Object` 来作为类 `_Point`、`_Line` 和 `_Side` 的元基类
@@ -25,6 +28,9 @@ ChangeLog/更新日志
 
 - [X] The position display of controls of class `Point` has been optimized in the 3D submodule so that it is always at the forefront  
 3D 子模块中优化了类 `Point` 的控件位置显示，让其始终保持在最前
+
+- [X] The calculation formula for the camera distance in the 3D submodule has been optimized to improve the performance by a bit  
+3D 子模块中相机距离的计算公式优化，提高了一点性能
 
 ### Changed/变更
 
