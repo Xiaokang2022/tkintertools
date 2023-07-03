@@ -1,7 +1,7 @@
 # Copyright (c) 2022 Xiaokang2022
 # tkintertools is licensed under Mulan PSL v2.
 # You can use this software according to the terms and conditions of the Mulan PSL v2.
-# You may obtain a copy of Mulan PSL v2 at: http://license.coscl.org.cn/MulanPSL2
+# You may obtain a copy of Mulan PSL v2 at: http://license.coscl.org.cn/MulanPSL2.
 # THIS SOFTWARE IS PROVIDED ON AN "AS IS" BASIS, WITHOUT WARRANTIES OF ANY KIND,
 # EITHER EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO NON-INFRINGEMENT,
 # MERCHANTABILITY OR FIT FOR A PARTICULAR PURPOSE.
@@ -33,24 +33,23 @@ Contents
 
 More
 ----
-* GitHub: https://github.com/Xiaokang2022/tkintertools
-* License: https://github.com/Xiaokang2022/tkintertools/blob/master/LICENSE.txt
-* ChangeLog: https://github.com/Xiaokang2022/tkintertools/blob/master/CHANGELOG.md
+[GitHub](https://github.com/Xiaokang2022/tkintertools) ·
+[License](https://github.com/Xiaokang2022/tkintertools/blob/master/LICENSE.txt) ·
+[ChangeLog](https://github.com/Xiaokang2022/tkintertools/blob/master/CHANGELOG.md) ·
+[Wiki](https://github.com/Xiaokang2022/tkintertools/wiki)
 """
 
-import sys
+import sys  # Get interpreter version information
 
 if sys.version_info < (3, 8):  # Version Check
     error_info = '\n\033[31mOperation Requirements: \033[32m\nPython version shall not be less than\033[33m 3.8 !\033[0m'
     raise RuntimeError(error_info)
 
-from .__main__ import (Button, Canvas, CheckButton, Entry, Label, PhotoImage,
-                       Progressbar, SetProcessDpiAwareness, Singleton, Text,
-                       Tk, Toplevel, askfont, color, move, text)
+from .__main__ import *
 from .constants import *
 
 __author__ = 'Xiaokang2022<2951256653@qq.com>'
-__version__ = '2.6.6'
+__version__ = '2.6.7.dev0'
 __all__ = [
     # Container Widgets
     'Tk', 'Toplevel', 'Canvas',
@@ -60,10 +59,4 @@ __all__ = [
     'PhotoImage', 'Singleton',
     # Tool Functions
     'move', 'text', 'color', 'askfont', 'SetProcessDpiAwareness',
-    # Constants
-    'SYSTEM', 'PROCESS_SYSTEM_DPI_AWARE', 'COLOR_BUTTON_FILL', 'COLOR_BUTTON_OUTLINE',
-    'COLOR_TEXT_FILL', 'COLOR_TEXT_OUTLINE', 'COLOR_TEXT', 'COLOR_NONE', 'COLOR_BAR',
-    'BORDERWIDTH', 'CURSOR', 'FONT', 'SIZE', 'LIMIT', 'RADIUS', 'FRAMES', 'TICK', 'CFG_3D',
-    'COLOR_POINT_FILL', 'COLOR_POINT_OUTLINE', 'COLOR_LINE_FILL', 'COLOR_SIDE_FILL',
-    'COLOR_SIDE_OUTLINE', 'POINT_SIZE', 'POINT_WIDTH', 'LINE_WDITH', 'SIDE_WIDTH',
-]
+] + all_constants

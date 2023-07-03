@@ -9,7 +9,7 @@ The `tkintertools` module is an auxiliary module of the `tkinter` module
 
 [![Version](https://img.shields.io/pypi/v/tkintertools?label=Version)](.)
 [![License](https://img.shields.io/pypi/l/tkintertools?label=License)](LICENSE.txt)
-[![ChangeLog](https://img.shields.io/badge/ChangeLog-2023/07/01-orange)](CHANGELOG.md)
+[![ChangeLog](https://img.shields.io/badge/ChangeLog-2023/07/03-orange)](CHANGELOG.md)
 [![ToDo](https://img.shields.io/badge/ToDo-16-yellow)](TODO.md)
 [![Size](https://img.shields.io/github/languages/code-size/Xiaokang2022/tkintertools?label=Size)](tkintertools)
 [![Wiki](https://img.shields.io/badge/Wiki-14-purple)](https://github.com/Xiaokang2022/tkintertools/wiki)\
@@ -41,8 +41,8 @@ pip install tkintertools==2.6.6
 
 ### Development Version/开发版本
 
-* Version/最新版本 : `2.6.6.dev0`
-* Release/发布日期 : 2023/06/29 (UTC+08)
+* Version/最新版本 : `2.6.7.dev0`
+* Release/发布日期 : 2023/07/03 (UTC+08)
 
 这个是我正在开发的版本，可能有新功能，bug 可能会比较多，但也可能会比原来的版本更加稳定。  
 开发版没有经过多操作系统的测试，仅能保证在 Windows 系统下运行所有功能，在其他的操作系统上，可能有部分功能无法正常运行。  
@@ -51,7 +51,7 @@ pip install tkintertools==2.6.6
 **PIP Cmd/安装命令：**
 
 ```
-pip install tkintertools==2.6.6.dev0
+pip install tkintertools==2.6.7.dev0
 ```
 
 > **Warning**  
@@ -60,7 +60,7 @@ pip install tkintertools==2.6.6.dev0
 
 ### Requirements/环境需求
 
-目前稳定版在以下操作系统中已经测试通过:
+目前 **稳定版** 在以下操作系统中已经测试通过:
 
 ![Windows10](https://img.shields.io/badge/Windows-10-green?logo=windows)
 ![Windows11](https://img.shields.io/badge/Windows-11-green?logo=windows11)
@@ -78,24 +78,24 @@ pip install tkintertools==2.6.6.dev0
 News/最新功能👇
 --------------
 
-**最新版本: tkintertools-v2.6.6**
+### Release Notes/版本说明
+
+**最新版本: `tkintertools-v2.6.7.dev0`**
 
 > **Note**  
-> 现将开发版（`tkintertools-dev`）合并到稳定版（`tkintertools`）中，版本号格式变为 `*.*.*.dev*`，大家在通过 pip 工具进行下载时请注意！近段时间内将删除 PyPi 上的 tkintertools-dev！
+> 现将开发版（`tkintertools-dev`）合并到稳定版（`tkintertools`）中，版本号格式变为 `*.*.*.dev*`，大家在通过 pip 工具进行下载时请注意！近段时间内将删除 PyPi 上的 tkintertools-dev！  
+> tkintertools 的介绍和使用教程均在 Wiki 中，[点我传送](https://github.com/Xiaokang2022/tkintertools/wiki)
 
 下面是本次版本更新内容条目：
 
-- [X] 3D 子模块的类 `_Point`、`_Line`、`_Side` 和 `Geometry` 都新增一个方法 `center` 返回该 3D 对象的几何中心；
-- [X] 新增抽象类 `_3D_Object` 来作为类 `_Point`、`_Line` 和 `_Side` 的元基类；
-- [X] 优化了 3D 子模块中的参数传递，使用者不需要时刻保证 `list` 的传递性，且原来只能使用 `list` 类型的参数现在为 `Iterable` 类型；
-- [X] 3D 子模块中 3D 对象居中方式改变，相比原来性能提升了不少，代码量也减少了；
-- [X] 改正了部分错误的类型提示，完善了部分缺少的方法注释；
-- [X] 3D 子模块中原来用函数 `hypot` 计算两点间距离，现在直接用函数 `dist` 计算两点间欧几里得距离，提高性能；
-- [X] 3D 子模块中优化了类 `Point` 的控件位置显示，让其始终保持在最前；
-- [X] 3D 子模块中相机距离的计算公式优化，提高了一点性能；
-- [X] 3D 子模块的类 `Point` 及其父类 `_Point` 的参数 `point1` 和 `point2` 分别被重命名为 `point_start` 和 `point_end`；
-- [X] 3D 子模块的类 `Space` 的参数 `origin_color` 被更改为四个新的参数，分别是 `origin_size`、`origin_width`、`origin_fill` 和 `origin_outline`；
-- [X] 3D 子模块的类 `Canvas_3D` 和 `Space` 移除参数 `dx` 和 `dy`，画布默认视野保持居中，也就是说，现在它们的中心位置才是原来的左上角顶点；
+- [X] 新增常量 `ROTATE_CENTER`、`ORIGIN_COORDINATE`、`ORIGIN_SIZE`、`ORIGIN_WIDTH`、`ORIGIN_FILL` 和 `ORIGIN_OUTLINE`；
+- [X] 类 `Tk` 和 `Toplevel` 新增关键字参数 `alpha`、`toolwindow`、`topmost` 和 `transparentcolor`；
+- [X] 修复了类 `Text` 在使用鼠标滚轮滚动时会报错的 bug；
+- [X] 优化函数 `translate`、`rotate` 和 `scale` 内部的实现，提高了性能；
+- [X] 修改和完善了大量的不完整的文档注释；
+- [X] 将部分类的部分方法更改为保护方法；
+
+### Template Demo/模板演示
 
 下面是一个主要新功能的示例程序，运行下面的示例程序时，其拥有以下功能：
 

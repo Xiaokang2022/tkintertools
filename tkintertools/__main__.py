@@ -1,11 +1,11 @@
 """ Main File """
 
 import math  # 数学支持
-import sys  # DPI 兼容
+import sys  # DPI 适配
 import tkinter  # 基础模块
 from fractions import Fraction  # 图片缩放
-from typing import Any, Callable, Generator, Iterable, Literal, overload
-# 类型提示
+from typing import (Any, Callable, Generator, Iterable, Literal,  # 类型提示
+                    overload)
 
 if sys.platform == 'win32':  # 仅在 Windows 平台下支持设置 DPI 级别
     from ctypes import WinDLL
@@ -16,7 +16,7 @@ from .constants import *
 
 
 class Tk(tkinter.Tk):
-    """ 创建一个主窗口 """
+    """ 根窗口类 """
 
     def __init__(
         self,
@@ -27,16 +27,24 @@ class Tk(tkinter.Tk):
         y=None,  # type: int | None
         *,
         shutdown=None,  # type: Callable | None
+        alpha=None,  # type: float | None
+        toolwindow=None,  # type: bool | None
+        topmost=None,  # type: bool | None
+        transparentcolor=None,  # type: str | None
         **kw
     ):  # type: (...) -> None
         """
-        `title`: 窗口标题\n
-        `width`: 窗口宽度\n
-        `height`: 窗口高度\n
-        `x`: 窗口左上角横坐标\n
-        `y`: 窗口左上角纵坐标\n
-        `shutdown`: 关闭窗口之前执行的函数，但会覆盖原关闭操作\n
-        `**kw`: 与 tkinter.Tk 类的参数相同\n
+        `title`: 窗口标题 \ 
+        `width`: 窗口宽度 \ 
+        `height`: 窗口高度 \ 
+        `x`: 窗口左上角横坐标 \ 
+        `y`: 窗口左上角纵坐标 \ 
+        `shutdown`: 关闭窗口之前执行的函数，但会覆盖原关闭操作 \ 
+        `alpha`: 窗口的透明度，取值在 0~1 之间，且 1 为不透明 \ 
+        `toolwindow`: 窗口是否为工具窗口 \ 
+        `topmost`: 窗口是否置顶，为布尔值 \ 
+        `transparentcolor`: 过滤掉该颜色 \ 
+        `**kw`: 与 tkinter.Tk 类的其他参数相同
         """
         if type(self) == Tk:  # NOTE:方便后面的 Toplevel 类继承
             tkinter.Tk.__init__(self, **kw)
@@ -51,16 +59,25 @@ class Tk(tkinter.Tk):
             else:
                 self.geometry('%dx%d' % (width, height))
 
-        self.title(title if title else None)
+        if title is not None:
+            self.title(title)
+        if alpha is not None:
+            self.attributes('-alpha', alpha)
+        if toolwindow is not None:
+            self.attributes('-toolwindow', toolwindow)
+        if topmost is not None:
+            self.attributes('-topmost', topmost)
+        if transparentcolor is not None:
+            self.attributes('-transparentcolor', transparentcolor)
         self.protocol('WM_DELETE_WINDOW', shutdown if shutdown else None)
-        self.bind('<Configure>', lambda _: self.__zoom())  # 开启窗口缩放检测
+        self.bind('<Configure>', lambda _: self._zoom())  # 开启窗口缩放检测
 
     def canvas(self):  # type: () -> tuple[Canvas]
-        """ 返回`Tk`类的`Canvas`元组 """
+        """ 返回 `Tk` 类全部的 `Canvas` 对象 """
         return tuple(self._canvas)
 
-    def __zoom(self):  # type: () -> None
-        """ 内部方法：缩放检测 """
+    def _zoom(self):  # type: () -> None
+        """ 缩放检测 """
         width, height = map(int, self.geometry().split('+')[0].split('x'))
         # NOTE: 此处必须用 geometry 方法，直接用 Event 或者 winfo 会有画面异常的 bug
 
@@ -69,7 +86,7 @@ class Tk(tkinter.Tk):
 
         for canvas in self._canvas:
             if canvas.expand and canvas._lock:
-                canvas.zoom(width/self.width[1], height/self.height[1])
+                canvas._zoom(width/self.width[1], height/self.height[1])
 
         self.width[1], self.height[1] = width, height  # 更新窗口当前的宽高值
 
@@ -88,7 +105,7 @@ class Tk(tkinter.Tk):
             _ = map(int, (geometry+'+0+0').replace('+', 'x').split('x'))
         return '%dx%d+%d+%d' % (width, height, _width, _height)
 
-    geometry = wm_geometry
+    geometry = wm_geometry  # 方法别名
 
     def mainloop(
         self,
@@ -97,15 +114,15 @@ class Tk(tkinter.Tk):
         dpi_awareness=1  # type: Literal[1, 2, 3]
     ):  # type: (...) -> None
         """
-        根（主）窗口的消息循环\n
-        `dpi_awareness`: 程序的DPI级别，值可以为0、1和2，程序默认为0，默认值为1
+        ### 消息循环
+        `dpi_awareness`: 程序的 DPI 级别，值可以为 0、1 和 2，程序默认为 0，默认值为 1
         """
         SetProcessDpiAwareness(dpi_awareness)
         return tkinter.Tk.mainloop(self, n)
 
 
 class Toplevel(tkinter.Toplevel, Tk):
-    """ 创建一个子窗口 """
+    """ 子窗口类 """
 
     def __init__(
         self,
@@ -117,25 +134,34 @@ class Toplevel(tkinter.Toplevel, Tk):
         y=None,  # type: int | None
         *,
         shutdown=None,  # type: Callable | None
+        alpha=None,  # type: float | None
+        toolwindow=None,  # type: bool | None
+        topmost=None,  # type: bool | None
+        transparentcolor=None,  # type: str | None
         **kw
     ):  # type: (...) -> None
         """
-        `master`: 父窗口\n
-        `title`: 窗口标题\n
-        `width`: 窗口宽度\n
-        `height`: 窗口高度\n
-        `x`: 窗口左上角横坐标\n
-        `y`: 窗口左上角纵坐标\n
-        `shutdown`: 关闭窗口之前执行的函数，但会覆盖关闭操作\n
-        `**kw`: 与 tkinter.Toplevel 类的参数相同\n
+        `master`: 父窗口 \ 
+        `title`: 窗口标题 \ 
+        `width`: 窗口宽度 \ 
+        `height`: 窗口高度 \ 
+        `x`: 窗口左上角横坐标 \ 
+        `y`: 窗口左上角纵坐标 \ 
+        `shutdown`: 关闭窗口之前执行的函数，但会覆盖关闭操作 \ 
+        `alpha`: 窗口的透明度，取值在 0~1 之间，且 1 为不透明 \ 
+        `toolwindow`: 窗口是否为工具窗口 \ 
+        `topmost`: 窗口是否置顶，为布尔值 \ 
+        `transparentcolor`: 过滤掉该颜色 \ 
+        `**kw`: 与 tkinter.Toplevel 类的参数相同
         """
         tkinter.Toplevel.__init__(self, master, **kw)
-        Tk.__init__(self, title, width, height, x, y, shutdown=shutdown, **kw)
-        self.focus_set()
+        Tk.__init__(self, title, width, height, x, y, shutdown=shutdown, alpha=alpha,
+                    toolwindow=toolwindow, topmost=topmost, transparentcolor=transparentcolor, **kw)
+        self.focus_set()  # 把焦点转移到该子窗口上来
 
 
 class Canvas(tkinter.Canvas):
-    """ 用于承载虚拟的画布控件，并处理部分绑定事件 """
+    """ 画布容器类 """
 
     def __init__(
         self,
@@ -151,15 +177,15 @@ class Canvas(tkinter.Canvas):
         **kw
     ):  # type: (...) -> None
         """
-        `master`: 父控件\n
-        `width`: 画布宽度\n
-        `height`: 画布高度\n
-        `x`: 画布左上角的横坐标\n
-        `y`: 画布左上角的纵坐标\n
-        `lock`: 画布内控件的功能锁，False 时功能暂时失效\n
-        `expand`: 画布内控件是否能缩放\n
-        `keep`: 画布比例是否保持不变\n
-        `**kw`: 与 tkinter.Canvas 类的参数相同\n
+        `master`: 父控件 \ 
+        `width`: 画布宽度 \ 
+        `height`: 画布高度 \ 
+        `x`: 画布左上角的横坐标 \ 
+        `y`: 画布左上角的纵坐标 \ 
+        `lock`: 画布内控件的功能锁，为 False 时功能暂时失效 \ 
+        `expand`: 画布内控件是否能缩放 \ 
+        `keep`: 画布比例是否保持不变 \ 
+        `**kw`: 与 tkinter.Canvas 类的参数相同
         """
         self.width = [width]*2  # [初始宽度, 当前宽度]
         self.height = [height]*2  # [初始高度, 当前高度]
@@ -182,16 +208,16 @@ class Canvas(tkinter.Canvas):
         if x is not None and y is not None:
             self.place(x=x, y=y)
 
-        self.bind('<Motion>', self.__touch)  # 绑定鼠标触碰控件
-        self.bind('<Any-Key>', self.__input)  # 绑定键盘输入字符（和Ctrl+v的代码顺序不可错）
-        self.bind('<Button-1>', self.__click)  # 绑定鼠标左键按下
-        self.bind('<B1-Motion>', self.__click)  # 绑定鼠标左键按下移动
-        self.bind('<MouseWheel>', self.__mousewheel)  # 绑定鼠标滚轮滚动
-        self.bind('<ButtonRelease-1>', self.__release)  # 绑定鼠标左键松开
-        self.bind('<<Paste>>', lambda _: self.__paste())  # 绑定粘贴快捷键
+        self.bind('<Motion>', self._touch)  # 绑定鼠标触碰控件
+        self.bind('<Any-Key>', self._input)  # 绑定键盘输入字符（和Ctrl+v的代码顺序不可错）
+        self.bind('<Button-1>', self._click)  # 绑定鼠标左键按下
+        self.bind('<B1-Motion>', self._click)  # 绑定鼠标左键按下移动
+        self.bind('<MouseWheel>', self._mousewheel)  # 绑定鼠标滚轮滚动
+        self.bind('<ButtonRelease-1>', self._release)  # 绑定鼠标左键松开
+        self.bind('<<Paste>>', lambda _: self._paste())  # 绑定粘贴快捷键
 
     def widget(self):  # type: () -> tuple[BaseWidget]
-        """ 返回`Canvas`类的`BaseWidget`元组 """
+        """ 返回 `Canvas` 类全部的 `BaseWidget` 对象 """
         return tuple(self._widget)
 
     @overload
@@ -204,22 +230,20 @@ class Canvas(tkinter.Canvas):
 
     def lock(self, value=None):  # type: (bool | None) -> bool | None
         """
-        设置或者查询画布锁\n
-        ---
-        `value`: 布尔值，True则可操作，False反之，无参数或参数为None则返回当前值\n
+        ### 设置或查询画布锁的状态
+        `value`: 布尔值，为 True 则可操作，为 False 则反之，无参数或参数为 None 则返回当前值
         """
         if value is None:
             return self._lock
         self._lock = value
         if value and self.expand:
-            self.zoom()
+            self._zoom()
 
-    def zoom(self, rate_x=None, rate_y=None):  # type: (float | None, float | None) -> None
+    def _zoom(self, rate_x=None, rate_y=None):  # type: (float | None, float | None) -> None
         """
-        缩放画布及其内部的所有元素\n
-        ---
-        `rate_x`: 横向缩放比率，默认值表示自动更新缩放（根据窗口缩放程度）\n
-        `rate_y`: 纵向缩放比率，默认值同上\n
+        ### 缩放画布及其内部的所有元素
+        `rate_x`: 横向缩放比率，默认值表示自动更新缩放（根据窗口缩放程度） \ 
+        `rate_y`: 纵向缩放比率，默认值同上
         """
         if not rate_x:
             rate_x = self.master.width[1]/self.master.width[0]/self.rx
@@ -269,11 +293,11 @@ class Canvas(tkinter.Canvas):
                     temp_x*rate_x, temp_y*rate_y, 1.2)
                 self.itemconfigure(item, image=self._image[item][1])
 
-    def __touch(self, event, flag=True):  # type: (tkinter.Event, bool) -> None
-        """ 内部方法：鼠标触碰控件事件 """
+    def _touch(self, event, flag=True):  # type: (tkinter.Event, bool) -> None
+        """ 鼠标触碰控件事件 """
         if self._lock:
             for widget in self._widget[::-1]:
-                if widget.live and widget.touch(event) and flag:
+                if widget.live and widget._touch(event) and flag:
                     if isinstance(widget, TextWidget):
                         self.configure(cursor='xterm')
                     elif isinstance(widget, Button):
@@ -284,44 +308,44 @@ class Canvas(tkinter.Canvas):
             if flag:
                 self.configure(cursor='arrow')
 
-    def __click(self, event):  # type: (tkinter.Event) -> None
-        """ 内部方法：鼠标左键按下事件 """
+    def _click(self, event):  # type: (tkinter.Event) -> None
+        """ 鼠标左键按下事件 """
         if self._lock:
             for widget in self._widget[::-1]:
                 if widget.live and isinstance(widget, (Button, TextWidget)):
-                    widget.click(event)  # NOTE: 无需 return，按下空白区域也有作用
+                    widget._click(event)  # NOTE: 无需 return，按下空白区域也有作用
                     self.focus_set()
 
-    def __release(self, event):  # type: (tkinter.Event) -> None
-        """ 内部方法：鼠标左键松开事件 """
+    def _release(self, event):  # type: (tkinter.Event) -> None
+        """ 鼠标左键松开事件 """
         if self._lock:
             for widget in self._widget[::-1]:
                 if widget.live and isinstance(widget, Button):
-                    if widget.touch(event):
-                        return widget.execute(event)
+                    if widget._touch(event):
+                        return widget._execute(event)
 
-    def __mousewheel(self, event):  # type: (tkinter.Event) -> None
-        """ 内部方法：鼠标滚轮滚动事件 """
+    def _mousewheel(self, event):  # type: (tkinter.Event) -> None
+        """ 鼠标滚轮滚动事件 """
         if self._lock:
             for widget in self._widget[::-1]:
                 if widget.live and isinstance(widget, Text):
-                    if widget.scroll(event):
+                    if widget._scroll(event):
                         return
 
-    def __input(self, event):  # type: (tkinter.Event) -> None
-        """ 内部方法：键盘输入字符事件 """
+    def _input(self, event):  # type: (tkinter.Event) -> None
+        """ 键盘输入字符事件 """
         if self._lock:
             for widget in self._widget[::-1]:
                 if widget.live and isinstance(widget, TextWidget):
-                    if widget.input(event):
+                    if widget._input(event):
                         return
 
-    def __paste(self):  # type: () -> None
-        """ 内部方法：快捷键粘贴事件 """
+    def _paste(self):  # type: () -> None
+        """ 快捷键粘贴事件 """
         if self._lock:
             for widget in self._widget[::-1]:
                 if widget.live and isinstance(widget, TextWidget):
-                    if widget.paste():
+                    if widget._paste():
                         return
 
     def create_text(self, *args, **kw):  # type: (...) -> tkinter._CanvasItemId
@@ -358,7 +382,7 @@ class Canvas(tkinter.Canvas):
         return tkinter.Canvas.place(self, *args, **kw)
 
     def destroy(self):  # type: () -> None
-        # override: 兼容
+        # override: 兼容 tkinter
         self.master._canvas.remove(self)
         for widget in self.widget():
             widget.destroy()
@@ -366,7 +390,7 @@ class Canvas(tkinter.Canvas):
 
 
 class BaseWidget:
-    """ 内部类：虚拟画布控件基类 """
+    """ 虚拟画布控件基类 """
 
     def __init__(
         self,
@@ -387,41 +411,41 @@ class BaseWidget:
     ):  # type: (...) -> None
         """
         ### 标准参数
-        标准参数是所有控件都有的\n
+        标准参数是所有控件都有的 \n 
         ---
-        `canvas`: 父画布容器控件\n
-        `x`: 控件左上角的横坐标\n
-        `y`: 控件左上角的纵坐标\n
-        `width`: 控件的宽度\n
-        `height`: 控件的高度\n
-        `radius`: 控件圆角化半径\n
-        `text`: 控件显示的文本，对于文本控件而言，可以为一个元组：(默认文本, 鼠标触碰文本)\n
-        `justify`: 文本的对齐方式\n
-        `borderwidth`: 外框的宽度\n
-        `font`: 控件的字体设定 (字体, 大小, 样式)\n
-        `image`: 控件的背景（支持 png 类型，大小必须小于控件，否则会溢出）\n
-        `color_text`: 控件文本的颜色\n
-        `color_fill`: 控件内部的颜色\n
-        `color_outline`: 控件外框的颜色\n
+        `canvas`: 父画布容器控件 \ 
+        `x`: 控件左上角的横坐标 \ 
+        `y`: 控件左上角的纵坐标 \ 
+        `width`: 控件的宽度 \ 
+        `height`: 控件的高度 \ 
+        `radius`: 控件圆角化半径 \ 
+        `text`: 控件显示的文本，对于文本控件而言，可以为一个元组：(默认文本, 鼠标触碰文本) \ 
+        `justify`: 文本的对齐方式 \ 
+        `borderwidth`: 外框的宽度 \ 
+        `font`: 控件的字体设定 (字体, 大小, 样式) \ 
+        `image`: 控件的背景（支持 png 类型，大小必须小于控件，否则会溢出控件边框） \ 
+        `color_text`: 控件文本的颜色 \ 
+        `color_fill`: 控件内部的颜色 \ 
+        `color_outline`: 控件外框的颜色
         ---
         ### 特定参数
-        特定参数只有某些控件类才有\n
+        特定参数只有某些控件类才有 \n 
         ---
-        `command`: 按钮控件的关联函数\n
-        `show`: 文本控件的显示文本\n
-        `limit`: 文本控件的输入字数限制，为负数时表示没有字数限制\n
-        `read`: 文本控件的只读模式\n
-        `cursor`: 输入提示符的字符，默认为一竖线\n
+        `command`: 按钮控件的关联函数 \ 
+        `show`: 文本控件的显示文本 \ 
+        `limit`: 文本控件的输入字数限制，为负数时表示没有字数限制 \ 
+        `read`: 文本控件的只读模式 \ 
+        `cursor`: 文本控件输入提示符的字符，默认为一竖线
         ---
         ### 详细说明
-        1. 字体的值为一个包含两个或三个值的元组或者单个的字符串，共三种形式\n
+        1. 字体的值为一个包含两个或三个值的元组或者单个的字符串，共三种形式:
             * 形式一: `字体名称`
             * 形式二: `(字体名称, 字体大小)`
             * 形式三: `(字体名称, 字体大小, 字体样式)`
-        2. 颜色为一个包含三个或四个 RGB 颜色字符串的元组，共两种形式\n
+        2. 颜色为一个包含三个或四个 RGB 颜色字符串的元组，共两种形式:
             * 不使用禁用功能时: `(正常颜色, 触碰颜色, 交互颜色)`
             * 需使用禁用功能时: `(正常颜色, 触碰颜色, 交互颜色, 禁用颜色)`
-            * 特别地，进度条控件的参数`color_bar`为: `(底色, 进度条颜色)`
+            * 特别地，进度条控件的参数 `color_bar` 为: `(底色, 进度条颜色)`
         """
         self.master = canvas
         self.value = text
@@ -478,7 +502,8 @@ class BaseWidget:
                 canvas.create_arc(
                     x+_w, y+_h, x+width, y+height, start=270, **kw)]
 
-            kw = {'extent': 100, 'style': 'arc', 'outline': color_outline[0]}
+            kw = {'extent': 100, 'style': tkinter.ARC,
+                  'outline': color_outline[0]}
             self.outside = [  # 虚拟控件外框
                 canvas.create_line(
                     _x, y, x+width-radius*canvas.rx, y, fill=color_outline[0], width=borderwidth),
@@ -532,14 +557,13 @@ class BaseWidget:
         ...
 
     def state(self, mode=None):
-        # type: (Literal['normal', 'touch', 'click', 'disabled'] | None) -> None
+        # type: (Literal['normal', 'touch', 'click', 'disabled'] | None) -> str | None
         """
-        mode参数为None或者无参数时仅更新控件，否则改变虚拟控件的外观\n
+        ### 设置或查询控件的状态
+        参数 mode 为 None 或者无参数时仅更新控件，否则改变虚拟控件的外观 \n 
         ---
-        `normal`: 正常状态\n
-        `touch`: 鼠标触碰时的状态\n
-        `click`: 鼠标按下时的状态\n
-        `disabled`: 禁用状态\n
+        `mode`: 可以为下列值之一 normal（正常状态）、touch（鼠标触碰时的状态）、
+        click（鼠标按下时的状态）、disabled（禁用状态） 和 None（查询控件状态）
         """
         if mode:
             self._state, self.pre_state = mode, self._state
@@ -584,10 +608,9 @@ class BaseWidget:
 
     def move(self, dx, dy):  # type: (float, float) -> None
         """
-        移动控件的位置\n
-        ---
-        `dx`: 横向移动长度（单位：像素）\n
-        `dy`: 纵向移动长度\n
+        ### 移动控件的位置
+        `dx`: 横向移动长度 \ 
+        `dy`: 纵向移动长度
         """
         self.x1 += dx
         self.x2 += dx
@@ -612,10 +635,9 @@ class BaseWidget:
 
     def moveto(self, x, y):  # type: (float, float) -> None
         """
-        改变控件的位置（以控件左上角为基准）\n
-        ---
-        `x`: 改变到的横坐标（单位：像素）\n
-        `y`: 改变到的纵坐标\n
+        ### 改变控件的位置（以控件左上角为基准）
+        `x`: 改变到的横坐标 \ 
+        `y`: 改变到的纵坐标
         """
         self.move(x - self.x1, y - self.y1)
 
@@ -629,9 +651,10 @@ class BaseWidget:
 
     def configure(self, *args, **kw):  # type: (...) -> str | tuple | None
         """
-        修改或查询原有参数的值，可供修改或查询的参数有\n
+        ### 修改或查询参数的值
+        可供修改或查询的参数有: 
         1. 所有控件: `color_text`、`color_fill`、`color_outline`
-        2. 非文本控件: `text`\n
+        2. 非文本控件: `text` \n 
         注意：颜色修改不会立即生效，可通过鼠标经过生效，或者调用 state 方法立即刷新状态！
         """
         if args:
@@ -692,7 +715,10 @@ class BaseWidget:
         ...
 
     def set_live(self, value=None):  # type: (bool | None) -> bool | None
-        """ 设定或查询live值 """
+        """
+        ### 设置或查询控件的活跃状态
+        `value`: 可以为 bool 类型（设置当前值）或者 None（返回当前值）
+        """
         if value is None:
             return self.live
         else:
@@ -704,7 +730,7 @@ class BaseWidget:
 
 
 class TextWidget(BaseWidget):
-    """ 内部类：文本类控件基类 """
+    """ 虚拟文本类控件基类 """
 
     def __init__(
         self,
@@ -744,41 +770,41 @@ class TextWidget(BaseWidget):
         font = canvas.itemcget(self.text, 'font')
         canvas.itemconfigure(self._cursor, font=font)
 
-    def touch_on(self):  # type: () -> None
-        """ 内部方法：鼠标悬停状态 """
+    def _touch_on(self):  # type: () -> None
+        """ 鼠标悬停状态 """
         if self._state != 'click':
             self.state('touch')
 
             if self.master.itemcget(self.text, 'text') == self._value[1]:
                 self.master.itemconfigure(self.text, text=self._value[2])
 
-    def touch_off(self):  # type: () -> None
-        """ 内部方法：鼠标离开状态 """
+    def _touch_off(self):  # type: () -> None
+        """ 鼠标离开状态 """
         if self._state != 'click':
             self.state('normal')
 
             if self.master.itemcget(self.text, 'text') == self._value[2]:
                 self.master.itemconfigure(self.text, text=self._value[1])
 
-    def click(self, event):  # type: (tkinter.Event) -> None
-        """ 内部方法：交互状态检测 """
+    def _click(self, event):  # type: (tkinter.Event) -> None
+        """ 交互状态检测 """
         if self.x1 <= event.x <= self.x2 and self.y1 <= event.y <= self.y2:
             if self._state != 'click':
-                self.click_on()
+                self._click_on()
         else:
-            self.click_off()
+            self._click_off()
 
-    def touch(
+    def _touch(
         self,  # type: Entry | Text
         event  # type: tkinter.Event
     ):  # type: (...) -> bool
-        """ 内部方法：触碰状态检测 """
+        """ 触碰状态检测 """
         condition = self.x1 <= event.x <= self.x2 and self.y1 <= event.y <= self.y2
-        self.touch_on() if condition else self.touch_off()
+        self._touch_on() if condition else self._touch_off()
         return condition
 
-    def cursor_flash(self):  # type: () -> None
-        """ 内部方法：鼠标光标闪烁 """
+    def _cursor_flash(self):  # type: () -> None
+        """ 鼠标光标闪烁 """
         if self.interval >= 300:
             self.interval, self.flag = 0, not self.flag
             if self.flag:
@@ -788,13 +814,13 @@ class TextWidget(BaseWidget):
 
         if self._state == 'click':
             self.interval += 10
-            self.master.after(10, self.cursor_flash)
+            self.master.after(10, self._cursor_flash)
         else:
             self.interval, self.flag = 300, False  # 恢复默认值
             self.master.itemconfigure(self._cursor, text='')
 
-    def cursor_update(self, text=' '):  # type: (str) -> None
-        """ 内部方法：鼠标光标更新 """
+    def _cursor_update(self, text=' '):  # type: (str) -> None
+        """ 鼠标光标更新 """
         self.interval, self.flag = 300, False  # 恢复默认值
         if isinstance(self, Entry):
             self.master.coords(self._cursor, self.master.bbox(
@@ -805,28 +831,28 @@ class TextWidget(BaseWidget):
         self.master.itemconfigure(
             self._cursor, text='' if not text else self.icursor)
 
-    def paste(self):  # type: () -> bool
-        """ 内部方法：快捷键粘贴 """
+    def _paste(self):  # type: () -> bool
+        """ 快捷键粘贴 """
         condition = self._state == 'click' and not getattr(self, 'show', None)
         if condition:
             self.append(self.master.clipboard_get())
         return condition
 
-    def clear(self):  # type: () -> None
-        """ 内部方法：清空文本类控件的内容 """
+    def _clear(self):  # type: () -> None
+        """ 清空文本类控件的内容 """
         if isinstance(self, Text):
             event = tkinter.Event()
             event.keysym = 'BackSpace'
-            self.click_on()
+            self._click_on()
             for _ in range(len(self.value)):
-                self.input(event, True)
-            self.click_off()
+                self._input(event, True)
+            self._click_off()
         else:
             self.value = self._value[0] = ''
             self.master.itemconfigure(self.text, text='')
 
     def get(self):  # type: () -> str
-        """ 内部方法：获取输入框的值 """
+        """ 获取输入框的值 """
         return self.value
 
     def set(self, value):  # type: (str) -> None
@@ -846,7 +872,7 @@ class TextWidget(BaseWidget):
 
 
 class Label(BaseWidget):
-    """ 创建一个虚拟的标签控件，用于显示少量文本 """
+    """ 虚拟标签控件 """
 
     def __init__(
         self,
@@ -869,7 +895,7 @@ class Label(BaseWidget):
         BaseWidget.__init__(self, canvas, x, y, width, height, radius, text, justify,
                             borderwidth, font, image, color_text, color_fill, color_outline)
 
-    def touch(self, event):  # type: (tkinter.Event) -> bool
+    def _touch(self, event):  # type: (tkinter.Event) -> bool
         """ 触碰状态检测 """
         condition = self.x1 <= event.x <= self.x2 and self.y1 <= event.y <= self.y2
         self.state('touch' if condition else 'normal')
@@ -877,7 +903,7 @@ class Label(BaseWidget):
 
 
 class Button(BaseWidget):
-    """ 创建一个虚拟的按钮，并执行关联函数 """
+    """ 虚拟按钮控件 """
 
     def __init__(
         self,
@@ -902,20 +928,20 @@ class Button(BaseWidget):
                             borderwidth, font, image, color_text, color_fill, color_outline)
         self.command = command
 
-    def execute(self, event):  # type: (tkinter.Event) -> None
+    def _execute(self, event):  # type: (tkinter.Event) -> None
         """ 执行关联函数 """
         condition = self.x1 <= event.x <= self.x2 and self.y1 <= event.y <= self.y2
         if condition and self.command:
             self.command()
 
-    def click(self, event):  # type: (tkinter.Event) -> None
+    def _click(self, event):  # type: (tkinter.Event) -> None
         """ 交互状态检测 """
         if self.x1 <= event.x <= self.x2 and self.y1 <= event.y <= self.y2:
             self.state('click')
         else:
             self.state('normal')
 
-    def touch(self, event):  # type: (tkinter.Event) -> bool
+    def _touch(self, event):  # type: (tkinter.Event) -> bool
         """ 触碰状态检测 """
         condition = self.x1 <= event.x <= self.x2 and self.y1 <= event.y <= self.y2
         self.state('touch' if condition else 'normal')
@@ -923,7 +949,7 @@ class Button(BaseWidget):
 
 
 class CheckButton(Button):
-    """ 创建一个复选框 """
+    """ 虚拟复选框控件 """
 
     def __init__(
         self,
@@ -965,7 +991,7 @@ class CheckButton(Button):
 
 
 class Entry(TextWidget):
-    """ 创建一个虚拟的输入框控件，可输入单行少量字符，并获取这些字符 """
+    """ 虚拟输入框控件 """
 
     def __init__(
         self,
@@ -993,14 +1019,14 @@ class Entry(TextWidget):
         self.master.itemconfigure(self.text, text=self._value[1])
         self.show = show
 
-    def click_on(self):  # type: () -> None
+    def _click_on(self):  # type: () -> None
         """ 控件获得焦点 """
         self.state('click')
         self.master.itemconfigure(self.text, text=self._value[0])
-        self.cursor_update('')
-        self.cursor_flash()
+        self._cursor_update('')
+        self._cursor_flash()
 
-    def click_off(self):  # type: () -> None
+    def _click_off(self):  # type: () -> None
         """ 控件失去焦点 """
         self.state('normal')
 
@@ -1009,7 +1035,7 @@ class Entry(TextWidget):
         else:
             self.master.itemconfigure(self.text, text=self._value[0])
 
-    def input(self, event, flag=False):  # type: (tkinter.Event, bool) -> None
+    def _input(self, event, flag=False):  # type: (tkinter.Event, bool) -> None
         """ 文本输入 """
         if self._state == 'click' or flag:
             if event.keysym == 'BackSpace':  # 按下退格键
@@ -1029,11 +1055,11 @@ class Entry(TextWidget):
 
             # 更新显示
             self.master.itemconfigure(self.text, text=self._value[0])
-            self.update_text()
-            self.cursor_update()
+            self._update_text()
+            self._cursor_update()
             return True
 
-    def update_text(self):  # type: () -> None
+    def _update_text(self):  # type: () -> None
         """ 更新控件 """
         while True:
             pos = self.master.bbox(self.text)
@@ -1045,7 +1071,7 @@ class Entry(TextWidget):
 
 
 class Text(TextWidget):
-    """ 创建一个透明的虚拟文本框，用于输入多行文本和显示多行文本 """
+    """ 虚拟文本框控件 """
 
     def __init__(
         self,
@@ -1090,17 +1116,17 @@ class Text(TextWidget):
             self.text, text=self._value[1], anchor=_anchor)
         self.master.itemconfigure(self._cursor, anchor='n')
 
-    def click_on(self):  # type: () -> None
+    def _click_on(self):  # type: () -> None
         """ 控件获得焦点 """
         if not self.read:
             self.state('click')
             *__, _ = [''] + self._value[0].rsplit('\n', 1)
             self.master.itemconfigure(self.text, text=''.join(__))
             self.master.itemconfigure(self._text, text=_)
-            self.cursor_update('')
-            self.cursor_flash()
+            self._cursor_update('')
+            self._cursor_flash()
 
-    def click_off(self):  # type: () -> None
+    def _click_off(self):  # type: () -> None
         """ 控件失去焦点 """
         self.state('normal')
 
@@ -1111,17 +1137,17 @@ class Text(TextWidget):
             self.master.itemconfigure(self.text, text=''.join(__))
             self.master.itemconfigure(self._text, text=_)
 
-    def input(self, event, flag=False):  # type: (tkinter.Event, bool) -> bool
+    def _input(self, event, flag=False):  # type: (tkinter.Event, bool) -> bool
         """ 文本输入 """
         if self._state == 'click' or flag:
             if event.keysym == 'BackSpace':  # 按下退格键
-                self.input_backspace()
+                self._input_backspace()
             elif len(self.value) == self.limit:  # 达到字数限制
                 return True
             elif event.keysym == 'Tab':  # 按下Tab键
                 self.append(' '*4)
             elif event.keysym == 'Return' or event.char == '\n':  # 按下回车键
-                self.input_return()
+                self._input_return()
             elif event.char.isprintable() and event.char:  # 按下其他普通的键
                 _text = self.master.itemcget(self._text, 'text')
                 self.master.itemconfigure(self._text, text=_text+event.char)
@@ -1129,14 +1155,14 @@ class Text(TextWidget):
 
                 if _pos[2] > self.x2-self.radius-2 or _pos[0] < self.x1+self.radius+1:  # 文本溢出啦
                     self.master.itemconfigure(self._text, text=_text)
-                    self.input_return()
+                    self._input_return()
                     self.master.itemconfigure(self._text, text=event.char)
 
                 self.value += event.char
             else:
                 return True
 
-            self.cursor_update()
+            self._cursor_update()
 
             # 更新表面显示值
             text = self.master.itemcget(self.text, 'text')
@@ -1145,7 +1171,7 @@ class Text(TextWidget):
 
             return True
 
-    def input_return(self):  # type: () -> None
+    def _input_return(self):  # type: () -> None
         """ 回车键功能 """
         self.value += '\n'
 
@@ -1164,7 +1190,7 @@ class Text(TextWidget):
             text = text.split('\n', 1)[-1]
             self.master.itemconfigure(self.text, text=text+'\n'+_text)
 
-    def input_backspace(self):  # type: () -> None
+    def _input_backspace(self):  # type: () -> None
         """ 退格键功能 """
         if not self.value:  # 没有内容，删个毛啊
             return
@@ -1195,9 +1221,13 @@ class Text(TextWidget):
 
             self.master.itemconfigure(self.text, text=__)
 
+    def _scroll(self, event):  # type: (tkinter.Event) -> bool
+        """ 鼠标滚轮滚动 """
+        return False  # TODO: 暂未实现
+
 
 class Progressbar(BaseWidget):
-    """ 虚拟的进度条，可以直观的方式显示任务进度 """
+    """ 虚拟进度条控件 """
 
     def __init__(
         self,
@@ -1225,7 +1255,7 @@ class Progressbar(BaseWidget):
 
         self.color_fill = list(color_bar)
 
-    def touch(self, event):  # type: (tkinter.Event) -> bool
+    def _touch(self, event):  # type: (tkinter.Event) -> bool
         """ 触碰状态检测 """
         condition = self.x1 <= event.x <= self.x2 and self.y1 <= event.y <= self.y2
         self.state('touch' if condition else 'normal')
@@ -1233,9 +1263,8 @@ class Progressbar(BaseWidget):
 
     def load(self, percentage):  # type: (float) -> None
         """
-        进度条加载，并更新外观\n
-        ---
-        `percentage`: 进度条的值，范围 0 ~ 1\n
+        ### 加载
+        `percentage`: 进度条的值，范围 0 ~ 1
         """
         percentage = 0 if percentage < 0 else 1 if percentage > 1 else percentage
         x2 = self.x1 + self.width * percentage * self.master.rx
@@ -1244,7 +1273,7 @@ class Progressbar(BaseWidget):
 
 
 class PhotoImage(tkinter.PhotoImage):
-    """ 生成图片并进行相应的一些处理 """
+    """ 图片类 """
 
     def __init__(
         self,
@@ -1252,10 +1281,8 @@ class PhotoImage(tkinter.PhotoImage):
         **kw
     ):  # type: (...) -> None
         """
-        初始化参数\n
-        ---
-        `file`: 图片文件的路径\n
-        `**kw`: 与 tkinter.PhotoImage 的参数相同\n
+        `file`: 图片文件的路径 \ 
+        `**kw`: 与 tkinter.PhotoImage 的参数相同
         """
         self.file = file  # 图片文件的路径
         self.extension = file.rsplit('.', 1)[-1]  # 文件扩展名
@@ -1269,9 +1296,9 @@ class PhotoImage(tkinter.PhotoImage):
     def parse(self, start=0):  # type: (int) -> Generator[int, None, None]
         """
         ### 解析动图
-        解析并得到动图的每一帧动画，该方法返回一个生成器\n
+        解析并得到动图的每一帧动画，该方法返回一个生成器 \n 
         ---
-        `start`: 动图解析的起始索引（帧数-1）\n
+        `start`: 动图解析的起始索引（帧数-1）
         """
         try:
             while True:
@@ -1291,11 +1318,11 @@ class PhotoImage(tkinter.PhotoImage):
     ):  # type: (...) -> None
         """
         ### 播放动图
-        播放动图，设置 canvas.lock 为 False 会暂停\n
+        播放动图，设置 canvas.lock 为 False 会暂停 \n 
         ---
-        `canvas`: 播放动画的画布\n
-        `item`: 播放动画的 _CanvasItemId（create_text 的返回值）\n
-        `interval`: 每帧动画的间隔时间\n
+        `canvas`: 播放动画的画布 \ 
+        `item`: 播放动画的 _CanvasItemId（create_text 的返回值） \ 
+        `interval`: 每帧动画的间隔时间
         """
         if kw.get('_ind', None) is None:  # 初始化的判定
             self._item[item], kw['ind'] = canvas, -1
@@ -1314,10 +1341,10 @@ class PhotoImage(tkinter.PhotoImage):
     ):  # type: (...) -> None
         """
         ### 终止播放
-        终止对应动图的播放，且无法重新播放\n
+        终止对应动图的播放，且无法重新播放 \n 
         ---
-        `item`: 播放动画的 _CanvasItemId（create_text 的返回值）\n
-        `clear`: 清除图片的标识, True 就清除图片\n
+        `item`: 播放动画的 _CanvasItemId（create_text 的返回值） \ 
+        `clear`: 清除图片的标识，为 True 就清除图片
         """
         self._item[item] = None
         if clear:  # 清除背景
@@ -1331,11 +1358,11 @@ class PhotoImage(tkinter.PhotoImage):
     ):  # type: (...) -> tkinter.PhotoImage
         """
         ### 缩放图片
-        不会缩放该图片对象本身，只是返回一个缩放后的图片对象\n
+        不会缩放该图片对象本身，只是返回一个缩放后的图片对象 \n 
         ---
-        `rate_x`: 横向缩放倍率\n
-        `rate_y`: 纵向缩放倍率\n
-        `precision`: 精度到小数点后的位数（推荐 1.2），越大运算就越慢（默认值代表绝对精确）\n
+        `rate_x`: 横向缩放倍率 \ 
+        `rate_y`: 纵向缩放倍率 \ 
+        `precision`: 精度到小数点后的位数（推荐 1.2），越大运算就越慢（默认值代表绝对精确）
         """
         if precision is not None:
             limit = round(10**precision)
@@ -1356,7 +1383,7 @@ class PhotoImage(tkinter.PhotoImage):
 
 
 class Singleton(object):
-    """ 单例模式类，用于继承 """
+    """ 单例模式类 """
 
     _instance = None
 
@@ -1413,15 +1440,16 @@ def move(
 ):  # type: (...) -> None
     """
     ### 移动函数
-    以特定方式移动由 Place 布局的某个控件或某些控件的集合或图像\n
+    以特定方式移动由 Place 布局的某个控件或某些控件的集合或图像 \ 
+    或者按一定的函数规律来移动
     ---
-    `master`: 控件所在的父控件\n
-    `widget`: 要移动位置的控件\n
-    `dx`: 横向移动的距离（单位：像素）\n
-    `dy`: 纵向移动的距离（单位：像素）\n
-    `times`: 移动总时长（单位：毫秒）\n
-    `mode`: 移动速度模式，为 smooth（顺滑）、rebound（回弹）和 flat（平移）这三种，或者为元组 (函数, 起始值, 终止值) 的形式\n
-    `frames`: 帧数，越大移动就越流畅，但计算越慢（范围为 1 ~ 100）\n
+    `master`: 控件所在的父控件 \ 
+    `widget`: 要移动位置的控件 \ 
+    `dx`: 横向移动的距离（单位：像素） \ 
+    `dy`: 纵向移动的距离（单位：像素） \ 
+    `times`: 移动总时长（单位：毫秒） \ 
+    `mode`: 移动速度模式，为 smooth（顺滑）、rebound（回弹）和 flat（平移）这三种，或者为元组 (函数, 起始值, 终止值) 的形式 \ 
+    `frames`: 帧数，越大移动就越流畅，但计算越慢（范围为 1 ~ 100） \ 
     `end`: 移动结束时执行的函数
     """
     if _ind:  # 记忆值
@@ -1469,11 +1497,12 @@ def text(
 ):  # type: (...) -> str
     """
     ### 文本对齐函数
-    可将目标字符串改为目标长度并居中对齐，ASCII 码字符算 1 个长度，中文及其他字符算 2 个\n
+    可将目标字符串改为目标长度并居中对齐 \ 
+    ASCII 字符算 1 个长度，中文及其他字符算 2 个
     ---
-    `length`: 目标长度\n
-    `string`: 要修改的字符串\n
-    `position`: 文本处于该长度范围的位置，可选 left（靠左）、center（居中）和 right（靠右）这三个值\n
+    `length`: 目标长度 \ 
+    `string`: 要修改的字符串 \ 
+    `position`: 文本处于该长度范围的位置，可选 left（靠左）、center（居中）和 right（靠右）这三个值
     """
     length -= sum(1 + (ord(i) >= 256) for i in string)  # 计算空格总个数
     if position == 'left':  # 靠左
@@ -1507,10 +1536,11 @@ def color(
 ):  # type: (...) -> str
     """
     ### 颜色函数
-    按一定比例给出已有 RGB 颜色字符串的渐变 RGB 颜色字符串，或颜色的对比色\n
+    按一定比例给出已有 RGB 颜色字符串的渐变 RGB 颜色字符串 \ 
+    或者给出已有 RGB 颜色字符串的对比色
     ---
-    `color`: 颜色元组或列表 (初始颜色, 目标颜色)，或者一个颜色字符串（此时返回其对比色）\n
-    `proportion`: 改变比例（浮点数，范围为 0 ~ 1）\n
+    `color`: 颜色元组或列表 (初始颜色, 目标颜色)，或者一个颜色字符串（此时返回其对比色） \ 
+    `proportion`: 改变比例（浮点数，范围为 0 ~ 1）
     """
     rgb, _rgb = [[None]*3, [None]*3], 0
 
@@ -1536,12 +1566,12 @@ def askfont(
 ):  # type: (...) -> None
     """
     ### 字体选择对话框
-    弹出选择字体的默认对话框窗口\n
-    注意：由于 tkinter 模块无法直接打开该窗口，所以此处添加了这个函数\n
+    弹出选择字体的默认对话框窗口 \ 
+    注意: 由于 tkinter 模块无法直接打开该窗口，所以此处添加了这个函数
     ---
-    `root`: 父容器控件\n
-    `bind`: 关联函数，有且仅有一个参数 font\n
-    `initfont`: 初始字体，格式为 font 参数默认格式\n
+    `root`: 父容器控件 \ 
+    `bind`: 关联函数，有且仅有一个参数 font \ 
+    `initfont`: 初始字体，格式为 font 参数默认格式
     """
     args = []
     if bind:
@@ -1560,12 +1590,12 @@ def SetProcessDpiAwareness(
 ):  # type: (...) -> None
     """
     ### 设定程序 DPI 级别
-    设定窗口程序的 DPI 级别，让系统知道该如何对程序进行缩放，以提升高缩放倍数情况下的清晰度\n
-    注意：
+    设定窗口程序的 DPI 级别，让系统知道该如何对程序进行缩放，以提升高缩放倍数情况下的清晰度 \ 
+    注意: 
     * 此函数仅在 Windows 平台上生效！
     * tkintertools 程序已内置该功能，该函数不应在 tkintertools 程序中使用，而应该在 tkinter 程序中使用！
     ---
-    `awareness`: DPI 级别，值可以为 0、1 和 2，本来默认为 0，此处更改默认值为 1\n
+    `awareness`: DPI 级别，值可以为 0、1 和 2，本来默认为 0，此处更改默认值为 1
     """
     if WinDLL:
         WinDLL('shcore').SetProcessDpiAwareness(awareness)

@@ -1,12 +1,18 @@
 """ All constants """
 
-import platform
+import platform  # Get information about the platform
+
+### System constants ###
+
 
 SYSTEM = platform.system()
 """ Operating System """
 
 PROCESS_SYSTEM_DPI_AWARE = 1
 """ Default DPI aware """
+
+
+### Color constants ###
 
 
 COLOR_BUTTON_FILL = '#E1E1E1', '#E5F1FB', '#CCE4F7', '#E0E0E0'
@@ -29,6 +35,9 @@ COLOR_NONE = '', '', '', ''
 
 COLOR_BAR = '#E1E1E1', '#06b025'
 """ Default progress bar color """
+
+
+### Other constants ###
 
 
 BORDERWIDTH = 1
@@ -57,9 +66,14 @@ TICK = '✓'
 """ Default checkbox symbol """
 
 
+### 3D constants ###
+
+
 CAMERA_DISTANCE = 1000
 """ Default 3D camera distance """
 
+ROTATE_CENTER = 0, 0, 0
+""" Default rotation center """
 
 COLOR_POINT_FILL = '#000000'
 """ Default point fill color """
@@ -88,5 +102,20 @@ LINE_WDITH = 1
 SIDE_WIDTH = 1
 """ Default side width """
 
+ORIGIN_COORDINATE = 0, 0, 0
+""" Default origin coordinate """
 
-__all__ = [name for name in globals() if name.isupper()]
+ORIGIN_SIZE = POINT_SIZE
+""" Default origin size """
+
+ORIGIN_WIDTH = POINT_WIDTH
+""" Default origin width """
+
+ORIGIN_FILL = ''
+""" Default origin fill color """
+
+ORIGIN_OUTLINE = ''
+""" Default origin outline color """
+
+
+all_constants = [name for name in globals() if name.isupper()]

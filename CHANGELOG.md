@@ -1,6 +1,35 @@
 ChangeLog/更新日志
 =================
 
+[`2.6.7.dev0`] - 2023-07-03
+---------------------------
+
+### Features/新增
+
+- [X] Added constants `ROTATE_CENTER`, `ORIGIN_COORDINATE`, `ORIGIN_SIZE`, `ORIGIN_WIDTH`, `ORIGIN_FILL` and `ORIGIN_OUTLINE`  
+新增常量 `ROTATE_CENTER`、`ORIGIN_COORDINATE`、`ORIGIN_SIZE`、`ORIGIN_WIDTH`、`ORIGIN_FILL` 和 `ORIGIN_OUTLINE`
+
+- [X] Class `Tk` and `Toplevel` Added keyword arguments `alpha`, `toolwindow`, `topmost` and `transparentcolor`  
+类 `Tk` 和 `Toplevel` 新增关键字参数 `alpha`、`toolwindow`、`topmost` 和 `transparentcolor`
+
+### Fixed/修复
+
+- [X] Fixed a bug where the class `Text` would report an error when scrolling with the mouse wheel  
+修复了类 `Text` 在使用鼠标滚轮滚动时会报错的 bug
+
+### Optimized/优化
+
+- [X] Optimized the internal implementation of the functions `translate` and `scale` to improve performance  
+优化函数 `translate`、`rotate` 和 `scale` 内部的实现，提高了性能
+
+- [X] A large number of incomplete docstrings have been modified and improved  
+修改和完善了大量的不完整的文档注释
+
+### Changed/变更
+
+- [X] Change some methods of some classes to protection methods  
+将部分类的部分方法更改为保护方法
+
 [`2.6.6`] - 2023-07-01
 ----------------------
 
