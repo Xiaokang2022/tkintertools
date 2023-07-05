@@ -2,71 +2,11 @@
 
 import math  # 数学支持
 import statistics  # 数据统计
-from abc import ABCMeta, abstractmethod  # 抽象类
 from tkinter import Event  # 类型提示
-from typing import Iterable  # 类型提示
+from typing import Iterable, overload  # 类型提示
 
 from .__main__ import Canvas, Tk, Toplevel  # 继承和类型提示
 from .constants import *  # 常量
-
-
-def translate(coordinate, dx=0, dy=0, dz=0):
-    # type: (list[float], float, float, float) -> None
-    """
-    ### 平移
-    将一个三维空间中的点进行平移 \n
-    ---
-    `coordinate`: 点的空间坐标 \ 
-    `dx`: x 方向位移长度 \ 
-    `dy`: y 方向位移长度 \ 
-    `dz`: z 方向位移长度
-    """
-    for i, delta in enumerate((dx, dy, dz)):
-        coordinate[i] += delta
-
-
-def rotate(coordinate, dx=0, dy=0, dz=0, *, center=ROTATE_CENTER):
-    # type: (list[float], float, float, float, ..., Iterable[float]) -> None
-    """
-    ### 旋转
-    将一个三维空间中的点以另一个点为旋转中心进行旋转 \n
-    ---
-    `coordinate`: 点的空间坐标 \ 
-    `dx`: x 方向旋转弧度 \ 
-    `dy`: y 方向旋转弧度 \ 
-    `dz`: z 方向旋转弧度 \ 
-    `center`: 旋转中心的空间坐标，默认值为元组 (0, 0, 0)
-    """
-    sx, sy, sz = math.sin(dx), math.sin(dy), math.sin(dz)
-    cx, cy, cz = math.cos(dx), math.cos(dy), math.cos(dz)
-
-    matrix = [[cz * cy, cz * sy * sx - sz * cx, cz * sy * cx + sz * sx],
-              [sz * cy, sz * sy * sx + cz * cx, sz * sy * cx - cz * sx],
-              [-sy,     cy * sx,                cy * cx]]
-
-    for i, c_i in enumerate(center):
-        matrix[0][i] = c_i + sum(
-            matrix[i][j] * (coordinate[j] - c_j) for j, c_j in enumerate(center))
-
-    coordinate[:] = matrix[0]
-
-
-def scale(coordinate, kx=1, ky=1, kz=1, *, center):
-    # type: (list[float], float, float, float, ..., Iterable[float]) -> None
-    """
-    ### 缩放
-    将一个三维空间中的点以另一个点为缩放中心进行缩放 \n
-    ---
-    `coordinate`: 点的空间坐标 \ 
-    `kx`: x 方向缩放比例 \ 
-    `ky`: y 方向缩放比例 \ 
-    `kz`: z 方向缩放比例 \ 
-    `center`: 缩放中心的空间坐标
-    """
-    if kx <= 0 or ky <= 0 or kz <= 0:  # 限制缩放比例的范围
-        raise ValueError('invalid scaling factor')
-    for i, k in enumerate((kx, ky, kz)):
-        coordinate[i] += (coordinate[i] - center[i]) * (k - 1)
 
 
 class Canvas_3D(Canvas):
@@ -210,7 +150,7 @@ class Space(Canvas_3D):
         _cache[:] = [event.x, event.y]
         for item in self._items_3d:
             item.rotate(0, -2*dy/self.width[1]*math.tau, 2*dx /
-                        self.height[1]*math.tau, center=self._origin.coords)
+                        self.height[1]*math.tau, center=self._origin.coordinates[0])
             item.update()
         self.space_sort()
 
@@ -220,35 +160,146 @@ class Space(Canvas_3D):
             event.delta = flag
         k = 1.1 if event.delta > 0 else 0.9
         for item in self._items_3d:
-            item.scale(k, k, k, center=self._origin.coords)
+            item.scale(k, k, k, center=self._origin.coordinates[0])
             item.update()
         self.space_sort()
 
 
-class _3D_Object(metaclass=ABCMeta):
-    """ 3D 对象抽象元类 """
+def translate(coordinate, dx=0, dy=0, dz=0):
+    # type: (list[float], float, float, float) -> None
+    """
+    ### 平移
+    将一个三维空间中的点进行平移 \n
+    ---
+    `coordinate`: 点的空间坐标 \ 
+    `dx`: x 方向位移长度 \ 
+    `dy`: y 方向位移长度 \ 
+    `dz`: z 方向位移长度
+    """
+    for i, delta in enumerate((dx, dy, dz)):
+        coordinate[i] += delta
 
-    @abstractmethod
-    def translate(self, dx=0, dy=0, dz=0):
+
+@overload
+def rotate(coordinate, dx=0, dy=0, dz=0, *, center):
+    # type: (list[float], float, float, float, ..., Iterable[float]) -> None
+    ...
+
+
+@overload
+def rotate(coordinate, dx=0, *, axis):
+    # type: (list[float], float,  ..., Iterable[Iterable[float]]) -> None
+    ...
+
+
+def rotate(coordinate, dx=0, dy=0, dz=0, *, center, axis):
+    # type: (list[float], float, float, float, ..., Iterable[float], Iterable[Iterable[float]] | None) -> None
+    """
+    ### 旋转
+    将一个三维空间中的点以一个点或线为参照进行旋转 \n
+    ---
+    `coordinate`: 点的空间坐标 \ 
+    `dx`: x 方向旋转弧度，或者绕旋转轴线的旋转弧度 \ 
+    `dy`: y 方向旋转弧度 \ 
+    `dz`: z 方向旋转弧度 \ 
+    `center`: 旋转中心的空间坐标 \ 
+    `axis`: 旋转轴线的空间坐标
+    """
+    if axis is not None:  # 参照为线（定轴转动）
+        center = _Line(*axis).center()
+        n = list(axis[0])
+        for i in range(3):
+            n[i] -= axis[1][i]
+            coordinate[i] -= center[i]
+        n_m = math.hypot(*n)
+        for i in range(3):
+            n[i] /= n_m
+        x_2, y_2, z_2 = (i**2 for i in n)
+        xy, yz, zx = n[0]*n[1], n[1]*n[2], n[2]*n[0]
+        s_θ, c_θ = math.sin(dx), math.cos(dx)
+        _c_θ = 1 - c_θ
+
+        matrix = [[x_2*_c_θ + c_θ, xy*_c_θ + n[2]*s_θ, zx*_c_θ - n[1]*s_θ],
+                  [xy*_c_θ - n[2]*s_θ, y_2*_c_θ + c_θ, yz*_c_θ + n[0]*s_θ],
+                  [zx*_c_θ + n[1]*s_θ, yz*_c_θ - n[0]*s_θ, z_2*_c_θ + c_θ]]
+
+        for i, δ in enumerate(center):
+            matrix[i] = δ + sum(matrix[i][j]*coordinate[j] for j in range(3))
+
+    else:  # 参照为点（定点转动）
+        sx, sy, sz = math.sin(dx), math.sin(dy), math.sin(dz)
+        cx, cy, cz = math.cos(dx), math.cos(dy), math.cos(dz)
+
+        matrix = [[cz * cy, cz * sy * sx - sz * cx, cz * sy * cx + sz * sx],
+                  [sz * cy, sz * sy * sx + cz * cx, sz * sy * cx - cz * sx],
+                  [-sy,     cy * sx,                cy * cx]]
+
+        for i, δ in enumerate(center):
+            matrix[i] = δ + sum(
+                matrix[i][j] * (coordinate[j] - center[j]) for j in range(3))
+
+    coordinate[:] = matrix
+
+
+def scale(coordinate, kx=1, ky=1, kz=1, *, center):
+    # type: (list[float], float, float, float, ..., Iterable[float]) -> None
+    """
+    ### 缩放
+    将一个三维空间中的点以另一个点为缩放中心进行缩放 \n
+    ---
+    `coordinate`: 点的空间坐标 \ 
+    `kx`: x 方向缩放比例 \ 
+    `ky`: y 方向缩放比例 \ 
+    `kz`: z 方向缩放比例 \ 
+    `center`: 缩放中心的空间坐标
+    """
+    if kx <= 0 or ky <= 0 or kz <= 0:  # 限制缩放比例的范围
+        raise ValueError('invalid scaling factor')
+    for i, k in enumerate((kx, ky, kz)):
+        coordinate[i] += (coordinate[i] - center[i]) * (k - 1)
+
+
+class _3D_Object:
+    """ 3D 对象基类 """
+
+    def __init__(self, *coordinates):  # type: (list[float]) -> None
+        self.coordinates = list(coordinates)  # 所有点的坐标
+
+    def translate(self, dx=0, dy=0, dz=0):  # type: (float, float, float) -> None
         """
         ### 平移
         `dx`: x 方向位移长度 \ 
         `dy`: y 方向位移长度 \ 
         `dz`: z 方向位移长度
         """
+        for coordinate in self.coordinates:
+            translate(coordinate, dx, dy, dz)
 
-    @abstractmethod
+    @overload
     def rotate(self, dx=0, dy=0, dz=0, *, center=ROTATE_CENTER):
+        # type: (float, float, float, ..., Iterable[float]) -> None
+        ...
+
+    @overload
+    def rotate(self, dx=0, *, axis):
+        # type: (float, ..., Iterable[Iterable[float]]) -> None
+        ...
+
+    def rotate(self, dx=0, dy=0, dz=0, *, center=ROTATE_CENTER, axis=None):
+        # type: (float, float, float, ..., Iterable[float], Iterable[Iterable[float]] | None) -> None
         """
         ### 旋转
-        `dx`: x 方向旋转弧度 \ 
+        `dx`: x 方向旋转弧度，或者绕旋转轴线的旋转弧度 \ 
         `dy`: y 方向旋转弧度 \ 
         `dz`: z 方向旋转弧度 \ 
-        `center`: 旋转中心，默认为原点
+        `center`: 旋转中心，默认为原点 \ 
+        `axis`: 旋转轴线，无默认值
         """
+        for coordinate in self.coordinates:
+            rotate(coordinate, dx, dy, dz, center=center, axis=axis)
 
-    @abstractmethod
     def scale(self, kx=1, ky=1, kz=1, *, center=None):
+        # type: (float, float, float, ..., Iterable[float] | None) -> None
         """
         ### 缩放
         `kx`: x 方向缩放比例 \ 
@@ -256,12 +307,15 @@ class _3D_Object(metaclass=ABCMeta):
         `kz`: z 方向缩放比例 \ 
         `center`: 缩放中心，默认为几何中心
         """
+        if center is None:
+            center = self.center()
+        for coordinate in self.coordinates:
+            scale(coordinate, kx, ky, kz, center=center)
 
-    @abstractmethod
-    def center(self):
+    def center(self):  # type: () -> tuple[float, float, float]
         """ 几何中心 """
+        return tuple(statistics.mean(xyz) for xyz in zip(*self.coordinates))
 
-    @abstractmethod
     def _project(self, distance):
         """
         ### 投影
@@ -272,29 +326,16 @@ class _3D_Object(metaclass=ABCMeta):
 class _Point(_3D_Object):
     """ 点（基类） """
 
-    def __init__(self, coords):  # type: (list[float]) -> None
-        self.coords = coords  # 利用列表引用
-
-    def translate(self, dx=0, dy=0, dz=0):  # type: (float, float, float) -> None
-        translate(self.coords, dx, dy, dz)
-
-    def rotate(self, dx=0, dy=0, dz=0, *, center=ROTATE_CENTER):
-        # type: (float, float, float, ..., Iterable[float]) -> None
-        rotate(self.coords, dx, dy, dz, center=center)
-
-    def scale(self, kx=1, ky=1, kz=1, *, center=None):
-        # type: (float, float, float, ..., Iterable[float] | None) -> None
-        scale(self.coords, kx, ky, kz, center=center)
-
-    def center(self):  # type: () -> tuple[float, float, float]
-        return tuple(self.coords)
+    def __init__(self, coordinate):  # type: (list[float]) -> None
+        _3D_Object.__init__(self, coordinate)
 
     def _project(self, distance):  # type: (float) -> list[float]
-        relative_dis = distance - self.coords[0]
+        # override: 具体的实现
+        relative_dis = distance - self.coordinates[0][0]
         if relative_dis <= 1e-16:
             return [float('inf')]*2  # BUG: 目前超出范围只能让其消失
         k = distance/relative_dis
-        return [self.coords[1]*k, self.coords[2]*k]
+        return [self.coordinates[0][1]*k, self.coordinates[0][2]*k]
 
 
 class _Line(_3D_Object):
@@ -302,63 +343,27 @@ class _Line(_3D_Object):
 
     def __init__(
         self,
-        point_start,  # type: list[float]
-        point_end,  # type: list[float]
+        start,  # type: list[float]
+        end,  # type: list[float]
     ):  # type: (...) -> None
-        self.coords = [point_start, point_end]
-        self.points = [_Point(point) for point in self.coords]
-
-    def translate(self, dx=0, dy=0, dz=0):  # type: (float, float, float) -> None
-        for coord in self.coords:
-            translate(coord, dx, dy, dz)
-
-    def rotate(self, dx=0, dy=0, dz=0, *, center=ROTATE_CENTER):
-        # type: (float, float, float, ..., Iterable[float]) -> None
-        for coord in self.coords:
-            rotate(coord, dx, dy, dz, center=center)
-
-    def scale(self, kx=1, ky=1, kz=1, *, center=None):
-        # type: (float, float, float, ..., Iterable[float] | None) -> None
-        if center is None:
-            center = self.center()
-        for coord in self.coords:
-            scale(coord, kx, ky, kz, center=center)
-
-    def center(self):  # type: () -> tuple[float, float, float]
-        return tuple(statistics.mean(coords) for coords in zip(*self.coords))
+        _3D_Object.__init__(self, start, end)
+        self.points = [_Point(start), _Point(end)]
 
     def _project(self, distance):  # type: (float) -> list[list[float]]
+        # override: 具体的实现
         return [point._project(distance) for point in self.points]
 
 
 class _Side(_3D_Object):
     """ 面（基类） """
 
-    def __init__(self, *points):  # type: (list[float]) -> None
-        self.coords = list(points)
-        self.lines = [_Line(points[ind-1], points[ind])
-                      for ind in range(len(points))]
-
-    def translate(self, dx=0, dy=0, dz=0):  # type: (float, float, float) -> None
-        for coord in self.coords:
-            translate(coord, dx, dy, dz)
-
-    def rotate(self, dx=0, dy=0, dz=0, *, center=ROTATE_CENTER):
-        # type: (float, float, float, ..., Iterable[float]) -> None
-        for coord in self.coords:
-            rotate(coord, dx, dy, dz, center=center)
-
-    def scale(self, kx=1, ky=1, kz=1, *, center=None):
-        # type: (float, float, float, ..., Iterable[float] | None) -> None
-        if center is None:
-            center = self.center()
-        for coord in self.coords:
-            scale(coord, kx, ky, kz, center=center)
-
-    def center(self):  # type: () -> tuple[float, float, float]
-        return tuple(statistics.mean(coords) for coords in zip(*self.coords))
+    def __init__(self, *coordinates):  # type: (list[float]) -> None
+        _3D_Object.__init__(self, *coordinates)
+        self.lines = [_Line(coordinates[index-1], coordinate)
+                      for index, coordinate in enumerate(coordinates)]
 
     def _project(self, distance):  # type: (float) -> list[list[list[float]]]
+        # override: 具体的实现
         return [line._project(distance) for line in self.lines]
 
 
@@ -401,8 +406,8 @@ class Point(_Point):
 
     def _camera_distance(self):  # type: () -> float
         """ 与相机距离 """
-        sign = math.copysign(1, self.canvas.distance - self.coords[0])
-        return sign*math.dist([self.canvas.distance, 0, 0], self.coords)
+        sign = math.copysign(1, self.canvas.distance - self.coordinates[0][0])
+        return sign*math.dist([self.canvas.distance, 0, 0], self.coordinates[0])
 
 
 class Line(_Line):
@@ -510,17 +515,28 @@ class Geometry:
         for side in self.sides:
             side.translate(dx, dy, dz)
 
+    @overload
     def rotate(self, dx=0, dy=0, dz=0, *, center=ROTATE_CENTER):
         # type: (float, float, float, ..., Iterable[float]) -> None
+        ...
+
+    @overload
+    def rotate(self, dx=0, *, axis):
+        # type: (float, ..., Iterable[Iterable[float]]) -> None
+        ...
+
+    def rotate(self, dx=0, dy=0, dz=0, *, center=ROTATE_CENTER, axis=None):
+        # type: (float, float, float, ..., Iterable[float], Iterable[Iterable[float]] | None) -> None
         """
         ### 旋转
-        `dx`: x 方向旋转弧度 \ 
+        `dx`: x 方向旋转弧度，或者绕旋转轴线的旋转弧度 \ 
         `dy`: y 方向旋转弧度 \ 
         `dz`: z 方向旋转弧度 \ 
-        `center`: 旋转中心，默认为原点
+        `center`: 旋转中心，默认为原点 \ 
+        `axis`: 旋转轴线，无默认值
         """
         for side in self.sides:
-            side.rotate(dx, dy, dz, center=center)
+            side.rotate(dx, dy, dz, center=center, axis=axis)
 
     def scale(self, kx=1, ky=1, kz=1, *, center=None):
         # type: (float, float, float, ..., Iterable[float] | None) -> None
@@ -539,7 +555,7 @@ class Geometry:
     def center(self):  # type: () -> tuple[float, float, float]
         """ 几何中心 """
         # BUG: 公式对凹面几何体不成立
-        return tuple(statistics.mean(axis) for axis in zip(*set(tuple(coord) for side in self.sides for coord in side.coords)))
+        return tuple(statistics.mean(axis) for axis in zip(*set(tuple(coord) for side in self.sides for coord in side.coordinates)))
 
     def update(self):  # type: () -> None
         """ 更新几何体 """

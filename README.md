@@ -9,7 +9,7 @@ The `tkintertools` module is an auxiliary module of the `tkinter` module
 
 [![Version](https://img.shields.io/pypi/v/tkintertools?label=Version)](.)
 [![License](https://img.shields.io/pypi/l/tkintertools?label=License)](LICENSE.txt)
-[![ChangeLog](https://img.shields.io/badge/ChangeLog-2023/07/03-orange)](CHANGELOG.md)
+[![ChangeLog](https://img.shields.io/badge/ChangeLog-2023/07/05-orange)](CHANGELOG.md)
 [![ToDo](https://img.shields.io/badge/ToDo-16-yellow)](TODO.md)
 [![Size](https://img.shields.io/github/languages/code-size/Xiaokang2022/tkintertools?label=Size)](tkintertools)
 [![Wiki](https://img.shields.io/badge/Wiki-14-purple)](https://github.com/Xiaokang2022/tkintertools/wiki)\
@@ -41,8 +41,8 @@ pip install tkintertools==2.6.6
 
 ### Development Version/开发版本
 
-* Version/最新版本 : `2.6.7.dev0`
-* Release/发布日期 : 2023/07/03 (UTC+08)
+* Version/最新版本 : `2.6.7.dev1` (第 2 个预发布版本)
+* Release/发布日期 : 2023/07/05 (UTC+08)
 
 这个是我正在开发的版本，可能有新功能，bug 可能会比较多，但也可能会比原来的版本更加稳定。  
 开发版没有经过多操作系统的测试，仅能保证在 Windows 系统下运行所有功能，在其他的操作系统上，可能有部分功能无法正常运行。  
@@ -51,7 +51,7 @@ pip install tkintertools==2.6.6
 **PIP Cmd/安装命令：**
 
 ```
-pip install tkintertools==2.6.7.dev0
+pip install tkintertools==2.6.7.dev1
 ```
 
 > **Warning**  
@@ -80,7 +80,7 @@ News/最新功能👇
 
 ### Release Notes/版本说明
 
-**最新版本: `tkintertools-v2.6.7.dev0`**
+**最新版本: `tkintertools-v2.6.7.dev1`**
 
 > **Note**  
 > 现将开发版（`tkintertools-dev`）合并到稳定版（`tkintertools`）中，版本号格式变为 `*.*.*.dev*`，大家在通过 pip 工具进行下载时请注意！近段时间内将删除 PyPi 上的 tkintertools-dev！  
@@ -88,12 +88,12 @@ News/最新功能👇
 
 下面是本次版本更新内容条目：
 
-- [X] 新增常量 `ROTATE_CENTER`、`ORIGIN_COORDINATE`、`ORIGIN_SIZE`、`ORIGIN_WIDTH`、`ORIGIN_FILL` 和 `ORIGIN_OUTLINE`；
-- [X] 类 `Tk` 和 `Toplevel` 新增关键字参数 `alpha`、`toolwindow`、`topmost` 和 `transparentcolor`；
-- [X] 修复了类 `Text` 在使用鼠标滚轮滚动时会报错的 bug；
-- [X] 优化函数 `translate`、`rotate` 和 `scale` 内部的实现，提高了性能；
-- [X] 修改和完善了大量的不完整的文档注释；
-- [X] 将部分类的部分方法更改为保护方法；
+- [X] The function `rotate` of the 3D submodule adds the keyword `axis` to provide the function of rotating around the axis  
+3D 子模块的函数 `rotate` 新增关键字参数 `axis` 来提供绕轴旋转的功能
+- [X] Optimized some code and type hints  
+优化了部分代码和类型提示
+- [X] Removed abstract classes and abstract methods  
+移除了抽象类和抽象方法
 
 ### Template Demo/模板演示
 

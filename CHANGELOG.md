@@ -1,6 +1,24 @@
 ChangeLog/更新日志
 =================
 
+[`2.6.7.dev1`] - 2023-07-05
+---------------------------
+
+### Features/新增
+
+- [X] The function `rotate` of the 3D submodule adds the keyword `axis` to provide the function of rotating around the axis  
+3D 子模块的函数 `rotate` 新增关键字参数 `axis` 来提供绕轴旋转的功能
+
+### Optimized/优化
+
+- [X] Optimized some code and type hints  
+优化了部分代码和类型提示
+
+### Removed/移除
+
+- [X] Removed abstract classes and abstract methods  
+移除了抽象类和抽象方法
+
 [`2.6.7.dev0`] - 2023-07-03
 ---------------------------
 
@@ -55,7 +73,7 @@ ChangeLog/更新日志
 - [X] In the 3D submodule, the distance between two points was originally calculated with the function `hypot`, and now the function `dist` is used directly to calculate the Euclidean distance between two points to improve performance  
 3D 子模块中原来用函数 `hypot` 计算两点间距离，现在直接用函数 `dist` 计算两点间欧几里得距离，提高性能
 
-- [X] The position display of controls of class `Point` has been optimized in the 3D submodule so that it is always at the forefront  
+- [X] The position display of widgets of class `Point` has been optimized in the 3D submodule so that it is always at the forefront  
 3D 子模块中优化了类 `Point` 的控件位置显示，让其始终保持在最前
 
 - [X] The calculation formula for the camera distance in the 3D submodule has been optimized to improve the performance by a bit  
@@ -287,7 +305,7 @@ ChangeLog/更新日志
 - [X] Fixed the bug that the class `Tk` cannot make the distance between the window and the screen 0  
 修复了类 `Tk` 无法使窗口与屏幕距离为 0 的 bug
 
-- [X] Fixed the bug that the parameter `borderwidth` of the control is invalid when it has rounded corners  
+- [X] Fixed the bug that the parameter `borderwidth` of the widget is invalid when it has rounded corners  
 修复了控件在有圆角状态下参数 `borderwidth` 失效的 bug
 
 ### Changed/变更
@@ -316,7 +334,7 @@ ChangeLog/更新日志
 - [X] Fixed an incomplete parameter bug in the `moveto` method of the `Canvas` class  
 修复了 `Canvas` 类的方法 `moveto` 在参数上不完备的 bug
 
-- [X] Fixed a bug that sometimes causes multiple controls to touch at the same time  
+- [X] Fixed a bug that sometimes causes multiple widgets to touch at the same time  
 修复了有时候会产生多个控件同时触碰的 bug
 
 - [X] Fixed parameter error of class `PhotoImage`  
@@ -340,7 +358,7 @@ ChangeLog/更新日志
 - [X] Fixed a bug that the function `move` cannot perform the default move mode `flat`  
 修复了函数 `move` 无法进行默认的移动模式 `flat` 的 bug
 
-- [X] Solve the bug that the cursor will flash faster and faster after pasting text for text control  
+- [X] Solve the bug that the cursor will flash faster and faster after pasting text for text widget  
 解决文本类控件在粘贴文本后光标会越闪越快的 bug
 
 ### Optimized/优化
@@ -493,7 +511,7 @@ ChangeLog/更新日志
 
 ### Fixed/修复
 
-- [X] Solved the bug that the `destroy` method of the control can only delete half of the controls when traversing  
+- [X] Solved the bug that the `destroy` method of the widget can only delete half of the widgets when traversing  
 解决了控件的 `destroy` 方法在遍历使用时只能删除一半控件的 bug
 
 > Thanks to [-ShuiGuang-](https://blog.csdn.net/atlantis618) for finding the above bug  
@@ -507,7 +525,7 @@ ChangeLog/更新日志
 - [X] `Toplevel` class overrides `destroy` method to be compatible with the original `destroy` method  
 `Toplevel` 类重写 `destroy` 方法以兼容原 `destroy` 方法
 
-- [X] Some codes of `Tk` and `Toplevel` are optimized, and the code amount of `Toplevel` controls is greatly reduced  
+- [X] Some codes of `Tk` and `Toplevel` are optimized, and the code amount of `Toplevel` widgets is greatly reduced  
 优化了 `Tk`、`Toplevel` 的部分代码，`Toplevel` 控件的代码量大大缩减
 
 ### Removed/移除
@@ -520,18 +538,18 @@ ChangeLog/更新日志
 
 ### Features/新增
 
-- [X] Added mouse style for text type virtual control  
+- [X] Added mouse style for text type virtual widget  
 添加了对文本类虚拟控件的鼠标样式
 
 ### Fixed/修复
 
-- [X] Solved the bug that the `set` and `append` methods of text virtual controls may fail in some cases  
+- [X] Solved the bug that the `set` and `append` methods of text virtual widgets may fail in some cases  
 解决了文本类虚拟控件 `set`、`append` 方法某些时候会失效的 bug
 
 - [X] Solved the bug that the mouse style flickers when the mouse cursor moves over the button  
 解决了鼠标光标移动到按钮上时的鼠标样式会闪烁的 bug
 
-- [X] Fixed the bug that the `read` parameter of the text box control failed  
+- [X] Fixed the bug that the `read` parameter of the text box widget failed  
 修复了文本框控件 `read` 参数失效的 bug
 
 ### Optimized/优化
@@ -544,7 +562,7 @@ ChangeLog/更新日志
 
 ### Features/新增
 
-- [X] Added mouse style for button virtual controls  
+- [X] Added mouse style for button virtual widgets  
 添加了对按钮虚拟控件的鼠标样式
 
 ### Fixed/修复
@@ -552,7 +570,7 @@ ChangeLog/更新日志
 - [X] Solved the bug that the input prompt position was not aligned after the input box was enlarged  
 解决了输入框放大后输入提示符位置没对齐的 bug
 
-- [X] Solved the bug that text virtual controls will lose focus after being pasted once  
+- [X] Solved the bug that text virtual widgets will lose focus after being pasted once  
 解决了文本类虚拟控件粘贴一次后会失去焦点的 bug
 
 - [X] Fix a few errors in the module documentation  

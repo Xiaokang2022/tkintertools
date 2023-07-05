@@ -1585,9 +1585,8 @@ def askfont(
     root.tk.call('tk', 'fontchooser', 'show')
 
 
-def SetProcessDpiAwareness(
-    awareness=PROCESS_SYSTEM_DPI_AWARE  # type: Literal[0, 1, 2]
-):  # type: (...) -> None
+def SetProcessDpiAwareness(awareness=PROCESS_SYSTEM_DPI_AWARE):
+    # type: (Literal[0, 1, 2]) -> None
     """
     ### 设定程序 DPI 级别
     设定窗口程序的 DPI 级别，让系统知道该如何对程序进行缩放，以提升高缩放倍数情况下的清晰度 \ 
@@ -1597,5 +1596,5 @@ def SetProcessDpiAwareness(
     ---
     `awareness`: DPI 级别，值可以为 0、1 和 2，本来默认为 0，此处更改默认值为 1
     """
-    if WinDLL:
+    if WinDLL is not None:
         WinDLL('shcore').SetProcessDpiAwareness(awareness)
