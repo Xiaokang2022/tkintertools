@@ -46,7 +46,7 @@ class Tk(tkinter.Tk):
         `transparentcolor`: 过滤掉该颜色 \ 
         `**kw`: 与 tkinter.Tk 类的其他参数相同
         """
-        if type(self) == Tk:  # NOTE:方便后面的 Toplevel 类继承
+        if type(self) == Tk:  # NOTE: 方便后面的 Toplevel 类继承
             tkinter.Tk.__init__(self, **kw)
 
         self.width = [100, 1]  # type: list[int]  # [初始宽度, 当前宽度]
@@ -91,7 +91,7 @@ class Tk(tkinter.Tk):
         self.width[1], self.height[1] = width, height  # 更新窗口当前的宽高值
 
     def wm_geometry(self, newGeometry=None):  # type: (str | None) -> str | None
-        # override: 添加修改初始宽高值的功能并兼容不同的DPI缩放
+        # override: 添加修改初始宽高值的功能并兼容不同的 DPI 缩放
         if newGeometry:
             width, height, _width, _height, * \
                 _ = map(int, (newGeometry+'+0+0').replace('+', 'x').split('x'))
@@ -209,7 +209,7 @@ class Canvas(tkinter.Canvas):
             self.place(x=x, y=y)
 
         self.bind('<Motion>', self._touch)  # 绑定鼠标触碰控件
-        self.bind('<Any-Key>', self._input)  # 绑定键盘输入字符（和Ctrl+v的代码顺序不可错）
+        self.bind('<Any-Key>', self._input)  # 绑定键盘输入字符（和 Ctrl+v 的代码顺序不可错）
         self.bind('<Button-1>', self._click)  # 绑定鼠标左键按下
         self.bind('<B1-Motion>', self._click)  # 绑定鼠标左键按下移动
         self.bind('<MouseWheel>', self._mousewheel)  # 绑定鼠标滚轮滚动
@@ -764,7 +764,7 @@ class TextWidget(BaseWidget):
         BaseWidget.__init__(self, canvas, x, y, width, height, radius, '', justify,
                             borderwidth, font, image, color_text, color_fill, color_outline)
 
-        # 提示光标 NOTE:位置顺序不可乱动，font不可乱改
+        # NOTE: 提示光标代码的位置顺序不可乱动，font 不可乱改
         self._cursor = canvas.create_text(0, 0, fill=color_text[2], font=font)
         canvas._font[self._cursor][1] = canvas._font[self.text][1]
         font = canvas.itemcget(self.text, 'font')
@@ -824,7 +824,7 @@ class TextWidget(BaseWidget):
         self.interval, self.flag = 300, False  # 恢复默认值
         if isinstance(self, Entry):
             self.master.coords(self._cursor, self.master.bbox(
-                self.text)[2], self.y1+self.height * self.master.ry / 2)  # BUG
+                self.text)[2], self.y1+self.height * self.master.ry / 2)  # BUG: 缩放后光标位置会略微显示错误
         elif isinstance(self, Text):
             _pos = self.master.bbox(self._text)
             self.master.coords(self._cursor, _pos[2], _pos[1])
@@ -1101,7 +1101,7 @@ class Text(TextWidget):
                   2 if justify == 'center' else radius+2)
         _anchor = 'n' if justify == 'center' else 'ne' if justify == 'right' else 'nw'
 
-        self._text = canvas.create_text(  # 位置确定文本 NOTE:位置不要乱动
+        self._text = canvas.create_text(  # NOTE: 位置确定文本，位置不要乱动
             _x, y+radius+2,
             justify=justify,
             anchor=_anchor,
@@ -1208,7 +1208,7 @@ class Text(TextWidget):
             if self.value == self.master.itemcget(self.text, 'text'):
                 _pos = self.master.bbox(self._text)
                 self.master.move(self._text, 0, _pos[1] - _pos[3])
-                # NOTE: 为了兼容Python3.8,放弃使用str.removesuffix方法，以temp取而代之
+                # NOTE: 为了兼容 Python3.8，放弃使用 str.removesuffix 方法，以 temp 取而代之
                 temp = self.value[:-
                                   len(_)] if self.value.endswith(_) else self.value
                 __ = temp[:-('\n' in self.value)]
@@ -1223,7 +1223,7 @@ class Text(TextWidget):
 
     def _scroll(self, event):  # type: (tkinter.Event) -> bool
         """ 鼠标滚轮滚动 """
-        return False  # TODO: 暂未实现
+        return False  # TODO: 实现滚轮滚动来查看内容
 
 
 class Progressbar(BaseWidget):
@@ -1264,7 +1264,7 @@ class Progressbar(BaseWidget):
     def load(self, percentage):  # type: (float) -> None
         """
         ### 加载
-        `percentage`: 进度条的值，范围 0 ~ 1
+        `percentage`: 进度条的值，范围 0~1
         """
         percentage = 0 if percentage < 0 else 1 if percentage > 1 else percentage
         x2 = self.x1 + self.width * percentage * self.master.rx
@@ -1449,7 +1449,7 @@ def move(
     `dy`: 纵向移动的距离（单位：像素） \ 
     `times`: 移动总时长（单位：毫秒） \ 
     `mode`: 移动速度模式，为 smooth（顺滑）、rebound（回弹）和 flat（平移）这三种，或者为元组 (函数, 起始值, 终止值) 的形式 \ 
-    `frames`: 帧数，越大移动就越流畅，但计算越慢（范围为 1 ~ 100） \ 
+    `frames`: 帧数，越大移动就越流畅，但计算越慢（范围为 1~100） \ 
     `end`: 移动结束时执行的函数
     """
     if _ind:  # 记忆值
@@ -1540,7 +1540,7 @@ def color(
     或者给出已有 RGB 颜色字符串的对比色
     ---
     `color`: 颜色元组或列表 (初始颜色, 目标颜色)，或者一个颜色字符串（此时返回其对比色） \ 
-    `proportion`: 改变比例（浮点数，范围为 0 ~ 1）
+    `proportion`: 改变比例（浮点数，范围为 0~1）
     """
     rgb, _rgb = [[None]*3, [None]*3], 0
 

@@ -62,8 +62,7 @@ class Canvas_3D(Canvas):
 
     def space_sort(self):  # type: () -> None
         """ 空间位置排序 """  # BUG: 在距离比较近的两个对象时，仍会显示不正确
-        self._items_3d.sort(
-            key=lambda item: (not isinstance(item, Point), item._camera_distance()))
+        self._items_3d.sort(key=lambda item: item._camera_distance())
         for item in self._items_3d:
             self.lower(item.item)
 
@@ -192,7 +191,7 @@ def rotate(coordinate, dx=0, *, axis):
     ...
 
 
-def rotate(coordinate, dx=0, dy=0, dz=0, *, center, axis):
+def rotate(coordinate, dx=0, dy=0, dz=0, *, center, axis=None):
     # type: (list[float], float, float, float, ..., Iterable[float], Iterable[Iterable[float]] | None) -> None
     """
     ### 旋转
@@ -206,7 +205,7 @@ def rotate(coordinate, dx=0, dy=0, dz=0, *, center, axis):
     `axis`: 旋转轴线的空间坐标
     """
     if axis is not None:  # 参照为线（定轴转动）
-        center = _Line(*axis).center()
+        center = _Line(*axis).center()  # 旋转轴中点
         n = list(axis[0])
         for i in range(3):
             n[i] -= axis[1][i]
@@ -214,8 +213,8 @@ def rotate(coordinate, dx=0, dy=0, dz=0, *, center, axis):
         n_m = math.hypot(*n)
         for i in range(3):
             n[i] /= n_m
-        x_2, y_2, z_2 = (i**2 for i in n)
-        xy, yz, zx = n[0]*n[1], n[1]*n[2], n[2]*n[0]
+        x_2, y_2, z_2 = map(lambda _: _**2, n)
+        zx, xy, yz = [n[i-1]*v for i, v in enumerate(n)]
         s_θ, c_θ = math.sin(dx), math.cos(dx)
         _c_θ = 1 - c_θ
 
@@ -321,6 +320,7 @@ class _3D_Object:
         ### 投影
         `distance`: 对象与观察者的距离
         """
+        # NOTE: 这里可能需要一些优化
 
 
 class _Point(_3D_Object):
@@ -554,7 +554,6 @@ class Geometry:
 
     def center(self):  # type: () -> tuple[float, float, float]
         """ 几何中心 """
-        # BUG: 公式对凹面几何体不成立
         return tuple(statistics.mean(axis) for axis in zip(*set(tuple(coord) for side in self.sides for coord in side.coordinates)))
 
     def update(self):  # type: () -> None
@@ -659,4 +658,4 @@ class Tetrahedron(Geometry):
         ]
 
 
-__all__ = [name for name in globals() if '__' not in name]
+__all__ = list(filter(lambda name: '__' not in name, globals()))

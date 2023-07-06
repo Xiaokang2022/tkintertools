@@ -9,8 +9,8 @@ The `tkintertools` module is an auxiliary module of the `tkinter` module
 
 [![Version](https://img.shields.io/pypi/v/tkintertools?label=Version)](.)
 [![License](https://img.shields.io/pypi/l/tkintertools?label=License)](LICENSE.txt)
-[![ChangeLog](https://img.shields.io/badge/ChangeLog-2023/07/05-orange)](CHANGELOG.md)
-[![ToDo](https://img.shields.io/badge/ToDo-16-yellow)](TODO.md)
+[![ChangeLog](https://img.shields.io/badge/ChangeLog-2023/07/06-orange)](CHANGELOG.md)
+[![ToDo](https://img.shields.io/badge/ToDo-15-yellow)](TODO.md)
 [![Size](https://img.shields.io/github/languages/code-size/Xiaokang2022/tkintertools?label=Size)](tkintertools)
 [![Wiki](https://img.shields.io/badge/Wiki-14-purple)](https://github.com/Xiaokang2022/tkintertools/wiki)\
 [![Downloads](https://img.shields.io/pypi/dm/tkintertools?label=Downloads&logo=pypi)](https://pypistats.org/packages/tkintertools)
@@ -27,16 +27,15 @@ Install/模块安装👇
 
 ### Stable Version/稳定版本
 
-* Version/最新版本 : `2.6.6`
-* Release/发布日期 : 2023/07/01 (UTC+08)
+* Version/最新版本 : `2.6.7`
+* Release/发布日期 : 2023/07/06 (UTC+08)
 
-这个是目前的最新稳定版，相对于开发版本而言比较稳定，bug 大体上是没有那么多的，推荐使用这个。  
-稳定版和开发版相比，它在发布之前有个测试的步骤，经过测试之后（各项功能正常运行，多平台兼容）才会发布。
+这个是目前的最新稳定版，相对于开发版本而言比较稳定，bug 大体上是没有那么多的，推荐使用这个。稳定版和开发版相比，它在发布之前有个测试的步骤，经过测试之后（各项功能正常运行，多平台兼容）才会发布。
 
 **PIP Cmd/安装命令：**
 
 ```
-pip install tkintertools==2.6.6
+pip install tkintertools==2.6.7
 ```
 
 ### Development Version/开发版本
@@ -44,9 +43,7 @@ pip install tkintertools==2.6.6
 * Version/最新版本 : `2.6.7.dev1` (第 2 个预发布版本)
 * Release/发布日期 : 2023/07/05 (UTC+08)
 
-这个是我正在开发的版本，可能有新功能，bug 可能会比较多，但也可能会比原来的版本更加稳定。  
-开发版没有经过多操作系统的测试，仅能保证在 Windows 系统下运行所有功能，在其他的操作系统上，可能有部分功能无法正常运行。  
-大家可以在 Issues 中提出一些建议，我可能会适当采纳一些并在开发版本中更改或实现。
+这个是我正在开发的版本，可能有新功能，bug 可能会比较多，但也可能会比原来的版本更加稳定。开发版没有经过多操作系统的测试，仅能保证在 Windows 系统下运行所有功能，在其他的操作系统上，可能有部分功能无法正常运行。大家可以在 Issues 中提出一些建议，我可能会适当采纳一些并在开发版本中更改或实现。
 
 **PIP Cmd/安装命令：**
 
@@ -80,18 +77,30 @@ News/最新功能👇
 
 ### Release Notes/版本说明
 
-**最新版本: `tkintertools-v2.6.7.dev1`**
+**最新版本: `tkintertools-v2.6.7`**
 
 > **Note**  
 > 现将开发版（`tkintertools-dev`）合并到稳定版（`tkintertools`）中，版本号格式变为 `*.*.*.dev*`，大家在通过 pip 工具进行下载时请注意！近段时间内将删除 PyPi 上的 tkintertools-dev！  
 > tkintertools 的介绍和使用教程均在 Wiki 中，[点我传送](https://github.com/Xiaokang2022/tkintertools/wiki)
 
-下面是本次版本更新内容条目：
+下面是本次稳定版本（`v2.6.6` -> `v2.6.7`）的更新内容条目：
 
 - [X] The function `rotate` of the 3D submodule adds the keyword `axis` to provide the function of rotating around the axis  
 3D 子模块的函数 `rotate` 新增关键字参数 `axis` 来提供绕轴旋转的功能
+- [X] Added constants `ROTATE_CENTER`, `ORIGIN_COORDINATE`, `ORIGIN_SIZE`, `ORIGIN_WIDTH`, `ORIGIN_FILL` and `ORIGIN_OUTLINE`  
+新增常量 `ROTATE_CENTER`、`ORIGIN_COORDINATE`、`ORIGIN_SIZE`、`ORIGIN_WIDTH`、`ORIGIN_FILL` 和 `ORIGIN_OUTLINE`
+- [X] Class `Tk` and `Toplevel` Added keyword arguments `alpha`, `toolwindow`, `topmost` and `transparentcolor`  
+类 `Tk` 和 `Toplevel` 新增关键字参数 `alpha`、`toolwindow`、`topmost` 和 `transparentcolor`
+- [X] Fixed a bug where the class `Text` would report an error when scrolling with the mouse wheel  
+修复了类 `Text` 在使用鼠标滚轮滚动时会报错的 bug
+- [X] Optimized the internal implementation of the functions `translate` and `scale` to improve performance  
+优化函数 `translate`、`rotate` 和 `scale` 内部的实现，提高了性能
+- [X] A large number of incomplete docstrings have been modified and improved  
+修改和完善了大量的不完整的文档注释
 - [X] Optimized some code and type hints  
 优化了部分代码和类型提示
+- [X] Change some methods of some classes to protection methods  
+将部分类的部分方法更改为保护方法
 - [X] Removed abstract classes and abstract methods  
 移除了抽象类和抽象方法
 
@@ -108,7 +117,7 @@ News/最新功能👇
 
 ![news](news.gif)
 
-<details><summary><b>点击查看源代码</b></summary>
+<details><summary><b>CODE/源代码</b></summary>
 
 ```python
 import math  # 数学支持

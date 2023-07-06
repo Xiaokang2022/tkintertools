@@ -42,14 +42,13 @@ More
 import sys  # Get interpreter version information
 
 if sys.version_info < (3, 8):  # Version Check
-    error_info = '\n\033[31mOperation Requirements: \033[32m\nPython version shall not be less than\033[33m 3.8 !\033[0m'
-    raise RuntimeError(error_info)
+    raise RuntimeError('Python version is too low (>=3.8)')
 
 from .__main__ import *
 from .constants import *
 
 __author__ = 'Xiaokang2022<2951256653@qq.com>'
-__version__ = '2.6.7.dev1'
+__version__ = '2.6.7'
 __all__ = [
     # Container Widgets
     'Tk', 'Toplevel', 'Canvas',

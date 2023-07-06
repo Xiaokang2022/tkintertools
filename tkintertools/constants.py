@@ -69,12 +69,6 @@ TICK = '✓'
 ### 3D constants ###
 
 
-CAMERA_DISTANCE = 1000
-""" Default 3D camera distance """
-
-ROTATE_CENTER = 0, 0, 0
-""" Default rotation center """
-
 COLOR_POINT_FILL = '#000000'
 """ Default point fill color """
 
@@ -102,6 +96,12 @@ LINE_WDITH = 1
 SIDE_WIDTH = 1
 """ Default side width """
 
+CAMERA_DISTANCE = 1000
+""" Default 3D camera distance """
+
+ROTATE_CENTER = 0, 0, 0
+""" Default rotation center """
+
 ORIGIN_COORDINATE = 0, 0, 0
 """ Default origin coordinate """
 
@@ -118,4 +118,4 @@ ORIGIN_OUTLINE = ''
 """ Default origin outline color """
 
 
-all_constants = [name for name in globals() if name.isupper()]
+all_constants = list(filter(lambda name: name.isupper(), globals()))

@@ -1,7 +1,7 @@
 TODO/待办
 ---------
 
-### Bugs/已知bug
+### Bugs/已知问题
 
 1. [ ] Solve the bug that the vertical position of the text is wrong when the `Text` class is enlarged  
 解决 `Text` 类放大时，文本纵向位置错误的 bug
@@ -17,9 +17,6 @@ TODO/待办
 
 5. [ ] The position relationship between the space before and after the 3D object is still problematic at some point  
 3D 对象前后空间的位置关系在某些时候仍有问题
-
-6. [ ] When creating a 3D object of concave geometry, calling its `scale` method displays an error  
-创建凹面几何体的 3D 对象时，调用其 `scale` 方法会显示错误
 
 ### Features/期望功能
 
@@ -42,7 +39,7 @@ TODO/待办
 尝试为进度条控件增加无进度的新模式
 
 7. [ ] Implement symmetry in 3D modules  
-实现3d模块中的对称功能
+实现 3D 模块中的对称功能
 
 8. [ ] Enhanced projection functionality in 3D modules  
 增强 3D 模块中的投影功能
