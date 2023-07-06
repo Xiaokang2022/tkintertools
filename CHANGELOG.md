@@ -4,33 +4,10 @@ ChangeLog/更新日志
 [`2.6.7`] - 2023-07-06
 ----------------------
 
-### Optimized/优化
-
-- [X] Optimized some code and type hints  
-优化了部分代码和类型提示
-
-[`2.6.7.dev1`] - 2023-07-05
----------------------------
-
 ### Features/新增
 
 - [X] The function `rotate` of the 3D submodule adds the keyword `axis` to provide the function of rotating around the axis  
 3D 子模块的函数 `rotate` 新增关键字参数 `axis` 来提供绕轴旋转的功能
-
-### Optimized/优化
-
-- [X] Optimized some code and type hints  
-优化了部分代码和类型提示
-
-### Removed/移除
-
-- [X] Removed abstract classes and abstract methods  
-移除了抽象类和抽象方法
-
-[`2.6.7.dev0`] - 2023-07-03
----------------------------
-
-### Features/新增
 
 - [X] Added constants `ROTATE_CENTER`, `ORIGIN_COORDINATE`, `ORIGIN_SIZE`, `ORIGIN_WIDTH`, `ORIGIN_FILL` and `ORIGIN_OUTLINE`  
 新增常量 `ROTATE_CENTER`、`ORIGIN_COORDINATE`、`ORIGIN_SIZE`、`ORIGIN_WIDTH`、`ORIGIN_FILL` 和 `ORIGIN_OUTLINE`
@@ -45,6 +22,9 @@ ChangeLog/更新日志
 
 ### Optimized/优化
 
+- [X] Optimized some code and type hints  
+优化了部分代码和类型提示
+
 - [X] Optimized the internal implementation of the functions `translate` and `scale` to improve performance  
 优化函数 `translate`、`rotate` 和 `scale` 内部的实现，提高了性能
 
@@ -55,6 +35,11 @@ ChangeLog/更新日志
 
 - [X] Change some methods of some classes to protection methods  
 将部分类的部分方法更改为保护方法
+
+### Removed/移除
+
+- [X] Removed abstract classes and abstract methods  
+移除了抽象类和抽象方法
 
 [`2.6.6`] - 2023-07-01
 ----------------------
