@@ -9,12 +9,12 @@ The `tkintertools` module is an auxiliary module of the `tkinter` module
 
 [![Version](https://img.shields.io/pypi/v/tkintertools?label=Version)](.)
 [![License](https://img.shields.io/pypi/l/tkintertools?label=License)](LICENSE.txt)
-[![ChangeLog](https://img.shields.io/badge/ChangeLog-2023/07/06-orange)](CHANGELOG.md)
-[![ToDo](https://img.shields.io/badge/ToDo-15-yellow)](TODO.md)
+[![ChangeLog](https://img.shields.io/badge/ChangeLog-2023/07/20-orange)](CHANGELOG.md)
+[![ToDo](https://img.shields.io/badge/ToDo-16-yellow)](TODO.md)
 [![Size](https://img.shields.io/github/languages/code-size/Xiaokang2022/tkintertools?label=Size)](tkintertools)
 [![Wiki](https://img.shields.io/badge/Wiki-14-purple)](https://github.com/Xiaokang2022/tkintertools/wiki)\
 [![Downloads](https://img.shields.io/pypi/dm/tkintertools?label=Downloads&logo=pypi)](https://pypistats.org/packages/tkintertools)
-[![Owner](https://img.shields.io/badge/Owner-Xiaokang2022-white?logo=about.me)](https://github.com/Xiaokang2022)
+[![Owner](https://img.shields.io/badge/Owner-Xiaokang2022-white)](https://github.com/Xiaokang2022)
 [![Blog](https://img.shields.io/badge/Blog-小康2022@CSDN-red)](https://xiaokang2022.blog.csdn.net)
 [![Email](https://img.shields.io/badge/Email-2951256653@qq.com-cyan)](mailto:2951256653@qq.com)
 
@@ -40,15 +40,15 @@ pip install tkintertools==2.6.7
 
 ### Development Version/开发版本
 
-* Version/最新版本 : `2.6.7.dev1` (第 2 个预发布版本)
-* Release/发布日期 : 2023/07/05 (UTC+08)
+* Version/最新版本 : `2.6.8.dev0` (第 1 个预发布版本)
+* Release/发布日期 : 2023/07/20 (UTC+08)
 
 这个是我正在开发的版本，可能有新功能，bug 可能会比较多，但也可能会比原来的版本更加稳定。开发版没有经过多操作系统的测试，仅能保证在 Windows 系统下运行所有功能，在其他的操作系统上，可能有部分功能无法正常运行。大家可以在 Issues 中提出一些建议，我可能会适当采纳一些并在开发版本中更改或实现。
 
 **PIP Cmd/安装命令：**
 
 ```
-pip install tkintertools==2.6.7.dev1
+pip install tkintertools==2.6.8.dev0
 ```
 
 > **Warning**  
@@ -77,32 +77,23 @@ News/最新功能👇
 
 ### Release Notes/版本说明
 
-**最新版本: `tkintertools-v2.6.7`**
+**最新版本: `tkintertools-v2.6.8.dev0`**
 
-> **Note**  
-> 现将开发版（`tkintertools-dev`）合并到稳定版（`tkintertools`）中，版本号格式变为 `*.*.*.dev*`，大家在通过 pip 工具进行下载时请注意！近段时间内将删除 PyPi 上的 tkintertools-dev！  
-> tkintertools 的介绍和使用教程均在 Wiki 中，[点我传送](https://github.com/Xiaokang2022/tkintertools/wiki)
+> **Note**   
+> tkintertools 的介绍、使用教程和开发文档均在 [Wiki](https://github.com/Xiaokang2022/tkintertools/wiki) 中，大家可前往查阅
 
-下面是本次稳定版本（`v2.6.6` -> `v2.6.7`）的更新内容条目：
+下面是本次开发版本（`v2.6.7` -> `v2.6.8.dev0`）的更新内容条目：
 
-- [X] The function `rotate` of the 3D submodule adds the keyword `axis` to provide the function of rotating around the axis  
-3D 子模块的函数 `rotate` 新增关键字参数 `axis` 来提供绕轴旋转的功能
-- [X] Added constants `ROTATE_CENTER`, `ORIGIN_COORDINATE`, `ORIGIN_SIZE`, `ORIGIN_WIDTH`, `ORIGIN_FILL` and `ORIGIN_OUTLINE`  
-新增常量 `ROTATE_CENTER`、`ORIGIN_COORDINATE`、`ORIGIN_SIZE`、`ORIGIN_WIDTH`、`ORIGIN_FILL` 和 `ORIGIN_OUTLINE`
-- [X] Class `Tk` and `Toplevel` Added keyword arguments `alpha`, `toolwindow`, `topmost` and `transparentcolor`  
-类 `Tk` 和 `Toplevel` 新增关键字参数 `alpha`、`toolwindow`、`topmost` 和 `transparentcolor`
-- [X] Fixed a bug where the class `Text` would report an error when scrolling with the mouse wheel  
-修复了类 `Text` 在使用鼠标滚轮滚动时会报错的 bug
-- [X] Optimized the internal implementation of the functions `translate` and `scale` to improve performance  
-优化函数 `translate`、`rotate` 和 `scale` 内部的实现，提高了性能
-- [X] A large number of incomplete docstrings have been modified and improved  
-修改和完善了大量的不完整的文档注释
-- [X] Optimized some code and type hints  
-优化了部分代码和类型提示
-- [X] Change some methods of some classes to protection methods  
-将部分类的部分方法更改为保护方法
-- [X] Removed abstract classes and abstract methods  
-移除了抽象类和抽象方法
+- [X] Added class `Animation` to achieve more efficient, convenient and functional animation effects  
+新增类 `Animation` 来实现更加高效、更加方便和功能性更强的动画效果
+- [X] Added constant `CONTROL`  
+新增常量 `CONTROL`
+- [X] Modified the name of the constant `FRAMES` to `FPS`  
+修改常量 `FRAMES` 的名称为 `FPS`
+- [X] The function `move` is about to be deprecated, please replace it with the new class `Animation`  
+函数 `move` 即将被弃用，请用新类 `Animation` 来代替
+- [X] The class `Singleton` is about to be deprecated and singleton mode classes will no longer be available in subsequent releases  
+类 `Singleton` 即将被弃用，后续版本中将不再提供单例模式类
 
 ### Template Demo/模板演示
 

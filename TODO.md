@@ -18,6 +18,9 @@ TODO/待办
 5. [ ] The position relationship between the space before and after the 3D object is still problematic at some point  
 3D 对象前后空间的位置关系在某些时候仍有问题
 
+6. [ ] When a widget is tapped, the widgets that follow it are also triggered  
+点击控件时，其后面的控件也会被触发
+
 ### Features/期望功能
 
 1. [ ] Perfect the scroll bar function of `Text` class  

@@ -1,10 +1,34 @@
 ChangeLog/更新日志
 =================
 
+[`2.6.8.dev0`] - 2023-07-20
+---------------------------
+
+### Added/新增
+
+- [X] Added class `Animation` to achieve more efficient, convenient and functional animation effects  
+新增类 `Animation` 来实现更加高效、更加方便和功能性更强的动画效果
+
+- [X] Added constant `CONTROL`  
+新增常量 `CONTROL`
+
+### Changed/变更
+
+- [X] Modified the name of the constant `FRAMES` to `FPS`  
+修改常量 `FRAMES` 的名称为 `FPS`
+
+### Deprecated/弃用
+
+- [X] The function `move` is about to be deprecated, please replace it with the new class `Animation`  
+函数 `move` 即将被弃用，请用新类 `Animation` 来代替
+
+- [X] The class `Singleton` is about to be deprecated and singleton mode classes will no longer be available in subsequent releases  
+类 `Singleton` 即将被弃用，后续版本中将不再提供单例模式类
+
 [`2.6.7`] - 2023-07-06
 ----------------------
 
-### Features/新增
+### Added/新增
 
 - [X] The function `rotate` of the 3D submodule adds the keyword `axis` to provide the function of rotating around the axis  
 3D 子模块的函数 `rotate` 新增关键字参数 `axis` 来提供绕轴旋转的功能
@@ -44,7 +68,7 @@ ChangeLog/更新日志
 [`2.6.6`] - 2023-07-01
 ----------------------
 
-### Features/新增
+### Added/新增
 
 - [X] The classes `_Point`, `_Line`, `_Side`, and `Geometry` of the 3D submodule all have a new method `center` that returns the geometric center of the 3D object  
 3D 子模块的类 `_Point`、`_Line`、`_Side` 和 `Geometry` 都新增一个方法 `center` 返回该 3D 对象的几何中心
@@ -88,7 +112,7 @@ ChangeLog/更新日志
 [`2.6.5`] - 2023-06-17
 ----------------------
 
-### Features/新增
+### Added/新增
 
 - [X] The new class `Space` added to the submodule `tools_3d` can provide the ability to translate, rotate and scale 3D objects  
 子模块 `tools_3d` 新增类 `Space` 可以提供对 3D 对象进行平移、旋转和缩放等操作的功能
@@ -112,7 +136,7 @@ ChangeLog/更新日志
 [`2.6.4`] - 2023-06-12
 ----------------------
 
-### Features/新增
+### Added/新增
 
 - [X] The class `tool_3d` submodule `Canvas_3D` has added the function `space_sort` to calculate and sort the actual position of space to support the correct display of geometry colors  
 `tool_3d` 子模块的类 `Canvas_3D` 新增对空间实际位置进行计算和排序的函数 `space_sort`，以支持几何体颜色的正确显示
@@ -163,7 +187,7 @@ ChangeLog/更新日志
 [`2.6.2`] - 2023-05-30
 ----------------------
 
-### Features/新增
+### Added/新增
 
 - [X] Added `tkintertools` sub-module `tools_3d` to support drawing 3D graphics  
 新增 `tkintertools` 子模块 `tools_3d` 以支持绘制 3D 图形
@@ -204,7 +228,7 @@ ChangeLog/更新日志
 [`2.6.0`] - 2023-03-28
 ----------------------
 
-### Features/新增
+### Added/新增
 
 - [X] New virtual canvas widget check box: `CheckButton`  
 新增虚拟画布控件复选框：`CheckButton`
@@ -222,7 +246,7 @@ ChangeLog/更新日志
 [`2.5.12`] - 2023-03-20
 -----------------------
 
-### Features/新增
+### Added/新增
 
 - [X] Add a `image` parameter to all widgets to add a background image  
 所有控件新增参数 `image` 来添加背景图片
@@ -249,7 +273,7 @@ ChangeLog/更新日志
 [`2.5.11`] - 2023-03-13
 -----------------------
 
-### Features/新增
+### Added/新增
 
 - [X] Class `Canvas` adds parameter `keep` to extend function  
 类 `Canvas` 新增参数 `keep` 以扩展功能
@@ -282,7 +306,7 @@ ChangeLog/更新日志
 [`2.5.10`] - 2023-02-04
 -----------------------
 
-### Features/新增
+### Added/新增
 
 - [X] Canvas virtual widget base class `_BaseWidget` Add instance attribute `command_ex` to extend functions  
 画布虚拟控件基类 `_BaseWidget` 新增实例属性 `command_ex` 以扩展功能
@@ -317,7 +341,7 @@ ChangeLog/更新日志
 [`2.5.9`] - 2023-01-13
 ----------------------
 
-### Features/新增
+### Added/新增
 
 - [X] Class `PhotoImage` new method `stop` is used to stop the playback of moving pictures  
 类 `PhotoImage` 新增方法 `stop` 用于停止动图的播放
@@ -374,7 +398,7 @@ ChangeLog/更新日志
 [`2.5.7`] - 2023-01-10
 ----------------------
 
-### Features/新增
+### Added/新增
 
 - [X] The `move` function adds the parameter `frames`, which can change the number of frames of the animation when moving  
 `move` 函数新增参数 `frames`，可改变移动时的动画的帧数
@@ -436,7 +460,7 @@ ChangeLog/更新日志
 [`2.5.5`] - 2022-12-11
 ----------------------
 
-### Features/新增
+### Added/新增
 
 - [X] Added type prompt `Self` for the `self` parameter of instance methods of all classes  
 为所有类的实例方法的 `self` 参数添加了类型提示 `Self`
@@ -462,7 +486,7 @@ ChangeLog/更新日志
 [`2.5.4`] - 2022-12-08
 ----------------------
 
-### Features/新增
+### Added/新增
 
 - [X] A new widget has been added: progress bar(`Progressbar`)  
 增加了一个新的控件：进度条（`Progressbar`）
@@ -494,7 +518,7 @@ ChangeLog/更新日志
 [`2.5.3`] - 2022-11-27
 ----------------------
 
-### Features/新增
+### Added/新增
 
 - [X] Added singleton pattern(`Singleton`) class for inheritance  
 增加了单例模式类（`Singleton`）供继承
@@ -529,7 +553,7 @@ ChangeLog/更新日志
 [`2.5.2`] - 2022-11-25
 ----------------------
 
-### Features/新增
+### Added/新增
 
 - [X] Added mouse style for text type virtual widget  
 添加了对文本类虚拟控件的鼠标样式
@@ -553,7 +577,7 @@ ChangeLog/更新日志
 [`2.5.1`] - 2022-11-23
 ----------------------
 
-### Features/新增
+### Added/新增
 
 - [X] Added mouse style for button virtual widgets  
 添加了对按钮虚拟控件的鼠标样式

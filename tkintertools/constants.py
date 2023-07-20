@@ -59,11 +59,14 @@ RADIUS = 0 if SYSTEM == 'Windows' and int(
     platform.version()[-5:]) < 22000 else 4
 """ Default widget fillet radius """
 
-FRAMES = 60
-""" Default move frame rate """
+FPS = 60
+""" Default animation FPS """
 
 TICK = '✓'
 """ Default checkbox symbol """
+
+CONTROL = lambda _: 1, 0, 1
+""" Default control function """
 
 
 ### 3D constants ###
