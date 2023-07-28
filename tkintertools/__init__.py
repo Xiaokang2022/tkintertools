@@ -48,14 +48,14 @@ from .__main__ import *
 from .constants import *
 
 __author__ = 'Xiaokang2022<2951256653@qq.com>'
-__version__ = '2.6.8.dev0'
+__version__ = '2.6.8.dev1'
 __all__ = [
     # Container Widgets
     'Tk', 'Toplevel', 'Canvas',
     # Virtual Canvas Widgets
     'Label', 'Button', 'CheckButton', 'Entry', 'Text', 'Progressbar',
     # Tool Classes
-    'PhotoImage', 'Singleton',
+    'PhotoImage', 'Singleton', 'Animation',
     # Tool Functions
     'move', 'text', 'color', 'askfont', 'SetProcessDpiAwareness',
 ] + all_constants

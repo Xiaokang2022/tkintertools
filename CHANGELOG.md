@@ -1,6 +1,14 @@
 ChangeLog/更新日志
 =================
 
+[`2.6.8.dev1`] - 2023-07-28
+---------------------------
+
+### Added/新增
+
+- [X] The class `Animation` adds the parameter `callback` to extend the functionality  
+类 `Animation` 新增参数 `callback` 来扩展功能
+
 [`2.6.8.dev0`] - 2023-07-20
 ---------------------------
 

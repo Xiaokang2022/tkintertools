@@ -9,7 +9,7 @@ The `tkintertools` module is an auxiliary module of the `tkinter` module
 
 [![Version](https://img.shields.io/pypi/v/tkintertools?label=Version)](.)
 [![License](https://img.shields.io/pypi/l/tkintertools?label=License)](LICENSE.txt)
-[![ChangeLog](https://img.shields.io/badge/ChangeLog-2023/07/20-orange)](CHANGELOG.md)
+[![ChangeLog](https://img.shields.io/badge/ChangeLog-2023/07/28-orange)](CHANGELOG.md)
 [![ToDo](https://img.shields.io/badge/ToDo-16-yellow)](TODO.md)
 [![Size](https://img.shields.io/github/languages/code-size/Xiaokang2022/tkintertools?label=Size)](tkintertools)
 [![Wiki](https://img.shields.io/badge/Wiki-14-purple)](https://github.com/Xiaokang2022/tkintertools/wiki)\
@@ -40,15 +40,15 @@ pip install tkintertools==2.6.7
 
 ### Development Version/开发版本
 
-* Version/最新版本 : `2.6.8.dev0` (第 1 个预发布版本)
-* Release/发布日期 : 2023/07/20 (UTC+08)
+* Version/最新版本 : `2.6.8.dev1` (第 1 个预发布版本)
+* Release/发布日期 : 2023/07/28 (UTC+08)
 
 这个是我正在开发的版本，可能有新功能，bug 可能会比较多，但也可能会比原来的版本更加稳定。开发版没有经过多操作系统的测试，仅能保证在 Windows 系统下运行所有功能，在其他的操作系统上，可能有部分功能无法正常运行。大家可以在 Issues 中提出一些建议，我可能会适当采纳一些并在开发版本中更改或实现。
 
 **PIP Cmd/安装命令：**
 
 ```
-pip install tkintertools==2.6.8.dev0
+pip install tkintertools==2.6.8.dev1
 ```
 
 > **Warning**  
@@ -77,12 +77,12 @@ News/最新功能👇
 
 ### Release Notes/版本说明
 
-**最新版本: `tkintertools-v2.6.8.dev0`**
+**最新版本: `tkintertools-v2.6.8.dev1`**
 
 > **Note**   
 > tkintertools 的介绍、使用教程和开发文档均在 [Wiki](https://github.com/Xiaokang2022/tkintertools/wiki) 中，大家可前往查阅
 
-下面是本次开发版本（`v2.6.7` -> `v2.6.8.dev0`）的更新内容条目：
+下面是本次开发版本（`v2.6.7` -> `v2.6.8.dev1`）的更新内容条目：
 
 - [X] Added class `Animation` to achieve more efficient, convenient and functional animation effects  
 新增类 `Animation` 来实现更加高效、更加方便和功能性更强的动画效果
@@ -94,6 +94,8 @@ News/最新功能👇
 函数 `move` 即将被弃用，请用新类 `Animation` 来代替
 - [X] The class `Singleton` is about to be deprecated and singleton mode classes will no longer be available in subsequent releases  
 类 `Singleton` 即将被弃用，后续版本中将不再提供单例模式类
+- [X] The class `Animation` adds the parameter `callback` to extend the functionality  
+类 `Animation` 新增参数 `callback` 来扩展功能
 
 ### Template Demo/模板演示
 

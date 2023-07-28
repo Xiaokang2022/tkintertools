@@ -1397,6 +1397,7 @@ class Animation:
         start=None,  # type: Callable | None
         step=None,  # type: Callable | None
         stop=None,  # type: Callable | None
+        callback=None,  # type: Callable[[float]] | None
         canvas=None  # type: tkinter.Canvas | None
     ):  # type: (...) -> None
         """
@@ -1409,6 +1410,7 @@ class Animation:
         `start`: 动画开始前执行的函数 \ 
         `step`: 动画每一帧结束后执行的函数（包括开始和结束）\ 
         `stop`: 动画结束后执行的函数 \ 
+        `callback`: 回调函数，每一帧调用一次，传入参数为单帧占比 \ 
         `canvas`: 当 widget 是画布中的绘制对象时，应指定 canvas
         """
         self.widget = widget
@@ -1423,6 +1425,7 @@ class Animation:
         self.count = ms * fps // 1000  # 总帧数
         if self.count == 0:
             self.count = 1  # 至少一帧
+        self.callback = callback
         self.parts = self._parts(*control)
 
     def _parts(self, control, up, down):
@@ -1446,6 +1449,7 @@ class Animation:
             self.color[0](color(self.color[1:], sum(self.parts[:_ind + 1])))
 
         None if self.step is None else self.step()
+        None if self.callback is None else self.callback(self.parts[_ind])
 
     def _translate(self, dx, dy):  # type: (int, int) -> None
         """ 平移 """
