@@ -1,18 +1,13 @@
 ChangeLog/更新日志
 =================
 
-[`2.6.8.dev1`] - 2023-07-28
----------------------------
+[`2.6.8`] - 2023-08-03
+----------------------
 
 ### Added/新增
 
-- [X] The class `Animation` adds the parameter `callback` to extend the functionality  
-类 `Animation` 新增参数 `callback` 来扩展功能
-
-[`2.6.8.dev0`] - 2023-07-20
----------------------------
-
-### Added/新增
+- [X] If the user's Python includes a PIL library, PIL is automatically invoked when autoscaling images to extend the functionality of the class `PhotoImage`  
+若使用者的 Python 包含有 PIL 库，则在自动缩放图片时自动调用 PIL 来扩展类 `PhotoImage` 的功能
 
 - [X] Added class `Animation` to achieve more efficient, convenient and functional animation effects  
 新增类 `Animation` 来实现更加高效、更加方便和功能性更强的动画效果
@@ -20,10 +15,21 @@ ChangeLog/更新日志
 - [X] Added constant `CONTROL`  
 新增常量 `CONTROL`
 
+### Fixed/修复
+
+- [X] Fixed the bug that widgets `Entry` and `Text` would report an error when pasting text  
+修复控件 `Entry` 和 `Text` 粘贴文本时会报错的 bug
+
+> Thanks to netizens [一梦千年](mailto:1076336488@qq.com) for discovering the above bug  
+感谢网友 [一梦千年](mailto:1076336488@qq.com) 发现了上面的 bug
+
 ### Changed/变更
 
 - [X] Modified the name of the constant `FRAMES` to `FPS`  
 修改常量 `FRAMES` 的名称为 `FPS`
+
+- [X] The parameter `precision` of the method `zoom` of class `PhotoImage` was changed from positional argument to keyword argument  
+类 `PhotoImage` 的方法 `zoom` 的参数 `precision` 由位置参数变更为关键字参数
 
 ### Deprecated/弃用
 

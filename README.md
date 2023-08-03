@@ -9,7 +9,7 @@ The `tkintertools` module is an auxiliary module of the `tkinter` module
 
 [![Version](https://img.shields.io/pypi/v/tkintertools?label=Version)](.)
 [![License](https://img.shields.io/pypi/l/tkintertools?label=License)](LICENSE.txt)
-[![ChangeLog](https://img.shields.io/badge/ChangeLog-2023/07/28-orange)](CHANGELOG.md)
+[![ChangeLog](https://img.shields.io/badge/ChangeLog-2023/08/03-orange)](CHANGELOG.md)
 [![ToDo](https://img.shields.io/badge/ToDo-16-yellow)](TODO.md)
 [![Size](https://img.shields.io/github/languages/code-size/Xiaokang2022/tkintertools?label=Size)](tkintertools)
 [![Wiki](https://img.shields.io/badge/Wiki-14-purple)](https://github.com/Xiaokang2022/tkintertools/wiki)\
@@ -27,20 +27,20 @@ Install/模块安装👇
 
 ### Stable Version/稳定版本
 
-* Version/最新版本 : `2.6.7`
-* Release/发布日期 : 2023/07/06 (UTC+08)
+* Version/最新版本 : `2.6.8`
+* Release/发布日期 : 2023/08/03 (UTC+08)
 
 这个是目前的最新稳定版，相对于开发版本而言比较稳定，bug 大体上是没有那么多的，推荐使用这个。稳定版和开发版相比，它在发布之前有个测试的步骤，经过测试之后（各项功能正常运行，多平台兼容）才会发布。
 
 **PIP Cmd/安装命令：**
 
 ```
-pip install tkintertools==2.6.7
+pip install tkintertools==2.6.8
 ```
 
 ### Development Version/开发版本
 
-* Version/最新版本 : `2.6.8.dev1` (第 1 个预发布版本)
+* Version/最新版本 : `2.6.8.dev1` (第 2 个预发布版本)
 * Release/发布日期 : 2023/07/28 (UTC+08)
 
 这个是我正在开发的版本，可能有新功能，bug 可能会比较多，但也可能会比原来的版本更加稳定。开发版没有经过多操作系统的测试，仅能保证在 Windows 系统下运行所有功能，在其他的操作系统上，可能有部分功能无法正常运行。大家可以在 Issues 中提出一些建议，我可能会适当采纳一些并在开发版本中更改或实现。
@@ -77,30 +77,35 @@ News/最新功能👇
 
 ### Release Notes/版本说明
 
-**最新版本: `tkintertools-v2.6.8.dev1`**
+**最新版本: `tkintertools-v2.6.8`**
 
 > **Note**   
 > tkintertools 的介绍、使用教程和开发文档均在 [Wiki](https://github.com/Xiaokang2022/tkintertools/wiki) 中，大家可前往查阅
 
-下面是本次开发版本（`v2.6.7` -> `v2.6.8.dev1`）的更新内容条目：
+下面是本次开发版本（`v2.6.7` -> `v2.6.8`）的更新内容条目：
 
+- [X] If the user's Python includes a PIL library, PIL is automatically invoked when autoscaling images to extend the functionality of the class `PhotoImage`  
+若使用者的 Python 包含有 PIL 库，则在自动缩放图片时自动调用 PIL 来扩展类 `PhotoImage` 的功能
 - [X] Added class `Animation` to achieve more efficient, convenient and functional animation effects  
 新增类 `Animation` 来实现更加高效、更加方便和功能性更强的动画效果
 - [X] Added constant `CONTROL`  
 新增常量 `CONTROL`
+- [X] Fixed the bug that widgets `Entry` and `Text` would report an error when pasting text  
+修复控件 `Entry` 和 `Text` 粘贴文本时会报错的 bug
 - [X] Modified the name of the constant `FRAMES` to `FPS`  
 修改常量 `FRAMES` 的名称为 `FPS`
+- [X] The parameter `precision` of the method `zoom` of class `PhotoImage` was changed from positional argument to keyword argument  
+类 `PhotoImage` 的方法 `zoom` 的参数 `precision` 由位置参数变更为关键字参数
 - [X] The function `move` is about to be deprecated, please replace it with the new class `Animation`  
 函数 `move` 即将被弃用，请用新类 `Animation` 来代替
 - [X] The class `Singleton` is about to be deprecated and singleton mode classes will no longer be available in subsequent releases  
 类 `Singleton` 即将被弃用，后续版本中将不再提供单例模式类
-- [X] The class `Animation` adds the parameter `callback` to extend the functionality  
-类 `Animation` 新增参数 `callback` 来扩展功能
 
 ### Template Demo/模板演示
 
 下面是一个主要新功能的示例程序，运行下面的示例程序时，其拥有以下功能：
 
+* __效果与之前版本相同，但是代码量更少！__
 * 按住鼠标左键拖动可以旋转这多个几何体；
 * 按住鼠标右键拖动可以移动这些几何体在空间中的位置；
 * 滚动鼠标中键可以放大和缩小画面；
@@ -129,26 +134,14 @@ for a in -100, 0, 100:
                        color_right='orange', color_front='blue', color_back='green')
 
 
-def spin():
-    """ 自动旋转 """
+def animate(value=[0]):  # type: (list[int]) -> None
+    """ 动画 """
     for geo in space.geos():
         geo.rotate(dz=0.01)
-
-
-def floating(value):
-    """ 上下浮动 """
-    for geo in space.geos():
-        geo.translate(dz=math.sin(value))
-
-
-def animation(value=0):
-    """ 形成动画 """
-    spin()
-    floating(value)
-    space.space_sort()  # 给它们的空间位置排序以正确显示
-    for geo in space.geos():
+        geo.translate(dz=math.sin(value[0]))
         geo.update()
-    space.after(10, animation, value+math.pi/60)
+    value[0] += math.pi/60
+    space.space_sort()
 
 
 def scale(event):
@@ -160,7 +153,7 @@ def scale(event):
     space.space_sort()  # 空间前后位置排序
 
 
-animation()
+tkt.Animation(space, 1000, callback=lambda _: animate(), loop=True).run()  # 调用类 Animation
 root.bind('<Key-equal>', scale)  # 绑定等号按键
 root.bind('<Key-minus>', scale)  # 绑定减号按键
 root.mainloop()  # 消息事件循环

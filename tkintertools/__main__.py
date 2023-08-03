@@ -7,6 +7,11 @@ from fractions import Fraction  # 图片缩放
 from typing import (Any, Callable, Generator, Iterable, Literal,  # 类型提示
                     overload)
 
+try:  # 尝试引入 PIL
+    from PIL import Image, ImageTk
+except ImportError:
+    Image = None
+
 if sys.platform == 'win32':  # 仅在 Windows 平台下支持设置 DPI 级别
     from ctypes import WinDLL
 else:
@@ -290,7 +295,7 @@ class Canvas(tkinter.Canvas):
         for item in self._image:  # 图像大小缩放（采用相对的绝对缩放）
             if self._image[item][0] and self._image[item][0].extension != 'gif':
                 self._image[item][1] = self._image[item][0].zoom(
-                    temp_x*rate_x, temp_y*rate_y, 1.2)
+                    temp_x*rate_x, temp_y*rate_y, precision=1.2)
                 self.itemconfigure(item, image=self._image[item][1])
 
     def _touch(self, event, flag=True):  # type: (tkinter.Event, bool) -> None
@@ -864,11 +869,11 @@ class TextWidget(BaseWidget):
         """ 添加输入框的值 """
         event = tkinter.Event()
         event.keysym = None
-        self.click_on()
+        self._click_on()
         for s in value:
             event.char = s
-            self.input(event, True)
-        self.click_off()
+            self._input(event, True)
+        self._click_off()
 
 
 class Label(BaseWidget):
@@ -1354,6 +1359,7 @@ class PhotoImage(tkinter.PhotoImage):
         self,
         rate_x,  # type: float
         rate_y,  # type: float
+        *,
         precision=None  # type: float | None
     ):  # type: (...) -> tkinter.PhotoImage
         """
@@ -1362,8 +1368,13 @@ class PhotoImage(tkinter.PhotoImage):
         ---
         `rate_x`: 横向缩放倍率 \ 
         `rate_y`: 纵向缩放倍率 \ 
-        `precision`: 精度到小数点后的位数（推荐 1.2），越大运算就越慢（默认值代表绝对精确）
+        `precision`: 精度到小数点后的位数（推荐 1.2），越大运算就越慢（默认值代表绝对精确）\ 
+        注意：若有 PIL 库，请忽略参数 precision
         """
+        if Image is not None:
+            new_size = map(int, [self.width()*rate_x, self.height()*rate_y])
+            image = Image.open(self.file).resize(new_size)
+            return ImageTk.PhotoImage(image)
         if precision is not None:
             limit = round(10**precision)
             rate_x = Fraction(str(rate_x)).limit_denominator(limit)
@@ -1398,7 +1409,8 @@ class Animation:
         step=None,  # type: Callable | None
         stop=None,  # type: Callable | None
         callback=None,  # type: Callable[[float]] | None
-        canvas=None  # type: tkinter.Canvas | None
+        canvas=None,  # type: tkinter.Canvas | None
+        loop=False,  # type: bool
     ):  # type: (...) -> None
         """
         `widget`: 进行动画的控件 \ 
@@ -1411,7 +1423,8 @@ class Animation:
         `step`: 动画每一帧结束后执行的函数（包括开始和结束）\ 
         `stop`: 动画结束后执行的函数 \ 
         `callback`: 回调函数，每一帧调用一次，传入参数为单帧占比 \ 
-        `canvas`: 当 widget 是画布中的绘制对象时，应指定 canvas
+        `canvas`: 当 widget 是画布中的绘制对象时，应指定 canvas \ 
+        `loop`: 是否循环播放动画，默认不循环，循环时参数 stop 失效
         """
         self.widget = widget
         self.master = canvas if isinstance(widget, int) else widget.master if isinstance(
@@ -1419,6 +1432,7 @@ class Animation:
         self.start = start
         self.step = step
         self.stop = stop
+        self.loop = loop
         self.translation = translation
         self.color = color
         self.sec = 1000 // fps  # 单帧间隔时间
@@ -1439,6 +1453,8 @@ class Animation:
     def _run(self, _ind=0):  # type: (int) -> None
         """ 执行动画 """
         if _ind == self.count:
+            if self.loop:
+                return self._run()  # 循环播放动画
             return None if self.stop is None else self.stop()
         self.master.after(self.sec, self._run, _ind + 1)
 
