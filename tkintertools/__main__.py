@@ -99,9 +99,19 @@ class Tk(tkinter.Tk):
         # override: 添加修改初始宽高值的功能并兼容不同的 DPI 缩放
         if newGeometry:
             width, height, _width, _height, * \
-                _ = map(int, (newGeometry+'+0+0').replace('+', 'x').split('x'))
+                _ = (newGeometry+'+0+0').replace('+', 'x').split('x')
+            if width != '':
+                width = int(width)
+                height = int(height)
+            if _width != '':
+                _width = int(_width)
+                _height = int(_height)
+
             self.width, self.height = [width]*2, [height]*2
-            geometry = '%dx%d+%d+%d' % (width, height, _width, _height)
+            if width != '':
+                geometry = '%sx%s+%s+%s' % (width, height, _width, _height)
+            else:
+                geometry = '+%s+%s' % (_width, _height)
             if not _:
                 geometry = geometry.split('+')[0]
             return tkinter.Tk.wm_geometry(self, geometry)
@@ -410,6 +420,7 @@ class BaseWidget:
         borderwidth,  # type: float
         font,  # type: tuple[str, int, str]
         image,  # type: PhotoImage | None
+        tooltip,  # type: ToolTip | None
         color_text,  # type: tuple[str, str, str]
         color_fill,  # type: tuple[str, str, str]
         color_outline  # type: tuple[str, str, str]
@@ -429,6 +440,7 @@ class BaseWidget:
         `borderwidth`: 外框的宽度 \ 
         `font`: 控件的字体设定 (字体, 大小, 样式) \ 
         `image`: 控件的背景（支持 png 类型，大小必须小于控件，否则会溢出控件边框） \ 
+        `tooltip`: 提示框 \ 
         `color_text`: 控件文本的颜色 \ 
         `color_fill`: 控件内部的颜色 \ 
         `color_outline`: 控件外框的颜色
@@ -457,6 +469,7 @@ class BaseWidget:
         self.justify = justify
         self.font = font
         self.photoimage = image
+        self.tooltip = tooltip
         self.color_text = list(color_text)
         self.color_fill = list(color_fill)
         self.color_outline = list(color_outline)
@@ -583,6 +596,13 @@ class BaseWidget:
             mode = 2
         else:
             mode = 3
+
+        if self.tooltip is not None:
+            if self._state == 'normal':
+                self.tooltip._cancel(self.master)
+                self.tooltip._destroy()
+            if self._state == 'touch':
+                self.tooltip._countdown(self.master)
 
         self.master.itemconfigure(self.text, fill=self.color_text[mode])
         if isinstance(self, (Text, CheckButton)):
@@ -752,6 +772,7 @@ class TextWidget(BaseWidget):
         borderwidth,  # type: int
         font,  # type: tuple[str, int, str]
         image,  # type: PhotoImage | None
+        tooltip,  # type: ToolTip | None
         color_text,  # type: tuple[str, str, str]
         color_fill,  # type: tuple[str, str, str]
         color_outline  # type: tuple[str, str, str]
@@ -766,8 +787,9 @@ class TextWidget(BaseWidget):
         # 隐式值
         self._value = ['', text, ''] if type(text) == str else ['', *text]
 
-        BaseWidget.__init__(self, canvas, x, y, width, height, radius, '', justify,
-                            borderwidth, font, image, color_text, color_fill, color_outline)
+        BaseWidget.__init__(
+            self, canvas, x, y, width, height, radius, '', justify, borderwidth,
+            font, image, tooltip, color_text, color_fill, color_outline)
 
         # NOTE: 提示光标代码的位置顺序不可乱动，font 不可乱改
         self._cursor = canvas.create_text(0, 0, fill=color_text[2], font=font)
@@ -843,7 +865,7 @@ class TextWidget(BaseWidget):
             self.append(self.master.clipboard_get())
         return condition
 
-    def _clear(self):  # type: () -> None
+    def clear(self):  # type: () -> None
         """ 清空文本类控件的内容 """
         if isinstance(self, Text):
             event = tkinter.Event()
@@ -893,12 +915,14 @@ class Label(BaseWidget):
         justify='center',  # type: Literal['left', 'center', 'right']
         font=(FONT, SIZE),  # type: tuple[str, int, str]
         image=None,  # type: PhotoImage | None
+        tooltip=None,  # type: ToolTip | None
         color_text=COLOR_TEXT,  # type: tuple[str, str, str]
         color_fill=COLOR_BUTTON_FILL,  # type: tuple[str, str, str]
         color_outline=COLOR_BUTTON_OUTLINE  # type: tuple[str, str, str]
     ):  # type: (...) -> None
-        BaseWidget.__init__(self, canvas, x, y, width, height, radius, text, justify,
-                            borderwidth, font, image, color_text, color_fill, color_outline)
+        BaseWidget.__init__(
+            self, canvas, x, y, width, height, radius, text, justify, borderwidth,
+            font, image, tooltip, color_text, color_fill, color_outline)
 
     def _touch(self, event):  # type: (tkinter.Event) -> bool
         """ 触碰状态检测 """
@@ -925,12 +949,14 @@ class Button(BaseWidget):
         font=(FONT, SIZE),  # type: tuple[str, int, str]
         command=None,  # type: Callable | None
         image=None,  # type: PhotoImage | None
+        tooltip=None,  # type: ToolTip | None
         color_text=COLOR_TEXT,  # type: tuple[str, str, str]
         color_fill=COLOR_BUTTON_FILL,  # type: tuple[str, str, str]
         color_outline=COLOR_BUTTON_OUTLINE,  # type: tuple[str, str, str]
     ):  # type: (...) -> None
-        BaseWidget.__init__(self, canvas, x, y, width, height, radius, text, justify,
-                            borderwidth, font, image, color_text, color_fill, color_outline)
+        BaseWidget.__init__(
+            self, canvas, x, y, width, height, radius, text, justify, borderwidth,
+            font, image, tooltip, color_text, color_fill, color_outline)
         self.command = command
 
     def _execute(self, event):  # type: (tkinter.Event) -> None
@@ -969,12 +995,14 @@ class CheckButton(Button):
         borderwidth=BORDERWIDTH,  # type: int
         justify='right',  # type: Literal['right', 'left']
         image=None,  # type: PhotoImage | None
+        tooltip=None,  # type: ToolTip | None
         color_text=COLOR_TEXT,  # type: tuple[str, str, str]
         color_fill=COLOR_BUTTON_FILL,  # type: tuple[str, str, str]
         color_outline=COLOR_BUTTON_OUTLINE  # type: tuple[str, str, str]
     ):  # type: (...) -> None
-        Button.__init__(self, canvas, x, y, length, length, radius=radius, borderwidth=borderwidth, image=image,
-                        color_text=color_text, color_fill=color_fill, color_outline=color_outline)
+        Button.__init__(
+            self, canvas, x, y, length, length, radius=radius, borderwidth=borderwidth, image=image,
+            tooltip=tooltip, color_text=color_text, color_fill=color_fill, color_outline=color_outline)
         if justify == 'right':
             self._text = canvas.create_text(
                 x+1.25*length, y+length/2, text=text, anchor='w')
@@ -1015,12 +1043,14 @@ class Entry(TextWidget):
         justify='left',  # type: Literal['left', 'center', 'right']
         font=(FONT, SIZE),  # type: tuple[str, int, str]
         image=None,  # type: PhotoImage | None
+        tooltip=None,  # type: ToolTip | None
         color_text=COLOR_TEXT,  # type: tuple[str, str, str]
         color_fill=COLOR_TEXT_FILL,  # type: tuple[str, str, str]
         color_outline=COLOR_TEXT_OUTLINE  # type: tuple[str, str, str]
     ):  # type: (...) -> None
-        TextWidget.__init__(self, canvas, x, y, width, height, radius, text, limit, justify,
-                            cursor, borderwidth, font, image, color_text, color_fill, color_outline)
+        TextWidget.__init__(
+            self, canvas, x, y, width, height, radius, text, limit, justify, cursor,
+            borderwidth, font, image, tooltip, color_text, color_fill, color_outline)
         self.master.itemconfigure(self.text, text=self._value[1])
         self.show = show
 
@@ -1095,12 +1125,14 @@ class Text(TextWidget):
         justify='left',  # type: Literal['left', 'center', 'right']
         font=(FONT, SIZE),  # type: tuple[str, int, str]
         image=None,  # type: PhotoImage | None
+        tooltip=None,  # type: ToolTip | None
         color_text=COLOR_TEXT,  # type: tuple[str, str, str]
         color_fill=COLOR_TEXT_FILL,  # type: tuple[str, str, str]
         color_outline=COLOR_TEXT_OUTLINE  # type: tuple[str, str, str]
     ):  # type: (...) -> None
-        TextWidget.__init__(self, canvas, x, y, width, height, radius, text, limit, justify,
-                            cursor, borderwidth, font, image, color_text, color_fill, color_outline)
+        TextWidget.__init__(
+            self, canvas, x, y, width, height, radius, text, limit, justify, cursor,
+            borderwidth, font, image, tooltip, color_text, color_fill, color_outline)
 
         _x = x + (width-radius-3 if justify == 'right' else width /
                   2 if justify == 'center' else radius+2)
@@ -1246,6 +1278,7 @@ class Progressbar(BaseWidget):
         justify='center',  # type: Literal['left', 'center', 'right']
         font=(FONT, SIZE),  # type: tuple[str, int, str]
         image=None,  # type: PhotoImage | None
+        tooltip=None,  # type: ToolTip | None
         color_text=COLOR_TEXT,  # type: tuple[str, str, str]
         color_outline=COLOR_TEXT_OUTLINE,  # type: tuple[str, str, str]
         color_bar=COLOR_BAR  # type: tuple[str, str]
@@ -1255,8 +1288,9 @@ class Progressbar(BaseWidget):
         self.bar = canvas.create_rectangle(
             x, y, x, y+height, width=borderwidth, outline='', fill=color_bar[1])
 
-        BaseWidget.__init__(self, canvas, x, y, width, height, 0, '0.00%', justify,
-                            borderwidth, font, image, color_text, COLOR_NONE, color_outline)
+        BaseWidget.__init__(
+            self, canvas, x, y, width, height, 0, '0.00%', justify, borderwidth,
+            font, image, tooltip, color_text, COLOR_NONE, color_outline)
 
         self.color_fill = list(color_bar)
 
@@ -1275,6 +1309,73 @@ class Progressbar(BaseWidget):
         x2 = self.x1 + self.width * percentage * self.master.rx
         self.master.coords(self.bar, self.x1, self.y1, x2, self.y2)
         self.configure(text='%.2f%%' % (percentage * 100))
+
+
+class ToolTip:
+    """ 提示框 """
+
+    def __init__(
+        self,
+        text,  # type: str
+        *,
+        font=(FONT,),
+        # type: tuple[str, int, str] | tuple[str, int] | str
+        fg=TOOLTIP_FG,  # type: str
+        bg=TOOLTIP_BG,  # type: str
+        justify='left',  # type: Literal['left', 'center', 'right']
+        highlightthickness=TOOLTIP_HIGNLIGHT_THICKNESS,  # type: int
+        highlightbackground=TOOLTIP_HIGNLIGHT_BACKGROUND,  # type: str
+        duration=DURATION,  # type: int
+    ):
+        """
+        `text`: 要显示的文本 \ 
+        `font`: 文本字体 \ 
+        `fg`: 前景色，默认为黑色 \ 
+        `bg`: 背景色，默认为淡黄色 \ 
+        `justify`: 文本对齐方式 \ 
+        `highlightthickness`: 边框厚度，默认为 1 像素 \ 
+        `highlightbackground`: 边框颜色，默认为黑色 \ 
+        `duration`: 持续时间，默认为 4000 毫秒
+        """
+        self.text = text
+        self.font = font
+        self.fg = fg
+        self.bg = bg
+        self.justify = justify
+        self.highlightthickness = highlightthickness
+        self.highlightbackground = highlightbackground
+        self.duration = duration
+
+        self.toplevel = None  # type: Toplevel | None
+        self.cd = None  # type: str | None
+
+    def _countdown(self, master):  # type: (tkinter.Widget) -> None
+        """ 倒计时 """
+        if self.cd is None:
+            self.cd = master.after(1000, self._place)
+
+    def _cancel(self, master):  # type: (tkinter.Widget) -> None
+        """ 取消倒计时 """
+        if self.cd is not None:
+            master.after_cancel(self.cd)
+            self.cd = None
+
+    def _place(self):  # type: () -> None
+        """ 显示 """
+        self.toplevel = tkinter.Toplevel(
+            highlightthickness=self.highlightthickness, highlightbackground=self.highlightbackground)
+        self.toplevel.overrideredirect(True)
+        x, y = self.toplevel.winfo_pointerxy()
+        self.toplevel.geometry('+%d+%d' % (x, y+26))
+        tkinter.Label(self.toplevel, text=self.text, font=self.font,
+                      fg=self.fg, bg=self.bg, justify=self.justify).pack()
+        self.toplevel.after(self.duration, self._destroy)
+
+    def _destroy(self):
+        """ 消失 """
+        if self.toplevel is not None:
+            self.toplevel.destroy()
+            self.toplevel = None
 
 
 class PhotoImage(tkinter.PhotoImage):

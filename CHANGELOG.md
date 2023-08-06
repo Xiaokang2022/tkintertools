@@ -1,6 +1,27 @@
 ChangeLog/更新日志
 =================
 
+[`2.6.9.dev0`] -2023-08-06
+--------------------------
+
+### Added/新增
+
+- [X] Added widget Tip (`ToolTip`) and all virtual widgets added the parameter `tooltip`  
+新增控件提示框（`ToolTip`），且所有虚拟控件新增参数 `tooltip`
+
+- [X] Added constants `DURATION`、`TOOLTIP_FG`、`TOOLTIP_BG`、`TOOLTIP_HIGNLIGHT_THICKNESS` and `TOOLTIP_HIGNLIGHT_BACKGROUND`  
+新增常量 `DURATION`、`TOOLTIP_FG`、`TOOLTIP_BG`、`TOOLTIP_HIGNLIGHT_THICKNESS` 和 `TOOLTIP_HIGNLIGHT_BACKGROUND`
+
+### Fixed/修复
+
+- [X] Fixed an issue where the text class widget called method `clear` was invalid  
+修复了文本类控件调用方法 `clear` 无效的问题
+
+### Optimized/优化
+
+- [X] Optimized the method `wm_geometry` of class `Tk` to accommodate some specially formatted parameters  
+优化了类 `Tk` 的方法 `wm_geometry` 以适应某些特殊格式的参数
+
 [`2.6.8`] - 2023-08-03
 ----------------------
 
@@ -250,7 +271,7 @@ ChangeLog/更新日志
 ### Fixed/修复
 
 - [X] Solve the bug that the `Text` class `set` and `append` methods will not be updated immediately after use  
-解决 `Text`类`set`、`append` 方法使用后不会立即更新的 bug
+解决 `Text` 类 `set`、`append` 方法使用后不会立即更新的 bug
 
 ### Optimized/优化
 

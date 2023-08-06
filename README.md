@@ -9,8 +9,8 @@ The `tkintertools` module is an auxiliary module of the `tkinter` module
 
 [![Version](https://img.shields.io/pypi/v/tkintertools?label=Version)](.)
 [![License](https://img.shields.io/pypi/l/tkintertools?label=License)](LICENSE.txt)
-[![ChangeLog](https://img.shields.io/badge/ChangeLog-2023/08/03-orange)](CHANGELOG.md)
-[![ToDo](https://img.shields.io/badge/ToDo-16-yellow)](TODO.md)
+[![ChangeLog](https://img.shields.io/badge/ChangeLog-2023/08/06-orange)](CHANGELOG.md)
+[![ToDo](https://img.shields.io/badge/ToDo-15-yellow)](TODO.md)
 [![Size](https://img.shields.io/github/languages/code-size/Xiaokang2022/tkintertools?label=Size)](tkintertools)
 [![Wiki](https://img.shields.io/badge/Wiki-14-purple)](https://github.com/Xiaokang2022/tkintertools/wiki)\
 [![Downloads](https://img.shields.io/pypi/dm/tkintertools?label=Downloads&logo=pypi)](https://pypistats.org/packages/tkintertools)
@@ -40,15 +40,15 @@ pip install tkintertools==2.6.8
 
 ### Development Version/开发版本
 
-* Version/最新版本 : `2.6.8.dev1` (第 2 个预发布版本)
-* Release/发布日期 : 2023/07/28 (UTC+08)
+* Version/最新版本 : `2.6.9.dev0` (第 1 个预发布版本)
+* Release/发布日期 : 2023/08/06 (UTC+08)
 
 这个是我正在开发的版本，可能有新功能，bug 可能会比较多，但也可能会比原来的版本更加稳定。开发版没有经过多操作系统的测试，仅能保证在 Windows 系统下运行所有功能，在其他的操作系统上，可能有部分功能无法正常运行。大家可以在 Issues 中提出一些建议，我可能会适当采纳一些并在开发版本中更改或实现。
 
 **PIP Cmd/安装命令：**
 
 ```
-pip install tkintertools==2.6.8.dev1
+pip install tkintertools==2.6.9.dev0
 ```
 
 > **Warning**  
@@ -77,86 +77,37 @@ News/最新功能👇
 
 ### Release Notes/版本说明
 
-**最新版本: `tkintertools-v2.6.8`**
+**最新版本: `tkintertools-v2.6.9.dev0`**
 
 > **Note**   
 > tkintertools 的介绍、使用教程和开发文档均在 [Wiki](https://github.com/Xiaokang2022/tkintertools/wiki) 中，大家可前往查阅
 
-下面是本次开发版本（`v2.6.7` -> `v2.6.8`）的更新内容条目：
+下面是本次开发版本（`v2.6.8` -> `v2.6.9.dev0`）的更新内容条目：
 
-- [X] If the user's Python includes a PIL library, PIL is automatically invoked when autoscaling images to extend the functionality of the class `PhotoImage`  
-若使用者的 Python 包含有 PIL 库，则在自动缩放图片时自动调用 PIL 来扩展类 `PhotoImage` 的功能
-- [X] Added class `Animation` to achieve more efficient, convenient and functional animation effects  
-新增类 `Animation` 来实现更加高效、更加方便和功能性更强的动画效果
-- [X] Added constant `CONTROL`  
-新增常量 `CONTROL`
-- [X] Fixed the bug that widgets `Entry` and `Text` would report an error when pasting text  
-修复控件 `Entry` 和 `Text` 粘贴文本时会报错的 bug
-- [X] Modified the name of the constant `FRAMES` to `FPS`  
-修改常量 `FRAMES` 的名称为 `FPS`
-- [X] The parameter `precision` of the method `zoom` of class `PhotoImage` was changed from positional argument to keyword argument  
-类 `PhotoImage` 的方法 `zoom` 的参数 `precision` 由位置参数变更为关键字参数
-- [X] The function `move` is about to be deprecated, please replace it with the new class `Animation`  
-函数 `move` 即将被弃用，请用新类 `Animation` 来代替
-- [X] The class `Singleton` is about to be deprecated and singleton mode classes will no longer be available in subsequent releases  
-类 `Singleton` 即将被弃用，后续版本中将不再提供单例模式类
+- [X] Added widget Tip (`ToolTip`) and all virtual widgets added the parameter `tooltip`  
+新增控件提示框（`ToolTip`），且所有虚拟控件新增参数 `tooltip`
+- [X] Added constants `DURATION`、`TOOLTIP_FG`、`TOOLTIP_BG`、`TOOLTIP_HIGNLIGHT_THICKNESS` and `TOOLTIP_HIGNLIGHT_BACKGROUND`  
+新增常量 `DURATION`、`TOOLTIP_FG`、`TOOLTIP_BG`、`TOOLTIP_HIGNLIGHT_THICKNESS` 和 `TOOLTIP_HIGNLIGHT_BACKGROUND`
+- [X] Fixed an issue where the text class widget called method `clear` was invalid  
+修复了文本类控件调用方法 `clear` 无效的问题
+- [X] Optimized the method `wm_geometry` of class `Tk` to accommodate some specially formatted parameters  
+优化了类 `Tk` 的方法 `wm_geometry` 以适应某些特殊格式的参数
 
 ### Template Demo/模板演示
 
-下面是一个主要新功能的示例程序，运行下面的示例程序时，其拥有以下功能：
-
-* __效果与之前版本相同，但是代码量更少！__
-* 按住鼠标左键拖动可以旋转这多个几何体；
-* 按住鼠标右键拖动可以移动这些几何体在空间中的位置；
-* 滚动鼠标中键可以放大和缩小画面；
-* 这多个几何体会自动地旋转以及上下浮动；
+下面是一个主要新功能的示例程序，当按照示例代码方式给虚拟控件传入一个名为 `tooltip` 的参数之后，便可以让这个控件拥有提示框
 
 下面是示例程序的效果图（运行环境为 Windows11-Python3.11.4）：
 
-![news](news.gif)
+![news](news.png)
 
 <details><summary><b>CODE/源代码</b></summary>
 
 ```python
-import math  # 数学支持
+# 此处只展示核心代码
 
-import tkintertools as tkt  # 引入基础模块
-from tkintertools import tools_3d as t3d  # 引入 3d 子模块
-
-root = tkt.Tk('3D', 1280, 720)  # 创建窗口
-space = t3d.Space(root, 1280, 720, 0, 0)  # 创建空间
-
-for a in -100, 0, 100:
-    for b in -100, 0, 100:
-        for c in -100, 0, 100:
-            t3d.Cuboid(space, a-50, b-50, c-50, 100, 100, 100,  # 创建正方体
-                       color_up='white', color_down='yellow', color_left='red',
-                       color_right='orange', color_front='blue', color_back='green')
-
-
-def animate(value=[0]):  # type: (list[int]) -> None
-    """ 动画 """
-    for geo in space.geos():
-        geo.rotate(dz=0.01)
-        geo.translate(dz=math.sin(value[0]))
-        geo.update()
-    value[0] += math.pi/60
-    space.space_sort()
-
-
-def scale(event):
-    """ 缩放事件 """
-    k = 1.05 if event.keysym == 'equal' else 0.95 if event.keysym == 'minus' else 1  # 缩放比率
-    for geo in space.geos():  # 遍历所有的几何体（不包括基本 3D 对象）
-        geo.scale(k, k, k)  # 缩放
-        geo.update()  # 更新改对象的实际画面
-    space.space_sort()  # 空间前后位置排序
-
-
-tkt.Animation(space, 1000, callback=lambda _: animate(), loop=True).run()  # 调用类 Animation
-root.bind('<Key-equal>', scale)  # 绑定等号按键
-root.bind('<Key-minus>', scale)  # 绑定减号按键
-root.mainloop()  # 消息事件循环
+tip = tkt.ToolTip('模块介绍\nToolTip 测试')
+tkt.Button(canvas, 10, 660, 200, 50, text='Doc', tooltip=tip)
 ```
 
 </details>

@@ -68,6 +68,21 @@ TICK = '✓'
 CONTROL = lambda _: 1, 0, 1
 """ Default control function """
 
+DURATION = 4000
+""" Default ToolTip duration """
+
+TOOLTIP_FG = 'black'
+""" Default ToolTip foreground color """
+
+TOOLTIP_BG = 'lightyellow'
+""" Default ToolTip background color """
+
+TOOLTIP_HIGNLIGHT_THICKNESS = 1
+""" Default ToolTip highlightthickness """
+
+TOOLTIP_HIGNLIGHT_BACKGROUND = 'black'
+""" Default ToolTip highlightbackground """
+
 
 ### 3D constants ###
 
