@@ -175,6 +175,15 @@ class Toplevel(tkinter.Toplevel, Tk):
         self.focus_set()  # 把焦点转移到该子窗口上来
 
 
+class CombinedItem(list):
+    """ 画布元素组合体 """
+
+    def __init__(self, *args):  # type: (int) -> None
+        if not all(map(lambda _: isinstance(_, int), args)):
+            raise TypeError('Not all elements are of type _CanvasItemId')
+        list.__init__(self, args)
+
+
 class Canvas(tkinter.Canvas):
     """ 画布容器类 """
 
@@ -987,7 +996,7 @@ class CheckButton(Button):
         canvas,  # type: Canvas
         x,  # type: int
         y,  # type: int
-        length,  # type: int
+        height,  # type: int
         *,
         radius=RADIUS,  # type: float
         text='',  # type: str
@@ -1001,14 +1010,14 @@ class CheckButton(Button):
         color_outline=COLOR_BUTTON_OUTLINE  # type: tuple[str, str, str]
     ):  # type: (...) -> None
         Button.__init__(
-            self, canvas, x, y, length, length, radius=radius, borderwidth=borderwidth, image=image,
+            self, canvas, x, y, height, height, radius=radius, borderwidth=borderwidth, image=image,
             tooltip=tooltip, color_text=color_text, color_fill=color_fill, color_outline=color_outline)
         if justify == 'right':
             self._text = canvas.create_text(
-                x+1.25*length, y+length/2, text=text, anchor='w')
+                x+1.25*height, y+height/2, text=text, anchor='w')
         else:
             self._text = canvas.create_text(
-                x-0.25*length, y+length/2, text=text, anchor='e')
+                x-0.25*height, y+height/2, text=text, anchor='e')
         self.command = lambda: self.set(not bool(self.value))
         if value:
             self.command()
@@ -1311,6 +1320,85 @@ class Progressbar(BaseWidget):
         self.configure(text='%.2f%%' % (percentage * 100))
 
 
+class Switch:
+    """ 开关 """
+
+    def __init__(
+        self,
+        canvas,  # type: Canvas
+        x,  # type: int
+        y,  # type: int
+        width=SWITCH_WIDTH,  # type: int
+        height=SWITCH_HEIGHT,  # type: int
+        *,
+        radius=SWITCH_RADIUS,  # type: float
+        borderwidth=BORDERWIDTH,  # type: int
+        tooltip=None,  # type: ToolTip | None
+        color_fill=COLOR_SWITCH_OFF,  # type: tuple[str, str, str]
+        color_outline=COLOR_BUTTON_OUTLINE,  # type: tuple[str, str, str]
+        default=False,  # type: bool
+        on=None,  # type: Callable | None
+        off=None,  # type: Callable | None
+    ):  # type: (...) -> None
+        """
+        `canvas`: 父画布控件 \ 
+        `x`: 横坐标 \ 
+        `y`: 纵坐标 \ 
+        `width`: 宽度 \ 
+        `height`: 高度 \ 
+        `radius`: 圆角半径 \ 
+        `borderwidth`: 边框宽度 \ 
+        `tooltip`: 提示框 \ 
+        `color_fill`: 内部颜色 \ 
+        `color_outline`: 边框颜色 \ 
+        `default`: 默认值 \ 
+        `on`: 转换到开时触发的回调函数 \ 
+        `off`: 转换到关时触发的回调函数 
+        """
+        self.value = default
+        self.width = height * 2 if width < height * 2 else width
+        self.height = height
+        self.on = on
+        self.off = off
+        self.outside = Button(
+            canvas, x, y, self.width, height, radius=radius, borderwidth=borderwidth,
+            tooltip=tooltip, color_fill=color_fill, color_outline=color_outline,
+            command=lambda self=self: self.set(not self.value))
+        spcaing = height * 2 / 15
+        self.inside = Label(
+            canvas, x+spcaing, y+spcaing, height-spcaing*2, height-spcaing*2, radius=radius,
+            borderwidth=borderwidth, color_outline=('#333',)*3, color_fill=('black',)*3)
+        if self.value is True:
+            self._animate(0)
+
+    def _animate(self, ms=SWITCH_ANIMATION_MS):  # type: (int) -> None
+        """ 移动动画 """
+        if self.value:
+            key = 1
+            self.outside.configure(
+                color_fill=COLOR_SWITCH_ON, color_outline=COLOR_SWITCH_ON)
+        else:
+            key = -1
+            self.outside.configure(
+                color_fill=COLOR_SWITCH_OFF, color_outline=COLOR_BUTTON_OUTLINE)
+        self.outside.state()
+        Animation(self.inside, ms, fps=90, control=(math.sin, 0, math.pi),
+                  translation=(key*(self.width-self.height)*self.inside.master.rx, 0)).run()
+
+    def get(self):  # type: () -> bool
+        """ 返回状态 """
+        return self.value
+
+    def set(self, value):  # type: (bool) -> None
+        """ 设定状态 """
+        self.value = value
+        if self.value and self.on is not None:
+            self.on()
+        if not self.value and self.off is not None:
+            self.off()
+        self._animate()
+
+
 class ToolTip:
     """ 提示框 """
 
@@ -1528,8 +1616,8 @@ class Animation:
         `loop`: 是否循环播放动画，默认不循环，循环时参数 stop 失效
         """
         self.widget = widget
-        self.master = canvas if isinstance(widget, int) else widget.master if isinstance(
-            widget, tkinter.Widget) else widget
+        self.master = canvas if isinstance(widget, int) else widget if isinstance(
+            widget, tkinter.Widget) else widget.master
         self.start = start
         self.step = step
         self.stop = stop

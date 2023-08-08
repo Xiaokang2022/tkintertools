@@ -9,8 +9,8 @@ The `tkintertools` module is an auxiliary module of the `tkinter` module
 
 [![Version](https://img.shields.io/pypi/v/tkintertools?label=Version)](.)
 [![License](https://img.shields.io/pypi/l/tkintertools?label=License)](LICENSE.txt)
-[![ChangeLog](https://img.shields.io/badge/ChangeLog-2023/08/06-orange)](CHANGELOG.md)
-[![ToDo](https://img.shields.io/badge/ToDo-15-yellow)](TODO.md)
+[![ChangeLog](https://img.shields.io/badge/ChangeLog-2023/08/08-orange)](CHANGELOG.md)
+[![ToDo](https://img.shields.io/badge/ToDo-14-yellow)](TODO.md)
 [![Size](https://img.shields.io/github/languages/code-size/Xiaokang2022/tkintertools?label=Size)](tkintertools)
 [![Wiki](https://img.shields.io/badge/Wiki-14-purple)](https://github.com/Xiaokang2022/tkintertools/wiki)\
 [![Downloads](https://img.shields.io/pypi/dm/tkintertools?label=Downloads&logo=pypi)](https://pypistats.org/packages/tkintertools)
@@ -40,15 +40,15 @@ pip install tkintertools==2.6.8
 
 ### Development Version/开发版本
 
-* Version/最新版本 : `2.6.9.dev0` (第 1 个预发布版本)
-* Release/发布日期 : 2023/08/06 (UTC+08)
+* Version/最新版本 : `2.6.9.dev1` (第 2 个预发布版本)
+* Release/发布日期 : 2023/08/08 (UTC+08)
 
 这个是我正在开发的版本，可能有新功能，bug 可能会比较多，但也可能会比原来的版本更加稳定。开发版没有经过多操作系统的测试，仅能保证在 Windows 系统下运行所有功能，在其他的操作系统上，可能有部分功能无法正常运行。大家可以在 Issues 中提出一些建议，我可能会适当采纳一些并在开发版本中更改或实现。
 
 **PIP Cmd/安装命令：**
 
 ```
-pip install tkintertools==2.6.9.dev0
+pip install tkintertools==2.6.9.dev1
 ```
 
 > **Warning**  
@@ -77,25 +77,31 @@ News/最新功能👇
 
 ### Release Notes/版本说明
 
-**最新版本: `tkintertools-v2.6.9.dev0`**
+**最新版本: `tkintertools-v2.6.9.dev1`**
 
 > **Note**   
 > tkintertools 的介绍、使用教程和开发文档均在 [Wiki](https://github.com/Xiaokang2022/tkintertools/wiki) 中，大家可前往查阅
 
-下面是本次开发版本（`v2.6.8` -> `v2.6.9.dev0`）的更新内容条目：
+下面是本次开发版本（`v2.6.8` -> `v2.6.9.dev1`）的更新内容条目：
 
+- [X] Added new widget switch (`Switch`)  
+新增控件开关（`Switch`）
 - [X] Added widget Tip (`ToolTip`) and all virtual widgets added the parameter `tooltip`  
 新增控件提示框（`ToolTip`），且所有虚拟控件新增参数 `tooltip`
-- [X] Added constants `DURATION`、`TOOLTIP_FG`、`TOOLTIP_BG`、`TOOLTIP_HIGNLIGHT_THICKNESS` and `TOOLTIP_HIGNLIGHT_BACKGROUND`  
-新增常量 `DURATION`、`TOOLTIP_FG`、`TOOLTIP_BG`、`TOOLTIP_HIGNLIGHT_THICKNESS` 和 `TOOLTIP_HIGNLIGHT_BACKGROUND`
+- [X] Added constants `DURATION`、`TOOLTIP_FG`、`TOOLTIP_BG`、`TOOLTIP_HIGNLIGHT_THICKNESS`、`TOOLTIP_HIGNLIGHT_BACKGROUND`、`COLOR_SWITCH_ON`、`COLOR_SWITCH_OFF`、`SWITCH_WIDTH`、`SWITCH_HEIGHT`、`SWITCH_RADIUS` and `SWITCH_ANIMATION_MS`  
+新增常量 `DURATION`、`TOOLTIP_FG`、`TOOLTIP_BG`、`TOOLTIP_HIGNLIGHT_THICKNESS`、`TOOLTIP_HIGNLIGHT_BACKGROUND`、`COLOR_SWITCH_ON`、`COLOR_SWITCH_OFF`、`SWITCH_WIDTH`、`SWITCH_HEIGHT`、`SWITCH_RADIUS` 和 `SWITCH_ANIMATION_MS`
 - [X] Fixed an issue where the text class widget called method `clear` was invalid  
 修复了文本类控件调用方法 `clear` 无效的问题
+- [X] Fixed an issue where the class `Animation` automatically determined the parent widget of the widget to be moved  
+修复了类 `Animation` 自动确定待移动控件的父控件时出现错误的问题
+- [X] The positional parameter `length` of class `CheckButton` was renamed `height`  
+类 `CheckButton` 的位置参数 `length` 更名为 `height`
 - [X] Optimized the method `wm_geometry` of class `Tk` to accommodate some specially formatted parameters  
 优化了类 `Tk` 的方法 `wm_geometry` 以适应某些特殊格式的参数
 
 ### Template Demo/模板演示
 
-下面是一个主要新功能的示例程序，当按照示例代码方式给虚拟控件传入一个名为 `tooltip` 的参数之后，便可以让这个控件拥有提示框
+下面是一个主要新功能的示例程序，即新增控件：开关！这个控件可以调整长宽、颜色、以及圆角的大小！
 
 下面是示例程序的效果图（运行环境为 Windows11-Python3.11.4）：
 
@@ -106,8 +112,9 @@ News/最新功能👇
 ```python
 # 此处只展示核心代码
 
-tip = tkt.ToolTip('模块介绍\nToolTip 测试')
-tkt.Button(canvas, 10, 660, 200, 50, text='Doc', tooltip=tip)
+tkt.Switch(canvas, 540, 420)  # 默认样式
+tkt.Switch(canvas, 610, 420, radius=4, default=True)  # 圆角半径 4 像素，默认开
+tkt.Switch(canvas, 680, 420, radius=0)  # 无圆角
 ```
 
 </details>

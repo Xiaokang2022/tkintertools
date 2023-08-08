@@ -1,21 +1,32 @@
 ChangeLog/更新日志
 =================
 
-[`2.6.9.dev0`] -2023-08-06
---------------------------
+[`2.6.9.dev1`] - 2023-08-08
+---------------------------
 
 ### Added/新增
+
+- [X] Added new widget switch (`Switch`)  
+新增控件开关（`Switch`）
 
 - [X] Added widget Tip (`ToolTip`) and all virtual widgets added the parameter `tooltip`  
 新增控件提示框（`ToolTip`），且所有虚拟控件新增参数 `tooltip`
 
-- [X] Added constants `DURATION`、`TOOLTIP_FG`、`TOOLTIP_BG`、`TOOLTIP_HIGNLIGHT_THICKNESS` and `TOOLTIP_HIGNLIGHT_BACKGROUND`  
-新增常量 `DURATION`、`TOOLTIP_FG`、`TOOLTIP_BG`、`TOOLTIP_HIGNLIGHT_THICKNESS` 和 `TOOLTIP_HIGNLIGHT_BACKGROUND`
+- [X] Added constants `DURATION`、`TOOLTIP_FG`、`TOOLTIP_BG`、`TOOLTIP_HIGNLIGHT_THICKNESS`、`TOOLTIP_HIGNLIGHT_BACKGROUND`、`COLOR_SWITCH_ON`、`COLOR_SWITCH_OFF`、`SWITCH_WIDTH`、`SWITCH_HEIGHT`、`SWITCH_RADIUS` and `SWITCH_ANIMATION_MS`  
+新增常量 `DURATION`、`TOOLTIP_FG`、`TOOLTIP_BG`、`TOOLTIP_HIGNLIGHT_THICKNESS`、`TOOLTIP_HIGNLIGHT_BACKGROUND`、`COLOR_SWITCH_ON`、`COLOR_SWITCH_OFF`、`SWITCH_WIDTH`、`SWITCH_HEIGHT`、`SWITCH_RADIUS` 和 `SWITCH_ANIMATION_MS`
 
 ### Fixed/修复
 
 - [X] Fixed an issue where the text class widget called method `clear` was invalid  
 修复了文本类控件调用方法 `clear` 无效的问题
+
+- [X] Fixed an issue where the class `Animation` automatically determined the parent widget of the widget to be moved  
+修复了类 `Animation` 自动确定待移动控件的父控件时出现错误的问题
+
+### Changed/变更
+
+- [X] The positional parameter `length` of class `CheckButton` was renamed `height`  
+类 `CheckButton` 的位置参数 `length` 更名为 `height`
 
 ### Optimized/优化
 

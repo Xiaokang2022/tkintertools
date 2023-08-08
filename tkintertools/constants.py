@@ -36,6 +36,12 @@ COLOR_NONE = '', '', '', ''
 COLOR_BAR = '#E1E1E1', '#06b025'
 """ Default progress bar color """
 
+COLOR_SWITCH_ON = '#288CDB', '#3E98DF', '#4884B4', '#E0E0E0'
+""" Default color when `Switch` is on """
+
+COLOR_SWITCH_OFF = COLOR_BUTTON_FILL
+""" Default color when `Switch` is off """
+
 
 ### Other constants ###
 
@@ -82,6 +88,18 @@ TOOLTIP_HIGNLIGHT_THICKNESS = 1
 
 TOOLTIP_HIGNLIGHT_BACKGROUND = 'black'
 """ Default ToolTip highlightbackground """
+
+SWITCH_WIDTH = 0
+""" Default Switch width """
+
+SWITCH_HEIGHT = 30
+""" Default Switch height """
+
+SWITCH_RADIUS = float('inf')
+""" Default Switch radius """
+
+SWITCH_ANIMATION_MS = 250
+""" Default animation duration of the Switch """
 
 
 ### 3D constants ###
