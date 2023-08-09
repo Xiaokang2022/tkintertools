@@ -1,8 +1,8 @@
 ChangeLog/更新日志
 =================
 
-[`2.6.9.dev1`] - 2023-08-08
----------------------------
+[`2.6.9`] - 2023-08-09
+----------------------
 
 ### Added/新增
 
@@ -32,6 +32,11 @@ ChangeLog/更新日志
 
 - [X] Optimized the method `wm_geometry` of class `Tk` to accommodate some specially formatted parameters  
 优化了类 `Tk` 的方法 `wm_geometry` 以适应某些特殊格式的参数
+
+### Removed/移除
+
+- [X] Removed class `Singleton` and function `move`  
+移除了类 `Singleton` 和函数 `move`
 
 [`2.6.8`] - 2023-08-03
 ----------------------

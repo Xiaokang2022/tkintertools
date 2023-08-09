@@ -1658,7 +1658,7 @@ class Animation:
 
     def _translate(self, dx, dy):  # type: (int, int) -> None
         """ 平移 """
-        if isinstance(self.widget, tkinter.Tk | tkinter.Toplevel):  # 窗口
+        if isinstance(self.widget, (tkinter.Tk, tkinter.Toplevel)):  # 窗口
             size, x, y = self.widget.geometry().split('+')
             self.widget.geometry('%s+%d+%d' % (size, int(x)+dx, int(y)+dy))
         elif isinstance(self.widget, tkinter.Widget):  # tkinter 控件
@@ -1674,117 +1674,6 @@ class Animation:
         """ 运行动画 """
         None if self.start is None else self.start()
         self._run()
-
-
-class Singleton(object):
-    """ 单例模式类 """
-
-    _instance = None
-
-    def __new__(cls, *args, **kw):
-        print('Deprecation Warning: Class `Singleton` is about to be deprecated.')
-        if not cls._instance:
-            cls._instance = object.__new__(cls)
-        return cls._instance
-
-
-@overload
-def move(
-    master,  # type: Tk | Canvas | tkinter.Misc | tkinter.BaseWidget | None
-    widget,  # type: Canvas | BaseWidget | tkinter.BaseWidget
-    dx,  # type: int
-    dy,  # type: int
-    times,  # type: int
-    *,
-    mode,  # type: Literal['smooth', 'rebound', 'flat']
-    frames=FPS,  # type: int
-    end=None,  # type: Callable | None
-    _ind=0  # type: int
-):  # type: (...) -> None
-    ...
-
-
-@overload
-def move(
-    master,  # type: Tk | Canvas | tkinter.Misc | tkinter.BaseWidget | None
-    widget,  # type: Canvas | BaseWidget | tkinter.BaseWidget
-    dx,  # type: int
-    dy,  # type: int
-    times,  # type: int
-    *,
-    mode,  # type: tuple[Callable[[float], float], float, float]
-    frames=FPS,  # type: int
-    end=None,  # type: Callable | None
-    _ind=0  # type: int
-):  # type: (...) -> None
-    ...
-
-
-def move(
-    master,  # type: Tk | Canvas | tkinter.Misc | tkinter.BaseWidget | None
-    widget,  # type: Canvas | BaseWidget | tkinter.BaseWidget
-    dx,  # type: int
-    dy,  # type: int
-    times,  # type: int
-    *,
-    mode,
-    # type: tuple[Callable[[float], float], float, float] | Literal['smooth', 'rebound', 'flat']
-    frames=FPS,  # type: int
-    end=None,  # type: Callable | None
-    _ind=0  # type: int
-):  # type: (...) -> None
-    """
-    ### 移动函数
-    以特定方式移动由 Place 布局的某个控件或某些控件的集合或图像 \ 
-    或者按一定的函数规律来移动
-    ---
-    `master`: 控件所在的父控件 \ 
-    `widget`: 要移动位置的控件 \ 
-    `dx`: 横向移动的距离（单位：像素） \ 
-    `dy`: 纵向移动的距离（单位：像素） \ 
-    `times`: 移动总时长（单位：毫秒） \ 
-    `mode`: 移动速度模式，为 smooth（顺滑）、rebound（回弹）和 flat（平移）这三种，或者为元组 (函数, 起始值, 终止值) 的形式 \ 
-    `frames`: 帧数，越大移动就越流畅，但计算越慢（范围为 1~100） \ 
-    `end`: 移动结束时执行的函数
-    """
-    if _ind:  # 记忆值
-        dis = mode
-    elif mode == 'flat':  # 平滑模式
-        return move(master, widget, dx, dy, times, mode=(lambda _: 1, 0, 1), frames=frames, end=end)
-    elif mode == 'smooth':  # 流畅模式
-        return move(master, widget, dx, dy, times, mode=(math.sin, 0, math.pi), frames=frames, end=end)
-    elif mode == 'rebound':  # 回弹模式
-        return move(master, widget, dx, dy, times, mode=(math.cos, 0, 0.6*math.pi), frames=frames, end=end)
-    else:  # 函数模式
-        func, start, stop, count = *mode, round(times*frames/1000)
-        interval = (stop-start) / count
-        dis = tuple(func(start+interval*i) for i in range(1, count+1))
-        key = 1 / sum(dis)
-        dis = tuple((key*i*dx, key*i*dy) for i in dis)
-
-    if widget is None:  # 窗口
-        geometry, ox, oy = master.geometry().split('+')
-        master.geometry(
-            '%s+%d+%d' % (geometry, int(ox)+dis[_ind][0], int(oy)+dis[_ind][1]))
-    elif isinstance(master, tkinter.Misc) and isinstance(widget, tkinter.BaseWidget):  # tkinter 的控件
-        place_info = widget.place_info()
-        origin_x, origin_y = float(place_info['x']), float(place_info['y'])
-        widget.place(x=origin_x+dis[_ind][0], y=origin_y+dis[_ind][1])
-    elif isinstance(master, Canvas) and isinstance(widget, BaseWidget):  # 虚拟画布控件
-        widget.move(dis[_ind][0], dis[_ind][1])
-    elif isinstance(widget, int):  # tkinter._CanvasItemId
-        master.move(widget, dis[_ind][0], dis[_ind][1])
-    else:  # 其他自定义情况
-        widget.move(dis[_ind][0], dis[_ind][1])
-
-    if _ind+1 == round(times*frames/1000):  # 停止条件
-        # NOTE: Deprecated
-        print('Deprecation Warning: The function `move` is about to be deprecated, please use the class `Animation` instead.')
-        return end() if end else None
-
-    master.after(
-        round(times/frames),
-        lambda: move(master, widget, dx, dy, times, mode=dis, frames=frames, end=end, _ind=_ind+1))  # 间隔一定时间执行函数
 
 
 def text(

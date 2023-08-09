@@ -9,7 +9,7 @@ The `tkintertools` module is an auxiliary module of the `tkinter` module
 
 [![Version](https://img.shields.io/pypi/v/tkintertools?label=Version)](.)
 [![License](https://img.shields.io/pypi/l/tkintertools?label=License)](LICENSE.txt)
-[![ChangeLog](https://img.shields.io/badge/ChangeLog-2023/08/08-orange)](CHANGELOG.md)
+[![ChangeLog](https://img.shields.io/badge/ChangeLog-2023/08/09-orange)](CHANGELOG.md)
 [![ToDo](https://img.shields.io/badge/ToDo-14-yellow)](TODO.md)
 [![Size](https://img.shields.io/github/languages/code-size/Xiaokang2022/tkintertools?label=Size)](tkintertools)
 [![Wiki](https://img.shields.io/badge/Wiki-14-purple)](https://github.com/Xiaokang2022/tkintertools/wiki)\
@@ -27,15 +27,15 @@ Install/模块安装👇
 
 ### Stable Version/稳定版本
 
-* Version/最新版本 : `2.6.8`
-* Release/发布日期 : 2023/08/03 (UTC+08)
+* Version/最新版本 : `2.6.9`
+* Release/发布日期 : 2023/08/09 (UTC+08)
 
 这个是目前的最新稳定版，相对于开发版本而言比较稳定，bug 大体上是没有那么多的，推荐使用这个。稳定版和开发版相比，它在发布之前有个测试的步骤，经过测试之后（各项功能正常运行，多平台兼容）才会发布。
 
 **PIP Cmd/安装命令：**
 
 ```
-pip install tkintertools==2.6.8
+pip install tkintertools==2.6.9
 ```
 
 ### Development Version/开发版本
@@ -72,17 +72,19 @@ pip install tkintertools==2.6.9.dev1
 ![Python3.11.*](https://img.shields.io/badge/Python-3.11.*-blue?logo=python)
 ![Python3.12.*](https://img.shields.io/badge/Python-3.12.*-blue?logo=python)
 
+如果拥有 PIL 库，则 tkintertools 会运行得更快，但 PIL 并不是必须的，没有 PIL 的情况下 tkintertools 依然可以正常使用。
+
 News/最新功能👇
 --------------
 
 ### Release Notes/版本说明
 
-**最新版本: `tkintertools-v2.6.9.dev1`**
+**最新版本: `tkintertools-v2.6.9`**
 
 > **Note**   
 > tkintertools 的介绍、使用教程和开发文档均在 [Wiki](https://github.com/Xiaokang2022/tkintertools/wiki) 中，大家可前往查阅
 
-下面是本次开发版本（`v2.6.8` -> `v2.6.9.dev1`）的更新内容条目：
+下面是本次开发版本（`v2.6.8` -> `v2.6.9`）的更新内容条目：
 
 - [X] Added new widget switch (`Switch`)  
 新增控件开关（`Switch`）
@@ -98,12 +100,14 @@ News/最新功能👇
 类 `CheckButton` 的位置参数 `length` 更名为 `height`
 - [X] Optimized the method `wm_geometry` of class `Tk` to accommodate some specially formatted parameters  
 优化了类 `Tk` 的方法 `wm_geometry` 以适应某些特殊格式的参数
+- [X] Removed class `Singleton` and function `move`  
+移除了类 `Singleton` 和函数 `move`
 
 ### Template Demo/模板演示
 
 下面是一个主要新功能的示例程序，即新增控件：开关！这个控件可以调整长宽、颜色、以及圆角的大小！
 
-下面是示例程序的效果图（运行环境为 Windows11-Python3.11.4）：
+下面是示例程序的效果图（运行环境为 **Windows11 家庭中文版 23H2 - Python3.11.4**）：
 
 ![news](news.png)
 
