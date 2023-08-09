@@ -32,17 +32,14 @@ TODO/待办
 3. [ ] Try adding support for some MarkDown syntax  
 尝试增加对部分 Markdown 语法的支持
 
-4. [ ] Try adding a new pattern of no progress to the `Progressbar` widget  
-尝试为进度条控件增加无进度的新模式
-
-5. [ ] Implement symmetry in 3D modules  
+4. [ ] Implement symmetry in 3D modules  
 实现 3D 模块中的对称功能
 
-6. [ ] Enhanced projection functionality in 3D modules  
+5. [ ] Enhanced projection functionality in 3D modules  
 增强 3D 模块中的投影功能
 
-7. [ ] Add more 3D spatial geometry classes  
+6. [ ] Add more 3D spatial geometry classes  
 增加更多 3D 空间几何体类
 
-8.  [ ] Add lights and achieve simple light and shadow renderings  
+7.  [ ] Add lights and achieve simple light and shadow renderings  
 添加光源，并实现简单的光影渲染的效果

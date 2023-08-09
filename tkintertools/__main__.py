@@ -175,15 +175,6 @@ class Toplevel(tkinter.Toplevel, Tk):
         self.focus_set()  # 把焦点转移到该子窗口上来
 
 
-class CombinedItem(list):
-    """ 画布元素组合体 """
-
-    def __init__(self, *args):  # type: (int) -> None
-        if not all(map(lambda _: isinstance(_, int), args)):
-            raise TypeError('Not all elements are of type _CanvasItemId')
-        list.__init__(self, args)
-
-
 class Canvas(tkinter.Canvas):
     """ 画布容器类 """
 
@@ -461,7 +452,8 @@ class BaseWidget:
         `show`: 文本控件的显示文本 \ 
         `limit`: 文本控件的输入字数限制，为负数时表示没有字数限制 \ 
         `read`: 文本控件的只读模式 \ 
-        `cursor`: 文本控件输入提示符的字符，默认为一竖线
+        `cursor`: 文本控件输入提示符的字符，默认为一竖线 \ 
+        `mode`: 进度条控件的模式，determinate 为确定模式，indeterminate 为不定模式，默认为前者
         ---
         ### 详细说明
         1. 字体的值为一个包含两个或三个值的元组或者单个的字符串，共三种形式:
@@ -1290,13 +1282,17 @@ class Progressbar(BaseWidget):
         tooltip=None,  # type: ToolTip | None
         color_text=COLOR_TEXT,  # type: tuple[str, str, str]
         color_outline=COLOR_TEXT_OUTLINE,  # type: tuple[str, str, str]
-        color_bar=COLOR_BAR  # type: tuple[str, str]
+        color_bar=COLOR_BAR,  # type: tuple[str, str]
+        mode='determinate',  # type: Literal['determinate', 'indeterminate']
     ):  # type: (...) -> None
         self.bottom = canvas.create_rectangle(
             x, y, x+width, y+height, width=borderwidth, fill=color_bar[0])
         self.bar = canvas.create_rectangle(
             x, y, x, y+height, width=borderwidth, outline='', fill=color_bar[1])
 
+        self.mode = mode
+        if mode == 'indeterminate':
+            color_text = COLOR_NONE
         BaseWidget.__init__(
             self, canvas, x, y, width, height, 0, '0.00%', justify, borderwidth,
             font, image, tooltip, color_text, COLOR_NONE, color_outline)
@@ -1315,9 +1311,15 @@ class Progressbar(BaseWidget):
         `percentage`: 进度条的值，范围 0~1
         """
         percentage = 0 if percentage < 0 else 1 if percentage > 1 else percentage
-        x2 = self.x1 + self.width * percentage * self.master.rx
-        self.master.coords(self.bar, self.x1, self.y1, x2, self.y2)
-        self.configure(text='%.2f%%' % (percentage * 100))
+        if self.mode == 'determinate':
+            self.configure(text='%.2f%%' % (percentage * 100))
+            x1, x2 = 0, self.width * percentage
+        elif self.mode == 'indeterminate':
+            length = percentage * self.width * 4 / 3
+            x1 = length-self.width/3 if length > self.width/3 else 0
+            x2 = length if length < self.width else self.width
+        self.master.coords(
+            self.bar, self.x1+x1*self.master.rx, self.y1, self.x1+x2*self.master.rx, self.y2)
 
 
 class Switch:
@@ -1328,9 +1330,9 @@ class Switch:
         canvas,  # type: Canvas
         x,  # type: int
         y,  # type: int
-        width=SWITCH_WIDTH,  # type: int
         height=SWITCH_HEIGHT,  # type: int
         *,
+        width=SWITCH_WIDTH,  # type: int
         radius=SWITCH_RADIUS,  # type: float
         borderwidth=BORDERWIDTH,  # type: int
         tooltip=None,  # type: ToolTip | None
@@ -1344,27 +1346,27 @@ class Switch:
         `canvas`: 父画布控件 \ 
         `x`: 横坐标 \ 
         `y`: 纵坐标 \ 
-        `width`: 宽度 \ 
-        `height`: 高度 \ 
-        `radius`: 圆角半径 \ 
+        `height`: 高度，默认为 30 像素 \ 
+        `width`: 宽度，默认为高度的两倍 \ 
+        `radius`: 圆角半径，默认为完全圆弧 \ 
         `borderwidth`: 边框宽度 \ 
         `tooltip`: 提示框 \ 
         `color_fill`: 内部颜色 \ 
         `color_outline`: 边框颜色 \ 
-        `default`: 默认值 \ 
+        `default`: 默认值，默认为 False \ 
         `on`: 转换到开时触发的回调函数 \ 
         `off`: 转换到关时触发的回调函数 
         """
         self.value = default
-        self.width = height * 2 if width < height * 2 else width
         self.height = height
+        self.width = height * 2 if width < height * 2 else width
         self.on = on
         self.off = off
         self.outside = Button(
             canvas, x, y, self.width, height, radius=radius, borderwidth=borderwidth,
             tooltip=tooltip, color_fill=color_fill, color_outline=color_outline,
-            command=lambda self=self: self.set(not self.value))
-        spcaing = height * 2 / 15
+            command=lambda: self.set(not self.value))
+        spcaing = height / 7
         self.inside = Label(
             canvas, x+spcaing, y+spcaing, height-spcaing*2, height-spcaing*2, radius=radius,
             borderwidth=borderwidth, color_outline=('#333',)*3, color_fill=('black',)*3)

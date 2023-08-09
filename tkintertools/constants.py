@@ -89,7 +89,7 @@ TOOLTIP_HIGNLIGHT_THICKNESS = 1
 TOOLTIP_HIGNLIGHT_BACKGROUND = 'black'
 """ Default ToolTip highlightbackground """
 
-SWITCH_WIDTH = 0
+SWITCH_WIDTH = 60
 """ Default Switch width """
 
 SWITCH_HEIGHT = 30

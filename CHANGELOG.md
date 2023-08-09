@@ -1,6 +1,22 @@
 ChangeLog/更新日志
 =================
 
+[`2.6.10.dev0`] - 2023-08-10
+----------------------------
+
+### Added/新增
+
+- [X] The widget `Progressbar` adds a indeterminate mode  
+控件 `Progressbar` 新增不定模式
+
+### Changed/变更
+
+- [X] The value of the constant `SWITCH_WIDTH` is changed from 0 to 60  
+常量 `SWITCH_WIDTH` 的值从 0 更改为 60
+
+- [X] The parameter `width` of class `Switch` was changed from positional argument to keyword argument  
+类 `Switch` 的参数 `width` 由位置参数更改为关键字参数
+
 [`2.6.9`] - 2023-08-09
 ----------------------
 
