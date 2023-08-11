@@ -17,7 +17,8 @@ if sys.platform == 'win32':  # 仅在 Windows 平台下支持设置 DPI 级别
 else:
     WinDLL = None
 
-from .constants import *
+from .constants import *  # 常量
+from .exceptions import *  # 异常
 
 
 class Tk(tkinter.Tk):
@@ -60,9 +61,9 @@ class Tk(tkinter.Tk):
 
         if width is not None and height is not None:
             if x is not None and y is not None:
-                self.geometry('%dx%d+%d+%d' % (width, height, x, y))
+                self.geometry(f'{width}x{height}+{x}+{y}')
             else:
-                self.geometry('%dx%d' % (width, height))
+                self.geometry(f'{width}x{height}')
 
         if title is not None:
             self.title(title)
@@ -109,16 +110,16 @@ class Tk(tkinter.Tk):
 
             self.width, self.height = [width]*2, [height]*2
             if width != '':
-                geometry = '%sx%s+%s+%s' % (width, height, _width, _height)
+                geometry = f'{width}x{height}+{_width}+{_height}'
             else:
-                geometry = '+%s+%s' % (_width, _height)
+                geometry = f'+{_width}+{_height}'
             if not _:
                 geometry = geometry.split('+')[0]
             return tkinter.Tk.wm_geometry(self, geometry)
         geometry = tkinter.Tk.wm_geometry(self, newGeometry)
         width, height, _width, _height, * \
             _ = map(int, (geometry+'+0+0').replace('+', 'x').split('x'))
-        return '%dx%d+%d+%d' % (width, height, _width, _height)
+        return f'{width}x{height}+{_width}+{_height}'
 
     geometry = wm_geometry  # 方法别名
 
@@ -213,8 +214,8 @@ class Canvas(tkinter.Canvas):
         self.rx = 1.  # 横向放缩比率
         self.ry = 1.  # 纵向放缩比率
         self._widget = []  # type: list[BaseWidget]  # 子控件列表（与事件绑定有关）
-        self._font = {}  # type: dict[tkinter._CanvasItemId, float]
-        self._image = {}  # type: dict[tkinter._CanvasItemId, list]
+        self._font = {}  # type: dict[int, float]
+        self._image = {}  # type: dict[int, list]
 
         tkinter.Canvas.__init__(
             self, master, width=width, height=height, highlightthickness=0, **kw)
@@ -363,7 +364,7 @@ class Canvas(tkinter.Canvas):
                     if widget._paste():
                         return
 
-    def create_text(self, *args, **kw):  # type: (...) -> tkinter._CanvasItemId
+    def create_text(self, *args, **kw):  # type: (...) -> int
         # override: 添加对 text 类型的 _CanvasItemId 的字体大小的控制
         font = kw.get('font')
         if not font:
@@ -374,17 +375,14 @@ class Canvas(tkinter.Canvas):
         self._font[item] = list(kw['font'])
         return item
 
-    def create_image(self, *args, **kw):  # type: (...) -> tkinter._CanvasItemId
+    def create_image(self, *args, **kw):  # type: (...) -> int
         # override: 添加对 image 类型的 _CanvasItemId 的图像大小的控制
         item = tkinter.Canvas.create_image(self, *args, **kw)
         self._image[item] = [kw.get('image'), None]
         return item
 
-    def itemconfigure(
-        self,
-        tagOrId,  # type: str | tkinter._CanvasItemId
-        **kw
-    ):  # type: (...) -> dict[str, tuple[str, str, str, str, str]] | None
+    def itemconfigure(self, tagOrId, **kw):
+        # type: (str | int, ...) -> dict[str, tuple[str, str, str, str, str]] | None
         # override: 创建空 image 的 _CanvasItemId 时漏去对图像大小的控制
         if type(kw.get('image')) == PhotoImage:
             self._image[tagOrId] = [kw.get('image'), None]
@@ -595,8 +593,10 @@ class BaseWidget:
             mode = 1
         elif self._state == 'click':
             mode = 2
-        else:
+        elif self._state == 'disabled':
             mode = 3
+        else:
+            raise WidgetStateModeError(self._state)
 
         if self.tooltip is not None:
             if self._state == 'normal':
@@ -814,7 +814,7 @@ class TextWidget(BaseWidget):
             if self.master.itemcget(self.text, 'text') == self._value[2]:
                 self.master.itemconfigure(self.text, text=self._value[1])
 
-    def _click(self, event):  # type: (tkinter.Event) -> None
+    def _click(self, event):  # type: (Entry | Text, tkinter.Event) -> None
         """ 交互状态检测 """
         if self.x1 <= event.x <= self.x2 and self.y1 <= event.y <= self.y2:
             if self._state != 'click':
@@ -822,10 +822,7 @@ class TextWidget(BaseWidget):
         else:
             self._click_off()
 
-    def _touch(
-        self,  # type: Entry | Text
-        event  # type: tkinter.Event
-    ):  # type: (...) -> bool
+    def _touch(self, event):  # type: (Entry | Text, tkinter.Event) -> bool
         """ 触碰状态检测 """
         condition = self.x1 <= event.x <= self.x2 and self.y1 <= event.y <= self.y2
         self._touch_on() if condition else self._touch_off()
@@ -888,7 +885,7 @@ class TextWidget(BaseWidget):
         self.value = self._value[0] = value
         self.master.itemconfigure(self.text, text=self._value[0])
 
-    def append(self, value):  # type: (str) -> None
+    def append(self, value):  # type: (Entry | Text, str) -> None
         """ 添加输入框的值 """
         event = tkinter.Event()
         event.keysym = None
@@ -1308,11 +1305,11 @@ class Progressbar(BaseWidget):
     def load(self, percentage):  # type: (float) -> None
         """
         ### 加载
-        `percentage`: 进度条的值，范围 0~1
+        `percentage`: 进度条的值，范围 0~1，大于 1 的值将被视为 1
         """
         percentage = 0 if percentage < 0 else 1 if percentage > 1 else percentage
         if self.mode == 'determinate':
-            self.configure(text='%.2f%%' % (percentage * 100))
+            self.configure(text=f'{percentage*100:.2f}%')
             x1, x2 = 0, self.width * percentage
         elif self.mode == 'indeterminate':
             length = percentage * self.width * 4 / 3
@@ -1456,7 +1453,7 @@ class ToolTip:
             highlightthickness=self.highlightthickness, highlightbackground=self.highlightbackground)
         self.toplevel.overrideredirect(True)
         x, y = self.toplevel.winfo_pointerxy()
-        self.toplevel.geometry('+%d+%d' % (x, y+26))
+        self.toplevel.geometry(f'+{x}+{y+26}')
         tkinter.Label(self.toplevel, text=self.text, font=self.font,
                       fg=self.fg, bg=self.bg, justify=self.justify).pack()
         self.toplevel.after(self.duration, self._destroy)
@@ -1482,7 +1479,7 @@ class PhotoImage(tkinter.PhotoImage):
         """
         self.file = file  # 图片文件的路径
         self.extension = file.rsplit('.', 1)[-1]  # 文件扩展名
-        self._item = {}  # type: dict[tkinter._CanvasItemId, Canvas | None]
+        self._item = {}  # type: dict[int, Canvas | None]
 
         if self.extension == 'gif':  # 动态图片
             self.image = []  # type: list[tkinter.PhotoImage]
@@ -1499,19 +1496,13 @@ class PhotoImage(tkinter.PhotoImage):
         try:
             while True:
                 self.image.append(tkinter.PhotoImage(
-                    file=self.file, format='gif -index %d' % start))
+                    file=self.file, format=f'gif -index {start}'))
                 value = yield start  # 抛出索引
                 start += value if value else 1
         except tkinter.TclError:
             return
 
-    def play(
-        self,
-        canvas,  # type: Canvas
-        item,  # type: tkinter._CanvasItemId
-        interval,  # type: int
-        **kw
-    ):  # type: (...) -> None
+    def play(self, canvas, item, interval, **kw):  # type: (Canvas, int, int, ...) -> None
         """
         ### 播放动图
         播放动图，设置 canvas.lock 为 False 会暂停 \n 
@@ -1530,11 +1521,7 @@ class PhotoImage(tkinter.PhotoImage):
         canvas.after(interval, lambda: self.play(  # 迭代执行函数
             canvas, item, interval, _ind=0 if _ind == len(self.image) else _ind))
 
-    def stop(
-        self,
-        item,  # type: tkinter._CanvasItemId
-        clear=False  # type: bool
-    ):  # type: (...) -> None
+    def stop(self, item, clear=False):  # type: (int, bool) -> None
         """
         ### 终止播放
         终止对应动图的播放，且无法重新播放 \n 
@@ -1546,13 +1533,8 @@ class PhotoImage(tkinter.PhotoImage):
         if clear:  # 清除背景
             self._item[item].itemconfigure(item, image=None)
 
-    def zoom(
-        self,
-        rate_x,  # type: float
-        rate_y,  # type: float
-        *,
-        precision=None  # type: float | None
-    ):  # type: (...) -> tkinter.PhotoImage
+    def zoom(self, rate_x, rate_y, *, precision=None):
+        # type: (float, float, ..., float | None) -> tkinter.PhotoImage
         """
         ### 缩放图片
         不会缩放该图片对象本身，只是返回一个缩放后的图片对象 \n 
@@ -1568,8 +1550,10 @@ class PhotoImage(tkinter.PhotoImage):
             return ImageTk.PhotoImage(image)
         if precision is not None:
             limit = round(10**precision)
-            rate_x = Fraction(str(rate_x)).limit_denominator(limit)
-            rate_y = Fraction(str(rate_y)).limit_denominator(limit)
+            rate_x = Fraction(str(rate_x)).limit_denominator(
+                limit)  # type: Fraction
+            rate_y = Fraction(str(rate_y)).limit_denominator(
+                limit)  # type: Fraction
             image = tkinter.PhotoImage.zoom(
                 self, rate_x.numerator, rate_y.numerator)
             image = image.subsample(rate_x.denominator, rate_y.denominator)
@@ -1578,8 +1562,8 @@ class PhotoImage(tkinter.PhotoImage):
             image = tkinter.PhotoImage(width=width, height=height)
             for x in range(width):
                 for y in range(height):
-                    image.put('#%02X%02X%02X' % self.get(
-                        int(x/rate_x), int(y/rate_y)), (x, y))
+                    r, g, b = self.get(int(x/rate_x), int(y/rate_y))
+                    image.put(f'#{r:02X}{g:02X}{b:02X}', (x, y))
 
         return image
 
@@ -1662,44 +1646,20 @@ class Animation:
         """ 平移 """
         if isinstance(self.widget, (tkinter.Tk, tkinter.Toplevel)):  # 窗口
             size, x, y = self.widget.geometry().split('+')
-            self.widget.geometry('%s+%d+%d' % (size, int(x)+dx, int(y)+dy))
+            self.widget.geometry(f'{size}+{int(x)+dx}+{int(y)+dy}')
         elif isinstance(self.widget, tkinter.Widget):  # tkinter 控件
             place_info = self.widget.place_info()
             origin_x, origin_y = float(place_info['x']), float(place_info['y'])
             self.widget.place(x=origin_x+dx, y=origin_y+dy)
         elif isinstance(self.widget, BaseWidget):  # tkintertools 控件
             self.widget.move(dx, dy)
-        elif isinstance(self.widget, int):  # tkinter._CanvasItemId
+        elif isinstance(self.widget, int):  # int
             self.master.move(self.widget, dx, dy)
 
     def run(self):  # type: () -> None
         """ 运行动画 """
         None if self.start is None else self.start()
         self._run()
-
-
-def text(
-    length,  # type: int
-    string,  # type: str
-    position='center'  # type: Literal['left', 'center', 'right']
-):  # type: (...) -> str
-    """
-    ### 文本对齐函数
-    可将目标字符串改为目标长度并居中对齐 \ 
-    ASCII 字符算 1 个长度，中文及其他字符算 2 个
-    ---
-    `length`: 目标长度 \ 
-    `string`: 要修改的字符串 \ 
-    `position`: 文本处于该长度范围的位置，可选 left（靠左）、center（居中）和 right（靠右）这三个值
-    """
-    length -= sum(1 + (ord(i) >= 256) for i in string)  # 计算空格总个数
-    if position == 'left':  # 靠左
-        return ' '*length+string
-    elif position == 'right':  # 靠右
-        return string+length*' '
-    else:  # 居中
-        length, key = divmod(length, 2)
-        return ' '*length+string+(length+key)*' '
 
 
 @overload
@@ -1730,10 +1690,13 @@ def color(
     `color`: 颜色元组或列表 (初始颜色, 目标颜色)，或者一个颜色字符串（此时返回其对比色） \ 
     `proportion`: 改变比例（浮点数，范围为 0~1）
     """
+    if not 0 <= proportion <= 1:
+        raise ColorArgsValueError(proportion)
+
     rgb, _rgb = [[None]*3, [None]*3], 0
 
     if isinstance(color, str):  # 对比色的情况处理
-        color = color, '#%06X' % (16777216-int(color[1:], 16))
+        color = color, f'{16777216-int(color[1:], 16):06X}'
 
     for i, c in enumerate(color):  # 解析颜色的 RGB
         _ = int(c[1:], 16)
@@ -1744,7 +1707,7 @@ def color(
         _rgb <<= 8
         _rgb += c + round((_c - c) * proportion)
 
-    return '#%06X' % _rgb
+    return f'{_rgb:06X}'
 
 
 def askfont(

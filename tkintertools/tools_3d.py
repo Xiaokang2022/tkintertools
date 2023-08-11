@@ -7,6 +7,7 @@ from typing import Iterable, overload  # 类型提示
 
 from .__main__ import Canvas, Tk, Toplevel  # 继承和类型提示
 from .constants import *  # 常量
+from .exceptions import *  # 异常
 
 
 class Canvas_3D(Canvas):
@@ -252,8 +253,9 @@ def scale(coordinate, kx=1, ky=1, kz=1, *, center):
     `kz`: z 方向缩放比例 \ 
     `center`: 缩放中心的空间坐标
     """
-    if kx <= 0 or ky <= 0 or kz <= 0:  # 限制缩放比例的范围
-        raise ValueError('invalid scaling factor')
+    for k in kx, ky, kz:
+        if k <= 0:
+            raise ScaleArgsValueError(k)
     for i, k in enumerate((kx, ky, kz)):
         coordinate[i] += (coordinate[i] - center[i]) * (k - 1)
 
@@ -320,7 +322,7 @@ class _3D_Object:
         ### 投影
         `distance`: 对象与观察者的距离
         """
-        # NOTE: 这里可能需要一些优化
+        # TODO: 这里可能需要完善
 
 
 class _Point(_3D_Object):
@@ -333,7 +335,7 @@ class _Point(_3D_Object):
         # override: 具体的实现
         relative_dis = distance - self.coordinates[0][0]
         if relative_dis <= 1e-16:
-            return [float('inf')]*2  # BUG: 目前超出范围只能让其消失
+            return [float('inf')]*2  # XXX: 目前超出范围只能让其消失，需要优化
         k = distance/relative_dis
         return [self.coordinates[0][1]*k, self.coordinates[0][2]*k]
 

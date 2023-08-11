@@ -1,10 +1,10 @@
-ChangeLog/更新日志
-=================
-
-[`2.6.10.dev0`] - 2023-08-10
+[`2.6.10.dev1`] - 2023-08-11
 ----------------------------
 
 ### Added/新增
+
+- [X] Added file exceptions.py and exception classes `ScaleArgsValueError`, `ColorArgsValueError` and `WidgetStateModeError` to provide a description of some exceptions  
+新增文件 exceptions.py 及异常类 `ScaleArgsValueError`、`ColorArgsValueError` 和 `WidgetStateModeError` 以提供部分异常的描述
 
 - [X] The widget `Progressbar` adds a indeterminate mode  
 控件 `Progressbar` 新增不定模式
@@ -16,6 +16,19 @@ ChangeLog/更新日志
 
 - [X] The parameter `width` of class `Switch` was changed from positional argument to keyword argument  
 类 `Switch` 的参数 `width` 由位置参数更改为关键字参数
+
+### Optimized/优化
+
+- [X] Change the way the output is formatted in all code from the "%" mode to the more efficient f-string mode  
+将所有代码中格式化输出的方式由 “%” 方式更改为效率更高的 f-string 方式
+
+- [X] Optimized type hints for some code  
+优化了部分代码的类型提示
+
+### Removed/移除
+
+- [X] Remove the function `text` and use f-string instead  
+移除函数 `text`，可使用 f-string 来对其进行代替
 
 [`2.6.9`] - 2023-08-09
 ----------------------

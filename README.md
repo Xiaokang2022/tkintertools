@@ -4,13 +4,13 @@
 
 <img src="tkt.png" style="height: 128px" alt="Logo" />
 
-`tkintertools` 模块是 `tkinter` 模块的一个辅助模块\
-The `tkintertools` module is an auxiliary module of the `tkinter` module
+`tkintertools` 是 Python3 内置模块 `tkinter` 的一个辅助开发模块\
+The `tkintertools` is an auxiliary development module of the Python3 built-in module `tkinter`
 
 [![Version](https://img.shields.io/pypi/v/tkintertools?label=Version)](.)
 [![License](https://img.shields.io/pypi/l/tkintertools?label=License)](LICENSE.txt)
-[![ChangeLog](https://img.shields.io/badge/ChangeLog-2023/08/10-orange)](CHANGELOG.md)
-[![ToDo](https://img.shields.io/badge/ToDo-13-yellow)](TODO.md)
+[![ChangeLog](https://img.shields.io/badge/ChangeLog-2023/08/11-orange)](CHANGELOG.md)
+[![ToDo](https://img.shields.io/badge/ToDo-12-yellow)](TODO.md)
 [![Size](https://img.shields.io/github/languages/code-size/Xiaokang2022/tkintertools?label=Size)](tkintertools)
 [![Wiki](https://img.shields.io/badge/Wiki-14-purple)](https://github.com/Xiaokang2022/tkintertools/wiki)\
 [![Downloads](https://img.shields.io/pypi/dm/tkintertools?label=Downloads&logo=pypi)](https://pypistats.org/packages/tkintertools)
@@ -40,15 +40,15 @@ pip install tkintertools==2.6.9
 
 ### Development Version/开发版本
 
-* Version/最新版本 : `2.6.10.dev0` (第 1 个预发布版本)
-* Release/发布日期 : 2023/08/10 (UTC+08)
+* Version/最新版本 : `2.6.10.dev1` (第 2 个预发布版本)
+* Release/发布日期 : 2023/08/11 (UTC+08)
 
 这个是我正在开发的版本，可能有新功能，bug 可能会比较多，但也可能会比原来的版本更加稳定。开发版没有经过多操作系统的测试，仅能保证在 Windows 系统下运行所有功能，在其他的操作系统上，可能有部分功能无法正常运行。大家可以在 Issues 中提出一些建议，我可能会适当采纳一些并在开发版本中更改或实现。
 
 **PIP Cmd/安装命令：**
 
 ```
-pip install tkintertools==2.6.10.dev0
+pip install tkintertools==2.6.10.dev1
 ```
 
 > **Warning**  
@@ -79,19 +79,27 @@ News/最新功能👇
 
 ### Release Notes/版本说明
 
-**最新版本: `tkintertools-v2.6.10.dev0`**
+**最新版本: `tkintertools-v2.6.10.dev1`**
 
 > **Note**   
 > tkintertools 的介绍、使用教程和开发文档均在 [Wiki](https://github.com/Xiaokang2022/tkintertools/wiki) 中，大家可前往查阅
 
-下面是本次开发版本（`v2.6.9` -> `v2.6.10.dev0`）的更新内容条目：
+下面是本次开发版本（`v2.6.9` -> `v2.6.10.dev1`）的更新内容条目：
 
+- [X] Added file exceptions.py and exception classes `ScaleArgsValueError`, `ColorArgsValueError` and `WidgetStateModeError` to provide a description of some exceptions  
+新增文件 exceptions.py 及异常类 `ScaleArgsValueError`、`ColorArgsValueError` 和 `WidgetStateModeError` 以提供部分异常的描述
 - [X] The widget `Progressbar` adds a indeterminate mode  
 控件 `Progressbar` 新增不定模式
 - [X] The value of the constant `SWITCH_WIDTH` is changed from 0 to 60  
 常量 `SWITCH_WIDTH` 的值从 0 更改为 60
 - [X] The parameter `width` of class `Switch` was changed from positional argument to keyword argument  
 类 `Switch` 的参数 `width` 由位置参数更改为关键字参数
+- [X] Change the way the output is formatted in all code from the "%" mode to the more efficient f-string mode  
+将所有代码中格式化输出的方式由 “%” 方式更改为效率更高的 f-string 方式
+- [X] Optimized type hints for some code  
+优化了部分代码的类型提示
+- [X] Remove the function `text` and use f-string instead  
+移除函数 `text`，可使用 f-string 来对其进行代替
 
 ### Template Demo/模板演示
 
