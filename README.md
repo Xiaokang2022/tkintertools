@@ -5,11 +5,11 @@
 <img src="tkt.png" style="height: 128px" alt="Logo" />
 
 `tkintertools` 是 Python3 内置模块 `tkinter` 的一个辅助开发模块\
-The `tkintertools` is an auxiliary development module of the Python3 built-in module `tkinter`
+`tkintertools` is an auxiliary development module of the Python3 built-in module `tkinter`
 
 [![Version](https://img.shields.io/pypi/v/tkintertools?label=Version)](.)
 [![License](https://img.shields.io/pypi/l/tkintertools?label=License)](LICENSE.txt)
-[![ChangeLog](https://img.shields.io/badge/ChangeLog-2023/08/11-orange)](CHANGELOG.md)
+[![ChangeLog](https://img.shields.io/badge/ChangeLog-2023/08/12-orange)](CHANGELOG.md)
 [![ToDo](https://img.shields.io/badge/ToDo-12-yellow)](TODO.md)
 [![Size](https://img.shields.io/github/languages/code-size/Xiaokang2022/tkintertools?label=Size)](tkintertools)
 [![Wiki](https://img.shields.io/badge/Wiki-14-purple)](https://github.com/Xiaokang2022/tkintertools/wiki)\
@@ -27,15 +27,15 @@ Install/模块安装👇
 
 ### Stable Version/稳定版本
 
-* Version/最新版本 : `2.6.9`
-* Release/发布日期 : 2023/08/09 (UTC+08)
+* Version/最新版本 : `2.6.10`
+* Release/发布日期 : 2023/08/12 (UTC+08)
 
 这个是目前的最新稳定版，相对于开发版本而言比较稳定，bug 大体上是没有那么多的，推荐使用这个。稳定版和开发版相比，它在发布之前有个测试的步骤，经过测试之后（各项功能正常运行，多平台兼容）才会发布。
 
 **PIP Cmd/安装命令：**
 
 ```
-pip install tkintertools==2.6.9
+pip install tkintertools==2.6.10
 ```
 
 ### Development Version/开发版本
@@ -79,12 +79,13 @@ News/最新功能👇
 
 ### Release Notes/版本说明
 
-**最新版本: `tkintertools-v2.6.10.dev1`**
+**最新版本: `tkintertools-v2.6.10`**
 
 > **Note**   
-> tkintertools 的介绍、使用教程和开发文档均在 [Wiki](https://github.com/Xiaokang2022/tkintertools/wiki) 中，大家可前往查阅
+> tkintertools 的介绍、使用教程和开发文档均在 [Wiki](https://github.com/Xiaokang2022/tkintertools/wiki) 中，大家可前往查阅  
+> **后面的时间里，将对 tkintertools 进行重构，以修复和完善前期版本无法解决的问题，故短期内不再更新，敬请期待！**
 
-下面是本次开发版本（`v2.6.9` -> `v2.6.10.dev1`）的更新内容条目：
+下面是本次开发版本（`v2.6.9` -> `v2.6.10`）的更新内容条目：
 
 - [X] Added file exceptions.py and exception classes `ScaleArgsValueError`, `ColorArgsValueError` and `WidgetStateModeError` to provide a description of some exceptions  
 新增文件 exceptions.py 及异常类 `ScaleArgsValueError`、`ColorArgsValueError` 和 `WidgetStateModeError` 以提供部分异常的描述
