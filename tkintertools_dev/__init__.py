@@ -25,19 +25,11 @@ If you want to know more information,
 please see https://github.com/Xiaokang2022/tkintertools.
 """
 
-import ctypes
-import platform
 import sys
 
 if sys.version_info < (3, 11):
     error_info = 'Python version is too low (>=3.11)'
     raise RuntimeError(error_info)
-
-if platform.system() == 'Windows':
-    if platform.win32_ver() == '6.1':  # Windows 7
-        ctypes.windll.user32.SetProcessDPIAware()
-    else:
-        ctypes.WinDLL('shcore').SetProcessDpiAwareness(1)
 
 from .constants import *
 from .core import *
@@ -45,4 +37,4 @@ from .exceptions import *
 from .widgets import *
 
 __author__ = 'Xiaokang2022<2951256653@qq.com>'
-__version__ = '3.0.0.dev0'
+__version__ = '3.0.0.dev1'

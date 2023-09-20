@@ -1,21 +1,22 @@
 """
 core of tkintertools
 
-Code Structure: 
+Class Structure:
+
 ```text
 +-------+         +-------------+
 | tk.Tk |         | tk.Toplevel |
 +-------+         +-------------+
     |                    |
     v                    v
-+--------+        +--------------+
-| tkt.Tk | -----> | tkt.Toplevel |
-+--------+        +--------------+
++--------+        +--------------+        +--------------+
+| tkt.Tk | -----> | tkt.Toplevel | -----> | tkt.NestedTk |
++--------+        +--------------+        +--------------+
                          |
                          v
-                 +-----------------+        +-------------+
-                 | tkt.BaseToolTip | -----> | tkt.ToolTip |
-                 +-----------------+        +-------------+
+                +-----------------+        +-------------+
+                | tkt.BaseToolTip | -----> | tkt.ToolTip |
+                +-----------------+        +-------------+
 
 +-----------+        +------------+
 | tk.Canvas | -----> | tkt.Canvas |
@@ -27,11 +28,19 @@ Code Structure:
 ```
 """
 
+import ctypes
+import platform
 import tkinter
 import typing
 
 from .constants import *
 from .exceptions import *
+
+if platform.system() == 'Windows':
+    if platform.win32_ver() == '6.1':  # Windows 7
+        ctypes.windll.user32.SetProcessDPIAware()
+    else:
+        ctypes.WinDLL('shcore').SetProcessDpiAwareness(1)
 
 
 class Tk(tkinter.Tk):
@@ -184,7 +193,7 @@ class Toplevel(tkinter.Toplevel, Tk):
         * `**kw`: compatible with other parameters of class tkinter.Toplevel, see tkinter.Toplevel for details
         """
         tkinter.Toplevel.__init__(self, master, **kw)
-        if title == TITLE and master is not None:
+        if title == TITLE and master is not None:  # XXX
             title = master.title()
         Tk.__init__(self, size, position, title=title, iconbitmap=iconbitmap, alpha=alpha, fullscreen=fullscreen,
                     toolwindow=toolwindow, topmost=topmost, transparentcolor=transparentcolor, maxsize=maxsize,
@@ -192,12 +201,48 @@ class Toplevel(tkinter.Toplevel, Tk):
         self.focus_set()
 
 
+class NestedTk(Toplevel):
+    """"""
+
+    def __init__(
+        self,
+        master: tkinter.Misc | tkinter.Wm,
+        size: tuple[int, int] = SIZE,
+        position: tuple[int, int] | tuple[None, None] | None = POSITION,
+        *,
+        title: str = TITLE,
+        iconbitmap: str | None = ICONBITMAP,
+        toolwindow: bool = TOOLWINDOW,
+        transparentcolor: str | None = TRANSPARENTCOLOR,
+        maxsize: tuple[int, int] = MAXSIZE,
+        minsize: tuple[int, int] = MINSIZE,
+        resizable: tuple[bool, bool] = RESIZABLE,
+        overrideredirect: bool = OVERRIDEREDIRECT,
+        shutdown: typing.Callable | None = SHUTDOWN,
+        **kw
+    ) -> None:
+        """"""
+        if (system := platform.system()) != 'Windows':
+            raise SystemError(system)
+        Toplevel.__init__(self, master, size, position, title=title, iconbitmap=iconbitmap, toolwindow=toolwindow,
+                          transparentcolor=transparentcolor, maxsize=maxsize, minsize=minsize,
+                          resizable=resizable, overrideredirect=overrideredirect, shutdown=shutdown, **kw)
+        self.master = master
+        self.after(1, self._nested)
+
+    def _nested(self) -> None:
+        """"""
+        handle = ctypes.WinDLL('user32').GetParent(self.winfo_id())
+        ctypes.WinDLL('user32').SetParent(handle, self.master.winfo_id())
+        self.master.focus_set()
+
+
 class Canvas(tkinter.Canvas):
     """"""
 
     def __init__(
         self,
-        master: Tk | 'Canvas' | None = None,
+        master=None,  # type: Tk | 'Canvas' | None
         *,
         keep_ratio: bool = False,  # only for 'place' manager
         auto_scale: bool = False,  # only for 'place' manager

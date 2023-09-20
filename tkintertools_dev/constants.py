@@ -23,7 +23,7 @@ SHUTDOWN = None
 
 # class BaseWidget
 class Expand(enum.Enum):
-    """The expand mode of the widget"""
+    """The expand mode of the widget."""
     NONE = ''
     X = 'x'
     Y = 'y'
@@ -31,7 +31,7 @@ class Expand(enum.Enum):
 
 
 class State(enum.Enum):
-    """The state of the widget"""
+    """The state of the widget."""
     DEFAULT = 'default'
     HOVER = 'hover'
     SELECTED = 'selected'
