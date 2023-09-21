@@ -1,29 +1,27 @@
 """
-core of tkintertools
-
-Class Structure:
+Core codes of tkintertools
 
 ```text
-+-------+         +-------------+
-| tk.Tk |         | tk.Toplevel |
-+-------+         +-------------+
-    |                    |
-    v                    v
-+--------+        +--------------+        +--------------+
-| tkt.Tk | -----> | tkt.Toplevel | -----> | tkt.NestedTk |
-+--------+        +--------------+        +--------------+
-                         |
-                         v
-                +-----------------+        +-------------+
-                | tkt.BaseToolTip | -----> | tkt.ToolTip |
-                +-----------------+        +-------------+
+    +-------+         +-------------+
+    | tk.Tk |         | tk.Toplevel |
+    +-------+         +-------------+
+        |                    |           +------------------------+
+        v                    v           |  only work on Windows  |
+    +--------+        +--------------+   |    +--------------+    |
+    | tkt.Tk | -----> | tkt.Toplevel | --+--> | tkt.NestedTk |    |
+    +--------+        +--------------+   |    +--------------+    |
+                             |           |                        |
+                             v           +------------------------+
++-------------+       +-----------------+
+| tkt.ToolTip | <---- | tkt.BaseToolTip |
++-------------+       +-----------------+
 
 +-----------+        +------------+
 | tk.Canvas | -----> | tkt.Canvas |
 +-----------+        +------------+
 
 +----------------+        +---------+
-| tkt.BaseWidget | -----> | Widgets |
+| tkt.BaseWidget | =====> | Widgets |
 +----------------+        +---------+
 ```
 """
@@ -41,40 +39,39 @@ if sys.version_info < REQUIRE_PYTHON_VERSION:
     raise EnvironmentError(sys.version_info)
 
 if platform.system() == 'Windows':
-    ctypes.WinDLL('shcore.dll').SetProcessDpiAwareness(PROCESS_DPI_AWARENESS)
+    ctypes.WinDLL('shcore').SetProcessDpiAwareness(PROCESS_SYSTEM_DPI_AWARE)
 
 
 class Tk(tkinter.Tk):
-    """"""
+    """Main window"""
 
     def __init__(
         self,
-        size=TKDefault.SIZE,  # type: tuple[int, int]
-        position=TKDefault.POSITION,
-        # type: tuple[int, int] | tuple[None, None] | None
+        size: tuple[int, int] = TKDefault.SIZE,
+        position: tuple[int, int] | None = TKDefault.POSITION,
         *,
-        title=TKDefault.TITLE,  # type: str
-        iconbitmap=TKDefault.ICONBITMAP,  # type: str | None
-        state=None,  # type: TkState | None  # FIXME: not fully support for Linux
-        alpha=TKDefault.ALPHA,  # type: float
-        fullscreen=TKDefault.FULLSCREEN,  # type: bool
-        toolwindow=TKDefault.TOOLWINDOW,  # type: bool
-        topmost=TKDefault.TOPMOST,  # type: bool
-        transparentcolor=TKDefault.TRANSPARENTCOLOR,  # type: str | None
-        maxsize=TKDefault.MAXSIZE,  # type: tuple[int, int]
-        minsize=TKDefault.MINSIZE,  # type: tuple[int, int]
-        resizable=TKDefault.RESIZABLE,  # type: tuple[bool, bool]
-        overrideredirect=TKDefault.OVERRIDEREDIRECT,  # type: bool
-        shutdown=TKDefault.SHUTDOWN,  # type: typing.Callable | None
+        title: str = TKDefault.TITLE,
+        iconbitmap: str = TKDefault.ICONBITMAP,
+        state: TkState = TKDefault.STATE,
+        alpha: float = TKDefault.ALPHA,
+        fullscreen: bool = TKDefault.FULLSCREEN,
+        toolwindow: bool = TKDefault.TOOLWINDOW,
+        topmost: bool = TKDefault.TOPMOST,
+        transparentcolor: str = TKDefault.TRANSPARENTCOLOR,
+        maxsize: tuple[int, int] = TKDefault.MAXSIZE,
+        minsize: tuple[int, int] = TKDefault.MINSIZE,
+        resizable: tuple[bool, bool] = TKDefault.RESIZABLE,
+        overrideredirect: bool = TKDefault.OVERRIDEREDIRECT,
+        shutdown: typing.Callable[[], typing.Any] = TKDefault.SHUTDOWN,
         **kw
     ) -> None:
         """
         #### Positional Arguments
         * `size`: size of window, default is 200x200(px)
-        * `position`: position of window, 'None' indicates a random location,
+        * `position`: position of window, 'None' indicates a center location,
         default indicates that position is centered
         ---------------------------
-        #### Keyword-only Arguments
+        #### Keyword only Arguments
         * `title`: title of window
         * `iconbitmap`: path to the window icon file
         * `state`: state of the window
@@ -90,10 +87,10 @@ class Tk(tkinter.Tk):
         * `shutdown`: a function that is called before closing the window,
         but it overrides the operation that originally closed the window
         --------------------------------------
-        #### Variable-length Keyword Arguments
+        #### Variable length Keyword Arguments
         * `**kw`: compatible with other parameters of class tkinter.Tk, see tkinter.Tk for details
         """
-        if self.__class__ == Tk:
+        if self.__class__ == Tk:  # NOTE: Subclasses of tkt.Tk do not inherit tk.Tk
             tkinter.Tk.__init__(self, **kw)
 
         self.title(title)
@@ -103,7 +100,7 @@ class Tk(tkinter.Tk):
             self.state(state.value)
         if alpha != TKDefault.ALPHA:
             self.attributes('-alpha', alpha)
-        if fullscreen != TKDefault.FULLSCREEN:
+        if fullscreen != TKDefault.FULLSCREEN:  # HACK: It may conflicts with method _zoom
             self.attributes('-fullscreen', fullscreen)
         if toolwindow != TKDefault.TOOLWINDOW:
             self.attributes('-toolwindow', toolwindow)
@@ -121,72 +118,83 @@ class Tk(tkinter.Tk):
             self.overrideredirect(overrideredirect)
         if shutdown != TKDefault.SHUTDOWN:
             self.protocol('WM_DELETE_WINDOW', shutdown)
+        if position == TKDefault.POSITION:  # default center
+            self.center()
+        else:  # customized
+            self.geometry("+%d+%d" % position)
 
-        self.ratio = [1., 1.]
-        self.w, self.h = size
-        self._init_w, self._init_h = size
+        self._INIT_WIDTH, self._INIT_HEIGHT = size
+        self.width, self.height = size
         self._canvases: list[Canvas] = []
+        self._nestedtks: list[NestedTk] = []
 
-        if position == (None, None):  # random
-            self.geometry(f'{self._init_w}x{self._init_h}')
-        else:
-            if position == TKDefault.POSITION:  # center
-                x = (self.winfo_screenwidth() -
-                     self._init_w + TKDefault.DX) // 2
-                y = (self.winfo_screenheight() - self._init_h) // 2
-            else:
-                x, y = position
-            self.geometry(
-                f'{self._init_w}x{self._init_h}+{x-TKDefault.DX}+{y}')
+        if self.__class__ != BaseToolTip:  # NOTE: Let tkinter computes an appropriate size
+            self.geometry("%dx%d" % size)
 
-        self.bind('<Configure>', self._scale)
+        self.bind('<Configure>', self._zoom)
 
-    def _scale(self, event, last_size=[None, None]):
-        # type: (tkinter.Event, list[int]) -> None
-        """"""
-        if (size := [event.width, event.height]) != last_size:
-            self.ratio = [size[0]/self._init_w, size[1]/self._init_h]
-            last_size[:] = size
+    def get_canvas(self) -> tuple["Canvas"]:
+        """retrun all instances of Canvas of the window"""
+        return tuple(self._canvases)
 
-    def child_canvas(self):
-        # type: () -> tuple[Canvas]
-        """Returns all child canvas instances"""
-        return tuple(filter(lambda x: hasattr(x, 'keep_ratio'), self.children.values()))
+    def get_nestedtk(self) -> tuple["NestedTk"]:
+        """retrun all instances of NestedTk of the window"""
+        return tuple(self._nestedtks)
+
+    def center(self) -> None:
+        """center the window"""
+        x = (self.winfo_screenwidth() - self.width) // 2
+        y = (self.winfo_screenheight() - self.height) // 2
+        self.geometry(f'+{x}+{y}')
+
+    def _zoom(self, event: tkinter.Event) -> None:
+        """zoom contents of the window"""
+        if self.width == event.width and self.height == event.height:  # no changes
+            return
+        self.width, self.height = event.width, event.height  # update data
+        for nestedtk in self.get_nestedtk():
+            if 'x' in nestedtk.expand.value:
+                ratio_width = self.width / self._INIT_WIDTH
+                nestedtk.width = int(nestedtk._INIT_WIDTH * ratio_width)
+            if 'y' in nestedtk.expand.value:
+                ratio_height = self.height / self._INIT_HEIGHT
+                nestedtk.height = int(nestedtk._INIT_HEIGHT * ratio_height)
+            nestedtk.geometry(f"{nestedtk.width}x{nestedtk.height}")
+        for canvas in self.get_canvas():
+            canvas.zoom()
 
 
 class Toplevel(tkinter.Toplevel, Tk):
-    """"""
+    """Toplevel window"""
 
     def __init__(
         self,
-        master=None,  # type: Tk | None
-        size=TKDefault.SIZE,  # type: tuple[int, int]
-        position=TKDefault.POSITION,
-        # type: tuple[int, int] | tuple[None, None] | None
+        master: Tk | "Toplevel" | "NestedTk" | None = None,
+        size: tuple[int, int] = TKDefault.SIZE,
+        position: tuple[int, int] | None = TKDefault.POSITION,
         *,
-        title=TKDefault.TITLE,  # type: str
-        iconbitmap=TKDefault.ICONBITMAP,  # type: str | None
-        state=None,  # type: TkState | None  # FIXME: not fully support for Linux
-        alpha=TKDefault.ALPHA,  # type: float
-        fullscreen=TKDefault.FULLSCREEN,  # type: bool
-        toolwindow=TKDefault.TOOLWINDOW,  # type: bool
-        topmost=TKDefault.TOPMOST,  # type: bool
-        transparentcolor=TKDefault.TRANSPARENTCOLOR,  # type: str | None
-        maxsize=TKDefault.MAXSIZE,  # type: tuple[int, int]
-        minsize=TKDefault.MINSIZE,  # type: tuple[int, int]
-        resizable=TKDefault.RESIZABLE,  # type: tuple[bool, bool]
-        overrideredirect=TKDefault.OVERRIDEREDIRECT,  # type: bool
-        shutdown=TKDefault.SHUTDOWN,  # type: typing.Callable | None
+        title: str = TKDefault.TITLE,
+        iconbitmap: str = TKDefault.ICONBITMAP,
+        state: TkState = TKDefault.STATE,
+        alpha: float = TKDefault.ALPHA,
+        fullscreen: bool = TKDefault.FULLSCREEN,
+        toolwindow: bool = TKDefault.TOOLWINDOW,
+        topmost: bool = TKDefault.TOPMOST,
+        transparentcolor: str = TKDefault.TRANSPARENTCOLOR,
+        maxsize: tuple[int, int] = TKDefault.MAXSIZE,
+        minsize: tuple[int, int] = TKDefault.MINSIZE,
+        resizable: tuple[bool, bool] = TKDefault.RESIZABLE,
+        overrideredirect: bool = TKDefault.OVERRIDEREDIRECT,
+        shutdown: typing.Callable[[], typing.Any] = TKDefault.SHUTDOWN,
         **kw
     ) -> None:
         """
         #### Positional Arguments
         * `master`: parent widget
         * `size`: size of window, default is 200x200(px)
-        * `position`: position of window, 'None' indicates a random location,
-        default indicates that position is centered
+        * `position`: position of window, 'None' indicates that position is centered
         ---------------------------
-        #### Keyword-only Arguments
+        #### Keyword only Arguments
         * `title`: title of window, default is the same as title of master
         * `iconbitmap`: path to the window icon file
         * `state`: state of the window
@@ -202,81 +210,185 @@ class Toplevel(tkinter.Toplevel, Tk):
         * `shutdown`: a function that is called before closing the window,
         but it overrides the operation that originally closed the window
         --------------------------------------
-        #### Variable-length Keyword Arguments
+        #### Variable length Keyword Arguments
         * `**kw`: compatible with other parameters of class tkinter.Toplevel, see tkinter.Toplevel for details
         """
         tkinter.Toplevel.__init__(self, master, **kw)
-        if title == TKDefault.TITLE and master is not None:  # XXX: It realy useful?
-            title = master.title()
         Tk.__init__(self, size, position, title=title, iconbitmap=iconbitmap, alpha=alpha, state=state, fullscreen=fullscreen,
                     toolwindow=toolwindow, topmost=topmost, transparentcolor=transparentcolor, maxsize=maxsize,
-                    minsize=minsize, resizable=resizable, overrideredirect=overrideredirect, shutdown=shutdown, **kw)
+                    minsize=minsize, resizable=resizable, overrideredirect=overrideredirect, shutdown=shutdown)
         self.focus_set()
 
 
 class NestedTk(Toplevel):
-    """"""
+    """A window nested within another window"""
 
     def __init__(
         self,
-        master,  # type: tkinter.Misc | tkinter.Wm
-        size=TKDefault.SIZE,  # type: tuple[int, int]
-        position=TKDefault.POSITION,
-        # type: tuple[int, int] | tuple[None, None] | None
+        master: tkinter.Misc,
+        size: tuple[int, int] = TKDefault.SIZE,
+        position: tuple[int, int] | None = TKDefault.POSITION,
         *,
-        title=TKDefault.TITLE,  # type: str
-        iconbitmap=TKDefault.ICONBITMAP,  # type: str | None
-        state=None,  # type: TkState | None  # FIXME: not fully support for Linux
-        toolwindow=TKDefault.TOOLWINDOW,  # type: bool
-        transparentcolor=TKDefault.TRANSPARENTCOLOR,  # type: str | None
-        maxsize=TKDefault.MAXSIZE,  # type: tuple[int, int]
-        minsize=TKDefault.MINSIZE,  # type: tuple[int, int]
-        resizable=TKDefault.RESIZABLE,  # type: tuple[bool, bool]
-        overrideredirect=TKDefault.OVERRIDEREDIRECT,  # type: bool
-        shutdown=TKDefault.SHUTDOWN,  # type: typing.Callable | None
+        title: str = TKDefault.TITLE,
+        iconbitmap: str = TKDefault.ICONBITMAP,
+        state: TkState = TKDefault.STATE,
+        toolwindow: bool = TKDefault.TOOLWINDOW,
+        transparentcolor: str = TKDefault.TRANSPARENTCOLOR,
+        maxsize: tuple[int, int] = TKDefault.MAXSIZE,
+        minsize: tuple[int, int] = TKDefault.MINSIZE,
+        resizable: tuple[bool, bool] = TKDefault.RESIZABLE,
+        overrideredirect: bool = TKDefault.OVERRIDEREDIRECT,
+        shutdown: typing.Callable[[], typing.Any] = TKDefault.SHUTDOWN,
+        expand: BaseWidgetExpand = BaseWidgetExpand.XY,
         **kw
     ) -> None:
-        """"""
-        if (system := platform.system()) != 'Windows':
-            raise SystemError(system)
+        """
+        #### Positional Arguments
+        * `master`: parent widget
+        * `size`: size of window, default is 200x200(px)
+        * `position`: position of window, 'None' indicates that position is centered
+        ---------------------------
+        #### Keyword only Arguments
+        * `title`: title of window, default is the same as title of master
+        * `iconbitmap`: path to the window icon file
+        * `state`: state of the window
+        * `toolwindow`: whether window is tool window
+        * `transparentcolor`: a color in which the area of the window will become transparent
+        * `maxsize`: maximum width and height of the window
+        * `minsize`: minimum width and height of the window
+        * `resizable`: whether the width and height of the window can be resized
+        * `overrideredirect`: whether to remove window's borders and title bar
+        * `shutdown`: a function that is called before closing the window,
+        but it overrides the operation that originally closed the window
+        * `expand`: expand mode of nested window
+        --------------------------------------
+        #### Variable length Keyword Arguments
+        * `**kw`: compatible with other parameters of class tkinter.Toplevel, see tkinter.Toplevel for details
+        """
+        if platform.system() != 'Windows':  # NOTE: This class only works on Windows
+            raise SystemError(platform.system())
         Toplevel.__init__(self, master, size, position, title=title, iconbitmap=iconbitmap, state=state,
                           toolwindow=toolwindow, transparentcolor=transparentcolor, maxsize=maxsize, minsize=minsize,
                           resizable=resizable, overrideredirect=overrideredirect, shutdown=shutdown, **kw)
-        self.master = master
-        self.after(1, self._nested)
+        self.expand = expand
+        self.after(1, self._nested)  # NOTE: It only works after a few ms
 
-    def _nested(self):
-        # type: () -> None
-        """"""
+    def _nested(self) -> None:
+        """nest the window in its parent"""
         handle = ctypes.WinDLL('user32').GetParent(self.winfo_id())
         ctypes.WinDLL('user32').SetParent(handle, self.master.winfo_id())
         self.master.focus_set()
 
 
-class Canvas(tkinter.Canvas):
-    """"""
+class BaseToolTip(Toplevel):
+    """The base class of ToolTip"""
 
     def __init__(
         self,
-        master=None,  # type: Tk | 'Canvas' | None
         *,
-        keep_ratio: bool = False,  # only for 'place' manager
-        auto_scale: bool = False,  # only for 'place' manager
+        transparentcolor: str = TKDefault.TRANSPARENTCOLOR,
+        duration: int = 0,
+        animation: bool = False,
+        master: Tk | Toplevel | NestedTk | None = None,
+        **kw
+    ) -> None:
+        """
+        #### Keyword only Arguments
+        * `transparentcolor`: a color in which the area of the window will become transparent
+        * `duration`: after duration ms, ToolTip will disappear
+        * `animation`: animation when appear and disappear
+        * `master`: parent widgets, not must
+        --------------------------------------
+        #### Variable length Keyword Arguments
+        * `**kw`: compatible with other parameters of class tkinter.Toplevel, see tkinter.Toplevel for details
+        """
+        Toplevel.__init__(self, master, TKDefault.SIZE, TKDefault.POSITION, transparentcolor=transparentcolor,
+                          resizable=(False, False), overrideredirect=True, **kw)
+        self.withdraw()
+        self.duration = duration
+        self.animation = animation
+
+    def show(self) -> None:
+        """show the ToolTip on the mouse"""
+        x, y = self.winfo_pointerxy()
+        self.geometry(f"+{x}+{y}")
+        if self.animation is True:
+            return self._animate(True)
+        self.deiconify()
+        if self.duration > 0:
+            self.after(self.duration, self._destroy)
+
+    def _destroy(self) -> None:
+        """destroy the ToolTip"""
+        if self.animation is True:
+            return self._animate(False)
+        self.destroy()
+
+    def _animate(self, start: bool) -> None:
+        """alpha change animation"""
+        # TODO: Need class Animation to code this!
+
+
+class ToolTip(BaseToolTip):  # TODO: Code here!
+    """A pop-up window"""
+
+    def __init__(
+        self,
+        text: str,
+        *,
+        font: tuple[str, int, str],
+        radius: int = 0,
+        fg: str = 'black',
+        bg: str = 'white',
+        frame_color: str = 'grey',
+        justify: str = 'center',
+        duration: int = 0,
+        animation: bool = False,
+        master: Tk | Toplevel | NestedTk | None = None,
+        **kw
+    ) -> None:
+        """
+        #### Positional Arguments
+        * `text`: text of ToolTip
+        ---------------------------
+        #### Keyword only Arguments
+        * `font`: font of text
+        * `radius`: radius of ToolTip
+        * `fg`: foreground color
+        * `bg`: background color
+        * `frame_color`: frame color
+        * `justify`: justify mode of text
+        * `duration`: after duration ms, ToolTip will disappear
+        * `animation`: animation when appear and disappear
+        * `master`: parent widgets, not must
+        --------------------------------------
+        #### Variable length Keyword Arguments
+        * `**kw`: compatible with other parameters of class tkinter.Toplevel, see tkinter.Toplevel for details
+        """
+        BaseToolTip.__init__(self, master=master, transparentcolor='888888',
+                             duration=duration, animation=animation, **kw)
+
+
+class Canvas(tkinter.Canvas):
+    """Scalable Canvas"""
+
+    def __init__(
+        self,
+        master: Tk | Toplevel | "Canvas",
+        *,
+        expand: BaseWidgetExpand = BaseWidgetExpand.XY,
         **kw,
     ) -> None:
         """
         #### Positional Arguments
-        * `master`: 
+        * `master`: parent widget
         #### Keyword-only Arguments
-        * `keep_ratio`: 
-        * `auto_scale`: 
+        * `expand`: expand mode of the Canvas
         #### Variable-length Keyword Arguments
-        * `**kw`: 
+        * `**kw`: compatible with other parameters of class tkinter.Canvas, see tkinter.Canvas for details
         """
         tkinter.Canvas.__init__(self, master, **kw)
-        self.master = master  # type: Tk | Canvas
-        self.keep_ratio = keep_ratio
-        self.auto_scale = auto_scale
+        self.master = master
         self._init_ratio: float = None
         self._init_width: int = None
         self._init_height: int = None
@@ -296,9 +408,10 @@ class Canvas(tkinter.Canvas):
         self.bind('<ButtonRelease-1>', self._release)
         self.bind('<<Copy>>', self._copy)
         self.bind('<<Paste>>', self._paste)
-        self.bind('<Configure>', self._scale)
+        self.bind('<Configure>', self._zoom)
 
-    def _scale(self, event: tkinter.Event) -> None:
+    def _zoom(self, event):
+        # type: (tkinter.Event) -> None
         """"""
         if self._init_width is None:
             self._init_width = event.width
@@ -321,13 +434,10 @@ class Canvas(tkinter.Canvas):
             self.coords(
                 item, *[c*(ratio_x, ratio_y)[i & 1] for i, c in enumerate(self.coords(item))])
 
-        if self.auto_scale is False or self.winfo_manager() != 'place':
-            return
-        if self.keep_ratio is True:
-            pass
         """scale self"""
 
-    def _touch(self, event: tkinter.Event) -> None:
+    def _touch(self, event):
+        # type: (tkinter.Event) -> None
         """"""
         for widget in self._widgets[::-1]:
             if widget.state_hover(event):
@@ -335,7 +445,8 @@ class Canvas(tkinter.Canvas):
         else:
             self.configure(cursor='arrow')
 
-    def _click(self, event: tkinter.Event, _flag: bool = False) -> None:
+    def _click(self, event, _flag=False):
+        # type: (tkinter.Event, bool) -> None
         """"""
         for widget in self._widgets[::-1]:
             if _flag:
@@ -343,94 +454,45 @@ class Canvas(tkinter.Canvas):
             elif widget.state_selected(event):
                 _flag = True
 
-    def _release(self, event: tkinter.Event) -> None:
+    def _release(self, event):
+        # type: (tkinter.Event) -> None
         """"""
         for widget in self._widgets[::-1]:
             if widget.state_hover(event):
                 return
 
-    def _mousewheel(self, event: tkinter.Event) -> None:
+    def _mousewheel(self, event):
+        # type: (tkinter.Event) -> None
         """"""
         for widget in self._widgets[::-1]:
             if widget.scroll(event):
                 return
 
-    def _input(self, event: tkinter.Event) -> None:
+    def _input(self, event):
+        # type: (tkinter.Event) -> None
         """"""
         for widget in self._widgets[::-1]:
             if widget.input(event):
                 return
 
-    def _copy(self, event: tkinter.Event) -> None:
+    def _copy(self, event):
+        # type: (tkinter.Event) -> None
         """"""
         for widget in self._widgets[::-1]:
             if widget.copy(event):
                 return
 
-    def _paste(self, event: tkinter.Event) -> None:
+    def _paste(self, event):
+        # type: (tkinter.Event) -> None
         """"""
         for widget in self._widgets[::-1]:
             if widget.paste(event):
                 return
 
     def _keep(self) -> None:
+        # type: () -> None
         """"""
         self.winfo_width()
-
-
-class BaseToolTip(Toplevel):
-    """"""
-
-    def __init__(
-        self,
-        master: Tk | None = None,
-        position: tuple[int, int] | tuple[None,
-                                          None] | None = TKDefault.POSITION,
-        *,
-        transparentcolor: str | None = TKDefault.TRANSPARENTCOLOR,
-        duration: int = float('inf'),
-        animation: bool = False,
-        **kw
-    ) -> None:
-        """"""
-        Toplevel.__init__(self, master, TKDefault.SIZE, position, transparentcolor=transparentcolor,
-                          resizable=(False, False), overrideredirect=True, **kw)
-        self.withdraw()
-        self.duration = duration
-        self.animation = animation
-
-    def show(self, x: int, y: int) -> None:
-        """"""
-        self.deiconify()
-
-    def _animate(self) -> None:
-        """"""
-
-    def _countdown(self) -> None:
-        """"""
-
-    def _cancel(self) -> None:
-        """"""
-
-    def _destroy(self) -> None:
-        """"""
-
-
-class ToolTip(BaseToolTip):
-    """"""
-
-    def __init__(
-        self,
-        master: Tk | None = None,
-        position: tuple[int, int] | tuple[None,
-                                          None] | None = TKDefault.POSITION,
-        *,
-        transparentcolor: str | None = TKDefault.TRANSPARENTCOLOR,
-        duration: int = float('inf'),
-        animation: bool = False,
-        **kw
-    ) -> None:
-        """"""
 
 
 class BaseWidget:
@@ -438,19 +500,19 @@ class BaseWidget:
 
     def __init__(
         self,
-        canvas: Canvas,
-        x: int,
-        y: int,
-        width: int,
-        height: int,
+        canvas,  # type: Canvas
+        x,  # type: int
+        y,  # type: int
+        width,  # type: int
+        height,  # type: int
         /,
         *,
-        resize: bool = False,
-        minsize: tuple[int, int] = (0,) * 2,
-        maxsize: tuple[int, int] = (float('inf'),) * 2,
-        expand: typing.Literal['', 'x', 'y', 'xy'] = BaseWidgetExpand.XY,
-        state: typing.Literal['default', 'hover', 'selected',
-                              'disabled', 'error'] = BaseWidgetState.DEFAULT,
+        resize=False,  # type: bool
+        minsize=(0, 0),  # type: tuple[int, int]
+        maxsize=(float('inf'), float('inf')),  # type: tuple[int, int]
+        expand=BaseWidgetExpand.XY,  # type: typing.Literal['', 'x', 'y', 'xy']
+        state=BaseWidgetState.DEFAULT,
+        # type: typing.Literal['default', 'hover', 'selected', 'disabled', 'error']
     ) -> None:
         """"""
         self.canvas = canvas
@@ -466,7 +528,8 @@ class BaseWidget:
         self._items: dict[str, int] = {}
         self.canvas._widgets.append(self)
 
-    def state(self, state_: BaseWidgetState | None = None, /) -> BaseWidgetState | None:
+    def state(self, state_=None, /):
+        # type: (BaseWidgetState | None, ...) -> BaseWidgetState | None
         """"""
         if state_ is None:
             return self._state
@@ -475,23 +538,27 @@ class BaseWidget:
         self._state = state_
         eval(f'self.state_{state_}()')  # XXX: It can be more Pythonic.
 
-    def destroy(self) -> None:
+    def destroy(self):
+        # type: () -> None
         """"""
         self.canvas.delete(*self._items.values())
         self._items.clear()
 
-    def move(self, dx: int, dy: int) -> None:
+    def move(self, dx, dy):
+        # type: (int, int) -> None
         """"""
         self.x += dx
         self.y += dy
         for item in self._items.values():
             self.canvas.move(item, dx, dy)
 
-    def move_to(self, x: int, y: int) -> None:
+    def move_to(self, x, y):
+        # type: (int, int) -> None
         """"""
         self.move(x - self.x, y - self.y)
 
-    def scale_absolute(self, ratio_x: float, ratio_y: float) -> None:
+    def scale_absolute(self, ratio_x, ratio_y):
+        # type: (float, float) -> None
         """"""
         if 'x' in self.expand:
             self.x = self._init_x * ratio_x
@@ -502,7 +569,8 @@ class BaseWidget:
             self.height = self._init_height * ratio_y
         self.scale_callback(ratio_x, ratio_y, 'absolute')
 
-    def scale_relative(self, ratio_x: float, ratio_y: float) -> None:
+    def scale_relative(self, ratio_x, ratio_y):
+        # type: (float, float) -> None
         """"""
         if 'x' in self.expand:
             self.x *= ratio_x
@@ -513,41 +581,78 @@ class BaseWidget:
             self.height *= ratio_y
         self.scale_callback(ratio_x, ratio_y, 'relative')
 
-    def scale_callback(self, ratio_x: float, ratio_y: float, type_: typing.Literal['absolute', 'relative']) -> None:
+    def scale_callback(self, ratio_x, ratio_y, type_):
+        # type: (float, float, typing.Literal['absolute', 'relative']) -> None
         """"""
 
-    def state_default(self, event: tkinter.Event) -> bool:
+    def state_default(self, event):
+        # type: (tkinter.Event) -> bool
         """"""
         return False
 
-    def state_hover(self, event: tkinter.Event) -> bool:
+    def state_hover(self, event):
+        # type: (tkinter.Event) -> bool
         """"""
         return False
 
-    def state_selected(self, event: tkinter.Event) -> bool:
+    def state_selected(self, event):
+        # type: (tkinter.Event) -> bool
         """"""
         return False
 
-    def state_disabled(self, event: tkinter.Event) -> bool:
+    def state_disabled(self, event):
+        # type: (tkinter.Event) -> bool
         """"""
         return False
 
-    def state_error(self, event: tkinter.Event) -> bool:
+    def state_error(self, event):
+        # type: (tkinter.Event) -> bool
         """"""
         return False
 
-    def scroll(self, event: tkinter.Event) -> bool:
+    def scroll(self, event):
+        # type: (tkinter.Event) -> bool
         """"""
         return False
 
-    def input(self, event: tkinter.Event) -> bool:
+    def input(self, event):
+        # type: (tkinter.Event) -> bool
         """"""
         return False
 
-    def copy(self, event: tkinter.Event) -> bool:
+    def copy(self, event):
+        # type: (tkinter.Event) -> bool
         """"""
         return False
 
-    def paste(self, event: tkinter.Event) -> bool:
+    def paste(self, event):
+        # type: (tkinter.Event) -> bool
         """"""
         return False
+
+
+class Color:
+    """"""
+
+    def __init__(
+        self,
+    ) -> None:
+        """"""
+
+
+class Animation:
+    """"""
+
+    def __init__(
+        self,
+    ) -> None:
+        """"""
+
+
+class Image:
+    """"""
+
+    def __init__(
+        self,
+    ) -> None:
+        """"""

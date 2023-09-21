@@ -10,15 +10,15 @@ class _BaseShape:
 
     def __init__(
         self,
-        canvas: Canvas,
-        size: tuple[int, int],
-        position: tuple[int, int],
+        canvas,  # type: Canvas
+        size,  # type: tuple[int, int]
+        position,  # type: tuple[int, int]
         *,
-        radius: tuple[int, int, int, int] | float = 0,
-        borderwidth: int = 1,
-        fill: str = '',
-        outline: str = 'black',
-        oval: bool = False,
+        radius=0,  # type: tuple[int, int, int, int] | float
+        borderwidth=1,  # type: int
+        fill='',  # type: str
+        outline='black',  # type: str
+        oval=False,  # type: bool
     ) -> None:
         """
         #### Positional Arguments
@@ -145,22 +145,26 @@ class _BaseShape:
         else:
             self._items = self._in + self._out
 
-    def move(self, dx: int, dy: int) -> None:
+    def move(self, dx, dy):
+        # type: (int, int) -> None
         """move all items by (dx, dy)"""
         for item in self._items:
             self.master.move(item, dx, dy)
         self.position[0] += dx
         self.position[1] += dy
 
-    def moveto(self, x: int, y: int) -> None:
+    def moveto(self, x, y):
+        # type: (int, int) -> None
         """move all items to (x, y)"""
         return self.move(x - self.position[0], y - self.position[1])
 
-    def destroy(self) -> None:
+    def destroy(self):
+        # type: () -> None
         """delete all items"""
         return self.master.delete(*self._items)
 
-    def configure(self, *, fill: str | None = None, outline: str | None = None) -> None:
+    def configure(self, *, fill=None, outline=None):
+        # type: (..., str | None, str | None) -> None
         """
         change property
         #### Keyword-only Arguments

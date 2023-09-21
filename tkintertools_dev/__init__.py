@@ -12,7 +12,7 @@ tkintertools
 ------------
 tkintertools is an auxiliary development module of the Python3 built-in module tkinter.
 
-Provides: 
+### Provides 
 * Transparent, rounded and customized widgets
 * Automatic control of picture size and widget size
 * Scalable png pictures and playable gif pictures
@@ -20,6 +20,16 @@ Provides:
 * Gradient colors and contrast colors
 * Convenient, inheritable singleton pattern class
 * 3D drawing
+
+### Contents
+* `core`: Core codes of tkintertools
+* `constants`: All constants
+* `exceptions`: All exceptions
+* `widgets`: All standard widgets
+* `dialogs`: All standard dialogs
+* `tools2d`: Support for 2d
+* `tools3d`: Support for 3d
+* `toolsmd`: Support for markdown
 
 If you want to know more information,
 please see https://github.com/Xiaokang2022/tkintertools.
@@ -31,4 +41,4 @@ from .exceptions import *
 from .widgets import *
 
 __author__ = 'Xiaokang2022<2951256653@qq.com>'
-__version__ = '3.0.0.dev2'
+__version__ = '3.0.0.dev3'

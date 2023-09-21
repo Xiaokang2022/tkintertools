@@ -4,8 +4,6 @@
 > 语言：[中文](Home-ch.md) · [English](Home-en.md)  
 > 版本：`2.6.6`
 
----
-
 ### 教程
 
 1. [安装 tkintertools](./tutorials/zh/安装%20tkintertools.md)

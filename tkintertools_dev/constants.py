@@ -1,9 +1,10 @@
 """All constants"""
 
 import enum
+import tkinter
 
 REQUIRE_PYTHON_VERSION = 3, 8, 0
-PROCESS_DPI_AWARENESS = 1
+PROCESS_SYSTEM_DPI_AWARE = 1
 
 
 class TKDefault:
@@ -11,8 +12,9 @@ class TKDefault:
     DX = 11
     SIZE = 200, 200
     POSITION = None
-    TITLE = 'tkt'
+    TITLE = None
     ICONBITMAP = None
+    STATE = None
     ALPHA = 1
     FULLSCREEN = False
     TOOLWINDOW = False
@@ -26,7 +28,7 @@ class TKDefault:
     SHUTDOWN = None
 
 
-class TkState(enum.Enum):
+class TkState(enum.Enum):  # FIXME: not fully support for Linux
     """"""
 
     NORMAL = 'normal'
