@@ -1,4 +1,4 @@
-### TODO/期望功能
+### Todos/期望功能
 
 1. [ ] Perfect the scroll bar function of `Text` class  
 完善 `Text` 类的滚动条功能
@@ -21,7 +21,7 @@
 7.  [ ] Add lights and achieve simple light and shadow renderings  
 添加光源，并实现简单的光影渲染的效果
 
-### BUG/已知问题
+### Bugs/已知问题
 
 1. [ ] Solve the bug that the vertical position of the text is wrong when the `Text` class is enlarged  
 解决 `Text` 类放大时，文本纵向位置错误的 bug

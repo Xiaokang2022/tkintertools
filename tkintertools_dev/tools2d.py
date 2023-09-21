@@ -1,1 +1,3 @@
-"""support for 2d"""
+"""Support for 2d"""
+
+import array

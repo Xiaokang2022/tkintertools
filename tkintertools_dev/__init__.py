@@ -25,16 +25,10 @@ If you want to know more information,
 please see https://github.com/Xiaokang2022/tkintertools.
 """
 
-import sys
-
-if sys.version_info < (3, 11):
-    error_info = 'Python version is too low (>=3.11)'
-    raise RuntimeError(error_info)
-
 from .constants import *
 from .core import *
 from .exceptions import *
 from .widgets import *
 
 __author__ = 'Xiaokang2022<2951256653@qq.com>'
-__version__ = '3.0.0.dev1'
+__version__ = '3.0.0.dev2'

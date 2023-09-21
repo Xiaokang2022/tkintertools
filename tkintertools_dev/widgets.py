@@ -1,4 +1,4 @@
-"""all standard widgets"""
+"""All standard widgets"""
 
 import tkinter
 
