@@ -41,4 +41,4 @@ from .exceptions import *
 from .widgets import *
 
 __author__ = 'Xiaokang2022<2951256653@qq.com>'
-__version__ = '3.0.0.dev3'
+__version__ = '3.0.0.dev4'

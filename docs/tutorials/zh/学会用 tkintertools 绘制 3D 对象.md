@@ -1,18 +1,18 @@
 **目录**
 
 - [创建基本的 3D 对象](#创建基本的-3d-对象)
-  - [点](#点)
-  - [线](#线)
-  - [面](#面)
+    - [点](#点)
+    - [线](#线)
+    - [面](#面)
 - [创建复杂的 3D 对象](#创建复杂的-3d-对象)
-  - [长方体](#长方体)
-  - [四面体](#四面体)
-  - [任意凸面几何体](#任意凸面几何体)
+    - [长方体](#长方体)
+    - [四面体](#四面体)
+    - [任意凸面几何体](#任意凸面几何体)
 - [自定义 3D 画布](#自定义-3d-画布)
-  - [内置的 `Space` 类](#内置的-space-类)
-  - [底层父类 `Canvas_3D`](#底层父类-canvas_3d)
-  - [绑定事件](#绑定事件)
-  - [简单的 3D 动画](#简单的-3d-动画)
+    - [内置的 `Space` 类](#内置的-space-类)
+    - [底层父类 `Canvas_3D`](#底层父类-canvas_3d)
+    - [绑定事件](#绑定事件)
+    - [简单的 3D 动画](#简单的-3d-动画)
 
 ---
 
@@ -35,7 +35,7 @@
 
 **效果图**
 
-![png](res/3d_point.png)
+![png](../../images/3d_point.png)
 
 **源代码**
 
@@ -65,7 +65,7 @@ root.mainloop()  # 消息事件循环
 
 **效果图**
 
-![png](res/3d_line.png)
+![png](../../images/3d_line.png)
 
 **源代码**
 
@@ -95,7 +95,7 @@ root.mainloop()  # 消息事件循环
 
 **效果图**
 
-![png](res/3d_side.png)
+![png](../../images/3d_side.png)
 
 **源代码**
 
@@ -149,7 +149,7 @@ root.mainloop()  # 消息事件循环
 
 **效果图**
 
-![png](res/3d_cuboid.png)
+![png](../../images/3d_cuboid.png)
 
 **源代码**
 
@@ -181,7 +181,7 @@ root.mainloop()  # 消息事件循环
 
 **效果图**
 
-![png](res/3d_tetrahedron.png)
+![png](../../images/3d_tetrahedron.png)
 
 **源代码**
 
@@ -240,7 +240,7 @@ tkintertools 的 3D 画布不是只有一个，它实际的继承关系是下面
 
 **效果图**
 
-![png](res/3d_bind.png)
+![png](../../images/3d_bind.png)
 
 **源代码**
 
@@ -284,7 +284,7 @@ root.mainloop()  # 消息事件循环
 
 **效果图**
 
-![gif](res/3d_animation.gif)
+![gif](../../images/3d_animation.gif)
 
 **源代码**
 
@@ -344,7 +344,7 @@ root.mainloop()  # 消息事件循环
 
 **效果图**
 
-![png](res/3d_test.png)
+![png](../../images/3d_test.png)
 
 **源代码**
 

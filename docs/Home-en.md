@@ -1,4 +1,5 @@
-嗨~欢迎来到 tkintertools 的 Wiki！这里有最详细、最完整的使用教程和详细文档！
+Hi~ Welcome to tkintertools' Wiki!
+The most detailed and complete tutorials and detailed documentation are here!
 
 > **Note**  
 > Language: [中文](Home-ch.md) · [English](Home-en.md)  

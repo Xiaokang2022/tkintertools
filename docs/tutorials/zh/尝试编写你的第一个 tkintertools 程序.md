@@ -96,7 +96,7 @@ root.mainloop()
 
 <details><summary><b>点击查看实现效果</b></summary>
 
-![png](res/pic_1.png)
+![png](../../images/pic_1.png)
 
 </details>
 
@@ -120,7 +120,7 @@ root.mainloop()
 
 <details><summary><b>点击查看实现效果</b></summary>
 
-![png](res/pic_2.png)
+![png](../../images/pic_2.png)
 
 </details>
 

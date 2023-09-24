@@ -128,7 +128,8 @@ class Tk(tkinter.Tk):
         self._canvases: list[Canvas] = []
         self._nestedtks: list[NestedTk] = []
 
-        if self.__class__ != BaseToolTip:  # NOTE: Let tkinter computes an appropriate size
+        # HACK: Let tkinter computes an appropriate size (Maybe bbox can solve this problem)
+        if self.__class__ != BaseToolTip:
             self.geometry("%dx%d" % size)
 
         self.bind('<Configure>', self._zoom)
@@ -152,14 +153,9 @@ class Tk(tkinter.Tk):
         if self.width == event.width and self.height == event.height:  # no changes
             return
         self.width, self.height = event.width, event.height  # update data
+        ratio = self.width / self._INIT_WIDTH, self.height / self._INIT_HEIGHT
         for nestedtk in self.get_nestedtk():
-            if 'x' in nestedtk.expand.value:
-                ratio_width = self.width / self._INIT_WIDTH
-                nestedtk.width = int(nestedtk._INIT_WIDTH * ratio_width)
-            if 'y' in nestedtk.expand.value:
-                ratio_height = self.height / self._INIT_HEIGHT
-                nestedtk.height = int(nestedtk._INIT_HEIGHT * ratio_height)
-            nestedtk.geometry(f"{nestedtk.width}x{nestedtk.height}")
+            nestedtk.zoom(*ratio)
         for canvas in self.get_canvas():
             canvas.zoom()
 
@@ -225,7 +221,7 @@ class NestedTk(Toplevel):
 
     def __init__(
         self,
-        master: tkinter.Misc,
+        master: Tk | Toplevel | "NestedTk" | "Canvas",
         size: tuple[int, int] = TKDefault.SIZE,
         position: tuple[int, int] | None = TKDefault.POSITION,
         *,
@@ -239,7 +235,8 @@ class NestedTk(Toplevel):
         resizable: tuple[bool, bool] = TKDefault.RESIZABLE,
         overrideredirect: bool = TKDefault.OVERRIDEREDIRECT,
         shutdown: typing.Callable[[], typing.Any] = TKDefault.SHUTDOWN,
-        expand: BaseWidgetExpand = BaseWidgetExpand.XY,
+        size_expand: BaseWidgetExpand = BaseWidgetExpand.XY,
+        position_expand: BaseWidgetExpand = BaseWidgetExpand.NONE,
         **kw
     ) -> None:
         """
@@ -260,7 +257,8 @@ class NestedTk(Toplevel):
         * `overrideredirect`: whether to remove window's borders and title bar
         * `shutdown`: a function that is called before closing the window,
         but it overrides the operation that originally closed the window
-        * `expand`: expand mode of nested window
+        * `size_expand`: expand mode of size of nested window
+        * `position_expand`: expand mode of position of nested window
         --------------------------------------
         #### Variable length Keyword Arguments
         * `**kw`: compatible with other parameters of class tkinter.Toplevel, see tkinter.Toplevel for details
@@ -270,8 +268,17 @@ class NestedTk(Toplevel):
         Toplevel.__init__(self, master, size, position, title=title, iconbitmap=iconbitmap, state=state,
                           toolwindow=toolwindow, transparentcolor=transparentcolor, maxsize=maxsize, minsize=minsize,
                           resizable=resizable, overrideredirect=overrideredirect, shutdown=shutdown, **kw)
-        self.expand = expand
+        self.size_expand = size_expand
+        self.position_expand = position_expand
         self.after(1, self._nested)  # NOTE: It only works after a few ms
+
+    def zoom(self, ratio: tuple[float, float]) -> None:  # TODO: position expand
+        """absolute zooming for itself"""
+        if 'x' in self.size_expand.value:
+            self.width = int(self._INIT_WIDTH * ratio[0])
+        if 'y' in self.size_expand.value:
+            self.height = int(self._INIT_HEIGHT * ratio[1])
+        self.geometry(f"{self.width}x{self.height}")
 
     def _nested(self) -> None:
         """nest the window in its parent"""
@@ -329,7 +336,7 @@ class BaseToolTip(Toplevel):
         # TODO: Need class Animation to code this!
 
 
-class ToolTip(BaseToolTip):  # TODO: Code here!
+class ToolTip(BaseToolTip):
     """A pop-up window"""
 
     def __init__(
@@ -365,8 +372,9 @@ class ToolTip(BaseToolTip):  # TODO: Code here!
         #### Variable length Keyword Arguments
         * `**kw`: compatible with other parameters of class tkinter.Toplevel, see tkinter.Toplevel for details
         """
-        BaseToolTip.__init__(self, master=master, transparentcolor='888888',
+        BaseToolTip.__init__(self, master=master, transparentcolor='888888',  # XXX: This color?
                              duration=duration, animation=animation, **kw)
+        # TODO: It maybe a std widget, should be moved to widgets.py?
 
 
 class Canvas(tkinter.Canvas):
@@ -376,24 +384,29 @@ class Canvas(tkinter.Canvas):
         self,
         master: Tk | Toplevel | "Canvas",
         *,
-        expand: BaseWidgetExpand = BaseWidgetExpand.XY,
+        size_expand: BaseWidgetExpand = BaseWidgetExpand.XY,
+        position_expand: BaseWidgetExpand = BaseWidgetExpand.XY,
         **kw,
     ) -> None:
         """
         #### Positional Arguments
         * `master`: parent widget
         #### Keyword-only Arguments
-        * `expand`: expand mode of the Canvas
+        * `size_expand`: expand mode of size of the Canvas
+        * `position_expand`: expand mode of position of the Canvas
         #### Variable-length Keyword Arguments
         * `**kw`: compatible with other parameters of class tkinter.Canvas, see tkinter.Canvas for details
         """
         tkinter.Canvas.__init__(self, master, **kw)
         self.master = master
-        self._init_ratio: float = None
-        self._init_width: int = None
-        self._init_height: int = None
-        self.live = True  # XXX: It maybe useless.
+        self.size_expand = size_expand
+        self.position_expand = position_expand
+        self._INIT_X: int = None
+        self._INIT_Y: int = None
+        self._INIT_WIDTH: int = None
+        self._INIT_HEIGHT: int = None
 
+        self._nestedtks: list[NestedTk] = []
         self._canvases: list[Canvas] = []
         self._widgets: list[BaseWidget] = []
         self._items: list[int] = []
@@ -410,20 +423,28 @@ class Canvas(tkinter.Canvas):
         self.bind('<<Paste>>', self._paste)
         self.bind('<Configure>', self._zoom)
 
-    def _zoom(self, event):
-        # type: (tkinter.Event) -> None
-        """"""
-        if self._init_width is None:
-            self._init_width = event.width
-            self._init_height = event.height
-            self._init_ratio = event.width / event.height
-            return
-        ratio_x = event.width / self._init_width
-        ratio_y = event.height / self._init_height
-        for widget in self._widgets:
-            widget.scale_absolute(ratio_x, ratio_y)  # modify data XXX
+    # HACK: Need code the position expand
+    def zoom(self, raito: tuple[float, float]) -> None:
+        """absolute zooming for itself"""
+        if 'x' in self.size_expand.value:
+            self.width = int(self._INIT_WIDTH * raito[0])
+        if 'y' in self.size_expand.value:
+            self.height = int(self._INIT_HEIGHT * raito[1])
+        self.place(width=self.width, height=self.height)
 
-        # modify screen BUG
+    def _zoom(self, event: tkinter.Event) -> None:
+        """absolute zooming for its contents"""
+        if self._INIT_WIDTH is None:
+            self._INIT_WIDTH = event.width
+            self._INIT_HEIGHT = event.height
+            return
+
+        ratio_x = event.width / self._INIT_WIDTH
+        ratio_y = event.height / self._INIT_HEIGHT
+        for widget in self._widgets:
+            widget.scale_absolute(ratio_x, ratio_y)  # modify data
+
+        # modify contents
         for item in self.find_withtag('x'):
             self.coords(
                 item, *[c*(ratio_x, 1)[i & 1] for i, c in enumerate(self.coords(item))])
@@ -433,8 +454,6 @@ class Canvas(tkinter.Canvas):
         for item in self.find_withtag('xy'):
             self.coords(
                 item, *[c*(ratio_x, ratio_y)[i & 1] for i, c in enumerate(self.coords(item))])
-
-        """scale self"""
 
     def _touch(self, event):
         # type: (tkinter.Event) -> None
