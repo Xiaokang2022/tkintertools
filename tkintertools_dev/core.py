@@ -27,48 +27,71 @@ Core codes of tkintertools
 """
 
 import ctypes
+import math
 import platform
 import sys
 import tkinter
 import typing
 
+from tkintertools_dev.constants import tkinter
+from tkintertools_dev.exceptions import tkinter
+
 from .constants import *
 from .exceptions import *
 
 if sys.version_info < REQUIRE_PYTHON_VERSION:
+    # check version of Python
     raise EnvironmentError(sys.version_info)
 
 if platform.system() == 'Windows':
+    # set DPI awareness
     ctypes.WinDLL('shcore').SetProcessDpiAwareness(PROCESS_SYSTEM_DPI_AWARE)
 
 
 class Tk(tkinter.Tk):
     """Main window"""
 
+    SIZE = 1280, 720
+    POSITION = 100, 100
+    TITLE = "tkt"
+    ICONBITMAP = None
+    STATE = "normal"
+    ALPHA = 1
+    FULLSCREEN = False
+    TOOLWINDOW = False
+    TOPMOST = False
+    TRANSPARENTCOLOR = ""
+    MAXSIZE = None, None
+    MINSIZE = None, None
+    RESIZABLE = True, True
+    OVERRIDEREDIRECT = False
+    SHUTDOWN = None
+
     def __init__(
         self,
-        size: tuple[int, int] = TKDefault.SIZE,
-        position: tuple[int, int] | None = TKDefault.POSITION,
+        size: tuple[int, int] = SIZE,
+        position: tuple[int, int] = POSITION,
         *,
-        title: str = TKDefault.TITLE,
-        iconbitmap: str = TKDefault.ICONBITMAP,
-        state: TkState = TKDefault.STATE,
-        alpha: float = TKDefault.ALPHA,
-        fullscreen: bool = TKDefault.FULLSCREEN,
-        toolwindow: bool = TKDefault.TOOLWINDOW,
-        topmost: bool = TKDefault.TOPMOST,
-        transparentcolor: str = TKDefault.TRANSPARENTCOLOR,
-        maxsize: tuple[int, int] = TKDefault.MAXSIZE,
-        minsize: tuple[int, int] = TKDefault.MINSIZE,
-        resizable: tuple[bool, bool] = TKDefault.RESIZABLE,
-        overrideredirect: bool = TKDefault.OVERRIDEREDIRECT,
-        shutdown: typing.Callable[[], typing.Any] = TKDefault.SHUTDOWN,
+        title: str | None = TITLE,
+        iconbitmap: str | None = ICONBITMAP,
+        state: typing.Literal["normal", "icon",
+                              "iconic", "withdrawn", "zoomed"] = STATE,
+        alpha: float = ALPHA,
+        fullscreen: bool = FULLSCREEN,
+        toolwindow: bool = TOOLWINDOW,
+        topmost: bool = TOPMOST,
+        transparentcolor: str = TRANSPARENTCOLOR,
+        maxsize: tuple[int | None, int | None] = MAXSIZE,
+        minsize: tuple[int | None, int | None] = MINSIZE,
+        resizable: tuple[bool, bool] = RESIZABLE,
+        overrideredirect: bool = OVERRIDEREDIRECT,
+        shutdown: typing.Callable[[], typing.Any] | None = SHUTDOWN,
         **kw
     ) -> None:
         """
         #### Positional Arguments
         * `size`: size of window, default is 200x200(px)
-        * `position`: position of window, 'None' indicates a center location,
+        * `position`: position of window, default value indicates a center location,
         default indicates that position is centered
         ---------------------------
         #### Keyword only Arguments
@@ -93,102 +116,103 @@ class Tk(tkinter.Tk):
         if self.__class__ == Tk:  # NOTE: Subclasses of tkt.Tk do not inherit tk.Tk
             tkinter.Tk.__init__(self, **kw)
 
-        self.title(title)
-        if iconbitmap != TKDefault.ICONBITMAP:
-            self.iconbitmap(default=iconbitmap)
-        if state is not None:
-            self.state(state.value)
-        if alpha != TKDefault.ALPHA:
-            self.attributes('-alpha', alpha)
-        if fullscreen != TKDefault.FULLSCREEN:  # HACK: It may conflicts with method _zoom
-            self.attributes('-fullscreen', fullscreen)
-        if toolwindow != TKDefault.TOOLWINDOW:
-            self.attributes('-toolwindow', toolwindow)
-        if topmost != TKDefault.TOPMOST:
-            self.attributes('-topmost', topmost)
-        if transparentcolor != TKDefault.TRANSPARENTCOLOR:
-            self.attributes('-transparentcolor', transparentcolor)
-        if maxsize != TKDefault.MAXSIZE:
-            self.maxsize(*maxsize)
-        if minsize != TKDefault.MINSIZE:
-            self.minsize(*minsize)
-        if resizable != TKDefault.RESIZABLE:
-            self.resizable(*resizable)
-        if overrideredirect != TKDefault.OVERRIDEREDIRECT:
-            self.overrideredirect(overrideredirect)
-        if shutdown != TKDefault.SHUTDOWN:
-            self.protocol('WM_DELETE_WINDOW', shutdown)
-        if position == TKDefault.POSITION:  # default center
-            self.center()
-        else:  # customized
-            self.geometry("+%d+%d" % position)
-
-        self._INIT_WIDTH, self._INIT_HEIGHT = size
-        self.width, self.height = size
+        self._ratio = [1.0, 1.0]
+        self._size = tuple(size)  # NOTE: not really size!
         self._canvases: list[Canvas] = []
         self._nestedtks: list[NestedTk] = []
 
-        # HACK: Let tkinter computes an appropriate size (Maybe bbox can solve this problem)
-        if self.__class__ != BaseToolTip:
-            self.geometry("%dx%d" % size)
+        self.title(title)
+        self.state(state)
+        self.maxsize(*maxsize)
+        self.minsize(*minsize)
+        self.resizable(*resizable)
+        self.iconbitmap(iconbitmap, iconbitmap)
+        self.overrideredirect(overrideredirect)
+        self.attributes('-alpha', alpha)
+        # HACK: conflicts with _zoom
+        self.attributes('-fullscreen', fullscreen)
+        self.attributes('-toolwindow', toolwindow)
+        self.attributes('-topmost', topmost)
+        self.attributes('-transparentcolor', transparentcolor)
+        self.geometry("%dx%d+%d+%d" % (*size, *position))
+        self.protocol('WM_DELETE_WINDOW', shutdown)
 
         self.bind('<Configure>', self._zoom)
 
-    def get_canvas(self) -> tuple["Canvas"]:
+    def get_canvases(self) -> tuple["Canvas"]:
         """retrun all instances of Canvas of the window"""
         return tuple(self._canvases)
 
-    def get_nestedtk(self) -> tuple["NestedTk"]:
+    def get_nestedtks(self) -> tuple["NestedTk"]:
         """retrun all instances of NestedTk of the window"""
         return tuple(self._nestedtks)
 
-    def center(self) -> None:
+    def center(self) -> None:  # BUG: when zooming
         """center the window"""
-        x = (self.winfo_screenwidth() - self.width) // 2
-        y = (self.winfo_screenheight() - self.height) // 2
+        x = (self.winfo_screenwidth() - self.winfo_width()) // 2
+        y = (self.winfo_screenheight() - self.winfo_height()) // 2
         self.geometry(f'+{x}+{y}')
 
     def _zoom(self, event: tkinter.Event) -> None:
         """zoom contents of the window"""
-        if self.width == event.width and self.height == event.height:  # no changes
+        ratio = [event.width / self._size[0], event.height / self._size[1]]
+        if all([math.isclose(_i, i) for _i, i in zip(self._ratio, ratio)]):  # no changes
             return
-        self.width, self.height = event.width, event.height  # update data
-        ratio = self.width / self._INIT_WIDTH, self.height / self._INIT_HEIGHT
-        for nestedtk in self.get_nestedtk():
-            nestedtk.zoom(*ratio)
-        for canvas in self.get_canvas():
-            canvas.zoom()
+        self._ratio = ratio  # absolutely ratio
+        for nestedtk in self.get_nestedtks():
+            nestedtk.zoom(ratio)
+        for canvas in self.get_canvases():
+            canvas.zoom(ratio)
 
 
 class Toplevel(tkinter.Toplevel, Tk):
     """Toplevel window"""
 
+    SIZE = 960, 540
+    POSITION = 100, 100
+    TITLE = None  # NOTE: automatically inherite from its super class
+    ICONBITMAP = None
+    STATE = "normal"
+    ALPHA = 1
+    FULLSCREEN = False
+    TOOLWINDOW = False
+    TOPMOST = False
+    TRANSPARENTCOLOR = ""
+    MAXSIZE = None, None
+    MINSIZE = None, None
+    RESIZABLE = True, True
+    OVERRIDEREDIRECT = False
+    TRANSIENT = False  # diffrent from Tk
+    SHUTDOWN = None
+
     def __init__(
         self,
-        master: Tk | "Toplevel" | "NestedTk" | None = None,
-        size: tuple[int, int] = TKDefault.SIZE,
-        position: tuple[int, int] | None = TKDefault.POSITION,
+        master: typing.Union[Tk, "Toplevel", "NestedTk", None] = None,
+        size: tuple[int, int] = SIZE,
+        position: tuple[int, int] = POSITION,
         *,
-        title: str = TKDefault.TITLE,
-        iconbitmap: str = TKDefault.ICONBITMAP,
-        state: TkState = TKDefault.STATE,
-        alpha: float = TKDefault.ALPHA,
-        fullscreen: bool = TKDefault.FULLSCREEN,
-        toolwindow: bool = TKDefault.TOOLWINDOW,
-        topmost: bool = TKDefault.TOPMOST,
-        transparentcolor: str = TKDefault.TRANSPARENTCOLOR,
-        maxsize: tuple[int, int] = TKDefault.MAXSIZE,
-        minsize: tuple[int, int] = TKDefault.MINSIZE,
-        resizable: tuple[bool, bool] = TKDefault.RESIZABLE,
-        overrideredirect: bool = TKDefault.OVERRIDEREDIRECT,
-        shutdown: typing.Callable[[], typing.Any] = TKDefault.SHUTDOWN,
+        title: str = TITLE,
+        iconbitmap: str | None = ICONBITMAP,
+        state: typing.Literal["normal", "icon",
+                              "iconic", "withdrawn", "zoomed"] = STATE,
+        alpha: float = ALPHA,
+        fullscreen: bool = FULLSCREEN,
+        toolwindow: bool = TOOLWINDOW,
+        topmost: bool = TOPMOST,
+        transparentcolor: str = TRANSPARENTCOLOR,
+        maxsize: tuple[int | None, int | None] = MAXSIZE,
+        minsize: tuple[int | None, int | None] = MINSIZE,
+        resizable: tuple[bool, bool] = RESIZABLE,
+        overrideredirect: bool = OVERRIDEREDIRECT,
+        transient: bool = TRANSIENT,
+        shutdown: typing.Callable[[], typing.Any] | None = SHUTDOWN,
         **kw
     ) -> None:
         """
         #### Positional Arguments
         * `master`: parent widget
         * `size`: size of window, default is 200x200(px)
-        * `position`: position of window, 'None' indicates that position is centered
+        * `position`: position of window, default value indicates that position is centered
         ---------------------------
         #### Keyword only Arguments
         * `title`: title of window, default is the same as title of master
@@ -213,37 +237,50 @@ class Toplevel(tkinter.Toplevel, Tk):
         Tk.__init__(self, size, position, title=title, iconbitmap=iconbitmap, alpha=alpha, state=state, fullscreen=fullscreen,
                     toolwindow=toolwindow, topmost=topmost, transparentcolor=transparentcolor, maxsize=maxsize,
                     minsize=minsize, resizable=resizable, overrideredirect=overrideredirect, shutdown=shutdown)
-        self.focus_set()
+        self.transient(self.master if transient is True else None)
 
 
 class NestedTk(Toplevel):
     """A window nested within another window"""
 
+    SIZE = 640, 360
+    POSITION = 100, 100
+    TITLE = None  # NOTE: automatically inherite from its super class
+    ICONBITMAP = None
+    TOOLWINDOW = False
+    MAXSIZE = None, None
+    MINSIZE = None, None
+    RESIZABLE = True, True
+    OVERRIDEREDIRECT = False
+    SHUTDOWN = None
+    SIZE_EXPAND = "none"
+    POSITION_EXPAND = "none"
+    DELAY = 10  # NOTE: method _nested only works after a few ms
+
     def __init__(
         self,
-        master: Tk | Toplevel | "NestedTk" | "Canvas",
-        size: tuple[int, int] = TKDefault.SIZE,
-        position: tuple[int, int] | None = TKDefault.POSITION,
+        master: typing.Union[Tk, Toplevel, "NestedTk", "Canvas"],
+        size: tuple[int, int] = SIZE,
+        position: tuple[int, int] = POSITION,
         *,
-        title: str = TKDefault.TITLE,
-        iconbitmap: str = TKDefault.ICONBITMAP,
-        state: TkState = TKDefault.STATE,
-        toolwindow: bool = TKDefault.TOOLWINDOW,
-        transparentcolor: str = TKDefault.TRANSPARENTCOLOR,
-        maxsize: tuple[int, int] = TKDefault.MAXSIZE,
-        minsize: tuple[int, int] = TKDefault.MINSIZE,
-        resizable: tuple[bool, bool] = TKDefault.RESIZABLE,
-        overrideredirect: bool = TKDefault.OVERRIDEREDIRECT,
-        shutdown: typing.Callable[[], typing.Any] = TKDefault.SHUTDOWN,
-        size_expand: BaseWidgetExpand = BaseWidgetExpand.XY,
-        position_expand: BaseWidgetExpand = BaseWidgetExpand.NONE,
+        title: str = TITLE,
+        iconbitmap: str | None = ICONBITMAP,
+        toolwindow: bool = TOOLWINDOW,
+        maxsize: tuple[int, int] = MAXSIZE,
+        minsize: tuple[int, int] = MINSIZE,
+        resizable: tuple[bool, bool] = RESIZABLE,
+        overrideredirect: bool = OVERRIDEREDIRECT,
+        shutdown: typing.Callable[[], typing.Any] | None = SHUTDOWN,
+        size_expand: typing.Literal["none", "x", "y", "xy"] = SIZE_EXPAND,
+        position_expand: typing.Literal["none",
+                                        "x", "y", "xy"] = POSITION_EXPAND,
         **kw
     ) -> None:
         """
         #### Positional Arguments
         * `master`: parent widget
         * `size`: size of window, default is 200x200(px)
-        * `position`: position of window, 'None' indicates that position is centered
+        * `position`: position of window, default value indicates that position is centered
         ---------------------------
         #### Keyword only Arguments
         * `title`: title of window, default is the same as title of master
@@ -265,20 +302,39 @@ class NestedTk(Toplevel):
         """
         if platform.system() != 'Windows':  # NOTE: This class only works on Windows
             raise SystemError(platform.system())
-        Toplevel.__init__(self, master, size, position, title=title, iconbitmap=iconbitmap, state=state,
-                          toolwindow=toolwindow, transparentcolor=transparentcolor, maxsize=maxsize, minsize=minsize,
-                          resizable=resizable, overrideredirect=overrideredirect, shutdown=shutdown, **kw)
+        Toplevel.__init__(self, master, size, position, title=title, iconbitmap=iconbitmap,
+                          toolwindow=toolwindow, maxsize=maxsize, minsize=minsize, resizable=resizable,
+                          overrideredirect=overrideredirect, shutdown=shutdown, **kw)
         self.size_expand = size_expand
         self.position_expand = position_expand
-        self.after(1, self._nested)  # NOTE: It only works after a few ms
+        self._position = list(position)  # NOTE: not really position!
+        master._nestedtks.append(self)
+        self.after(NestedTk.DELAY, self._nested)
 
     def zoom(self, ratio: tuple[float, float]) -> None:  # TODO: position expand
         """absolute zooming for itself"""
-        if 'x' in self.size_expand.value:
-            self.width = int(self._INIT_WIDTH * ratio[0])
-        if 'y' in self.size_expand.value:
-            self.height = int(self._INIT_HEIGHT * ratio[1])
-        self.geometry(f"{self.width}x{self.height}")
+        if 'x' in self.size_expand:
+            width = int(self._size[0] * ratio[0])
+        if 'y' in self.size_expand:
+            height = int(self._size[1] * ratio[1])
+        if 'x' in self.position_expand:
+            x = int(self._position[0] * ratio[0])
+        if 'y' in self.position_expand:
+            y = int(self._position[1] * ratio[1])
+        self.geometry(f"{width}x{height}+{x}+{y}")  # NOTE: CODE HERE!
+
+    def center(self) -> None:  # overload
+        x = (self.master.winfo_width() - self.winfo_width()) // 2
+        y = (self.master.winfo_height() - self.winfo_height()) // 2
+        self._position = [x, y]
+        self.geometry(f'+{x}+{y}')
+
+    def _zoom(self, event: tkinter.Event) -> None:
+        Toplevel._zoom(self, event)
+        if self.focus_get() == self:
+            self._size = (event.width, event.height)
+            self._position = [event.x, event.y]
+            self._ratio = [1.0, 1.0]
 
     def _nested(self) -> None:
         """nest the window in its parent"""
@@ -382,7 +438,7 @@ class Canvas(tkinter.Canvas):
 
     def __init__(
         self,
-        master: Tk | Toplevel | "Canvas",
+        master: typing.Union[Tk, Toplevel, "Canvas"],
         *,
         size_expand: BaseWidgetExpand = BaseWidgetExpand.XY,
         position_expand: BaseWidgetExpand = BaseWidgetExpand.XY,
@@ -401,8 +457,6 @@ class Canvas(tkinter.Canvas):
         self.master = master
         self.size_expand = size_expand
         self.position_expand = position_expand
-        self._INIT_X: int = None
-        self._INIT_Y: int = None
         self._INIT_WIDTH: int = None
         self._INIT_HEIGHT: int = None
 

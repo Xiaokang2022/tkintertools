@@ -9,9 +9,8 @@ PROCESS_SYSTEM_DPI_AWARE = 1
 
 class TKDefault:
     """"""
-    DX = 11
     SIZE = 200, 200
-    POSITION = None
+    POSITION = None, None
     TITLE = None
     ICONBITMAP = None
     STATE = None
