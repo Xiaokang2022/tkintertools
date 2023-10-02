@@ -1,8 +1,8 @@
 Hi~ Welcome to tkintertools' Wiki!
 The most detailed and complete tutorials and detailed documentation are here!
 
-> **Note**\
-> Language: [中文](Home-ch.md) · [English](Home-en.md)\
+> **Note**  
+> Language: [中文](Home-ch.md) · [English](Home-en.md)  
 > Version: `2.6.6`
 
 ### TUTORIALS

@@ -1,7 +1,7 @@
 嗨~欢迎来到 tkintertools 的 Wiki！这里有最详细、最完整的使用教程和详细文档！
 
-> **Note**\
-> 语言：[中文](Home-ch.md) · [English](Home-en.md)\
+> **Note**  
+> 语言：[中文](Home-ch.md) · [English](Home-en.md)  
 > 版本：`2.6.6`
 
 ### 教程
