@@ -45,15 +45,13 @@ pip install tkintertools==2.6.10
 
 ```
 
-> **NOTE / 注意**  
+> **Note**  
 > It is not recommended that you use the pre-release version directly for formal development, but it is recommended that you use the pre-release version to experience the new features and to report certain issues that you find.  
 > 不推荐你直接使用预发布版本进行正式开发，但推荐使用预发布版本来体验新功能，并上报发现的某些问题。
 
 More / 更多
 -----------
 
-* Tutorials / 教程 : [中文](docs/Home-ch.md) · [English](docs/Home-en.md)
-* Documents / 文档 : 
+* Tutorials&Documents / 教程和文档 : [T&D](docs/Home.md)
 * ChangeLog / 日志 : [CHANGELOG.md](CHANGELOG.md)
-* Mirrors / 镜像源 : [GitHub](https://github.com/Xiaokang2022/tkintertools) · [Gitee](https://gitee.com/xiaokang-2022/tkintertools) · [GitCode](https://gitcode.net/weixin_62651706/tkintertools)
-* FAQs / 常见问答 : 
+* Mirrors / 镜像源 : [GitHub](https://github.com/Xiaokang2022/tkintertools) | [Gitee](https://gitee.com/xiaokang-2022/tkintertools) | [GitCode](https://gitcode.net/weixin_62651706/tkintertools)
