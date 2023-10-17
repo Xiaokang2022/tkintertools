@@ -1,5 +1,6 @@
 """ 3D support """
 
+import array  # 高效数组
 import math  # 数学支持
 import statistics  # 数据统计
 from tkinter import Event  # 类型提示
@@ -206,7 +207,7 @@ def rotate(coordinate, dx=0, dy=0, dz=0, *, center, axis=None):
     `axis`: 旋转轴线的空间坐标
     """
     if axis is not None:  # 参照为线（定轴转动）
-        center = _Line(*axis).center()  # 旋转轴中点
+        center = _3D_Object(*axis).center()  # 旋转轴中点
         n = list(axis[0])
         for i in range(3):
             n[i] -= axis[1][i]
@@ -238,7 +239,8 @@ def rotate(coordinate, dx=0, dy=0, dz=0, *, center, axis=None):
             matrix[i] = δ + sum(
                 matrix[i][j] * (coordinate[j] - center[j]) for j in range(3))
 
-    coordinate[:] = matrix
+    for i, mat in enumerate(matrix):
+        coordinate[i] = mat
 
 
 def scale(coordinate, kx=1, ky=1, kz=1, *, center):
@@ -260,11 +262,26 @@ def scale(coordinate, kx=1, ky=1, kz=1, *, center):
         coordinate[i] += (coordinate[i] - center[i]) * (k - 1)
 
 
+def project(coordinate, distance):  # type: (list[float], float) -> list[float]
+    """
+    ### 投影
+    将一个三维空间中的点投影到指定距离的正向平面上，并返回在该平面上的坐标 \n
+    ---
+    `coordinate`: 点的空间坐标 \ 
+    `distance`: 正向平面的距离（平面正对着我们）
+    """
+    relative_dis = distance - coordinate[0]
+    if relative_dis <= 1e-16:
+        return [float('inf')]*2  # XXX: 目前超出范围只能让其消失，需要优化
+    k = distance/relative_dis
+    return [coordinate[1]*k, coordinate[2]*k]
+
+
 class _3D_Object:
     """ 3D 对象基类 """
 
     def __init__(self, *coordinates):  # type: (list[float]) -> None
-        self.coordinates = list(coordinates)  # 所有点的坐标
+        self.coordinates = [array.array('f', lst) for lst in coordinates]
 
     def translate(self, dx=0, dy=0, dz=0):  # type: (float, float, float) -> None
         """
@@ -317,59 +334,15 @@ class _3D_Object:
         """ 几何中心 """
         return tuple(statistics.mean(xyz) for xyz in zip(*self.coordinates))
 
-    def _project(self, distance):
+    def _project(self, distance):  # type: (float) -> list[list[float]]
         """
         ### 投影
         `distance`: 对象与观察者的距离
         """
-        # TODO: 这里可能需要完善
+        return [project(point, distance) for point in self.coordinates]
 
 
-class _Point(_3D_Object):
-    """ 点（基类） """
-
-    def __init__(self, coordinate):  # type: (list[float]) -> None
-        _3D_Object.__init__(self, coordinate)
-
-    def _project(self, distance):  # type: (float) -> list[float]
-        # override: 具体的实现
-        relative_dis = distance - self.coordinates[0][0]
-        if relative_dis <= 1e-16:
-            return [float('inf')]*2  # XXX: 目前超出范围只能让其消失，需要优化
-        k = distance/relative_dis
-        return [self.coordinates[0][1]*k, self.coordinates[0][2]*k]
-
-
-class _Line(_3D_Object):
-    """ 线（基类） """
-
-    def __init__(
-        self,
-        start,  # type: list[float]
-        end,  # type: list[float]
-    ):  # type: (...) -> None
-        _3D_Object.__init__(self, start, end)
-        self.points = [_Point(start), _Point(end)]
-
-    def _project(self, distance):  # type: (float) -> list[list[float]]
-        # override: 具体的实现
-        return [point._project(distance) for point in self.points]
-
-
-class _Side(_3D_Object):
-    """ 面（基类） """
-
-    def __init__(self, *coordinates):  # type: (list[float]) -> None
-        _3D_Object.__init__(self, *coordinates)
-        self.lines = [_Line(coordinates[index-1], coordinate)
-                      for index, coordinate in enumerate(coordinates)]
-
-    def _project(self, distance):  # type: (float) -> list[list[list[float]]]
-        # override: 具体的实现
-        return [line._project(distance) for line in self.lines]
-
-
-class Point(_Point):
+class Point(_3D_Object):
     """ 点 """
 
     def __init__(
@@ -390,7 +363,7 @@ class Point(_Point):
         `fill`: 点内部的填充颜色 \ 
         `outline`: 点轮廓的颜色
         """
-        _Point.__init__(self, list(coords))
+        _3D_Object.__init__(self, list(coords))
         canvas._items_3d.append(self)
         self.canvas = canvas
         self.size = size
@@ -402,7 +375,7 @@ class Point(_Point):
 
     def update(self):  # type: () -> None
         """ 更新对象的显示 """
-        x, y = self._project(self.canvas.distance)
+        x, y = self._project(self.canvas.distance)[0]
         self.canvas.coords(self.item, (x-self.size)*self.canvas.rx, (y-self.size) *
                            self.canvas.ry, (x+self.size)*self.canvas.rx, (y+self.size)*self.canvas.ry)
 
@@ -412,7 +385,7 @@ class Point(_Point):
         return sign*math.dist([self.canvas.distance, 0, 0], self.coordinates[0])
 
 
-class Line(_Line):
+class Line(_3D_Object):
     """ 线 """
 
     def __init__(
@@ -431,7 +404,7 @@ class Line(_Line):
         `width`: 线的宽度 \ 
         `fill`: 线的颜色
         """
-        _Line.__init__(self, list(point_start), list(point_end))
+        _3D_Object.__init__(self, list(point_start), list(point_end))
         canvas._items_3d.append(self)
         self.canvas = canvas
         self.width = width
@@ -451,7 +424,7 @@ class Line(_Line):
         return sign*math.dist([self.canvas.distance, 0, 0], center)
 
 
-class Side(_Side):
+class Side(_3D_Object):
     """ 面 """
 
     def __init__(
@@ -469,7 +442,7 @@ class Side(_Side):
         `fill`: 面内部的填充颜色 \ 
         `outline`: 面轮廓的颜色
         """
-        _Side.__init__(self, *[list(point) for point in points])
+        _3D_Object.__init__(self, *[list(point) for point in points])
         canvas._items_3d.append(self)
         self.canvas = canvas
         self.width = width
@@ -482,7 +455,7 @@ class Side(_Side):
     def update(self):  # type: () -> None
         """ 更新对象的显示 """
         self.canvas.coords(self.item, *[coord*(self.canvas.ry if i else self.canvas.rx)
-                           for line in self._project(self.canvas.distance) for point in line for i, coord in enumerate(point)])
+                           for point in self._project(self.canvas.distance) for i, coord in enumerate(point)])
 
     def _camera_distance(self):  # type: () -> float
         """ 与相机距离 """

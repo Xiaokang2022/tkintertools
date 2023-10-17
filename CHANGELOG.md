@@ -1,3 +1,16 @@
+[`2.6.11`] - 2023-10-17
+-----------------------
+
+### Optimized/优化
+
+- [X] Optimized the code of submodule `tools_3d`, introduced built-in module `array` instead of the underlying list to improve the calculation speed, and improved the overall performance by 11.66% !  
+优化了子模块 `tools_3d` 的代码，引入内置模块 `array` 代替底层列表来提高计算速度，综合性能提升 11.66% ！
+
+### Removed/移除
+
+- [X] Removed classes `_Point`, `_Line` and `_Side` from submodule `tools_3d`  
+移除了子模块 `tools_3d` 中的类 `_Point`、`_Line` 和 `_Side`
+
 [`2.6.10`] - 2023-08-12
 -----------------------
 

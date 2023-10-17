@@ -8,16 +8,6 @@ Release Notes / 版本说明
 
 ```
 
-ChangeLog / 更新日志
--------------------
-
-...
-
-Todos / 代办事项
----------------
-
-...
-
 Example / 样例演示
 -----------------
 
@@ -48,5 +38,15 @@ tk.mainloop()
 
 </details>
 
+ChangeLog / 更新日志
+-------------------
+
+...
+
+Todos / 代办事项
+---------------
+
+...
+
 ---
-[Last Version / 上个版本](../2.6.10/News.md) | Next Version / 下个版本
+[Last Version / 上个版本](../2.6.11/News.md) | Next Version / 下个版本

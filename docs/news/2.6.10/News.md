@@ -8,6 +8,28 @@ Release Notes / 版本说明
 pip install tkintertools==2.6.10
 ```
 
+Example / 样例演示
+-----------------
+
+* OS / 操作系统 : Windows11 22H2
+* Interpreter / 解释器 : Python 3.11.4
+
+The following progress bar widget are in variable mode  
+下面的进度条控件为不定模式
+
+![png](example.png)
+
+<details><summary><b>Source / 源代码</b></summary>
+
+```python
+# Only the key parts of the code are shown here
+
+pb = tkt.Progressbar(canvas, 320, 320, 640, 35, mode='indeterminate')  # indeterminate mode
+pb.load(0.7) # load to 70%
+```
+
+</details>
+
 ChangeLog / 更新日志
 -------------------
 
@@ -83,27 +105,5 @@ Todos / 代办事项
 - [ ] When a widget is tapped, the widgets that follow it are also triggered  
 点击控件时，其后面的控件也会被触发
 
-Example / 样例演示
------------------
-
-* OS / 操作系统 : Windows11 22H2
-* Interpreter / 解释器 : Python 3.11.4
-
-The following progress bar widget are in variable mode  
-下面的进度条控件为不定模式
-
-![png](example.png)
-
-<details><summary><b>Source / 源代码</b></summary>
-
-```python
-# Only the key parts of the code are shown here
-
-pb = tkt.Progressbar(canvas, 320, 320, 640, 35, mode='indeterminate')  # indeterminate mode
-pb.load(0.7) # load to 70%
-```
-
-</details>
-
 ---
-Last Version / 上个版本 | [Next Version / 下个版本](../3.0.0/News.md)
+Last Version / 上个版本 | [Next Version / 下个版本](../2.6.11/News.md)
