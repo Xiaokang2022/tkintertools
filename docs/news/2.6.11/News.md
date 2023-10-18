@@ -29,7 +29,7 @@ tkintertools `2.6.11` (FPS: 21.30, Avg: 26.15):
 
 ![png](example2.png) 
 
-<details><summary><b>Source / 源代码</b></summary>
+<details><summary><b>Source Code / 源代码</b></summary>
 
 ```python
 import random
@@ -101,10 +101,10 @@ ChangeLog / 更新日志
 - [X] Removed classes `_Point`, `_Line` and `_Side` from submodule `tools_3d`  
 移除了子模块 `tools_3d` 中的类 `_Point`、`_Line` 和 `_Side`
 
-Todos / 代办事项
+Todos / 待办事项
 ---------------
 
-### Features / 期望功能
+### Possible Features / 期望功能
 
 - [ ] Perfect the scroll bar function of `Text` class  
 完善 `Text` 类的滚动条功能
@@ -127,7 +127,7 @@ Todos / 代办事项
 -  [ ] Add lights and achieve simple light and shadow renderings  
 添加光源，并实现简单的光影渲染的效果
 
-### Bugs / 已知问题
+### Known Bugs / 已知问题
 
 - [ ] Solve the bug that the vertical position of the text is wrong when the `Text` class is enlarged  
 解决 `Text` 类放大时，文本纵向位置错误的 bug
@@ -145,4 +145,4 @@ Todos / 代办事项
 点击控件时，其后面的控件也会被触发
 
 ---
-[Last Version / 上个版本](../2.6.10/News.md) | [Next Version / 下个版本](../3.0.0/News.md)
+[Last Version / 上个版本](../2.6.10/News.md) | Next Version / 下个版本

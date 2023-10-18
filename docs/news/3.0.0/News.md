@@ -16,7 +16,7 @@ Example / 样例演示
 
 ![png](example.png)
 
-<details><summary><b>Source / 源代码</b></summary>
+<details><summary><b>Source Code / 源代码</b></summary>
 
 ```python
 import tkintertools_dev as tkt
@@ -43,7 +43,7 @@ ChangeLog / 更新日志
 
 ...
 
-Todos / 代办事项
+Todos / 待办事项
 ---------------
 
 ...
