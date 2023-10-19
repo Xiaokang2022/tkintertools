@@ -9,6 +9,7 @@ PROCESS_SYSTEM_DPI_AWARE = 1
 
 class TKDefault:
     """"""
+
     SIZE = 200, 200
     POSITION = None, None
     TITLE = None
@@ -30,52 +31,52 @@ class TKDefault:
 class TkState(enum.Enum):  # FIXME: not fully support for Linux
     """"""
 
-    NORMAL = 'normal'
+    NORMAL = "normal"
     """"""
 
-    ICON = 'icon'
+    ICON = "icon"
     """"""
 
-    ICONIC = 'iconic'
+    ICONIC = "iconic"
     """"""
 
-    WITHDRAWN = 'withdrawn'
+    WITHDRAWN = "withdrawn"
     """"""
 
-    ZOOMED = 'zoomed'
+    ZOOMED = "zoomed"
     """"""
 
 
 class BaseWidgetExpand(enum.Enum):
     """"""
 
-    NONE = ''
+    NONE = ""
     """"""
 
-    X = 'x'
+    X = "x"
     """"""
 
-    Y = 'y'
+    Y = "y"
     """"""
 
-    XY = 'xy'
+    XY = "xy"
     """"""
 
 
 class BaseWidgetState(enum.Enum):
     """"""
 
-    DEFAULT = 'default'
+    DEFAULT = "default"
     """"""
 
-    HOVER = 'hover'
+    HOVER = "hover"
     """"""
 
-    SELECTED = 'selected'
+    SELECTED = "selected"
     """"""
 
-    DISABLED = 'disabled'
+    DISABLED = "disabled"
     """"""
 
-    ERROR = 'error'
+    ERROR = "error"
     """"""

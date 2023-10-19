@@ -43,9 +43,9 @@ if sys.version_info < REQUIRE_PYTHON_VERSION:
     # check version of Python
     raise EnvironmentError(sys.version_info)
 
-if platform.system() == 'Windows':
+if platform.system() == "Windows":
     # set DPI awareness
-    ctypes.WinDLL('shcore').SetProcessDpiAwareness(PROCESS_SYSTEM_DPI_AWARE)
+    ctypes.WinDLL("shcore").SetProcessDpiAwareness(PROCESS_SYSTEM_DPI_AWARE)
 
 
 class Tk(tkinter.Tk):
@@ -74,8 +74,9 @@ class Tk(tkinter.Tk):
         *,
         title: str | None = TITLE,
         iconbitmap: str | None = ICONBITMAP,
-        state: typing.Literal["normal", "icon",
-                              "iconic", "withdrawn", "zoomed"] = STATE,
+        state: typing.Literal[
+            "normal", "icon", "iconic", "withdrawn", "zoomed"
+        ] = STATE,
         alpha: float = ALPHA,
         fullscreen: bool = FULLSCREEN,
         toolwindow: bool = TOOLWINDOW,
@@ -86,7 +87,7 @@ class Tk(tkinter.Tk):
         resizable: tuple[bool, bool] = RESIZABLE,
         overrideredirect: bool = OVERRIDEREDIRECT,
         shutdown: typing.Callable[[], typing.Any] | None = SHUTDOWN,
-        **kw
+        **kw,
     ) -> None:
         """
         #### Positional Arguments
@@ -128,16 +129,16 @@ class Tk(tkinter.Tk):
         self.resizable(*resizable)
         self.iconbitmap(iconbitmap, iconbitmap)
         self.overrideredirect(overrideredirect)
-        self.attributes('-alpha', alpha)
+        self.attributes("-alpha", alpha)
         # HACK: conflicts with _zoom
-        self.attributes('-fullscreen', fullscreen)
-        self.attributes('-toolwindow', toolwindow)
-        self.attributes('-topmost', topmost)
-        self.attributes('-transparentcolor', transparentcolor)
+        self.attributes("-fullscreen", fullscreen)
+        self.attributes("-toolwindow", toolwindow)
+        self.attributes("-topmost", topmost)
+        self.attributes("-transparentcolor", transparentcolor)
         self.geometry("%dx%d+%d+%d" % (*size, *position))
-        self.protocol('WM_DELETE_WINDOW', shutdown)
+        self.protocol("WM_DELETE_WINDOW", shutdown)
 
-        self.bind('<Configure>', self._zoom)
+        self.bind("<Configure>", self._zoom)
 
     def get_canvases(self) -> tuple["Canvas"]:
         """retrun all instances of Canvas of the window"""
@@ -151,12 +152,14 @@ class Tk(tkinter.Tk):
         """center the window"""
         x = (self.winfo_screenwidth() - self.winfo_width()) // 2
         y = (self.winfo_screenheight() - self.winfo_height()) // 2
-        self.geometry(f'+{x}+{y}')
+        self.geometry(f"+{x}+{y}")
 
     def _zoom(self, event: tkinter.Event) -> None:
         """zoom contents of the window"""
         ratio = [event.width / self._size[0], event.height / self._size[1]]
-        if all([math.isclose(_i, i) for _i, i in zip(self._ratio, ratio)]):  # no changes
+        if all(
+            [math.isclose(_i, i) for _i, i in zip(self._ratio, ratio)]
+        ):  # no changes
             return
         self._ratio = ratio  # absolutely ratio
         for nestedtk in self.get_nestedtks():
@@ -193,8 +196,9 @@ class Toplevel(tkinter.Toplevel, Tk):
         *,
         title: str = TITLE,
         iconbitmap: str | None = ICONBITMAP,
-        state: typing.Literal["normal", "icon",
-                              "iconic", "withdrawn", "zoomed"] = STATE,
+        state: typing.Literal[
+            "normal", "icon", "iconic", "withdrawn", "zoomed"
+        ] = STATE,
         alpha: float = ALPHA,
         fullscreen: bool = FULLSCREEN,
         toolwindow: bool = TOOLWINDOW,
@@ -206,7 +210,7 @@ class Toplevel(tkinter.Toplevel, Tk):
         overrideredirect: bool = OVERRIDEREDIRECT,
         transient: bool = TRANSIENT,
         shutdown: typing.Callable[[], typing.Any] | None = SHUTDOWN,
-        **kw
+        **kw,
     ) -> None:
         """
         #### Positional Arguments
@@ -234,9 +238,24 @@ class Toplevel(tkinter.Toplevel, Tk):
         * `**kw`: compatible with other parameters of class tkinter.Toplevel, see tkinter.Toplevel for details
         """
         tkinter.Toplevel.__init__(self, master, **kw)
-        Tk.__init__(self, size, position, title=title, iconbitmap=iconbitmap, alpha=alpha, state=state, fullscreen=fullscreen,
-                    toolwindow=toolwindow, topmost=topmost, transparentcolor=transparentcolor, maxsize=maxsize,
-                    minsize=minsize, resizable=resizable, overrideredirect=overrideredirect, shutdown=shutdown)
+        Tk.__init__(
+            self,
+            size,
+            position,
+            title=title,
+            iconbitmap=iconbitmap,
+            alpha=alpha,
+            state=state,
+            fullscreen=fullscreen,
+            toolwindow=toolwindow,
+            topmost=topmost,
+            transparentcolor=transparentcolor,
+            maxsize=maxsize,
+            minsize=minsize,
+            resizable=resizable,
+            overrideredirect=overrideredirect,
+            shutdown=shutdown,
+        )
         self.transient(self.master if transient is True else None)
 
 
@@ -272,9 +291,8 @@ class NestedTk(Toplevel):
         overrideredirect: bool = OVERRIDEREDIRECT,
         shutdown: typing.Callable[[], typing.Any] | None = SHUTDOWN,
         size_expand: typing.Literal["none", "x", "y", "xy"] = SIZE_EXPAND,
-        position_expand: typing.Literal["none",
-                                        "x", "y", "xy"] = POSITION_EXPAND,
-        **kw
+        position_expand: typing.Literal["none", "x", "y", "xy"] = POSITION_EXPAND,
+        **kw,
     ) -> None:
         """
         #### Positional Arguments
@@ -300,11 +318,23 @@ class NestedTk(Toplevel):
         #### Variable length Keyword Arguments
         * `**kw`: compatible with other parameters of class tkinter.Toplevel, see tkinter.Toplevel for details
         """
-        if platform.system() != 'Windows':  # NOTE: This class only works on Windows
+        if platform.system() != "Windows":  # NOTE: This class only works on Windows
             raise SystemError(platform.system())
-        Toplevel.__init__(self, master, size, position, title=title, iconbitmap=iconbitmap,
-                          toolwindow=toolwindow, maxsize=maxsize, minsize=minsize, resizable=resizable,
-                          overrideredirect=overrideredirect, shutdown=shutdown, **kw)
+        Toplevel.__init__(
+            self,
+            master,
+            size,
+            position,
+            title=title,
+            iconbitmap=iconbitmap,
+            toolwindow=toolwindow,
+            maxsize=maxsize,
+            minsize=minsize,
+            resizable=resizable,
+            overrideredirect=overrideredirect,
+            shutdown=shutdown,
+            **kw,
+        )
         self.size_expand = size_expand
         self.position_expand = position_expand
         self._position = list(position)  # NOTE: not really position!
@@ -313,13 +343,13 @@ class NestedTk(Toplevel):
 
     def zoom(self, ratio: tuple[float, float]) -> None:  # TODO: position expand
         """absolute zooming for itself"""
-        if 'x' in self.size_expand:
+        if "x" in self.size_expand:
             width = int(self._size[0] * ratio[0])
-        if 'y' in self.size_expand:
+        if "y" in self.size_expand:
             height = int(self._size[1] * ratio[1])
-        if 'x' in self.position_expand:
+        if "x" in self.position_expand:
             x = int(self._position[0] * ratio[0])
-        if 'y' in self.position_expand:
+        if "y" in self.position_expand:
             y = int(self._position[1] * ratio[1])
         self.geometry(f"{width}x{height}+{x}+{y}")  # NOTE: CODE HERE!
 
@@ -327,7 +357,7 @@ class NestedTk(Toplevel):
         x = (self.master.winfo_width() - self.winfo_width()) // 2
         y = (self.master.winfo_height() - self.winfo_height()) // 2
         self._position = [x, y]
-        self.geometry(f'+{x}+{y}')
+        self.geometry(f"+{x}+{y}")
 
     def _zoom(self, event: tkinter.Event) -> None:
         Toplevel._zoom(self, event)
@@ -338,8 +368,8 @@ class NestedTk(Toplevel):
 
     def _nested(self) -> None:
         """nest the window in its parent"""
-        handle = ctypes.WinDLL('user32').GetParent(self.winfo_id())
-        ctypes.WinDLL('user32').SetParent(handle, self.master.winfo_id())
+        handle = ctypes.WinDLL("user32").GetParent(self.winfo_id())
+        ctypes.WinDLL("user32").SetParent(handle, self.master.winfo_id())
         self.master.focus_set()
 
 
@@ -353,7 +383,7 @@ class BaseToolTip(Toplevel):
         duration: int = 0,
         animation: bool = False,
         master: Tk | Toplevel | NestedTk | None = None,
-        **kw
+        **kw,
     ) -> None:
         """
         #### Keyword only Arguments
@@ -365,8 +395,16 @@ class BaseToolTip(Toplevel):
         #### Variable length Keyword Arguments
         * `**kw`: compatible with other parameters of class tkinter.Toplevel, see tkinter.Toplevel for details
         """
-        Toplevel.__init__(self, master, TKDefault.SIZE, TKDefault.POSITION, transparentcolor=transparentcolor,
-                          resizable=(False, False), overrideredirect=True, **kw)
+        Toplevel.__init__(
+            self,
+            master,
+            TKDefault.SIZE,
+            TKDefault.POSITION,
+            transparentcolor=transparentcolor,
+            resizable=(False, False),
+            overrideredirect=True,
+            **kw,
+        )
         self.withdraw()
         self.duration = duration
         self.animation = animation
@@ -401,14 +439,14 @@ class ToolTip(BaseToolTip):
         *,
         font: tuple[str, int, str],
         radius: int = 0,
-        fg: str = 'black',
-        bg: str = 'white',
-        frame_color: str = 'grey',
-        justify: str = 'center',
+        fg: str = "black",
+        bg: str = "white",
+        frame_color: str = "grey",
+        justify: str = "center",
         duration: int = 0,
         animation: bool = False,
         master: Tk | Toplevel | NestedTk | None = None,
-        **kw
+        **kw,
     ) -> None:
         """
         #### Positional Arguments
@@ -428,8 +466,14 @@ class ToolTip(BaseToolTip):
         #### Variable length Keyword Arguments
         * `**kw`: compatible with other parameters of class tkinter.Toplevel, see tkinter.Toplevel for details
         """
-        BaseToolTip.__init__(self, master=master, transparentcolor='888888',  # XXX: This color?
-                             duration=duration, animation=animation, **kw)
+        BaseToolTip.__init__(
+            self,
+            master=master,
+            transparentcolor="888888",  # XXX: This color?
+            duration=duration,
+            animation=animation,
+            **kw,
+        )
         # TODO: It maybe a std widget, should be moved to widgets.py?
 
 
@@ -467,22 +511,22 @@ class Canvas(tkinter.Canvas):
 
         self.master._canvases.append(self)
 
-        self.bind('<Motion>', self._touch)
-        self.bind('<Any-Key>', self._input)
-        self.bind('<Button-1>', self._click)
-        self.bind('<B1-Motion>', self._click)
-        self.bind('<MouseWheel>', self._mousewheel)
-        self.bind('<ButtonRelease-1>', self._release)
-        self.bind('<<Copy>>', self._copy)
-        self.bind('<<Paste>>', self._paste)
-        self.bind('<Configure>', self._zoom)
+        self.bind("<Motion>", self._touch)
+        self.bind("<Any-Key>", self._input)
+        self.bind("<Button-1>", self._click)
+        self.bind("<B1-Motion>", self._click)
+        self.bind("<MouseWheel>", self._mousewheel)
+        self.bind("<ButtonRelease-1>", self._release)
+        self.bind("<<Copy>>", self._copy)
+        self.bind("<<Paste>>", self._paste)
+        self.bind("<Configure>", self._zoom)
 
     # HACK: Need code the position expand
     def zoom(self, raito: tuple[float, float]) -> None:
         """absolute zooming for itself"""
-        if 'x' in self.size_expand.value:
+        if "x" in self.size_expand.value:
             self.width = int(self._INIT_WIDTH * raito[0])
-        if 'y' in self.size_expand.value:
+        if "y" in self.size_expand.value:
             self.height = int(self._INIT_HEIGHT * raito[1])
         self.place(width=self.width, height=self.height)
 
@@ -499,15 +543,24 @@ class Canvas(tkinter.Canvas):
             widget.scale_absolute(ratio_x, ratio_y)  # modify data
 
         # modify contents
-        for item in self.find_withtag('x'):
+        for item in self.find_withtag("x"):
             self.coords(
-                item, *[c*(ratio_x, 1)[i & 1] for i, c in enumerate(self.coords(item))])
-        for item in self.find_withtag('y'):
+                item,
+                *[c * (ratio_x, 1)[i & 1] for i, c in enumerate(self.coords(item))],
+            )
+        for item in self.find_withtag("y"):
             self.coords(
-                item, *[c*(1, ratio_y)[i & 1] for i, c in enumerate(self.coords(item))])
-        for item in self.find_withtag('xy'):
+                item,
+                *[c * (1, ratio_y)[i & 1] for i, c in enumerate(self.coords(item))],
+            )
+        for item in self.find_withtag("xy"):
             self.coords(
-                item, *[c*(ratio_x, ratio_y)[i & 1] for i, c in enumerate(self.coords(item))])
+                item,
+                *[
+                    c * (ratio_x, ratio_y)[i & 1]
+                    for i, c in enumerate(self.coords(item))
+                ],
+            )
 
     def _touch(self, event):
         # type: (tkinter.Event) -> None
@@ -516,7 +569,7 @@ class Canvas(tkinter.Canvas):
             if widget.state_hover(event):
                 return
         else:
-            self.configure(cursor='arrow')
+            self.configure(cursor="arrow")
 
     def _click(self, event, _flag=False):
         # type: (tkinter.Event, bool) -> None
@@ -582,7 +635,7 @@ class BaseWidget:
         *,
         resize=False,  # type: bool
         minsize=(0, 0),  # type: tuple[int, int]
-        maxsize=(float('inf'), float('inf')),  # type: tuple[int, int]
+        maxsize=(float("inf"), float("inf")),  # type: tuple[int, int]
         expand=BaseWidgetExpand.XY,  # type: typing.Literal['', 'x', 'y', 'xy']
         state=BaseWidgetState.DEFAULT,
         # type: typing.Literal['default', 'hover', 'selected', 'disabled', 'error']
@@ -609,7 +662,7 @@ class BaseWidget:
         if state_ not in BaseWidgetState._value2member_map_:
             raise StateError(state_)
         self._state = state_
-        eval(f'self.state_{state_}()')  # XXX: It can be more Pythonic.
+        eval(f"self.state_{state_}()")  # XXX: It can be more Pythonic.
 
     def destroy(self):
         # type: () -> None
@@ -633,26 +686,26 @@ class BaseWidget:
     def scale_absolute(self, ratio_x, ratio_y):
         # type: (float, float) -> None
         """"""
-        if 'x' in self.expand:
+        if "x" in self.expand:
             self.x = self._init_x * ratio_x
-        if 'y' in self.expand:
+        if "y" in self.expand:
             self.y = self._init_y * ratio_y
         if self.resize is True:
             self.width = self._init_width * ratio_x
             self.height = self._init_height * ratio_y
-        self.scale_callback(ratio_x, ratio_y, 'absolute')
+        self.scale_callback(ratio_x, ratio_y, "absolute")
 
     def scale_relative(self, ratio_x, ratio_y):
         # type: (float, float) -> None
         """"""
-        if 'x' in self.expand:
+        if "x" in self.expand:
             self.x *= ratio_x
-        if 'y' in self.expand:
+        if "y" in self.expand:
             self.y *= ratio_y
         if self.resize is True:
             self.width *= ratio_x
             self.height *= ratio_y
-        self.scale_callback(ratio_x, ratio_y, 'relative')
+        self.scale_callback(ratio_x, ratio_y, "relative")
 
     def scale_callback(self, ratio_x, ratio_y, type_):
         # type: (float, float, typing.Literal['absolute', 'relative']) -> None

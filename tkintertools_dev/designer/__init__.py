@@ -13,5 +13,5 @@ TKT-Designer
 A sub program of module tkintertools
 """
 
-__author__ = 'Xiaokang2022<2951256653@qq.com>'
-__version__ = '0.0.0'
+__author__ = "Xiaokang2022<2951256653@qq.com>"
+__version__ = "0.0.0"
