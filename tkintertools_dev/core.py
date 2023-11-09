@@ -33,18 +33,13 @@ import sys
 import tkinter
 import typing
 
-from tkintertools_dev.constants import tkinter
-from tkintertools_dev.exceptions import tkinter
-
 from .constants import *
 from .exceptions import *
 
-if sys.version_info < REQUIRE_PYTHON_VERSION:
-    # check version of Python
+if sys.version_info < REQUIRE_PYTHON_VERSION:  # check version of Python
     raise EnvironmentError(sys.version_info)
 
-if platform.system() == "Windows":
-    # set DPI awareness
+if platform.system() == "Windows":  # set DPI awareness
     ctypes.WinDLL("shcore").SetProcessDpiAwareness(PROCESS_SYSTEM_DPI_AWARE)
 
 
@@ -75,8 +70,7 @@ class Tk(tkinter.Tk):
         title: str | None = TITLE,
         iconbitmap: str | None = ICONBITMAP,
         state: typing.Literal[
-            "normal", "icon", "iconic", "withdrawn", "zoomed"
-        ] = STATE,
+            "normal", "icon", "iconic", "withdrawn", "zoomed"] = STATE,
         alpha: float = ALPHA,
         fullscreen: bool = FULLSCREEN,
         toolwindow: bool = TOOLWINDOW,
@@ -90,12 +84,13 @@ class Tk(tkinter.Tk):
         **kw,
     ) -> None:
         """
-        #### Positional Arguments
+        Positional Arguments
+        --------------------
         * `size`: size of window, default is 200x200(px)
-        * `position`: position of window, default value indicates a center location,
-        default indicates that position is centered
-        ---------------------------
-        #### Keyword only Arguments
+        * `position`: position of window, default value indicates a center location, default indicates that position is centered
+
+        Keyword only Arguments
+        ----------------------
         * `title`: title of window
         * `iconbitmap`: path to the window icon file
         * `state`: state of the window
@@ -108,10 +103,10 @@ class Tk(tkinter.Tk):
         * `minsize`: minimum width and height of the window
         * `resizable`: whether the width and height of the window can be resized
         * `overrideredirect`: whether to remove window's borders and title bar
-        * `shutdown`: a function that is called before closing the window,
-        but it overrides the operation that originally closed the window
-        --------------------------------------
-        #### Variable length Keyword Arguments
+        * `shutdown`: a function that is called before closing the window, but it overrides the operation that originally closed the window
+
+        Variable length Keyword Arguments
+        ---------------------------------
         * `**kw`: compatible with other parameters of class tkinter.Tk, see tkinter.Tk for details
         """
         if self.__class__ == Tk:  # NOTE: Subclasses of tkt.Tk do not inherit tk.Tk
@@ -157,9 +152,7 @@ class Tk(tkinter.Tk):
     def _zoom(self, event: tkinter.Event) -> None:
         """zoom contents of the window"""
         ratio = [event.width / self._size[0], event.height / self._size[1]]
-        if all(
-            [math.isclose(_i, i) for _i, i in zip(self._ratio, ratio)]
-        ):  # no changes
+        if all(math.isclose(_i, i) for _i, i in zip(self._ratio, ratio)):  # no changes
             return
         self._ratio = ratio  # absolutely ratio
         for nestedtk in self.get_nestedtks():
@@ -197,8 +190,7 @@ class Toplevel(tkinter.Toplevel, Tk):
         title: str = TITLE,
         iconbitmap: str | None = ICONBITMAP,
         state: typing.Literal[
-            "normal", "icon", "iconic", "withdrawn", "zoomed"
-        ] = STATE,
+            "normal", "icon", "iconic", "withdrawn", "zoomed"] = STATE,
         alpha: float = ALPHA,
         fullscreen: bool = FULLSCREEN,
         toolwindow: bool = TOOLWINDOW,
@@ -239,23 +231,9 @@ class Toplevel(tkinter.Toplevel, Tk):
         """
         tkinter.Toplevel.__init__(self, master, **kw)
         Tk.__init__(
-            self,
-            size,
-            position,
-            title=title,
-            iconbitmap=iconbitmap,
-            alpha=alpha,
-            state=state,
-            fullscreen=fullscreen,
-            toolwindow=toolwindow,
-            topmost=topmost,
-            transparentcolor=transparentcolor,
-            maxsize=maxsize,
-            minsize=minsize,
-            resizable=resizable,
-            overrideredirect=overrideredirect,
-            shutdown=shutdown,
-        )
+            self, size, position, title=title, iconbitmap=iconbitmap, alpha=alpha, state=state,
+            fullscreen=fullscreen, toolwindow=toolwindow, topmost=topmost, transparentcolor=transparentcolor, maxsize=maxsize,
+            minsize=minsize, resizable=resizable, overrideredirect=overrideredirect, shutdown=shutdown)
         self.transient(self.master if transient is True else None)
 
 
@@ -291,7 +269,8 @@ class NestedTk(Toplevel):
         overrideredirect: bool = OVERRIDEREDIRECT,
         shutdown: typing.Callable[[], typing.Any] | None = SHUTDOWN,
         size_expand: typing.Literal["none", "x", "y", "xy"] = SIZE_EXPAND,
-        position_expand: typing.Literal["none", "x", "y", "xy"] = POSITION_EXPAND,
+        position_expand: typing.Literal[
+            "none", "x", "y", "xy"] = POSITION_EXPAND,
         **kw,
     ) -> None:
         """
@@ -321,20 +300,8 @@ class NestedTk(Toplevel):
         if platform.system() != "Windows":  # NOTE: This class only works on Windows
             raise SystemError(platform.system())
         Toplevel.__init__(
-            self,
-            master,
-            size,
-            position,
-            title=title,
-            iconbitmap=iconbitmap,
-            toolwindow=toolwindow,
-            maxsize=maxsize,
-            minsize=minsize,
-            resizable=resizable,
-            overrideredirect=overrideredirect,
-            shutdown=shutdown,
-            **kw,
-        )
+            self, master, size, position, title=title, iconbitmap=iconbitmap, toolwindow=toolwindow,
+            maxsize=maxsize, minsize=minsize, resizable=resizable, overrideredirect=overrideredirect, shutdown=shutdown, **kw)
         self.size_expand = size_expand
         self.position_expand = position_expand
         self._position = list(position)  # NOTE: not really position!
@@ -396,15 +363,8 @@ class BaseToolTip(Toplevel):
         * `**kw`: compatible with other parameters of class tkinter.Toplevel, see tkinter.Toplevel for details
         """
         Toplevel.__init__(
-            self,
-            master,
-            TKDefault.SIZE,
-            TKDefault.POSITION,
-            transparentcolor=transparentcolor,
-            resizable=(False, False),
-            overrideredirect=True,
-            **kw,
-        )
+            self, master, TKDefault.SIZE, TKDefault.POSITION, transparentcolor=transparentcolor,
+            resizable=(False, False), overrideredirect=True, **kw)
         self.withdraw()
         self.duration = duration
         self.animation = animation
@@ -546,12 +506,14 @@ class Canvas(tkinter.Canvas):
         for item in self.find_withtag("x"):
             self.coords(
                 item,
-                *[c * (ratio_x, 1)[i & 1] for i, c in enumerate(self.coords(item))],
+                *[c * (ratio_x, 1)[i & 1]
+                  for i, c in enumerate(self.coords(item))],
             )
         for item in self.find_withtag("y"):
             self.coords(
                 item,
-                *[c * (1, ratio_y)[i & 1] for i, c in enumerate(self.coords(item))],
+                *[c * (1, ratio_y)[i & 1]
+                  for i, c in enumerate(self.coords(item))],
             )
         for item in self.find_withtag("xy"):
             self.coords(

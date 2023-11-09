@@ -27,9 +27,7 @@ class SystemError(RuntimeError):
 
     def __str__(self):
         # type: () -> str
-        return (
-            f"This class is only available under the Windows system, not {self.system}"
-        )
+        return f"This class is only available under the Windows system, not {self.system}"
 
 
 class StateError(ValueError):

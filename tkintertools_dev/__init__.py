@@ -8,8 +8,6 @@
 # See the Mulan PSL v2 for more details.
 
 """
-tkintertools
-------------
 tkintertools is an auxiliary development module of the Python3 built-in module tkinter.
 
 ### Provides

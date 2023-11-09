@@ -45,53 +45,27 @@ class _BaseShape:
 
         if oval:  # oval
             self._oval = self.master.create_oval(
-                x,
-                y,
-                x + width,
-                y + height,
-                fill=fill,
-                outline=outline,
-                width=borderwidth,
-            )
+                x, y, x + width, y + height, fill=fill, outline=outline, width=borderwidth)
         elif isinstance(radius, (int, float)):
             if radius < 0.5:  # rectangle
                 self._rectangle = self.master.create_rectangle(
-                    x,
-                    y,
-                    x + width,
-                    y + height,
-                    fill=fill,
-                    outline=outline,
-                    width=borderwidth,
-                )
+                    x, y, x + width, y + height, fill=fill, outline=outline, width=borderwidth)
             else:
                 diameter = radius * 2
                 if diameter >= width and width == height:  # circle
                     self.radius = width / 2
                     self._circle = self.master.create_oval(
-                        x,
-                        y,
-                        x + width,
-                        y + height,
-                        fill=fill,
-                        outline=outline,
-                        width=borderwidth,
-                    )
+                        x, y, x + width, y + height, fill=fill, outline=outline, width=borderwidth)
                 elif diameter >= width and diameter < height:  # vertical semicircle
                     self.radius = width / 2
                     up = x, y, x + width, y + diameter
                     down = x, y + height - diameter, x + width, y + height
 
-                    kw = {"extent": 180, "fill": fill, "outline": "", "tags": "fill"}
+                    kw = {"extent": 180, "fill": fill,
+                          "outline": "", "tags": "fill"}
                     self._in = [
                         self.master.create_rectangle(
-                            x,
-                            y + radius,
-                            x + width,
-                            y + height - radius,
-                            fill=fill,
-                            outline="",
-                        ),
+                            x, y + radius, x + width, y + height - radius, fill=fill, outline=""),
                         self.master.create_arc(*up, **kw, start=0),
                         self.master.create_arc(*down, **kw, start=180),
                     ]
@@ -103,23 +77,9 @@ class _BaseShape:
                     }
                     self._out = [
                         self.master.create_line(
-                            x,
-                            y + radius,
-                            x,
-                            y + height - radius,
-                            fill=outline,
-                            width=borderwidth,
-                            tags="fill",
-                        ),
+                            x, y + radius, x, y + height - radius, fill=outline, width=borderwidth, tags="fill"),
                         self.master.create_line(
-                            x + width,
-                            y + radius,
-                            x + width,
-                            y + height - radius,
-                            fill=outline,
-                            width=borderwidth,
-                            tags="fill",
-                        ),
+                            x + width, y + radius, x + width, y + height - radius, fill=outline, width=borderwidth, tags="fill"),
                         self.master.create_arc(*up, **kw, start=0),
                         self.master.create_arc(*down, **kw, start=180),
                     ]
@@ -131,13 +91,7 @@ class _BaseShape:
                     kw = {"extent": 180, "fill": fill, "outline": ""}
                     self._in = [
                         self.master.create_rectangle(
-                            x + radius,
-                            y,
-                            x + width - radius,
-                            y + height,
-                            fill=fill,
-                            outline="",
-                        ),
+                            x + radius, y, x + width - radius, y + height, fill=fill, outline=""),
                         self.master.create_arc(*left, **kw, start=90),
                         self.master.create_arc(*right, **kw, start=-90),
                     ]
@@ -149,23 +103,9 @@ class _BaseShape:
                     }
                     self._out = [
                         self.master.create_line(
-                            x + radius,
-                            y,
-                            x + width - radius,
-                            y,
-                            fill=outline,
-                            width=borderwidth,
-                            tags="fill",
-                        ),
+                            x + radius, y, x + width - radius, y, fill=outline, width=borderwidth, tags="fill"),
                         self.master.create_line(
-                            x + radius,
-                            y + height,
-                            x + width - radius,
-                            y + height,
-                            fill=outline,
-                            width=borderwidth,
-                            tags="fill",
-                        ),
+                            x + radius, y + height, x + width - radius, y + height, fill=outline, width=borderwidth, tags="fill"),
                         self.master.create_arc(*left, **kw, start=90),
                         self.master.create_arc(*right, **kw, start=-90),
                     ]
@@ -173,21 +113,14 @@ class _BaseShape:
                     up_left = x, y, x + diameter, y + diameter
                     up_right = x + width, y, x + width - diameter, y + diameter
                     down_left = x, y + height, x + diameter, y + height - diameter
-                    down_right = (
-                        x + width,
-                        y + height,
-                        x + width - diameter,
-                        y + height - diameter,
-                    )
+                    down_right = x + width, y + height, x + width - diameter, y + height - diameter
 
                     kw = {"fill": fill, "outline": ""}
                     self._in = [
                         self.master.create_rectangle(
-                            x, y + radius, x + width, y + height - radius, **kw
-                        ),
+                            x, y + radius, x + width, y + height - radius, **kw),
                         self.master.create_rectangle(
-                            x + radius, y, x + width - radius, y + height, **kw
-                        ),
+                            x + radius, y, x + width - radius, y + height, **kw),
                         self.master.create_arc(*up_left, **kw, start=90),
                         self.master.create_arc(*up_right, **kw, start=0),
                         self.master.create_arc(*down_left, **kw, start=180),
@@ -278,7 +211,8 @@ class _BaseShape:
         * `outline`:
         """
         if len(self._items) == 1:
-            self.master.itemconfigure(self._items[0], fill=fill, outline=outline)
+            self.master.itemconfigure(
+                self._items[0], fill=fill, outline=outline)
         else:
             start = (len(self._items) - 1) // 2
             end = start + 2 * (start // 3)
