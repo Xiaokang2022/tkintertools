@@ -113,7 +113,7 @@ space = t3d.Space(root, 1280, 720, 0, 0)  # 创建空间
 m = 200*math.sqrt(50-10*math.sqrt(5))/10
 n = 200*math.sqrt(50+10*math.sqrt(5))/10
 points = []  # 顶点列表
-dis_side = 200 * (3*math.sqrt(3)+math.sqrt(15))/12 / \
+dis_side = 200 * (3*math.sqrt(3)+math.sqrt(15))/12 - \
     ((math.sqrt(10+2*math.sqrt(5)))/4)  # 面到中心的距离
 count, color_lst = 0, ['00', '77', 'FF']  # 颜色可能值
 color = ['#%s%s%s' % (r, g, b)  # 颜色列表

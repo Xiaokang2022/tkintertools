@@ -1,12 +1,48 @@
+[`2.6.12`] - 2023-11-15
+-----------------------
+
+### Added - 新增
+
+- [X] Widget class `CheckButton` adds parameter `tick` to change its markup symbol  
+控件类 `CheckButton` 新增参数 `tick` 来改变其标记符号
+
+- [X] The `Switch` widget class adds parameters `color_fill_slider` and `color_outline_slider` to change the appearance of its internal sliders  
+控件类 `Switch` 新增参数 `color_fill_slider` 和 `color_outline_slider` 来更改其内部滑块的外观
+
+### Optimized - 优化
+
+- [X] Drastically changed the format of the docstring to solve the problem that the docstring was displayed out of order on PyCharm  
+大幅度修改 docstring 的格式，以解决 docstring 在 PyCharm 上格式显示错乱的问题
+
+- [X] Remove redundant code  
+移除冗余代码
+
+- [X] Optimized `tools_3d` submodule code to improve performance by 13.26%  
+优化了 `tools_3d` 子模块代码，提高了 13.26% 的性能
+
+### Fixed - 修复
+
+- [X] Fixed an bug where when clicking on a widget, the widget behind it would also be triggered  
+修复了点击控件时，其后面的控件也会被触发的问题
+
+- [X] Missing symbol '#' for function `color` return value  
+函数 `color` 返回值缺少符号 “#”
+
+- [X] Fixed an bug where the canvas of the `tools_3d` submodule could not use widgets such as buttons  
+修复了 `tools_3d` 子模块的画布无法使用按钮等控件的问题
+
+- [X] Fixed an bug where the `Switch` of the Widget class could not control the `Switch` by clicking on the inner slider  
+修复了控件类 `Switch` 点击内部滑块无法操控 `Switch` 的问题
+
 [`2.6.11`] - 2023-10-17
 -----------------------
 
-### Optimized / 优化
+### Optimized - 优化
 
 - [X] Optimized the code of submodule `tools_3d`, introduced built-in module `array` instead of the underlying list to improve the calculation speed, and improved the overall performance by 11.66% !  
 优化了子模块 `tools_3d` 的代码，引入内置模块 `array` 代替底层列表来提高计算速度，综合性能提升 11.66% ！
 
-### Removed / 移除
+### Removed - 移除
 
 - [X] Removed classes `_Point`, `_Line` and `_Side` from submodule `tools_3d`  
 移除了子模块 `tools_3d` 中的类 `_Point`、`_Line` 和 `_Side`
@@ -14,7 +50,7 @@
 [`2.6.10`] - 2023-08-12
 -----------------------
 
-### Added / 新增
+### Added - 新增
 
 - [X] Added file exceptions.py and exception classes `ScaleArgsValueError`, `ColorArgsValueError` and `WidgetStateModeError` to provide a description of some exceptions  
 新增文件 exceptions.py 及异常类 `ScaleArgsValueError`、`ColorArgsValueError` 和 `WidgetStateModeError` 以提供部分异常的描述
@@ -22,7 +58,7 @@
 - [X] The widget `Progressbar` adds a indeterminate mode  
 控件 `Progressbar` 新增不定模式
 
-### Changed / 变更
+### Changed - 变更
 
 - [X] The value of the constant `SWITCH_WIDTH` is changed from 0 to 60  
 常量 `SWITCH_WIDTH` 的值从 0 更改为 60
@@ -30,7 +66,7 @@
 - [X] The parameter `width` of class `Switch` was changed from positional argument to keyword argument  
 类 `Switch` 的参数 `width` 由位置参数更改为关键字参数
 
-### Optimized / 优化
+### Optimized - 优化
 
 - [X] Change the way the output is formatted in all code from the "%" mode to the more efficient f-string mode  
 将所有代码中格式化输出的方式由 “%” 方式更改为效率更高的 f-string 方式
@@ -38,7 +74,7 @@
 - [X] Optimized type hints for some code  
 优化了部分代码的类型提示
 
-### Removed / 移除
+### Removed - 移除
 
 - [X] Remove the function `text` and use f-string instead  
 移除函数 `text`，可使用 f-string 来对其进行代替
@@ -46,7 +82,7 @@
 [`2.6.9`] - 2023-08-09
 ----------------------
 
-### Added / 新增
+### Added - 新增
 
 - [X] Added new widget switch (`Switch`)  
 新增控件开关（`Switch`）
@@ -57,7 +93,7 @@
 - [X] Added constants `DURATION`、`TOOLTIP_FG`、`TOOLTIP_BG`、`TOOLTIP_HIGNLIGHT_THICKNESS`、`TOOLTIP_HIGNLIGHT_BACKGROUND`、`COLOR_SWITCH_ON`、`COLOR_SWITCH_OFF`、`SWITCH_WIDTH`、`SWITCH_HEIGHT`、`SWITCH_RADIUS` and `SWITCH_ANIMATION_MS`  
 新增常量 `DURATION`、`TOOLTIP_FG`、`TOOLTIP_BG`、`TOOLTIP_HIGNLIGHT_THICKNESS`、`TOOLTIP_HIGNLIGHT_BACKGROUND`、`COLOR_SWITCH_ON`、`COLOR_SWITCH_OFF`、`SWITCH_WIDTH`、`SWITCH_HEIGHT`、`SWITCH_RADIUS` 和 `SWITCH_ANIMATION_MS`
 
-### Fixed / 修复
+### Fixed - 修复
 
 - [X] Fixed an issue where the text class widget called method `clear` was invalid  
 修复了文本类控件调用方法 `clear` 无效的问题
@@ -65,17 +101,17 @@
 - [X] Fixed an issue where the class `Animation` automatically determined the parent widget of the widget to be moved  
 修复了类 `Animation` 自动确定待移动控件的父控件时出现错误的问题
 
-### Changed / 变更
+### Changed - 变更
 
 - [X] The positional parameter `length` of class `CheckButton` was renamed `height`  
 类 `CheckButton` 的位置参数 `length` 更名为 `height`
 
-### Optimized / 优化
+### Optimized - 优化
 
 - [X] Optimized the method `wm_geometry` of class `Tk` to accommodate some specially formatted parameters  
 优化了类 `Tk` 的方法 `wm_geometry` 以适应某些特殊格式的参数
 
-### Removed / 移除
+### Removed - 移除
 
 - [X] Removed class `Singleton` and function `move`  
 移除了类 `Singleton` 和函数 `move`
@@ -83,7 +119,7 @@
 [`2.6.8`] - 2023-08-03
 ----------------------
 
-### Added / 新增
+### Added - 新增
 
 - [X] If the user's Python includes a PIL library, PIL is automatically invoked when autoscaling images to extend the functionality of the class `PhotoImage`  
 若使用者的 Python 包含有 PIL 库，则在自动缩放图片时自动调用 PIL 来扩展类 `PhotoImage` 的功能
@@ -94,15 +130,16 @@
 - [X] Added constant `CONTROL`  
 新增常量 `CONTROL`
 
-### Fixed / 修复
+### Fixed - 修复
 
 - [X] Fixed the bug that widgets `Entry` and `Text` would report an error when pasting text  
 修复控件 `Entry` 和 `Text` 粘贴文本时会报错的 bug
 
+> **Note**  
 > Thanks to netizens [一梦千年](mailto:1076336488@qq.com) for discovering the above bug  
 感谢网友 [一梦千年](mailto:1076336488@qq.com) 发现了上面的 bug
 
-### Changed / 变更
+### Changed - 变更
 
 - [X] Modified the name of the constant `FRAMES` to `FPS`  
 修改常量 `FRAMES` 的名称为 `FPS`
@@ -110,7 +147,7 @@
 - [X] The parameter `precision` of the method `zoom` of class `PhotoImage` was changed from positional argument to keyword argument  
 类 `PhotoImage` 的方法 `zoom` 的参数 `precision` 由位置参数变更为关键字参数
 
-### Deprecated / 弃用
+### Deprecated - 弃用
 
 - [X] The function `move` is about to be deprecated, please replace it with the new class `Animation`  
 函数 `move` 即将被弃用，请用新类 `Animation` 来代替
@@ -121,7 +158,7 @@
 [`2.6.7`] - 2023-07-06
 ----------------------
 
-### Added / 新增
+### Added - 新增
 
 - [X] The function `rotate` of the 3D submodule adds the keyword `axis` to provide the function of rotating around the axis  
 3D 子模块的函数 `rotate` 新增关键字参数 `axis` 来提供绕轴旋转的功能
@@ -132,12 +169,12 @@
 - [X] Class `Tk` and `Toplevel` Added keyword arguments `alpha`, `toolwindow`, `topmost` and `transparentcolor`  
 类 `Tk` 和 `Toplevel` 新增关键字参数 `alpha`、`toolwindow`、`topmost` 和 `transparentcolor`
 
-### Fixed / 修复
+### Fixed - 修复
 
 - [X] Fixed a bug where the class `Text` would report an error when scrolling with the mouse wheel  
 修复了类 `Text` 在使用鼠标滚轮滚动时会报错的 bug
 
-### Optimized / 优化
+### Optimized - 优化
 
 - [X] Optimized some code and type hints  
 优化了部分代码和类型提示
@@ -148,12 +185,12 @@
 - [X] A large number of incomplete docstrings have been modified and improved  
 修改和完善了大量的不完整的文档注释
 
-### Changed / 变更
+### Changed - 变更
 
 - [X] Change some methods of some classes to protection methods  
 将部分类的部分方法更改为保护方法
 
-### Removed / 移除
+### Removed - 移除
 
 - [X] Removed abstract classes and abstract methods  
 移除了抽象类和抽象方法
@@ -161,7 +198,7 @@
 [`2.6.6`] - 2023-07-01
 ----------------------
 
-### Added / 新增
+### Added - 新增
 
 - [X] The classes `_Point`, `_Line`, `_Side`, and `Geometry` of the 3D submodule all have a new method `center` that returns the geometric center of the 3D object  
 3D 子模块的类 `_Point`、`_Line`、`_Side` 和 `Geometry` 都新增一个方法 `center` 返回该 3D 对象的几何中心
@@ -169,7 +206,7 @@
 - [X] Added abstract class `_3D_Object` as the metabase class for classes `_Point`, `_Line`, and `_Side`  
 新增抽象类 `_3D_Object` 来作为类 `_Point`、`_Line` 和 `_Side` 的元基类
 
-### Optimized / 优化
+### Optimized - 优化
 
 - [X] Optimized parameter passing in 3D submodules, users do not need to ensure the transitivity of `list` at all times, and parameters that used to only use the `list` type are now `Iterable` type  
 优化了 3D 子模块中的参数传递，使用者不需要时刻保证 `list` 的传递性，且原来只能使用 `list` 类型的参数现在为 `Iterable` 类型
@@ -189,7 +226,7 @@
 - [X] The calculation formula for the camera distance in the 3D submodule has been optimized to improve the performance by a bit  
 3D 子模块中相机距离的计算公式优化，提高了一点性能
 
-### Changed / 变更
+### Changed - 变更
 
 - [X] The parameters `point1` and `point2` of class `Point` of the 3D submodule and its parent class `_Point` were renamed to `point_start` and `point_end` respectively  
 3D 子模块的类 `Point` 及其父类 `_Point` 的参数 `point1` 和 `point2` 分别被重命名为 `point_start` 和 `point_end`
@@ -197,7 +234,7 @@
 - [X] The parameter `origin_color` of the class `Space` of the 3D submodule has been changed to four new parameters, namely `origin_size`, `origin_width`, `origin_fill` and `origin_outline`  
 3D 子模块的类 `Space` 的参数 `origin_color` 被更改为四个新的参数，分别是 `origin_size`、`origin_width`、`origin_fill` 和 `origin_outline`
 
-### Removed / 移除
+### Removed - 移除
 
 - [X] The classes `Canvas_3D` and `Space` of the 3D submodule remove the parameters `dx` and `dy`, and the default field of view of the canvas remains centered, i.e. their center is now the original upper-left vertex  
 3D 子模块的类 `Canvas_3D` 和 `Space` 移除参数 `dx` 和 `dy`，画布默认视野保持居中，也就是说，现在它们的中心位置才是原来的左上角顶点
@@ -205,12 +242,12 @@
 [`2.6.5`] - 2023-06-17
 ----------------------
 
-### Added / 新增
+### Added - 新增
 
 - [X] The new class `Space` added to the submodule `tools_3d` can provide the ability to translate, rotate and scale 3D objects  
 子模块 `tools_3d` 新增类 `Space` 可以提供对 3D 对象进行平移、旋转和缩放等操作的功能
 
-### Fixed / 修复
+### Fixed - 修复
 
 - [X] Fixed a bug where class `Cuboid` and class `Tetrahedron` did not add instances to parent class `Canvas_3D`  
 修复了类 `Cuboid` 和类 `Tetrahedron` 没有将实例添加到父类 `Canvas_3D` 的 bug
@@ -221,7 +258,7 @@
 - [X] Fixed some incorrect type hints  
 修复了部分错误的类型提示
 
-### Removed / 移除
+### Removed - 移除
 
 - [X] Removed the constant `BACKGROUND` and no longer qualified the default background color of class `Canvas`    
 移除常量 `BACKGROUND` 并且不再对类 `Canvas` 的默认背景颜色做限定
@@ -229,12 +266,12 @@
 [`2.6.4`] - 2023-06-12
 ----------------------
 
-### Added / 新增
+### Added - 新增
 
 - [X] The class `tool_3d` submodule `Canvas_3D` has added the function `space_sort` to calculate and sort the actual position of space to support the correct display of geometry colors  
 `tool_3d` 子模块的类 `Canvas_3D` 新增对空间实际位置进行计算和排序的函数 `space_sort`，以支持几何体颜色的正确显示
 
-### Fixed / 修复
+### Fixed - 修复
 
 - [X] Fixed a bug where movement and rotation between points, lines, and sides in the 3D module are out of sync  
 修复了 3D 模块中的点、线与面之间移动和旋转不同步的 bug
@@ -242,7 +279,7 @@
 - [X] Fixed a bug where class `Canvas_3D` in the 3D module would be invalid when passing arguments to class `Canvas` in the original `tkinter` module  
 修复了 3D 模块中的类 `Canvas_3D` 在传递原 `tkinter` 模块中的类 `Canvas` 的参数时会无效的 bug
 
-### Changed / 变更
+### Changed - 变更
 
 - [X] The parameter `cfg_3d` of class `Canvas_3D` is changed to 3 specific parameters, namely camera distance `camera_distance`, picture abscissa deviation `dx` and screen ordinate deviation `dy`  
 类 `Canvas_3D` 的参数 `cfg_3d` 被更改为 3 个具体的参数，分别为相机距离 `camera_distance`、画面横坐标偏差 `dx` 和画面纵坐标偏差 `dy`
@@ -256,7 +293,7 @@
 [`2.6.3`] - 2023-06-07
 ----------------------
 
-### Optimized / 优化
+### Optimized - 优化
 
 - [X] The 3D object implementation varies with the size of the canvas  
 3D 对象实现随画布大小变化而变化
@@ -267,12 +304,12 @@
 - [X] Added more type hints, especially for overloads  
 添加了更多类型提示，尤其是对重载的提示
 
-### Fixed / 修复
+### Fixed - 修复
 
 - [X] Fixed a bug where the parameter `keep` would affect the position of class `Canvas`  
 修复参数 `keep` 会对类 `Canvas` 的位置产生影响的 bug
 
-### Changed / 变更
+### Changed - 变更
 
 - [X] Set the default value of the parameter `keep` of the class `Canvas_3D` in the 3D module to `True`, i.e. keep the canvas width and height scaled proportionally by default  
 将3d模块中的类 `Canvas_3D` 的参数 `keep` 的默认值设为 `True`，即默认保持画布宽高缩放成比例
@@ -280,7 +317,7 @@
 [`2.6.2`] - 2023-05-30
 ----------------------
 
-### Added / 新增
+### Added - 新增
 
 - [X] Added `tkintertools` sub-module `tools_3d` to support drawing 3D graphics  
 新增 `tkintertools` 子模块 `tools_3d` 以支持绘制 3D 图形
@@ -288,7 +325,7 @@
 [`2.6.1`] - 2023-05-21
 ----------------------
 
-### Optimized / 优化
+### Optimized - 优化
 
 - [X] Enhance the cross platform functionality of the module, which can run on the Windows and Linux platform  
 提升模块的跨平台性，可在 Windows 和 Linux 平台上运行
@@ -308,12 +345,12 @@
 - [X] The class `Canvas` adds parameters `x` and `y` to reduce redundant code  
 类 `Canvas` 新增参数 `x` 和 `y` 以减少多余代码
 
-### Fixed / 修复
+### Fixed - 修复
 
 - [X] Fixed a bug where widgets would misalign after calling the method `moveto`  
 修复了控件在调用了方法 `moveto` 后会发生错位的 bug
 
-### Removed / 移除
+### Removed - 移除
 
 - [X] Remove Unused Constants `SCALE`  
 删除无用常量 `SCALE`
@@ -321,17 +358,17 @@
 [`2.6.0`] - 2023-03-28
 ----------------------
 
-### Added / 新增
+### Added - 新增
 
 - [X] New virtual canvas widget check box: `CheckButton`  
 新增虚拟画布控件复选框：`CheckButton`
 
-### Fixed / 修复
+### Fixed - 修复
 
 - [X] Solve the bug that the `Text` class `set` and `append` methods will not be updated immediately after use  
 解决 `Text` 类 `set`、`append` 方法使用后不会立即更新的 bug
 
-### Optimized / 优化
+### Optimized - 优化
 
 - [X] Optimize the parameters of some classes and functions  
 优化部分类和函数的参数
@@ -339,17 +376,17 @@
 [`2.5.12`] - 2023-03-20
 -----------------------
 
-### Added / 新增
+### Added - 新增
 
 - [X] Add a `image` parameter to all widgets to add a background image  
 所有控件新增参数 `image` 来添加背景图片
 
-### Fixed / 修复
+### Fixed - 修复
 
 - [X] Fixed a bug where the `move` function cannot move a window  
 修复了 `move` 函数无法移动窗口的 bug
 
-### Optimized / 优化
+### Optimized - 优化
 
 - [X] Move the binding code of the associated keyboard from class `Tk` to class `Canvas`  
 将关联键盘的绑定代码全部由类 `Tk` 移到类 `Canvas` 中
@@ -357,7 +394,7 @@
 - [X] Optimized some of the code to prevent bugs that shouldn't occur  
 优化了部分代码，防止出现一些不应该出现的 bug
 
-### Removed / 移除
+### Removed - 移除
 
 - [X] Deleted function `font`  
 删除了函数 `font`
@@ -366,7 +403,7 @@
 [`2.5.11`] - 2023-03-13
 -----------------------
 
-### Added / 新增
+### Added - 新增
 
 - [X] Class `Canvas` adds parameter `keep` to extend function  
 类 `Canvas` 新增参数 `keep` 以扩展功能
@@ -377,7 +414,7 @@
 - [X] New tool function `font` is added to solve the problem of font size matching DPI level  
 新增工具函数 `font` 以解决字体大小适配 DPI 级别的问题
 
-### Fixed / 修复
+### Fixed - 修复
 
 - [X] Fixed the problem of inaccurate Python version requirements. The minimum module operation requirement should be Python 3.11  
 修复了 Python 版本要求不准确的问题，模块最低运行要求应为 Python3.11
@@ -385,7 +422,7 @@
 - [X] Fixed the problem that the `configure` method of `_BaseWidget` cannot get the normal effect when modifying the parameter `text` to an empty string  
 修复了控件基类 `_BaseWidget` 的方法 `configure` 在将参数 `text` 修改为空字符串时无法得到正常效果的问题
 
-### Optimized / 优化
+### Optimized - 优化
 
 - [X] Optimize the solution to the adaptive DPI problem  
 优化解决适配 DPI 问题的方案
@@ -399,7 +436,7 @@
 [`2.5.10`] - 2023-02-04
 -----------------------
 
-### Added / 新增
+### Added - 新增
 
 - [X] Canvas virtual widget base class `_BaseWidget` Add instance attribute `command_ex` to extend functions  
 画布虚拟控件基类 `_BaseWidget` 新增实例属性 `command_ex` 以扩展功能
@@ -410,7 +447,7 @@
 - [X] New method of canvas virtual widget base class `moveto`  
 画布虚拟控件基类新增方法 `moveto`
 
-### Fixed / 修复
+### Fixed - 修复
 
 - [X] Fixed the bug that the class `Tk` cannot make the distance between the window and the screen 0  
 修复了类 `Tk` 无法使窗口与屏幕距离为 0 的 bug
@@ -418,12 +455,12 @@
 - [X] Fixed the bug that the parameter `borderwidth` of the widget is invalid when it has rounded corners  
 修复了控件在有圆角状态下参数 `borderwidth` 失效的 bug
 
-### Changed / 变更
+### Changed - 变更
 
 - [X] The initialization parameters of `Tk` class and `Toplevel` class have become more concise  
 `Tk` 类和 `Toplevel` 类的初始化参数变得更加简洁了
 
-### Optimized / 优化
+### Optimized - 优化
 
 - [X] The state change of the canvas virtual widget adds a previous state detection, greatly improving performance  
 画布虚拟控件的状态改变加了个先前状态检测，大幅提高性能
@@ -434,12 +471,12 @@
 [`2.5.9`] - 2023-01-13
 ----------------------
 
-### Added / 新增
+### Added - 新增
 
 - [X] Class `PhotoImage` new method `stop` is used to stop the playback of moving pictures  
 类 `PhotoImage` 新增方法 `stop` 用于停止动图的播放
 
-### Fixed / 修复
+### Fixed - 修复
 
 - [X] Fixed an incomplete parameter bug in the `moveto` method of the `Canvas` class  
 修复了 `Canvas` 类的方法 `moveto` 在参数上不完备的 bug
@@ -450,12 +487,12 @@
 - [X] Fixed parameter error of class `PhotoImage`  
 修复了类 `PhotoImage` 的参数错误
 
-### Optimized / 优化
+### Optimized - 优化
 
 - [X] Optimize codes, simplify some codes and delete redundant parts  
 优化代码，简化部分代码，删去冗余部分
 
-### Removed / 移除
+### Removed - 移除
 
 - [X] The redundant parameters `minsize` and `alpha` of the `Tk` and `Toplevel` classes have been deleted  
 删除了 `Tk` 类和 `Toplevel` 类的冗余参数 `minsize` 和 `alpha`
@@ -463,7 +500,7 @@
 [`2.5.8`] - 2023-01-12
 ----------------------
 
-### Fixed / 修复
+### Fixed - 修复
 
 - [X] Fixed a bug that the function `move` cannot perform the default move mode `flat`  
 修复了函数 `move` 无法进行默认的移动模式 `flat` 的 bug
@@ -471,7 +508,7 @@
 - [X] Solve the bug that the cursor will flash faster and faster after pasting text for text widget  
 解决文本类控件在粘贴文本后光标会越闪越快的 bug
 
-### Optimized / 优化
+### Optimized - 优化
 
 - [X] `move` function has been optimized to improve applicability, accuracy and speed  
 优化了 `move` 函数，提升了适用性、精度以及速度
@@ -491,7 +528,7 @@
 [`2.5.7`] - 2023-01-10
 ----------------------
 
-### Added / 新增
+### Added - 新增
 
 - [X] The `move` function adds the parameter `frames`, which can change the number of frames of the animation when moving  
 `move` 函数新增参数 `frames`，可改变移动时的动画的帧数
@@ -502,7 +539,7 @@
 - [X] New compatible version and compatible version conversion file  
 新增兼容版本以及兼容版本转换文件
 
-### Changed / 变更
+### Changed - 变更
 
 - [X] Change the function names of functions `move_widget`, `correct_text` and `change_color` to `move`, `text` and `color` respectively  
 分别将函数 `move_widget`、`correct_text` 和 `change_color` 的函数名变更为 `move`、`text` 和 `color`
@@ -513,7 +550,7 @@
 - [X] Increase the default frame rate parameter of the move function to 30  
 提高了移动函数的默认帧率参数至 30
 
-### Optimized / 优化
+### Optimized - 优化
 
 - [X] Optimized the code structure of the `color` function and the `move` function to make it more concise  
 优化了 `color` 函数和 `move` 函数的代码结构，使其更加简洁
@@ -521,7 +558,7 @@
 [`2.5.6`] - 2022-12-12
 ----------------------
 
-### Fixed / 修复
+### Fixed - 修复
 
 - [X] Fixed the bug that the singleton mode class (`Singleton`) could not pass parameters during initialization  
 修复了单例模式类（`Singleton`）在初始化时无法传递参数的 bug
@@ -529,12 +566,12 @@
 - [X] Fixed the bug that sometimes the font parameters of `_CanvasItemId` could not be found when scaling fonts in `Canvas` class  
 修复了 `Canvas` 类在缩放字体时，有时会找不到 `_CanvasItemId` 的字体参数的 bug
 
-### Changed / 变更
+### Changed - 变更
 
 - [X] The zoom method of the picture is changed from absolute zoom to relative absolute zoom  
 图片的缩放方式由绝对缩放变更为相对的绝对缩放方式
 
-### Optimized / 优化
+### Optimized - 优化
 
 - [X] Optimized the structure of the `PhotoImage` class  
 优化了 `PhotoImage` 类的结构
@@ -545,7 +582,7 @@
 - [X] The `fractions` module is introduced to improve the precision of image scaling and reduce the operation time  
 引入了 fractions 模块并提高了图片缩放时的精度且减少了运算时间
 
-### Removed / 移除
+### Removed - 移除
 
 - [X] `Canvas` class deletes two redundant and overridden instance methods: `create_ bitmap` and `create_ window`  
 `Canvas` 类删除了两个冗余的、重写的实例方法：`create_bitmap` 和 `create_window`
@@ -553,17 +590,17 @@
 [`2.5.5`] - 2022-12-11
 ----------------------
 
-### Added / 新增
+### Added - 新增
 
 - [X] Added type prompt `Self` for the `self` parameter of instance methods of all classes  
 为所有类的实例方法的 `self` 参数添加了类型提示 `Self`
 
-### Fixed / 修复
+### Fixed - 修复
 
 - [X] Fixed the bug that the width and height will not change in some cases when scaling `Canvas` classes  
 修复了 `Canvas` 类缩放时，宽高在某些情况下不会改变的 bug
 
-### Changed / 变更
+### Changed - 变更
 
 - [X] Modified the access method of `Tk` class, `Toplevel` class and `Canvas` class protection attributes  
 修改了 `Tk` 类、`Toplevel` 类、`Canvas` 类的保护属性的获取方式
@@ -571,7 +608,7 @@
 - [X] Greatly modified the canvas scaling mechanism, fully adapted to all situations, and accelerated the scaling speed  
 大幅度地修改了画布缩放的机制，完全适应所有情况，并加快了缩放速度
 
-### Optimized / 优化
+### Optimized - 优化
 
 - [X] Optimize the structure of all multiple loops and judgment statements, making the code more beautiful  
 优化了所有多重循环加判断语句的结构，使代码更为美观
@@ -579,12 +616,12 @@
 [`2.5.4`] - 2022-12-08
 ----------------------
 
-### Added / 新增
+### Added - 新增
 
 - [X] A new widget has been added: progress bar(`Progressbar`)  
 增加了一个新的控件：进度条（`Progressbar`）
 
-### Fixed / 修复
+### Fixed - 修复
 
 - [X] Fixed the bug that the screen size would be abnormal when creating `Canvas` of different sizes  
 修复了新建不同大小的 `Canvas` 时，画面大小会异常的 bug
@@ -595,12 +632,12 @@
 - [X] Solved the bug that function `move_widget` cannot move `tkinter._CanvasItemId`  
 解决了函数 `move_widget` 无法移动 `tkinter._CanvasItemId` 的 bug
 
-### Changed / 变更
+### Changed - 变更
 
 - [X] The binding mechanism of associated events has been modified so that `Canvas` classes can be created at any time  
 修改了关联事件的绑定机制，使得 `Canvas` 类可以被随时创建
 
-### Optimized / 优化
+### Optimized - 优化
 
 - [X] Some colors are beautified  
 美化了部分颜色
@@ -611,7 +648,7 @@
 [`2.5.3`] - 2022-11-27
 ----------------------
 
-### Added / 新增
+### Added - 新增
 
 - [X] Added singleton pattern(`Singleton`) class for inheritance  
 增加了单例模式类（`Singleton`）供继承
@@ -619,15 +656,16 @@
 - [X] Add some methods (attributes) of `Tk`, `Toplevel` and `Canvas` to access some attributes that should not be directly accessed  
 增加 `Tk`、`Toplevel`、`Canvas` 的一些方法(属性)来访问一些不应该被直接访问的属性
 
-### Fixed / 修复
+### Fixed - 修复
 
 - [X] Solved the bug that the `destroy` method of the widget can only delete half of the widgets when traversing  
 解决了控件的 `destroy` 方法在遍历使用时只能删除一半控件的 bug
 
+> **Note**  
 > Thanks to [-ShuiGuang-](https://blog.csdn.net/atlantis618) for finding the above bug  
 感谢 [-ShuiGuang-](https://blog.csdn.net/atlantis618) 发现了上面的 bug
 
-### Optimized / 优化
+### Optimized - 优化
 
 - [X] `Canvas` class overrides `destroy` method to be compatible with the original `destroy` method  
 `Canvas` 类重写 `destroy` 方法以兼容原 `destroy` 方法
@@ -638,7 +676,7 @@
 - [X] Some codes of `Tk` and `Toplevel` are optimized, and the code amount of `Toplevel` widgets is greatly reduced  
 优化了 `Tk`、`Toplevel` 的部分代码，`Toplevel` 控件的代码量大大缩减
 
-### Removed / 移除
+### Removed - 移除
 
 - [X] The `proportion_lock` parameter and its function of `Tk` and `Toplevel` are deleted  
 删除了 `Tk`、`Toplevel` 的 `proportion_lock` 参数及其功能
@@ -646,12 +684,12 @@
 [`2.5.2`] - 2022-11-25
 ----------------------
 
-### Added / 新增
+### Added - 新增
 
 - [X] Added mouse style for text type virtual widget  
 添加了对文本类虚拟控件的鼠标样式
 
-### Fixed / 修复
+### Fixed - 修复
 
 - [X] Solved the bug that the `set` and `append` methods of text virtual widgets may fail in some cases  
 解决了文本类虚拟控件 `set`、`append` 方法某些时候会失效的 bug
@@ -662,7 +700,7 @@
 - [X] Fixed the bug that the `read` parameter of the text box widget failed  
 修复了文本框控件 `read` 参数失效的 bug
 
-### Optimized / 优化
+### Optimized - 优化
 
 - [X] Change the mouse position detection order to further improve the running speed  
 改变鼠标位置检测顺序，进一步提升运行速度
@@ -670,12 +708,12 @@
 [`2.5.1`] - 2022-11-23
 ----------------------
 
-### Added / 新增
+### Added - 新增
 
 - [X] Added mouse style for button virtual widgets  
 添加了对按钮虚拟控件的鼠标样式
 
-### Fixed / 修复
+### Fixed - 修复
 
 - [X] Solved the bug that the input prompt position was not aligned after the input box was enlarged  
 解决了输入框放大后输入提示符位置没对齐的 bug
@@ -686,12 +724,12 @@
 - [X] Fix a few errors in the module documentation  
 修复模块文档中的少许错误
 
-### Changed / 变更
+### Changed - 变更
 
 - [X] Modified the mouse position determination mechanism and improved the running speed  
 修改了鼠标位置判定机制，同时提升运行速度
 
-### Optimized / 优化
+### Optimized - 优化
 
 - [X] Some redundant codes are deleted to improve the overall running speed  
 删除了部分冗余代码，提升总体运行速度

@@ -44,13 +44,6 @@ class Canvas_3D(Canvas):
         self.distance = camera_distance
         self._items_3d = []  # type: list[Point | Line | Side]
         self._geos = []  # type: list[Geometry]
-        self._zoom()  # 更新画布视野
-
-    def _zoom(self, rate_x=None, rate_y=None):  # type: (float | None, float | None) -> None
-        # override: 保持画布视野居中
-        Canvas._zoom(self, rate_x, rate_y)
-        half_width, half_height = self.width[1] / 2, self.height[1] / 2
-        self.configure(scrollregion=(-half_width, -half_height, half_width, half_height))
 
     def items_3d(self):  # type: () -> tuple[Point | Line | Side, ...]
         """返回 Canvas_3D 类全部的基本 3D 对象"""
@@ -108,14 +101,14 @@ class Space(Canvas_3D):
         self._origin = Point(self, ORIGIN_COORDINATE, size=origin_size, width=origin_width, fill=origin_fill, outline=origin_outline)
         self._items_3d.clear()
         self.bind('<B3-Motion>', self._translate)
-        self.bind('<Button-3>', lambda _: self._translate(_, True))
-        self.bind('<ButtonRelease-3>', lambda _: self._translate(_, False))
+        self.bind('<Button-3>', lambda event: self._translate(event, True))
+        self.bind('<ButtonRelease-3>', lambda event: self._translate(event, False))
         self.bind('<B1-Motion>', self._rotate)
-        self.bind('<Button-1>', lambda _: self._rotate(_, True))
-        self.bind('<ButtonRelease-1>', lambda _: self._rotate(_, False))
+        self.bind('<Button-1>', lambda event: self._rotate(event, True))
+        self.bind('<ButtonRelease-1>', lambda event: self._rotate(event, False))
         if SYSTEM == 'Linux':  # 兼容 Linux 系统
-            self.bind('<Button-4>', lambda _: self._scale(_, True))
-            self.bind('<Button-5>', lambda _: self._scale(_, False))
+            self.bind('<Button-4>', lambda event: self._scale(event, True))
+            self.bind('<Button-5>', lambda event: self._scale(event, False))
         else:
             self.bind('<MouseWheel>', self._scale)
 
@@ -137,13 +130,19 @@ class Space(Canvas_3D):
 
     def _rotate(self, event, flag=None, _cache=[]):  # type: (Event, bool | None, list[float]) -> None
         """旋转事件"""
-        if flag is True:
-            _cache[:] = [event.x, event.y]
-            self.configure(cursor='fleur')
-            return
-        elif flag is False:
+        if flag is False:
+            if self._release(event):  # 兼容原 Canvas
+                return
             self.configure(cursor='arrow')
             return
+        else:
+            if flag is True:  # NOTE: 缺少这个将导致罕见的报错（先按住按钮并拖动将触发）
+                _cache[:] = [event.x, event.y]
+            if self._click(event):
+                return
+            if flag is True:
+                self.configure(cursor='fleur')
+                return
         dx, dy = event.x - _cache[0], event.y - _cache[1]
         _cache[:] = [event.x, event.y]
         for item in self._items_3d:
@@ -249,7 +248,7 @@ def scale(coordinate, kx=1, ky=1, kz=1, *, center):  # type: (list[float], float
         coordinate[i] += (coordinate[i] - center[i]) * (k - 1)
 
 
-def project(coordinate, distance):  # type: (list[float], float) -> list[float]  # TODO: 将 distance 参数改为相机坐标
+def project(coordinate, distance):  # type: (list[float], float) -> list[float]
     """
     将一个三维空间中的点投影到指定距离的正向平面上，并返回在该平面上的坐标
 
@@ -258,7 +257,7 @@ def project(coordinate, distance):  # type: (list[float], float) -> list[float] 
     """
     relative_dis = distance - coordinate[0]
     if relative_dis <= 1e-16:
-        return [float('inf')] * 2  # XXX: 目前超出范围只能让其消失，需要优化
+        return [math.inf] * 2  # XXX: 目前超出范围只能让其消失，需要优化
     k = distance / relative_dis
     return [coordinate[1] * k, coordinate[2] * k]
 
@@ -319,13 +318,19 @@ class _3D_Object:
         """几何中心"""
         return tuple(statistics.mean(xyz) for xyz in zip(*self.coordinates))
 
-    def _project(self, distance):  # type: (float) -> list[list[float]]
+    def _project(self, distance, canvas=None):  # type: (float, Canvas_3D | None) -> list[list[float]]
         """
-        投影对象本身
+        投影对象自身
 
         * `distance`: 对象与观察者的距离
+        * `canvas`: 投影到的画布
         """
-        return [project(point, distance) for point in self.coordinates]
+        lst = [project(point, distance) for point in self.coordinates]
+        if canvas is not None:
+            for pos in lst:
+                pos[0] += canvas.width[0] / 2
+                pos[1] += canvas.height[0] / 2
+        return lst
 
 
 class Point(_3D_Object):
@@ -360,7 +365,7 @@ class Point(_3D_Object):
 
     def update(self):  # type: () -> None
         """更新对象的显示"""
-        x, y = self._project(self.canvas.distance)[0]
+        x, y = self._project(self.canvas.distance, self.canvas)[0]
         self.canvas.coords(self.item, (x - self.size) * self.canvas.rx, (y - self.size) * self.canvas.ry, (x + self.size) * self.canvas.rx, (y + self.size) * self.canvas.ry)
 
     def _camera_distance(self):  # type: () -> float
@@ -398,7 +403,8 @@ class Line(_3D_Object):
 
     def update(self):  # type: () -> None
         """更新对象的显示"""
-        self.canvas.coords(self.item, *[coord * (self.canvas.ry if i else self.canvas.rx) for point in self._project(self.canvas.distance) for i, coord in enumerate(point)])
+        self.canvas.coords(self.item, *[coord * (self.canvas.ry if i else self.canvas.rx)
+                           for point in self._project(self.canvas.distance, self.canvas) for i, coord in enumerate(point)])
 
     def _camera_distance(self):  # type: () -> float
         """与相机距离"""
@@ -436,7 +442,8 @@ class Side(_3D_Object):
 
     def update(self):  # type: () -> None
         """更新对象的显示"""
-        self.canvas.coords(self.item, *[coord * (self.canvas.ry if i else self.canvas.rx) for point in self._project(self.canvas.distance) for i, coord in enumerate(point)])
+        self.canvas.coords(
+            self.item, *[coord * (self.canvas.ry if i else self.canvas.rx) for point in self._project(self.canvas.distance, self.canvas) for i, coord in enumerate(point)])
 
     def _camera_distance(self):  # type: () -> float
         """与相机距离"""

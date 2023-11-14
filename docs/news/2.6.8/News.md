@@ -1,25 +1,25 @@
-Release Notes / 版本说明
+Release Notes - 版本说明
 =======================
 
-* Version / 最新版本 : `2.6.8`
-* Release / 发布日期 : 2023/08/03
+* Version - 最新版本 : `2.6.8`
+* Release - 发布日期 : 2023/08/03
 
 ```
 pip install tkintertools==2.6.8
 ```
 
-Example / 样例演示
+Example - 样例演示
 -----------------
 
-* OS / 操作系统 : Windows11 22H2
-* Interpreter / 解释器 : Python 3.11.4
+* OS - 操作系统 : Windows11 22H2
+* Interpreter - 解释器 : Python 3.11.4
 
 Same effect as previous `2.6.7` version, but with less code!  
 效果与之前 `2.6.7` 版本相同，但是代码量更少！
 
 ![gif](example.gif)
 
-<details><summary><b>Source Code / 源代码</b></summary>
+<details><summary><b>Source Code - 源代码</b></summary>
 
 ```python
 import math  # 数学支持
@@ -65,10 +65,10 @@ root.mainloop()  # 消息事件循环
 
 </details>
 
-ChangeLog / 更新日志
+ChangeLog - 更新日志
 -------------------
 
-### Added / 新增
+### Added - 新增
 
 - [X] If the user's Python includes a PIL library, PIL is automatically invoked when autoscaling images to extend the functionality of the class `PhotoImage`  
 若使用者的 Python 包含有 PIL 库，则在自动缩放图片时自动调用 PIL 来扩展类 `PhotoImage` 的功能
@@ -79,15 +79,16 @@ ChangeLog / 更新日志
 - [X] Added constant `CONTROL`  
 新增常量 `CONTROL`
 
-### Fixed / 修复
+### Fixed - 修复
 
 - [X] Fixed the bug that widgets `Entry` and `Text` would report an error when pasting text  
 修复控件 `Entry` 和 `Text` 粘贴文本时会报错的 bug
 
+> **Note**  
 > Thanks to netizens [一梦千年](mailto:1076336488@qq.com) for discovering the above bug  
 感谢网友 [一梦千年](mailto:1076336488@qq.com) 发现了上面的 bug
 
-### Changed / 变更
+### Changed - 变更
 
 - [X] Modified the name of the constant `FRAMES` to `FPS`  
 修改常量 `FRAMES` 的名称为 `FPS`
@@ -95,7 +96,7 @@ ChangeLog / 更新日志
 - [X] The parameter `precision` of the method `zoom` of class `PhotoImage` was changed from positional argument to keyword argument  
 类 `PhotoImage` 的方法 `zoom` 的参数 `precision` 由位置参数变更为关键字参数
 
-### Deprecated / 弃用
+### Deprecated - 弃用
 
 - [X] The function `move` is about to be deprecated, please replace it with the new class `Animation`  
 函数 `move` 即将被弃用，请用新类 `Animation` 来代替
@@ -103,10 +104,10 @@ ChangeLog / 更新日志
 - [X] The class `Singleton` is about to be deprecated and singleton mode classes will no longer be available in subsequent releases  
 类 `Singleton` 即将被弃用，后续版本中将不再提供单例模式类
 
-Todos / 待办事项
+Todos - 待办事项
 ---------------
 
-### Possible Features / 期望功能
+### Possible Features - 期望功能
 
 - [ ] Perfect the scroll bar function of `Text` class  
 完善 `Text` 类的滚动条功能
@@ -138,7 +139,7 @@ Todos / 待办事项
 - [ ] Add lights and achieve simple light and shadow renderings  
 添加光源，并实现简单的光影渲染的效果
 
-### Known Bugs / 已知问题
+### Known Bugs - 已知问题
 
 - [ ] Solve the bug that the vertical position of the text is wrong when the `Text` class is enlarged  
 解决 `Text` 类放大时，文本纵向位置错误的 bug
@@ -159,4 +160,4 @@ Todos / 待办事项
 点击控件时，其后面的控件也会被触发
 
 ---
-[Last Version / 上个版本](../2.6.7/News.md) | [Next Version / 下个版本](../2.6.9/News.md)
+[Last Version - 上个版本](../2.6.7/News.md) | [Next Version - 下个版本](../2.6.9/News.md)

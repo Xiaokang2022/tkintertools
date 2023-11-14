@@ -53,7 +53,7 @@ class Tk(tkinter.Tk):
         * `transparentcolor`: 过滤掉该颜色
         * `**kw`: 与 tkinter.Tk 类的其他参数相同
         """
-        if type(self) == Tk:  # NOTE: 方便后面的 Toplevel 类继承
+        if type(self) == Tk:  # NOTE: 方便后面的 Toplevel 类继承，只继承一部分功能
             tkinter.Tk.__init__(self, **kw)
 
         self.width = [100, 1]  # type: list[int]  # [初始宽度, 当前宽度]
@@ -85,7 +85,7 @@ class Tk(tkinter.Tk):
 
     def _zoom(self):  # type: () -> None
         """缩放检测"""
-        width, height = map(int, self.geometry().split('+')[0].split('x'))  # NOTE: 此处必须用 geometry 方法，直接用 Event 或者 winfo 会有画面异常的 bug
+        width, height = map(int, self.geometry().split('+')[0].split('x'))
 
         if width == self.width[1] and height == self.height[1]:  # 没有大小的改变
             return
@@ -225,7 +225,6 @@ class Canvas(tkinter.Canvas):
         self.bind('<Any-Key>', self._input)  # 绑定键盘输入字符（和 Ctrl+v 的代码顺序不可错）
         self.bind('<Button-1>', self._click)  # 绑定鼠标左键按下
         self.bind('<B1-Motion>', self._click)  # 绑定鼠标左键按下移动
-        self.bind('<MouseWheel>', self._mousewheel)  # 绑定鼠标滚轮滚动
         self.bind('<ButtonRelease-1>', self._release)  # 绑定鼠标左键松开
         self.bind('<<Paste>>', lambda _: self._paste())  # 绑定粘贴快捷键
 
@@ -318,32 +317,36 @@ class Canvas(tkinter.Canvas):
                     else:
                         self.configure(cursor='arrow')
                     flag = False
+                    event.x = math.inf  # NOTE: 让其他控件失去“焦点”，就算鼠标在其范围内
+
             if flag:
                 self.configure(cursor='arrow')
 
-    def _click(self, event):  # type: (tkinter.Event) -> None
+    def _click(self, event):  # type: (tkinter.Event) -> bool
         """鼠标左键按下事件"""
         if self._lock:
+            self.focus_set()
+            flag = False
             for widget in self._widget[::-1]:
                 if widget.live and isinstance(widget, (Button, TextWidget)):
-                    widget._click(event)  # NOTE: 无需 return，按下空白区域也有作用
-                    self.focus_set()
+                    if widget._click(event) and not flag:  # NOTE: not flag 和 and 不可互换位置
+                        flag = True
+                        # 此处无需直接 return，按下空白区域也有作用
+            if flag:
+                return True
+        return False
 
-    def _release(self, event):  # type: (tkinter.Event) -> None
+    def _release(self, event):  # type: (tkinter.Event) -> bool
         """鼠标左键松开事件"""
         if self._lock:
             for widget in self._widget[::-1]:
                 if widget.live and isinstance(widget, Button):
-                    if widget._touch(event):
-                        return widget._execute(event)
-
-    def _mousewheel(self, event):  # type: (tkinter.Event) -> None
-        """鼠标滚轮滚动事件"""
-        if self._lock:
-            for widget in self._widget[::-1]:
-                if widget.live and isinstance(widget, Text):
-                    if widget._scroll(event):
-                        return
+                    if widget._state == 'click' and widget._touch(event):  # _state 先导判断，必须是点击后才可触发调用
+                        widget._execute(event)
+                        return True
+                    else:
+                        widget._touch(event)
+        return False
 
     def _input(self, event):  # type: (tkinter.Event) -> None
         """键盘输入字符事件"""
@@ -446,6 +449,7 @@ class BaseWidget:
         * `read`: 文本控件的只读模式
         * `cursor`: 文本控件输入提示符的字符，默认为一竖线
         * `mode`: 进度条控件的模式，determinate 为确定模式，indeterminate 为不定模式，默认为前者
+        * `tick`: 复选框控件的标记符号，默认为一个“对号”
 
         详细说明
 
@@ -784,13 +788,15 @@ class TextWidget(BaseWidget):
             if self.master.itemcget(self.text, 'text') == self._value[2]:
                 self.master.itemconfigure(self.text, text=self._value[1])
 
-    def _click(self, event):  # type: (Entry | Text, tkinter.Event) -> None
+    def _click(self, event):  # type: (Entry | Text, tkinter.Event) -> bool
         """交互状态检测"""
-        if self.x1 <= event.x <= self.x2 and self.y1 <= event.y <= self.y2:
+        if self.x1 <= event.x <= self.x2 and self.y1 <= event.y <= self.y2 and self._state in ('touch', 'click'):
             if self._state != 'click':
                 self._click_on()
+                return True
         else:
             self._click_off()
+        return False
 
     def _touch(self, event):  # type: (Entry | Text, tkinter.Event) -> bool
         """触碰状态检测"""
@@ -931,12 +937,14 @@ class Button(BaseWidget):
         if condition and self.command:
             self.command()
 
-    def _click(self, event):  # type: (tkinter.Event) -> None
+    def _click(self, event):  # type: (tkinter.Event) -> bool
         """交互状态检测"""
-        if self.x1 <= event.x <= self.x2 and self.y1 <= event.y <= self.y2:
+        if self.x1 <= event.x <= self.x2 and self.y1 <= event.y <= self.y2 and self._state in ('touch', 'click'):
             self.state('click')
+            return True
         else:
             self.state('normal')
+        return False
 
     def _touch(self, event):  # type: (tkinter.Event) -> bool
         """触碰状态检测"""
@@ -958,6 +966,7 @@ class CheckButton(Button):
         radius=RADIUS,  # type: float
         text='',  # type: str
         value=False,  # type: bool
+        tick=TICK,  # type: str
         borderwidth=BORDERWIDTH,  # type: int
         justify='right',  # type: Literal['right', 'left']
         image=None,  # type: PhotoImage | None
@@ -969,6 +978,7 @@ class CheckButton(Button):
         Button.__init__(
             self, canvas, x, y, height, height, radius=radius, borderwidth=borderwidth, image=image,
             tooltip=tooltip, color_text=color_text, color_fill=color_fill, color_outline=color_outline)
+        self.tick = tick
         if justify == 'right':
             self._text = canvas.create_text(x + 1.25 * height, y + height / 2, text=text, anchor='w')
         else:
@@ -983,7 +993,7 @@ class CheckButton(Button):
 
     def set(self, value):  # type: (bool) -> None
         """设置复选框状态"""
-        self.value = TICK if value else ''
+        self.value = self.tick if value else ''
         self.master.itemconfigure(self.text, text=self.value)
 
 
@@ -1217,10 +1227,6 @@ class Text(TextWidget):
 
             self.master.itemconfigure(self.text, text=__)
 
-    def _scroll(self, event):  # type: (tkinter.Event) -> bool
-        """鼠标滚轮滚动"""
-        return False  # TODO: 实现滚轮滚动来查看内容
-
 
 class Progressbar(BaseWidget):
     """虚拟进度条控件"""
@@ -1296,6 +1302,8 @@ class Switch:
         tooltip=None,  # type: ToolTip | None
         color_fill=COLOR_SWITCH_OFF,  # type: tuple[str, str, str]
         color_outline=COLOR_BUTTON_OUTLINE,  # type: tuple[str, str, str]
+        color_fill_slider=COLOR_SLIDER_FILL,  # type: tuple[str, str, str]
+        color_outline_slider=COLOR_SLIDER_OUTLINE,  # type: tuple[str, str, str]
         default=False,  # type: bool
         on=None,  # type: Callable | None
         off=None,  # type: Callable | None
@@ -1311,6 +1319,8 @@ class Switch:
         * `tooltip`: 提示框
         * `color_fill`: 内部颜色
         * `color_outline`: 边框颜色
+        * `color_fill_slider`: 滑块内部颜色
+        * `color_outline_slider`: 滑块边框颜色
         * `default`: 默认值，默认为 False
         * `on`: 转换到开时触发的回调函数
         * `off`: 转换到关时触发的回调函数 
@@ -1325,9 +1335,10 @@ class Switch:
             tooltip=tooltip, color_fill=color_fill, color_outline=color_outline,
             command=lambda: self.set(not self.value))
         spcaing = height / 7
-        self.inside = Label(
+        self.inside = Button(
             canvas, x + spcaing, y + spcaing, height - spcaing * 2, height - spcaing * 2, radius=radius,
-            borderwidth=borderwidth, color_outline=('#333',) * 3, color_fill=('black',) * 3)
+            borderwidth=borderwidth, color_outline=color_outline_slider, color_fill=color_fill_slider,
+            command=lambda: self.set(not self.value))
         if self.value is True:
             self._animate(0)
 
@@ -1524,7 +1535,7 @@ class Animation:
         ms,  # type: int
         *,
         control=CONTROL,  # type: tuple[Callable[[float], float], float, float]
-        translation=None,  # type: Iterable[float, float] | None
+        translation=None,  # type: tuple[float, float] | None
         color=None,  # type: tuple[Callable[[str], None], str, str] | None
         fps=FPS,  # type: int
         start=None,  # type: Callable | None
@@ -1538,7 +1549,7 @@ class Animation:
         * `widget`: 进行动画的控件
         * `ms`: 动画总时长（单位：毫秒）
         * `control`: 控制函数，为元组 (函数, 起始值, 终止值) 的形式
-        * `translation`: 平移运动
+        * `translation`: 平移运动，x 方向位移，y 方向位移
         * `color`: 颜色变换
         * `fps`: 每秒帧数
         * `start`: 动画开始前执行的函数
@@ -1649,7 +1660,7 @@ def color(
         _rgb <<= 8
         _rgb += c + round((_c - c) * proportion)
 
-    return f'{_rgb:06X}'
+    return f'#{_rgb:06X}'
 
 
 def askfont(

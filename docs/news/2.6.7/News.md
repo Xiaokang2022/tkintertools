@@ -1,18 +1,18 @@
-Release Notes / 版本说明
+Release Notes - 版本说明
 =======================
 
-* Version / 最新版本 : `2.6.7`
-* Release / 发布日期 : 2023/07/06
+* Version - 最新版本 : `2.6.7`
+* Release - 发布日期 : 2023/07/06
 
 ```
 pip install tkintertools==2.6.7
 ```
 
-Example / 样例演示
+Example - 样例演示
 -----------------
 
-* OS / 操作系统 : Windows11 22H2
-* Interpreter / 解释器 : Python 3.11.4
+* OS - 操作系统 : Windows11 22H2
+* Interpreter - 解释器 : Python 3.11.4
 
 Hold down the left mouse button and drag to rotate these multiple geometry;  
 按住鼠标左键拖动可以旋转这多个几何体；
@@ -28,7 +28,7 @@ These multiple geometries automatically rotate and float up and down;
 
 ![gif](example.gif)
 
-<details><summary><b>Source Code / 源代码</b></summary>
+<details><summary><b>Source Code - 源代码</b></summary>
 
 ```python
 import math  # 数学支持
@@ -86,10 +86,10 @@ root.mainloop()  # 消息事件循环
 
 </details>
 
-ChangeLog / 更新日志
+ChangeLog - 更新日志
 -------------------
 
-### Added / 新增
+### Added - 新增
 
 - [X] The function `rotate` of the 3D submodule adds the keyword `axis` to provide the function of rotating around the axis  
 3D 子模块的函数 `rotate` 新增关键字参数 `axis` 来提供绕轴旋转的功能
@@ -100,12 +100,12 @@ ChangeLog / 更新日志
 - [X] Class `Tk` and `Toplevel` Added keyword arguments `alpha`, `toolwindow`, `topmost` and `transparentcolor`  
 类 `Tk` 和 `Toplevel` 新增关键字参数 `alpha`、`toolwindow`、`topmost` 和 `transparentcolor`
 
-### Fixed / 修复
+### Fixed - 修复
 
 - [X] Fixed a bug where the class `Text` would report an error when scrolling with the mouse wheel  
 修复了类 `Text` 在使用鼠标滚轮滚动时会报错的 bug
 
-### Optimized / 优化
+### Optimized - 优化
 
 - [X] Optimized some code and type hints  
 优化了部分代码和类型提示
@@ -116,20 +116,20 @@ ChangeLog / 更新日志
 - [X] A large number of incomplete docstrings have been modified and improved  
 修改和完善了大量的不完整的文档注释
 
-### Changed / 变更
+### Changed - 变更
 
 - [X] Change some methods of some classes to protection methods  
 将部分类的部分方法更改为保护方法
 
-### Removed / 移除
+### Removed - 移除
 
 - [X] Removed abstract classes and abstract methods  
 移除了抽象类和抽象方法
 
-Todos / 待办事项
+Todos - 待办事项
 ---------------
 
-### Possible Features / 期望功能
+### Possible Features - 期望功能
 
 - [ ] Perfect the scroll bar function of `Text` class  
 完善 `Text` 类的滚动条功能
@@ -161,7 +161,7 @@ Todos / 待办事项
 - [ ] Add lights and achieve simple light and shadow renderings  
 添加光源，并实现简单的光影渲染的效果
 
-### Known Bugs / 已知问题
+### Known Bugs - 已知问题
 
 - [ ] Solve the bug that the vertical position of the text is wrong when the `Text` class is enlarged  
 解决 `Text` 类放大时，文本纵向位置错误的 bug
@@ -179,4 +179,4 @@ Todos / 待办事项
 3D 对象前后空间的位置关系在某些时候仍有问题
 
 ---
-[Last Version / 上个版本](../2.6.6/News.md) | [Next Version / 下个版本](../2.6.8/News.md)
+[Last Version - 上个版本](../2.6.6/News.md) | [Next Version - 下个版本](../2.6.8/News.md)

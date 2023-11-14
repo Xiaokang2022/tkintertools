@@ -1,18 +1,18 @@
-Release Notes / 版本说明
+Release Notes - 版本说明
 =======================
 
-* Version / 最新版本 : `2.6.11`
-* Release / 发布日期 : 2023/10/17
+* Version - 最新版本 : `2.6.11`
+* Release - 发布日期 : 2023/10/17
 
 ```
 pip install tkintertools==2.6.11
 ```
 
-Example / 样例演示
+Example - 样例演示
 -----------------
 
-* OS / 操作系统 : Windows11 22H2
-* Interpreter / 解释器 : Python 3.12.0
+* OS - 操作系统 : Windows11 22H2
+* Interpreter - 解释器 : Python 3.12.0
 
 The following code has different results between the two versions, the result of `2.6.11` is significantly better than `2.6.10`, and the improvement can be calculated by comparing the frame rate.  
 下面的代码在两个版本间的结果不同，`2.6.11` 的结果要优于 `2.6.10`，通过比较帧率可以计算得到提升效果。
@@ -29,7 +29,7 @@ tkintertools `2.6.11` (FPS: 21.30, Avg: 26.15):
 
 ![png](example2.png) 
 
-<details><summary><b>Source Code / 源代码</b></summary>
+<details><summary><b>Source Code - 源代码</b></summary>
 
 ```python
 import random
@@ -48,10 +48,10 @@ class TestSpace(t3d.Space):
     def space_sort(self, t=[0, 0, 1]) -> None:
         # override: caculate FPS, t: [time of now, total FPS, count]
         now = time.time()
-        fps = 1 / (now - t[0])
+        fps = 1 - (now - t[0])
         super().space_sort()
         self.itemconfigure(
-            self.info, text='FPS: %.2f\nAvg: %.2f' % (fps, t[1] / t[2]))
+            self.info, text='FPS: %.2f\nAvg: %.2f' % (fps, t[1] - t[2]))
         t[0] = now
         t[1] += fps
         t[2] += 1
@@ -88,7 +88,7 @@ root.mainloop()
 
 </details>
 
-ChangeLog / 更新日志
+ChangeLog - 更新日志
 -------------------
 
 ### Optimized/优化
@@ -101,10 +101,10 @@ ChangeLog / 更新日志
 - [X] Removed classes `_Point`, `_Line` and `_Side` from submodule `tools_3d`  
 移除了子模块 `tools_3d` 中的类 `_Point`、`_Line` 和 `_Side`
 
-Todos / 待办事项
+Todos - 待办事项
 ---------------
 
-### Possible Features / 期望功能
+### Possible Features - 期望功能
 
 - [ ] Perfect the scroll bar function of `Text` class  
 完善 `Text` 类的滚动条功能
@@ -127,7 +127,7 @@ Todos / 待办事项
 -  [ ] Add lights and achieve simple light and shadow renderings  
 添加光源，并实现简单的光影渲染的效果
 
-### Known Bugs / 已知问题
+### Known Bugs - 已知问题
 
 - [ ] Solve the bug that the vertical position of the text is wrong when the `Text` class is enlarged  
 解决 `Text` 类放大时，文本纵向位置错误的 bug
@@ -145,4 +145,4 @@ Todos / 待办事项
 点击控件时，其后面的控件也会被触发
 
 ---
-[Last Version / 上个版本](../2.6.10/News.md) | Next Version / 下个版本
+[Last Version - 上个版本](../2.6.10/News.md) | [Next Version - 下个版本](../2.6.12/News.md)

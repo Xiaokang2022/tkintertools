@@ -2,8 +2,7 @@
 
 import platform  # Get information about the platform
 
-### System constants ###
-
+# System constants
 
 SYSTEM = platform.system()
 """Operating System"""
@@ -11,9 +10,7 @@ SYSTEM = platform.system()
 PROCESS_SYSTEM_DPI_AWARE = 1
 """Default DPI aware"""
 
-
-### Color constants ###
-
+# Color constants
 
 COLOR_BUTTON_FILL = "#E1E1E1", "#E5F1FB", "#CCE4F7", "#E0E0E0"
 """Default button fill color"""
@@ -42,9 +39,13 @@ COLOR_SWITCH_ON = "#288CDB", "#3E98DF", "#4884B4", "#E0E0E0"
 COLOR_SWITCH_OFF = COLOR_BUTTON_FILL
 """Default color when `Switch` is off"""
 
+COLOR_SLIDER_FILL = '#000000', '#000000', '#000000'
+"""Default slider fill color"""
 
-### Other constants ###
+COLOR_SLIDER_OUTLINE = "#333333", "#333333", "#333333"
+"""Default slider outline color"""
 
+# Other constants
 
 BORDERWIDTH = 1
 """Default widget borderwidth"""
@@ -100,9 +101,7 @@ SWITCH_RADIUS = float("inf")
 SWITCH_ANIMATION_MS = 250
 """Default animation duration of the Switch"""
 
-
-### 3D constants ###
-
+# 3D constants
 
 COLOR_POINT_FILL = "#000000"
 """Default point fill color"""

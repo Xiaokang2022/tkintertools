@@ -17,7 +17,8 @@ Provides
 * Scalable png pictures and playable gif pictures
 * Regular mobile widgets and canvas interfaces
 * Gradient colors and contrast colors
-* Convenient, inheritable singleton pattern class
+* Default aesthetic widgets
+* Extra useful widgets
 * 3D drawing
 
 Contents
@@ -26,7 +27,7 @@ Contents
 * Virtual Canvas Widgets: `Label`, `Button`, `CheckButton`, `Entry`, `Text`, `Progressbar`, `ToolTip`, `Switch`
 * Tool Functions: `color`, `askfont`, `SetProcessDpiAwareness`
 * Tool Classes: `PhotoImage`, `Animation`
-* Tool Submodules: `tool_3d`
+* Tool Submodules: `tools_3d`
 
 More
 ----

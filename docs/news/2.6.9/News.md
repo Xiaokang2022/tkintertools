@@ -1,25 +1,25 @@
-Release Notes / 版本说明
+Release Notes - 版本说明
 =======================
 
-* Version / 最新版本 : `2.6.9`
-* Release / 发布日期 : 2023/08/09
+* Version - 最新版本 : `2.6.9`
+* Release - 发布日期 : 2023/08/09
 
 ```
 pip install tkintertools==2.6.9
 ```
 
-Example / 样例演示
+Example - 样例演示
 -----------------
 
-* OS / 操作系统 : Windows11 22H2
-* Interpreter / 解释器 : Python 3.11.4
+* OS - 操作系统 : Windows11 22H2
+* Interpreter - 解释器 : Python 3.11.4
 
 New widget: Switch! This widget allows you to adjust the length, width, color, and size of rounded corners!  
 新增控件：开关！这个控件可以调整长宽、颜色、以及圆角的大小！
 
 ![png](example.png)
 
-<details><summary><b>Source Code / 源代码</b></summary>
+<details><summary><b>Source Code - 源代码</b></summary>
 
 ```python
 # Only the key parts of the code are shown here
@@ -31,10 +31,10 @@ tkt.Switch(canvas, 680, 420, radius=0)
 
 </details>
 
-ChangeLog / 更新日志
+ChangeLog - 更新日志
 -------------------
 
-### Added / 新增
+### Added - 新增
 
 - [X] Added new widget switch (`Switch`)  
 新增控件开关（`Switch`）
@@ -45,7 +45,7 @@ ChangeLog / 更新日志
 - [X] Added constants `DURATION`、`TOOLTIP_FG`、`TOOLTIP_BG`、`TOOLTIP_HIGNLIGHT_THICKNESS`、`TOOLTIP_HIGNLIGHT_BACKGROUND`、`COLOR_SWITCH_ON`、`COLOR_SWITCH_OFF`、`SWITCH_WIDTH`、`SWITCH_HEIGHT`、`SWITCH_RADIUS` and `SWITCH_ANIMATION_MS`  
 新增常量 `DURATION`、`TOOLTIP_FG`、`TOOLTIP_BG`、`TOOLTIP_HIGNLIGHT_THICKNESS`、`TOOLTIP_HIGNLIGHT_BACKGROUND`、`COLOR_SWITCH_ON`、`COLOR_SWITCH_OFF`、`SWITCH_WIDTH`、`SWITCH_HEIGHT`、`SWITCH_RADIUS` 和 `SWITCH_ANIMATION_MS`
 
-### Fixed / 修复
+### Fixed - 修复
 
 - [X] Fixed an issue where the text class widget called method `clear` was invalid  
 修复了文本类控件调用方法 `clear` 无效的问题
@@ -53,25 +53,25 @@ ChangeLog / 更新日志
 - [X] Fixed an issue where the class `Animation` automatically determined the parent widget of the widget to be moved  
 修复了类 `Animation` 自动确定待移动控件的父控件时出现错误的问题
 
-### Changed / 变更
+### Changed - 变更
 
 - [X] The positional parameter `length` of class `CheckButton` was renamed `height`  
 类 `CheckButton` 的位置参数 `length` 更名为 `height`
 
-### Optimized / 优化
+### Optimized - 优化
 
 - [X] Optimized the method `wm_geometry` of class `Tk` to accommodate some specially formatted parameters  
 优化了类 `Tk` 的方法 `wm_geometry` 以适应某些特殊格式的参数
 
-### Removed / 移除
+### Removed - 移除
 
 - [X] Removed class `Singleton` and function `move`  
 移除了类 `Singleton` 和函数 `move`
 
-Todos / 待办事项
+Todos - 待办事项
 ---------------
 
-### Possible Features / 期望功能
+### Possible Features - 期望功能
 
 - [ ] Perfect the scroll bar function of `Text` class  
 完善 `Text` 类的滚动条功能
@@ -97,7 +97,7 @@ Todos / 待办事项
 -  [ ] Add lights and achieve simple light and shadow renderings  
 添加光源，并实现简单的光影渲染的效果
 
-### Known Bugs / 已知问题
+### Known Bugs - 已知问题
 
 - [ ] Solve the bug that the vertical position of the text is wrong when the `Text` class is enlarged  
 解决 `Text` 类放大时，文本纵向位置错误的 bug
@@ -118,4 +118,4 @@ Todos / 待办事项
 点击控件时，其后面的控件也会被触发
 
 ---
-[Last Version / 上个版本](../2.6.8/News.md) | [Next Version / 下个版本](../2.6.10/News.md)
+[Last Version - 上个版本](../2.6.8/News.md) | [Next Version - 下个版本](../2.6.10/News.md)
