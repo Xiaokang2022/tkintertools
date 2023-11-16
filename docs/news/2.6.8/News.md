@@ -84,7 +84,6 @@ ChangeLog - 更新日志
 - [X] Fixed the bug that widgets `Entry` and `Text` would report an error when pasting text  
 修复控件 `Entry` 和 `Text` 粘贴文本时会报错的 bug
 
-> **Note**  
 > Thanks to netizens [一梦千年](mailto:1076336488@qq.com) for discovering the above bug  
 感谢网友 [一梦千年](mailto:1076336488@qq.com) 发现了上面的 bug
 

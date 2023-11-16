@@ -135,7 +135,6 @@
 - [X] Fixed the bug that widgets `Entry` and `Text` would report an error when pasting text  
 修复控件 `Entry` 和 `Text` 粘贴文本时会报错的 bug
 
-> **Note**  
 > Thanks to netizens [一梦千年](mailto:1076336488@qq.com) for discovering the above bug  
 感谢网友 [一梦千年](mailto:1076336488@qq.com) 发现了上面的 bug
 
@@ -661,7 +660,6 @@
 - [X] Solved the bug that the `destroy` method of the widget can only delete half of the widgets when traversing  
 解决了控件的 `destroy` 方法在遍历使用时只能删除一半控件的 bug
 
-> **Note**  
 > Thanks to [-ShuiGuang-](https://blog.csdn.net/atlantis618) for finding the above bug  
 感谢 [-ShuiGuang-](https://blog.csdn.net/atlantis618) 发现了上面的 bug
 

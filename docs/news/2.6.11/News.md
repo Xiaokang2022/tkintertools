@@ -17,7 +17,6 @@ Example - 样例演示
 The following code has different results between the two versions, the result of `2.6.11` is significantly better than `2.6.10`, and the improvement can be calculated by comparing the frame rate.  
 下面的代码在两个版本间的结果不同，`2.6.11` 的结果要优于 `2.6.10`，通过比较帧率可以计算得到提升效果。
 
-> **Note**  
 > My computer configuration is low, the frame rate is for reference only, the instantaneous frame rate is not very stable, and my computer screenshots and other background operations are related, the specific results please refer to the average value.  
 > 我的电脑配置较低，帧率仅供参考，瞬时帧率不是非常稳定，与我电脑截屏和其他后台操作有关，具体结果请以平均值为准。
 
