@@ -27,12 +27,12 @@ Install - 模块安装
 
 ### Stable Release - 稳定版本
 
-* Version - 最新版本 : `2.6.12`
-* Release - 发布日期 : 2023/11/15
-* Feature - 更新内容 : [News-2.6.12](docs/news/2.6.12/News.md)
+* Version - 最新版本 : `2.6.13`
+* Release - 发布日期 : 2023/11/17
+* Feature - 更新内容 : [News-2.6.13](docs/news/2.6.13/News.md)
 
 ```
-pip install tkintertools==2.6.12
+pip install tkintertools==2.6.13
 ```
 
 ### Pre Release - 预发布版本
@@ -42,15 +42,17 @@ pip install tkintertools==2.6.12
 * Feature - 更新内容 : [News-3.0.0(pre)](docs/news/3.0.0/News.md)
 
 ```
-No resources are available - 暂无资源
+
 ```
 
+> ℹ️**Note - 注意**  
 > It is not recommended that you use the pre-release version directly for formal development, but it is recommended that you use the pre-release version to experience the new features and to report certain issues that you find.  
-不推荐你直接使用预发布版本进行正式开发，但推荐使用预发布版本来体验新功能，并上报发现的某些问题。
+> 不推荐你直接使用预发布版本进行正式开发，但推荐使用预发布版本来体验新功能，并上报发现的某些问题。
 
 More - 更多
 -----------
 
-* Tutorials & Documents - 教程和文档 : [T&D](docs/Home.md)
-* ChangeLog - 日志 : [CHANGELOG.md](CHANGELOG.md)
+* Tutorials & Documents - 教程和文档 : [T&D](docs/README.md)
+* Lisence - 项目证书 : [LICENSE.txt](LICENSE.txt)
+* ChangeLog - 更新日志 : [CHANGELOG.md](CHANGELOG.md)
 * Mirrors - 镜像源 : [GitHub](https://github.com/Xiaokang2022/tkintertools) | [Gitee](https://gitee.com/xiaokang-2022/tkintertools) | [GitCode](https://gitcode.net/weixin_62651706/tkintertools)

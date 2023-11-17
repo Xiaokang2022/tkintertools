@@ -1,11 +1,11 @@
-Release Notes - 版本说明
-=======================
+Release Notes - 版本发布说明
+===========================
 
 * Version - 最新版本 : `3.0.0.dev5`
 * Release - 发布日期 : 
 
 ```
-No resources are available - 暂无资源
+
 ```
 
 Example - 样例演示
@@ -49,4 +49,4 @@ Todos - 待办事项
 ...
 
 ---
-[Last Version - 上个版本](../2.6.12/News.md) | Next Version - 下个版本
+[Last Version - 上个版本](../2.6.13/News.md) | [Version Content - 版本目录](../README.md) | Next Version - 下个版本

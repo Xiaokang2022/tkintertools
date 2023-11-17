@@ -1,5 +1,5 @@
-Release Notes - 版本说明
-=======================
+Release Notes - 版本发布说明
+===========================
 
 * Version - 最新版本 : `2.6.6`
 * Release - 发布日期 : 2023/07/01
@@ -108,4 +108,4 @@ Todos - 待办事项
 创建凹面几何体的 3D 对象时，调用其 `scale` 方法会显示错误
 
 ---
-Last Version - 上个版本 | [Next Version - 下个版本](../2.6.7/News.md)
+Last Version - 上个版本 | [Version Content - 版本目录](../README.md) | [Next Version - 下个版本](../2.6.7/News.md)

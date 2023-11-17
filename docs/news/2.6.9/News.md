@@ -1,5 +1,5 @@
-Release Notes - 版本说明
-=======================
+Release Notes - 版本发布说明
+===========================
 
 * Version - 最新版本 : `2.6.9`
 * Release - 发布日期 : 2023/08/09
@@ -118,4 +118,4 @@ Todos - 待办事项
 点击控件时，其后面的控件也会被触发
 
 ---
-[Last Version - 上个版本](../2.6.8/News.md) | [Next Version - 下个版本](../2.6.10/News.md)
+[Last Version - 上个版本](../2.6.8/News.md) | [Version Content - 版本目录](../README.md) | [Next Version - 下个版本](../2.6.10/News.md)

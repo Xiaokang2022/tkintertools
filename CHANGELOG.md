@@ -1,3 +1,27 @@
+[`2.6.13`] - 2023-11-17
+-----------------------
+
+### Added - 新增
+
+- [X] The submodule `tools_3d` adds markup text-related functions and corresponding parameters to the class `Point`: `markuptext`, `markupdelta`, `markupfont`, `markupfill`, and `markupjustify`  
+子模块 `tools_3d` 的类 `Point` 新增标记文本相关功能以及对应参数：`markuptext`、`markupdelta`、`markupfont`、`markupfill` 和 `markupjustify`
+
+- [X] Submodule `tools_3d` adds a new class `Text` to implement 3D text that is always facing us (unlike markup text, which has a zoom function)  
+子模块 `tools_3d` 新增类 `Text` 来实现始终朝向我们的 3D 文本（与标记文本不同，其有缩放功能）
+
+### Changed - 变更
+
+- [X] The class `Switch` has been partially refactored from a stand-alone class to a subclass that inherits from the base class `BaseWidget`, and a number of methods have been added that are compatible with `BaseWidget`  
+类 `Switch` 部分重构，由独立类变更为继承基类 `BaseWidget` 的子类，添加了许多和 `BaseWidget` 兼容的方法
+
+- [X] Change the main code file name to main.py to avoid occupying the special file name \_\_main\_\_.py  
+修改主代码文件名称为 main.py，避免占用特殊文件名 \_\_main\_\_.py
+
+### Fixed - 修复
+
+- [X] Fixed an bug where submodule `tools_3d` was reversed on Z coordinates, i.e., changing the spatial coordinate system from a left-handed coordinate system to a right-handed coordinate system  
+修复子模块 `tools_3d` 在 Z 坐标上正负颠倒的问题，即，将空间坐标系由左手坐标系改为右手坐标系
+
 [`2.6.12`] - 2023-11-15
 -----------------------
 

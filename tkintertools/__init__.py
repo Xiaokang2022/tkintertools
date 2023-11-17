@@ -42,12 +42,12 @@ if sys.version_info < (3, 8):  # Version Check
     error_info = "Python version is too low (>=3.8)"
     raise RuntimeError(error_info)
 
-from .__main__ import *
 from .constants import *
+from .main import *
 
 __author__ = "Xiaokang2022<2951256653@qq.com>"
 
-__version__ = "2.6.12"
+__version__ = "2.6.13"
 
 __all__ = [
     # Container Widgets

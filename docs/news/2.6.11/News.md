@@ -1,5 +1,5 @@
-Release Notes - 版本说明
-=======================
+Release Notes - 版本发布说明
+===========================
 
 * Version - 最新版本 : `2.6.11`
 * Release - 发布日期 : 2023/10/17
@@ -17,6 +17,7 @@ Example - 样例演示
 The following code has different results between the two versions, the result of `2.6.11` is significantly better than `2.6.10`, and the improvement can be calculated by comparing the frame rate.  
 下面的代码在两个版本间的结果不同，`2.6.11` 的结果要优于 `2.6.10`，通过比较帧率可以计算得到提升效果。
 
+> ℹ️**Note - 注意**  
 > My computer configuration is low, the frame rate is for reference only, the instantaneous frame rate is not very stable, and my computer screenshots and other background operations are related, the specific results please refer to the average value.  
 > 我的电脑配置较低，帧率仅供参考，瞬时帧率不是非常稳定，与我电脑截屏和其他后台操作有关，具体结果请以平均值为准。
 
@@ -144,4 +145,4 @@ Todos - 待办事项
 点击控件时，其后面的控件也会被触发
 
 ---
-[Last Version - 上个版本](../2.6.10/News.md) | [Next Version - 下个版本](../2.6.12/News.md)
+[Last Version - 上个版本](../2.6.10/News.md) | [Version Content - 版本目录](../README.md) | [Next Version - 下个版本](../2.6.12/News.md)

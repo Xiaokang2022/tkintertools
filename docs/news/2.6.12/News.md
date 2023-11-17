@@ -1,5 +1,5 @@
-Release Notes - 版本说明
-=======================
+Release Notes - 版本发布说明
+===========================
 
 * Version - 最新版本 : `2.6.12`
 * Release - 发布日期 : 2023/11/15
@@ -99,4 +99,4 @@ Todos - 待办事项
 3D 对象前后空间的位置关系在某些时候仍有问题
 
 ---
-[Last Version - 上个版本](../2.6.11/News.md) | [Next Version - 下个版本](../3.0.0/News.md)
+[Last Version - 上个版本](../2.6.11/News.md) | [Version Content - 版本目录](../README.md) | [Next Version - 下个版本](../2.6.13/News.md)

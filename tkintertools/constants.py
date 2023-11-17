@@ -39,10 +39,10 @@ COLOR_SWITCH_ON = "#288CDB", "#3E98DF", "#4884B4", "#E0E0E0"
 COLOR_SWITCH_OFF = COLOR_BUTTON_FILL
 """Default color when `Switch` is off"""
 
-COLOR_SLIDER_FILL = '#000000', '#000000', '#000000'
+COLOR_SLIDER_FILL = '#000000', '#000000', '#000000', '#333333'
 """Default slider fill color"""
 
-COLOR_SLIDER_OUTLINE = "#333333", "#333333", "#333333"
+COLOR_SLIDER_OUTLINE = "#333333", "#333333", "#333333", "#666666"
 """Default slider outline color"""
 
 # Other constants
