@@ -77,8 +77,8 @@ class Space(Canvas_3D):
         camera_distance=CAMERA_DISTANCE,  # type: float
         origin_size=ORIGIN_SIZE,  # type: float
         origin_width=ORIGIN_WIDTH,  # type: float
-        origin_fill=ORIGIN_FILL,  # type: str
-        origin_outline=ORIGIN_OUTLINE,  # type: str
+        origin_fill=COLOR_FILL_ORIGIN,  # type: str
+        origin_outline=COLOR_OUTLINE_ORIGIN,  # type: str
         **kw
     ):  # type: (...) -> None
         """
@@ -343,8 +343,8 @@ class Point(_3D_Object):
         *,
         size=POINT_SIZE,  # type: float
         width=POINT_WIDTH,  # type: float
-        fill=COLOR_POINT_FILL,  # type: str
-        outline=COLOR_POINT_OUTLINE,  # type: str
+        fill=COLOR_FILL_POINT,  # type: str
+        outline=COLOR_OUTLINE_POINT,  # type: str
         markuptext='',  # type: str
         markupdelta=(0, 0),  # type: tuple[float, float]
         markupfont=(FONT, SIZE),  # type: tuple[str, int, str]
@@ -400,7 +400,7 @@ class Line(_3D_Object):
         point_end,  # type: Iterable[float]
         *,
         width=LINE_WDITH,  # type: float
-        fill=COLOR_LINE_FILL,  # type: str
+        fill=COLOR_FILL_LINE,  # type: str
     ):  # type: (...) -> None
         """
         * `canvas`: 父画布
@@ -437,8 +437,8 @@ class Side(_3D_Object):
         canvas,  # type: Canvas_3D | Space
         *points,  # type: Iterable[float]
         width=SIDE_WIDTH,  # type: float
-        fill=COLOR_SIDE_FILL,  # type: str
-        outline=COLOR_SIDE_OUTLINE,  # type: str
+        fill=COLOR_FILL_SIDE,  # type: str
+        outline=COLOR_OUTLINE_SIDE,  # type: str
     ):  # type: (...) -> None
         """
         * `canvas`: 父画布
@@ -479,7 +479,7 @@ class Text(_3D_Object):
         *,
         font=(FONT, SIZE),  # type: tuple[str, int, str]
         justify='center',  # type: Literal['center', 'left', 'right']
-        fill=COLOR_POINT_FILL,  # type: str
+        fill=COLOR_FILL_POINT,  # type: str
     ):  # type: (...) -> None
         """
         * `canvas`: 父画布

@@ -593,7 +593,7 @@ class BaseWidget:
         else:
             self.master.itemconfigure(
                 self.rect, outline=self.color_outline[mode])
-            if isinstance(self, Progressbar):
+            if isinstance(self, ProgressBar):
                 self.master.itemconfigure(self.bottom, fill=self.color_fill[0])
                 self.master.itemconfigure(self.bar, fill=self.color_fill[1])
             else:
@@ -627,7 +627,7 @@ class BaseWidget:
             self.master.move(self._cursor, dx, dy)
         if isinstance(self, (Text, CheckButton)):
             self.master.move(self._text, dx, dy)
-        if isinstance(self, Progressbar):
+        if isinstance(self, ProgressBar):
             self.master.move(self.bar, dx, dy)
 
     def moveto(self, x, y):  # type: (float, float) -> None
@@ -681,7 +681,7 @@ class BaseWidget:
         if outline:
             self.color_outline = outline
 
-        if isinstance(self, (Label, Button, Progressbar)) and value is not None and not isinstance(self, CheckButton):
+        if isinstance(self, (Label, Button, ProgressBar)) and value is not None and not isinstance(self, CheckButton):
             self.master.itemconfigure(self.text, text=value)
 
     def destroy(self):  # type: () -> None
@@ -699,7 +699,7 @@ class BaseWidget:
             self.master.delete(self._cursor)
         if isinstance(self, (Text, CheckButton)):
             self.master.delete(self._text)
-        if isinstance(self, Progressbar):
+        if isinstance(self, ProgressBar):
             self.master.delete(self.bar)
 
         self.master.delete(self.image)
@@ -888,8 +888,8 @@ class Label(BaseWidget):
         image=None,  # type: PhotoImage | None
         tooltip=None,  # type: ToolTip | None
         color_text=COLOR_TEXT,  # type: tuple[str, str, str]
-        color_fill=COLOR_BUTTON_FILL,  # type: tuple[str, str, str]
-        color_outline=COLOR_BUTTON_OUTLINE  # type: tuple[str, str, str]
+        color_fill=COLOR_FILL_LABEL,  # type: tuple[str, str, str]
+        color_outline=COLOR_OUTLINE_LABEL  # type: tuple[str, str, str]
     ):  # type: (...) -> None
         BaseWidget.__init__(
             self, canvas, x, y, width, height, radius, text, justify, borderwidth,
@@ -922,8 +922,8 @@ class Button(BaseWidget):
         image=None,  # type: PhotoImage | None
         tooltip=None,  # type: ToolTip | None
         color_text=COLOR_TEXT,  # type: tuple[str, str, str]
-        color_fill=COLOR_BUTTON_FILL,  # type: tuple[str, str, str]
-        color_outline=COLOR_BUTTON_OUTLINE,  # type: tuple[str, str, str]
+        color_fill=COLOR_FILL_BUTTON,  # type: tuple[str, str, str]
+        color_outline=COLOR_OUTLINE_BUTTON,  # type: tuple[str, str, str]
     ):  # type: (...) -> None
         BaseWidget.__init__(
             self, canvas, x, y, width, height, radius, text, justify, borderwidth,
@@ -968,20 +968,21 @@ class CheckButton(Button):
         tick=TICK,  # type: str
         borderwidth=BORDERWIDTH,  # type: int
         justify='right',  # type: Literal['right', 'left']
+        font=(FONT, SIZE),  # type: tuple[str, int, str]
         image=None,  # type: PhotoImage | None
         tooltip=None,  # type: ToolTip | None
         color_text=COLOR_TEXT,  # type: tuple[str, str, str]
-        color_fill=COLOR_BUTTON_FILL,  # type: tuple[str, str, str]
-        color_outline=COLOR_BUTTON_OUTLINE  # type: tuple[str, str, str]
+        color_fill=COLOR_FILL_CHECKBUTTON,  # type: tuple[str, str, str]
+        color_outline=COLOR_OUTLINE_CHECKBUTTON  # type: tuple[str, str, str]
     ):  # type: (...) -> None
         Button.__init__(
-            self, canvas, x, y, height, height, radius=radius, borderwidth=borderwidth, image=image,
+            self, canvas, x, y, height, height, radius=radius, borderwidth=borderwidth, image=image, font=font,
             tooltip=tooltip, color_text=color_text, color_fill=color_fill, color_outline=color_outline)
         self.tick = tick
         if justify == 'right':
-            self._text = canvas.create_text(x + 1.25 * height, y + height / 2, text=text, anchor='w')
+            self._text = canvas.create_text(x + 1.25 * height, y + height / 2, text=text, anchor='w', fill=color_text[0], font=font)
         else:
-            self._text = canvas.create_text(x - 0.25 * height, y + height / 2, text=text, anchor='e')
+            self._text = canvas.create_text(x - 0.25 * height, y + height / 2, text=text, anchor='e', fill=color_text[0], font=font)
         self.command = lambda: self.set(not bool(self.value))
         if value:
             self.command()
@@ -1018,8 +1019,8 @@ class Entry(TextWidget):
         image=None,  # type: PhotoImage | None
         tooltip=None,  # type: ToolTip | None
         color_text=COLOR_TEXT,  # type: tuple[str, str, str]
-        color_fill=COLOR_TEXT_FILL,  # type: tuple[str, str, str]
-        color_outline=COLOR_TEXT_OUTLINE  # type: tuple[str, str, str]
+        color_fill=COLOR_FILL_ENTRY,  # type: tuple[str, str, str]
+        color_outline=COLOR_OUTLINE_ENTRY  # type: tuple[str, str, str]
     ):  # type: (...) -> None
         TextWidget.__init__(
             self, canvas, x, y, width, height, radius, text, limit, justify, cursor,
@@ -1058,17 +1059,15 @@ class Entry(TextWidget):
             else:
                 return True
 
-            self._value[0] = len(  # 更新表面显示值
-                self.value) * self.show if self.show else self.value
-
             # 更新显示
-            self.master.itemconfigure(self.text, text=self._value[0])
             self._update_text()
             self._cursor_update()
             return True
 
     def _update_text(self):  # type: () -> None
         """更新控件"""
+        self._value[0] = len(self.value) * self.show if self.show else self.value  # 更新表面显示值
+        self.master.itemconfigure(self.text, text=self._value[0])
         while True:
             pos = self.master.bbox(self.text)
             if pos[2] > self.x2 - self.radius - 2 or pos[0] < self.x1 + self.radius + 1:
@@ -1076,6 +1075,11 @@ class Entry(TextWidget):
                 self.master.itemconfigure(self.text, text=self._value[0])
             else:
                 break
+
+    def set(self, value):  # type: (str) ->None
+        # overload: 防止 show 参数失效
+        TextWidget.set(self, value)
+        self._update_text()
 
 
 class Text(TextWidget):
@@ -1100,8 +1104,8 @@ class Text(TextWidget):
         image=None,  # type: PhotoImage | None
         tooltip=None,  # type: ToolTip | None
         color_text=COLOR_TEXT,  # type: tuple[str, str, str]
-        color_fill=COLOR_TEXT_FILL,  # type: tuple[str, str, str]
-        color_outline=COLOR_TEXT_OUTLINE  # type: tuple[str, str, str]
+        color_fill=COLOR_FILL_TEXT,  # type: tuple[str, str, str]
+        color_outline=COLOR_OUTLINE_TEXT  # type: tuple[str, str, str]
     ):  # type: (...) -> None
         TextWidget.__init__(
             self, canvas, x, y, width, height, radius, text, limit, justify, cursor,
@@ -1227,7 +1231,7 @@ class Text(TextWidget):
             self.master.itemconfigure(self.text, text=__)
 
 
-class Progressbar(BaseWidget):
+class ProgressBar(BaseWidget):
     """进度条控件"""
 
     def __init__(
@@ -1244,14 +1248,14 @@ class Progressbar(BaseWidget):
         image=None,  # type: PhotoImage | None
         tooltip=None,  # type: ToolTip | None
         color_text=COLOR_TEXT,  # type: tuple[str, str, str]
-        color_outline=COLOR_TEXT_OUTLINE,  # type: tuple[str, str, str]
-        color_bar=COLOR_BAR,  # type: tuple[str, str]
+        color_outline=COLOR_OUTLINE_PROGRESSBAR,  # type: tuple[str, str, str]
+        color_fill=COLOR_FILL_PROGRESSBAR,  # type: tuple[str, str]
         mode='determinate',  # type: Literal['determinate', 'indeterminate']
     ):  # type: (...) -> None
         self.bottom = canvas.create_rectangle(
-            x, y, x + width, y + height, width=borderwidth, fill=color_bar[0])
+            x, y, x + width, y + height, width=borderwidth, fill=color_fill[0])
         self.bar = canvas.create_rectangle(
-            x, y, x, y + height, width=borderwidth, outline='', fill=color_bar[1])
+            x, y, x, y + height, width=borderwidth, outline='', fill=color_fill[1])
         # XXX: 圆角功能的添加，建议重构 BaseWidget 来解决
         self.mode = mode
         if mode == 'indeterminate':
@@ -1260,7 +1264,7 @@ class Progressbar(BaseWidget):
             self, canvas, x, y, width, height, 0, '0.00%', justify, borderwidth,
             font, image, tooltip, color_text, COLOR_NONE, color_outline)
 
-        self.color_fill = list(color_bar)
+        self.color_fill = list(color_fill)
 
     def _touch(self, event):  # type: (tkinter.Event) -> bool
         """触碰状态检测"""
@@ -1299,10 +1303,12 @@ class Switch(Button):
         radius=SWITCH_RADIUS,  # type: float
         borderwidth=BORDERWIDTH,  # type: int
         tooltip=None,  # type: ToolTip | None
-        color_fill=COLOR_SWITCH_OFF,  # type: tuple[str, str, str]
-        color_outline=COLOR_BUTTON_OUTLINE,  # type: tuple[str, str, str]
-        color_fill_slider=COLOR_SLIDER_FILL,  # type: tuple[str, str, str]
-        color_outline_slider=COLOR_SLIDER_OUTLINE,  # type: tuple[str, str, str]
+        color_fill_on=COLOR_FILL_ON,  # type: tuple[str, str, str]
+        color_fill_off=COLOR_FILL_OFF,  # type: tuple[str, str, str]
+        color_outline_on=COLOR_OUTLINE_ON,  # type: tuple[str, str, str]
+        color_outline_off=COLOR_OUTLINE_OFF,  # type: tuple[str, str, str]
+        color_fill_slider=COLOR_FILL_SLIDER,  # type: tuple[str, str, str]
+        color_outline_slider=COLOR_OUTLINE_SLIDER,  # type: tuple[str, str, str]
         default=False,  # type: bool
         on=None,  # type: Callable | None
         off=None,  # type: Callable | None
@@ -1316,8 +1322,10 @@ class Switch(Button):
         * `radius`: 圆角半径，默认为完全圆弧
         * `borderwidth`: 边框宽度
         * `tooltip`: 提示框
-        * `color_fill`: 内部颜色
-        * `color_outline`: 边框颜色
+        * `color_fill_on`: 内部颜色（状态：开）
+        * `color_fill_off`: 内部颜色（状态：关）
+        * `color_outline_on`: 边框颜色（状态：开）
+        * `color_outline_off`: 边框颜色（状态：关）
         * `color_fill_slider`: 滑块内部颜色
         * `color_outline_slider`: 滑块边框颜色
         * `default`: 默认值，默认为 False
@@ -1326,9 +1334,13 @@ class Switch(Button):
         """
         self.on = on
         self.off = off
+        self.color_fill_on = color_fill_on
+        self.color_fill_off = color_fill_off
+        self.color_outline_on = color_outline_on
+        self.color_outline_off = color_outline_off
         Button.__init__(
             self, canvas, x, y, height * 2 if width < height * 2 else width, height, radius=radius,
-            borderwidth=borderwidth, tooltip=tooltip, color_fill=color_fill, color_outline=color_outline,
+            borderwidth=borderwidth, tooltip=tooltip, color_fill=color_fill_off, color_outline=color_outline_off,
             command=lambda: self.set(not self.value))
         self.value = default  # NOTE: 位置不可乱动
         spcaing = height / 7
@@ -1343,10 +1355,10 @@ class Switch(Button):
         """移动动画"""
         if self.value:
             key = 1
-            self.configure(color_fill=COLOR_SWITCH_ON, color_outline=COLOR_SWITCH_ON)
+            self.configure(color_fill=self.color_fill_on, color_outline=self.color_outline_on)
         else:
             key = -1
-            self.configure(color_fill=COLOR_SWITCH_OFF, color_outline=COLOR_BUTTON_OUTLINE)
+            self.configure(color_fill=self.color_fill_off, color_outline=self.color_outline_off)
         self.state()
         Animation(self._slider, ms, fps=90, control=(math.sin, 0, math.pi), translation=(key * (self.width - self.height) * self._slider.master.rx, 0)).run()
 

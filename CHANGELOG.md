@@ -1,3 +1,30 @@
+[`2.6.14`] - 2023-11-17
+-----------------------
+
+### Added - 新增
+
+- [X] The `CheckButton` widget class adds a `font` parameter to modify its font  
+控件类 `CheckButton` 新增参数 `font` 来修改其字体
+
+### Changed - 变更
+
+- [X] Modify the name of some color constants and the parameters related to some colors  
+修改部分颜色常量的名称和部分颜色相关的参数
+
+- [X] The widget class `Progressbar` is renamed to `ProgressBar`  
+控件类 `Progressbar` 更名为 `ProgressBar`
+
+### Fixed - 修复
+
+- [X] Fixed the bug that the color of the `Switch` of the widget class was displayed incorrectly  
+修复控件类 `Switch` 颜色显示错误的问题
+
+- [X] Fixed an bug where the initial color of the `CheckButton` of the widget class would not be displayed immediately  
+修复控件类 `CheckButton` 初始颜色不会立刻显示的问题
+
+- [X] Fixed the bug that the text style of the widget class `Entry` was not updated after calling the method `set`  
+修复控件类 `Entry` 在调用方法 `set` 之后文本样式没有更新的问题
+
 [`2.6.13`] - 2023-11-17
 -----------------------
 

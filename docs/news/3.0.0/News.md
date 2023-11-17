@@ -49,4 +49,4 @@ Todos - 待办事项
 ...
 
 ---
-[Last Version - 上个版本](../2.6.13/News.md) | [Version Content - 版本目录](../README.md) | Next Version - 下个版本
+[Last Version - 上个版本](../2.6.14/News.md) | [Version Content - 版本目录](../README.md) | Next Version - 下个版本

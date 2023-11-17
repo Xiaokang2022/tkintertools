@@ -1,6 +1,6 @@
-Hi~ Welcome to tkintertools' Wiki!
+Hi~ Welcome to `tkintertools` 's Wiki!
 The most detailed and complete tutorials and detailed documentation are here!  
-嗨~欢迎来到 tkintertools 的 Wiki！这里有最详细、最完整的使用教程和详细文档！
+嗨~欢迎来到 `tkintertools` 的 Wiki！这里有最详细、最完整的使用教程和详细文档！
 
 ### Tutorials - 教程
 
@@ -10,7 +10,7 @@ The most detailed and complete tutorials and detailed documentation are here!
 
 | Version - 版本 |                 Language - 语言                  |
 | :------------: | :----------------------------------------------: |
-|    `2.6.13`    | English \| [中文](tutorials/zh/2.6.13/README.md) |
+|    `2.6.14`    | English \| [中文](tutorials/zh/2.6.14/README.md) |
 |  `3.0.0(pre)`  |                 English \| 中文                  |
 
 ### Documents - 文档
@@ -21,7 +21,7 @@ The most detailed and complete tutorials and detailed documentation are here!
 
 | Version - 版本 | Link - 链接 |
 | :------------: | :---------: |
-|    `2.6.13`    |      -      |
+|    `2.6.14`    |      -      |
 |  `3.0.0(pre)`  |      -      |
 
 ---

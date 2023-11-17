@@ -24,7 +24,7 @@ Provides
 Contents
 --------
 * Container Widgets: `Tk`, `Toplevel`, `Canvas`
-* Virtual Canvas Widgets: `Label`, `Button`, `CheckButton`, `Entry`, `Text`, `Progressbar`, `ToolTip`, `Switch`
+* Virtual Canvas Widgets: `Label`, `Button`, `CheckButton`, `Entry`, `Text`, `ProgressBar`, `ToolTip`, `Switch`
 * Tool Functions: `color`, `askfont`, `SetProcessDpiAwareness`
 * Tool Classes: `PhotoImage`, `Animation`
 * Tool Submodules: `tools_3d`
@@ -47,7 +47,7 @@ from .main import *
 
 __author__ = "Xiaokang2022<2951256653@qq.com>"
 
-__version__ = "2.6.13"
+__version__ = "2.6.14"
 
 __all__ = [
     # Container Widgets
@@ -60,7 +60,7 @@ __all__ = [
     "CheckButton",
     "Entry",
     "Text",
-    "Progressbar",
+    "ProgressBar",
     "ToolTip",
     "Switch",
     # Tool Classes
