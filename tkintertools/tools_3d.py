@@ -3,12 +3,12 @@
 import array  # 高效数组
 import math  # 数学支持
 import statistics  # 数据统计
-from tkinter import Event  # 类型提示
-from typing import Iterable, Literal, overload  # 类型提示
+import tkinter  # 类型提示
+import typing  # 类型提示
 
 from .constants import *  # 常量
 from .exceptions import *  # 异常
-from .main import Canvas, Tk, Toplevel  # 继承和类型提示
+from .main import *  # 继承和类型提示
 
 
 class Canvas_3D(Canvas):
@@ -112,7 +112,7 @@ class Space(Canvas_3D):
         else:
             self.bind('<MouseWheel>', self._scale)
 
-    def _translate(self, event, flag=None, _cache=[]):  # type: (Event, bool | None, list[float]) -> None
+    def _translate(self, event, flag=None, _cache=[]):  # type: (tkinter.Event, bool | None, list[float]) -> None
         """平移事件"""
         if flag is True:  # 按下
             _cache[:] = [event.x, event.y]
@@ -128,7 +128,7 @@ class Space(Canvas_3D):
             item.update()
         self.space_sort()
 
-    def _rotate(self, event, flag=None, _cache=[]):  # type: (Event, bool | None, list[float]) -> None
+    def _rotate(self, event, flag=None, _cache=[]):  # type: (tkinter.Event, bool | None, list[float]) -> None
         """旋转事件"""
         if flag is False:
             if self._release(event):  # 兼容原 Canvas
@@ -150,7 +150,7 @@ class Space(Canvas_3D):
             item.update()
         self.space_sort()
 
-    def _scale(self, event, flag=None):  # type: (Event, bool | None) -> None
+    def _scale(self, event, flag=None):  # type: (tkinter.Event, bool | None) -> None
         """缩放事件"""
         if flag is not None:
             event.delta = flag
@@ -174,17 +174,17 @@ def translate(coordinate, dx=0, dy=0, dz=0):  # type: (list[float], float, float
         coordinate[i] += delta
 
 
-@overload
-def rotate(coordinate, dx=0, dy=0, dz=0, *, center):  # type: (list[float], float, float, float, ..., Iterable[float]) -> None
+@typing.overload
+def rotate(coordinate, dx=0, dy=0, dz=0, *, center):  # type: (list[float], float, float, float, ..., typing.Iterable[float]) -> None
     ...
 
 
-@overload
-def rotate(coordinate, dx=0, *, axis):  # type: (list[float], float,  ..., Iterable[Iterable[float]]) -> None
+@typing.overload
+def rotate(coordinate, dx=0, *, axis):  # type: (list[float], float,  ..., typing.Iterable[typing.Iterable[float]]) -> None
     ...
 
 
-def rotate(coordinate, dx=0, dy=0, dz=0, *, center, axis=None):  # type: (list[float], float, float, float, ..., Iterable[float], Iterable[Iterable[float]] | None) -> None
+def rotate(coordinate, dx=0, dy=0, dz=0, *, center, axis=None):  # type: (list[float], float, float, float, ..., typing.Iterable[float], typing.Iterable[typing.Iterable[float]] | None) -> None
     """
     将一个三维空间中的点以一个点或线为参照进行旋转（实现方式为欧拉角）
 
@@ -231,7 +231,7 @@ def rotate(coordinate, dx=0, dy=0, dz=0, *, center, axis=None):  # type: (list[f
         coordinate[i] = mat
 
 
-def scale(coordinate, kx=1, ky=1, kz=1, *, center):  # type: (list[float], float, float, float, ..., Iterable[float]) -> None
+def scale(coordinate, kx=1, ky=1, kz=1, *, center):  # type: (list[float], float, float, float, ..., typing.Iterable[float]) -> None
     """
     将一个三维空间中的点以另一个点为缩放中心进行缩放
 
@@ -279,15 +279,15 @@ class _3D_Object:
         for coordinate in self.coordinates:
             translate(coordinate, dx, dy, dz)
 
-    @overload
-    def rotate(self, dx=0, dy=0, dz=0, *, center=ROTATE_CENTER):  # type: (float, float, float, ..., Iterable[float]) -> None
+    @typing.overload
+    def rotate(self, dx=0, dy=0, dz=0, *, center=ROTATE_CENTER):  # type: (float, float, float, ..., typing.Iterable[float]) -> None
         ...
 
-    @overload
-    def rotate(self, dx=0, *, axis):  # type: (float, ..., Iterable[Iterable[float]]) -> None
+    @typing.overload
+    def rotate(self, dx=0, *, axis):  # type: (float, ..., typing.Iterable[typing.Iterable[float]]) -> None
         ...
 
-    def rotate(self, dx=0, dy=0, dz=0, *, center=ROTATE_CENTER, axis=None):  # type: (float, float, float, ..., Iterable[float], Iterable[Iterable[float]] | None) -> None
+    def rotate(self, dx=0, dy=0, dz=0, *, center=ROTATE_CENTER, axis=None):  # type: (float, float, float, ..., typing.Iterable[float], typing.Iterable[typing.Iterable[float]] | None) -> None
         """
         旋转对象本身
 
@@ -300,7 +300,7 @@ class _3D_Object:
         for coordinate in self.coordinates:
             rotate(coordinate, dx, dy, dz, center=center, axis=axis)
 
-    def scale(self, kx=1, ky=1, kz=1, *, center=None):  # type: (float, float, float, ..., Iterable[float] | None) -> None
+    def scale(self, kx=1, ky=1, kz=1, *, center=None):  # type: (float, float, float, ..., typing.Iterable[float] | None) -> None
         """
         缩放对象本身
 
@@ -339,7 +339,7 @@ class Point(_3D_Object):
     def __init__(
         self,
         canvas,  # type: Canvas_3D | Space
-        coords,  # type: Iterable[float]
+        coords,  # type: typing.Iterable[float]
         *,
         size=POINT_SIZE,  # type: float
         width=POINT_WIDTH,  # type: float
@@ -396,8 +396,8 @@ class Line(_3D_Object):
     def __init__(
         self,
         canvas,  # type: Canvas_3D | Space
-        point_start,  # type: Iterable[float]
-        point_end,  # type: Iterable[float]
+        point_start,  # type: typing.Iterable[float]
+        point_end,  # type: typing.Iterable[float]
         *,
         width=LINE_WDITH,  # type: float
         fill=COLOR_FILL_LINE,  # type: str
@@ -435,7 +435,7 @@ class Side(_3D_Object):
     def __init__(
         self,
         canvas,  # type: Canvas_3D | Space
-        *points,  # type: Iterable[float]
+        *points,  # type: typing.Iterable[float]
         width=SIDE_WIDTH,  # type: float
         fill=COLOR_FILL_SIDE,  # type: str
         outline=COLOR_OUTLINE_SIDE,  # type: str
@@ -474,11 +474,11 @@ class Text(_3D_Object):
     def __init__(
         self,
         canvas,  # type: Canvas_3D | Space
-        coords,  # type: Iterable[float]
+        coords,  # type: typing.Iterable[float]
         text='',  # type: str
         *,
         font=(FONT, SIZE),  # type: tuple[str, int, str]
-        justify='center',  # type: Literal['center', 'left', 'right']
+        justify='center',  # type: typing.Literal['center', 'left', 'right']
         fill=COLOR_FILL_POINT,  # type: str
     ):  # type: (...) -> None
         """
@@ -541,15 +541,15 @@ class Geometry:
         for side in self.sides:
             side.translate(dx, dy, dz)
 
-    @overload
-    def rotate(self, dx=0, dy=0, dz=0, *, center=ROTATE_CENTER):  # type: (float, float, float, ..., Iterable[float]) -> None
+    @typing.overload
+    def rotate(self, dx=0, dy=0, dz=0, *, center=ROTATE_CENTER):  # type: (float, float, float, ..., typing.Iterable[float]) -> None
         ...
 
-    @overload
-    def rotate(self, dx=0, *, axis):  # type: (float, ..., Iterable[Iterable[float]]) -> None
+    @typing.overload
+    def rotate(self, dx=0, *, axis):  # type: (float, ..., typing.Iterable[typing.Iterable[float]]) -> None
         ...
 
-    def rotate(self, dx=0, dy=0, dz=0, *, center=ROTATE_CENTER, axis=None):  # type: (float, float, float, ..., Iterable[float], Iterable[Iterable[float]] | None) -> None
+    def rotate(self, dx=0, dy=0, dz=0, *, center=ROTATE_CENTER, axis=None):  # type: (float, float, float, ..., typing.Iterable[float], typing.Iterable[typing.Iterable[float]] | None) -> None
         """
         旋转几何体中的所有 3D 对象
 
@@ -562,7 +562,7 @@ class Geometry:
         for side in self.sides:
             side.rotate(dx, dy, dz, center=center, axis=axis)
 
-    def scale(self, kx=1, ky=1, kz=1, *, center=None):  # type: (float, float, float, ..., Iterable[float] | None) -> None
+    def scale(self, kx=1, ky=1, kz=1, *, center=None):  # type: (float, float, float, ..., typing.Iterable[float] | None) -> None
         """
         缩放几何体中的所有 3D 对象
 
@@ -608,12 +608,19 @@ class Cuboid(Geometry):
         width,  # type: float
         height,  # type: float
         *,
-        color_up='',  # type: str
-        color_down='',  # type: str
-        color_left='',  # type: str
-        color_right='',  # type: str
-        color_front='',  # type: str
-        color_back='',  # type: str
+        boardwidth=BORDERWIDTH,  # type: int
+        color_fill_up='',  # type: str
+        color_fill_down='',  # type: str
+        color_fill_left='',  # type: str
+        color_fill_right='',  # type: str
+        color_fill_front='',  # type: str
+        color_fill_back='',  # type: str
+        color_outline_up='#000000',  # type: str
+        color_outline_down='#000000',  # type: str
+        color_outline_left='#000000',  # type: str
+        color_outline_right='#000000',  # type: str
+        color_outline_front='#000000',  # type: str
+        color_outline_back='#000000',  # type: str
     ):  # type: (...) -> None
         """
         * `canvas`: 父画布
@@ -623,23 +630,30 @@ class Cuboid(Geometry):
         * `length`: 长度
         * `width`: 宽度
         * `height`: 高度
-        * `color_up`: 上表面颜色
-        * `color_down`: 下表面颜色
-        * `color_left`: 左侧面颜色
-        * `color_right`: 右侧面颜色
-        * `color_front`: 正面颜色
-        * `color_back`: 后面颜色
+        * `boardwidth`: 边框线条宽度
+        * `color_fill_up`: 上表面内部颜色
+        * `color_fill_down`: 下表面内部颜色
+        * `color_fill_left`: 左侧面内部颜色
+        * `color_fill_right`: 右侧面内部颜色
+        * `color_fill_front`: 正面内部颜色
+        * `color_fill_back`: 后面内部颜色
+        * `color_outline_up`: 上表面边框颜色
+        * `color_outline_down`: 下表面边框颜色
+        * `color_outline_left`: 左侧面边框颜色
+        * `color_outline_right`: 右侧面边框颜色
+        * `color_outline_front`: 正面边框颜色
+        * `color_outline_back`: 后面边框颜色
         """
         canvas._geos.append(self)
         self.canvas = canvas
         coords = [[x + l, y + w, z + h] for l in (0, length) for w in (0, width) for h in (0, height)]
         self.sides = [
-            Side(canvas, coords[0], coords[1], coords[3], coords[2], fill=color_back),
-            Side(canvas, coords[0], coords[1], coords[5], coords[4], fill=color_left),
-            Side(canvas, coords[0], coords[2], coords[6], coords[4], fill=color_down),
-            Side(canvas, coords[1], coords[3], coords[7], coords[5], fill=color_up),
-            Side(canvas, coords[2], coords[3], coords[7], coords[6], fill=color_right),
-            Side(canvas, coords[4], coords[5], coords[7], coords[6], fill=color_front),
+            Side(canvas, coords[0], coords[1], coords[3], coords[2], width=boardwidth, fill=color_fill_back, outline=color_outline_back),
+            Side(canvas, coords[0], coords[1], coords[5], coords[4], width=boardwidth, fill=color_fill_left, outline=color_outline_left),
+            Side(canvas, coords[0], coords[2], coords[6], coords[4], width=boardwidth, fill=color_fill_down, outline=color_outline_down),
+            Side(canvas, coords[1], coords[3], coords[7], coords[5], width=boardwidth, fill=color_fill_up, outline=color_outline_up),
+            Side(canvas, coords[2], coords[3], coords[7], coords[6], width=boardwidth, fill=color_fill_right, outline=color_outline_right),
+            Side(canvas, coords[4], coords[5], coords[7], coords[6], width=boardwidth, fill=color_fill_front, outline=color_outline_front),
         ]
 
 
@@ -649,12 +663,14 @@ class Tetrahedron(Geometry):
     def __init__(
         self,
         canvas,  # type: Canvas_3D | Space
-        point_1,  # type: Iterable[float]
-        point_2,  # type: Iterable[float]
-        point_3,  # type: Iterable[float]
-        point_4,  # type: Iterable[float]
+        point_1,  # type: typing.Iterable[float]
+        point_2,  # type: typing.Iterable[float]
+        point_3,  # type: typing.Iterable[float]
+        point_4,  # type: typing.Iterable[float]
         *,
-        colors=('',) * 4  # type: Iterable[str]
+        boardwidth=BORDERWIDTH,  # type: int
+        color_fill=('',) * 4,  # type: typing.Iterable[str]
+        color_outline=('#000000',) * 4  # type: typing.Iterable[str]
     ):  # type: (...) -> None
         """
         * `canvas`: 父画布
@@ -662,15 +678,17 @@ class Tetrahedron(Geometry):
         * `point_2`: 第二个顶点
         * `point_3`: 第三个顶点
         * `point_4`: 第四个顶点
-        * `colors`: 颜色序列
+        * `boardwidth`: 边框线条宽度
+        * `color_fill`: 内部颜色序列
+        * `color_outline`: 边框颜色序列
         """
         canvas._geos.append(self)
         self.canvas = canvas
         self.sides = [
-            Side(canvas, point_1, point_2, point_3, fill=colors[0]),
-            Side(canvas, point_1, point_2, point_4, fill=colors[1]),
-            Side(canvas, point_1, point_3, point_4, fill=colors[2]),
-            Side(canvas, point_2, point_3, point_4, fill=colors[3]),
+            Side(canvas, point_1, point_2, point_3, width=boardwidth, fill=color_fill[0], outline=color_outline[0]),
+            Side(canvas, point_1, point_2, point_4, width=boardwidth, fill=color_fill[1], outline=color_outline[0]),
+            Side(canvas, point_1, point_3, point_4, width=boardwidth, fill=color_fill[2], outline=color_outline[0]),
+            Side(canvas, point_2, point_3, point_4, width=boardwidth, fill=color_fill[3], outline=color_outline[0]),
         ]
 
 

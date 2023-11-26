@@ -20,11 +20,12 @@ Provides
 * Default aesthetic widgets
 * Extra useful widgets
 * 3D drawing
+* ...
 
 Contents
 --------
 * Container Widgets: `Tk`, `Toplevel`, `Canvas`
-* Virtual Canvas Widgets: `Label`, `Button`, `CheckButton`, `Entry`, `Text`, `ProgressBar`, `ToolTip`, `Switch`
+* Virtual Canvas Widgets: `Label`, `Button`, `CheckButton`, `Entry`, `Text`, `ProgressBar`, `Switch`, `ToolTip`
 * Tool Functions: `color`, `askfont`, `SetProcessDpiAwareness`
 * Tool Classes: `PhotoImage`, `Animation`
 * Tool Submodules: `tools_3d`
@@ -36,18 +37,12 @@ More
 * ChangeLog: https://github.com/Xiaokang2022/tkintertools/blob/master/CHANGELOG.md
 """
 
-import sys  # Get interpreter version information
-
-if sys.version_info < (3, 8):  # Version Check
-    error_info = "Python version is too low (>=3.8)"
-    raise RuntimeError(error_info)
-
 from .constants import *
 from .main import *
 
-__author__ = "Xiaokang2022<2951256653@qq.com>"
+__author__ = "Xiaokang2022 <2951256653@qq.com>"
 
-__version__ = "2.6.14"
+__version__ = "2.6.15"
 
 __all__ = [
     # Container Widgets
@@ -61,8 +56,8 @@ __all__ = [
     "Entry",
     "Text",
     "ProgressBar",
-    "ToolTip",
     "Switch",
+    "ToolTip",
     # Tool Classes
     "PhotoImage",
     "Animation",
@@ -73,5 +68,3 @@ __all__ = [
 ]
 
 __all__.extend(all_constants)
-
-del sys

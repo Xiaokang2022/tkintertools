@@ -1,3 +1,33 @@
+[`2.6.15`] - 2023-11-26
+-----------------------
+
+### Added - 新增
+
+- [X] A new method for the `Animation` class is called `shutdown` to terminate the current animation  
+类 `Animation` 新增方法 `shutdown` 来终止当前动画
+
+- [X] The geometry class `Cuboid` and the geometry class `Tetrahedron` of submodule `tools_3d` have been initialized to increase the degree of freedom in style configuration  
+子模块 `tools_3d` 的类 `Cuboid` 和类 `Tetrahedron` 新增一些初始化参数来提高样式配置的自由度
+
+- [X] The constants `TCL`, `PROPORTION`, `SEQLENGTH`, and `NUM` are added  
+新增常量 `TCL`、`PROPORTION`、`SEQLENGTH` 和 `NUM`
+
+- [X] The `color` function adds the parameters `seqlength` and `num` to enhance the functionality  
+函数 `color` 新增参数 `seqlength` 和 `num` 来增强功能
+
+### Optimized - 优化
+
+- [X] The parameter support for the function `color` has been expanded to support color names such as red, skyblue, and cyan2  
+函数 `color` 的参数支持的范围扩大，可以支持诸如 red、skyblue 和 cyan2 等颜色名称
+
+- [X] Some functions can be called without the need for a parent widget  
+部分函数无需父控件即可调用
+
+### Fixed - 修复
+
+- [X] Fixed a bug where the function `color` would get an incorrect result in rare cases  
+修复了函数 `color` 在罕见情况下会得到错误结果的问题
+
 [`2.6.14`] - 2023-11-17
 -----------------------
 
@@ -19,7 +49,7 @@
 - [X] Fixed the bug that the color of the `Switch` of the widget class was displayed incorrectly  
 修复控件类 `Switch` 颜色显示错误的问题
 
-- [X] Fixed an bug where the initial color of the `CheckButton` of the widget class would not be displayed immediately  
+- [X] Fixed a bug where the initial color of the `CheckButton` of the widget class would not be displayed immediately  
 修复控件类 `CheckButton` 初始颜色不会立刻显示的问题
 
 - [X] Fixed the bug that the text style of the widget class `Entry` was not updated after calling the method `set`  
@@ -46,7 +76,7 @@
 
 ### Fixed - 修复
 
-- [X] Fixed an bug where submodule `tools_3d` was reversed on Z coordinates, i.e., changing the spatial coordinate system from a left-handed coordinate system to a right-handed coordinate system  
+- [X] Fixed a bug where submodule `tools_3d` was reversed on Z coordinates, i.e., changing the spatial coordinate system from a left-handed coordinate system to a right-handed coordinate system  
 修复子模块 `tools_3d` 在 Z 坐标上正负颠倒的问题，即，将空间坐标系由左手坐标系改为右手坐标系
 
 [`2.6.12`] - 2023-11-15
@@ -73,16 +103,16 @@
 
 ### Fixed - 修复
 
-- [X] Fixed an bug where when clicking on a widget, the widget behind it would also be triggered  
+- [X] Fixed a bug where when clicking on a widget, the widget behind it would also be triggered  
 修复了点击控件时，其后面的控件也会被触发的问题
 
 - [X] Missing symbol '#' for function `color` return value  
 函数 `color` 返回值缺少符号 “#”
 
-- [X] Fixed an bug where the canvas of the `tools_3d` submodule could not use widgets such as buttons  
+- [X] Fixed a bug where the canvas of the `tools_3d` submodule could not use widgets such as buttons  
 修复了 `tools_3d` 子模块的画布无法使用按钮等控件的问题
 
-- [X] Fixed an bug where the `Switch` of the Widget class could not control the `Switch` by clicking on the inner slider  
+- [X] Fixed a bug where the `Switch` of the Widget class could not control the `Switch` by clicking on the inner slider  
 修复了控件类 `Switch` 点击内部滑块无法操控 `Switch` 的问题
 
 [`2.6.11`] - 2023-10-17
@@ -786,7 +816,7 @@
 Older Logs/旧版日志
 ------------------
 
-> **Note**  
+> ℹ️**Note - 注意**  
 > The following logs belong to the ones found from ancient commit records, only date and version number, no specific content... Since I didn't get into the habit of logging before, there are no more detailed logs, but fortunately the version number is inherited ಥ_ಥ    
 > 下面的日志属于从远古的提交记录中找到的，只有日期和版本号，没有具体的内容…… 由于我以前没有养成记录日志的习惯，故没有更多的详细的日志了，好在版本号继承了下来 ಥ_ಥ
 

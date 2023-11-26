@@ -63,4 +63,4 @@
 3. 实战项目推荐
 
 ---
-Last Version - 上个版本 | [Home - 主页](../../../README.md) | Next Version - 下个版本
+[Home - 主页](../../README.md) | Documents Content - 文档目录 | [Release Notes Content - 版本发布说明目录](../../news/README.md)

@@ -1,6 +1,7 @@
 """All constants"""
 
 import platform  # Get information about the platform
+import tkinter  # Base module
 
 # System constants
 
@@ -9,6 +10,11 @@ SYSTEM = platform.system()
 
 PROCESS_SYSTEM_DPI_AWARE = 1
 """Default DPI aware"""
+
+# tcl constants
+
+(TCL := tkinter.Tcl(useTk=True)).withdraw()
+"""tcl command interpreter class"""
 
 # Color constants
 
@@ -127,6 +133,15 @@ SWITCH_RADIUS = float("inf")
 
 SWITCH_ANIMATION_MS = 250
 """Default animation duration of the Switch"""
+
+PROPORTION = 1.
+"""Default proportion of function color"""
+
+SEQLENGTH = 1
+"""Default sequence length of function color"""
+
+NUM = 2
+"""Default number of RGB digits"""
 
 # 3D constants
 
