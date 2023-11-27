@@ -20,6 +20,14 @@
 
 [![Insights](https://repobeats.axiom.co/api/embed/ab8fae686a5a96f91fa71c40c53c189310924f5e.svg)](https://github.com/Xiaokang2022/tkintertools/pulse)
 
+<a href="https://star-history.com/#Xiaokang2022/tkintertools&Date">
+    <picture>
+        <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/svg?repos=Xiaokang2022/tkintertools&type=Date&theme=dark" />
+        <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/svg?repos=Xiaokang2022/tkintertools&type=Date" />
+        <img alt="Star History Chart" src="https://api.star-history.com/svg?repos=Xiaokang2022/tkintertools&type=Date" />
+    </picture>
+</a>
+
 </div>
 
 Install - 模块安装
