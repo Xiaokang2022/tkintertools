@@ -68,6 +68,3 @@ Release Notes Content - 版本发布说明目录
 * `1.0`
 * `0.2`
 * `0.1`
-
----
-[Home - 项目主页](../../) | [Readme - 自述文件](../../README.md) | [Lisence - 项目证书](../../LICENSE.txt) | [ChangeLog - 更新日志](../../CHANGELOG.md)

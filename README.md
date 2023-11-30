@@ -63,4 +63,5 @@ More - 更多
 * Tutorials & Documents - 教程和文档 : [T&D](docs/README.md)
 * Lisence - 项目证书 : [LICENSE.txt](LICENSE.txt)
 * ChangeLog - 更新日志 : [CHANGELOG.md](CHANGELOG.md)
+* Contribution Guide - 贡献指南 : [CONTRIBUTING.md](CONTRIBUTING.md)
 * Mirrors - 镜像源 : [GitHub](https://github.com/Xiaokang2022/tkintertools) | [Gitee](https://gitee.com/xiaokang-2022/tkintertools) | [GitCode](https://gitcode.net/weixin_62651706/tkintertools)

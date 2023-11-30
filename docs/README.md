@@ -17,7 +17,3 @@ The most detailed and complete tutorials and detailed documentation are here!
 > 文档的语言与源代码的 docstring 一致（因为是直接由 docstring 生成的）
 
 * Version - 版本:
-
----
-
-[Home - 项目主页](..) | [Readme - 自述文件](../README.md) | [Lisence - 项目证书](../LICENSE.txt) | [ChangeLog - 更新日志](../CHANGELOG.md)

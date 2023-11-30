@@ -61,6 +61,3 @@
 1. 手把手实战教学
 2. 引导式实战教学
 3. 实战项目推荐
-
----
-[Home - 主页](../../README.md) | Documents Content - 文档目录 | [Release Notes Content - 版本发布说明目录](../../news/README.md)
