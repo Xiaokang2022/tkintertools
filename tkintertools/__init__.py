@@ -20,13 +20,12 @@ Provides
 * Default aesthetic widgets
 * Extra useful widgets
 * 3D drawing
-* ...
 
 Contents
 --------
 * Container Widgets: `Tk`, `Toplevel`, `Canvas`
 * Virtual Canvas Widgets: `Label`, `Button`, `CheckButton`, `Entry`, `Text`, `ProgressBar`, `Switch`, `ToolTip`
-* Tool Functions: `color`, `askfont`, `SetProcessDpiAwareness`
+* Tool Functions: `color`, `askfont`
 * Tool Classes: `PhotoImage`, `Animation`
 * Tool Submodules: `tools_3d`
 
@@ -37,19 +36,16 @@ More
 * ChangeLog: https://github.com/Xiaokang2022/tkintertools/blob/master/CHANGELOG.md
 """
 
-from .constants import *
 from .main import *
 
 __author__ = "Xiaokang2022 <2951256653@qq.com>"
 
-__version__ = "2.6.15"
+__version__ = "2.6.16"
 
 __all__ = [
-    # Container Widgets
     "Tk",
     "Toplevel",
     "Canvas",
-    # Virtual Canvas Widgets
     "Label",
     "Button",
     "CheckButton",
@@ -58,13 +54,10 @@ __all__ = [
     "ProgressBar",
     "Switch",
     "ToolTip",
-    # Tool Classes
     "PhotoImage",
     "Animation",
-    # Tool Functions
     "color",
     "askfont",
-    "SetProcessDpiAwareness",
 ]
 
 __all__.extend(all_constants)

@@ -12,10 +12,11 @@ except ImportError:
 
 try:  # 仅在 Windows 平台下支持设置 DPI 级别
     from ctypes import WinDLL
+    WinDLL('shcore').SetProcessDpiAwareness(1)  # 值只能为 0、1 和 2，原来是 0，现设为 1
 except ImportError:
-    WinDLL = None
+    pass
 
-from .constants import *  # 常量
+from .constants import *  # 常量  # NOTE: 此行不可放到前面两个 import 前面
 from .exceptions import *  # 异常
 
 
@@ -117,25 +118,6 @@ class Tk(tkinter.Tk):
         return f'{width}x{height}+{_width}+{_height}'
 
     geometry = wm_geometry  # 方法别名
-
-    def mainloop(
-        self,
-        n=0,  # type: int
-        *,
-        dpi_awareness=1  # type: typing.Literal[1, 2, 3]
-    ):  # type: (...) -> None
-        """
-        消息循环
-
-        * `dpi_awareness`: 程序的 DPI 级别，值可以为 0、1 和 2，程序默认为 0，默认值为 1
-        """
-        SetProcessDpiAwareness(dpi_awareness)
-        return tkinter.Tk.mainloop(self, n)
-
-    def destroy(self):  # type: () -> None
-        # overload: 防止 TCL 没有完全关闭
-        TCL.destroy()
-        return tkinter.Tk.destroy(self)
 
 
 class Toplevel(tkinter.Toplevel, Tk):
@@ -299,7 +281,7 @@ class Canvas(tkinter.Canvas):
         for item in self._font:  # 字体大小缩放
             self._font[item][1] *= math.sqrt(rate_x * rate_y)
             font = self._font[item][:]
-            font[1] = int(font[1])
+            font[1] = round(font[1])
             self.itemconfigure(item, font=font)
 
         for item in self._image:  # 图像大小缩放（采用相对的绝对缩放）
@@ -1433,7 +1415,8 @@ class ToolTip:
         justify='left',  # type: typing.Literal['left', 'center', 'right']
         highlightthickness=TOOLTIP_HIGNLIGHT_THICKNESS,  # type: int
         highlightbackground=TOOLTIP_HIGNLIGHT_BACKGROUND,  # type: str
-        duration=DURATION,  # type: int
+        delay=DELAY,  # type: int
+        duration=DURATION,  # type: int | None
     ):  # type: (...) -> None
         """
         * `text`: 要显示的文本
@@ -1443,7 +1426,8 @@ class ToolTip:
         * `justify`: 文本对齐方式
         * `highlightthickness`: 边框厚度，默认为 1 像素
         * `highlightbackground`: 边框颜色，默认为黑色
-        * `duration`: 持续时间，默认为 4000 毫秒
+        * `delay`: 延迟时间，超过这个时间后，提示框才会出现，默认为 500 毫秒（必须大于等于零）
+        * `duration`: 持续时间，达到这个值后，提示框会消失，默认为 5000 毫秒（值为 None 表示不会自己消失，需要触发才会消失，但有时候会触发失败……）
         """
         self.text = text
         self.font = font
@@ -1452,6 +1436,7 @@ class ToolTip:
         self.justify = justify
         self.highlightthickness = highlightthickness
         self.highlightbackground = highlightbackground
+        self.delay = delay
         self.duration = duration
 
         self.toplevel = None  # type: Toplevel | None
@@ -1460,7 +1445,7 @@ class ToolTip:
     def _countdown(self, master):  # type: (tkinter.Widget) -> None
         """倒计时"""
         if self.cd is None:
-            self.cd = master.after(1000, self._place)
+            self.cd = master.after(self.delay, self._place)
 
     def _cancel(self, master):  # type: (tkinter.Widget) -> None
         """取消倒计时"""
@@ -1475,7 +1460,8 @@ class ToolTip:
         x, y = self.toplevel.winfo_pointerxy()
         self.toplevel.geometry(f'+{x}+{y + 26}')
         tkinter.Label(self.toplevel, text=self.text, font=self.font, fg=self.fg, bg=self.bg, justify=self.justify).pack()
-        self.toplevel.after(self.duration, self._destroy)
+        if self.duration is not None:
+            self.toplevel.after(self.duration, self._destroy)
 
     def _destroy(self):
         """消失"""
@@ -1720,13 +1706,14 @@ def color(
 
     key = 16 - (num << 2)
     format_ = f'#%0{num}X%0{num}X%0{num}X'
+    master = tkinter._get_temp_root()  # type: tkinter.Tk
 
     if isinstance(__color, str):  # 对比色的情况处理
-        start = [c >> key for c in TCL.winfo_rgb(__color)]
+        start = [c >> key for c in master.winfo_rgb(__color)]
         end = [(1 << (num << 2)) - c - 1 for c in start]
     else:
-        start = [c >> key for c in TCL.winfo_rgb(__color[0])]
-        end = [c >> key for c in TCL.winfo_rgb(__color[1])]
+        start = [c >> key for c in master.winfo_rgb(__color[0])]
+        end = [c >> key for c in master.winfo_rgb(__color[1])]
 
     proportion_generator = (proportion * i / seqlength for i in range(1, seqlength + 1))
     lst = [(format_ % tuple(c1 + round((c2 - c1) * p) for c1, c2 in zip(start, end))) for p in proportion_generator]
@@ -1735,7 +1722,6 @@ def color(
 
 
 def askfont(
-    root,  # type: tkinter.Tk | tkinter.Canvas | Tk | Toplevel | Canvas
     bind=None,  # type: typing.Callable[[str], typing.Any] | None
     initfont=''  # type: tuple[str, int, str] | tuple[str, int] | str
 ):  # type: (...) -> None
@@ -1744,30 +1730,18 @@ def askfont(
 
     注意: 由于 tkinter 模块无法直接打开该窗口，所以此处添加了这个函数
 
-   * `root`: 父容器控件
-   * `bind`: 关联函数，有且仅有一个参数 font
+   * `bind`: 关联的回调函数，有且仅有一个参数 font
    * `initfont`: 初始字体，格式为 font 参数默认格式
     """
     args = []
-    if bind:
-        args += ['-command', root.register(bind)]
+    master = tkinter._get_temp_root()  # type: tkinter.Tk
+
+    if bind is not None:
+        args += ['-command', master.register(bind)]
     if initfont:
         if isinstance(initfont, tuple):
             initfont = ' '.join(str(i) for i in initfont)
         args += ['-font', initfont]
     if args:
-        root.tk.call('tk', 'fontchooser', 'configure', *args)
-    root.tk.call('tk', 'fontchooser', 'show')
-
-
-def SetProcessDpiAwareness(awareness=PROCESS_SYSTEM_DPI_AWARE):  # type: (typing.Literal[0, 1, 2]) -> None
-    """
-    设定窗口程序的 DPI 级别，让系统知道该如何对程序进行缩放，以提升高缩放倍数情况下的清晰度
-
-    注意：此函数仅在 Windows 平台上生效！且 tkintertools 程序已内置该功能，
-    该函数不应在 tkintertools 程序中使用，而应该在 tkinter 程序中使用！
-
-    * `awareness`: DPI 级别，值可以为 0、1 和 2，本来默认为 0，此处更改默认值为 1
-    """
-    if WinDLL is not None:
-        WinDLL('shcore').SetProcessDpiAwareness(awareness)
+        master.tk.call('tk', 'fontchooser', 'configure', *args)
+    master.tk.call('tk', 'fontchooser', 'show')

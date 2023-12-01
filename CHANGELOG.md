@@ -1,3 +1,34 @@
+[`2.6.16`] - 2023-12-01
+-----------------------
+
+### Added - 新增
+
+- [X] The `ToolTip` class has added a `delay` parameter to enhance functionality  
+类 `ToolTip` 新增参数 `delay` 来增强功能
+
+### Optimized - 优化
+
+- [X] The function `askfont` has been optimized so that the font selection dialog can now be opened without the need for a parent container widget  
+对函数 `askfont` 进行了优化，现在无需父容器控件也可以打开字体选择对话框
+
+### Changed - 变更
+
+- [X] The values of some constants have been modified  
+部分常量的值进行了修改
+
+### Removed - 移除
+
+- [X] Removed the function `SetProcessDpiAwareness` and the constant `PROCESS_SYSTEM_DPI_AWARE`  
+移除函数 `SetProcessDpiAwareness` 和常量 `PROCESS_SYSTEM_DPI_AWARE`
+
+### Fixed - 修复
+
+- [X] Fixed the bug that the font size of the menu bar was abnormal  
+修复菜单栏字体大小异常的问题
+
+- [X] Fixed the bug that images could not be loaded  
+修复图片无法加载的问题
+
 [`2.6.15`] - 2023-11-26
 -----------------------
 

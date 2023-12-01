@@ -1,20 +1,12 @@
 """All constants"""
 
+import math  # inf definition
 import platform  # Get information about the platform
-import tkinter  # Base module
 
 # System constants
 
 SYSTEM = platform.system()
 """Operating System"""
-
-PROCESS_SYSTEM_DPI_AWARE = 1
-"""Default DPI aware"""
-
-# tcl constants
-
-(TCL := tkinter.Tcl(useTk=True)).withdraw()
-"""tcl command interpreter class"""
 
 # Color constants
 
@@ -86,10 +78,10 @@ BORDERWIDTH = 1
 CURSOR = "│"
 """text cursor"""
 
-FONT = "Microsoft YaHei" if SYSTEM == "Windows" else "DejaVu Sans" if SYSTEM == "linux" else "Arial"
+FONT = "Microsoft YaHei" if SYSTEM == "Windows" else "Arial"
 """Default font"""
 
-SIZE = 20
+SIZE = 12
 """Default font size"""
 
 LIMIT = -1
@@ -107,19 +99,22 @@ TICK = "✓"
 CONTROL = lambda _: 1, 0, 1
 """Default control function"""
 
-DURATION = 4000
+DELAY = 500
+"""Default ToolTip delay"""
+
+DURATION = 5000
 """Default ToolTip duration"""
 
 TOOLTIP_FG = "black"
 """Default ToolTip foreground color"""
 
-TOOLTIP_BG = "lightyellow"
+TOOLTIP_BG = "white"
 """Default ToolTip background color"""
 
 TOOLTIP_HIGNLIGHT_THICKNESS = 1
 """Default ToolTip highlightthickness"""
 
-TOOLTIP_HIGNLIGHT_BACKGROUND = "black"
+TOOLTIP_HIGNLIGHT_BACKGROUND = "grey"
 """Default ToolTip highlightbackground"""
 
 SWITCH_WIDTH = 60
@@ -128,7 +123,7 @@ SWITCH_WIDTH = 60
 SWITCH_HEIGHT = 30
 """Default Switch height"""
 
-SWITCH_RADIUS = float("inf")
+SWITCH_RADIUS = math.inf
 """Default Switch radius"""
 
 SWITCH_ANIMATION_MS = 250

@@ -35,12 +35,12 @@ Install - 模块安装
 
 ### Stable Release - 稳定版本
 
-* Version - 最新版本 : `2.6.15`
-* Release - 发布日期 : 2023/11/26
-* Feature - 更新内容 : [News-2.6.15](docs/news/2.6.15/News.md)
+* Version - 最新版本 : `2.6.16`
+* Release - 发布日期 : 2023/12/01
+* Feature - 更新内容 : [News-2.6.16](docs/news/2.6.16/News.md)
 
 ```
-pip install tkintertools==2.6.15
+pip install tkintertools==2.6.16
 ```
 
 ### Pre Release - 预发布版本

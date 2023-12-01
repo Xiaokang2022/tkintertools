@@ -1,11 +1,11 @@
 Release Notes - 版本发布说明
 ===========================
 
-* Version - 最新版本 : `2.6.15`
-* Release - 发布日期 : 2023/11/26
+* Version - 最新版本 : `2.6.16`
+* Release - 发布日期 : 2023/12/01
 
 ```
-pip install tkintertools==2.6.15
+pip install tkintertools==2.6.16
 ```
 
 </details>
@@ -15,30 +15,31 @@ ChangeLog - 更新日志
 
 ### Added - 新增
 
-- [X] A new method for the `Animation` class is called `shutdown` to terminate the current animation  
-类 `Animation` 新增方法 `shutdown` 来终止当前动画
-
-- [X] The geometry class `Cuboid` and the geometry class `Tetrahedron` of submodule `tools_3d` have been initialized to increase the degree of freedom in style configuration  
-子模块 `tools_3d` 的类 `Cuboid` 和类 `Tetrahedron` 新增一些初始化参数来提高样式配置的自由度
-
-- [X] The constants `TCL`, `PROPORTION`, `SEQLENGTH`, and `NUM` are added  
-新增常量 `TCL`、`PROPORTION`、`SEQLENGTH` 和 `NUM`
-
-- [X] The `color` function adds the parameters `seqlength` and `num` to enhance the functionality  
-函数 `color` 新增参数 `seqlength` 和 `num` 来增强功能
+- [X] The `ToolTip` class has added a `delay` parameter to enhance functionality  
+类 `ToolTip` 新增参数 `delay` 来增强功能
 
 ### Optimized - 优化
 
-- [X] The parameter support for the function `color` has been expanded to support color names such as red, skyblue, and cyan2  
-函数 `color` 的参数支持的范围扩大，可以支持诸如 red、skyblue 和 cyan2 等颜色名称
+- [X] The function `askfont` has been optimized so that the font selection dialog can now be opened without the need for a parent container widget  
+对函数 `askfont` 进行了优化，现在无需父容器控件也可以打开字体选择对话框
 
-- [X] Some functions can be called without the need for a parent widget  
-部分函数无需父控件即可调用
+### Changed - 变更
+
+- [X] The values of some constants have been modified  
+部分常量的值进行了修改
+
+### Removed - 移除
+
+- [X] Removed the function `SetProcessDpiAwareness` and the constant `PROCESS_SYSTEM_DPI_AWARE`  
+移除函数 `SetProcessDpiAwareness` 和常量 `PROCESS_SYSTEM_DPI_AWARE`
 
 ### Fixed - 修复
 
-- [X] Fixed a bug where the function `color` would get an incorrect result in rare cases  
-修复了函数 `color` 在罕见情况下会得到错误结果的问题
+- [X] Fixed the bug that the font size of the menu bar was abnormal  
+修复菜单栏字体大小异常的问题
+
+- [X] Fixed the bug that images could not be loaded  
+修复图片无法加载的问题
 
 Todos - 待办事项
 ---------------
@@ -81,4 +82,4 @@ Todos - 待办事项
 3D 对象前后空间的位置关系在某些时候仍有问题
 
 ---
-[Last Version - 上个版本](../2.6.14/News.md) | [Version Content - 版本目录](../README.md) | [Next Version - 下个版本](../2.6.16/News.md)
+[Last Version - 上个版本](../2.6.15/News.md) | [Version Content - 版本目录](../README.md) | [Next Version - 下个版本](../3.0.0/News.md)
