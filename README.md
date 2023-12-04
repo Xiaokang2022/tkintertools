@@ -37,7 +37,7 @@ Install - 模块安装
 
 * Version - 最新版本 : `2.6.16`
 * Release - 发布日期 : 2023/12/01
-* Feature - 更新内容 : [News-2.6.16](docs/news/2.6.16/News.md)
+* Feature - 更新内容 : [News-2.6.16](https://xiaokang2022.github.io/tkintertools/news/2.6.16/News/)
 
 ```
 pip install tkintertools==2.6.16
@@ -47,7 +47,7 @@ pip install tkintertools==2.6.16
 
 * Version - 最新版本 : `3.0.0.dev5`
 * Release - 发布日期 : 
-* Feature - 更新内容 : [News-3.0.0(pre)](docs/news/3.0.0/News.md)
+* Feature - 更新内容 : [News-3.0.0(pre)](https://xiaokang2022.github.io/tkintertools/news/3.0.0/News/)
 
 ```
 
@@ -60,7 +60,7 @@ pip install tkintertools==2.6.16
 More - 更多
 -----------
 
-* Tutorials & Documents - 教程和文档 : [T&D](docs/index.md)
+* Tutorials & Documents - 教程和文档 : [T&D](https://xiaokang2022.github.io/tkintertools/)
 * Lisence - 项目证书 : [LICENSE.txt](LICENSE.txt)
 * ChangeLog - 更新日志 : [CHANGELOG.md](CHANGELOG.md)
 * Contribution Guide - 贡献指南 : [CONTRIBUTING.md](CONTRIBUTING.md)
