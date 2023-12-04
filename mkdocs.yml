@@ -111,19 +111,19 @@ theme:  # 主题设置
     logo: logo  # 徽标
     # favicon: images/favicon.png  网站图标
     repo: fontawesome/brands/github
-    admonition:
-      note: octicons/tag-16
-      abstract: octicons/checklist-16
-      info: octicons/info-16
-      tip: octicons/squirrel-16
-      success: octicons/check-16
-      question: octicons/question-16
-      warning: octicons/alert-16
-      failure: octicons/x-circle-16
-      danger: octicons/zap-16
-      bug: octicons/bug-16
-      example: octicons/beaker-16
-      quote: octicons/quote-16
+    # admonition:  # 特殊注释
+    #   note: octicons/tag-16  # 笔记
+    #   abstract: octicons/checklist-16
+    #   info: octicons/info-16  # 说明
+    #   tip: octicons/squirrel-16  # 提示
+    #   success: octicons/check-16  # 成功
+    #   question: octicons/question-16  # 提问
+    #   warning: octicons/alert-16  # 警告
+    #   failure: octicons/x-circle-16  # 失败
+    #   danger: octicons/zap-16  # 危险
+    #   bug: octicons/bug-16  # BUG
+    #   example: octicons/beaker-16  # 举例
+    #   quote: octicons/quote-16  # 引用
 
 extra:  # 额外设定
   social:  # 社交联系方式
@@ -138,14 +138,14 @@ plugins:  # 插件
       separator: '[\s\u200b\-_,:!=\[\]()"`/]+|\.(?!\d)|&[lg]t;|(?!\b)(?=[A-Z][a-z])'
 
 nav:  # 导航栏
-  - 主页: index.md
+  - Home / 主页: index.md
 
-  - 教程: 
-    - 前言: tutorials/zh/0-1.md
+  - Tutorials / 教程: 
+    - 前言: tutorials/0-1.md
     - 第一章：安装与初识:
-      - 安装 tkintertools: tutorials/zh/1-1.md
-      - 认识 tkintertools: tutorials/zh/1-2.md
-      - tkintertools 初体验: tutorials/zh/1-3.md
+      - 安装 tkintertools: tutorials/1-1.md
+      - 认识 tkintertools: tutorials/1-2.md
+      - tkintertools 初体验: tutorials/1-3.md
     - 第二章：容器控件:
       - Tk
       - Toplevel
@@ -169,9 +169,9 @@ nav:  # 导航栏
       - Animation
       - color
     - 第七章：3D 子模块:
-      - 3D 对象: tutorials/zh/7-1.md
-      - 3D 文本: tutorials/zh/7-2.md
-      - 3D 动画: tutorials/zh/7-3.md
+      - 3D 对象: tutorials/7-1.md
+      - 3D 文本: tutorials/7-2.md
+      - 3D 动画: tutorials/7-3.md
     - 第八章：杂项:
       - 学会一些实用的小技巧
       - 混合使用 tkinter
@@ -180,9 +180,9 @@ nav:  # 导航栏
       - 引导式实战教学
       - 实战项目推荐
   
-  - 文档: documents/index.md
+  - Documents / 文档: documents/index.md
 
-  - 新闻:
+  - News / 新闻:
     - Version 2:
       - 2.6.16: news/2.6.16/News.md
       - 2.6.15: news/2.6.15/News.md
@@ -197,3 +197,9 @@ nav:  # 导航栏
       - 2.6.6: news/2.6.6/News.md
     - Version 3:
       - 3.0.0(pre): news/3.0.0/News.md
+  
+  - Other / 其他:
+    - 贡献指南: other/CONTRIBUTING.md
+    - 更新日志: other/CHANGELOG.md
+    - 项目证书: other/LICENSE.md
+
