@@ -59,7 +59,6 @@ markdown_extensions:  # mk 扩展
 
 theme:  # 主题设置
   name: material  # 主题名称
-  locale: zh_CN  # mkdocs 语言
   language: zh  # material 语言
   features:
     - announce.dismiss
@@ -108,7 +107,7 @@ theme:  # 主题设置
     text: Microsoft YaHei  # 文本
     code: consolas  # 代码
   icon:
-    logo: logo  # 徽标
+    # logo: icon  # 徽标
     # favicon: images/favicon.png  网站图标
     repo: fontawesome/brands/github
     # admonition:  # 特殊注释
@@ -146,39 +145,39 @@ nav:  # 导航栏
       - 安装 tkintertools: tutorials/1-1.md
       - 认识 tkintertools: tutorials/1-2.md
       - tkintertools 初体验: tutorials/1-3.md
-    - 第二章：容器控件:
-      - Tk
-      - Toplevel
-      - Canvas
-    - 第三章：功能控件:
-      - Label
-      - Button
-      - CheckButton
-      - Entry
-      - Text
-      - ProgressBar
-      - Switch
-      - ToolTip
-    - 第四章：界面布局:
-      - Place
-      - Slide
-    - 第五章：图片:
-      - Icon
-      - PhotoImage
-    - 第六章：动画以及颜色效果:
-      - Animation
-      - color
+    - 第二章：容器控件: tutorials/2-1.md
+      # - Tk
+      # - Toplevel
+      # - Canvas
+    - 第三章：功能控件: tutorials/3-1.md
+      # - Label
+      # - Button
+      # - CheckButton
+      # - Entry
+      # - Text
+      # - ProgressBar
+      # - Switch
+      # - ToolTip
+    - 第四章：界面布局: tutorials/4-1.md
+      # - Place
+      # - Slide
+    - 第五章：图片: tutorials/5-1.md
+      # - Icon
+      # - PhotoImage
+    - 第六章：动画以及颜色效果: tutorials/6-1.md
+      # - Animation
+      # - color
     - 第七章：3D 子模块:
       - 3D 对象: tutorials/7-1.md
       - 3D 文本: tutorials/7-2.md
       - 3D 动画: tutorials/7-3.md
-    - 第八章：杂项:
-      - 学会一些实用的小技巧
-      - 混合使用 tkinter
-    - 第九章：实战:
-      - 手把手实战教学
-      - 引导式实战教学
-      - 实战项目推荐
+    - 第八章：杂项: tutorials/8-1.md
+      # - 学会一些实用的小技巧
+      # - 混合使用 tkinter
+    - 第九章：实战: tutorials/9-1.md
+      # - 手把手实战教学
+      # - 引导式实战教学
+      # - 实战项目推荐
   
   - Documents / 文档: documents/index.md
 
