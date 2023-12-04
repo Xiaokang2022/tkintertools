@@ -8,7 +8,7 @@ The most detailed and complete tutorials and detailed documentation are here!
 > Unlike the corresponding version of tkintertools, there may be errors or other problems when running the relevant code!  
 > 不同于对应版本的 tkintertools 在运行相关代码时可能出现报错或者其他问题！
 
-* Language - 语言: English \| [中文](tutorials/zh/README.md)
+* Language - 语言: English \| [中文](tutorials/zh/index.md)
 
 ### Documents - 文档
 

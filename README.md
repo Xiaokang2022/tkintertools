@@ -60,7 +60,7 @@ pip install tkintertools==2.6.16
 More - 更多
 -----------
 
-* Tutorials & Documents - 教程和文档 : [T&D](docs/README.md)
+* Tutorials & Documents - 教程和文档 : [T&D](docs/index.md)
 * Lisence - 项目证书 : [LICENSE.txt](LICENSE.txt)
 * ChangeLog - 更新日志 : [CHANGELOG.md](CHANGELOG.md)
 * Contribution Guide - 贡献指南 : [CONTRIBUTING.md](CONTRIBUTING.md)
