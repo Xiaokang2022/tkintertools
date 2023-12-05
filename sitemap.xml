@@ -6,6 +6,11 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
+         <loc>https://Xiaokang2022.github.io/tkintertools/navigation/</loc>
+         <lastmod>2023-12-05</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
          <loc>https://Xiaokang2022.github.io/tkintertools/documents/</loc>
          <lastmod>2023-12-05</lastmod>
          <changefreq>daily</changefreq>
@@ -71,17 +76,17 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://Xiaokang2022.github.io/tkintertools/other/CHANGELOG/</loc>
+         <loc>https://Xiaokang2022.github.io/tkintertools/others/CHANGELOG/</loc>
          <lastmod>2023-12-05</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://Xiaokang2022.github.io/tkintertools/other/CONTRIBUTING/</loc>
+         <loc>https://Xiaokang2022.github.io/tkintertools/others/CONTRIBUTING/</loc>
          <lastmod>2023-12-05</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://Xiaokang2022.github.io/tkintertools/other/LICENSE/</loc>
+         <loc>https://Xiaokang2022.github.io/tkintertools/others/LICENSE/</loc>
          <lastmod>2023-12-05</lastmod>
          <changefreq>daily</changefreq>
     </url>
