@@ -81,7 +81,7 @@ CURSOR = "│"
 FONT = "Microsoft YaHei" if SYSTEM == "Windows" else "Arial"
 """Default font"""
 
-SIZE = 12
+SIZE = -24
 """Default font size"""
 
 LIMIT = -1
@@ -111,10 +111,10 @@ TOOLTIP_FG = "black"
 TOOLTIP_BG = "white"
 """Default ToolTip background color"""
 
-TOOLTIP_HIGNLIGHT_THICKNESS = 1
+TOOLTIP_HIGHLIGHT_THICKNESS = 1
 """Default ToolTip highlightthickness"""
 
-TOOLTIP_HIGNLIGHT_BACKGROUND = "grey"
+TOOLTIP_HIGHLIGHT_BACKGROUND = "grey"
 """Default ToolTip highlightbackground"""
 
 SWITCH_WIDTH = 60
@@ -161,7 +161,7 @@ POINT_SIZE = 1
 POINT_WIDTH = 1
 """Default point width"""
 
-LINE_WDITH = 1
+LINE_WIDTH = 1
 """Default line width"""
 
 SIDE_WIDTH = 1

@@ -399,7 +399,7 @@ class Line(_3D_Object):
         point_start,  # type: typing.Iterable[float]
         point_end,  # type: typing.Iterable[float]
         *,
-        width=LINE_WDITH,  # type: float
+        width=LINE_WIDTH,  # type: float
         fill=COLOR_FILL_LINE,  # type: str
     ):  # type: (...) -> None
         """
@@ -505,7 +505,7 @@ class Text(_3D_Object):
         x, y = self._project(self.canvas.distance, self.canvas)[0]
         self.canvas.coords(self.item, x * self.canvas.rx, y * self.canvas.ry)
         font = list(self.font)
-        font[1] = int(font[1] * self.distance * math.sqrt(self.canvas.rx * self.canvas.ry) / self._camera_distance())
+        font[1] = round(font[1] * self.distance * math.sqrt(self.canvas.rx * self.canvas.ry) / self._camera_distance())
         self.canvas.itemconfigure(self.item, font=font)
 
     def _camera_distance(self):  # type: () -> float

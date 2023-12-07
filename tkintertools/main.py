@@ -11,8 +11,8 @@ except ImportError:
     Image = None
 
 try:  # 仅在 Windows 平台下支持设置 DPI 级别
-    from ctypes import WinDLL
-    WinDLL('shcore').SetProcessDpiAwareness(1)  # 值只能为 0、1 和 2，原来是 0，现设为 1
+    from ctypes import windll
+    windll.shcore.SetProcessDpiAwareness(1)  # 值只能为 0、1 和 2，原来是 0，现设为 1
 except ImportError:
     pass
 
@@ -74,6 +74,8 @@ class Tk(tkinter.Tk):
             self.attributes('-topmost', topmost)
         if transparentcolor is not None:
             self.attributes('-transparentcolor', transparentcolor)
+
+        self.minsize(200, 200)
         self.protocol('WM_DELETE_WINDOW', shutdown if shutdown else None)
         self.bind('<Configure>', lambda _: self._zoom())  # 开启窗口缩放检测
 
@@ -355,6 +357,9 @@ class Canvas(tkinter.Canvas):
             kw['font'] = FONT, SIZE
         elif isinstance(font, str):
             kw['font'] = font, SIZE
+        elif kw['font'][1] > 0:
+            kw['font'] = list(kw['font'])
+            kw['font'][1] = -kw['font'][1]
         item = tkinter.Canvas.create_text(self, *args, **kw)
         self._font[item] = list(kw['font'])
         return item
@@ -373,7 +378,7 @@ class Canvas(tkinter.Canvas):
 
     def place(self, *args, **kw):  # type: (...) -> None  # BUG: 缩放就会恢复原样
         # override: 增加一些特定功能
-        self.width[0] = kw.get('wdith', self.width[0])
+        self.width[0] = kw.get('width', self.width[0])
         self.height[0] = kw.get('height', self.height[0])
         return tkinter.Canvas.place(self, *args, **kw)
 
@@ -659,11 +664,11 @@ class BaseWidget:
             else:
                 self.value = value
         if text:
-            self.color_text = text
+            self.color_text = list(text)
         if fill:
-            self.color_fill = fill
+            self.color_fill = list(fill)
         if outline:
-            self.color_outline = outline
+            self.color_outline = list(outline)
 
         if isinstance(self, (Label, Button, ProgressBar)) and value is not None and not isinstance(self, CheckButton):
             self.master.itemconfigure(self.text, text=value)
@@ -1054,8 +1059,11 @@ class Entry(TextWidget):
         self.master.itemconfigure(self.text, text=self._value[0])
         while True:
             pos = self.master.bbox(self.text)
-            if pos[2] > self.x2 - self.radius - 2 or pos[0] < self.x1 + self.radius + 1:
+            if self.justify == 'left' and pos[2] > self.x2 - self.radius - 2:
                 self._value[0] = self._value[0][1:]
+                self.master.itemconfigure(self.text, text=self._value[0])
+            elif self.justify == 'right' and pos[0] < self.x1 + self.radius + 1:
+                self._value[0] = self._value[0][:-1]
                 self.master.itemconfigure(self.text, text=self._value[0])
             else:
                 break
@@ -1413,8 +1421,8 @@ class ToolTip:
         fg=TOOLTIP_FG,  # type: str
         bg=TOOLTIP_BG,  # type: str
         justify='left',  # type: typing.Literal['left', 'center', 'right']
-        highlightthickness=TOOLTIP_HIGNLIGHT_THICKNESS,  # type: int
-        highlightbackground=TOOLTIP_HIGNLIGHT_BACKGROUND,  # type: str
+        highlightthickness=TOOLTIP_HIGHLIGHT_THICKNESS,  # type: int
+        highlightbackground=TOOLTIP_HIGHLIGHT_BACKGROUND,  # type: str
         delay=DELAY,  # type: int
         duration=DURATION,  # type: int | None
     ):  # type: (...) -> None
@@ -1456,9 +1464,15 @@ class ToolTip:
     def _place(self):  # type: () -> None
         """显示 """
         self.toplevel = tkinter.Toplevel(highlightthickness=self.highlightthickness, highlightbackground=self.highlightbackground)
+        px, py = self.toplevel.winfo_pointerxy()
+        x = self.toplevel.master.winfo_x()
+        y = self.toplevel.master.winfo_y()
+        width = self.toplevel.master.winfo_width()
+        height = self.toplevel.master.winfo_height()
+        if not x <= px <= x + width or not y <= py <= y + height:
+            return self._destroy()
         self.toplevel.overrideredirect(True)
-        x, y = self.toplevel.winfo_pointerxy()
-        self.toplevel.geometry(f'+{x}+{y + 26}')
+        self.toplevel.geometry(f'+{px + 1}+{py + 1}')
         tkinter.Label(self.toplevel, text=self.text, font=self.font, fg=self.fg, bg=self.bg, justify=self.justify).pack()
         if self.duration is not None:
             self.toplevel.after(self.duration, self._destroy)
@@ -1645,7 +1659,7 @@ class Animation:
             place_info = self.widget.place_info()
             origin_x, origin_y = float(place_info['x']), float(place_info['y'])
             self.widget.place(x=origin_x + dx, y=origin_y + dy)
-        elif isinstance(self.widget, BaseWidget):  # tkintertools 控件
+        elif isinstance(self.widget, BaseWidget):  # tkt 控件
             self.widget.move(dx, dy)
         elif isinstance(self.widget, int):  # int
             self.master.move(self.widget, dx, dy)
@@ -1706,14 +1720,16 @@ def color(
 
     key = 16 - (num << 2)
     format_ = f'#%0{num}X%0{num}X%0{num}X'
-    master = tkinter._get_temp_root()  # type: tkinter.Tk
+
+    if tkinter._default_root is None:
+        tkinter.Tk().withdraw()
 
     if isinstance(__color, str):  # 对比色的情况处理
-        start = [c >> key for c in master.winfo_rgb(__color)]
+        start = [c >> key for c in tkinter._default_root.winfo_rgb(__color)]
         end = [(1 << (num << 2)) - c - 1 for c in start]
     else:
-        start = [c >> key for c in master.winfo_rgb(__color[0])]
-        end = [c >> key for c in master.winfo_rgb(__color[1])]
+        start = [c >> key for c in tkinter._default_root.winfo_rgb(__color[0])]
+        end = [c >> key for c in tkinter._default_root.winfo_rgb(__color[1])]
 
     proportion_generator = (proportion * i / seqlength for i in range(1, seqlength + 1))
     lst = [(format_ % tuple(c1 + round((c2 - c1) * p) for c1, c2 in zip(start, end))) for p in proportion_generator]
@@ -1734,14 +1750,16 @@ def askfont(
    * `initfont`: 初始字体，格式为 font 参数默认格式
     """
     args = []
-    master = tkinter._get_temp_root()  # type: tkinter.Tk
+
+    if tkinter._default_root is None:
+        tkinter.Tk().withdraw()
 
     if bind is not None:
-        args += ['-command', master.register(bind)]
+        args += ['-command', tkinter._default_root.register(bind)]
     if initfont:
         if isinstance(initfont, tuple):
             initfont = ' '.join(str(i) for i in initfont)
         args += ['-font', initfont]
     if args:
-        master.tk.call('tk', 'fontchooser', 'configure', *args)
-    master.tk.call('tk', 'fontchooser', 'show')
+        tkinter._default_root.tk.call('tk', 'fontchooser', 'configure', *args)
+    tkinter._default_root.tk.call('tk', 'fontchooser', 'show')

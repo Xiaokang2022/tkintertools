@@ -1,3 +1,30 @@
+[`2.6.17`] - 2023-12-07
+-----------------------
+
+### Optimized - 优化
+
+- [X] Corrected some incorrect English words  
+修改了部分错误的英文单词
+
+### Changed - 变更
+
+- [X] The font unit changes from points to pixels  
+字体单位由磅更改为像素
+
+- [X] Reduced the display position offset of tooltip widgets  
+减小了提示框控件的显示位置偏移
+
+### Fixed - 修复
+
+- [X] Fixed a bug where tooltip widgets could appear in very wrong places  
+修复了提示框控件有可能显示在非常错误的位置的问题
+
+- [X] Fixed a bug where the widget class `Entry` was in a non-centered state and the canvas was shrunk, entering an endless loop when entering text, causing the window to not respond  
+修复了控件类 `Entry` 在非居中状态，且画布缩小之后，输入文本时进入死循环，导致窗口未响应的问题
+
+- [X] Fixed a bug where widget color properties were sometimes unchangeable  
+修复了控件颜色属性某些时候不可更改的问题
+
 [`2.6.16`] - 2023-12-01
 -----------------------
 
@@ -202,8 +229,8 @@
 - [X] Added widget Tip (`ToolTip`) and all virtual widgets added the parameter `tooltip`  
 新增控件提示框（`ToolTip`），且所有虚拟控件新增参数 `tooltip`
 
-- [X] Added constants `DURATION`、`TOOLTIP_FG`、`TOOLTIP_BG`、`TOOLTIP_HIGNLIGHT_THICKNESS`、`TOOLTIP_HIGNLIGHT_BACKGROUND`、`COLOR_SWITCH_ON`、`COLOR_SWITCH_OFF`、`SWITCH_WIDTH`、`SWITCH_HEIGHT`、`SWITCH_RADIUS` and `SWITCH_ANIMATION_MS`  
-新增常量 `DURATION`、`TOOLTIP_FG`、`TOOLTIP_BG`、`TOOLTIP_HIGNLIGHT_THICKNESS`、`TOOLTIP_HIGNLIGHT_BACKGROUND`、`COLOR_SWITCH_ON`、`COLOR_SWITCH_OFF`、`SWITCH_WIDTH`、`SWITCH_HEIGHT`、`SWITCH_RADIUS` 和 `SWITCH_ANIMATION_MS`
+- [X] Added constants `DURATION`、`TOOLTIP_FG`、`TOOLTIP_BG`、`TOOLTIP_HIGHLIGHT_THICKNESS`、`TOOLTIP_HIGHLIGHT_BACKGROUND`、`COLOR_SWITCH_ON`、`COLOR_SWITCH_OFF`、`SWITCH_WIDTH`、`SWITCH_HEIGHT`、`SWITCH_RADIUS` and `SWITCH_ANIMATION_MS`  
+新增常量 `DURATION`、`TOOLTIP_FG`、`TOOLTIP_BG`、`TOOLTIP_HIGHLIGHT_THICKNESS`、`TOOLTIP_HIGHLIGHT_BACKGROUND`、`COLOR_SWITCH_ON`、`COLOR_SWITCH_OFF`、`SWITCH_WIDTH`、`SWITCH_HEIGHT`、`SWITCH_RADIUS` 和 `SWITCH_ANIMATION_MS`
 
 ### Fixed - 修复
 
@@ -627,8 +654,8 @@
 - [X] `Canvas` class adds compatibility methods `coords`, `move`, `moveto` and `bbox` to improve the DPI adaptation problem  
 `Canvas` 类新增兼容方法 `coords`、`move`、`moveto` 和 `bbox`，完善了 DPI 的适配问题
 
-- [X] `Tk` Class Add Method `wm_minszie`, `wm_maxsize` to be compatible with DPI adaptation problems  
-`Tk` 类新增方法 `wm_minszie`、`wm_maxsize` 以兼容 DPI 适配问题
+- [X] `Tk` Class Add Method `wm_minsize`, `wm_maxsize` to be compatible with DPI adaptation problems  
+`Tk` 类新增方法 `wm_minsize`、`wm_maxsize` 以兼容 DPI 适配问题
 
 - [X] Optimize the `PhotoImage` class so that it can be used without globalization  
 优化 `PhotoImage` 类，使之无需全局化，即可使用
