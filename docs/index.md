@@ -39,12 +39,12 @@
 
 ### Stable Release - 稳定版本
 
-- Version - 最新版本 : `2.6.17`
-- Release - 发布日期 : 2023/12/07
-- Feature - 更新内容 : [News-2.6.17](https://xiaokang2022.github.io/tkintertools/news/2.6.17/News/)
+- Version - 最新版本 : `2.6.18`
+- Release - 发布日期 : 2023/12/10
+- Feature - 更新内容 : [News-2.6.18](https://xiaokang2022.github.io/tkintertools/news/2.6.18/News/)
 
 ```
-pip install tkintertools==2.6.17
+pip install tkintertools==2.6.18
 ```
 
 ### Pre Release - 预发布版本

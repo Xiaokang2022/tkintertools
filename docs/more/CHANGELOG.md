@@ -1,3 +1,21 @@
+[`2.6.18`] - 2023-12-10
+-----------------------
+
+### Fixed - 修复
+
+- [X] Fixed a bug where the actual font size of 3D text with the same font size setting was inconsistent in different locations  
+修复在不同位置的但字体大小设定相同的 3D 文本的实际字体大小不一致的 bug
+
+### Changed - 变更
+
+- [X] Class `Canvas_3D` was renamed `Canvas3D`, and Class `_3D_Object` was renamed to `_Object3D`  
+类 `Canvas_3D` 更名为 `Canvas3D`，类 `_3D_Object` 更名为 `_Object3D`
+
+### Optimized - 优化
+
+- [X] Some codes have been optimized  
+优化了部分代码
+
 [`2.6.17`] - 2023-12-07
 -----------------------
 
