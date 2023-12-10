@@ -1,7 +1,7 @@
 """All constants"""
 
-import math  # inf definition
-import platform  # Get information about the platform
+import math
+import platform
 
 # System constants
 
@@ -64,7 +64,7 @@ COLOR_OUTLINE_ON = COLOR_FILL_ON
 COLOR_OUTLINE_OFF = COLOR_OUTLINE_BUTTON
 """Default outline color when `Switch` is off"""
 
-COLOR_FILL_SLIDER = '#000000', '#000000', '#000000', '#333333'
+COLOR_FILL_SLIDER = "#000000", "#000000", "#000000", "#333333"
 """Default slider fill color"""
 
 COLOR_OUTLINE_SLIDER = "#333333", "#333333", "#333333", "#666666"
@@ -87,47 +87,48 @@ SIZE = -24
 LIMIT = -1
 """Default widget text length limit"""
 
-RADIUS = 0 if SYSTEM == "Windows" and int(platform.version()[-5:]) < 22000 else 4
+RADIUS = 0 if SYSTEM == "Windows" and int(
+    platform.version()[-5:]) < 22000 else 5
 """Default widget fillet radius"""
 
 FPS = 60
 """Default animation FPS"""
 
 TICK = "✓"
-"""Default checkbox symbol"""
+"""Default `Checkbox` symbol"""
 
-CONTROL = lambda _: 1, 0, 1
+CONTROL = None
 """Default control function"""
 
 DELAY = 500
-"""Default ToolTip delay"""
+"""Default `ToolTip` delay"""
 
 DURATION = 5000
-"""Default ToolTip duration"""
+"""Default `ToolTip` duration"""
 
 TOOLTIP_FG = "black"
-"""Default ToolTip foreground color"""
+"""Default `ToolTip` foreground color"""
 
 TOOLTIP_BG = "white"
-"""Default ToolTip background color"""
+"""Default `ToolTip` background color"""
 
 TOOLTIP_HIGHLIGHT_THICKNESS = 1
-"""Default ToolTip highlightthickness"""
+"""Default `ToolTip` highlightthickness"""
 
 TOOLTIP_HIGHLIGHT_BACKGROUND = "grey"
-"""Default ToolTip highlightbackground"""
+"""Default `ToolTip` highlightbackground"""
 
 SWITCH_WIDTH = 60
-"""Default Switch width"""
+"""Default `Switch` width"""
 
 SWITCH_HEIGHT = 30
-"""Default Switch height"""
+"""Default `Switch` height"""
 
 SWITCH_RADIUS = math.inf
-"""Default Switch radius"""
+"""Default `Switch` radius"""
 
 SWITCH_ANIMATION_MS = 250
-"""Default animation duration of the Switch"""
+"""Default animation duration of the `Switch`"""
 
 PROPORTION = 1.
 """Default proportion of function color"""
@@ -141,31 +142,31 @@ NUM = 2
 # 3D constants
 
 COLOR_FILL_POINT = "#000000"
-"""Default point fill color"""
+"""Default `Point` fill color"""
 
 COLOR_OUTLINE_POINT = "#000000"
-"""Default point outline color"""
+"""Default `Point` outline color"""
 
 COLOR_FILL_LINE = "#000000"
-"""Default line fill color"""
+"""Default `Line` fill color"""
 
 COLOR_FILL_SIDE = ""
-"""Default side fill color"""
+"""Default `Side` fill color"""
 
 COLOR_OUTLINE_SIDE = "#000000"
-"""Default side outline color"""
+"""Default `Side` outline color"""
 
 POINT_SIZE = 1
-"""Default point size"""
+"""Default `Point` size"""
 
 POINT_WIDTH = 1
-"""Default point width"""
+"""Default `Point` width"""
 
 LINE_WIDTH = 1
-"""Default line width"""
+"""Default `Line` width"""
 
 SIDE_WIDTH = 1
-"""Default side width"""
+"""Default `Side` width"""
 
 CAMERA_DISTANCE = 1000
 """Default 3D camera distance"""
@@ -188,4 +189,4 @@ COLOR_FILL_ORIGIN = ""
 COLOR_OUTLINE_ORIGIN = ""
 """Default origin outline color"""
 
-all_constants = list(filter(lambda name: name.isupper(), globals()))
+__all__ = list(filter(lambda name: name.isupper(), globals()))

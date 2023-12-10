@@ -38,26 +38,5 @@ More
 
 from .main import *
 
+__version__ = "2.6.18"
 __author__ = "Xiaokang2022 <2951256653@qq.com>"
-
-__version__ = "2.6.17"
-
-__all__ = [
-    "Tk",
-    "Toplevel",
-    "Canvas",
-    "Label",
-    "Button",
-    "CheckButton",
-    "Entry",
-    "Text",
-    "ProgressBar",
-    "Switch",
-    "ToolTip",
-    "PhotoImage",
-    "Animation",
-    "color",
-    "askfont",
-]
-
-__all__.extend(all_constants)

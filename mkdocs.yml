@@ -1,3 +1,4 @@
+# mkdocs 配置文件
 # mkdocs serve  # 本地预览
 # mkdocs build  # 编译
 # mkdocs gh-deploy  # 自动上传至 gh-pages 分支
@@ -6,13 +7,13 @@ site_name: tkintertools # 站点名称
 site_url: https://Xiaokang2022.github.io/tkintertools/ # 站点链接
 site_author: Xiaokang2022 # 站点作者
 site_description: tkintertools is an auxiliary development module of tkinter # 站点描述
-
 repo_name: Xiaokang2022/tkintertools # 仓库名称
-repo_url: https://github.com/Xiaokang2022/tkintertools # 仓库地址
+repo_url: https://github.com/Xiaokang2022/tkintertools # 仓库源地址
+edit_url: https://github.com/Xiaokang2022/tkintertools # 编辑和查看文档的地址
+copyright: Copyright &copy; 2022 - 2023 Xiaokang2022 # 版权信息
+remote_branch: gh-pages # GitHub Pages 分支名称（此处为默认值）
 
-copyright: Copyright &copy; 2022 - 2023 Xiaokang2022
-
-markdown_extensions: # mk 扩展
+markdown_extensions: # Python Markdown 官方扩展
   - abbr
   - admonition
   - attr_list
@@ -62,7 +63,7 @@ markdown_extensions: # mk 扩展
   - pymdownx.tilde
 
 theme: # 主题设置
-  name: material # 主题名称
+  name: material # 第三方主题名称
   language: zh # material 语言
   features:
     - announce.dismiss
@@ -99,7 +100,7 @@ theme: # 主题设置
       accent: pink # 明亮链接高亮颜色
       toggle:
         icon: material/brightness-7
-        name: 切换至默认主题
+        name: 切换至系统主题
     - media: "(prefers-color-scheme: dark)" # 暗色主题
       scheme: slate
       primary: black # 黑暗标题栏颜色
@@ -110,7 +111,7 @@ theme: # 主题设置
   font: # 字体
     text: Microsoft YaHei # 文本
     code: consolas # 代码
-  logo: "logo.png" # 徽标
+  logo: "logo.png" # 徽标（要加上引号）
   favicon: "logo.png" # 网站图标
   icon:
     repo: fontawesome/brands/github
@@ -129,15 +130,15 @@ theme: # 主题设置
     #   quote: octicons/quote-16  # 引用
 
 extra: # 额外设定
-  social: # 社交联系方式
-    - icon: fontawesome/brands/github # GitHub 仓库
-      link: https://github.com/Xiaokang2022
-    - icon: fontawesome/brands/python # PyPI 链接
+  social: # 社交联系方式（页面右下角内容）
+    - icon: fontawesome/brands/github # GitHub 仓库链接
+      link: https://github.com/Xiaokang2022/tkintertools/
+    - icon: fontawesome/brands/python # PyPI 页面链接
       link: https://pypi.org/project/tkintertools/
-  homepage: . # 徽标链接的地址
+  homepage: . # 徽标链接的地址（此处为根目录，即主页）
 
 plugins: # 插件
-  - search:
+  - search: # 唯一官方附带插件
       separator: '[\s\u200b\-_,:!=\[\]()"`/]+|\.(?!\d)|&[lg]t;|(?!\b)(?=[A-Z][a-z])'
 
 nav: # 导航栏

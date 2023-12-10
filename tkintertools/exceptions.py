@@ -28,4 +28,11 @@ class WidgetStateModeError(ValueError):
         self.value = value
 
     def __str__(self):  # type: () -> str
-        return f'The mode can only be "normal", "touch", "click" or "disabled", not "{self.value}"'
+        return f"The mode can only be normal, touch, click or disabled, not {self.value}"
+
+
+__all__ = [
+    "ScaleArgsValueError",
+    "ColorArgsValueError",
+    "WidgetStateModeError",
+]
