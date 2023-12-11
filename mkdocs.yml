@@ -178,6 +178,7 @@ nav: # 导航栏
           - 3D 对象: tutorials/7-1.md
           - 3D 文本: tutorials/7-2.md
           - 3D 动画: tutorials/7-3.md
+          - 3D 进阶: tutorials/7-4.md
       - 第八章：杂项: tutorials/8-1.md
         # - 学会一些实用的小技巧
         # - 混合使用 tkinter
