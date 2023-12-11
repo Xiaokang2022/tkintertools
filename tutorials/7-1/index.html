@@ -783,9 +783,9 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#12-canvas_3d" class="md-nav__link">
+  <a href="#12-canvas3d" class="md-nav__link">
     <span class="md-ellipsis">
-      1.2 Canvas_3D 类
+      1.2 Canvas3D 类
     </span>
   </a>
   
@@ -940,6 +940,27 @@
   
   <span class="md-ellipsis">
     3D 动画
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../7-4/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    3D 进阶
   </span>
   
 
@@ -1311,9 +1332,9 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#12-canvas_3d" class="md-nav__link">
+  <a href="#12-canvas3d" class="md-nav__link">
     <span class="md-ellipsis">
-      1.2 Canvas_3D 类
+      1.2 Canvas3D 类
     </span>
   </a>
   
@@ -1460,17 +1481,17 @@
 <h1 id="3d">3D 对象<a class="headerlink" href="#3d" title="Permanent link">&para;</a></h1>
 <h2 id="3d_1">一、3D 对象的容器控件<a class="headerlink" href="#3d_1" title="Permanent link">&para;</a></h2>
 <p><code>tkintertools</code> 的 3D 画布不是只有一个，它实际的继承关系是下面这样的：</p>
-<p><code>tkinter.Canvas</code> -&gt; <code>tkintertools.Canvas</code> -&gt; <code>tools_3d.Canvas_3D</code> -&gt; <code>tools_3d.Space</code></p>
+<p><code>tkinter.Canvas</code> -&gt; <code>tkintertools.Canvas</code> -&gt; <code>tools_3d.Canvas3D</code> -&gt; <code>tools_3d.Space</code></p>
 <p>其中，后面两个是属于 <code>tkintertools</code> 的子模块 <code>tools_3d</code> 里面的。</p>
 <h3 id="11-space">1.1 Space 类<a class="headerlink" href="#11-space" title="Permanent link">&para;</a></h3>
 <p>内置的 <code>Space</code> 类已经帮我们绑定好了相关的操作方法，如鼠标右键拖动就是平移（<code>translate</code>）、鼠标左键拖动就是旋转（<code>rotate</code>）以及鼠标滚轮滚动就是缩放（<code>scale</code>），一般用于查看 3D 对象的外观。</p>
-<h3 id="12-canvas_3d">1.2 Canvas_3D 类<a class="headerlink" href="#12-canvas_3d" title="Permanent link">&para;</a></h3>
-<p><code>Canvas_3D</code> 属于是什么 3D 事件都没有绑定的一个容器控件了。它存在的目的就是让使用者可以自定义绑定的事件及绑定的函数，而不是强制使用某些按键来触发某些事件（如鼠标左键拖动旋转 3D 对象）。这里要说明一点的就是，由于 <code>tkinter</code> 模块制定绑定事件时，会把之前已经绑定的同类事件给覆盖掉，因此我们在自定义绑定事件的时候，不能把之前的给丢掉了，要在新的绑定事件中加上它们，此外，多个绑定事件之间的执行顺序非常重要，有时候顺序错误会导致不可估计的后果。</p>
-<p><code>Canvas_3D</code> 类有一个名为 <code>space_sort</code> 方法非常关键，在每次画面改动之后都必须调用它来更新，否则画面不会有任何的变化。比如每一次平移、每一次旋转和缩放等，都需要调用一下它来更新一下画面。“space sort” 意为“空间位置排序”，也就是说，每次调用它后，它会根据每个 3D 对象的数据来得出它们的前后位置关系（尽管不精确，后面会再次提到），计算出前后关系再根据前后位置关系来更新画面。</p>
-<p>不过 <code>Space</code> 类中已经帮我们内置好了这个方法的调用，因此 <code>Space</code> 相比于 <code>Canvas_3D</code> 来说非常方便。不过有时候我们并不想让用户能够拖动画面，我们可能只是想展示某一 3D 动画或者画面，这时 <code>Canvas_3D</code> 就派上用场了！因为它根本就没有对应事件的绑定！</p>
+<h3 id="12-canvas3d">1.2 Canvas3D 类<a class="headerlink" href="#12-canvas3d" title="Permanent link">&para;</a></h3>
+<p><code>Canvas3D</code> 属于是什么 3D 事件都没有绑定的一个容器控件了。它存在的目的就是让使用者可以自定义绑定的事件及绑定的函数，而不是强制使用某些按键来触发某些事件（如鼠标左键拖动旋转 3D 对象）。这里要说明一点的就是，由于 <code>tkinter</code> 模块制定绑定事件时，会把之前已经绑定的同类事件给覆盖掉，因此我们在自定义绑定事件的时候，不能把之前的给丢掉了，要在新的绑定事件中加上它们，此外，多个绑定事件之间的执行顺序非常重要，有时候顺序错误会导致不可估计的后果。</p>
+<p><code>Canvas3D</code> 类有一个名为 <code>space_sort</code> 方法非常关键，在每次画面改动之后都必须调用它来更新，否则画面不会有任何的变化。比如每一次平移、每一次旋转和缩放等，都需要调用一下它来更新一下画面。“space sort” 意为“空间位置排序”，也就是说，每次调用它后，它会根据每个 3D 对象的数据来得出它们的前后位置关系（尽管不精确，后面会再次提到），计算出前后关系再根据前后位置关系来更新画面。</p>
+<p>不过 <code>Space</code> 类中已经帮我们内置好了这个方法的调用，因此 <code>Space</code> 相比于 <code>Canvas3D</code> 来说非常方便。不过有时候我们并不想让用户能够拖动画面，我们可能只是想展示某一 3D 动画或者画面，这时 <code>Canvas3D</code> 就派上用场了！因为它根本就没有对应事件的绑定！</p>
 <div class="admonition info">
 <p class="admonition-title">注意</p>
-<p>尽管 <code>Space</code> 如此方便了，但是无论是 <code>Space</code> 还是 <code>Canvas_3D</code>，在新增加一个 3D 对象的时候，都应该调用一下 <code>space_sort</code> 方法来更新画面，因为考虑到性能和某些特殊要求的情况下，这个时候 <code>space_sort</code> 方法并不会被自动调用。</p>
+<p>尽管 <code>Space</code> 如此方便了，但是无论是 <code>Space</code> 还是 <code>Canvas3D</code>，在新增加一个 3D 对象的时候，都应该调用一下 <code>space_sort</code> 方法来更新画面，因为考虑到性能和某些特殊要求的情况下，这个时候 <code>space_sort</code> 方法并不会被自动调用。</p>
 </div>
 <h3 id="13-3d">1.3 3D 容器控件的坐标规划<a class="headerlink" href="#13-3d" title="Permanent link">&para;</a></h3>
 <p>3D 容器控件采用的都是右手系，原点位于画布中央，下图清晰地展示了 3D 容器中的空间坐标系：</p>
@@ -1744,11 +1765,13 @@
 </span><span id="__span-8-6"><a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a><span class="n">root</span> <span class="o">=</span> <span class="n">tkt</span><span class="o">.</span><span class="n">Tk</span><span class="p">(</span><span class="s1">&#39;Tetrahedron&#39;</span><span class="p">,</span> <span class="mi">1280</span><span class="p">,</span> <span class="mi">720</span><span class="p">)</span>
 </span><span id="__span-8-7"><a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a><span class="n">space</span> <span class="o">=</span> <span class="n">t3d</span><span class="o">.</span><span class="n">Space</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="mi">1280</span><span class="p">,</span> <span class="mi">720</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">keep</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 </span><span id="__span-8-8"><a id="__codelineno-8-8" name="__codelineno-8-8" href="#__codelineno-8-8"></a>
-</span><span id="__span-8-9"><a id="__codelineno-8-9" name="__codelineno-8-9" href="#__codelineno-8-9"></a><span class="n">t3d</span><span class="o">.</span><span class="n">Tetrahedron</span><span class="p">(</span><span class="n">space</span><span class="p">,</span> <span class="p">[</span><span class="o">-</span><span class="mi">100</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span> <span class="o">+</span> <span class="mi">10</span><span class="p">],</span> <span class="p">[</span><span class="mi">50</span><span class="p">,</span> <span class="mi">50</span> <span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span> <span class="mi">0</span> <span class="o">+</span> <span class="mi">10</span><span class="p">],</span> <span class="p">[</span><span class="mi">50</span><span class="p">,</span> <span class="o">-</span><span class="mi">50</span> <span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span> <span class="mi">0</span> <span class="o">+</span> <span class="mi">10</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">100</span> <span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="o">+</span> <span class="mi">10</span><span class="p">],</span> <span class="n">color_fill</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="s1">&#39;yellow&#39;</span><span class="p">,</span> <span class="s1">&#39;blue&#39;</span><span class="p">,</span> <span class="s1">&#39;green&#39;</span><span class="p">])</span>
-</span><span id="__span-8-10"><a id="__codelineno-8-10" name="__codelineno-8-10" href="#__codelineno-8-10"></a><span class="n">t3d</span><span class="o">.</span><span class="n">Tetrahedron</span><span class="p">(</span><span class="n">space</span><span class="p">,</span> <span class="p">[</span><span class="o">-</span><span class="mi">100</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span> <span class="o">-</span> <span class="mi">10</span><span class="p">],</span> <span class="p">[</span><span class="mi">50</span><span class="p">,</span> <span class="mi">50</span> <span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span> <span class="mi">0</span> <span class="o">-</span> <span class="mi">10</span><span class="p">],</span> <span class="p">[</span><span class="mi">50</span><span class="p">,</span> <span class="o">-</span><span class="mi">50</span> <span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span> <span class="mi">0</span> <span class="o">-</span> <span class="mi">10</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">100</span> <span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="o">-</span> <span class="mi">10</span><span class="p">],</span> <span class="n">color_fill</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="s1">&#39;yellow&#39;</span><span class="p">,</span> <span class="s1">&#39;blue&#39;</span><span class="p">,</span> <span class="s1">&#39;green&#39;</span><span class="p">])</span>
-</span><span id="__span-8-11"><a id="__codelineno-8-11" name="__codelineno-8-11" href="#__codelineno-8-11"></a>
-</span><span id="__span-8-12"><a id="__codelineno-8-12" name="__codelineno-8-12" href="#__codelineno-8-12"></a><span class="n">space</span><span class="o">.</span><span class="n">space_sort</span><span class="p">()</span>
-</span><span id="__span-8-13"><a id="__codelineno-8-13" name="__codelineno-8-13" href="#__codelineno-8-13"></a><span class="n">root</span><span class="o">.</span><span class="n">mainloop</span><span class="p">()</span>
+</span><span id="__span-8-9"><a id="__codelineno-8-9" name="__codelineno-8-9" href="#__codelineno-8-9"></a><span class="n">t3d</span><span class="o">.</span><span class="n">Tetrahedron</span><span class="p">(</span><span class="n">space</span><span class="p">,</span> <span class="p">[</span><span class="o">-</span><span class="mi">100</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span> <span class="o">+</span> <span class="mi">10</span><span class="p">],</span> <span class="p">[</span><span class="mi">50</span><span class="p">,</span> <span class="mi">50</span> <span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span> <span class="mi">0</span> <span class="o">+</span> <span class="mi">10</span><span class="p">],</span> <span class="p">[</span><span class="mi">50</span><span class="p">,</span> <span class="o">-</span><span class="mi">50</span> <span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span>
+</span><span id="__span-8-10"><a id="__codelineno-8-10" name="__codelineno-8-10" href="#__codelineno-8-10"></a>    <span class="mi">3</span><span class="p">),</span> <span class="mi">0</span> <span class="o">+</span> <span class="mi">10</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">100</span> <span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="o">+</span> <span class="mi">10</span><span class="p">],</span> <span class="n">color_fill</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="s1">&#39;yellow&#39;</span><span class="p">,</span> <span class="s1">&#39;blue&#39;</span><span class="p">,</span> <span class="s1">&#39;green&#39;</span><span class="p">])</span>
+</span><span id="__span-8-11"><a id="__codelineno-8-11" name="__codelineno-8-11" href="#__codelineno-8-11"></a><span class="n">t3d</span><span class="o">.</span><span class="n">Tetrahedron</span><span class="p">(</span><span class="n">space</span><span class="p">,</span> <span class="p">[</span><span class="o">-</span><span class="mi">100</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span> <span class="o">-</span> <span class="mi">10</span><span class="p">],</span> <span class="p">[</span><span class="mi">50</span><span class="p">,</span> <span class="mi">50</span> <span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span> <span class="mi">0</span> <span class="o">-</span> <span class="mi">10</span><span class="p">],</span> <span class="p">[</span><span class="mi">50</span><span class="p">,</span> <span class="o">-</span><span class="mi">50</span> <span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span>
+</span><span id="__span-8-12"><a id="__codelineno-8-12" name="__codelineno-8-12" href="#__codelineno-8-12"></a>    <span class="mi">3</span><span class="p">),</span> <span class="mi">0</span> <span class="o">-</span> <span class="mi">10</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">100</span> <span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="o">-</span> <span class="mi">10</span><span class="p">],</span> <span class="n">color_fill</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="s1">&#39;yellow&#39;</span><span class="p">,</span> <span class="s1">&#39;blue&#39;</span><span class="p">,</span> <span class="s1">&#39;green&#39;</span><span class="p">])</span>
+</span><span id="__span-8-13"><a id="__codelineno-8-13" name="__codelineno-8-13" href="#__codelineno-8-13"></a>
+</span><span id="__span-8-14"><a id="__codelineno-8-14" name="__codelineno-8-14" href="#__codelineno-8-14"></a><span class="n">space</span><span class="o">.</span><span class="n">space_sort</span><span class="p">()</span>
+</span><span id="__span-8-15"><a id="__codelineno-8-15" name="__codelineno-8-15" href="#__codelineno-8-15"></a><span class="n">root</span><span class="o">.</span><span class="n">mainloop</span><span class="p">()</span>
 </span></code></pre></div>
 
 </details>
