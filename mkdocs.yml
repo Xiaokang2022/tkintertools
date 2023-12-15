@@ -187,7 +187,11 @@ nav: # 导航栏
         # - 引导式实战教学
         # - 实战项目推荐
 
-  - Documents / 文档: documents/index.md
+  - Documents / 文档:
+      - main.py: documents/main.md
+      - tools_3d.py: documents/tools_3d.md
+      - exceptions.py: documents/exceptions.md
+      - constants.py: documents/constants.md
 
   - News / 新闻:
       - Series 2 - 系列 2:
