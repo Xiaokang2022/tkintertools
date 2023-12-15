@@ -97,7 +97,7 @@ Classes - 类
 
 ### 01. Canvas3D
 
-!!! note "Canvas3D `Class`"
+!!! note "Canvas3D(Canvas) `Class`"
 
     3D 画布基类
 
@@ -168,7 +168,7 @@ Classes - 类
 
 ### 02. Cuboid
 
-!!! note "Cuboid `Class`"
+!!! note "Cuboid(Geometry) `Class`"
 
     长方体
 
@@ -349,7 +349,7 @@ Classes - 类
 
 ### 04. Line
 
-!!! note "Line `Class`"
+!!! note "Line(_Object3D) `Class`"
 
     线
 
@@ -399,7 +399,7 @@ Classes - 类
 
 ### 05. Point
 
-!!! note "Point `Class`"
+!!! note "Point(_Object3D) `Class`"
 
     点
 
@@ -461,7 +461,7 @@ Classes - 类
 
 ### 06. Side
 
-!!! note "Side `Class`"
+!!! note "Side(_Object3D) `Class`"
 
     面
 
@@ -510,7 +510,7 @@ Classes - 类
 
 ### 07. Space
 
-!!! note "Space `Class`"
+!!! note "Space(Canvas3D) `Class`"
 
     三维空间
 
@@ -597,7 +597,7 @@ Classes - 类
 
 ### 08. Tetrahedron
 
-!!! note "Tetrahedron `Class`"
+!!! note "Tetrahedron(Geometry) `Class`"
 
     四面体
 
@@ -631,7 +631,7 @@ Classes - 类
 
 ### 09. Text
 
-!!! note "Text `Class`"
+!!! note "Text(_Object3D) `Class`"
 
     三维文本
 

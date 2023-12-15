@@ -10,7 +10,7 @@ Classes - 类
 
 ### 01. ColorArgsValueError
 
-!!! note "ColorArgsValueError `Class`"
+!!! note "ColorArgsValueError(ValueError) `Class`"
 
     颜色函数参数值错误
 
@@ -26,7 +26,7 @@ Classes - 类
 
 ### 02. ScaleArgsValueError
 
-!!! note "ScaleArgsValueError `Class`"
+!!! note "ScaleArgsValueError(ValueError) `Class`"
 
     缩放函数参数值错误
 
@@ -42,7 +42,7 @@ Classes - 类
 
 ### 03. WidgetStateModeError
 
-!!! note "WidgetStateModeError `Class`"
+!!! note "WidgetStateModeError(ValueError) `Class`"
 
     控件状态模式错误
 

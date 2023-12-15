@@ -321,7 +321,7 @@ Classes - 类
 
 ### 03. Button
 
-!!! note "Button `Class`"
+!!! note "Button(BaseWidget) `Class`"
 
     按钮控件
 
@@ -389,7 +389,7 @@ Classes - 类
 
 ### 04. Canvas
 
-!!! note "Canvas `Class`"
+!!! note "Canvas(Canvas) `Class`"
 
     画布容器控件
 
@@ -528,7 +528,7 @@ Classes - 类
 
 ### 05. CheckButton
 
-!!! note "CheckButton `Class`"
+!!! note "CheckButton(Button) `Class`"
 
     复选框控件
 
@@ -583,7 +583,7 @@ Classes - 类
 
 ### 06. Entry
 
-!!! note "Entry `Class`"
+!!! note "Entry(TextWidget) `Class`"
 
     输入框控件
 
@@ -663,7 +663,7 @@ Classes - 类
 
 ### 07. Label
 
-!!! note "Label `Class`"
+!!! note "Label(BaseWidget) `Class`"
 
     标签控件
 
@@ -706,7 +706,7 @@ Classes - 类
 
 ### 08. PhotoImage
 
-!!! note "PhotoImage `Class`"
+!!! note "PhotoImage(PhotoImage) `Class`"
 
     图片类
 
@@ -779,7 +779,7 @@ Classes - 类
 
 ### 09. ProgressBar
 
-!!! note "ProgressBar `Class`"
+!!! note "ProgressBar(BaseWidget) `Class`"
 
     进度条控件
 
@@ -836,7 +836,7 @@ Classes - 类
 
 ### 10. Switch
 
-!!! note "Switch `Class`"
+!!! note "Switch(Button) `Class`"
 
     开关控件
 
@@ -923,7 +923,7 @@ Classes - 类
 
 ### 11. Text
 
-!!! note "Text `Class`"
+!!! note "Text(TextWidget) `Class`"
 
     文本框控件
 
@@ -1014,7 +1014,7 @@ Classes - 类
 
 ### 12. TextWidget
 
-!!! note "TextWidget `Class`"
+!!! note "TextWidget(BaseWidget) `Class`"
 
     虚拟文本类控件基类 
 
@@ -1172,7 +1172,7 @@ Classes - 类
 
 ### 13. Tk
 
-!!! note "Tk `Class`"
+!!! note "Tk(Tk) `Class`"
 
     根窗口容器控件
 
@@ -1316,7 +1316,7 @@ Classes - 类
 
 ### 15. Toplevel
 
-!!! note "Toplevel `Class`"
+!!! note "Toplevel(Toplevel, Tk) `Class`"
 
     子窗口容器控件
 
