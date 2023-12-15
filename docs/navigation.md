@@ -10,17 +10,20 @@ Detailed official tutorial!(That's what I wrote)
     Unlike the corresponding version of tkintertools, there may be errors or other problems when running the relevant code!  
     不同于对应版本的 tkintertools 在运行相关代码时可能出现报错或者其他问题！
 
-    The tutorial is only partially updated at the moment!  
-    教程目前只更新了一部分内容！
+    The tutorial is currently only partially updated, and it is only available in Chinese!  
+    教程目前只更新了一部分内容，且只有中文版！
 
 ### Documents - 文档
 
 Documents that correspond to the source code.  
 对应到源代码上的文档。
 
-!!! tip "Tip - 提示"
-    The documentation is currently not being updated  
-    文档目前暂未更新
+!!! info "Note - 注意"
+    Documentation will always be up-to-date!  
+    文档将始终保持最新版本！
+
+    The language of the documentation is determined by the source code and there will be no translations!  
+    文档语言由源代码决定，不会有任何翻译！
 
 ### News - 新闻
 
