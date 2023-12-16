@@ -94,7 +94,7 @@ Classes - 类
 
 
 
-    !!! note "\_parts `Method` `Internal`"
+    !!! example "\_parts `Method` `Internal`"
 
         ```python
         _parts(
@@ -108,7 +108,7 @@ Classes - 类
         部分比率
 
 
-    !!! note "\_run `Method` `Internal`"
+    !!! example "\_run `Method` `Internal`"
 
         ```python
         _run(
@@ -120,7 +120,7 @@ Classes - 类
         执行动画
 
 
-    !!! note "\_translate `Method` `Internal`"
+    !!! example "\_translate `Method` `Internal`"
 
         ```python
         _translate(
@@ -352,7 +352,7 @@ Classes - 类
 
 
 
-    !!! note "\_click `Method` `Internal`"
+    !!! example "\_click `Method` `Internal`"
 
         ```python
         _click(
@@ -364,7 +364,7 @@ Classes - 类
         交互状态检测
 
 
-    !!! note "\_execute `Method` `Internal`"
+    !!! example "\_execute `Method` `Internal`"
 
         ```python
         _execute(
@@ -376,7 +376,7 @@ Classes - 类
         执行关联函数
 
 
-    !!! note "\_touch `Method` `Internal`"
+    !!! example "\_touch `Method` `Internal`"
 
         ```python
         _touch(
@@ -424,7 +424,7 @@ Classes - 类
 
 
 
-    !!! note "\_click `Method` `Internal`"
+    !!! example "\_click `Method` `Internal`"
 
         ```python
         _click(
@@ -436,7 +436,7 @@ Classes - 类
         鼠标左键按下事件
 
 
-    !!! note "\_input `Method` `Internal`"
+    !!! example "\_input `Method` `Internal`"
 
         ```python
         _input(
@@ -448,7 +448,7 @@ Classes - 类
         键盘输入字符事件
 
 
-    !!! note "\_paste `Method` `Internal`"
+    !!! example "\_paste `Method` `Internal`"
 
         ```python
         _paste(
@@ -459,7 +459,7 @@ Classes - 类
         快捷键粘贴事件
 
 
-    !!! note "\_release `Method` `Internal`"
+    !!! example "\_release `Method` `Internal`"
 
         ```python
         _release(
@@ -471,7 +471,7 @@ Classes - 类
         鼠标左键松开事件
 
 
-    !!! note "\_touch `Method` `Internal`"
+    !!! example "\_touch `Method` `Internal`"
 
         ```python
         _touch(
@@ -484,7 +484,7 @@ Classes - 类
         鼠标触碰控件事件
 
 
-    !!! note "\_zoom `Method` `Internal`"
+    !!! example "\_zoom `Method` `Internal`"
 
         ```python
         _zoom(
@@ -616,7 +616,7 @@ Classes - 类
 
 
 
-    !!! note "\_click\_off `Method` `Internal`"
+    !!! example "\_click\_off `Method` `Internal`"
 
         ```python
         _click_off(
@@ -627,7 +627,7 @@ Classes - 类
         控件失去焦点
 
 
-    !!! note "\_click\_on `Method` `Internal`"
+    !!! example "\_click\_on `Method` `Internal`"
 
         ```python
         _click_on(
@@ -638,7 +638,7 @@ Classes - 类
         控件获得焦点
 
 
-    !!! note "\_input `Method` `Internal`"
+    !!! example "\_input `Method` `Internal`"
 
         ```python
         _input(
@@ -651,7 +651,7 @@ Classes - 类
         文本输入
 
 
-    !!! note "\_update\_text `Method` `Internal`"
+    !!! example "\_update\_text `Method` `Internal`"
 
         ```python
         _update_text(
@@ -693,7 +693,7 @@ Classes - 类
 
 
 
-    !!! note "\_touch `Method` `Internal`"
+    !!! example "\_touch `Method` `Internal`"
 
         ```python
         _touch(
@@ -808,7 +808,7 @@ Classes - 类
 
 
 
-    !!! note "\_touch `Method` `Internal`"
+    !!! example "\_touch `Method` `Internal`"
 
         ```python
         _touch(
@@ -887,7 +887,7 @@ Classes - 类
 
 
 
-    !!! note "\_animate `Method` `Internal`"
+    !!! example "\_animate `Method` `Internal`"
 
         ```python
         _animate(
@@ -956,7 +956,7 @@ Classes - 类
 
 
 
-    !!! note "\_click\_off `Method` `Internal`"
+    !!! example "\_click\_off `Method` `Internal`"
 
         ```python
         _click_off(
@@ -967,7 +967,7 @@ Classes - 类
         控件失去焦点
 
 
-    !!! note "\_click\_on `Method` `Internal`"
+    !!! example "\_click\_on `Method` `Internal`"
 
         ```python
         _click_on(
@@ -978,7 +978,7 @@ Classes - 类
         控件获得焦点
 
 
-    !!! note "\_input `Method` `Internal`"
+    !!! example "\_input `Method` `Internal`"
 
         ```python
         _input(
@@ -991,7 +991,7 @@ Classes - 类
         文本输入
 
 
-    !!! note "\_input\_backspace `Method` `Internal`"
+    !!! example "\_input\_backspace `Method` `Internal`"
 
         ```python
         _input_backspace(
@@ -1002,7 +1002,7 @@ Classes - 类
         退格键功能
 
 
-    !!! note "\_input\_return `Method` `Internal`"
+    !!! example "\_input\_return `Method` `Internal`"
 
         ```python
         _input_return(
@@ -1045,7 +1045,7 @@ Classes - 类
 
 
 
-    !!! note "\_click `Method` `Internal`"
+    !!! example "\_click `Method` `Internal`"
 
         ```python
         _click(
@@ -1057,7 +1057,7 @@ Classes - 类
         交互状态检测
 
 
-    !!! note "\_cursor\_flash `Method` `Internal`"
+    !!! example "\_cursor\_flash `Method` `Internal`"
 
         ```python
         _cursor_flash(
@@ -1068,7 +1068,7 @@ Classes - 类
         鼠标光标闪烁
 
 
-    !!! note "\_cursor\_update `Method` `Internal`"
+    !!! example "\_cursor\_update `Method` `Internal`"
 
         ```python
         _cursor_update(
@@ -1080,7 +1080,7 @@ Classes - 类
         鼠标光标更新
 
 
-    !!! note "\_paste `Method` `Internal`"
+    !!! example "\_paste `Method` `Internal`"
 
         ```python
         _paste(
@@ -1091,7 +1091,7 @@ Classes - 类
         快捷键粘贴
 
 
-    !!! note "\_touch `Method` `Internal`"
+    !!! example "\_touch `Method` `Internal`"
 
         ```python
         _touch(
@@ -1103,7 +1103,7 @@ Classes - 类
         触碰状态检测
 
 
-    !!! note "\_touch\_off `Method` `Internal`"
+    !!! example "\_touch\_off `Method` `Internal`"
 
         ```python
         _touch_off(
@@ -1114,7 +1114,7 @@ Classes - 类
         鼠标离开状态
 
 
-    !!! note "\_touch\_on `Method` `Internal`"
+    !!! example "\_touch\_on `Method` `Internal`"
 
         ```python
         _touch_on(
@@ -1211,7 +1211,7 @@ Classes - 类
 
 
 
-    !!! note "\_zoom `Method` `Internal`"
+    !!! example "\_zoom `Method` `Internal`"
 
         ```python
         _zoom(
@@ -1269,7 +1269,7 @@ Classes - 类
 
 
 
-    !!! note "\_cancel `Method` `Internal`"
+    !!! example "\_cancel `Method` `Internal`"
 
         ```python
         _cancel(
@@ -1281,7 +1281,7 @@ Classes - 类
         取消倒计时
 
 
-    !!! note "\_countdown `Method` `Internal`"
+    !!! example "\_countdown `Method` `Internal`"
 
         ```python
         _countdown(
@@ -1293,7 +1293,7 @@ Classes - 类
         倒计时
 
 
-    !!! note "\_destroy `Method` `Internal`"
+    !!! example "\_destroy `Method` `Internal`"
 
         ```python
         _destroy(
@@ -1304,7 +1304,7 @@ Classes - 类
         消失
 
 
-    !!! note "\_place `Method` `Internal`"
+    !!! example "\_place `Method` `Internal`"
 
         ```python
         _place(

@@ -11,7 +11,7 @@ Constants - 常量
 !!! note "BORDERWIDTH `Constant`"
 
     ```python
-    BORDERWIDTH: str = 1
+    BORDERWIDTH: int = 1
     ```
 
     Default widget borderwidth
@@ -20,7 +20,7 @@ Constants - 常量
 !!! note "CAMERA_DISTANCE `Constant`"
 
     ```python
-    CAMERA_DISTANCE: str = 1000
+    CAMERA_DISTANCE: int = 1000
     ```
 
     Default 3D camera distance
@@ -29,7 +29,7 @@ Constants - 常量
 !!! note "COLOR_FILL_BUTTON `Constant`"
 
     ```python
-    COLOR_FILL_BUTTON: str = ('#E1E1E1', '#E5F1FB', '#CCE4F7', '#E0E0E0')
+    COLOR_FILL_BUTTON: tuple = ('#E1E1E1', '#E5F1FB', '#CCE4F7', '#E0E0E0')
     ```
 
     Default `Button` fill color
@@ -38,7 +38,7 @@ Constants - 常量
 !!! note "COLOR_FILL_CHECKBUTTON `Constant`"
 
     ```python
-    COLOR_FILL_CHECKBUTTON: str = ('#E1E1E1', '#E5F1FB', '#CCE4F7', '#E0E0E0')
+    COLOR_FILL_CHECKBUTTON: tuple = ('#E1E1E1', '#E5F1FB', '#CCE4F7', '#E0E0E0')
     ```
 
     Default `CheckButton` fill color
@@ -47,7 +47,7 @@ Constants - 常量
 !!! note "COLOR_FILL_ENTRY `Constant`"
 
     ```python
-    COLOR_FILL_ENTRY: str = ('#FFFFFF', '#FFFFFF', '#FFFFFF', '#E0E0E0')
+    COLOR_FILL_ENTRY: tuple = ('#FFFFFF', '#FFFFFF', '#FFFFFF', '#E0E0E0')
     ```
 
     Default `Entry` fill color
@@ -56,7 +56,7 @@ Constants - 常量
 !!! note "COLOR_FILL_LABEL `Constant`"
 
     ```python
-    COLOR_FILL_LABEL: str = ('#E1E1E1', '#E5F1FB', '#CCE4F7', '#E0E0E0')
+    COLOR_FILL_LABEL: tuple = ('#E1E1E1', '#E5F1FB', '#CCE4F7', '#E0E0E0')
     ```
 
     Default `Label` fill color
@@ -74,7 +74,7 @@ Constants - 常量
 !!! note "COLOR_FILL_OFF `Constant`"
 
     ```python
-    COLOR_FILL_OFF: str = ('#E1E1E1', '#E5F1FB', '#CCE4F7', '#E0E0E0')
+    COLOR_FILL_OFF: tuple = ('#E1E1E1', '#E5F1FB', '#CCE4F7', '#E0E0E0')
     ```
 
     Default fill color when `Switch` is off
@@ -83,7 +83,7 @@ Constants - 常量
 !!! note "COLOR_FILL_ON `Constant`"
 
     ```python
-    COLOR_FILL_ON: str = ('#288CDB', '#3E98DF', '#4884B4', '#E0E0E0')
+    COLOR_FILL_ON: tuple = ('#288CDB', '#3E98DF', '#4884B4', '#E0E0E0')
     ```
 
     Default fill color when `Switch` is on
@@ -110,7 +110,7 @@ Constants - 常量
 !!! note "COLOR_FILL_PROGRESSBAR `Constant`"
 
     ```python
-    COLOR_FILL_PROGRESSBAR: str = ('#E1E1E1', '#06b025')
+    COLOR_FILL_PROGRESSBAR: tuple = ('#E1E1E1', '#06b025')
     ```
 
     Default `ProgressBar` fill color
@@ -128,7 +128,7 @@ Constants - 常量
 !!! note "COLOR_FILL_SLIDER `Constant`"
 
     ```python
-    COLOR_FILL_SLIDER: str = ('#000000', '#000000', '#000000', '#333333')
+    COLOR_FILL_SLIDER: tuple = ('#000000', '#000000', '#000000', '#333333')
     ```
 
     Default slider fill color
@@ -137,7 +137,7 @@ Constants - 常量
 !!! note "COLOR_FILL_TEXT `Constant`"
 
     ```python
-    COLOR_FILL_TEXT: str = ('#FFFFFF', '#FFFFFF', '#FFFFFF', '#E0E0E0')
+    COLOR_FILL_TEXT: tuple = ('#FFFFFF', '#FFFFFF', '#FFFFFF', '#E0E0E0')
     ```
 
     Default `Text` fill color
@@ -146,7 +146,7 @@ Constants - 常量
 !!! note "COLOR_NONE `Constant`"
 
     ```python
-    COLOR_NONE: str = ('', '', '', '')
+    COLOR_NONE: tuple = ('', '', '', '')
     ```
 
     Default transparent color tuple
@@ -155,7 +155,7 @@ Constants - 常量
 !!! note "COLOR_OUTLINE_BUTTON `Constant`"
 
     ```python
-    COLOR_OUTLINE_BUTTON: str = ('#C0C0C0', '#288CDB', '#4884B4', '#D0D0D0')
+    COLOR_OUTLINE_BUTTON: tuple = ('#C0C0C0', '#288CDB', '#4884B4', '#D0D0D0')
     ```
 
     Default `Button` outline color
@@ -164,7 +164,7 @@ Constants - 常量
 !!! note "COLOR_OUTLINE_CHECKBUTTON `Constant`"
 
     ```python
-    COLOR_OUTLINE_CHECKBUTTON: str = ('#C0C0C0', '#288CDB', '#4884B4', '#D0D0D0')
+    COLOR_OUTLINE_CHECKBUTTON: tuple = ('#C0C0C0', '#288CDB', '#4884B4', '#D0D0D0')
     ```
 
     Default `CheckButton` outline color
@@ -173,7 +173,7 @@ Constants - 常量
 !!! note "COLOR_OUTLINE_ENTRY `Constant`"
 
     ```python
-    COLOR_OUTLINE_ENTRY: str = ('#C0C0C0', '#414141', '#288CDB', '#D0D0D0')
+    COLOR_OUTLINE_ENTRY: tuple = ('#C0C0C0', '#414141', '#288CDB', '#D0D0D0')
     ```
 
     Default `Entry` outline color
@@ -182,7 +182,7 @@ Constants - 常量
 !!! note "COLOR_OUTLINE_LABEL `Constant`"
 
     ```python
-    COLOR_OUTLINE_LABEL: str = ('#C0C0C0', '#288CDB', '#4884B4', '#D0D0D0')
+    COLOR_OUTLINE_LABEL: tuple = ('#C0C0C0', '#288CDB', '#4884B4', '#D0D0D0')
     ```
 
     Default `Label` outline color
@@ -191,7 +191,7 @@ Constants - 常量
 !!! note "COLOR_OUTLINE_OFF `Constant`"
 
     ```python
-    COLOR_OUTLINE_OFF: str = ('#C0C0C0', '#288CDB', '#4884B4', '#D0D0D0')
+    COLOR_OUTLINE_OFF: tuple = ('#C0C0C0', '#288CDB', '#4884B4', '#D0D0D0')
     ```
 
     Default outline color when `Switch` is off
@@ -200,7 +200,7 @@ Constants - 常量
 !!! note "COLOR_OUTLINE_ON `Constant`"
 
     ```python
-    COLOR_OUTLINE_ON: str = ('#288CDB', '#3E98DF', '#4884B4', '#E0E0E0')
+    COLOR_OUTLINE_ON: tuple = ('#288CDB', '#3E98DF', '#4884B4', '#E0E0E0')
     ```
 
     Default outline color when `Switch` is on
@@ -227,7 +227,7 @@ Constants - 常量
 !!! note "COLOR_OUTLINE_PROGRESSBAR `Constant`"
 
     ```python
-    COLOR_OUTLINE_PROGRESSBAR: str = ('#C0C0C0', '#414141', '#288CDB', '#D0D0D0')
+    COLOR_OUTLINE_PROGRESSBAR: tuple = ('#C0C0C0', '#414141', '#288CDB', '#D0D0D0')
     ```
 
     Default `ProgressBar` outline color
@@ -245,7 +245,7 @@ Constants - 常量
 !!! note "COLOR_OUTLINE_SLIDER `Constant`"
 
     ```python
-    COLOR_OUTLINE_SLIDER: str = ('#333333', '#333333', '#333333', '#666666')
+    COLOR_OUTLINE_SLIDER: tuple = ('#333333', '#333333', '#333333', '#666666')
     ```
 
     Default slider outline color
@@ -254,7 +254,7 @@ Constants - 常量
 !!! note "COLOR_OUTLINE_TEXT `Constant`"
 
     ```python
-    COLOR_OUTLINE_TEXT: str = ('#C0C0C0', '#414141', '#288CDB', '#D0D0D0')
+    COLOR_OUTLINE_TEXT: tuple = ('#C0C0C0', '#414141', '#288CDB', '#D0D0D0')
     ```
 
     Default `Text` outline color
@@ -263,7 +263,7 @@ Constants - 常量
 !!! note "COLOR_TEXT `Constant`"
 
     ```python
-    COLOR_TEXT: str = ('#000000', '#000000', '#000000', '#A3A3A3')
+    COLOR_TEXT: tuple = ('#000000', '#000000', '#000000', '#A3A3A3')
     ```
 
     Default text color
@@ -272,7 +272,7 @@ Constants - 常量
 !!! note "CONTROL `Constant`"
 
     ```python
-    CONTROL: str = None
+    CONTROL: NoneType = None
     ```
 
     Default control function
@@ -290,7 +290,7 @@ Constants - 常量
 !!! note "DELAY `Constant`"
 
     ```python
-    DELAY: str = 500
+    DELAY: int = 500
     ```
 
     Default `ToolTip` delay
@@ -299,7 +299,7 @@ Constants - 常量
 !!! note "DURATION `Constant`"
 
     ```python
-    DURATION: str = 5000
+    DURATION: int = 5000
     ```
 
     Default `ToolTip` duration
@@ -317,7 +317,7 @@ Constants - 常量
 !!! note "FPS `Constant`"
 
     ```python
-    FPS: str = 60
+    FPS: int = 60
     ```
 
     Default animation FPS
@@ -326,7 +326,7 @@ Constants - 常量
 !!! note "LIMIT `Constant`"
 
     ```python
-    LIMIT: str = -1
+    LIMIT: int = -1
     ```
 
     Default widget text length limit
@@ -335,7 +335,7 @@ Constants - 常量
 !!! note "LINE_WIDTH `Constant`"
 
     ```python
-    LINE_WIDTH: str = 1
+    LINE_WIDTH: int = 1
     ```
 
     Default `Line` width
@@ -344,7 +344,7 @@ Constants - 常量
 !!! note "NUM `Constant`"
 
     ```python
-    NUM: str = 2
+    NUM: int = 2
     ```
 
     Default number of RGB digits
@@ -353,7 +353,7 @@ Constants - 常量
 !!! note "ORIGIN_COORDINATE `Constant`"
 
     ```python
-    ORIGIN_COORDINATE: str = (0, 0, 0)
+    ORIGIN_COORDINATE: tuple = (0, 0, 0)
     ```
 
     Default origin coordinate
@@ -362,7 +362,7 @@ Constants - 常量
 !!! note "ORIGIN_SIZE `Constant`"
 
     ```python
-    ORIGIN_SIZE: str = 1
+    ORIGIN_SIZE: int = 1
     ```
 
     Default origin size
@@ -371,7 +371,7 @@ Constants - 常量
 !!! note "ORIGIN_WIDTH `Constant`"
 
     ```python
-    ORIGIN_WIDTH: str = 1
+    ORIGIN_WIDTH: int = 1
     ```
 
     Default origin width
@@ -380,7 +380,7 @@ Constants - 常量
 !!! note "POINT_SIZE `Constant`"
 
     ```python
-    POINT_SIZE: str = 1
+    POINT_SIZE: int = 1
     ```
 
     Default `Point` size
@@ -389,7 +389,7 @@ Constants - 常量
 !!! note "POINT_WIDTH `Constant`"
 
     ```python
-    POINT_WIDTH: str = 1
+    POINT_WIDTH: int = 1
     ```
 
     Default `Point` width
@@ -398,7 +398,7 @@ Constants - 常量
 !!! note "PROPORTION `Constant`"
 
     ```python
-    PROPORTION: str = 1.0
+    PROPORTION: float = 1.0
     ```
 
     Default proportion of function color
@@ -407,7 +407,7 @@ Constants - 常量
 !!! note "RADIUS `Constant`"
 
     ```python
-    RADIUS: str = 5
+    RADIUS: int = 5
     ```
 
     Default widget fillet radius
@@ -416,7 +416,7 @@ Constants - 常量
 !!! note "ROTATE_CENTER `Constant`"
 
     ```python
-    ROTATE_CENTER: str = (0, 0, 0)
+    ROTATE_CENTER: tuple = (0, 0, 0)
     ```
 
     Default rotation center
@@ -425,7 +425,7 @@ Constants - 常量
 !!! note "SEQLENGTH `Constant`"
 
     ```python
-    SEQLENGTH: str = 1
+    SEQLENGTH: int = 1
     ```
 
     Default sequence length of function color
@@ -434,7 +434,7 @@ Constants - 常量
 !!! note "SIDE_WIDTH `Constant`"
 
     ```python
-    SIDE_WIDTH: str = 1
+    SIDE_WIDTH: int = 1
     ```
 
     Default `Side` width
@@ -443,7 +443,7 @@ Constants - 常量
 !!! note "SIZE `Constant`"
 
     ```python
-    SIZE: str = -24
+    SIZE: int = -24
     ```
 
     Default font size
@@ -452,7 +452,7 @@ Constants - 常量
 !!! note "SWITCH_ANIMATION_MS `Constant`"
 
     ```python
-    SWITCH_ANIMATION_MS: str = 250
+    SWITCH_ANIMATION_MS: int = 250
     ```
 
     Default animation duration of the `Switch`
@@ -461,7 +461,7 @@ Constants - 常量
 !!! note "SWITCH_HEIGHT `Constant`"
 
     ```python
-    SWITCH_HEIGHT: str = 30
+    SWITCH_HEIGHT: int = 30
     ```
 
     Default `Switch` height
@@ -470,7 +470,7 @@ Constants - 常量
 !!! note "SWITCH_RADIUS `Constant`"
 
     ```python
-    SWITCH_RADIUS: str = inf
+    SWITCH_RADIUS: float = inf
     ```
 
     Default `Switch` radius
@@ -479,7 +479,7 @@ Constants - 常量
 !!! note "SWITCH_WIDTH `Constant`"
 
     ```python
-    SWITCH_WIDTH: str = 60
+    SWITCH_WIDTH: int = 60
     ```
 
     Default `Switch` width
@@ -533,7 +533,7 @@ Constants - 常量
 !!! note "TOOLTIP_HIGHLIGHT_THICKNESS `Constant`"
 
     ```python
-    TOOLTIP_HIGHLIGHT_THICKNESS: str = 1
+    TOOLTIP_HIGHLIGHT_THICKNESS: int = 1
     ```
 
     Default `ToolTip` highlightthickness

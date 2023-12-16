@@ -19,8 +19,8 @@ Classes - 类
         ```python
         __init__(
             self,
-            value
-        )
+            value: float
+        ) -> None
         ```
 
 
@@ -35,8 +35,8 @@ Classes - 类
         ```python
         __init__(
             self,
-            value
-        )
+            value: float
+        ) -> None
         ```
 
 
@@ -51,8 +51,8 @@ Classes - 类
         ```python
         __init__(
             self,
-            value
-        )
+            value: str
+        ) -> None
         ```
 
 

@@ -376,7 +376,7 @@ Classes - 类
 
 
 
-    !!! note "\_camera\_distance `Method` `Internal`"
+    !!! example "\_camera\_distance `Method` `Internal`"
 
         ```python
         _camera_distance(
@@ -438,7 +438,7 @@ Classes - 类
 
 
 
-    !!! note "\_camera\_distance `Method` `Internal`"
+    !!! example "\_camera\_distance `Method` `Internal`"
 
         ```python
         _camera_distance(
@@ -487,7 +487,7 @@ Classes - 类
 
 
 
-    !!! note "\_camera\_distance `Method` `Internal`"
+    !!! example "\_camera\_distance `Method` `Internal`"
 
         ```python
         _camera_distance(
@@ -555,7 +555,7 @@ Classes - 类
 
 
 
-    !!! note "\_rotate `Method` `Internal`"
+    !!! example "\_rotate `Method` `Internal`"
 
         ```python
         _rotate(
@@ -569,7 +569,7 @@ Classes - 类
         旋转事件
 
 
-    !!! note "\_scale `Method` `Internal`"
+    !!! example "\_scale `Method` `Internal`"
 
         ```python
         _scale(
@@ -582,7 +582,7 @@ Classes - 类
         缩放事件
 
 
-    !!! note "\_translate `Method` `Internal`"
+    !!! example "\_translate `Method` `Internal`"
 
         ```python
         _translate(
@@ -661,7 +661,7 @@ Classes - 类
 
 
 
-    !!! note "\_camera\_distance `Method` `Internal`"
+    !!! example "\_camera\_distance `Method` `Internal`"
 
         ```python
         _camera_distance(
@@ -699,7 +699,7 @@ Classes - 类
 
 
 
-    !!! note "\_project `Method` `Internal`"
+    !!! example "\_project `Method` `Internal`"
 
         ```python
         _project(
