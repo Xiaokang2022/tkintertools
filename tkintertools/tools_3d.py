@@ -725,10 +725,6 @@ class Tetrahedron(Geometry):
         ]
 
 
-_3D_Object = _Object3D
-Canvas_3D = Canvas3D
-
-
 __all__ = [
     "Canvas3D",
     "Space",
@@ -742,5 +738,4 @@ __all__ = [
     "Geometry",
     "Cuboid",
     "Tetrahedron",
-    "Canvas_3D",
 ]

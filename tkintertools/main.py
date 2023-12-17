@@ -448,13 +448,13 @@ class BaseWidget:
         详细说明
 
         1. 字体的值为一个包含两个或三个值的元组或者单个的字符串，共三种形式:
-             * 形式一:* `字体名称`
-             * 形式二:* `(字体名称, 字体大小)`
-             * 形式三:* `(字体名称, 字体大小, 字体样式)`
+             * 形式一: `字体名称`
+             * 形式二: `(字体名称, 字体大小)`
+             * 形式三: `(字体名称, 字体大小, 字体样式)`
         2. 颜色为一个包含三个或四个 RGB 颜色字符串的元组，共两种形式:
-             * 不使用禁用功能时:* `(正常颜色, 触碰颜色, 交互颜色)`
-             * 需使用禁用功能时:* `(正常颜色, 触碰颜色, 交互颜色, 禁用颜色)`
-             * 特别地，进度条控件的参数* `color_bar` 为:* `(底色, 进度条颜色)`
+             * 不使用禁用功能时: `(正常颜色, 触碰颜色, 交互颜色)`
+             * 需使用禁用功能时: `(正常颜色, 触碰颜色, 交互颜色, 禁用颜色)`
+             * 特别地，进度条控件的参数 `color_bar` 为: `(底色, 进度条颜色)`
         """
         self.master = canvas
         self.value = text
@@ -1546,40 +1546,48 @@ class PhotoImage(tkinter.PhotoImage):
 
         if self.extension == "gif":  # 动态图片
             self.image = []  # type: list[tkinter.PhotoImage]
+            self.parse_done = False
         else:  # 静态图片
             self.image = tkinter.PhotoImage.__init__(self, file=file, **kw)
 
     def parse(self, start=0):
-        # type: (int) -> typing.Generator[int, None, None]
+        # type: (int) -> typing.Generator[int, None, None] | None
         """解析动图，并得到动图的每一帧动画，该方法返回一个生成器 
 
         * `start`: 动图解析的起始索引（帧数-1）
         """
         try:
+            if self.parse_done:
+                return
             while True:
                 self.image.append(tkinter.PhotoImage(
                     file=self.file, format=f"gif -index {start}"))
                 value = yield start  # 抛出索引
                 start += value if value else 1
-        except tkinter.TclError:
+        except:
+            self.parse_done = True
             return
 
     def play(self, canvas, item, interval, **kw):  # type: (Canvas, int, int, ...) -> None
         """播放动图，设置 `canvas.lock` 为 `False` 会暂停 
 
         * `canvas`: 播放动画的画布
-        * `item`: 播放动画的 `_CanvasItemId`（`create_text` 方法的返回值）
+        * `item`: 播放动画的 `_CanvasItemId`（`create_image` 方法的返回值）
         * `interval`: 每帧动画的间隔时间
         """
         if kw.get("_ind", None) is None:  # 初始化的判定
-            self._item[item], kw["ind"] = canvas, -1
+            self._item[item], kw["_ind"] = canvas, -1
         if not self._item[item]:  # 终止播放的判定
             return
         if canvas._lock:  # 暂停播放的判定
+            if not self.parse_done:
+                if getattr(self, 'parser', None) is None:
+                    self.parser = self.parse()
+                next(self.parser, None)
             canvas.itemconfigure(item, image=self.image[kw["_ind"]])
         _ind = kw["_ind"] + 1
-        canvas.after(interval, lambda: self.play(
-            # 迭代执行函数
+        # 迭代执行函数
+        canvas.after(interval if self.parse_done else 1, lambda: self.play(
             canvas, item, interval, _ind=0 if _ind == len(self.image) else _ind))
 
     def stop(self, item, clear=False):  # type: (int, bool) -> None
@@ -1766,10 +1774,10 @@ def color(
 ):  # type: (...) -> str | list[str]
     """按一定比例给出已有 RGB 颜色字符串的渐变 RGB 颜色字符串，或者给出已有 RGB 颜色字符串的对比色
 
-   * `color`: 颜色元组或列表 (初始颜色, 目标颜色)，或者一个颜色字符串（此时返回其对比色）
-   * `proportion`: 改变比例（浮点数，范围为 0 ~ 1），默认值为 1
-   * `seqlength`: 如果值为 1，则直接返回结果，其余情况返回长度为 `seqlength` 的渐变颜色列表，默认为 1
-   * `num`: 每一通道的 16 进制位数，默认为 2 位，可选值为 1 ~ 4
+    * `color`: 颜色元组或列表 (初始颜色, 目标颜色)，或者一个颜色字符串（此时返回其对比色）
+    * `proportion`: 改变比例（浮点数，范围为 0 ~ 1），默认值为 1
+    * `seqlength`: 如果值为 1，则直接返回结果，其余情况返回长度为 `seqlength` 的渐变颜色列表，默认为 1
+    * `num`: 每一通道的 16 进制位数，默认为 2 位，可选值为 1 ~ 4
     """
     if not 0 <= proportion <= 1:
         raise ColorArgsValueError(proportion)
@@ -1801,8 +1809,8 @@ def askfont(
 ):  # type: (...) -> None
     """字体选择对话框，弹出选择字体的默认对话框窗口
 
-   * `bind`: 关联的回调函数，有且仅有一个参数 `font`
-   * `initfont`: 初始字体，格式为 `font` 参数默认格式
+    * `bind`: 关联的回调函数，有且仅有一个参数 `font`
+    * `initfont`: 初始字体，格式为 `font` 参数默认格式
 
     注意: 由于 `tkinter` 模块无法直接打开该窗口，所以此处添加了这个函数
     """

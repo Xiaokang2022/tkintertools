@@ -38,5 +38,5 @@ More
 
 from .main import *
 
-__version__ = "2.6.18"
+__version__ = "2.6.19"
 __author__ = "Xiaokang2022 <2951256653@qq.com>"
