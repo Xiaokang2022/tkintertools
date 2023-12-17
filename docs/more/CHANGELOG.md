@@ -1,3 +1,19 @@
+[`2.6.19`] - 2023-12-17
+-----------------------
+
+### Fixed - 修复
+
+- [X] Fixed a bug where GIFs could not be played  
+修复了 gif 动图无法播放的问题
+
+### Optimized - 优化
+
+- [X] `PhotoImage` has optimized the mechanism of playing GIFs, and if there is no pre-parsing before playback, it will be automatically parsed during playback  
+图片类 `PhotoImage` 关于播放 gif 动图的机制得到优化，若播放前没有预解析，则会自动进行播放时解析
+
+- [X] Some codes have been optimized  
+优化了部分代码
+
 [`2.6.18`] - 2023-12-10
 -----------------------
 

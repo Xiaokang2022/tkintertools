@@ -15,8 +15,6 @@ pip install tkintertools==2.6.17
     `tkintertools` for Series 3 is already in development, so stay tuned!  
     系列 3 的 `tkintertools` 已经在开发中了，敬请期待吧！
 
-</details>
-
 ChangeLog - 更新日志
 -------------------
 

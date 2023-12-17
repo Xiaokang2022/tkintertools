@@ -8,8 +8,6 @@ Release Notes - 版本发布说明
 pip install tkintertools==2.6.16
 ```
 
-</details>
-
 ChangeLog - 更新日志
 -------------------
 

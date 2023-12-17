@@ -9,7 +9,6 @@ site_author: Xiaokang2022 # 站点作者
 site_description: tkintertools is an auxiliary development module of tkinter # 站点描述
 repo_name: Xiaokang2022/tkintertools # 仓库名称
 repo_url: https://github.com/Xiaokang2022/tkintertools # 仓库源地址
-edit_url: https://github.com/Xiaokang2022/tkintertools # 编辑和查看文档的地址
 copyright: Copyright &copy; 2022 - 2023 Xiaokang2022 # 版权信息
 remote_branch: gh-pages # GitHub Pages 分支名称（此处为默认值）
 
@@ -195,6 +194,7 @@ nav: # 导航栏
 
   - News / 新闻:
       - Series 2 - 系列 2:
+          - 2.6.18: news/2.6.19/News.md
           - 2.6.18: news/2.6.18/News.md
           - 2.6.17: news/2.6.17/News.md
           - 2.6.16: news/2.6.16/News.md

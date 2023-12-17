@@ -756,7 +756,7 @@ Classes - 类
         播放动图，设置 `canvas.lock` 为 `False` 会暂停 
 
         * `canvas`: 播放动画的画布
-        * `item`: 播放动画的 `_CanvasItemId`（`create_text` 方法的返回值）
+        * `item`: 播放动画的 `_CanvasItemId`（`create_image` 方法的返回值）
         * `interval`: 每帧动画的间隔时间
 
 
