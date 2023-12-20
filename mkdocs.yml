@@ -148,9 +148,9 @@ nav: # 导航栏
   - Tutorials / 教程:
       - 前言: tutorials/0-1.md
       - 第一章：安装与初识:
-          - 安装 tkintertools: tutorials/1-1.md
-          - 认识 tkintertools: tutorials/1-2.md
-          - tkintertools 初体验: tutorials/1-3.md
+          - 1.1 安装 tkintertools: tutorials/1-1.md
+          - 1.2 认识 tkintertools: tutorials/1-2.md
+          - 1.3 tkintertools 初体验: tutorials/1-3.md
       - 第二章：容器控件: tutorials/2-1.md
         # - Tk
         # - Toplevel
@@ -167,17 +167,18 @@ nav: # 导航栏
       - 第四章：界面布局: tutorials/4-1.md
         # - Place
         # - Slide
-      - 第五章：图片: tutorials/5-1.md
-        # - Icon
-        # - PhotoImage
+      - 第五章：图片:
+          - 5.1 静态图片: tutorials/5-1.md
+          - 5.2 动态图片: tutorials/5-2.md
+          - 5.3 图片进阶: tutorials/5-3.md
       - 第六章：动画以及颜色效果: tutorials/6-1.md
         # - Animation
         # - color
       - 第七章：3D 子模块:
-          - 3D 对象: tutorials/7-1.md
-          - 3D 文本: tutorials/7-2.md
-          - 3D 动画: tutorials/7-3.md
-          - 3D 进阶: tutorials/7-4.md
+          - 7.1 3D 对象: tutorials/7-1.md
+          - 7.2 3D 文本: tutorials/7-2.md
+          - 7.3 3D 动画: tutorials/7-3.md
+          - 7.4 3D 进阶: tutorials/7-4.md
       - 第八章：杂项: tutorials/8-1.md
         # - 学会一些实用的小技巧
         # - 混合使用 tkinter
