@@ -12,13 +12,13 @@
         <meta name="author" content="Xiaokang2022">
       
       
-        <link rel="canonical" href="https://Xiaokang2022.github.io/tkintertools/tutorials/9-1/">
+        <link rel="canonical" href="https://Xiaokang2022.github.io/tkintertools/tutorials/5-2/">
       
       
-        <link rel="prev" href="../8-1/">
+        <link rel="prev" href="../5-1/">
       
       
-        <link rel="next" href="../../documents/main/">
+        <link rel="next" href="../5-3/">
       
       
       <link rel="icon" href="../../logo.png">
@@ -26,7 +26,7 @@
     
     
       
-        <title>第九章：实战 - tkintertools</title>
+        <title>5.2 动态图片 - tkintertools</title>
       
     
     
@@ -80,6 +80,11 @@
     <label class="md-overlay" for="__drawer"></label>
     <div data-md-component="skip">
       
+        
+        <a href="#52" class="md-skip">
+          跳转至
+        </a>
+      
     </div>
     <div data-md-component="announce">
       
@@ -109,7 +114,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              第九章：实战
+              5.2 动态图片
             
           </span>
         </div>
@@ -630,35 +635,248 @@
                 
   
   
+    
   
   
+  
     
     
     
     
     
-      
-      
-    
-    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
       
         
-  
-  
-    <a href="../5-1/" class="md-nav__link">
-      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_6" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2_6" id="__nav_2_6_label" tabindex="0">
+            
   
   <span class="md-ellipsis">
     第五章：图片
   </span>
   
 
-      
-        <span class="md-nav__icon md-icon"></span>
-      
-    </a>
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_6_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2_6">
+            <span class="md-nav__icon md-icon"></span>
+            第五章：图片
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../5-1/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    5.1 静态图片
+  </span>
   
 
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    5.2 动态图片
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    5.2 动态图片
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#gif" class="md-nav__link">
+    <span class="md-ellipsis">
+      一、解析 gif 的方式
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="一、解析 gif 的方式">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#11" class="md-nav__link">
+    <span class="md-ellipsis">
+      1.1 运行前解析
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#12" class="md-nav__link">
+    <span class="md-ellipsis">
+      1.2 运行时解析
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#13" class="md-nav__link">
+    <span class="md-ellipsis">
+      1.3 解析方式的选取
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#gif_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      二、运行前解析 gif
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#gif_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      三、运行时解析 gif
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#gif_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      四、gif 动图相关操作
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="四、gif 动图相关操作">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#41" class="md-nav__link">
+    <span class="md-ellipsis">
+      4.1 播放
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#42" class="md-nav__link">
+    <span class="md-ellipsis">
+      4.2 暂停或继续
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#43" class="md-nav__link">
+    <span class="md-ellipsis">
+      4.3 终止
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../5-3/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    5.3 图片进阶
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
       
     </li>
   
@@ -750,17 +968,10 @@
                 
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../9-1/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -769,7 +980,6 @@
   
 
       </a>
-      
     </li>
   
 
@@ -1171,6 +1381,118 @@
   
   
   
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#gif" class="md-nav__link">
+    <span class="md-ellipsis">
+      一、解析 gif 的方式
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="一、解析 gif 的方式">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#11" class="md-nav__link">
+    <span class="md-ellipsis">
+      1.1 运行前解析
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#12" class="md-nav__link">
+    <span class="md-ellipsis">
+      1.2 运行时解析
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#13" class="md-nav__link">
+    <span class="md-ellipsis">
+      1.3 解析方式的选取
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#gif_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      二、运行前解析 gif
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#gif_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      三、运行时解析 gif
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#gif_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      四、gif 动图相关操作
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="四、gif 动图相关操作">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#41" class="md-nav__link">
+    <span class="md-ellipsis">
+      4.1 播放
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#42" class="md-nav__link">
+    <span class="md-ellipsis">
+      4.2 暂停或继续
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#43" class="md-nav__link">
+    <span class="md-ellipsis">
+      4.3 终止
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
   
 </nav>
                   </div>
@@ -1185,7 +1507,7 @@
                   
 
   
-    <a href="https://github.com/Xiaokang2022/tkintertools/edit/master/docs/tutorials/9-1.md" title="编辑此页" class="md-content__button md-icon">
+    <a href="https://github.com/Xiaokang2022/tkintertools/edit/master/docs/tutorials/5-2.md" title="编辑此页" class="md-content__button md-icon">
       
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4v-2m10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1 2.1 2.1Z"/></svg>
     </a>
@@ -1194,19 +1516,77 @@
     
       
     
-    <a href="https://github.com/Xiaokang2022/tkintertools/raw/master/docs/tutorials/9-1.md" title="查看本页的源代码" class="md-content__button md-icon">
+    <a href="https://github.com/Xiaokang2022/tkintertools/raw/master/docs/tutorials/5-2.md" title="查看本页的源代码" class="md-content__button md-icon">
       
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 18c.56 0 1 .44 1 1s-.44 1-1 1-1-.44-1-1 .44-1 1-1m0-3c-2.73 0-5.06 1.66-6 4 .94 2.34 3.27 4 6 4s5.06-1.66 6-4c-.94-2.34-3.27-4-6-4m0 6.5a2.5 2.5 0 0 1-2.5-2.5 2.5 2.5 0 0 1 2.5-2.5 2.5 2.5 0 0 1 2.5 2.5 2.5 2.5 0 0 1-2.5 2.5M9.27 20H6V4h7v5h5v4.07c.7.08 1.36.25 2 .49V8l-6-6H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h4.5a8.15 8.15 0 0 1-1.23-2Z"/></svg>
     </a>
   
 
 
-  <h1>第九章：实战</h1>
-
-<div class="admonition tip">
-<p class="admonition-title">温馨提示</p>
-<p>此部分还未更新...</p>
+<h1 id="52">§5.2 动态图片<a class="headerlink" href="#52" title="Permanent link">&para;</a></h1>
+<h2 id="gif">一、解析 gif 的方式<a class="headerlink" href="#gif" title="Permanent link">&para;</a></h2>
+<p>解析 gif 实际就是得到 gif 文件的每一帧信息并存储起来，根据不同的需求，<code>tkintertools.PhotoImage</code> 提供了两种解析 gif 的方式，分别是运行前解析和运行时解析。从名字上不难知道是什么意思。</p>
+<h3 id="11">1.1 运行前解析<a class="headerlink" href="#11" title="Permanent link">&para;</a></h3>
+<p>运行前解析会在 gif 图片进行展示之前就对其解析，这个过程会阻塞整个线程，当图片的总帧数很少的时候，影响不大，感觉不出来，但当文件的总帧数非常大，这种延迟就很明显，甚至导致窗口卡死或者无响应，如果在窗口出现之前就开始解析，那么窗口会一直等到解析完毕后再弹出，非常影响用户体验。</p>
+<h3 id="12">1.2 运行时解析<a class="headerlink" href="#12" title="Permanent link">&para;</a></h3>
+<p>运行时解析会在其他事件运行的同时同步地解析 gif 图片，解析的时候，整个窗口会略微卡顿，但启动速度会非常快。当然，这种解析只会持续一遍，当解析完成后，窗口就和运行前解析一样，不会有任何的卡顿。</p>
+<h3 id="13">1.3 解析方式的选取<a class="headerlink" href="#13" title="Permanent link">&para;</a></h3>
+<p>两种解析方式各有特点，按需选取合适的解析方式。一般来说，大文件一定要用运行时解析，不然阻塞时间会让你怀疑人生的……当然你也可以偷懒，全部用运行时解析，为什么可以偷懒呢？因为不用写解析部分的代码（<del>别看我，我就是这么干的</del>）。</p>
+<h2 id="gif_1">二、运行前解析 gif<a class="headerlink" href="#gif_1" title="Permanent link">&para;</a></h2>
+<p>我们通过 PhotoImage.parse 得到解析生成器，此生成器每次返回一个 int 类型的数据，以表示当前解析的帧数。我们需要遍历这个生成器来完成解析过程。以下是示例代码：</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="kn">import</span> <span class="nn">tkintertools</span> <span class="k">as</span> <span class="nn">tkt</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="n">root</span> <span class="o">=</span> <span class="n">tkt</span><span class="o">.</span><span class="n">Tk</span><span class="p">(</span><span class="s1">&#39;运行前解析&#39;</span><span class="p">,</span> <span class="mi">1280</span><span class="p">,</span> <span class="mi">720</span><span class="p">)</span>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="n">canvas</span> <span class="o">=</span> <span class="n">tkt</span><span class="o">.</span><span class="n">Canvas</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="mi">1280</span><span class="p">,</span> <span class="mi">720</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="n">canvas_item_id</span> <span class="o">=</span> <span class="n">canvas</span><span class="o">.</span><span class="n">create_image</span><span class="p">(</span><span class="mi">640</span><span class="p">,</span> <span class="mi">360</span><span class="p">)</span>
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="n">image</span> <span class="o">=</span> <span class="n">tkt</span><span class="o">.</span><span class="n">PhotoImage</span><span class="p">(</span><span class="s1">&#39;example.gif&#39;</span><span class="p">)</span>
+</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>
+</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="n">image</span><span class="o">.</span><span class="n">parse</span><span class="p">():</span>  <span class="c1"># 解析过程</span>
+</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>    <span class="k">pass</span>  <span class="c1"># 表面上，啥也没干，实际上，在解析……</span>
+</span><span id="__span-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>
+</span><span id="__span-0-12"><a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a><span class="n">image</span><span class="o">.</span><span class="n">play</span><span class="p">(</span><span class="n">canvas_item_id</span><span class="p">,</span> <span class="mi">30</span><span class="p">)</span>
+</span><span id="__span-0-13"><a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a>
+</span><span id="__span-0-14"><a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a><span class="n">root</span><span class="o">.</span><span class="n">mainloop</span><span class="p">()</span>
+</span></code></pre></div>
+<p>我想现在，肯定有人就要问了，为什么要这样写，为什么 <code>tkintertools</code> 的开发者不直接给 <code>PhotoImage</code> 写一个方法来完成整个解析过程，非要我们来写这么个麻烦的过程？？？</p>
+<p>那必然，是有原因的啊！有些开发者可能需要知道当前解析到什么地步了，并在每个解析步骤设置回调函数（比如进度条的更新），于是就设计了这个生成器来完成这个功能，这些将在下一节中详细讲述。</p>
+<h2 id="gif_2">三、运行时解析 gif<a class="headerlink" href="#gif_2" title="Permanent link">&para;</a></h2>
+<p>运行时解析，想必大家应该都已经明白什么意思了，这里直接给代码了。为什么直接给代码呢？因为相比于上面代码，只有少，没有多的。</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="kn">import</span> <span class="nn">tkintertools</span> <span class="k">as</span> <span class="nn">tkt</span>
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="n">root</span> <span class="o">=</span> <span class="n">tkt</span><span class="o">.</span><span class="n">Tk</span><span class="p">(</span><span class="s1">&#39;运行前解析&#39;</span><span class="p">,</span> <span class="mi">1280</span><span class="p">,</span> <span class="mi">720</span><span class="p">)</span>
+</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="n">canvas</span> <span class="o">=</span> <span class="n">tkt</span><span class="o">.</span><span class="n">Canvas</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="mi">1280</span><span class="p">,</span> <span class="mi">720</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="n">canvas_item_id</span> <span class="o">=</span> <span class="n">canvas</span><span class="o">.</span><span class="n">create_image</span><span class="p">(</span><span class="mi">640</span><span class="p">,</span> <span class="mi">360</span><span class="p">)</span>
+</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>
+</span><span id="__span-1-7"><a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="n">image</span> <span class="o">=</span> <span class="n">tkt</span><span class="o">.</span><span class="n">PhotoImage</span><span class="p">(</span><span class="s1">&#39;example.gif&#39;</span><span class="p">)</span>
+</span><span id="__span-1-8"><a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>
+</span><span id="__span-1-9"><a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a><span class="c1"># for _ in image.parse():  # 解析过程</span>
+</span><span id="__span-1-10"><a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a><span class="c1">#     pass  # 表面上，啥也没干，实际上，在解析……</span>
+</span><span id="__span-1-11"><a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a>
+</span><span id="__span-1-12"><a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a><span class="n">image</span><span class="o">.</span><span class="n">play</span><span class="p">(</span><span class="n">canvas_item_id</span><span class="p">,</span> <span class="mi">30</span><span class="p">)</span>
+</span><span id="__span-1-13"><a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a>
+</span><span id="__span-1-14"><a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a><span class="n">root</span><span class="o">.</span><span class="n">mainloop</span><span class="p">()</span>
+</span></code></pre></div>
+<p>你没看错，就是注释掉了解析部分的代码……具体区别，你运行一下总帧数比较大的 gif 文件就知道了。</p>
+<h2 id="gif_3">四、gif 动图相关操作<a class="headerlink" href="#gif_3" title="Permanent link">&para;</a></h2>
+<h3 id="41">4.1 播放<a class="headerlink" href="#41" title="Permanent link">&para;</a></h3>
+<p>从上文中可以看出，<code>PhotoImage.play</code> 就是播放了。</p>
+<div class="admonition warning">
+<p class="admonition-title">警告</p>
+<p>没事别调用两遍 <code>play</code> 方法，这样的话 gif 的播放会卡碟的……你可以试一试。</p>
 </div>
+<h3 id="42">4.2 暂停或继续<a class="headerlink" href="#42" title="Permanent link">&para;</a></h3>
+<p>目前对暂停和继续的支持不是很友好，但并非不能实现。</p>
+<p>暂停通过以下代码实现：</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="n">canvas</span><span class="o">.</span><span class="n">lock</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+</span></code></pre></div>
+<p>播放通过以下代码实现：</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="n">canvas</span><span class="o">.</span><span class="n">lock</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+</span></code></pre></div>
+<p>其中的 <code>canvas</code> 就是显示 gif 图片的画布。实际上这个 <code>lock</code> 是调用其他功能的方法，只不过会顺便将 gif 暂停和播放。因此，慎用。</p>
+<h3 id="43">4.3 终止<a class="headerlink" href="#43" title="Permanent link">&para;</a></h3>
+<p>通过调用方法 <code>PhotoImage.stop</code> 可以终止 gif 的播放，但注意，一旦终止无法重新播放！</p>
 
 
 
@@ -1236,7 +1616,7 @@
       <nav class="md-footer__inner md-grid" aria-label="页脚" >
         
           
-          <a href="../8-1/" class="md-footer__link md-footer__link--prev" aria-label="上一页: 第八章：杂项">
+          <a href="../5-1/" class="md-footer__link md-footer__link--prev" aria-label="上一页: 5.1 静态图片">
             <div class="md-footer__button md-icon">
               
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
@@ -1246,20 +1626,20 @@
                 上一页
               </span>
               <div class="md-ellipsis">
-                第八章：杂项
+                5.1 静态图片
               </div>
             </div>
           </a>
         
         
           
-          <a href="../../documents/main/" class="md-footer__link md-footer__link--next" aria-label="下一页: main.py">
+          <a href="../5-3/" class="md-footer__link md-footer__link--next" aria-label="下一页: 5.3 图片进阶">
             <div class="md-footer__title">
               <span class="md-footer__direction">
                 下一页
               </span>
               <div class="md-ellipsis">
-                main.py
+                5.3 图片进阶
               </div>
             </div>
             <div class="md-footer__button md-icon">

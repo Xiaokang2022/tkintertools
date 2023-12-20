@@ -26,7 +26,7 @@
     
     
       
-        <title>3D 动画 - tkintertools</title>
+        <title>7.3 3D 动画 - tkintertools</title>
       
     
     
@@ -81,7 +81,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#3d" class="md-skip">
+        <a href="#73-3d" class="md-skip">
           跳转至
         </a>
       
@@ -114,7 +114,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              3D 动画
+              7.3 3D 动画
             
           </span>
         </div>
@@ -637,16 +637,34 @@
   
   
   
-    <li class="md-nav__item">
-      <a href="../5-1/" class="md-nav__link">
+    
+    
+    
+    
+    
+      
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
         
+  
+  
+    <a href="../5-1/" class="md-nav__link">
+      
   
   <span class="md-ellipsis">
     第五章：图片
   </span>
   
 
-      </a>
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
     </li>
   
 
@@ -723,7 +741,7 @@
         
   
   <span class="md-ellipsis">
-    3D 对象
+    7.1 3D 对象
   </span>
   
 
@@ -744,7 +762,7 @@
         
   
   <span class="md-ellipsis">
-    3D 文本
+    7.2 3D 文本
   </span>
   
 
@@ -774,7 +792,7 @@
           
   
   <span class="md-ellipsis">
-    3D 动画
+    7.3 3D 动画
   </span>
   
 
@@ -785,7 +803,7 @@
         
   
   <span class="md-ellipsis">
-    3D 动画
+    7.3 3D 动画
   </span>
   
 
@@ -882,7 +900,7 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#3d_1" class="md-nav__link">
+  <a href="#3d" class="md-nav__link">
     <span class="md-ellipsis">
       二、通过动画类实现 3D 动画
     </span>
@@ -919,7 +937,7 @@
         
   
   <span class="md-ellipsis">
-    3D 进阶
+    7.4 3D 进阶
   </span>
   
 
@@ -1460,7 +1478,7 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#3d_1" class="md-nav__link">
+  <a href="#3d" class="md-nav__link">
     <span class="md-ellipsis">
       二、通过动画类实现 3D 动画
     </span>
@@ -1508,7 +1526,7 @@
   
 
 
-<h1 id="3d">3D 动画<a class="headerlink" href="#3d" title="Permanent link">&para;</a></h1>
+<h1 id="73-3d">§7.3 3D 动画<a class="headerlink" href="#73-3d" title="Permanent link">&para;</a></h1>
 <h2 id="3d-api">一、3D 对象 API<a class="headerlink" href="#3d-api" title="Permanent link">&para;</a></h2>
 <p>3D 对象有许许多多方法供我们调用。</p>
 <h3 id="11-3d-api">1.1 基本 3D 对象的 API<a class="headerlink" href="#11-3d-api" title="Permanent link">&para;</a></h3>
@@ -1524,7 +1542,7 @@
 <p>此 API 名为 <code>center</code>，调用它不会有任何变化，但它返回该对象的几何中心。可以配合其他 API 来进行使用。</p>
 <h3 id="12-3d-api">1.2 复杂 3D 对象的 API<a class="headerlink" href="#12-3d-api" title="Permanent link">&para;</a></h3>
 <p>其实复杂的 3D 对象本质上就是基本 3D 对象的组合体而已，因此它们在拥有基本 3D 对象的 API 的前提下，还有其他的方法。内置的两种复杂几何体都是继承于类 <code>Geometry</code>，它们本身没有额外的方法，但是 <code>Geometry</code> 相比于基本 3D 对象，增加了一个 <code>append</code> 方法，可以将更多的基本 3D 对象添加到一个几何体实例中去。</p>
-<h2 id="3d_1">二、通过动画类实现 3D 动画<a class="headerlink" href="#3d_1" title="Permanent link">&para;</a></h2>
+<h2 id="3d">二、通过动画类实现 3D 动画<a class="headerlink" href="#3d" title="Permanent link">&para;</a></h2>
 <p>动画类指的就是上一章的 <code>Animation</code>，通过它我们可以很方便地实现一些简单乃至复杂的动画。</p>
 <p>有了 3D 对象的 API 之后，我们就可以通过动画类来实现各种各样<sub>~花里胡哨</sub>~的效果！<code>Animation</code> 的使用方法已在上一章讲述，这里不再赘述。</p>
 <h2 id="after">三、通过 after 方法实现简单动画<a class="headerlink" href="#after" title="Permanent link">&para;</a></h2>
@@ -1701,7 +1719,7 @@
       <nav class="md-footer__inner md-grid" aria-label="页脚" >
         
           
-          <a href="../7-2/" class="md-footer__link md-footer__link--prev" aria-label="上一页: 3D 文本">
+          <a href="../7-2/" class="md-footer__link md-footer__link--prev" aria-label="上一页: 7.2 3D 文本">
             <div class="md-footer__button md-icon">
               
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
@@ -1711,20 +1729,20 @@
                 上一页
               </span>
               <div class="md-ellipsis">
-                3D 文本
+                7.2 3D 文本
               </div>
             </div>
           </a>
         
         
           
-          <a href="../7-4/" class="md-footer__link md-footer__link--next" aria-label="下一页: 3D 进阶">
+          <a href="../7-4/" class="md-footer__link md-footer__link--next" aria-label="下一页: 7.4 3D 进阶">
             <div class="md-footer__title">
               <span class="md-footer__direction">
                 下一页
               </span>
               <div class="md-ellipsis">
-                3D 进阶
+                7.4 3D 进阶
               </div>
             </div>
             <div class="md-footer__button md-icon">

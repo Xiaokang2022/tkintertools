@@ -26,7 +26,7 @@
     
     
       
-        <title>3D 对象 - tkintertools</title>
+        <title>7.1 3D 对象 - tkintertools</title>
       
     
     
@@ -81,7 +81,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#3d" class="md-skip">
+        <a href="#71-3d" class="md-skip">
           跳转至
         </a>
       
@@ -114,7 +114,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              3D 对象
+              7.1 3D 对象
             
           </span>
         </div>
@@ -637,16 +637,34 @@
   
   
   
-    <li class="md-nav__item">
-      <a href="../5-1/" class="md-nav__link">
+    
+    
+    
+    
+    
+      
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
         
+  
+  
+    <a href="../5-1/" class="md-nav__link">
+      
   
   <span class="md-ellipsis">
     第五章：图片
   </span>
   
 
-      </a>
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
     </li>
   
 
@@ -732,7 +750,7 @@
           
   
   <span class="md-ellipsis">
-    3D 对象
+    7.1 3D 对象
   </span>
   
 
@@ -743,7 +761,7 @@
         
   
   <span class="md-ellipsis">
-    3D 对象
+    7.1 3D 对象
   </span>
   
 
@@ -765,7 +783,7 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#3d_1" class="md-nav__link">
+  <a href="#3d" class="md-nav__link">
     <span class="md-ellipsis">
       一、3D 对象的容器控件
     </span>
@@ -816,7 +834,7 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#3d_2" class="md-nav__link">
+  <a href="#3d_1" class="md-nav__link">
     <span class="md-ellipsis">
       二、创建基本的 3D 对象
     </span>
@@ -858,7 +876,7 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#3d_3" class="md-nav__link">
+  <a href="#3d_2" class="md-nav__link">
     <span class="md-ellipsis">
       三、创建复杂的 3D 对象
     </span>
@@ -919,7 +937,7 @@
         
   
   <span class="md-ellipsis">
-    3D 文本
+    7.2 3D 文本
   </span>
   
 
@@ -940,7 +958,7 @@
         
   
   <span class="md-ellipsis">
-    3D 动画
+    7.3 3D 动画
   </span>
   
 
@@ -961,7 +979,7 @@
         
   
   <span class="md-ellipsis">
-    3D 进阶
+    7.4 3D 进阶
   </span>
   
 
@@ -1427,7 +1445,7 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#3d_1" class="md-nav__link">
+  <a href="#3d" class="md-nav__link">
     <span class="md-ellipsis">
       一、3D 对象的容器控件
     </span>
@@ -1478,7 +1496,7 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#3d_2" class="md-nav__link">
+  <a href="#3d_1" class="md-nav__link">
     <span class="md-ellipsis">
       二、创建基本的 3D 对象
     </span>
@@ -1520,7 +1538,7 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#3d_3" class="md-nav__link">
+  <a href="#3d_2" class="md-nav__link">
     <span class="md-ellipsis">
       三、创建复杂的 3D 对象
     </span>
@@ -1592,8 +1610,8 @@
   
 
 
-<h1 id="3d">3D 对象<a class="headerlink" href="#3d" title="Permanent link">&para;</a></h1>
-<h2 id="3d_1">一、3D 对象的容器控件<a class="headerlink" href="#3d_1" title="Permanent link">&para;</a></h2>
+<h1 id="71-3d">§7.1 3D 对象<a class="headerlink" href="#71-3d" title="Permanent link">&para;</a></h1>
+<h2 id="3d">一、3D 对象的容器控件<a class="headerlink" href="#3d" title="Permanent link">&para;</a></h2>
 <p><code>tkintertools</code> 的 3D 画布不是只有一个，它实际的继承关系是下面这样的：</p>
 <p><code>tkinter.Canvas</code> -&gt; <code>tkintertools.Canvas</code> -&gt; <code>tools_3d.Canvas3D</code> -&gt; <code>tools_3d.Space</code></p>
 <p>其中，后面两个是属于 <code>tkintertools</code> 的子模块 <code>tools_3d</code> 里面的。</p>
@@ -1617,7 +1635,7 @@
 <p class="admonition-title">提示</p>
 <p>无论怎样布局，UI 控件总是在 3D 对象的上方，也就是说，3D 对象不会遮挡 UI 控件。</p>
 </div>
-<h2 id="3d_2">二、创建基本的 3D 对象<a class="headerlink" href="#3d_2" title="Permanent link">&para;</a></h2>
+<h2 id="3d_1">二、创建基本的 3D 对象<a class="headerlink" href="#3d_1" title="Permanent link">&para;</a></h2>
 <p>基本的 3D 对象包括点（<code>Point</code>）、线（<code>Line</code>）和面（<code>Side</code>），后面还会讲到几种稍微复杂的 3D 对象，如长方体等。</p>
 <p>为了方便演示效果，下面的代码都将采用 <code>Space</code> 作为容器控件来完成。</p>
 <h3 id="21">2.1 点<a class="headerlink" href="#21" title="Permanent link">&para;</a></h3>
@@ -1816,7 +1834,7 @@
 <p>目前由于技术原因，实际过程中不建议给面的内部上色，当两个面的距离比较近时，这两个面可能出现前后位置关系显示颠倒的问题！尚无比较好的解决办法！对于后面的复杂 3D 对象（即几何体）也是如此。<br />
 目前前后位置的确定是通过欧几里得距离计算得到的，在两个面之间有一定距离时才能正确显示其前后位置关系。</p>
 </div>
-<h2 id="3d_3">三、创建复杂的 3D 对象<a class="headerlink" href="#3d_3" title="Permanent link">&para;</a></h2>
+<h2 id="3d_2">三、创建复杂的 3D 对象<a class="headerlink" href="#3d_2" title="Permanent link">&para;</a></h2>
 <p>复杂的 3D 对象是指非基本的对象，如长方体（<code>Cuboid</code>）、四面体（<code>Tetrahedron</code>）等复杂的几何体，当然，你也可以直接用基本的 3D 对象将它们模仿出来，但这并不是封装好的，它们并非一个整体，直接使用 <code>Geometry</code> 及其子类是更加推荐的选择。</p>
 <h3 id="31">3.1 长方体<a class="headerlink" href="#31" title="Permanent link">&para;</a></h3>
 <p>我们可以直接使用 <code>Cuboid</code> 来创建一个长方体，具体参数见文档。</p>
@@ -1939,13 +1957,13 @@
         
         
           
-          <a href="../7-2/" class="md-footer__link md-footer__link--next" aria-label="下一页: 3D 文本">
+          <a href="../7-2/" class="md-footer__link md-footer__link--next" aria-label="下一页: 7.2 3D 文本">
             <div class="md-footer__title">
               <span class="md-footer__direction">
                 下一页
               </span>
               <div class="md-ellipsis">
-                3D 文本
+                7.2 3D 文本
               </div>
             </div>
             <div class="md-footer__button md-icon">
