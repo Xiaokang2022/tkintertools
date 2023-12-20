@@ -1433,7 +1433,7 @@
 <p class="admonition-title">注意</p>
 <p>图片缩放只适用于 png 类型的图片。</p>
 </div>
-<p><code>tkintertools.PhotoImage</code> 使用方法 <code>zoom</code> 来缩放图片，可以放大和缩小，参数是宽高的缩放比例，返回一个新的 <code>tkinter.PhotoImage</code> 对象。一般来说我们不需要主动去调用这个方法，因为 <code>tkintertools</code> 底层会自动调用这个方法来让图片自动缩放以适应窗口（画布）的宽高。</p>
+<p><code>tkintertools.PhotoImage</code> 使用方法 <code>zoom</code> 来缩放图片，可以放大和缩小，参数是宽高的缩放比例，返回一个新的 <code>tkinter.PhotoImage</code> 对象。一般来说我们不需要主动去调用这个方法，因为 <code>tkintertools</code> 底层会自动调用这个方法来让图片自动缩放以适应窗口（画布）的宽高。关于自动缩放这一点，可以见 <a href="../1-2/">§1.2 认识 tkintertools</a> 自动控制大小部分。</p>
 <p>下面是一个简单的例子：</p>
 <div class="language-python highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="kn">import</span> <span class="nn">tkintertools</span> <span class="k">as</span> <span class="nn">tkt</span>
 </span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>

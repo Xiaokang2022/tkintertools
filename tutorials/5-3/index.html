@@ -1394,7 +1394,7 @@
 </span><span id="__span-1-20"><a id="__codelineno-1-20" name="__codelineno-1-20" href="#__codelineno-1-20"></a><span class="n">threading</span><span class="o">.</span><span class="n">Thread</span><span class="p">(</span><span class="n">target</span><span class="o">=</span><span class="n">load_image</span><span class="p">,</span> <span class="n">daemon</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
 </span><span id="__span-1-21"><a id="__codelineno-1-21" name="__codelineno-1-21" href="#__codelineno-1-21"></a><span class="n">root</span><span class="o">.</span><span class="n">mainloop</span><span class="p">()</span>
 </span></code></pre></div>
-<p>运行的效果是这样的（示例所用 gif 图片来自互联网，侵权删）：</p>
+<p>运行的效果是这样的（示例所用 gif 图片来自互联网，侵权删），如果你发现下面的图片很卡，放心，不是 <code>tkintertools</code> 的问题，而是你网页加载比较慢，耐心等待就好：</p>
 <p><img alt="gif" src="../images/5.3-2.1-1.gif" /></p>
 <p>上面采用的解析方式是运行前解析，运行时解析的回调目前无法得到。</p>
 <p>当我们有大量的资源需要加载的时候，就可以将它们组合一下，一起加载，然后用进度条的方式展现啦！</p>

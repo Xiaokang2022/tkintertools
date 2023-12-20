@@ -1613,7 +1613,8 @@
 <h1 id="71-3d">§7.1 3D 对象<a class="headerlink" href="#71-3d" title="Permanent link">&para;</a></h1>
 <h2 id="3d">一、3D 对象的容器控件<a class="headerlink" href="#3d" title="Permanent link">&para;</a></h2>
 <p><code>tkintertools</code> 的 3D 画布不是只有一个，它实际的继承关系是下面这样的：</p>
-<p><code>tkinter.Canvas</code> -&gt; <code>tkintertools.Canvas</code> -&gt; <code>tools_3d.Canvas3D</code> -&gt; <code>tools_3d.Space</code></p>
+<pre class="mermaid"><code>flowchart LR
+    tkinter.Canvas --&gt; tkintertools.Canvas --&gt; tools_3d.Canvas3D --&gt; tools_3d.Space</code></pre>
 <p>其中，后面两个是属于 <code>tkintertools</code> 的子模块 <code>tools_3d</code> 里面的。</p>
 <h3 id="11-space">1.1 Space 类<a class="headerlink" href="#11-space" title="Permanent link">&para;</a></h3>
 <p>内置的 <code>Space</code> 类已经帮我们绑定好了相关的操作方法，如鼠标右键拖动就是平移（<code>translate</code>）、鼠标左键拖动就是旋转（<code>rotate</code>）以及鼠标滚轮滚动就是缩放（<code>scale</code>），一般用于查看 3D 对象的外观。</p>
