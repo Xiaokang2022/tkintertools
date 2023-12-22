@@ -815,7 +815,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../2-1/" class="md-nav__link">
+      <a href="../../undone/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -836,7 +836,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../3-1/" class="md-nav__link">
+      <a href="../../undone/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -857,7 +857,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../4-1/" class="md-nav__link">
+      <a href="../../undone/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -916,16 +916,34 @@
   
   
   
-    <li class="md-nav__item">
-      <a href="../6-1/" class="md-nav__link">
+    
+    
+    
+    
+    
+      
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
         
+  
+  
+    <a href="../6-1/" class="md-nav__link">
+      
   
   <span class="md-ellipsis">
     第六章：动画以及颜色效果
   </span>
   
 
-      </a>
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
     </li>
   
 
@@ -977,7 +995,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../8-1/" class="md-nav__link">
+      <a href="../../undone/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -998,7 +1016,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../9-1/" class="md-nav__link">
+      <a href="../../undone/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1857,15 +1875,15 @@
 <p>你就说，这酷不酷吧？<del>哇噻！这真的是泰裤啦！</del></p>
 <details><summary><b>源代码</b></summary>
 
-<div class="language-python highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="kn">import</span> <span class="nn">itertools</span>  <span class="c1"># 组合数支持</span>
-</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="kn">import</span> <span class="nn">math</span>  <span class="c1"># 数学支持</span>
-</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="kn">import</span> <span class="nn">statistics</span>  <span class="c1"># 计算平均数</span>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="kn">import</span> <span class="nn">itertools</span>
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="kn">import</span> <span class="nn">math</span>
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="kn">import</span> <span class="nn">statistics</span>
 </span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>
-</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="kn">import</span> <span class="nn">tkintertools</span> <span class="k">as</span> <span class="nn">tkt</span>  <span class="c1"># 引入基础模块</span>
-</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="kn">from</span> <span class="nn">tkintertools</span> <span class="kn">import</span> <span class="n">tools_3d</span> <span class="k">as</span> <span class="n">t3d</span>  <span class="c1"># 引入 3d 子模块</span>
+</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="kn">import</span> <span class="nn">tkintertools</span> <span class="k">as</span> <span class="nn">tkt</span>
+</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="kn">from</span> <span class="nn">tkintertools</span> <span class="kn">import</span> <span class="n">tools_3d</span> <span class="k">as</span> <span class="n">t3d</span>
 </span><span id="__span-1-7"><a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>
-</span><span id="__span-1-8"><a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a><span class="n">root</span> <span class="o">=</span> <span class="n">tkt</span><span class="o">.</span><span class="n">Tk</span><span class="p">(</span><span class="s1">&#39;3D&#39;</span><span class="p">,</span> <span class="mi">1280</span><span class="p">,</span> <span class="mi">720</span><span class="p">)</span>  <span class="c1"># 创建窗口</span>
-</span><span id="__span-1-9"><a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a><span class="n">space</span> <span class="o">=</span> <span class="n">t3d</span><span class="o">.</span><span class="n">Space</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="mi">1280</span><span class="p">,</span> <span class="mi">720</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">bg</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">,</span> <span class="n">keep</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>  <span class="c1"># 创建空间</span>
+</span><span id="__span-1-8"><a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a><span class="n">root</span> <span class="o">=</span> <span class="n">tkt</span><span class="o">.</span><span class="n">Tk</span><span class="p">(</span><span class="s1">&#39;3D&#39;</span><span class="p">,</span> <span class="mi">1280</span><span class="p">,</span> <span class="mi">720</span><span class="p">)</span>
+</span><span id="__span-1-9"><a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a><span class="n">space</span> <span class="o">=</span> <span class="n">t3d</span><span class="o">.</span><span class="n">Space</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="mi">1280</span><span class="p">,</span> <span class="mi">720</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">bg</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">,</span> <span class="n">keep</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 </span><span id="__span-1-10"><a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a>
 </span><span id="__span-1-11"><a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a><span class="n">m</span> <span class="o">=</span> <span class="mi">200</span> <span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">50</span> <span class="o">-</span> <span class="mi">10</span> <span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">5</span><span class="p">))</span> <span class="o">/</span> <span class="mi">10</span>
 </span><span id="__span-1-12"><a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a><span class="n">n</span> <span class="o">=</span> <span class="mi">200</span> <span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">50</span> <span class="o">+</span> <span class="mi">10</span> <span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">5</span><span class="p">))</span> <span class="o">/</span> <span class="mi">10</span>
@@ -1885,23 +1903,23 @@
 </span><span id="__span-1-26"><a id="__codelineno-1-26" name="__codelineno-1-26" href="#__codelineno-1-26"></a><span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">itertools</span><span class="o">.</span><span class="n">combinations</span><span class="p">(</span><span class="n">points</span><span class="p">,</span> <span class="mi">3</span><span class="p">):</span>  <span class="c1"># 所有的顶点组合</span>
 </span><span id="__span-1-27"><a id="__codelineno-1-27" name="__codelineno-1-27" href="#__codelineno-1-27"></a>    <span class="n">dis</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">hypot</span><span class="p">(</span><span class="o">*</span><span class="p">[</span><span class="n">statistics</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">c</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">p</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">)])</span>
 </span><span id="__span-1-28"><a id="__codelineno-1-28" name="__codelineno-1-28" href="#__codelineno-1-28"></a>    <span class="k">if</span> <span class="n">math</span><span class="o">.</span><span class="n">isclose</span><span class="p">(</span><span class="n">dis</span><span class="p">,</span> <span class="n">dis_side</span><span class="p">):</span>
-</span><span id="__span-1-29"><a id="__codelineno-1-29" name="__codelineno-1-29" href="#__codelineno-1-29"></a>        <span class="n">t3d</span><span class="o">.</span><span class="n">Side</span><span class="p">(</span><span class="n">space</span><span class="p">,</span> <span class="o">*</span><span class="n">p</span><span class="p">,</span> <span class="n">fill</span><span class="o">=</span><span class="n">color</span><span class="p">[</span><span class="n">count</span><span class="p">],</span> <span class="n">outline</span><span class="o">=</span><span class="s1">&#39;white&#39;</span><span class="p">)</span>  <span class="c1"># 创建面</span>
+</span><span id="__span-1-29"><a id="__codelineno-1-29" name="__codelineno-1-29" href="#__codelineno-1-29"></a>        <span class="n">t3d</span><span class="o">.</span><span class="n">Side</span><span class="p">(</span><span class="n">space</span><span class="p">,</span> <span class="o">*</span><span class="n">p</span><span class="p">,</span> <span class="n">fill</span><span class="o">=</span><span class="n">color</span><span class="p">[</span><span class="n">count</span><span class="p">],</span> <span class="n">outline</span><span class="o">=</span><span class="s1">&#39;white&#39;</span><span class="p">)</span>
 </span><span id="__span-1-30"><a id="__codelineno-1-30" name="__codelineno-1-30" href="#__codelineno-1-30"></a>        <span class="n">count</span> <span class="o">+=</span> <span class="mi">1</span>
 </span><span id="__span-1-31"><a id="__codelineno-1-31" name="__codelineno-1-31" href="#__codelineno-1-31"></a>
 </span><span id="__span-1-32"><a id="__codelineno-1-32" name="__codelineno-1-32" href="#__codelineno-1-32"></a>
 </span><span id="__span-1-33"><a id="__codelineno-1-33" name="__codelineno-1-33" href="#__codelineno-1-33"></a><span class="k">def</span> <span class="nf">scale</span><span class="p">(</span><span class="n">event</span><span class="p">):</span>
 </span><span id="__span-1-34"><a id="__codelineno-1-34" name="__codelineno-1-34" href="#__codelineno-1-34"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot; 缩放事件 &quot;&quot;&quot;</span>
-</span><span id="__span-1-35"><a id="__codelineno-1-35" name="__codelineno-1-35" href="#__codelineno-1-35"></a>    <span class="n">k</span> <span class="o">=</span> <span class="mf">1.05</span> <span class="k">if</span> <span class="n">event</span><span class="o">.</span><span class="n">keysym</span> <span class="o">==</span> <span class="s1">&#39;equal&#39;</span> <span class="k">else</span> <span class="mf">0.95</span> <span class="k">if</span> <span class="n">event</span><span class="o">.</span><span class="n">keysym</span> <span class="o">==</span> <span class="s1">&#39;minus&#39;</span> <span class="k">else</span> <span class="mi">1</span>  <span class="c1"># 缩放比率</span>
-</span><span id="__span-1-36"><a id="__codelineno-1-36" name="__codelineno-1-36" href="#__codelineno-1-36"></a>    <span class="k">for</span> <span class="n">geo</span> <span class="ow">in</span> <span class="n">space</span><span class="o">.</span><span class="n">items_3d</span><span class="p">():</span>  <span class="c1"># 遍历所有的几何体（不包括基本 3D 对象）</span>
-</span><span id="__span-1-37"><a id="__codelineno-1-37" name="__codelineno-1-37" href="#__codelineno-1-37"></a>        <span class="n">geo</span><span class="o">.</span><span class="n">scale</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">k</span><span class="p">)</span>  <span class="c1"># 缩放</span>
-</span><span id="__span-1-38"><a id="__codelineno-1-38" name="__codelineno-1-38" href="#__codelineno-1-38"></a>        <span class="n">geo</span><span class="o">.</span><span class="n">update</span><span class="p">()</span>  <span class="c1"># 更新改对象的实际画面</span>
-</span><span id="__span-1-39"><a id="__codelineno-1-39" name="__codelineno-1-39" href="#__codelineno-1-39"></a>    <span class="n">space</span><span class="o">.</span><span class="n">space_sort</span><span class="p">()</span>  <span class="c1"># 空间前后位置排序</span>
+</span><span id="__span-1-35"><a id="__codelineno-1-35" name="__codelineno-1-35" href="#__codelineno-1-35"></a>    <span class="n">k</span> <span class="o">=</span> <span class="mf">1.05</span> <span class="k">if</span> <span class="n">event</span><span class="o">.</span><span class="n">keysym</span> <span class="o">==</span> <span class="s1">&#39;equal&#39;</span> <span class="k">else</span> <span class="mf">0.95</span> <span class="k">if</span> <span class="n">event</span><span class="o">.</span><span class="n">keysym</span> <span class="o">==</span> <span class="s1">&#39;minus&#39;</span> <span class="k">else</span> <span class="mi">1</span>
+</span><span id="__span-1-36"><a id="__codelineno-1-36" name="__codelineno-1-36" href="#__codelineno-1-36"></a>    <span class="k">for</span> <span class="n">geo</span> <span class="ow">in</span> <span class="n">space</span><span class="o">.</span><span class="n">items_3d</span><span class="p">():</span>
+</span><span id="__span-1-37"><a id="__codelineno-1-37" name="__codelineno-1-37" href="#__codelineno-1-37"></a>        <span class="n">geo</span><span class="o">.</span><span class="n">scale</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">k</span><span class="p">)</span>
+</span><span id="__span-1-38"><a id="__codelineno-1-38" name="__codelineno-1-38" href="#__codelineno-1-38"></a>        <span class="n">geo</span><span class="o">.</span><span class="n">update</span><span class="p">()</span>
+</span><span id="__span-1-39"><a id="__codelineno-1-39" name="__codelineno-1-39" href="#__codelineno-1-39"></a>    <span class="n">space</span><span class="o">.</span><span class="n">space_sort</span><span class="p">()</span>
 </span><span id="__span-1-40"><a id="__codelineno-1-40" name="__codelineno-1-40" href="#__codelineno-1-40"></a>
 </span><span id="__span-1-41"><a id="__codelineno-1-41" name="__codelineno-1-41" href="#__codelineno-1-41"></a>
-</span><span id="__span-1-42"><a id="__codelineno-1-42" name="__codelineno-1-42" href="#__codelineno-1-42"></a><span class="n">space</span><span class="o">.</span><span class="n">space_sort</span><span class="p">()</span>  <span class="c1"># 给它们的空间位置排序以正确显示</span>
-</span><span id="__span-1-43"><a id="__codelineno-1-43" name="__codelineno-1-43" href="#__codelineno-1-43"></a><span class="n">root</span><span class="o">.</span><span class="n">bind</span><span class="p">(</span><span class="s1">&#39;&lt;Key-equal&gt;&#39;</span><span class="p">,</span> <span class="n">scale</span><span class="p">)</span>  <span class="c1"># 绑定等号按键</span>
-</span><span id="__span-1-44"><a id="__codelineno-1-44" name="__codelineno-1-44" href="#__codelineno-1-44"></a><span class="n">root</span><span class="o">.</span><span class="n">bind</span><span class="p">(</span><span class="s1">&#39;&lt;Key-minus&gt;&#39;</span><span class="p">,</span> <span class="n">scale</span><span class="p">)</span>  <span class="c1"># 绑定减号按键</span>
-</span><span id="__span-1-45"><a id="__codelineno-1-45" name="__codelineno-1-45" href="#__codelineno-1-45"></a><span class="n">root</span><span class="o">.</span><span class="n">mainloop</span><span class="p">()</span>  <span class="c1"># 消息事件循环</span>
+</span><span id="__span-1-42"><a id="__codelineno-1-42" name="__codelineno-1-42" href="#__codelineno-1-42"></a><span class="n">space</span><span class="o">.</span><span class="n">space_sort</span><span class="p">()</span>
+</span><span id="__span-1-43"><a id="__codelineno-1-43" name="__codelineno-1-43" href="#__codelineno-1-43"></a><span class="n">root</span><span class="o">.</span><span class="n">bind</span><span class="p">(</span><span class="s1">&#39;&lt;Key-equal&gt;&#39;</span><span class="p">,</span> <span class="n">scale</span><span class="p">)</span>
+</span><span id="__span-1-44"><a id="__codelineno-1-44" name="__codelineno-1-44" href="#__codelineno-1-44"></a><span class="n">root</span><span class="o">.</span><span class="n">bind</span><span class="p">(</span><span class="s1">&#39;&lt;Key-minus&gt;&#39;</span><span class="p">,</span> <span class="n">scale</span><span class="p">)</span>
+</span><span id="__span-1-45"><a id="__codelineno-1-45" name="__codelineno-1-45" href="#__codelineno-1-45"></a><span class="n">root</span><span class="o">.</span><span class="n">mainloop</span><span class="p">()</span>
 </span></code></pre></div>
 
 </details>
