@@ -43,9 +43,6 @@ The following action demonstrates the new use of the `PhotoImage` class:
 ChangeLog - 更新日志
 -------------------
 
-[`2.6.19`] - 2023-12-17
------------------------
-
 ### Fixed - 修复
 
 - [X] Fixed a bug where GIFs could not be played  
