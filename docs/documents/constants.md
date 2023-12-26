@@ -269,10 +269,10 @@ Constants - 常量
     Default text color
 
 
-!!! note "CONTROL `Constant`"
+!!! note "CONTROLLER `Constant`"
 
     ```python
-    CONTROL: NoneType = None
+    CONTROLLER: NoneType = None
     ```
 
     Default control function
