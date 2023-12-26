@@ -11,11 +11,6 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://Xiaokang2022.github.io/tkintertools/undone/</loc>
-         <lastmod>2023-12-26</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
          <loc>https://Xiaokang2022.github.io/tkintertools/documents/constants/</loc>
          <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
@@ -101,6 +96,11 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
+         <loc>https://Xiaokang2022.github.io/tkintertools/news/2.6.20/News/</loc>
+         <lastmod>2023-12-26</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
          <loc>https://Xiaokang2022.github.io/tkintertools/news/2.6.6/News/</loc>
          <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
@@ -146,6 +146,21 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
+         <loc>https://Xiaokang2022.github.io/tkintertools/tutorials/2-1/</loc>
+         <lastmod>2023-12-26</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://Xiaokang2022.github.io/tkintertools/tutorials/3-1/</loc>
+         <lastmod>2023-12-26</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://Xiaokang2022.github.io/tkintertools/tutorials/4-1/</loc>
+         <lastmod>2023-12-26</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
          <loc>https://Xiaokang2022.github.io/tkintertools/tutorials/5-1/</loc>
          <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
@@ -187,6 +202,16 @@
     </url>
     <url>
          <loc>https://Xiaokang2022.github.io/tkintertools/tutorials/7-4/</loc>
+         <lastmod>2023-12-26</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://Xiaokang2022.github.io/tkintertools/tutorials/8-1/</loc>
+         <lastmod>2023-12-26</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://Xiaokang2022.github.io/tkintertools/tutorials/9-1/</loc>
          <lastmod>2023-12-26</lastmod>
          <changefreq>daily</changefreq>
     </url>
