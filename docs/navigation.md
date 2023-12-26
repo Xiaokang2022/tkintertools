@@ -6,7 +6,7 @@ Hi ~ Welcome to the official website of `tkintertools`! The most detailed and co
 Detailed official tutorial!(That's what I wrote)  
 详细的官方教程！（就是我自己写的教程）
 
-!!! info "Note - 注意"
+!!! warning "Warning - 警告"
     Unlike the corresponding version of tkintertools, there may be errors or other problems when running the relevant code!  
     不同于对应版本的 tkintertools 在运行相关代码时可能出现报错或者其他问题！
 

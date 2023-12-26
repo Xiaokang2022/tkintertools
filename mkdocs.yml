@@ -151,11 +151,11 @@ nav: # 导航栏
           - 1.1 安装 tkintertools: tutorials/1-1.md
           - 1.2 认识 tkintertools: tutorials/1-2.md
           - 1.3 tkintertools 初体验: tutorials/1-3.md
-      - 第二章：容器控件: undone.md
+      - 第二章：容器控件: tutorials/2-1.md
         # - Tk
         # - Toplevel
         # - Canvas
-      - 第三章：功能控件: undone.md
+      - 第三章：功能控件: tutorials/3-1.md
         # - Label
         # - Button
         # - CheckButton
@@ -164,7 +164,7 @@ nav: # 导航栏
         # - ProgressBar
         # - Switch
         # - ToolTip
-      - 第四章：界面布局: undone.md
+      - 第四章：界面布局: tutorials/4-1.md
         # - Place
         # - Slide
       - 第五章：图片:
@@ -179,10 +179,10 @@ nav: # 导航栏
           - 7.2 3D 文本: tutorials/7-2.md
           - 7.3 3D 动画: tutorials/7-3.md
           - 7.4 3D 进阶: tutorials/7-4.md
-      - 第八章：杂项: undone.md
+      - 第八章：杂项: tutorials/8-1.md
         # - 学会一些实用的小技巧
         # - 混合使用 tkinter
-      - 第九章：实战: undone.md
+      - 第九章：实战: tutorials/9-1.md
         # - 手把手实战教学
         # - 引导式实战教学
         # - 实战项目推荐
@@ -195,6 +195,7 @@ nav: # 导航栏
 
   - News / 新闻:
       - Series 2 - 系列 2:
+          - 2.6.20: news/2.6.20/News.md
           - 2.6.19: news/2.6.19/News.md
           - 2.6.18: news/2.6.18/News.md
           - 2.6.17: news/2.6.17/News.md

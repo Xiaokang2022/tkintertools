@@ -39,19 +39,19 @@
 
 ### Stable Release - 稳定版本
 
-- Version - 最新版本 : `2.6.19`
-- Release - 发布日期 : 2023/12/17
-- Feature - 更新内容 : [News-2.6.19](https://xiaokang2022.github.io/tkintertools/news/2.6.19/News/)
+- Version - 最新版本 : `2.6.20`
+- Release - 发布日期 : 2023/12/26
+- Feature - 更新内容 : [News-2.6.20](./news/2.6.20/News.md)
 
 ```
-pip install tkintertools==2.6.19
+pip install tkintertools==2.6.20
 ```
 
 ### Pre Release - 预发布版本
 
 - Version - 最新版本 : `3.0.0.dev5`
 - Release - 发布日期 :
-- Feature - 更新内容 : [News-3.0.0(pre)](https://xiaokang2022.github.io/tkintertools/news/3.0.0/News/)
+- Feature - 更新内容 : [News-3.0.0(pre)](./news/3.0.0/News.md)
 
 ```
 
@@ -63,7 +63,7 @@ pip install tkintertools==2.6.19
 
 ## More - 更多
 
-- Lisence - 项目证书 : [LICENSE.txt](https://xiaokang2022.github.io/tkintertools/more/LICENSE/)
-- ChangeLog - 更新日志 : [CHANGELOG.md](https://xiaokang2022.github.io/tkintertools/more/CHANGELOG/)
-- Contribution Guide - 贡献指南 : [CONTRIBUTING.md](https://xiaokang2022.github.io/tkintertools/more/CONTRIBUTING/)
+- Lisence - 项目证书 : [LICENSE.txt](./more/LICENSE.md)
+- ChangeLog - 更新日志 : [CHANGELOG.md](./more/CHANGELOG.md)
+- Contribution Guide - 贡献指南 : [CONTRIBUTING.md](./more/CONTRIBUTING.md)
 - Mirrors - 镜像源 : [GitHub](https://github.com/Xiaokang2022/tkintertools) | [Gitee](https://gitee.com/xiaokang-2022/tkintertools)
