@@ -1,3 +1,30 @@
+[`2.6.20`] - 2023-12-26
+-----------------------
+
+### Optimized - 优化
+
+- [X] The pause and resume functionality of the image class `PhotoImage` is encapsulated in the methods `pause` and `play`  
+图片类 `PhotoImage` 的暂停和继续播放功能被封装为方法 `pause` 和 `play`
+
+- [X] Optimized the way the `PhotoImage` class gets the total number of frames of a gif image, and now you can get the total number of frames by method `get_total_frames`  
+优化类 `PhotoImage` 获取 gif 图片总帧数的方式，现在可以通过方法 `get_total_frames` 得到总帧数
+
+- [X] The `color` function no longer manually obtains a gradient with a specified regularity, but instead specifies a control function through the parameter `controller`  
+函数 `color` 不再通过手动方式得到指定规律的渐变色，而是通过参数 `controller` 指定一个控制函数
+
+### Changed - 变更
+
+- [X] The original method of `play` used for `PhotoImage` to start playback has been renamed to `start` to avoid conflicts with the method of `play` to continue playback  
+图片类 `PhotoImage` 原来用于开始播放的方法 `play` 更名为 `start` 避免与继续播放的方法 `play` 起冲突
+
+- [X] The constant `CONTROL` was renamed `CONTROLLER`  
+常量 `CONTROL` 更名为 `CONTROLLER`
+
+### Fixed - 修复
+
+- [X] Fixed some incorrect type hints  
+修复了一些错误的类型提示
+
 [`2.6.19`] - 2023-12-17
 -----------------------
 

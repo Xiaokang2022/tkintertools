@@ -40,12 +40,12 @@ Install - 模块安装
 
 ### Stable Release - 稳定版本
 
-* Version - 最新版本 : `2.6.19`
-* Release - 发布日期 : 2023/12/17
-* Feature - 更新内容 : [News-2.6.19](https://xiaokang2022.github.io/tkintertools/news/2.6.19/News/)
+* Version - 最新版本 : `2.6.20`
+* Release - 发布日期 : 2023/12/26
+* Feature - 更新内容 : [News-2.6.20](https://xiaokang2022.github.io/tkintertools/news/2.6.20/News/)
 
 ```
-pip install tkintertools==2.6.19
+pip install tkintertools==2.6.20
 ```
 
 ### Pre Release - 预发布版本

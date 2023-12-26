@@ -97,7 +97,7 @@ FPS = 60
 TICK = "✓"
 """Default `Checkbox` symbol"""
 
-CONTROL = None
+CONTROLLER = None
 """Default control function"""
 
 DELAY = 500
