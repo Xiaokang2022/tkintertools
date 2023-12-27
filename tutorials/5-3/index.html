@@ -780,6 +780,30 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="二、以进度条展示加载进度">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21" class="md-nav__link">
+    <span class="md-ellipsis">
+      2.1 运行前解析的进度条展示
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#22" class="md-nav__link">
+    <span class="md-ellipsis">
+      2.2 运行时解析的进度条展示
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
     </ul>
@@ -1340,6 +1364,30 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="二、以进度条展示加载进度">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21" class="md-nav__link">
+    <span class="md-ellipsis">
+      2.1 运行前解析的进度条展示
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#22" class="md-nav__link">
+    <span class="md-ellipsis">
+      2.2 运行时解析的进度条展示
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
     </ul>
@@ -1381,14 +1429,18 @@
 </div>
 <h2 id="gif">一、获取 gif 图片的总帧数<a class="headerlink" href="#gif" title="Permanent link">&para;</a></h2>
 <p>要想知道 gif 解析了多少，必须得先知道 gif 的总帧数。你可以通过其他的软件来获取 gif 图的总帧数，你也可也通过下面的代码来获取 gif 的总帧数。</p>
-<p>但你要知道，下面的代码实际上完全解析一遍来得到总帧数的，所以花费的时间会比较长。目前没有比较好的方法来解决这个问题。</p>
+<p><code>PhotoImage</code> 的 <code>get_total_frames</code> 可以获取 gif 的总帧数（并非 FPS）：</p>
 <div class="language-python highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="n">image</span> <span class="o">=</span> <span class="n">tkt</span><span class="o">.</span><span class="n">PhotoImage</span><span class="p">(</span><span class="s1">&#39;example.gif&#39;</span><span class="p">)</span>
 </span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>
-</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">image</span><span class="o">.</span><span class="n">parse</span><span class="p">():</span>
-</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>    <span class="nb">print</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="nb">print</span><span class="p">(</span><span class="n">image</span><span class="o">.</span><span class="n">get_total_frames</span><span class="p">())</span>
 </span></code></pre></div>
-<p>上述代码最后一个输出就是总帧数。</p>
+<div class="admonition tip">
+<p class="admonition-title">提示</p>
+<p>当 gif 的总帧数比较大的时候，上面代码还是比较慢的，此时如果你有 <code>PIL</code> 库，这一过程将会加快几倍。当然，如果你没有 <code>PIL</code> 库，上面的代码依然可以获得 gif 的总帧数，只不过慢一些罢了。</p>
+</div>
+<p>通常我们并不会在正式程序中直接使用上述方法来获取 gif 的总帧数，我们应该在正式程序之前，就通过测试得到 gif 的帧数，然后作为常量写在程序中。因为获取 gif 总帧数并不是一个很快的过程，如果直接在正式程序中调用，卡顿的现象将十分明显。</p>
 <h2 id="_1">二、以进度条展示加载进度<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
+<h3 id="21">2.1 运行前解析的进度条展示<a class="headerlink" href="#21" title="Permanent link">&para;</a></h3>
 <p>由于 gif 的解析是一个阻塞过程，所以这里我们要采用多线程来避免程序的严重卡顿。</p>
 <div class="language-python highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="kn">import</span> <span class="nn">threading</span>
 </span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>
@@ -1406,7 +1458,7 @@
 </span><span id="__span-1-14"><a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;解析动图&quot;&quot;&quot;</span>
 </span><span id="__span-1-15"><a id="__codelineno-1-15" name="__codelineno-1-15" href="#__codelineno-1-15"></a>    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">image</span><span class="o">.</span><span class="n">parse</span><span class="p">():</span>
 </span><span id="__span-1-16"><a id="__codelineno-1-16" name="__codelineno-1-16" href="#__codelineno-1-16"></a>        <span class="n">pb</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">i</span><span class="o">/</span><span class="mi">39</span><span class="p">)</span>
-</span><span id="__span-1-17"><a id="__codelineno-1-17" name="__codelineno-1-17" href="#__codelineno-1-17"></a>    <span class="n">image</span><span class="o">.</span><span class="n">start</span><span class="p">(</span><span class="n">canvas</span><span class="p">,</span> <span class="n">canvas_item_id</span><span class="p">,</span> <span class="mi">30</span><span class="p">)</span>
+</span><span id="__span-1-17"><a id="__codelineno-1-17" name="__codelineno-1-17" href="#__codelineno-1-17"></a>    <span class="n">image</span><span class="o">.</span><span class="n">start</span><span class="p">(</span><span class="n">canvas</span><span class="p">,</span> <span class="n">canvas_item_id</span><span class="p">,</span> <span class="n">interval</span><span class="o">=</span><span class="mi">30</span><span class="p">)</span>
 </span><span id="__span-1-18"><a id="__codelineno-1-18" name="__codelineno-1-18" href="#__codelineno-1-18"></a>
 </span><span id="__span-1-19"><a id="__codelineno-1-19" name="__codelineno-1-19" href="#__codelineno-1-19"></a>
 </span><span id="__span-1-20"><a id="__codelineno-1-20" name="__codelineno-1-20" href="#__codelineno-1-20"></a><span class="n">threading</span><span class="o">.</span><span class="n">Thread</span><span class="p">(</span><span class="n">target</span><span class="o">=</span><span class="n">load_image</span><span class="p">,</span> <span class="n">daemon</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
@@ -1414,8 +1466,32 @@
 </span></code></pre></div>
 <p>运行的效果是这样的（示例所用 gif 图片来自互联网，侵权删），如果你发现下面的图片很卡，放心，不是 <code>tkintertools</code> 的问题，而是你网页加载比较慢，耐心等待就好：</p>
 <p><img alt="gif" src="../images/5.3-2.1-1.gif" /></p>
-<p>上面采用的解析方式是运行前解析，运行时解析的回调目前无法得到。</p>
 <p>当我们有大量的资源需要加载的时候，就可以将它们组合一下，一起加载，然后用进度条的方式展现啦！</p>
+<h3 id="22">2.2 运行时解析的进度条展示<a class="headerlink" href="#22" title="Permanent link">&para;</a></h3>
+<p>尽管这种需求可能很少见，但在某些情况下，我们可能还是需要运行时解析的进度条展示。由于运行时解析的过程是封装在 <code>start</code> 方法中的，我们无法在外部通过像上述代码那样的方法来展示其进度。此时，我们就需要用到 <code>start</code> 方法的一个特殊的参数 <code>callback</code> 了，它可以在运行时解析过程中添加一个回调函数。</p>
+<p>有了这个方法，我们就可以轻松展示运行时解析的进度了：</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="kn">import</span> <span class="nn">tkintertools</span> <span class="k">as</span> <span class="nn">tkt</span>
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="n">root</span> <span class="o">=</span> <span class="n">tkt</span><span class="o">.</span><span class="n">Tk</span><span class="p">(</span><span class="s1">&#39;动图解析和进度条的关联&#39;</span><span class="p">,</span> <span class="mi">1280</span><span class="p">,</span> <span class="mi">720</span><span class="p">)</span>
+</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="n">canvas</span> <span class="o">=</span> <span class="n">tkt</span><span class="o">.</span><span class="n">Canvas</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="mi">1280</span><span class="p">,</span> <span class="mi">720</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="n">canvas_item_id</span> <span class="o">=</span> <span class="n">canvas</span><span class="o">.</span><span class="n">create_image</span><span class="p">(</span><span class="mi">640</span><span class="p">,</span> <span class="mi">360</span><span class="p">)</span>
+</span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="n">pb</span> <span class="o">=</span> <span class="n">tkt</span><span class="o">.</span><span class="n">ProgressBar</span><span class="p">(</span><span class="n">canvas</span><span class="p">,</span> <span class="mi">310</span><span class="p">,</span> <span class="mi">580</span><span class="p">,</span> <span class="mi">660</span><span class="p">,</span> <span class="mi">30</span><span class="p">)</span>
+</span><span id="__span-2-7"><a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a>
+</span><span id="__span-2-8"><a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a><span class="n">image</span> <span class="o">=</span> <span class="n">tkt</span><span class="o">.</span><span class="n">PhotoImage</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;C:\Users\Yzk\OneDrive\Temp\Photo\ToolPaper\动1.gif&quot;</span><span class="p">)</span>
+</span><span id="__span-2-9"><a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a>
+</span><span id="__span-2-10"><a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a><span class="n">frames</span> <span class="o">=</span> <span class="n">image</span><span class="o">.</span><span class="n">get_total_frames</span><span class="p">()</span>  <span class="c1"># 这一步可能会略微卡顿</span>
+</span><span id="__span-2-11"><a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a>
+</span><span id="__span-2-12"><a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a><span class="n">image</span><span class="o">.</span><span class="n">start</span><span class="p">(</span><span class="n">canvas</span><span class="p">,</span> <span class="n">canvas_item_id</span><span class="p">,</span> <span class="n">interval</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span>
+</span><span id="__span-2-13"><a id="__codelineno-2-13" name="__codelineno-2-13" href="#__codelineno-2-13"></a>            <span class="n">callback</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">pb</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">x</span><span class="o">/</span><span class="n">frames</span><span class="p">))</span>
+</span><span id="__span-2-14"><a id="__codelineno-2-14" name="__codelineno-2-14" href="#__codelineno-2-14"></a>
+</span><span id="__span-2-15"><a id="__codelineno-2-15" name="__codelineno-2-15" href="#__codelineno-2-15"></a><span class="n">root</span><span class="o">.</span><span class="n">mainloop</span><span class="p">()</span>
+</span></code></pre></div>
+<p><img alt="gif" src="../images/5.3-2.2-1.gif" /></p>
+<p>看上面的效果图，你可能看不出来解析时和没有解析时有什么区别，但其实解析时的延迟为 1 毫秒（为了减少卡顿感和加速解析），而正式播放时为 30 毫秒，几乎没有区别的原因是解析占用了一部分时间。一般可能在测试中会使用这种方式。</p>
+<div class="admonition question">
+<p class="admonition-title">猜你想问：为什么第二段代码不同于第一段代码，没有使用多线程模块呢？</p>
+<p>第二段代码的解析过程被嵌入在 UI 线程中了，所以没有使用多线程模块了。这样虽然不需要使用多线程模块，但会在解析过程中略微降低 UI 线程的响应速度。</p>
+</div>
 
 
 

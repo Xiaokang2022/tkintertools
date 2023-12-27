@@ -831,6 +831,15 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#23" class="md-nav__link">
+    <span class="md-ellipsis">
+      2.3 自定义渐变规则
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -1430,6 +1439,15 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#23" class="md-nav__link">
+    <span class="md-ellipsis">
+      2.3 自定义渐变规则
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -1530,19 +1548,44 @@
 </span><span id="__span-2-19"><a id="__codelineno-2-19" name="__codelineno-2-19" href="#__codelineno-2-19"></a>
 </span><span id="__span-2-20"><a id="__codelineno-2-20" name="__codelineno-2-20" href="#__codelineno-2-20"></a><span class="n">root</span><span class="o">.</span><span class="n">mainloop</span><span class="p">()</span>
 </span></code></pre></div>
-<details class="note">
-<summary>点击查看实现效果</summary>
+<p>下面是实现的效果图：</p>
 <p><img alt="png" src="../images/6.1-2.2-1.png" /></p>
-</details>
-<!-- ### 2.3 color 函数的高级操作
-
-当然，这一系列颜色之间的 RGB 码是等差的，我们也可以设置非等差的，来得到一些不同的效果：
-
-<div class="language-python highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>
+<h3 id="23">2.3 自定义渐变规则<a class="headerlink" href="#23" title="Permanent link">&para;</a></h3>
+<p>上面的这一系列颜色之间的 RGB 码是等差的，我们也可以设置非等差的，来得到一些不同的效果（比如让它们的渐变规则为正弦函数）。</p>
+<p>下面我们通过设置 <code>color</code> 函数的参数 <code>controller</code>，来实现自定义的渐变规则，此处以正弦函数的区间 [0, π] 为例。参数 <code>controller</code> 是一个元组（列表也行），其格式如下：</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="p">(</span><span class="n">控制函数</span><span class="p">,</span> <span class="n">区间起始值</span><span class="p">,</span> <span class="n">区间终止值</span><span class="p">)</span>
 </span></code></pre></div>
-
-??? note "点击查看实现效果"
-    ![png](images/6.1-2.2-2.png) -->
+<div class="admonition warning">
+<p class="admonition-title">警告</p>
+<p>控制器参数不是任意函数都可以的！函数在指定区间内的区域内必须为非负值，否则在计算过程中会得到负数的 RGB 码，这是不正确的。</p>
+</div>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="kn">import</span> <span class="nn">math</span>
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="kn">import</span> <span class="nn">tkintertools</span> <span class="k">as</span> <span class="nn">tkt</span>
+</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>
+</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="n">root</span> <span class="o">=</span> <span class="n">tkt</span><span class="o">.</span><span class="n">Tk</span><span class="p">(</span><span class="s2">&quot;自定义的渐变色&quot;</span><span class="p">,</span> <span class="mi">1600</span><span class="p">,</span> <span class="mi">900</span><span class="p">)</span>
+</span><span id="__span-4-6"><a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a><span class="n">canvas</span> <span class="o">=</span> <span class="n">tkt</span><span class="o">.</span><span class="n">Canvas</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="mi">1600</span><span class="p">,</span> <span class="mi">900</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+</span><span id="__span-4-7"><a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a>
+</span><span id="__span-4-8"><a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a><span class="n">color_tup_lst</span> <span class="o">=</span> <span class="p">[</span>
+</span><span id="__span-4-9"><a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a>    <span class="p">(</span><span class="s2">&quot;red&quot;</span><span class="p">,</span> <span class="s2">&quot;blue&quot;</span><span class="p">),</span>
+</span><span id="__span-4-10"><a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a>    <span class="p">(</span><span class="s2">&quot;#00FFFF&quot;</span><span class="p">,</span> <span class="s2">&quot;purple&quot;</span><span class="p">),</span>
+</span><span id="__span-4-11"><a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a>    <span class="p">(</span><span class="s2">&quot;#FF00FF&quot;</span><span class="p">,</span> <span class="s2">&quot;#FFFF00&quot;</span><span class="p">),</span>
+</span><span id="__span-4-12"><a id="__codelineno-4-12" name="__codelineno-4-12" href="#__codelineno-4-12"></a>    <span class="p">(</span><span class="s2">&quot;white&quot;</span><span class="p">,</span> <span class="s2">&quot;black&quot;</span><span class="p">),</span>
+</span><span id="__span-4-13"><a id="__codelineno-4-13" name="__codelineno-4-13" href="#__codelineno-4-13"></a>    <span class="p">(</span><span class="s2">&quot;springgreen&quot;</span><span class="p">,</span> <span class="s2">&quot;#FFF&quot;</span><span class="p">)</span>
+</span><span id="__span-4-14"><a id="__codelineno-4-14" name="__codelineno-4-14" href="#__codelineno-4-14"></a><span class="p">]</span>
+</span><span id="__span-4-15"><a id="__codelineno-4-15" name="__codelineno-4-15" href="#__codelineno-4-15"></a>
+</span><span id="__span-4-16"><a id="__codelineno-4-16" name="__codelineno-4-16" href="#__codelineno-4-16"></a><span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">color_tup</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">color_tup_lst</span><span class="p">):</span>
+</span><span id="__span-4-17"><a id="__codelineno-4-17" name="__codelineno-4-17" href="#__codelineno-4-17"></a>    <span class="n">color_lst</span> <span class="o">=</span> <span class="n">tkt</span><span class="o">.</span><span class="n">color</span><span class="p">(</span><span class="n">color_tup</span><span class="p">,</span> <span class="n">seqlength</span><span class="o">=</span><span class="mi">1400</span><span class="p">,</span> <span class="n">controller</span><span class="o">=</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="nb">abs</span><span class="p">(</span><span class="n">math</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">x</span><span class="p">)),</span> <span class="mi">0</span><span class="p">,</span> <span class="n">math</span><span class="o">.</span><span class="n">pi</span><span class="p">))</span>
+</span><span id="__span-4-18"><a id="__codelineno-4-18" name="__codelineno-4-18" href="#__codelineno-4-18"></a>    <span class="k">for</span> <span class="n">j</span><span class="p">,</span> <span class="n">c</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">color_lst</span><span class="p">):</span>
+</span><span id="__span-4-19"><a id="__codelineno-4-19" name="__codelineno-4-19" href="#__codelineno-4-19"></a>        <span class="n">x</span> <span class="o">=</span> <span class="n">j</span> <span class="o">+</span> <span class="mi">100</span>
+</span><span id="__span-4-20"><a id="__codelineno-4-20" name="__codelineno-4-20" href="#__codelineno-4-20"></a>        <span class="n">y</span> <span class="o">=</span> <span class="n">i</span><span class="o">*</span><span class="mi">150</span> <span class="o">+</span> <span class="mi">100</span>
+</span><span id="__span-4-21"><a id="__codelineno-4-21" name="__codelineno-4-21" href="#__codelineno-4-21"></a>        <span class="n">canvas</span><span class="o">.</span><span class="n">create_line</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">+</span> <span class="mi">100</span><span class="p">,</span> <span class="n">fill</span><span class="o">=</span><span class="n">c</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+</span><span id="__span-4-22"><a id="__codelineno-4-22" name="__codelineno-4-22" href="#__codelineno-4-22"></a>
+</span><span id="__span-4-23"><a id="__codelineno-4-23" name="__codelineno-4-23" href="#__codelineno-4-23"></a><span class="n">root</span><span class="o">.</span><span class="n">mainloop</span><span class="p">()</span>
+</span></code></pre></div>
+<p>下面是实现的效果图：</p>
+<p><img alt="png" src="../images/6.1-2.3-1.png" /></p>
+<p>和之前的那一张图相比，你发现了什么不同吗？实际上，第一张图也是有控制函数的，只不过它的函数为单位正比例函数 y = x 区间 [0, 1] 部分。</p>
 
 
 
