@@ -299,7 +299,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="../../news/2.6.20/News/" class="md-tabs__link">
+        <a href="../../news/2.6.21/News/" class="md-tabs__link">
           
   
   News / 新闻
@@ -1223,7 +1223,7 @@
         
   
   
-    <a href="../../news/2.6.20/News/" class="md-nav__link">
+    <a href="../../news/2.6.21/News/" class="md-nav__link">
       
   
   <span class="md-ellipsis">
@@ -1651,9 +1651,9 @@
 
 
 <h1 id="tkintertoolsmain">tkintertools.main<a class="headerlink" href="#tkintertoolsmain" title="Permanent link">&para;</a></h1>
-<p>描述: Main File<br />
-外部引用: <code>Image</code>, <code>ImageTk</code>, <code>fractions</code>, <code>math</code>, <code>tkinter</code>, <code>typing</code><br />
-源代码位置: site-packages\tkintertools\main.py</p>
+<p>文件描述: Main File<br />
+外部引用: <code>Image</code>, <code>ImageTk</code>, <code>constants</code>, <code>exceptions</code>, <code>fractions</code>, <code>math</code>, <code>tkinter</code>, <code>typing</code><br />
+源码位置: tkintertools\main.py</p>
 <h2 id="functions-">Functions - 函数<a class="headerlink" href="#functions-" title="Permanent link">&para;</a></h2>
 <h3 id="01-_get_control_lst">01. _get_control_lst<a class="headerlink" href="#01-_get_control_lst" title="Permanent link">&para;</a></h3>
 <div class="admonition note">
@@ -1716,22 +1716,20 @@
 </span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>    <span class="o">*</span><span class="p">,</span>
 </span><span id="__span-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>    <span class="n">controller</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
 </span><span id="__span-3-7"><a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a>    <span class="n">translation</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-</span><span id="__span-3-8"><a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a>    <span class="n">color</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-</span><span id="__span-3-9"><a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a>    <span class="n">fps</span><span class="o">=</span><span class="mi">60</span><span class="p">,</span>
-</span><span id="__span-3-10"><a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a>    <span class="n">start</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-</span><span id="__span-3-11"><a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a>    <span class="n">step</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-</span><span id="__span-3-12"><a id="__codelineno-3-12" name="__codelineno-3-12" href="#__codelineno-3-12"></a>    <span class="n">stop</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-</span><span id="__span-3-13"><a id="__codelineno-3-13" name="__codelineno-3-13" href="#__codelineno-3-13"></a>    <span class="n">callback</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-</span><span id="__span-3-14"><a id="__codelineno-3-14" name="__codelineno-3-14" href="#__codelineno-3-14"></a>    <span class="n">canvas</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-</span><span id="__span-3-15"><a id="__codelineno-3-15" name="__codelineno-3-15" href="#__codelineno-3-15"></a>    <span class="n">loop</span><span class="o">=</span><span class="kc">False</span>
-</span><span id="__span-3-16"><a id="__codelineno-3-16" name="__codelineno-3-16" href="#__codelineno-3-16"></a><span class="p">)</span>
+</span><span id="__span-3-8"><a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a>    <span class="n">fps</span><span class="o">=</span><span class="mi">60</span><span class="p">,</span>
+</span><span id="__span-3-9"><a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a>    <span class="n">start</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+</span><span id="__span-3-10"><a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a>    <span class="n">step</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+</span><span id="__span-3-11"><a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a>    <span class="n">stop</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+</span><span id="__span-3-12"><a id="__codelineno-3-12" name="__codelineno-3-12" href="#__codelineno-3-12"></a>    <span class="n">callback</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+</span><span id="__span-3-13"><a id="__codelineno-3-13" name="__codelineno-3-13" href="#__codelineno-3-13"></a>    <span class="n">canvas</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+</span><span id="__span-3-14"><a id="__codelineno-3-14" name="__codelineno-3-14" href="#__codelineno-3-14"></a>    <span class="n">loop</span><span class="o">=</span><span class="kc">False</span>
+</span><span id="__span-3-15"><a id="__codelineno-3-15" name="__codelineno-3-15" href="#__codelineno-3-15"></a><span class="p">)</span>
 </span></code></pre></div>
 <ul>
 <li><code>widget</code>: 进行动画的控件</li>
 <li><code>ms</code>: 动画总时长（单位：毫秒）</li>
 <li><code>controller</code>: 控制器，为元组 (控制函数, 起始值, 终止值) 的形式</li>
-<li><code>translation</code>: 平移运动，x 方向位移，y 方向位移</li>
-<li><code>color</code>: 颜色变换</li>
+<li><code>translation</code>: 移动，x 方向位移，y 方向位移</li>
 <li><code>fps</code>: 每秒帧数</li>
 <li><code>start</code>: 动画开始前执行的函数</li>
 <li><code>step</code>: 动画每一帧结束后执行的函数（包括开始和结束）</li>
@@ -1839,7 +1837,7 @@
 <li>形式三: <code>(字体名称, 字体大小, 字体样式)</code></li>
 </ul>
 </li>
-<li>颜色为一个包含三个或四个 RGB 颜色字符串的元组，共两种形式:<ul>
+<li>颜色为一个包含三个或四个 RGB 颜色字符串的元组，一般有两种形式:<ul>
 <li>不使用禁用功能时: <code>(正常颜色, 触碰颜色, 交互颜色)</code></li>
 <li>需使用禁用功能时: <code>(正常颜色, 触碰颜色, 交互颜色, 禁用颜色)</code></li>
 <li>特别地，进度条控件的参数 <code>color_fill</code> 为: <code>(底色, 进度条颜色)</code></li>
@@ -2284,7 +2282,7 @@
 </span></code></pre></div>
 <p>解析动图，并得到动图的每一帧动画，该方法返回一个生成器 </p>
 <ul>
-<li><code>start</code>: 动图解析的起始索引（帧数-1）</li>
+<li><code>start</code>: 动图解析的起始索引（帧数减一）</li>
 </ul>
 </div>
 <div class="admonition note">
