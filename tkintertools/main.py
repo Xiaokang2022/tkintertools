@@ -1468,7 +1468,7 @@ class Switch(Button):
     def configure(self, *args, **kw):  # type: (...) -> str | tuple | None
         """修改或查询参数的值
 
-        可供修改或查询的参数有: `color_fill_on`、`color_fill_off`、`color_outline_on` 和 `color_outline_off`
+        可供修改或查询的参数有: `color_fill`、`color_outline`、`color_fill_slider` 和 `color_outline_slider`
 
         注意：颜色修改不会立即生效，可通过鼠标经过生效，或者调用 `state` 方法立即刷新状态！
         """
@@ -1477,13 +1477,13 @@ class Switch(Button):
             if res is None:
                 return getattr(self._slider, args[0][:-7])
             return res
-        fill_on = kw.get("color_fill_on", None)
-        fill_off = kw.get("color_fill_off", None)
-        outline_on = kw.get("color_outline_on", None)
-        outline_off = kw.get("color_outline_off", None)
-        self._slider.configure(color_fill=fill_on, color_outline=fill_off)
-        Button.configure(self, color_fill=outline_on,
-                         color_outline=outline_off)
+        fill = kw.get("color_fill", None)
+        outline = kw.get("color_outline", None)
+        fill_slider = kw.get("color_fill_slider", None)
+        outline_slider = kw.get("color_outline_slider", None)
+        self._slider.configure(color_fill=fill_slider,
+                               color_outline=outline_slider)
+        Button.configure(self, color_fill=fill, color_outline=outline)
         return None
 
     # NOTE: destory 无需重载，因为 self.slider 实际是独立的控件
