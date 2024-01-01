@@ -1,46 +1,45 @@
 Release Notes - 版本发布说明
 ===========================
 
-* Version - 最新版本 : `2.6.17`
-* Release - 发布日期 : 2023/12/07
+* Version - 最新版本 : `2.6.21`
+* Release - 发布日期 : 2024/01/01
 
 ```
-pip install tkintertools==2.6.17
+pip install tkintertools==2.6.21
 ```
 
 !!! danger "Attention - 特别注意"
-    After that, there will be no new features in the Series 2 version, but there will still be optimizations and bug fixes, and by the end of the year, the Series 2 version will be completely retired!  
-    该版本之后，系列 2 版本将不会再新增任何功能，但仍会优化和修复 bug，到今年年底时，系列 2 版本将彻底停更！
+    This will be the last version of `tkintertools 2.*` and will not be updated in any future!  
+    这将是 `tkintertools 2.*` 的最后一个版本，后续将不再得到任何的更新！
 
-    `tkintertools` for Series 3 is already in development, so stay tuned!  
-    系列 3 的 `tkintertools` 已经在开发中了，敬请期待吧！
+    `tkintertools 3.0` will be available soon!  
+    `tkintertools 3.0` 将在不久后推出！
 
 ChangeLog - 更新日志
 -------------------
 
-### Optimized - 优化
-
-- [X] Corrected some incorrect English words  
-修改了部分错误的英文单词
-
 ### Changed - 变更
 
-- [X] The font unit changes from points to pixels  
-字体单位由磅更改为像素
+- [X] The class `Text` in submodule `tools_3d` was renamed `Text3D` to distinguish `Text` in `main`  
+子模块 `tools_3d` 中的类 `Text` 更名为 `Text3D` 以区分 `main` 中的 `Text`
 
-- [X] Reduced the display position offset of tooltip widgets  
-减小了提示框控件的显示位置偏移
+### Optimized - 优化
+
+- [X] Improved Type Hints  
+完善了类型提示
 
 ### Fixed - 修复
 
-- [X] Fixed a bug where tooltip widgets could appear in very wrong places  
-修复了提示框控件有可能显示在非常错误的位置的问题
+- [X] Fixed a bug where the parameter `proportion` of the function `color` was invalid  
+修复了函数 `color` 的参数 `proportion` 失效的问题
 
-- [X] Fixed a bug where the widget class `Entry` was in a non-centered state and the canvas was shrunk, entering an endless loop when entering text, causing the window to not respond  
-修复了控件类 `Entry` 在非居中状态，且画布缩小之后，输入文本时进入死循环，导致窗口未响应的问题
+- [X] Fixed a bug where the `configure` parameter of the `Switch` class was incorrect
+修复了类 `Switch` 的方法 `configure` 参数取值错误的问题
 
-- [X] Fixed a bug where widget color properties were sometimes unchangeable  
-修复了控件颜色属性某些时候不可更改的问题
+### Removed - 移除
+
+- [X] `Animation` has removed the `color` parameter (can be implemented with the `callback` parameter)  
+动画类 `Animation` 移除了参数 `color`（可用参数 `callback` 代替实现）
 
 Todos - 待办事项
 ---------------

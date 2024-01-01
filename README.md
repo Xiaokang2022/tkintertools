@@ -14,9 +14,9 @@
 <a href="https://pypistats.org/packages/tkintertools"><img alt="Downloads" src="https://img.shields.io/pypi/dm/tkintertools?label=Downloads&logo=pypi" /></a>
 <a href="https://pepy.tech/project/tkintertools"><img alt="Total Downloads" src="https://static.pepy.tech/badge/tkintertools" /></a>
 <br/>
-<a href="https://github.com/Xiaokang2022/tkintertools/watchers"><img alt="Watchs" src="https://img.shields.io/github/watchers/Xiaokang2022/tkintertools?label=Watchs&logo=github" /></a>
-<a href="https://github.com/Xiaokang2022/tkintertools/forks"><img alt="Forks" src="https://img.shields.io/github/forks/Xiaokang2022/tkintertools?label=Forks&logo=github" /></a>
-<a href="https://github.com/Xiaokang2022/tkintertools/stargazers"><img alt="Stars" src="https://img.shields.io/github/stars/Xiaokang2022/tkintertools?label=Stars&color=gold&logo=github" /></a>
+<a href="https://github.com/Xiaokang2022/tkintertools/watchers"><img alt="Watchs" src="https://img.shields.io/github/watchers/Xiaokang2022/tkintertools?label=Watchs&logo=github&style=flat" /></a>
+<a href="https://github.com/Xiaokang2022/tkintertools/forks"><img alt="Forks" src="https://img.shields.io/github/forks/Xiaokang2022/tkintertools?label=Forks&logo=github&style=flat" /></a>
+<a href="https://github.com/Xiaokang2022/tkintertools/stargazers"><img alt="Stars" src="https://img.shields.io/github/stars/Xiaokang2022/tkintertools?label=Stars&color=gold&logo=github&style=flat" /></a>
 <a href="https://github.com/Xiaokang2022/tkintertools/graphs/contributors"><img alt="Contributors" src="https://img.shields.io/github/contributors/Xiaokang2022/tkintertools?label=Contributors&logo=github" /></a>
 <a href="https://github.com/Xiaokang2022/tkintertools/issues"><img alt="Issues" src="https://img.shields.io/github/issues/Xiaokang2022/tkintertools?label=Issues&logo=github" /></a>
 <a href="https://github.com/Xiaokang2022/tkintertools/pulls"><img alt="PRs" src="https://img.shields.io/github/issues-pr/Xiaokang2022/tkintertools?label=PRs&logo=github" /></a>

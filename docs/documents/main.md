@@ -1,9 +1,9 @@
 tkintertools.main
 ===
 
-描述: Main File  
-外部引用: `Image`, `ImageTk`, `fractions`, `math`, `tkinter`, `typing`  
-源代码位置: site-packages\tkintertools\main.py
+文件描述: Main File  
+外部引用: `Image`, `ImageTk`, `constants`, `exceptions`, `fractions`, `math`, `tkinter`, `typing`  
+源码位置: tkintertools\main.py
 
 Functions - 函数
 ---
@@ -81,7 +81,6 @@ Classes - 类
             *,
             controller=None,
             translation=None,
-            color=None,
             fps=60,
             start=None,
             step=None,
@@ -96,8 +95,7 @@ Classes - 类
         * `widget`: 进行动画的控件
         * `ms`: 动画总时长（单位：毫秒）
         * `controller`: 控制器，为元组 (控制函数, 起始值, 终止值) 的形式
-        * `translation`: 平移运动，x 方向位移，y 方向位移
-        * `color`: 颜色变换
+        * `translation`: 移动，x 方向位移，y 方向位移
         * `fps`: 每秒帧数
         * `start`: 动画开始前执行的函数
         * `step`: 动画每一帧结束后执行的函数（包括开始和结束）
@@ -219,7 +217,7 @@ Classes - 类
              * 形式一: `字体名称`
              * 形式二: `(字体名称, 字体大小)`
              * 形式三: `(字体名称, 字体大小, 字体样式)`
-        2. 颜色为一个包含三个或四个 RGB 颜色字符串的元组，共两种形式:
+        2. 颜色为一个包含三个或四个 RGB 颜色字符串的元组，一般有两种形式:
              * 不使用禁用功能时: `(正常颜色, 触碰颜色, 交互颜色)`
              * 需使用禁用功能时: `(正常颜色, 触碰颜色, 交互颜色, 禁用颜色)`
              * 特别地，进度条控件的参数 `color_fill` 为: `(底色, 进度条颜色)`
@@ -764,7 +762,7 @@ Classes - 类
 
         解析动图，并得到动图的每一帧动画，该方法返回一个生成器 
 
-        * `start`: 动图解析的起始索引（帧数-1）
+        * `start`: 动图解析的起始索引（帧数减一）
 
 
 

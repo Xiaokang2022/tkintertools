@@ -1,9 +1,9 @@
 tkintertools.tools_3d
 ===
 
-描述: 3D support  
-外部引用: `Image`, `ImageTk`, `array`, `fractions`, `math`, `statistics`, `tkinter`, `typing`  
-源代码位置: site-packages\tkintertools\tools_3d.py
+文件描述: 3D support  
+外部引用: `array`, `constants`, `exceptions`, `main`, `math`, `statistics`, `tkinter`, `typing`  
+源码位置: tkintertools\tools_3d.py
 
 Functions - 函数
 ---
@@ -629,9 +629,9 @@ Classes - 类
         * `color_outline`: 边框颜色序列
 
 
-### 09. Text
+### 09. Text3D
 
-!!! note "Text(_Object3D) `Class`"
+!!! note "Text3D(_Object3D) `Class`"
 
     三维文本
 

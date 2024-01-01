@@ -14,9 +14,9 @@
 <a href="https://pypistats.org/packages/tkintertools"><img alt="Downloads" src="https://img.shields.io/pypi/dm/tkintertools?label=Downloads&logo=pypi" /></a>
 <a href="https://pepy.tech/project/tkintertools"><img alt="Total Downloads" src="https://static.pepy.tech/badge/tkintertools" /></a>
 <br/>
-<a href="https://github.com/Xiaokang2022/tkintertools/watchers"><img alt="Watchs" src="https://img.shields.io/github/watchers/Xiaokang2022/tkintertools?label=Watchs&logo=github" /></a>
-<a href="https://github.com/Xiaokang2022/tkintertools/forks"><img alt="Forks" src="https://img.shields.io/github/forks/Xiaokang2022/tkintertools?label=Forks&logo=github" /></a>
-<a href="https://github.com/Xiaokang2022/tkintertools/stargazers"><img alt="Stars" src="https://img.shields.io/github/stars/Xiaokang2022/tkintertools?label=Stars&color=gold&logo=github" /></a>
+<a href="https://github.com/Xiaokang2022/tkintertools/watchers"><img alt="Watchs" src="https://img.shields.io/github/watchers/Xiaokang2022/tkintertools?label=Watchs&logo=github&style=flat" /></a>
+<a href="https://github.com/Xiaokang2022/tkintertools/forks"><img alt="Forks" src="https://img.shields.io/github/forks/Xiaokang2022/tkintertools?label=Forks&logo=github&style=flat" /></a>
+<a href="https://github.com/Xiaokang2022/tkintertools/stargazers"><img alt="Stars" src="https://img.shields.io/github/stars/Xiaokang2022/tkintertools?label=Stars&color=gold&logo=github&style=flat" /></a>
 <a href="https://github.com/Xiaokang2022/tkintertools/graphs/contributors"><img alt="Contributors" src="https://img.shields.io/github/contributors/Xiaokang2022/tkintertools?label=Contributors&logo=github" /></a>
 <a href="https://github.com/Xiaokang2022/tkintertools/issues"><img alt="Issues" src="https://img.shields.io/github/issues/Xiaokang2022/tkintertools?label=Issues&logo=github" /></a>
 <a href="https://github.com/Xiaokang2022/tkintertools/pulls"><img alt="PRs" src="https://img.shields.io/github/issues-pr/Xiaokang2022/tkintertools?label=PRs&logo=github" /></a>
@@ -39,12 +39,12 @@
 
 ### Stable Release - 稳定版本
 
-- Version - 最新版本 : `2.6.20`
-- Release - 发布日期 : 2023/12/26
-- Feature - 更新内容 : [News-2.6.20](./news/2.6.20/News.md)
+- Version - 最新版本 : `2.6.21`
+- Release - 发布日期 : 2024/01/01
+- Feature - 更新内容 : [News-2.6.21](./news/2.6.21/News.md)
 
 ```
-pip install tkintertools==2.6.20
+pip install tkintertools==2.6.21
 ```
 
 ### Pre Release - 预发布版本

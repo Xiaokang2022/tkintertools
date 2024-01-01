@@ -195,6 +195,7 @@ nav: # 导航栏
 
   - News / 新闻:
       - Series 2 - 系列 2:
+          - 2.6.21: news/2.6.21/News.md
           - 2.6.20: news/2.6.20/News.md
           - 2.6.19: news/2.6.19/News.md
           - 2.6.18: news/2.6.18/News.md

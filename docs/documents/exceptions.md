@@ -1,9 +1,9 @@
 tkintertools.exceptions
 ===
 
-描述: All exceptions  
+文件描述: All exceptions  
 外部引用:   
-源代码位置: site-packages\tkintertools\exceptions.py
+源码位置: tkintertools\exceptions.py
 
 Classes - 类
 ---
