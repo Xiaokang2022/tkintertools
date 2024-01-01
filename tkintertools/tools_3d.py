@@ -6,17 +6,15 @@ import statistics
 import tkinter
 import typing
 
-from .constants import *
-from .exceptions import *
-from .main import *
+from . import constants, exceptions, main
 
 
-class Canvas3D(Canvas):
+class Canvas3D(main.Canvas):
     """3D 画布基类"""
 
     def __init__(
         self,
-        master,  # type: Tk | Toplevel
+        master,  # type: main.Tk | main.Toplevel
         width,  # type: int
         height,  # type: int
         x=None,  # type: int | None
@@ -25,7 +23,7 @@ class Canvas3D(Canvas):
         lock=True,  # type: bool
         expand=True,  # type: bool
         keep=True,  # type: bool
-        camera_distance=CAMERA_DISTANCE,  # type: float
+        camera_distance=constants.CAMERA_DISTANCE,  # type: float
         **kw
     ):  # type: (...) -> None
         """
@@ -40,8 +38,8 @@ class Canvas3D(Canvas):
         * `camera_distance`: 相机位置与原点间的距离，默认值为 1000
         * `**kw`: 与 `tkinter.Canvas` 类的参数相同
         """
-        Canvas.__init__(self, master, width, height, x, y,
-                        lock=lock, expand=expand, keep=keep, **kw)
+        main.Canvas.__init__(self, master, width, height, x, y,
+                             lock=lock, expand=expand, keep=keep, **kw)
         self.distance = camera_distance
         self._items_3d = []  # type: list[Point | Line | Side]
         self._geos = []  # type: list[Geometry]
@@ -66,7 +64,7 @@ class Space(Canvas3D):
 
     def __init__(
         self,
-        master,  # type: Tk | Toplevel
+        master,  # type: main.Tk | main.Toplevel
         width,  # type: int
         height,  # type: int
         x=None,  # type: int | None
@@ -75,11 +73,11 @@ class Space(Canvas3D):
         lock=True,  # type: bool
         expand=True,  # type: bool
         keep=True,  # type: bool
-        camera_distance=CAMERA_DISTANCE,  # type: float
-        origin_size=ORIGIN_SIZE,  # type: float
-        origin_width=ORIGIN_WIDTH,  # type: float
-        origin_fill=COLOR_FILL_ORIGIN,  # type: str
-        origin_outline=COLOR_OUTLINE_ORIGIN,  # type: str
+        camera_distance=constants.CAMERA_DISTANCE,  # type: float
+        origin_size=constants.ORIGIN_SIZE,  # type: float
+        origin_width=constants.ORIGIN_WIDTH,  # type: float
+        origin_fill=constants.COLOR_FILL_ORIGIN,  # type: str
+        origin_outline=constants.COLOR_OUTLINE_ORIGIN,  # type: str
         **kw
     ):  # type: (...) -> None
         """
@@ -100,7 +98,7 @@ class Space(Canvas3D):
         """
         Canvas3D.__init__(self, master, width, height, x, y, lock=lock,
                           expand=expand, keep=keep, camera_distance=camera_distance, **kw)
-        self._origin = Point(self, ORIGIN_COORDINATE, size=origin_size,
+        self._origin = Point(self, constants.ORIGIN_COORDINATE, size=origin_size,
                              width=origin_width, fill=origin_fill, outline=origin_outline)
         self._items_3d.clear()
         self.bind("<B3-Motion>", self._translate)
@@ -111,7 +109,7 @@ class Space(Canvas3D):
         self.bind("<Button-1>", lambda event: self._rotate(event, True))
         self.bind("<ButtonRelease-1>",
                   lambda event: self._rotate(event, False))
-        if SYSTEM == "Linux":  # 兼容 Linux 系统
+        if constants.SYSTEM == "Linux":  # 兼容 Linux 系统
             self.bind("<Button-4>", lambda event: self._scale(event, True))
             self.bind("<Button-5>", lambda event: self._scale(event, False))
         else:
@@ -139,7 +137,7 @@ class Space(Canvas3D):
         # type: (tkinter.Event, bool | None, list[float]) -> None
         """旋转事件"""
         if flag is False:
-            if self._release(event):  # 兼容原 Canvas
+            if self._release(event):  # 兼容原 main.Canvas
                 return
             self.configure(cursor="arrow")
             return
@@ -171,7 +169,7 @@ class Space(Canvas3D):
 
 
 def translate(coordinate, dx=0, dy=0, dz=0):
-    # type: (list[float], float, float, float) -> None
+    # type: (tuple[float, float, float], float, float, float) -> None
     """将一个三维空间中的点进行平移
 
     * `coordinate`: 点的空间坐标
@@ -185,18 +183,18 @@ def translate(coordinate, dx=0, dy=0, dz=0):
 
 @typing.overload
 def rotate(coordinate, dx=0, dy=0, dz=0, *, center):
-    # type: (list[float], float, float, float, ..., typing.Iterable[float]) -> None
+    # type: (tuple[float, float, float], float, float, float, ..., tuple[float, float, float]) -> None
     ...
 
 
 @typing.overload
 def rotate(coordinate, dx=0, *, axis):
-    # type: (list[float], float,  ..., typing.Iterable[typing.Iterable[float]]) -> None
+    # type: (tuple[float, float, float], float,  ..., tuple[tuple[float, float, float], tuple[float, float, float]]) -> None
     ...
 
 
 def rotate(coordinate, dx=0, dy=0, dz=0, *, center, axis=None):
-    # type: (list[float], float, float, float, ..., typing.Iterable[float], typing.Iterable[typing.Iterable[float]] | None) -> None
+    # type: (tuple[float, float, float], float, float, float, ..., tuple[float, float, float], tuple[tuple[float, float, float], tuple[float, float, float]] | None) -> None
     """将一个三维空间中的点以一个点或线为参照进行旋转（实现方式为欧拉角）
 
     * `coordinate`: 点的空间坐标
@@ -248,7 +246,7 @@ def rotate(coordinate, dx=0, dy=0, dz=0, *, center, axis=None):
 
 
 def scale(coordinate, kx=1, ky=1, kz=1, *, center):
-    # type: (list[float], float, float, float, ..., typing.Iterable[float]) -> None
+    # type: (tuple[float, float, float], float, float, float, ..., tuple[float, float, float]) -> None
     """将一个三维空间中的点以另一个点为缩放中心进行缩放
 
     * `coordinate`: 点的空间坐标
@@ -259,12 +257,13 @@ def scale(coordinate, kx=1, ky=1, kz=1, *, center):
     """
     for k in kx, ky, kz:
         if k <= 0:
-            raise ScaleArgsValueError(k)
+            raise exceptions.ScaleArgsValueError(k)
     for i, k in enumerate((kx, ky, kz)):
         coordinate[i] += (coordinate[i] - center[i]) * (k-1)
 
 
-def project(coordinate, distance):  # type: (list[float], float) -> list[float]
+def project(coordinate, distance):
+    # type: (tuple[float, float, float], float) -> tuple[float, float]
     """将一个三维空间中的点投影到指定距离的正向平面上，并返回在该平面上的坐标
 
     * `coordinate`: 点的空间坐标
@@ -274,13 +273,14 @@ def project(coordinate, distance):  # type: (list[float], float) -> list[float]
     if relative_dis <= 1e-16:
         return [math.inf]*2  # XXX: 目前超出范围只能让其消失，需要优化
     k = distance / relative_dis
-    return [coordinate[1]*k, coordinate[2]*k]
+    return coordinate[1]*k, coordinate[2]*k
 
 
 class _Object3D:
     """3D 对象基类"""
 
-    def __init__(self, *coordinates):  # type: (list[float]) -> None
+    def __init__(self, *coordinates):
+        # type: (tuple[float, float, float]) -> None
         self.coordinates = [array.array("f", lst) for lst in coordinates]
 
     def translate(self, dx=0, dy=0, dz=0):  # type: (float, float, float) -> None
@@ -294,17 +294,17 @@ class _Object3D:
             translate(coordinate, dx, dy, dz)
 
     @typing.overload
-    def rotate(self, dx=0, dy=0, dz=0, *, center=ROTATE_CENTER):
-        # type: (float, float, float, ..., typing.Iterable[float]) -> None
+    def rotate(self, dx=0, dy=0, dz=0, *, center=constants.ROTATE_CENTER):
+        # type: (float, float, float, ..., tuple[float, float, float]) -> None
         ...
 
     @typing.overload
     def rotate(self, dx=0, *, axis):
-        # type: (float, ..., typing.Iterable[typing.Iterable[float]]) -> None
+        # type: (float, ..., tuple[tuple[float, float, float], tuple[float, float, float]]) -> None
         ...
 
-    def rotate(self, dx=0, dy=0, dz=0, *, center=ROTATE_CENTER, axis=None):
-        # type: (float, float, float, ..., typing.Iterable[float], typing.Iterable[typing.Iterable[float]] | None) -> None
+    def rotate(self, dx=0, dy=0, dz=0, *, center=constants.ROTATE_CENTER, axis=None):
+        # type: (float, float, float, ..., tuple[float, float, float], tuple[tuple[float, float, float], tuple[float, float, float]] | None) -> None
         """旋转对象本身
 
         * `dx`: x 方向逆时针旋转弧度，或者绕旋转轴线的旋转弧度
@@ -317,7 +317,7 @@ class _Object3D:
             rotate(coordinate, dx, dy, dz, center=center, axis=axis)
 
     def scale(self, kx=1, ky=1, kz=1, *, center=None):
-        # type: (float, float, float, ..., typing.Iterable[float] | None) -> None
+        # type: (float, float, float, ..., tuple[float, float, float] | None) -> None
         """缩放对象本身
 
         * `kx`: x 方向缩放比例
@@ -335,7 +335,7 @@ class _Object3D:
         return tuple(statistics.mean(xyz) for xyz in zip(*self.coordinates))
 
     def _project(self, distance, canvas=None):
-        # type: (float, Canvas3D | None) -> list[list[float]]
+        # type: (float, Canvas3D | Space | None) -> list[tuple[float, float]]
         """投影对象自身
 
         * `distance`: 对象与观察者的距离
@@ -343,9 +343,8 @@ class _Object3D:
         """
         lst = [project(point, distance) for point in self.coordinates]
         if canvas is not None:
-            for pos in lst:
-                pos[0] += canvas.width[0]/2
-                pos[1] = canvas.height[0]/2 - pos[1]
+            lst = [(pos[0] + canvas.width[0]/2, canvas.height[0]/2 - pos[1])
+                   for pos in lst]
         return lst
 
 
@@ -355,15 +354,16 @@ class Point(_Object3D):
     def __init__(
         self,
         canvas,  # type: Canvas3D | Space
-        coords,  # type: typing.Iterable[float]
+        coords,  # type: tuple[float, float, float]
         *,
-        size=POINT_SIZE,  # type: float
-        width=POINT_WIDTH,  # type: float
-        fill=COLOR_FILL_POINT,  # type: str
-        outline=COLOR_OUTLINE_POINT,  # type: str
+        size=constants.POINT_SIZE,  # type: float
+        width=constants.POINT_WIDTH,  # type: float
+        fill=constants.COLOR_FILL_POINT,  # type: str
+        outline=constants.COLOR_OUTLINE_POINT,  # type: str
         markuptext="",  # type: str
         markupdelta=(0, 0),  # type: tuple[float, float]
-        markupfont=(FONT, SIZE),  # type: tuple[str, int, str]
+        markupfont=(constants.FONT, constants.SIZE),
+        # type: tuple[str, int, str]
         markupfill="#000000",  # type: str
         markupjustify="center",  # type: str
     ):  # type: (...) -> None
@@ -416,11 +416,11 @@ class Line(_Object3D):
     def __init__(
         self,
         canvas,  # type: Canvas3D | Space
-        point_start,  # type: typing.Iterable[float]
-        point_end,  # type: typing.Iterable[float]
+        point_start,  # type: tuple[float, float, float]
+        point_end,  # type: tuple[float, float, float]
         *,
-        width=LINE_WIDTH,  # type: float
-        fill=COLOR_FILL_LINE,  # type: str
+        width=constants.LINE_WIDTH,  # type: float
+        fill=constants.COLOR_FILL_LINE,  # type: str
     ):  # type: (...) -> None
         """
         * `canvas`: 父画布
@@ -455,10 +455,10 @@ class Side(_Object3D):
     def __init__(
         self,
         canvas,  # type: Canvas3D | Space
-        *points,  # type: typing.Iterable[float]
-        width=SIDE_WIDTH,  # type: float
-        fill=COLOR_FILL_SIDE,  # type: str
-        outline=COLOR_OUTLINE_SIDE,  # type: str
+        *points,  # type: tuple[float, float, float]
+        width=constants.SIDE_WIDTH,  # type: float
+        fill=constants.COLOR_FILL_SIDE,  # type: str
+        outline=constants.COLOR_OUTLINE_SIDE,  # type: str
     ):  # type: (...) -> None
         """
         * `canvas`: 父画布
@@ -489,18 +489,18 @@ class Side(_Object3D):
         return sign * math.dist([self.canvas.distance, 0, 0], center)
 
 
-class Text(_Object3D):
+class Text3D(_Object3D):
     """三维文本"""
 
     def __init__(
         self,
         canvas,  # type: Canvas3D | Space
-        coords,  # type: typing.Iterable[float]
+        coords,  # type: tuple[float, float, float]
         text="",  # type: str
         *,
-        font=(FONT, SIZE),  # type: tuple[str, int, str]
+        font=(constants.FONT, constants.SIZE),  # type: tuple[str, int, str]
         justify="center",  # type: typing.Literal["center", "left", "right"]
-        fill=COLOR_FILL_POINT,  # type: str
+        fill=constants.COLOR_FILL_POINT,  # type: str
     ):  # type: (...) -> None
         """
         * `canvas`: 父画布
@@ -563,17 +563,17 @@ class Geometry:
             side.translate(dx, dy, dz)
 
     @typing.overload
-    def rotate(self, dx=0, dy=0, dz=0, *, center=ROTATE_CENTER):
-        # type: (float, float, float, ..., typing.Iterable[float]) -> None
+    def rotate(self, dx=0, dy=0, dz=0, *, center=constants.ROTATE_CENTER):
+        # type: (float, float, float, ..., tuple[float, float, float]) -> None
         ...
 
     @typing.overload
     def rotate(self, dx=0, *, axis):
-        # type: (float, ..., typing.Iterable[typing.Iterable[float]]) -> None
+        # type: (float, ..., tuple[tuple[float, float, float], tuple[float, float, float]]) -> None
         ...
 
-    def rotate(self, dx=0, dy=0, dz=0, *, center=ROTATE_CENTER, axis=None):
-        # type: (float, float, float, ..., typing.Iterable[float], typing.Iterable[typing.Iterable[float]] | None) -> None
+    def rotate(self, dx=0, dy=0, dz=0, *, center=constants.ROTATE_CENTER, axis=None):
+        # type: (float, float, float, ..., tuple[float, float, float], tuple[tuple[float, float, float], tuple[float, float, float]] | None) -> None
         """旋转几何体中的所有 3D 对象
 
         * `dx`: x 方向逆时针旋转弧度，或者绕旋转轴线的旋转弧度
@@ -586,7 +586,7 @@ class Geometry:
             side.rotate(dx, dy, dz, center=center, axis=axis)
 
     def scale(self, kx=1, ky=1, kz=1, *, center=None):
-        # type: (float, float, float, ..., typing.Iterable[float] | None) -> None
+        # type: (float, float, float, ..., tuple[float, float, float] | None) -> None
         """缩放几何体中的所有 3D 对象
 
         * `kx`: x 方向缩放比例
@@ -630,7 +630,7 @@ class Cuboid(Geometry):
         width,  # type: float
         height,  # type: float
         *,
-        boardwidth=BORDERWIDTH,  # type: int
+        boardwidth=constants.BORDERWIDTH,  # type: int
         color_fill_up="",  # type: str
         color_fill_down="",  # type: str
         color_fill_left="",  # type: str
@@ -692,14 +692,15 @@ class Tetrahedron(Geometry):
     def __init__(
         self,
         canvas,  # type: Canvas3D | Space
-        point_1,  # type: typing.Iterable[float]
-        point_2,  # type: typing.Iterable[float]
-        point_3,  # type: typing.Iterable[float]
-        point_4,  # type: typing.Iterable[float]
+        point_1,  # type: tuple[float, float, float]
+        point_2,  # type: tuple[float, float, float]
+        point_3,  # type: tuple[float, float, float]
+        point_4,  # type: tuple[float, float, float]
         *,
-        boardwidth=BORDERWIDTH,  # type: int
-        color_fill=("",) * 4,  # type: typing.Iterable[str]
-        color_outline=("#000000",) * 4  # type: typing.Iterable[str]
+        boardwidth=constants.BORDERWIDTH,  # type: int
+        color_fill=("", "", "", ""),  # type: tuple[str, str, str, str]
+        color_outline=("#000000", "#000000", "#000000", "#000000")
+        # type: tuple[str, str, str, str]
     ):  # type: (...) -> None
         """
         * `canvas`: 父画布
@@ -735,6 +736,7 @@ __all__ = [
     "Point",
     "Line",
     "Side",
+    "Text3D",
     "Geometry",
     "Cuboid",
     "Tetrahedron",

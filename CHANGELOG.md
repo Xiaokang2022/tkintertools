@@ -1,3 +1,29 @@
+[`2.6.21`] - 2024-01-01
+-----------------------
+
+### Changed - 变更
+
+- [X] The class `Text` in submodule `tools_3d` was renamed `Text3D` to distinguish `Text` in `main`  
+子模块 `tools_3d` 中的类 `Text` 更名为 `Text3D` 以区分 `main` 中的 `Text`
+
+### Optimized - 优化
+
+- [X] Improved Type Hints  
+完善了类型提示
+
+### Fixed - 修复
+
+- [X] Fixed a bug where the parameter `proportion` of the function `color` was invalid  
+修复了函数 `color` 的参数 `proportion` 失效的问题
+
+- [X] Fixed a bug where the `configure` parameter of the `Switch` class was incorrect
+修复了类 `Switch` 的方法 `configure` 参数取值错误的问题
+
+### Removed - 移除
+
+- [X] `Animation` has removed the `color` parameter (can be implemented with the `callback` parameter)  
+动画类 `Animation` 移除了参数 `color`（可用参数 `callback` 代替实现）
+
 [`2.6.20`] - 2023-12-26
 -----------------------
 

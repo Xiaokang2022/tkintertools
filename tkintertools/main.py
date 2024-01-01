@@ -5,10 +5,9 @@ import math
 import tkinter
 import typing
 
-from .constants import *
-from .exceptions import *
+from . import constants, exceptions
 
-if SYSTEM == "Windows":
+if constants.SYSTEM == "Windows":
     from ctypes import windll
     windll.shcore.SetProcessDpiAwareness(1)
 
@@ -62,7 +61,7 @@ class Tk(tkinter.Tk):
         * `transparentcolor`: 过滤掉该颜色
         * `**kw`: 与 `tkinter.Tk` 类的其他参数相同
         """
-        if type(self) == Tk:  # NOTE: 方便后面的 Toplevel 类继承，只继承一部分功能
+        if self.__class__ == Tk:  # NOTE: 方便后面的 Toplevel 类继承，只继承一部分功能
             tkinter.Tk.__init__(self, **kw)
 
         self.width = [100, 1]  # type: list[int]  # [初始宽度, 当前宽度]
@@ -207,13 +206,13 @@ class Canvas(tkinter.Canvas):
         self.expand = expand
         self.keep = keep
 
-        self.master = master  # type: Tk | Toplevel  # NOTE: 此语句虽冗余，实则为类型提示
+        self.master = master  # type: Tk | Toplevel
 
         self.rx = 1.  # 横向放缩比率
         self.ry = 1.  # 纵向放缩比率
         self._widget = []  # type: list[BaseWidget]  # 子控件列表（与事件绑定有关）
-        self._font = {}  # type: dict[int, float]
-        self._image = {}  # type: dict[int, list]
+        self._font = {}  # type: dict[int, list[float]]
+        self._image = {}  # type: dict[int, list[PhotoImage]]
 
         tkinter.Canvas.__init__(self, master, width=width,
                                 height=height, highlightthickness=0, **kw)
@@ -266,9 +265,8 @@ class Canvas(tkinter.Canvas):
         rate_x_pos, rate_y_pos = rate_x, rate_y  # 避免受 keep 影响
 
         if self.keep:  # 维持比例
-            rx = rate_x * self.master.width[1] / self.master.width[0] / self.rx
-            ry = rate_y * self.master.height[1] / \
-                self.master.height[0] / self.ry
+            rx = rate_x*self.master.width[1]/self.master.width[0]/self.rx
+            ry = rate_y*self.master.height[1]/self.master.height[0]/self.ry
             rate_x = rate_y = min(rx, ry)
 
         # 更新画布的位置及大小的数据
@@ -295,17 +293,17 @@ class Canvas(tkinter.Canvas):
             self.coords(item, *[c * (rate_x, rate_y)[i & 1]
                         for i, c in enumerate(self.coords(item))])
 
-        for item in self._font:  # 字体大小缩放
-            self._font[item][1] *= math.sqrt(rate_x*rate_y)
-            font = self._font[item][:]
+        for item, value in self._font.items():  # 字体大小缩放
+            value[1] *= math.sqrt(rate_x*rate_y)
+            font = value[:]
             font[1] = round(font[1])
             self.itemconfigure(item, font=font)
 
-        for item in self._image:  # 图像大小缩放（采用相对的绝对缩放）
-            if self._image[item][0] and self._image[item][0].extension != "gif":
-                self._image[item][1] = self._image[item][0].zoom(
+        for item, value in self._image.items():  # 图像大小缩放（采用相对的绝对缩放）
+            if value[0] and value[0].extension != "gif":
+                value[1] = value[0].zoom(
                     temp_x * rate_x, temp_y * rate_y, precision=1.2)
-                self.itemconfigure(item, image=self._image[item][1])
+                self.itemconfigure(item, image=value[1])
 
     def _touch(self, event, flag=True):  # type: (tkinter.Event, bool) -> None
         """鼠标触碰控件事件"""
@@ -347,8 +345,7 @@ class Canvas(tkinter.Canvas):
                     if widget._state == "click" and widget._touch(event):
                         widget._execute(event)
                         return True
-                    else:
-                        widget._touch(event)
+                    widget._touch(event)
         return False
 
     def _input(self, event):  # type: (tkinter.Event) -> None
@@ -371,9 +368,9 @@ class Canvas(tkinter.Canvas):
         # override: 添加对 text 类型的 _CanvasItemId 的字体大小的控制
         font = kw.get("font")
         if not font:
-            kw["font"] = FONT, SIZE
+            kw["font"] = constants.FONT, constants.SIZE
         elif isinstance(font, str):
-            kw["font"] = font, SIZE
+            kw["font"] = font, constants.SIZE
         elif kw["font"][1] > 0:
             kw["font"] = list(kw["font"])
             kw["font"][1] = -kw["font"][1]
@@ -390,7 +387,7 @@ class Canvas(tkinter.Canvas):
     def itemconfigure(self, tagOrId, **kw):
         # type: (str | int, ...) -> dict[str, tuple[str, str, str, str, str]] | None
         # override: 创建空 image 的 _CanvasItemId 时漏去对图像大小的控制
-        if type(kw.get("image")) == PhotoImage:
+        if kw.get("image").__class__ == PhotoImage:
             self._image[tagOrId] = [kw.get("image"), None]
         return tkinter.Canvas.itemconfigure(self, tagOrId, **kw)
 
@@ -422,12 +419,12 @@ class BaseWidget:
         text,  # type: str
         justify,  # type: str
         borderwidth,  # type: float
-        font,  # type: tuple[str, int, str]
+        font,  # type: str | tuple[str, int] | tuple[str, int, str]
         image,  # type: PhotoImage | None
         tooltip,  # type: ToolTip | None
-        color_text,  # type: tuple[str, str, str]
-        color_fill,  # type: tuple[str, str, str]
-        color_outline  # type: tuple[str, str, str]
+        color_text,  # type: tuple[str, str, str, str]
+        color_fill,  # type: tuple[str, str, str, str]
+        color_outline  # type: tuple[str, str, str, str]
     ):  # type: (...) -> None
         """
         标准参数：标准参数是所有控件都有的 
@@ -464,7 +461,7 @@ class BaseWidget:
              * 形式一: `字体名称`
              * 形式二: `(字体名称, 字体大小)`
              * 形式三: `(字体名称, 字体大小, 字体样式)`
-        2. 颜色为一个包含三个或四个 RGB 颜色字符串的元组，共两种形式:
+        2. 颜色为一个包含三个或四个 RGB 颜色字符串的元组，一般有两种形式:
              * 不使用禁用功能时: `(正常颜色, 触碰颜色, 交互颜色)`
              * 需使用禁用功能时: `(正常颜色, 触碰颜色, 交互颜色, 禁用颜色)`
              * 特别地，进度条控件的参数 `color_fill` 为: `(底色, 进度条颜色)`
@@ -561,7 +558,7 @@ class BaseWidget:
             anchor="w" if justify == "left" else "e" if justify == "right" else "center",
             fill=color_text[0])
 
-        if type(font) != str:
+        if not isinstance(font, str):
             font = list(font)
             font[1] = int(font[1] * math.sqrt(canvas.rx * canvas.ry))
             canvas._font[self.text][1] = font[1]
@@ -596,7 +593,7 @@ class BaseWidget:
         elif self._state == "disabled":
             mode = 3
         else:
-            raise WidgetStateModeError(self._state)
+            raise exceptions.WidgetStateModeError(self._state)
 
         if self.tooltip is not None:
             if self._state == "normal":
@@ -712,6 +709,8 @@ class BaseWidget:
         if isinstance(self, (Label, Button, ProgressBar)) and value is not None and not isinstance(self, CheckButton):
             self.master.itemconfigure(self.text, text=value)
 
+        return None
+
     def destroy(self):  # type: () -> None
         """摧毁控件释放内存"""
         self.live = False
@@ -767,17 +766,17 @@ class TextWidget(BaseWidget):
         width,  # type: int
         height,  # type: int
         radius,  # type: float
-        text,  # type: tuple[str] | str
+        text,  # type: str | tuple[str, str]
         limit,  # type: int
         justify,  # type: str
         icursor,  # type: str
         borderwidth,  # type: int
-        font,  # type: tuple[str, int, str]
+        font,  # type: str | tuple[str, int] | tuple[str, int, str]
         image,  # type: PhotoImage | None
         tooltip,  # type: ToolTip | None
-        color_text,  # type: tuple[str, str, str]
-        color_fill,  # type: tuple[str, str, str]
-        color_outline  # type: tuple[str, str, str]
+        color_text,  # type: tuple[str, str, str, str]
+        color_fill,  # type: tuple[str, str, str, str]
+        color_outline  # type: tuple[str, str, str, str]
     ):  # type: (...) -> None
 
         self.canvas = canvas
@@ -786,7 +785,7 @@ class TextWidget(BaseWidget):
 
         self.interval = 300  # 光标闪烁间
         self.flag = False  # 光标闪烁标志
-        self._value = ["", text, ""] if type(text) == str else [
+        self._value = ["", text, ""] if isinstance(text, str) else [
             "", *text]  # 隐式值
 
         BaseWidget.__init__(
@@ -910,16 +909,20 @@ class Label(BaseWidget):
         width,  # type: int
         height,  # type: int
         *,
-        radius=RADIUS,  # type: float
+        radius=constants.RADIUS,  # type: float
         text="",  # type: str
-        borderwidth=BORDERWIDTH,  # type: int
+        borderwidth=constants.BORDERWIDTH,  # type: int
         justify="center",  # type: typing.Literal["left", "center", "right"]
-        font=(FONT, SIZE),  # type: tuple[str, int, str]
+        font=(constants.FONT, constants.SIZE),
+        # type: str | tuple[str, int] | tuple[str, int, str]
         image=None,  # type: PhotoImage | None
         tooltip=None,  # type: ToolTip | None
-        color_text=COLOR_TEXT,  # type: tuple[str, str, str]
-        color_fill=COLOR_FILL_LABEL,  # type: tuple[str, str, str]
-        color_outline=COLOR_OUTLINE_LABEL  # type: tuple[str, str, str]
+        color_text=constants.COLOR_TEXT,
+        # type: tuple[str, str, typing.Any, str]
+        color_fill=constants.COLOR_FILL_LABEL,
+        # type: tuple[str, str, typing.Any, str]
+        color_outline=constants.COLOR_OUTLINE_LABEL
+        # type: tuple[str, str, typing.Any, str]
     ):  # type: (...) -> None
         BaseWidget.__init__(
             self, canvas, x, y, width, height, radius, text, justify, borderwidth,
@@ -943,17 +946,20 @@ class Button(BaseWidget):
         width,  # type: int
         height,  # type: int
         *,
-        radius=RADIUS,  # type: float
+        radius=constants.RADIUS,  # type: float
         text="",  # type: str
-        borderwidth: int = BORDERWIDTH,  # type: int
+        borderwidth: int = constants.BORDERWIDTH,  # type: int
         justify="center",  # type: typing.Literal["left", "center", "right"]
-        font=(FONT, SIZE),  # type: tuple[str, int, str]
+        font=(constants.FONT, constants.SIZE),
+        # type: str | tuple[str, int] | tuple[str, int, str]
         command=None,  # type: typing.Callable | None
         image=None,  # type: PhotoImage | None
         tooltip=None,  # type: ToolTip | None
-        color_text=COLOR_TEXT,  # type: tuple[str, str, str]
-        color_fill=COLOR_FILL_BUTTON,  # type: tuple[str, str, str]
-        color_outline=COLOR_OUTLINE_BUTTON,  # type: tuple[str, str, str]
+        color_text=constants.COLOR_TEXT,  # type: tuple[str, str, str, str]
+        color_fill=constants.COLOR_FILL_BUTTON,
+        # type: tuple[str, str, str, str]
+        color_outline=constants.COLOR_OUTLINE_BUTTON,
+        # type: tuple[str, str, str, str]
     ):  # type: (...) -> None
         BaseWidget.__init__(
             self, canvas, x, y, width, height, radius, text, justify, borderwidth,
@@ -971,8 +977,7 @@ class Button(BaseWidget):
         if self.x1 <= event.x <= self.x2 and self.y1 <= event.y <= self.y2 and self._state in ("touch", "click"):
             self.state("click")
             return True
-        else:
-            self.state("normal")
+        self.state("normal")
         return False
 
     def _touch(self, event):  # type: (tkinter.Event) -> bool
@@ -992,18 +997,21 @@ class CheckButton(Button):
         y,  # type: int
         height,  # type: int
         *,
-        radius=RADIUS,  # type: float
+        radius=constants.RADIUS,  # type: float
         text="",  # type: str
         value=False,  # type: bool
-        tick=TICK,  # type: str
-        borderwidth=BORDERWIDTH,  # type: int
+        tick=constants.TICK,  # type: str
+        borderwidth=constants.BORDERWIDTH,  # type: int
         justify="right",  # type: typing.Literal["right", "left"]
-        font=(FONT, SIZE),  # type: tuple[str, int, str]
+        font=(constants.FONT, constants.SIZE),
+        # type: str | tuple[str, int] | tuple[str, int, str]
         image=None,  # type: PhotoImage | None
         tooltip=None,  # type: ToolTip | None
-        color_text=COLOR_TEXT,  # type: tuple[str, str, str]
-        color_fill=COLOR_FILL_CHECKBUTTON,  # type: tuple[str, str, str]
-        color_outline=COLOR_OUTLINE_CHECKBUTTON  # type: tuple[str, str, str]
+        color_text=constants.COLOR_TEXT,  # type: tuple[str, str, str, str]
+        color_fill=constants.COLOR_FILL_CHECKBUTTON,
+        # type: tuple[str, str, str, str]
+        color_outline=constants.COLOR_OUTLINE_CHECKBUTTON
+        # type: tuple[str, str, str, str]
     ):  # type: (...) -> None
         Button.__init__(
             self, canvas, x, y, height, height, radius=radius, borderwidth=borderwidth, image=image, font=font,
@@ -1040,19 +1048,22 @@ class Entry(TextWidget):
         width,  # type: int
         height,  # type: int
         *,
-        radius=RADIUS,  # type: float
-        text="",  # type: tuple[str, str] | str
+        radius=constants.RADIUS,  # type: float
+        text="",  # type: str | tuple[str, str]
         show=None,  # type: str | None
-        limit=LIMIT,  # type: int
-        cursor=CURSOR,  # type: str
-        borderwidth=BORDERWIDTH,  # type: int
+        limit=constants.LIMIT,  # type: int
+        cursor=constants.CURSOR,  # type: str
+        borderwidth=constants.BORDERWIDTH,  # type: int
         justify="left",  # type: typing.Literal["left", "center", "right"]
-        font=(FONT, SIZE),  # type: tuple[str, int, str]
+        font=(constants.FONT, constants.SIZE),
+        # type: str | tuple[str, int] | tuple[str, int, str]
         image=None,  # type: PhotoImage | None
         tooltip=None,  # type: ToolTip | None
-        color_text=COLOR_TEXT,  # type: tuple[str, str, str]
-        color_fill=COLOR_FILL_ENTRY,  # type: tuple[str, str, str]
-        color_outline=COLOR_OUTLINE_ENTRY  # type: tuple[str, str, str]
+        color_text=constants.COLOR_TEXT,  # type: tuple[str, str, str, str]
+        color_fill=constants.COLOR_FILL_ENTRY,
+        # type: tuple[str, str, str, str]
+        color_outline=constants.COLOR_OUTLINE_ENTRY
+        # type: tuple[str, str, str, str]
     ):  # type: (...) -> None
         TextWidget.__init__(
             self, canvas, x, y, width, height, radius, text, limit, justify, cursor,
@@ -1086,8 +1097,8 @@ class Entry(TextWidget):
             elif len(event.char):
                 if not event.char.isprintable() or (event.char == " "):
                     return True
-                else:  # 按下普通按键
-                    self.value += event.char
+                # 按下普通按键
+                self.value += event.char
             else:
                 return True
 
@@ -1129,19 +1140,22 @@ class Text(TextWidget):
         width,  # type: int
         height,  # type: int
         *,
-        radius=RADIUS,  # type: float
-        text="",  # type: tuple[str, str] | str
-        limit=LIMIT,  # type: int
+        radius=constants.RADIUS,  # type: float
+        text="",  # type: str | tuple[str, str]
+        limit=constants.LIMIT,  # type: int
         read=False,  # type: bool
-        cursor=CURSOR,  # type: str
-        borderwidth=BORDERWIDTH,  # type: int
+        cursor=constants.CURSOR,  # type: str
+        borderwidth=constants.BORDERWIDTH,  # type: int
         justify="left",  # type: typing.Literal["left", "center", "right"]
-        font=(FONT, SIZE),  # type: tuple[str, int, str]
+        font=(constants.FONT, constants.SIZE),
+        # type: str | tuple[str, int] | tuple[str, int, str]
         image=None,  # type: PhotoImage | None
         tooltip=None,  # type: ToolTip | None
-        color_text=COLOR_TEXT,  # type: tuple[str, str, str]
-        color_fill=COLOR_FILL_TEXT,  # type: tuple[str, str, str]
-        color_outline=COLOR_OUTLINE_TEXT  # type: tuple[str, str, str]
+        color_text=constants.COLOR_TEXT,  # type: tuple[str, str, str, str]
+        color_fill=constants.COLOR_FILL_TEXT,
+        # type: tuple[str, str, str, str]
+        color_outline=constants.COLOR_OUTLINE_TEXT
+        # type: tuple[str, str, str, str]
     ):  # type: (...) -> None
         TextWidget.__init__(
             self, canvas, x, y, width, height, radius, text, limit, justify, cursor,
@@ -1283,14 +1297,17 @@ class ProgressBar(BaseWidget):
         width,  # type: int
         height,  # type: int
         *,
-        borderwidth=BORDERWIDTH,  # type: int
+        borderwidth=constants.BORDERWIDTH,  # type: int
         justify="center",  # type: typing.Literal["left", "center", "right"]
-        font=(FONT, SIZE),  # type: tuple[str, int, str]
+        font=(constants.FONT, constants.SIZE),
+        # type: str | tuple[str, int] | tuple[str, int, str]
         image=None,  # type: PhotoImage | None
         tooltip=None,  # type: ToolTip | None
-        color_text=COLOR_TEXT,  # type: tuple[str, str, str]
-        color_outline=COLOR_OUTLINE_PROGRESSBAR,  # type: tuple[str, str, str]
-        color_fill=COLOR_FILL_PROGRESSBAR,  # type: tuple[str, str]
+        color_text=constants.COLOR_TEXT,
+        # type: tuple[str, str, typing.Any, str]
+        color_outline=constants.COLOR_OUTLINE_PROGRESSBAR,
+        # type: tuple[str, str, typing.Any, str]
+        color_fill=constants.COLOR_FILL_PROGRESSBAR,  # type: tuple[str, str]
         mode="determinate",
         # type: typing.Literal["determinate", "indeterminate"]
     ):  # type: (...) -> None
@@ -1301,10 +1318,10 @@ class ProgressBar(BaseWidget):
         # XXX: 圆角功能的添加，建议重构 BaseWidget 来解决
         self.mode = mode
         if mode == "indeterminate":
-            color_text = COLOR_NONE
+            color_text = constants.COLOR_NONE
         BaseWidget.__init__(
             self, canvas, x, y, width, height, 0, "0.00%", justify, borderwidth,
-            font, image, tooltip, color_text, COLOR_NONE, color_outline)
+            font, image, tooltip, color_text, constants.COLOR_NONE, color_outline)
 
         self.color_fill = list(color_fill)
 
@@ -1339,19 +1356,24 @@ class Switch(Button):
         canvas,  # type: Canvas
         x,  # type: int
         y,  # type: int
-        height=SWITCH_HEIGHT,  # type: int
+        height=constants.SWITCH_HEIGHT,  # type: int
         *,
-        width=SWITCH_WIDTH,  # type: int
-        radius=SWITCH_RADIUS,  # type: float
-        borderwidth=BORDERWIDTH,  # type: int
+        width=constants.SWITCH_WIDTH,  # type: int
+        radius=constants.SWITCH_RADIUS,  # type: float
+        borderwidth=constants.BORDERWIDTH,  # type: int
         tooltip=None,  # type: ToolTip | None
-        color_fill_on=COLOR_FILL_ON,  # type: tuple[str, str, str]
-        color_fill_off=COLOR_FILL_OFF,  # type: tuple[str, str, str]
-        color_outline_on=COLOR_OUTLINE_ON,  # type: tuple[str, str, str]
-        color_outline_off=COLOR_OUTLINE_OFF,  # type: tuple[str, str, str]
-        color_fill_slider=COLOR_FILL_SLIDER,  # type: tuple[str, str, str]
-        color_outline_slider=COLOR_OUTLINE_SLIDER,
-        # type: tuple[str, str, str]
+        color_fill_on=constants.COLOR_FILL_ON,
+        # type: tuple[str, str, str, str]
+        color_fill_off=constants.COLOR_FILL_OFF,
+        # type: tuple[str, str, str, str]
+        color_outline_on=constants.COLOR_OUTLINE_ON,
+        # type: tuple[str, str, str, str]
+        color_outline_off=constants.COLOR_OUTLINE_OFF,
+        # type: tuple[str, str, str, str]
+        color_fill_slider=constants.COLOR_FILL_SLIDER,
+        # type: tuple[str, str, str, str]
+        color_outline_slider=constants.COLOR_OUTLINE_SLIDER,
+        # type: tuple[str, str, str, str]
         default=False,  # type: bool
         on=None,  # type: typing.Callable | None
         off=None,  # type: typing.Callable | None
@@ -1394,7 +1416,7 @@ class Switch(Button):
         if self.value:
             self._animate(0)
 
-    def _animate(self, ms=SWITCH_ANIMATION_MS):  # type: (int) -> None
+    def _animate(self, ms=constants.SWITCH_ANIMATION_MS):  # type: (int) -> None
         """移动动画"""
         if self.value:
             key = 1
@@ -1428,6 +1450,7 @@ class Switch(Button):
             return Button.state(self)
         self._slider.state(mode)
         Button.state(self, mode)
+        return None
 
     def move(self, dx, dy):  # type: (float, float) -> None
         # overload: 重载以兼容
@@ -1440,11 +1463,12 @@ class Switch(Button):
             return Button.set_live(self)
         self._slider.set_live(value)
         Button.set_live(self, value)
+        return None
 
     def configure(self, *args, **kw):  # type: (...) -> str | tuple | None
         """修改或查询参数的值
 
-        可供修改或查询的参数有: `color_fill`、`color_outline`、`color_fill_slider` 和 `color_outline_slider`
+        可供修改或查询的参数有: `color_fill_on`、`color_fill_off`、`color_outline_on` 和 `color_outline_off`
 
         注意：颜色修改不会立即生效，可通过鼠标经过生效，或者调用 `state` 方法立即刷新状态！
         """
@@ -1453,13 +1477,14 @@ class Switch(Button):
             if res is None:
                 return getattr(self._slider, args[0][:-7])
             return res
-        fill = kw.get("color_fill", None)
-        outline = kw.get("color_outline", None)
-        fill_slider = kw.get("color_fill_slider", None)
-        outline_slider = kw.get("color_outline_slider", None)
-        self._slider.configure(color_fill=fill_slider,
-                               color_outline=outline_slider)
-        Button.configure(self, color_fill=fill, color_outline=outline)
+        fill_on = kw.get("color_fill_on", None)
+        fill_off = kw.get("color_fill_off", None)
+        outline_on = kw.get("color_outline_on", None)
+        outline_off = kw.get("color_outline_off", None)
+        self._slider.configure(color_fill=fill_on, color_outline=fill_off)
+        Button.configure(self, color_fill=outline_on,
+                         color_outline=outline_off)
+        return None
 
     # NOTE: destory 无需重载，因为 self.slider 实际是独立的控件
 
@@ -1471,15 +1496,15 @@ class ToolTip:
         self,
         text,  # type: str
         *,
-        font=(FONT,),
-        # type: tuple[str, int, str] | tuple[str, int] | str
-        fg=TOOLTIP_FG,  # type: str
-        bg=TOOLTIP_BG,  # type: str
+        font=(constants.FONT,),
+        # type: str | tuple[str, int] | tuple[str, int, str]
+        fg=constants.TOOLTIP_FG,  # type: str
+        bg=constants.TOOLTIP_BG,  # type: str
         justify="left",  # type: typing.Literal["left", "center", "right"]
-        highlightthickness=TOOLTIP_HIGHLIGHT_THICKNESS,  # type: int
-        highlightbackground=TOOLTIP_HIGHLIGHT_BACKGROUND,  # type: str
-        delay=DELAY,  # type: int
-        duration=DURATION,  # type: int | None
+        highlightthickness=constants.TOOLTIP_HIGHLIGHT_THICKNESS,  # type: int
+        highlightbackground=constants.TOOLTIP_HIGHLIGHT_BACKGROUND,  # type: str
+        delay=constants.DELAY,  # type: int
+        duration=constants.DURATION,  # type: int | None
     ):  # type: (...) -> None
         """
         * `text`: 要显示的文本
@@ -1533,6 +1558,7 @@ class ToolTip:
                       fg=self.fg, bg=self.bg, justify=self.justify).pack()
         if self.duration is not None:
             self.toplevel.after(self.duration, self._destroy)
+        return None
 
     def _destroy(self):
         """消失"""
@@ -1562,13 +1588,13 @@ class PhotoImage(tkinter.PhotoImage):
             self.parse_done = False
             self.active = False
         else:  # 静态图片
-            self.image = tkinter.PhotoImage.__init__(self, file=file, **kw)
+            tkinter.PhotoImage.__init__(self, file=file, **kw)
 
     def parse(self, start=0):
         # type: (int) -> typing.Generator[int, None, None] | None
         """解析动图，并得到动图的每一帧动画，该方法返回一个生成器 
 
-        * `start`: 动图解析的起始索引（帧数-1）
+        * `start`: 动图解析的起始索引（帧数减一）
         """
         try:
             if self.parse_done:
@@ -1578,7 +1604,7 @@ class PhotoImage(tkinter.PhotoImage):
                     file=self.file, format=f"gif -index {start}"))
                 value = yield start  # 抛出索引
                 start += value if value else 1
-        except:
+        except tkinter.TclError:
             self.parse_done = True
             return
 
@@ -1598,7 +1624,7 @@ class PhotoImage(tkinter.PhotoImage):
             return
         if self.active and canvas._lock:  # 暂停播放的判定
             if not self.parse_done:
-                if getattr(self, 'parser', None) is None:
+                if getattr(self, "parser", None) is None:
                     self.parser = self.parse()
                 next(self.parser, None)
                 if callback is not None:
@@ -1638,8 +1664,7 @@ class PhotoImage(tkinter.PhotoImage):
                 file=self.file, format=f"gif -index {_index+_base}")
         except tkinter.TclError:
             return self.get_total_frames(_index >> 1, _base)
-        else:
-            return self.get_total_frames(_index << 1, _index+_base)
+        return self.get_total_frames(_index << 1, _index+_base)
 
     def _get_total_frames_with_PIL(self, image, _frames=0):
         # type: (str, int) -> int
@@ -1696,12 +1721,10 @@ class Animation:
         widget,  # type: BaseWidget | tkinter.BaseWidget | int
         ms,  # type: int
         *,
-        controller=CONTROLLER,
+        controller=constants.CONTROLLER,
         # type: tuple[typing.Callable[[float], float], float, float] | None
         translation=None,  # type: tuple[float, float] | None
-        color=None,
-        # type: tuple[typing.Callable[[str], None], str, str] | None
-        fps=FPS,  # type: int
+        fps=constants.FPS,  # type: int
         start=None,  # type: typing.Callable | None
         step=None,  # type: typing.Callable | None
         stop=None,  # type: typing.Callable | None
@@ -1713,8 +1736,7 @@ class Animation:
         * `widget`: 进行动画的控件
         * `ms`: 动画总时长（单位：毫秒）
         * `controller`: 控制器，为元组 (控制函数, 起始值, 终止值) 的形式
-        * `translation`: 平移运动，x 方向位移，y 方向位移
-        * `color`: 颜色变换
+        * `translation`: 移动，x 方向位移，y 方向位移
         * `fps`: 每秒帧数
         * `start`: 动画开始前执行的函数
         * `step`: 动画每一帧结束后执行的函数（包括开始和结束）
@@ -1725,13 +1747,12 @@ class Animation:
         """
         self.widget = widget
         self.master = canvas if isinstance(widget, int) else widget if isinstance(
-            widget, tkinter.Widget) else widget.master
+            widget, tkinter.Misc) else widget.master
         self.start = start
         self.step = step
         self.stop = stop
         self.loop = loop
         self.translation = translation
-        self.color = color
         self.sec = 1000 // fps  # 单帧间隔时间
         self.count = ms * fps // 1000  # 总帧数
         if self.count == 0:
@@ -1739,7 +1760,7 @@ class Animation:
         self.callback = callback
         if controller is None:
             controller = (lambda _: _), 0, 1
-        self.parts = _get_control_lst(controller, self.count)
+        self.rate_lst = _get_control_lst(controller, self.count)
         self.animation = ""  # 动画命令
 
     def _run(self, _ind=0, _last_data=(0, 0)):
@@ -1752,7 +1773,7 @@ class Animation:
 
         if self.translation is not None:
             data = tuple(
-                round(value * self.parts[_ind]) for value in self.translation)
+                round(value * self.rate_lst[_ind]) for value in self.translation)
             dx, dy = data[0] - _last_data[0], data[1] - _last_data[1]
             self._translate(dx, dy)
         else:
@@ -1760,13 +1781,12 @@ class Animation:
 
         self.animation = self.master.after(self.sec, self._run, _ind+1, data)
 
-        if self.color is not None:
-            self.color[0](color(self.color[1:], self.parts[_ind]))
-
         if self.step is not None:
             self.step()
         if self.callback is not None:
-            self.callback(self.parts[_ind])
+            self.callback(self.rate_lst[_ind])
+
+        return None
 
     def _translate(self, dx, dy):  # type: (int, int) -> None
         """平移"""
@@ -1796,13 +1816,13 @@ class Animation:
 
 @typing.overload
 def color(
-    __color,  # type: typing.Iterable[str]
+    __color,  # type: tuple[str, str]
     /,
-    proportion=PROPORTION,  # type: float
+    proportion=constants.PROPORTION,  # type: float
     *,
-    seqlength=SEQLENGTH,  # type: int
-    num=NUM,  # type: typing.Literal[1, 2, 3, 4]
-    controller=CONTROLLER,
+    seqlength=constants.SEQLENGTH,  # type: int
+    num=constants.NUM,  # type: typing.Literal[1, 2, 3, 4]
+    controller=constants.CONTROLLER,
     # type: tuple[typing.Callable[[float], float], float, float] | None
 ):  # type: (...) -> str | list[str]
     ...
@@ -1812,24 +1832,24 @@ def color(
 def color(
     __color,  # type: str
     /,
-    proportion=PROPORTION,  # type: float
+    proportion=constants.PROPORTION,  # type: float
     *,
-    seqlength=SEQLENGTH,  # type: int
-    num=NUM,  # type: typing.Literal[1, 2, 3, 4]
-    controller=CONTROLLER,
+    seqlength=constants.SEQLENGTH,  # type: int
+    num=constants.NUM,  # type: typing.Literal[1, 2, 3, 4]
+    controller=constants.CONTROLLER,
     # type: tuple[typing.Callable[[float], float], float, float] | None
 ):  # type: (...) -> str | list[str]
     ...
 
 
 def color(
-    __color,  # type: typing.Iterable[str] | str
+    __color,  # type: str | tuple[str, str]
     /,
-    proportion=PROPORTION,  # type: float
+    proportion=constants.PROPORTION,  # type: float
     *,
-    seqlength=SEQLENGTH,  # type: int
-    num=NUM,  # type: typing.Literal[1, 2, 3, 4]
-    controller=CONTROLLER,
+    seqlength=constants.SEQLENGTH,  # type: int
+    num=constants.NUM,  # type: typing.Literal[1, 2, 3, 4]
+    controller=constants.CONTROLLER,
     # type: tuple[typing.Callable[[float], float], float, float] | None
 ):  # type: (...) -> str | list[str]
     """按一定比例给出已有 RGB 颜色字符串的渐变 RGB 颜色字符串，或者给出已有 RGB 颜色字符串的对比色
@@ -1841,7 +1861,7 @@ def color(
     * `controller`: 比例值变化的控制器，为元组 (控制函数, 初始值, 终止值)，仅当参数 `seqlength` 大于 1 时生效，默认为等差变化
     """
     if not 0 <= proportion <= 1:
-        raise ColorArgsValueError(proportion)
+        raise exceptions.ColorArgsValueError(proportion)
 
     key = 16 - (num << 2)
     format_ = f"#%0{num}X%0{num}X%0{num}X"
@@ -1856,6 +1876,8 @@ def color(
         start = [c >> key for c in tkinter._default_root.winfo_rgb(__color[0])]
         end = [c >> key for c in tkinter._default_root.winfo_rgb(__color[1])]
 
+    end = [s + round((e - s) * proportion) for s, e in zip(start, end)]
+
     if controller is None:
         controller = (lambda _: _), 0, 1
 
@@ -1868,8 +1890,8 @@ def color(
 
 
 def askfont(
-    bind=None,  # type: typing.Callable[[str], typing.Any] | None
-    initfont=""  # type: tuple[str, int, str] | tuple[str, int] | str
+    bind=None,  # type: typing.Callable[[str]] | None
+    initfont=""  # type: str | tuple[str, int] | tuple[str, int, str]
 ):  # type: (...) -> None
     """字体选择对话框，弹出选择字体的默认对话框窗口
 
@@ -1894,20 +1916,20 @@ def askfont(
     tkinter._default_root.tk.call("tk", "fontchooser", "show")
 
 
-# __all__ = [
-#     "Tk",
-#     "Toplevel",
-#     "Canvas",
-#     "Label",
-#     "Button",
-#     "CheckButton",
-#     "Entry",
-#     "Text",
-#     "ProgressBar",
-#     "Switch",
-#     "ToolTip",
-#     "PhotoImage",
-#     "Animation",
-#     "color",
-#     "askfont",
-# ]
+__all__ = [
+    "Tk",
+    "Toplevel",
+    "Canvas",
+    "Label",
+    "Button",
+    "CheckButton",
+    "Entry",
+    "Text",
+    "ProgressBar",
+    "Switch",
+    "ToolTip",
+    "PhotoImage",
+    "Animation",
+    "color",
+    "askfont",
+]

@@ -25,8 +25,8 @@ Contents
 --------
 * Container Widgets: `Tk`, `Toplevel`, `Canvas`
 * Virtual Canvas Widgets: `Label`, `Button`, `CheckButton`, `Entry`, `Text`, `ProgressBar`, `Switch`, `ToolTip`
-* Tool Functions: `color`, `askfont`
 * Tool Classes: `PhotoImage`, `Animation`
+* Tool Functions: `color`, `askfont`
 * Tool Submodules: `tools_3d`
 
 More
@@ -36,7 +36,8 @@ More
 * ChangeLog: https://github.com/Xiaokang2022/tkintertools/blob/master/CHANGELOG.md
 """
 
+from .constants import *
 from .main import *
 
-__version__ = "2.6.20"
+__version__ = "2.6.21"
 __author__ = "Xiaokang2022 <2951256653@qq.com>"
