@@ -217,4 +217,4 @@ nav: # 导航栏
   - More / 更多:
       - Contribution Guide - 贡献指南: more/CONTRIBUTING.md
       - Change Log - 更新日志: more/CHANGELOG.md
-      - License - 项目证书: more/LICENSE.md
+      - License - 项目许可证: more/LICENSE.md

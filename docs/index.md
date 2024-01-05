@@ -63,7 +63,7 @@ pip install tkintertools==2.6.21
 
 ## More - 更多
 
-- Lisence - 项目证书 : [LICENSE.txt](./more/LICENSE.md)
-- ChangeLog - 更新日志 : [CHANGELOG.md](./more/CHANGELOG.md)
-- Contribution Guide - 贡献指南 : [CONTRIBUTING.md](./more/CONTRIBUTING.md)
-- Mirrors - 镜像源 : [GitHub](https://github.com/Xiaokang2022/tkintertools) | [Gitee](https://gitee.com/xiaokang-2022/tkintertools)
+- License - 项目许可证: [LICENSE.txt](./more/LICENSE.md)
+- ChangeLog - 更新日志: [CHANGELOG.md](./more/CHANGELOG.md)
+- Contribution Guide - 贡献指南: [CONTRIBUTING.md](./more/CONTRIBUTING.md)
+- Mirrors - 镜像源: [GitHub](https://github.com/Xiaokang2022/tkintertools) | [Gitee](https://gitee.com/xiaokang-2022/tkintertools)
