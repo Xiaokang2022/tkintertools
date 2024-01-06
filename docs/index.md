@@ -44,7 +44,7 @@
 - Feature - 更新内容 : [News-2.6.21](./news/2.6.21/News.md)
 
 ```
-pip install tkintertools==2.6.21
+pip install tkintertools
 ```
 
 ### Pre Release - 预发布版本

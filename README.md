@@ -45,7 +45,7 @@ Install - 模块安装
 * Feature - 更新内容 : [News-2.6.21](https://xiaokang2022.github.io/tkintertools/news/2.6.21/News/)
 
 ```
-pip install tkintertools==2.6.21
+pip install tkintertools
 ```
 
 ### Pre Release - 预发布版本

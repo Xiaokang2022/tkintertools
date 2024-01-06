@@ -5,7 +5,7 @@ Release Notes - 版本发布说明
 * Release - 发布日期 : 2024/01/01
 
 ```
-pip install tkintertools==2.6.21
+pip install tkintertools
 ```
 
 !!! danger "Attention - 特别注意"
