@@ -58,7 +58,7 @@ pip install tkintertools==2.6.21
 
 ```
 
-> ℹ️**Note - 注意**  
+> [!Note]  
 > It is not recommended that you use the pre-release version directly for formal development, but it is recommended that you use the pre-release version to experience the new features and to report certain issues that you find.  
 > 不推荐你直接使用预发布版本进行正式开发，但推荐使用预发布版本来体验新功能，并上报发现的某些问题。
 

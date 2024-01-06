@@ -7,7 +7,7 @@ First off, thanks for taking the time to contribute! ❤️
 All types of contributions are encouraged and valued.Please see the table of contents below for details on the different ways to contribute and how to handle them. Be sure to read the relevant section before contributing, this will make it easier for our maintainers and make the experience smoother for everyone involved. We look forward to your contributions!  
 所有类型的贡献都是值得鼓励和重视的。请参阅下面的目录，了解不同的贡献方式及如何处理它们的详细信息。请务必在贡献前阅读相关部分，这将使我们的维护人员更容易，并使所有相关人员的体验更加顺畅。我们期待您的贡献！
 
-> ℹ️**Note - 注意**  
+> [!Note]  
 > And if you like the project, but just don't have time to contribute, that's fine. There are other easy ways to support the project and show your gratitude, and we are also very happy, such as star the project! ⭐  
 > 如果你喜欢这个项目，但只是没有时间做出贡献，那也没关系。还有其他简单的方法可以支持该项目并表达您的感激之情，我们也非常高兴，例如给这个项目加星标！⭐
 
@@ -41,7 +41,7 @@ If you have any suggestions, etc., you can start a discussion in the discussion 
 I Want To Contribute - 想贡献
 -----------------------------
 
-> ℹ️**Legal Notice - 法律声明**  
+> [!Note]  
 > When contributing to this project, you must agree that you have authored 100% of the content, that you have the necessary rights to the content and that the content you contribute may be provided under the project license.  
 > 在为本项目做出贡献时，您必须同意您创作了 100% 的内容，您对内容拥有必要的权利，并且您贡献的内容可以在项目许可下提供。
 

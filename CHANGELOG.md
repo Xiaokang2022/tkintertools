@@ -961,7 +961,7 @@
 Older Logs/旧版日志
 ------------------
 
-> ℹ️**Note - 注意**  
+> [!Note]  
 > The following logs belong to the ones found from ancient commit records, only date and version number, no specific content... Since I didn't get into the habit of logging before, there are no more detailed logs, but fortunately the version number is inherited ಥ_ಥ    
 > 下面的日志属于从远古的提交记录中找到的，只有日期和版本号，没有具体的内容…… 由于我以前没有养成记录日志的习惯，故没有更多的详细的日志了，好在版本号继承了下来 ಥ_ಥ
 

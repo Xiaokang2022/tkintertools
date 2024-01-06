@@ -1,7 +1,6 @@
-# mkdocs 配置文件
-# mkdocs serve  # 本地预览
-# mkdocs build  # 编译
-# mkdocs gh-deploy  # 自动上传至 gh-pages 分支
+# 本地预览: mkdocs serve
+# 编译文档: mkdocs build
+# 上传文档: mkdocs gh-deploy
 
 site_name: tkintertools # 站点名称
 site_url: https://Xiaokang2022.github.io/tkintertools/ # 站点链接
