@@ -42,36 +42,6 @@
 
 条款结束
 
-如何将木兰宽松许可证，第2版，应用到您的软件
-
-如果您希望将木兰宽松许可证，第2版，应用到您的新软件，为了方便接收者查阅，建议您完成如下三步：
-
-   1， 请您补充如下声明中的空白，包括软件名、软件的首次发表年份以及您作为版权人的名字；
-
-   2， 请您在软件包的一级目录下创建以"LICENSE"为名的文件，将整个许可证文本放入该文件中；
-
-   3， 请将如下声明文本放入每个源文件的头部注释中。
-
-Copyright (c) 2022-2024 小康2022
-
-tkintertools is licensed under Mulan PSL v2.
-
-You can use this software according to the terms and conditions of the Mulan PSL v2.
-
-You may obtain a copy of Mulan PSL v2 at:
-
-http://license.coscl.org.cn/MulanPSL2
-
-THIS SOFTWARE IS PROVIDED ON AN "AS IS" BASIS, WITHOUT WARRANTIES OF ANY KIND,
-
-EITHER EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO NON-INFRINGEMENT,
-
-MERCHANTABILITY OR FIT FOR A PARTICULAR PURPOSE.
-
-See the Mulan PSL v2 for more details.
-
-
-
 Mulan Permissive Software License，Version 2 Mulan Permissive Software License，Version 2 (Mulan PSL v2)
 
 January 2020 http://license.coscl.org.cn/MulanPSL2
@@ -115,31 +85,3 @@ Your reproduction, use, modification and distribution of the Software shall be s
    THIS LICENSE IS WRITTEN IN BOTH CHINESE AND ENGLISH, AND THE CHINESE VERSION AND ENGLISH VERSION SHALL HAVE THE SAME LEGAL EFFECT. IN THE CASE OF DIVERGENCE BETWEEN THE CHINESE AND ENGLISH VERSIONS, THE CHINESE VERSION SHALL PREVAIL.
 
 END OF THE TERMS AND CONDITIONS
-
-How to Apply the Mulan Permissive Software License，Version 2 (Mulan PSL v2) to Your Software
-
-To apply the Mulan PSL v2 to your work, for easy identification by recipients, you are suggested to complete following three steps:
-
-   i. Fill in the blanks in following statement, including insert your software name, the year of the first publication of your software, and your name identified as the copyright owner;
-
-   ii. Create a file named "LICENSE" which contains the whole context of this License in the first directory of your software package;
-
-   iii. Attach the statement to the appropriate annotated syntax at the beginning of each source file.
-
-Copyright (c) 2022-2024 Xiaokang2022
-
-tkintertools is licensed under Mulan PSL v2.
-
-You can use this software according to the terms and conditions of the Mulan PSL v2.
-
-You may obtain a copy of Mulan PSL v2 at:
-
-http://license.coscl.org.cn/MulanPSL2
-
-THIS SOFTWARE IS PROVIDED ON AN "AS IS" BASIS, WITHOUT WARRANTIES OF ANY KIND,
-
-EITHER EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO NON-INFRINGEMENT,
-
-MERCHANTABILITY OR FIT FOR A PARTICULAR PURPOSE.
-
-See the Mulan PSL v2 for more details.
