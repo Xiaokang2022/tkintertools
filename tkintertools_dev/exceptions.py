@@ -2,41 +2,49 @@
 
 import typing
 
-from .constants import *
-
-
-class EnvironmentError(RuntimeError):
-    """"""
-
-    def __init__(self, version):
-        # type: (tuple) -> None
-        self.version = "Python%d.%d.%d" % version[:3]
-
-    def __str__(self):
-        # type: () -> str
-        require_version = "Python%d.%d.%d" % REQUIRE_PYTHON_VERSION
-        return f"Your Python version is too low({self.version}), it's require {require_version}"
-
-
-class SystemError(RuntimeError):
-    """"""
-
-    def __init__(self, system):
-        # type: (typing.Literal['Windows', 'Linux', 'Macos']) -> None
-        self.system = system
-
-    def __str__(self):
-        # type: () -> str
-        return f"This class is only available under the Windows system, not {self.system}"
-
 
 class StateError(ValueError):
-    """"""
+    """控件状态错误"""
 
-    def __init__(self, value):
-        # type: (typing.Any) -> None
+    def __init__(self, value: typing.Any) -> None:
         self.value = value
 
-    def __str__(self):
-        # type: () -> str
+    def __str__(self) -> str:
         return f"Parameter state_ must be 'default', 'hover', 'selected', 'disabled' or 'error', not {self.value}"
+
+
+class ScaleArgsValueError(ValueError):
+    """缩放函数参数值错误"""
+
+    def __init__(self, value: float) -> None:
+        self.value = value
+
+    def __str__(self) -> str:
+        return f"The scaling factor should be a positive floating-point number, not {self.value}"
+
+
+class ColorArgsValueError(ValueError):
+    """颜色函数参数值错误"""
+
+    def __init__(self, value: float) -> None:
+        self.value = value
+
+    def __str__(self) -> str:
+        return f"The parameter proportion should be a floating-point number between 0~1, not {self.value}"
+
+
+class WidgetStateModeError(ValueError):
+    """控件状态模式错误"""
+
+    def __init__(self, value: str) -> None:
+        self.value = value
+
+    def __str__(self) -> str:
+        return f"The mode can only be normal, touch, click or disabled, not {self.value}"
+
+
+__all__ = [
+    "ScaleArgsValueError",
+    "ColorArgsValueError",
+    "WidgetStateModeError",
+]

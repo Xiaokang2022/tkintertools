@@ -1,8 +1,8 @@
 Release Notes - 版本发布说明
 ===========================
 
-* Version - 最新版本 : `3.0.0.dev5`
-* Last Update - 上次更新 : 2023/11/17
+* Version - 最新版本 : `3.0.0.dev6`
+* Last Update - 上次更新 : 2024/01/19
 
 ```
 
@@ -25,19 +25,18 @@ Example - 样例演示
 ```python
 import tkintertools_dev as tkt
 
-tk = tkt.Tk(title="666")
-tk.after(1, tk.center)
+root = tkt.Tk(title="123", bordercolor='red',
+              titlecolor='cyan', background='green')
+root.center()
 
-nestedTk = tkt.NestedTk(tk, size_expand="xy", position_expand="xy")
-# nestedTk.after(1, nestedTk.center)
+nestedTk = tkt.NestedTk(root)
+nestedTk.center()
 
-nestedTk_2 = tkt.NestedTk(nestedTk, size_expand="xy",
-                          position_expand="xy", size=(320, 180))
+tkt.NestedTk(nestedTk, size=(320, 180)).center()
 
-# toplevel = tkt.Toplevel(tk, state="zoomed")
-# toplevel.center()
+tkt.Toplevel(root).center()
 
-tk.mainloop()
+root.mainloop()
 ```
 
 </details>

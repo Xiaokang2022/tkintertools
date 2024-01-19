@@ -1,3 +1,3 @@
-"""Support for 2d"""
+"""Support for 2D"""
 
 import array
