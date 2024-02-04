@@ -137,14 +137,14 @@ class Space(Canvas3D):
         # type: (tkinter.Event, bool | None, list[float]) -> None
         """旋转事件"""
         if flag is False:
-            if self._release(event):  # 兼容原 core.Canvas
+            if self._event_release(event):  # 兼容原 core.Canvas
                 return
             self.configure(cursor="arrow")
             return
         else:
             if flag is True:  # NOTE: 缺少这个将导致罕见的报错（先按住按钮并拖动将触发）
                 _cache[:] = [event.x, event.y]
-            if self._click(event):
+            if self._event_click(event):
                 return
             if flag is True:
                 self.configure(cursor="fleur")

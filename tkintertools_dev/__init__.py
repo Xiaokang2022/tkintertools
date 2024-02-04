@@ -47,5 +47,5 @@ from .constants import *
 from .core import *
 from .widgets import *
 
-__version__ = "3.0.0.dev6"
+__version__ = "3.0.0.dev7"
 __author__ = "Xiaokang2022 <2951256653@qq.com>"

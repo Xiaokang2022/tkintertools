@@ -193,6 +193,8 @@ nav: # 导航栏
       - constants.py: documents/constants.md
 
   - News / 新闻:
+      - Series 3 - 系列 3:
+          - 3.0.0(pre): news/3.0.0/News.md
       - Series 2 - 系列 2:
           - 2.6.21: news/2.6.21/News.md
           - 2.6.20: news/2.6.20/News.md
@@ -210,8 +212,6 @@ nav: # 导航栏
           - 2.6.8: news/2.6.8/News.md
           - 2.6.7: news/2.6.7/News.md
           - 2.6.6: news/2.6.6/News.md
-      - Series 3 - 系列 3:
-          - 3.0.0(pre): news/3.0.0/News.md
 
   - More / 更多:
       - Contribution Guide - 贡献指南: more/CONTRIBUTING.md

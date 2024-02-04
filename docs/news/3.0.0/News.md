@@ -1,8 +1,8 @@
 Release Notes - 版本发布说明
 ===========================
 
-* Version - 最新版本 : `3.0.0.dev6`
-* Last Update - 上次更新 : 2024/01/19
+* Version - 最新版本 : `3.0.0.dev7`
+* Last Update - 上次更新 : 2024/02/04
 
 ```
 
@@ -20,21 +20,21 @@ Example - 样例演示
 
 ![png](example.png)
 
+容器控件 `tkt.Canvas` 已完成对三种布局方式 Pack、Place 和 Grid 的适配，其中 Place 被加强。
+
 <details><summary><b>Source Code - 源代码</b></summary>
 
 ```python
 import tkintertools_dev as tkt
 
-root = tkt.Tk(title="123", bordercolor='red',
-              titlecolor='cyan', background='green')
+root = tkt.Tk(title="tkt 3.0.0.dev7", titlecolor='cyan', background='grey')
 root.center()
 
-nestedTk = tkt.NestedTk(root)
-nestedTk.center()
+canvas = tkt.Canvas(root, bg='green', free_anchor=True, keep_ratio="full")
+canvas.place(width=1152, height=720, x=640, y=360, anchor="center")
 
-tkt.NestedTk(nestedTk, size=(320, 180)).center()
-
-tkt.Toplevel(root).center()
+canvas_2 = tkt.Canvas(canvas, bg='white', free_anchor=True, keep_ratio="full")
+canvas_2.place(width=1152, height=648, x=576, y=360, anchor="center")
 
 root.mainloop()
 ```

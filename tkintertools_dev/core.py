@@ -6,23 +6,16 @@ Core codes of tkintertools
     | tk.Tk |         | tk.Toplevel |
     +-------+         +-------------+
         |                    |           +------------------------+
-        v                    v           |  only work on Windows  |
+        v                    v           |  Only works on Windows |
     +--------+        +--------------+   |    +--------------+    |
     | tkt.Tk | -----> | tkt.Toplevel | --+--> | tkt.NestedTk |    |
     +--------+        +--------------+   |    +--------------+    |
-                             |           |                        |
-                             v           +------------------------+
-+-------------+       +-----------------+
-| tkt.ToolTip | <---- | tkt.BaseToolTip |
-+-------------+       +-----------------+
+                                         |                        |
+                                         +------------------------+
 
 +-----------+        +------------+
 | tk.Canvas | -----> | tkt.Canvas |
 +-----------+        +------------+
-
-+----------------+        +---------+
-| tkt.BaseWidget | =====> | Widgets |
-+----------------+        +---------+
 ```
 """
 
@@ -38,46 +31,26 @@ if platform.system() == "Windows":  # Set DPI awareness
     ctypes.WinDLL("shcore").SetProcessDpiAwareness(1)
 
 
-C_INT_SIZE = ctypes.sizeof(ctypes.c_int)
-
-
 class Tk(tkinter.Tk):
     """Main window"""
 
-    SIZE = 1280, 720
-    POSITION = None
-    TITLE = ""
-    ICONBITMAP = None
-    STATE = "normal"
-    ALPHA = 1
-    FULLSCREEN = False
-    TOOLWINDOW = False
-    TOPMOST = False
-    TRANSPARENTCOLOR = ""
-    MAXSIZE = None
-    MINSIZE = None
-    RESIZABLE = True, True
-    OVERRIDEREDIRECT = False
-    SHUTDOWN = None
-    THEME = None
-
     def __init__(
         self,
-        size: tuple[int, int] = SIZE,
-        position: tuple[int, int] | None = POSITION,
+        size: tuple[int, int] = (1280, 720),
+        position: tuple[int, int] | None = None,
         *,
-        title: str | None = TITLE,
-        iconbitmap: str | None = ICONBITMAP,
+        title: str | None = "",
+        iconbitmap: str | None = None,
         state: typing.Literal[
-            "normal", "icon", "iconic", "withdrawn", "zoomed"] = STATE,
-        alpha: float = ALPHA,
-        fullscreen: bool = FULLSCREEN,
-        toolwindow: bool = TOOLWINDOW,
-        topmost: bool = TOPMOST,
-        transparentcolor: str = TRANSPARENTCOLOR,
-        maxsize: tuple[int, int] | None = MAXSIZE,
-        minsize: tuple[int, int] | None = MINSIZE,
-        resizable: tuple[bool, bool] = RESIZABLE,
+            "normal", "icon", "iconic", "withdrawn", "zoomed"] = "normal",
+        alpha: float = 1,
+        fullscreen: bool = False,
+        toolwindow: bool = False,
+        topmost: bool = False,
+        transparentcolor: str = "",
+        maxsize: tuple[int, int] | None = None,
+        minsize: tuple[int, int] | None = None,
+        resizable: tuple[bool, bool] = (True, True),
         overrideredirect: bool = None,
         shutdown: typing.Callable[[], typing.Any] | None = None,
         dark: bool | None = None,
@@ -147,7 +120,7 @@ class Tk(tkinter.Tk):
         self.theme(dark=dark, bordercolor=bordercolor, captioncolor=captioncolor,
                    titlecolor=titlecolor, background=background)
 
-        self.bind("<Configure>", self._zoom)
+        self.bind("<Configure>", lambda _: self._zoom())
 
     def geometry(
         self,
@@ -182,14 +155,15 @@ class Tk(tkinter.Tk):
         y = (parent_height - self._size[1]) // 2
         self.geometry(position=(x, y))
 
-    def _zoom(self, event: tkinter.Event) -> None:
+    def _zoom(self) -> None:
         """Zoom contents of the window"""
-        if self._size != (size := [event.width, event.height]):
+        if self._size != (size := [self.winfo_width(), self.winfo_height()]):
+            relative_ratio = size[0] / self._size[0], size[1] / self._size[1]
             self._size = size
             self._ratio[0] = self._size[0] / self._initial_size[0]
             self._ratio[1] = self._size[1] / self._initial_size[1]
             for canvas in self._canvases:
-                canvas._zoom()
+                canvas._zoom(relative_ratio)
 
     def theme(
         self,
@@ -207,11 +181,11 @@ class Tk(tkinter.Tk):
             dark = _tools._is_dark()
         if dark is not None:
             ctypes.windll.dwmapi.DwmSetWindowAttribute(
-                HWND, 20, ctypes.byref(ctypes.c_int(dark)), C_INT_SIZE)
+                HWND, 20, ctypes.byref(ctypes.c_int(dark)), 4)
         for i, value in enumerate((bordercolor, captioncolor, titlecolor)):
             if value is not None:
                 ctypes.windll.dwmapi.DwmSetWindowAttribute(
-                    HWND, 34 + i, ctypes.byref(ctypes.c_int(color.str_to_hex(value, reverse=True))), C_INT_SIZE)
+                    HWND, 34 + i, ctypes.byref(ctypes.c_int(color.str_to_hex(value, reverse=True))), 4)
         if background is not None:
             self["bg"] = background
 
@@ -219,47 +193,28 @@ class Tk(tkinter.Tk):
 class Toplevel(tkinter.Toplevel, Tk):
     """Toplevel window"""
 
-    SIZE = 960, 540
-    POSITION = None
-    TITLE = None
-    ICONBITMAP = None
-    STATE = "normal"
-    ALPHA = 1
-    FULLSCREEN = False
-    TOOLWINDOW = False
-    TOPMOST = False
-    TRANSPARENTCOLOR = ""
-    MAXSIZE = None
-    MINSIZE = None
-    RESIZABLE = True, True
-    OVERRIDEREDIRECT = False
-    TRANSIENT = False  # diffrent from Tk
-    FOCUS = True  # diffrent from Tk
-    SHUTDOWN = None
-    THEME = None
-
     def __init__(
         self,
         master: Tk | typing.Self | "NestedTk" | None = None,
-        size: tuple[int, int] = SIZE,
-        position: tuple[int, int] | None = POSITION,
+        size: tuple[int, int] = (960, 540),
+        position: tuple[int, int] | None = None,
         *,
-        title: str | None = TITLE,
-        iconbitmap: str | None = ICONBITMAP,
+        title: str | None = None,
+        iconbitmap: str | None = None,
         state: typing.Literal[
-            "normal", "icon", "iconic", "withdrawn", "zoomed"] = STATE,
-        alpha: float = ALPHA,
-        fullscreen: bool = FULLSCREEN,
-        toolwindow: bool = TOOLWINDOW,
-        topmost: bool = TOPMOST,
-        transparentcolor: str = TRANSPARENTCOLOR,
-        maxsize: tuple[int, int] | None = MAXSIZE,
-        minsize: tuple[int, int] | None = MINSIZE,
-        resizable: tuple[bool, bool] = RESIZABLE,
-        overrideredirect: bool = OVERRIDEREDIRECT,
-        transient: bool = TRANSIENT,
-        focus: bool = FOCUS,
-        shutdown: typing.Callable[[], typing.Any] | None = SHUTDOWN,
+            "normal", "icon", "iconic", "withdrawn", "zoomed"] = "normal",
+        alpha: float = 1,
+        fullscreen: bool = False,
+        toolwindow: bool = False,
+        topmost: bool = False,
+        transparentcolor: str = "",
+        maxsize: tuple[int, int] | None = None,
+        minsize: tuple[int, int] | None = None,
+        resizable: tuple[bool, bool] = (True, True),
+        overrideredirect: bool = False,
+        transient: bool = False,
+        focus: bool = True,
+        shutdown: typing.Callable[[], typing.Any] | None = None,
         dark: bool | None = None,
         bordercolor: str | None = None,
         captioncolor: str | None = None,
@@ -311,42 +266,26 @@ class Toplevel(tkinter.Toplevel, Tk):
 class NestedTk(Toplevel):
     """A window nested within another window"""
 
-    SIZE = 640, 360
-    POSITION = None
-    TITLE = None
-    ICONBITMAP = None
-    STATE = "normal"
-    ALPHA = 1
-    TOOLWINDOW = False
-    TRANSPARENTCOLOR = ""
-    MAXSIZE = None
-    MINSIZE = None
-    RESIZABLE = True, True
-    OVERRIDEREDIRECT = False
-    SHUTDOWN = None
-    TRANSIENT = False
-    FOCUS = False
-
     def __init__(
         self,
         master: Tk | Toplevel | typing.Self | None | "Canvas" = None,
-        size: tuple[int, int] = SIZE,
-        position: tuple[int, int] | None = POSITION,
+        size: tuple[int, int] = (640, 360),
+        position: tuple[int, int] | None = None,
         *,
-        title: str = TITLE,
-        iconbitmap: str | None = ICONBITMAP,
+        title: str | None = None,
+        iconbitmap: str | None = None,
         state: typing.Literal[
-            "normal", "icon", "iconic", "withdrawn", "zoomed"] = STATE,
-        alpha: float = ALPHA,
-        toolwindow: bool = TOOLWINDOW,
-        transparentcolor: str = TRANSPARENTCOLOR,
-        maxsize: tuple[int, int] | None = MAXSIZE,
-        minsize: tuple[int, int] | None = MINSIZE,
-        resizable: tuple[bool, bool] = RESIZABLE,
-        overrideredirect: bool = OVERRIDEREDIRECT,
-        transient: bool = TRANSIENT,
-        focus: bool = FOCUS,
-        shutdown: typing.Callable[[], typing.Any] | None = SHUTDOWN,
+            "normal", "icon", "iconic", "withdrawn", "zoomed"] = "normal",
+        alpha: float = 1,
+        toolwindow: bool = False,
+        transparentcolor: str = "",
+        maxsize: tuple[int, int] | None = None,
+        minsize: tuple[int, int] | None = None,
+        resizable: tuple[bool, bool] = (True, True),
+        overrideredirect: bool = False,
+        transient: bool = False,
+        focus: bool = False,
+        shutdown: typing.Callable[[], typing.Any] | None = None,
         **kw,
     ) -> None:
         """
@@ -398,247 +337,279 @@ class NestedTk(Toplevel):
             self.master.focus_set()
 
 
-# class BaseToolTip(Toplevel):
-#     """The base class of ToolTip"""
+class Canvas(tkinter.Canvas):
+    """Scalable Canvas"""
 
-#     def __init__(
-#         self,
-#         *,
-#         transparentcolor: str = TKDefault.TRANSPARENTCOLOR,
-#         duration: int = 0,
-#         animation: bool = False,
-#         master: Tk | Toplevel | NestedTk | None = None,
-#         **kw,
-#     ) -> None:
-#         """
-#         #### Keyword only Arguments
-#         * `transparentcolor`: a color in which the area of the window will become transparent
-#         * `duration`: after duration ms, ToolTip will disappear
-#         * `animation`: animation when appear and disappear
-#         * `master`: parent widgets, not must
-#         --------------------------------------
-#         #### Variable length Keyword Arguments
-#         * `**kw`: compatible with other parameters of class tkinter.Toplevel, see tkinter.Toplevel for details
-#         """
-#         Toplevel.__init__(
-#             self, master, TKDefault.SIZE, TKDefault.POSITION, transparentcolor=transparentcolor,
-#             resizable=(False, False), overrideredirect=True, **kw)
-#         self.withdraw()
-#         self.duration = duration
-#         self.animation = animation
+    def __init__(
+        self,
+        master: Tk | Toplevel | NestedTk | typing.Self,
+        *,
+        expand: typing.Literal["", "x", "y", "xy"] = "xy",
+        keep_ratio: typing.Literal["min", "max", "full"] | None = None,
+        free_anchor: bool = False,
+        **kw,
+    ) -> None:
+        """
+        #### Positional Arguments
+        * `master`: parent widget
+        #### Keyword-only Arguments
+        * `size_expand`: expand mode of size of the Canvas
+        * `position_expand`: expand mode of position of the Canvas
+        #### Variable-length Keyword Arguments
+        * `**kw`: compatible with other parameters of class tkinter.Canvas, see tkinter.Canvas for details
+        """
+        tkinter.Canvas.__init__(self, master, **kw)
+        self._initial_size = [None, None]
+        self._size = self._initial_size[:]
+        self._initial_position = [None, None]
+        self._position = self._initial_position[:]
+        self._ratio = [1., 1.]
 
-#     def show(self) -> None:
-#         """show the ToolTip on the mouse"""
-#         x, y = self.winfo_pointerxy()
-#         self.geometry(f"+{x}+{y}")
-#         if self.animation is True:
-#             return self._animate(True)
-#         self.deiconify()
-#         if self.duration > 0:
-#             self.after(self.duration, self._destroy)
+        self._canvases: list[Canvas] = []
+        self._widgets: list[Widget] = []
+        self._items: list[int] = []
+        self._texts: dict[int, list[float]] = {}
+        self._images: dict[int, list[tkinter.PhotoImage]] = {}
 
-#     def _destroy(self) -> None:
-#         """destroy the ToolTip"""
-#         if self.animation is True:
-#             return self._animate(False)
-#         self.destroy()
+        self._expand = expand
+        self._free_anchor = free_anchor
+        self._keep_ratio = keep_ratio
 
-#     def _animate(self, start: bool) -> None:
-#         """alpha change animation"""
-#         # TODO: Need class Animation to code this!
+        self.master._canvases.append(self)
+
+        self.bind("<Motion>", self._event_touch)
+        self.bind("<Any-Key>", self._event_input)
+        self.bind("<Button-1>", self._event_click)
+        self.bind("<B1-Motion>", self._event_click)
+        self.bind("<MouseWheel>", self._event_wheel)
+        self.bind("<ButtonRelease-1>", self._event_release)
+
+    def get_canvases(self) -> tuple[typing.Self, ...]:
+        """"""
+        return tuple(self._canvases)
+
+    def get_widgets(self) -> tuple["Widget", ...]:
+        """"""
+        return tuple(self._widgets)
+
+    def get_items(self) -> tuple[int, ...]:
+        """"""
+        return tuple(self._items)
+
+    def get_texts(self) -> tuple[int, ...]:
+        """"""
+        return tuple(self._texts)
+
+    def get_images(self) -> tuple[int, ...]:
+        """"""
+        return tuple(self._images)
+
+    def _zoom(self, relative_ratio: tuple[float, float]) -> None:
+        """relative zooming for its contents"""
+        if not self.winfo_viewable():
+            return
+        if self._initial_size == [None, None]:  # 未初始化
+            self._initial_size = [self.winfo_width(), self.winfo_height()]
+
+            anchor = self.place_info().get("anchor", None)
+            if anchor == "nw" or anchor == None:
+                dx = 0
+                dy = 0
+            elif anchor == "n":
+                dx = self._initial_size[0] // 2
+                dy = 0
+            elif anchor == "w":
+                dx = 0
+                dy = self._initial_size[1] // 2
+            elif anchor == "ne":
+                dx = self._initial_size[0]
+                dy = 0
+            elif anchor == "sw":
+                dx = 0
+                dy = self._initial_size[1]
+            elif anchor == "e":
+                dx = self._initial_size[0]
+                dy = self._initial_size[1] // 2
+            elif anchor == "s":
+                dx = self._initial_size[0]
+                dy = self._initial_size[1] // 2
+            elif anchor == "se":
+                dx = self._initial_size[0]
+                dy = self._initial_size[1]
+            else:
+                dx = self._initial_size[0] // 2
+                dy = self._initial_size[1] // 2
+
+            self._initial_position = [self.winfo_x()+dx, self.winfo_y()+dy]
+
+        self._zoom_self()
+        self._zoom_item(relative_ratio)
+        self._zoom_text(relative_ratio)
+        self._zoom_image(relative_ratio)
+
+        for canvas in self._canvases:
+            canvas._zoom(relative_ratio)
+
+    def _zoom_self(self) -> None:
+        """缩放画布自身"""
+        if self.place_info():  # 仅 Place 布局
+            if self._keep_ratio == "max":
+                ratio_x = ratio_y = max(self.master._ratio)
+            elif self._keep_ratio == "min":
+                ratio_x = ratio_y = min(self.master._ratio)
+            elif self._keep_ratio == "full":
+                ratio_x = self.master._size[0] / self._initial_size[0]
+                ratio_y = self.master._size[1] / self._initial_size[1]
+                ratio_x = ratio_y = min(ratio_x, ratio_y)
+            else:
+                ratio_x, ratio_y = self.master._ratio
+            if "x" in self._expand:
+                self.place(width=self._initial_size[0]*ratio_x)
+            if "y" in self._expand:
+                self.place(height=self._initial_size[1]*ratio_y)
+            if self._free_anchor:
+                self.place(x=self._initial_position[0]*self.master._ratio[0],
+                           y=self._initial_position[1]*self.master._ratio[1])
+
+        self.update()
+        self._position = [self.winfo_x(), self.winfo_y()]
+        self._size = [self.winfo_width(), self.winfo_height()]
+        self._ratio = [self._size[0] / self._initial_size[0],
+                       self._size[1] / self._initial_size[1]]
+
+    def _zoom_item(self, relative_ratio: tuple[float, float]) -> None:
+        """元素位置缩放"""
+        for item in self.find_all():
+            self.coords(item, *[c * relative_ratio[i & 1]
+                        for i, c in enumerate(self.coords(item))])
+
+    def _zoom_text(self, relative_ratio: tuple[float, float]) -> None:
+        """字体大小缩放"""
+        for text, value in self._texts.items():
+            value[1] *= math.sqrt(relative_ratio[0]*relative_ratio[1])
+            font = value[:]
+            font[1] = round(font[1])
+            self.itemconfigure(text, font=font)
+
+    def _zoom_image(self, relative_ratio: tuple[float, float]) -> None:
+        """图像大小缩放（采用相对的绝对缩放）"""
+        # for image, value in self._images.items():
+        #     if value[0] and value[0].extension != "gif":
+        #         value[1] = value[0].zoom(
+        #             temp_x * rate_x, temp_y * rate_y, precision=1.2)
+        #         self.itemconfigure(image, image=value[1])
+
+    def _event_touch(self, event: tkinter.Event) -> None:
+        """"""
+        for widget in self._widgets[::-1]:
+            if widget._touch(event):
+                return
+        else:
+            self.configure(cursor="arrow")
+
+    def _event_click(self, event: tkinter.Event) -> None:
+        """"""
+        self.focus_set()
+        for widget in self._widgets[::-1]:
+            if widget._click(event):
+                return
+
+    def _event_release(self, event: tkinter.Event) -> None:
+        """"""
+        for widget in self._widgets[::-1]:
+            if widget._touch(event):
+                return
+
+    def _event_wheel(self, event: tkinter.Event) -> None:
+        """"""
+        for widget in self._widgets[::-1]:
+            if widget._wheel(event):
+                return
+
+    def _event_input(self, event: tkinter.Event) -> None:
+        """"""
+        for widget in self._widgets[::-1]:
+            if widget._input(event):
+                return
+
+    @typing.override
+    def destroy(self) -> None:
+        self.master._canvases.remove(self)
+        return tkinter.Canvas.destroy(self)
 
 
-# class ToolTip(BaseToolTip):
-#     """A pop-up window"""
-
-#     def __init__(
-#         self,
-#         text: str,
-#         *,
-#         font: tuple[str, int, str],
-#         radius: int = 0,
-#         fg: str = "black",
-#         bg: str = "white",
-#         frame_color: str = "grey",
-#         justify: str = "center",
-#         duration: int = 0,
-#         animation: bool = False,
-#         master: Tk | Toplevel | NestedTk | None = None,
-#         **kw,
-#     ) -> None:
-#         """
-#         #### Positional Arguments
-#         * `text`: text of ToolTip
-#         ---------------------------
-#         #### Keyword only Arguments
-#         * `font`: font of text
-#         * `radius`: radius of ToolTip
-#         * `fg`: foreground color
-#         * `bg`: background color
-#         * `frame_color`: frame color
-#         * `justify`: justify mode of text
-#         * `duration`: after duration ms, ToolTip will disappear
-#         * `animation`: animation when appear and disappear
-#         * `master`: parent widgets, not must
-#         --------------------------------------
-#         #### Variable length Keyword Arguments
-#         * `**kw`: compatible with other parameters of class tkinter.Toplevel, see tkinter.Toplevel for details
-#         """
-#         BaseToolTip.__init__(
-#             self,
-#             master=master,
-#             transparentcolor="888888",  # XXX: This color?
-#             duration=duration,
-#             animation=animation,
-#             **kw,
-#         )
-#         # TODO: It maybe a std widget, should be moved to widgets.py?
+"""
+widget = shape + function + image/text
+"""
 
 
-# class Canvas(tkinter.Canvas):
-#     """Scalable Canvas"""
+class Shape:
+    """Base Shape Class"""
 
-#     def __init__(
-#         self,
-#         master: typing.Union[Tk, Toplevel, "Canvas"],
-#         *,
-#         size_expand: BaseWidgetExpand = BaseWidgetExpand.XY,
-#         position_expand: BaseWidgetExpand = BaseWidgetExpand.XY,
-#         **kw,
-#     ) -> None:
-#         """
-#         #### Positional Arguments
-#         * `master`: parent widget
-#         #### Keyword-only Arguments
-#         * `size_expand`: expand mode of size of the Canvas
-#         * `position_expand`: expand mode of position of the Canvas
-#         #### Variable-length Keyword Arguments
-#         * `**kw`: compatible with other parameters of class tkinter.Canvas, see tkinter.Canvas for details
-#         """
-#         tkinter.Canvas.__init__(self, master, **kw)
-#         self.master = master
-#         self.size_expand = size_expand
-#         self.position_expand = position_expand
-#         self._INIT_WIDTH: int = None
-#         self._INIT_HEIGHT: int = None
+    def __init__(
+        self,
+    ) -> None:
+        pass
 
-#         self._nestedtks: list[NestedTk] = []
-#         self._canvases: list[Canvas] = []
-#         self._widgets: list[BaseWidget] = []
-#         self._items: list[int] = []
+    def center(self) -> tuple[int, int]:
+        """"""
 
-#         self.master._canvases.append(self)
+    def position(self) -> tuple[int, int, int, int]:
+        """"""
 
-#         self.bind("<Motion>", self._touch)
-#         self.bind("<Any-Key>", self._input)
-#         self.bind("<Button-1>", self._click)
-#         self.bind("<B1-Motion>", self._click)
-#         self.bind("<MouseWheel>", self._mousewheel)
-#         self.bind("<ButtonRelease-1>", self._release)
-#         self.bind("<<Copy>>", self._copy)
-#         self.bind("<<Paste>>", self._paste)
-#         self.bind("<Configure>", self._zoom)
 
-#     # HACK: Need code the position expand
-#     def zoom(self, raito: tuple[float, float]) -> None:
-#         """absolute zooming for itself"""
-#         if "x" in self.size_expand.value:
-#             self.width = int(self._INIT_WIDTH * raito[0])
-#         if "y" in self.size_expand.value:
-#             self.height = int(self._INIT_HEIGHT * raito[1])
-#         self.place(width=self.width, height=self.height)
+class Widget:
+    """Base Widget Class"""
 
-#     def _zoom(self, event: tkinter.Event) -> None:
-#         """absolute zooming for its contents"""
-#         if self._INIT_WIDTH is None:
-#             self._INIT_WIDTH = event.width
-#             self._INIT_HEIGHT = event.height
-#             return
+    def __init__(
+        self,
+        canvas: "Canvas",
+        size: tuple[int, int],
+        position: tuple[int, int],
+        shape: Shape,
+        text: str,
+        image: None,
+        through: bool,  # 能否透过
+    ) -> None:
+        """"""
 
-#         ratio_x = event.width / self._INIT_WIDTH
-#         ratio_y = event.height / self._INIT_HEIGHT
-#         for widget in self._widgets:
-#             widget.scale_absolute(ratio_x, ratio_y)  # modify data
+    @typing.overload
+    def state(self) -> str:
+        pass
 
-#         # modify contents
-#         for item in self.find_withtag("x"):
-#             self.coords(
-#                 item,
-#                 *[c * (ratio_x, 1)[i & 1]
-#                   for i, c in enumerate(self.coords(item))],
-#             )
-#         for item in self.find_withtag("y"):
-#             self.coords(
-#                 item,
-#                 *[c * (1, ratio_y)[i & 1]
-#                   for i, c in enumerate(self.coords(item))],
-#             )
-#         for item in self.find_withtag("xy"):
-#             self.coords(
-#                 item,
-#                 *[
-#                     c * (ratio_x, ratio_y)[i & 1]
-#                     for i, c in enumerate(self.coords(item))
-#                 ],
-#             )
+    @typing.overload
+    def state(self, __state: typing.Literal['default', 'hover', 'selected', 'disabled', 'error']) -> None:
+        pass
 
-#     def _touch(self, event):
-#         # type: (tkinter.Event) -> None
-#         """"""
-#         for widget in self._widgets[::-1]:
-#             if widget.state_hover(event):
-#                 return
-#         else:
-#             self.configure(cursor="arrow")
+    def state(self, __state: typing.Literal['default', 'hover', 'selected', 'disabled', 'error'] | None = None) -> str | None:
+        """"""
 
-#     def _click(self, event, _flag=False):
-#         # type: (tkinter.Event, bool) -> None
-#         """"""
-#         for widget in self._widgets[::-1]:
-#             if _flag:
-#                 widget.state(BaseWidgetState.DEFAULT)
-#             elif widget.state_selected(event):
-#                 _flag = True
+    def destroy(self) -> None:
+        """"""
 
-#     def _release(self, event):
-#         # type: (tkinter.Event) -> None
-#         """"""
-#         for widget in self._widgets[::-1]:
-#             if widget.state_hover(event):
-#                 return
+    def move(self, dx: int, dy: int) -> None:
+        """"""
 
-#     def _mousewheel(self, event):
-#         # type: (tkinter.Event) -> None
-#         """"""
-#         for widget in self._widgets[::-1]:
-#             if widget.scroll(event):
-#                 return
+    def moveto(self, x: int, y: int) -> None:
+        """"""
 
-#     def _input(self, event):
-#         # type: (tkinter.Event) -> None
-#         """"""
-#         for widget in self._widgets[::-1]:
-#             if widget.input(event):
-#                 return
+    def _touch(self, event: tkinter.Event) -> bool:
+        """"""
 
-#     def _copy(self, event):
-#         # type: (tkinter.Event) -> None
-#         """"""
-#         for widget in self._widgets[::-1]:
-#             if widget.copy(event):
-#                 return
+    def _click(self, event: tkinter.Event) -> bool:
+        """"""
 
-#     def _paste(self, event):
-#         # type: (tkinter.Event) -> None
-#         """"""
-#         for widget in self._widgets[::-1]:
-#             if widget.paste(event):
-#                 return
+    def _input(self, event: tkinter.Event) -> bool:
+        """"""
 
-#     def _keep(self) -> None:
-#         # type: () -> None
-#         """"""
-#         self.winfo_width()
+
+class Dialog:
+    """Base Dialog Class"""
+
+    def __init__(
+        self,
+    ) -> None:
+        pass
 
 
 # class BaseWidget:
