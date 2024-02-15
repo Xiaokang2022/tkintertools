@@ -1,17 +1,5 @@
 """All exceptions"""
 
-import typing
-
-
-class StateError(ValueError):
-    """控件状态错误"""
-
-    def __init__(self, value: typing.Any) -> None:
-        self.value = value
-
-    def __str__(self) -> str:
-        return f"Parameter state_ must be 'default', 'hover', 'selected', 'disabled' or 'error', not {self.value}"
-
 
 class ScaleArgsValueError(ValueError):
     """缩放函数参数值错误"""

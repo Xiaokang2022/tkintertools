@@ -1,4 +1,4 @@
-# Copyright (c) 2022-2024 Xiaokang2022
+# Copyright (c) 2022-2023 Xiaokang2022
 # tkintertools is licensed under Mulan PSL v2.
 # You can use this software according to the terms and conditions of the Mulan PSL v2.
 # You may obtain a copy of Mulan PSL v2 at: http://license.coscl.org.cn/MulanPSL2.
@@ -8,7 +8,7 @@
 # See the Mulan PSL v2 for more details.
 
 """
-tkintertools is an auxiliary development module of the Python3 built-in module tkinter.
+The tkintertools module is an auxiliary module of the tkinter module.
 
 Provides
 --------
@@ -23,33 +23,21 @@ Provides
 
 Contents
 --------
-* `_tools`: Some utility functions
-* `color`: Color support
-* `constants`: All constants
-* `core`: Core codes of tkintertools
-* `dialogs`: All standard Dialogs
-* `exceptions`: All exceptions
-* `features`: All standard Features
-* `shapes`: All standard Shapes
-* `tools2d`: Support for 2d
-* `tools3d`: Support for 3d
-* `toolsmd`: Support for Markdown
-* `widgets`: All standard Widgets
+* Container Widgets: `Tk`, `Toplevel`, `Canvas`
+* Virtual Canvas Widgets: `Label`, `Button`, `CheckButton`, `Entry`, `Text`, `ProgressBar`, `Switch`, `ToolTip`
+* Tool Classes: `PhotoImage`, `Animation`
+* Tool Functions: `color`, `askfont`
+* Tool Submodules: `tools_3d`
 
-* designer: tkt-designer
-
-If you want to know more information,
-please see https://github.com/Xiaokang2022/tkintertools.
+More
+----
+* GitHub: https://github.com/Xiaokang2022/tkintertools
+* License: https://github.com/Xiaokang2022/tkintertools/blob/master/LICENSE.txt
+* ChangeLog: https://github.com/Xiaokang2022/tkintertools/blob/master/CHANGELOG.md
 """
 
-import sys
-
-if sys.version_info < (3, 12):
-    raise ImportError("Python version requirement is 3.12 or higher.")
-
 from .constants import *
-from .core import *
-from .widgets import *
+from .main import *
 
-__version__ = "3.0.0.dev8"
+__version__ = "2.6.21"
 __author__ = "Xiaokang2022 <2951256653@qq.com>"
