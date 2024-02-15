@@ -511,14 +511,12 @@ class Canvas(tkinter.Canvas):
             if widget._input(event):
                 return
 
-    @typing.override
     def destroy(self) -> None:
         # Override: 兼容原生 tkinter 的容器控件
         if _canvases := getattr(self.master, "_canvases", None):
             _canvases.remove(self)
         return tkinter.Canvas.destroy(self)
 
-    @typing.override
     def create_text(self, *args, **kw) -> int:
         # Override: 添加对 text 类型的 _CanvasItemId 的字体大小的控制
         if not (font := kw.get("font")):
@@ -534,14 +532,12 @@ class Canvas(tkinter.Canvas):
         self._texts[text] = list(kw["font"])
         return text
 
-    @typing.override
     def create_image(self, *args, **kw) -> int:
         # Override: 添加对 image 类型的 _CanvasItemId 的图像大小的控制
         image = tkinter.Canvas.create_image(self, *args, **kw)
         self._images[image] = [kw.get("image"), None]
         return image
 
-    @typing.override
     def itemconfigure(self, tagOrId: str | int, **kw) -> dict[str, tuple[str, str, str, str, str]] | None:
         # Override: 创建空 image 的 _CanvasItemId 时漏去对图像大小的控制
         if kw.get("image").__class__ == tkinter.PhotoImage:

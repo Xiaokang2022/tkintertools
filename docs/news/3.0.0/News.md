@@ -23,7 +23,7 @@ This section is still in development...
 <details><summary><b>Source Code - 源代码</b></summary>
 
 ```python
-import tkintertools_dev as tkt
+import tkintertools as tkt
 
 root = tkt.Tk(title="tkt 3.0.0.dev8")
 root.center()
