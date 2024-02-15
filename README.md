@@ -50,7 +50,7 @@ pip install tkintertools
 
 ### Pre Release - 预发布版本
 
-* Version - 最新版本 : `3.0.0.dev5`
+* Version - 最新版本 : `3.0.0.dev8`
 * Release - 发布日期 : 
 * Feature - 更新内容 : [News-3.0.0(pre)](https://xiaokang2022.github.io/tkintertools/news/3.0.0/News/)
 
@@ -69,4 +69,4 @@ More - 更多
 * License - 项目许可证: [LICENSE.txt](LICENSE.txt)
 * ChangeLog - 更新日志: [CHANGELOG.md](CHANGELOG.md)
 * Contribution Guide - 贡献指南: [CONTRIBUTING.md](CONTRIBUTING.md)
-* Mirrors - 镜像源: [GitHub](https://github.com/Xiaokang2022/tkintertools) | [Gitee](https://gitee.com/xiaokang-2022/tkintertools)
+* Mirrors - 镜像源: [GitHub](https://github.com/Xiaokang2022/tkintertools) | [Gitee](https://gitee.com/xiaokang-2022/tkintertools) | [GitCode](https://gitcode.com/Xiaokang2022/tkintertools/overview)

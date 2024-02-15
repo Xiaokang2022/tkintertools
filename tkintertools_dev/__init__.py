@@ -23,14 +23,18 @@ Provides
 
 Contents
 --------
-* `core`: Core codes of tkintertools
+* `_tools`: Some utility functions
+* `color`: Color support
 * `constants`: All constants
+* `core`: Core codes of tkintertools
+* `dialogs`: All standard Dialogs
 * `exceptions`: All exceptions
-* `widgets`: All standard widgets
-* `dialogs`: All standard dialogs
+* `features`: All standard Features
+* `shapes`: All standard Shapes
 * `tools2d`: Support for 2d
 * `tools3d`: Support for 3d
-* `toolsmd`: Support for markdown
+* `toolsmd`: Support for Markdown
+* `widgets`: All standard Widgets
 
 * designer: tkt-designer
 
@@ -40,12 +44,12 @@ please see https://github.com/Xiaokang2022/tkintertools.
 
 import sys
 
-if sys.version_info < (3, 10):
-    raise ImportError("Python version requirement is 3.10 or higher.")
+if sys.version_info < (3, 12):
+    raise ImportError("Python version requirement is 3.12 or higher.")
 
 from .constants import *
 from .core import *
 from .widgets import *
 
-__version__ = "3.0.0.dev7"
+__version__ = "3.0.0.dev8"
 __author__ = "Xiaokang2022 <2951256653@qq.com>"

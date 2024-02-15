@@ -1,3 +1,1 @@
-"""Support for markdown"""
-
-import textwrap
+"""Support for Markdown"""

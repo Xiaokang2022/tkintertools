@@ -32,3 +32,8 @@ def _is_dark() -> bool | None:
         return not winreg.QueryValueEx(key, "AppsUseLightTheme")[0]
     except FileNotFoundError:
         return None
+
+
+def _warning(value: str) -> None:
+    """"""
+    print(f"\033[03mWarning: {value}\033[0m")

@@ -1,4 +1,4 @@
-"""All standard dialogs"""
+"""All standard Dialogs"""
 
 
 # class BaseToolTip(Toplevel):
