@@ -1,4 +1,4 @@
-<h1 align="center">tkintertools</h1>
+<h1 align="center">tkintertools v2</h1>
 
 <p align="center"><img alt="logo" src="logo.png"/></p>
 
@@ -23,7 +23,7 @@
 <a href="https://github.com/Xiaokang2022/tkintertools"><img alt="Size" src="https://img.shields.io/github/languages/code-size/Xiaokang2022/tkintertools?label=Size&logo=github" /></a>
 </p>
 
-<p align="center"><img alt="Insights" src="https://repobeats.axiom.co/api/embed/ab8fae686a5a96f91fa71c40c53c189310924f5e.svg" /></p>
+<p align="center"><img alt="Insights" src="https://repobeats.axiom.co/api/embed/96905dcdef260ffaa86a77fdc01c041cf06d2012.svg" /></p>
 
 <p align="center">
     <a href="https://star-history.com/#Xiaokang2022/tkintertools&Date">
@@ -40,27 +40,17 @@ Install - 模块安装
 
 ### Stable Release - 稳定版本
 
-* Version - 最新版本 : `2.6.21`
+* Version - 最新版本 : `2.6.21.1`
 * Release - 发布日期 : 2024/01/01
 * Feature - 更新内容 : [News-2.6.21](https://xiaokang2022.github.io/tkintertools/news/2.6.21/News/)
 
 ```
-pip install tkintertools
-```
-
-### Pre Release - 预发布版本
-
-* Version - 最新版本 : `3.0.0.dev8`
-* Release - 发布日期 : 
-* Feature - 更新内容 : [News-3.0.0(pre)](https://xiaokang2022.github.io/tkintertools/news/3.0.0/News/)
-
-```
-
+pip install tkintertools==2.6.21.1
 ```
 
 > [!Note]  
-> It is not recommended that you use the pre-release version directly for formal development, but it is recommended that you use the pre-release version to experience the new features and to report certain issues that you find.  
-> 不推荐你直接使用预发布版本进行正式开发，但推荐使用预发布版本来体验新功能，并上报发现的某些问题。
+> This version is older and has some issues that cannot be resolved, so it is recommended to use a newer version of tkintertools as soon as possible.  
+> 此版本已比较老旧，存在一些无法解决的问题，建议尽快使用较新版本的 tkintertools。
 
 More - 更多
 -----------
