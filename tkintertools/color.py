@@ -1,4 +1,4 @@
-"""Color support"""
+"""Support about color"""
 
 import tkinter
 import typing
