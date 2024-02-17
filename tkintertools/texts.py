@@ -3,5 +3,5 @@
 from . import core
 
 
-class NormalText(core.Text):
+class Information(core.Text):
     """"""

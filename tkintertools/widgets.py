@@ -1,4 +1,5 @@
 """All standard Widgets"""
+import typing
 
 from . import core, features, images, shapes, texts
 
@@ -16,17 +17,63 @@ class Label(core.Widget):
         size: tuple[int, int],
         position: tuple[int, int],
         *,
-        shape: core.Shape | None = None,
-        feature: core.Feature | None = None,
-        text: core.Text | str = "",
+        text: str = "",
         image: core.Image | None = None,
         through: bool = False
     ) -> None:
         """"""
         core.Widget.__init__(
             self, master, size, position,
-            shape=shapes.Rectangle() if shape is None else shape,
-            feature=features.NoFeature() if feature is None else feature,
-            text=texts.NormalText(text) if isinstance(text, str) else text,
+            shape=shapes.Rectangle(),
+            feature=features.NoFeature(),
+            text=texts.Information(text),
+            image=image, through=through
+        )
+
+
+class Button(core.Widget):
+    """
+    Button Widget
+    """
+
+    def __init__(
+        self,
+        master: core.Canvas,
+        size: tuple[int, int],
+        position: tuple[int, int],
+        *,
+        text: str = "",
+        image: core.Image | None = None,
+        through: bool = False,
+        command: typing.Callable | None = None
+    ) -> None:
+        core.Widget.__init__(
+            self, master, size, position,
+            shape=shapes.Rectangle(),
+            feature=features.Button(command=command),
+            text=texts.Information(text),
+            image=image, through=through
+        )
+
+
+class UnderLineButton(core.Widget):
+    """"""
+
+    def __init__(
+        self,
+        master: core.Canvas,
+        size: tuple[int, int],
+        position: tuple[int, int],
+        *,
+        text: str = "",
+        image: core.Image | None = None,
+        through: bool = False,
+        command: typing.Callable | None = None
+    ) -> None:
+        core.Widget.__init__(
+            self, master, size, position,
+            shape=shapes.NoShape(),
+            feature=features.UnderLine(command=command),
+            text=texts.Information(text),
             image=image, through=through
         )

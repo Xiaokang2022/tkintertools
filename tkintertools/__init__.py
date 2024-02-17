@@ -24,9 +24,10 @@ Contents
 * `images`: All standard Images
 * `shapes`: All standard Shapes
 * `texts`: All standard Texts
-* `tools2d`: Support for 2d
-* `tools3d`: Support for 3d
-* `toolsmd`: Support for Markdown
+* `tool2d`: Support for 2D
+* `tool3d`: Support for 3D
+* `toolgm`: Support for Game
+* `toolmd`: Support for Markdown
 * `widgets`: All standard Widgets
 
 * designer: tkt-designer
@@ -54,5 +55,5 @@ from .constants import *
 from .core import *
 from .widgets import *
 
-__version__ = "3.0.0.dev9"
+__version__ = "3.0.0.alpha1"
 __author__ = "Xiaokang2022 <2951256653@qq.com>"

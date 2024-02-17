@@ -108,7 +108,7 @@ class Tk(tkinter.Tk):
 
     def center(self) -> None:
         """Center the window"""
-        self.update()
+        # self.update()  # ALPHA: What is the chance that the center will fail without this line of code?
         if self.master is None or self.__class__ == Toplevel:
             parent_width = self.winfo_screenwidth()
             parent_height = self.winfo_screenheight()
@@ -121,14 +121,13 @@ class Tk(tkinter.Tk):
 
     def _zoom(self) -> None:
         """Internal Method: Zoom contents of the window"""
-        self.update()
+        # self.update()  # ALPHA
         if self._size != (size := [self.winfo_width(), self.winfo_height()]):
-            relative_ratio = size[0] / self._size[0], size[1] / self._size[1]
             self._size = size
             self._ratio[0] = self._size[0] / self._initial_size[0]
             self._ratio[1] = self._size[1] / self._initial_size[1]
             for canvas in self._canvases:
-                canvas._zoom(relative_ratio)
+                canvas._zoom()
 
     def theme(
         self,
@@ -179,16 +178,22 @@ class Tk(tkinter.Tk):
         """
         return self.attributes("-alpha", value)
 
-    def fullscreen(self, value: bool | None = None) -> bool | None:
+    def fullscreen(self, value: bool | None = True) -> bool | None:
         """
         Set or get whether the window is full-screen
 
         * `value`: indicate whether the window is full-screen
+
+        ATTENTION: This method should be called later
         """
         self.update()
-        return bool(self.attributes("-fullscreen", value))
+        if value is None:
+            return bool(self.attributes("-fullscreen"))
+        self.attributes("-fullscreen", value)
+        if not value:  # When you cancel the full-screen state, the `theme` method is invalidated
+            self.theme(**self._theme)
 
-    def toolwindow(self, value: bool | None = None) -> bool | None:
+    def toolwindow(self, value: bool | None = True) -> bool | None:
         """
         Set or get whether the window is tool-window
 
@@ -196,7 +201,7 @@ class Tk(tkinter.Tk):
         """
         return bool(self.attributes("-toolwindow", value))
 
-    def topmost(self, value: bool | None = None) -> bool | None:
+    def topmost(self, value: bool | None = True) -> bool | None:
         """
         Set or get whether the window is pinned or not
 
@@ -348,7 +353,7 @@ class Canvas(tkinter.Canvas):
         self._canvases: list[Canvas] = []
         self._widgets: list[Widget] = []
         self._items: list[int] = []
-        self._texts: dict[int, list[float]] = {}
+        self._texts: dict[int, list[int, font.Font]] = {}
         self._images: dict[int, list[Image]] = {}
 
         self._expand = expand
@@ -357,18 +362,19 @@ class Canvas(tkinter.Canvas):
 
         self.master._canvases.append(self)
 
-        self.bind("<Motion>", self._process_event)
-        self.bind("<Any-Key>", self._process_event)
-        self.bind("<Button-1>", self._process_event)
-        self.bind("<Button-2>", self._process_event)
-        self.bind("<Button-3>", self._process_event)
-        self.bind("<B1-Motion>", self._process_event)
-        self.bind("<B2-Motion>", self._process_event)
-        self.bind("<B3-Motion>", self._process_event)
-        self.bind("<MouseWheel>", self._process_event)
-        self.bind("<ButtonRelease-1>", self._process_event)
-        self.bind("<ButtonRelease-2>", self._process_event)
-        self.bind("<ButtonRelease-3>", self._process_event)
+        self.bind("<Motion>", self._touch)
+        self.bind("<Any-Key>", self._input)
+        self.bind("<Button-1>", self._click)
+        self.bind("<Button-2>", self._click)
+        self.bind("<Button-3>", self._click)
+        self.bind("<B1-Motion>", self._touch)
+        self.bind("<B2-Motion>", self._touch)
+        self.bind("<B3-Motion>", self._touch)
+        self.bind("<MouseWheel>", self._wheel)
+        self.bind("<ButtonRelease-1>", self._release)
+        self.bind("<ButtonRelease-2>", self._release)
+        self.bind("<ButtonRelease-3>", self._release)
+        self.bind("<Configure>", lambda _: self._zoom_self())
 
     def get_canvases(self) -> tuple[typing.Self, ...]:
         """Retrun all child `Canvas` of the `Canvas`"""
@@ -390,57 +396,47 @@ class Canvas(tkinter.Canvas):
         """Retrun all image of the `Canvas`"""
         return tuple(self._images)
 
-    def _zoom(self, relative_ratio: tuple[float, float]) -> None:
+    def _zoom_init(self) -> None:
+        """"""
+        self._size = self._initial_size = [
+            self.winfo_width(), self.winfo_height()]
+
+        anchor = self.place_info().get("anchor", None)
+        if anchor == "nw" or anchor == None:
+            dx = 0
+            dy = 0
+        elif anchor == "n":
+            dx = self._initial_size[0] // 2
+            dy = 0
+        elif anchor == "w":
+            dx = 0
+            dy = self._initial_size[1] // 2
+        elif anchor == "ne":
+            dx = self._initial_size[0]
+            dy = 0
+        elif anchor == "sw":
+            dx = 0
+            dy = self._initial_size[1]
+        elif anchor == "e":
+            dx = self._initial_size[0]
+            dy = self._initial_size[1] // 2
+        elif anchor == "s":
+            dx = self._initial_size[0]
+            dy = self._initial_size[1] // 2
+        elif anchor == "se":
+            dx = self._initial_size[0]
+            dy = self._initial_size[1]
+        else:
+            dx = self._initial_size[0] // 2
+            dy = self._initial_size[1] // 2
+
+        self._position = self._initial_position = [
+            self.winfo_x()+dx, self.winfo_y()+dy]
+
+    def _zoom(self) -> None:
         """Internal Method: Relative zooming for contents of the `Canvas`"""
         if not self.winfo_viewable():
             return
-        if self._initial_size == [None, None]:
-            self._size = self._initial_size = [
-                self.winfo_width(), self.winfo_height()]
-
-            anchor = self.place_info().get("anchor", None)
-            if anchor == "nw" or anchor == None:
-                dx = 0
-                dy = 0
-            elif anchor == "n":
-                dx = self._initial_size[0] // 2
-                dy = 0
-            elif anchor == "w":
-                dx = 0
-                dy = self._initial_size[1] // 2
-            elif anchor == "ne":
-                dx = self._initial_size[0]
-                dy = 0
-            elif anchor == "sw":
-                dx = 0
-                dy = self._initial_size[1]
-            elif anchor == "e":
-                dx = self._initial_size[0]
-                dy = self._initial_size[1] // 2
-            elif anchor == "s":
-                dx = self._initial_size[0]
-                dy = self._initial_size[1] // 2
-            elif anchor == "se":
-                dx = self._initial_size[0]
-                dy = self._initial_size[1]
-            else:
-                dx = self._initial_size[0] // 2
-                dy = self._initial_size[1] // 2
-
-            self._position = self._initial_position = [
-                self.winfo_x()+dx, self.winfo_y()+dy]
-
-        relative_ratio = self._zoom_self()
-        self._zoom_widgets(relative_ratio)
-        self._zoom_items(relative_ratio)
-        self._zoom_texts(relative_ratio)
-        self._zoom_images(relative_ratio)
-
-        for canvas in self._canvases:
-            canvas._zoom(relative_ratio)
-
-    def _zoom_self(self) -> tuple[float, float]:
-        """Internal Method: Scale the `Canvas` itself, and return its own relative scale"""
         if self.place_info():  # 仅 Place 布局
             if self._keep_ratio == "max":
                 ratio_x = ratio_y = max(self.master._ratio)
@@ -460,21 +456,33 @@ class Canvas(tkinter.Canvas):
                 self.place(x=self._initial_position[0]*self.master._ratio[0],
                            y=self._initial_position[1]*self.master._ratio[1])
 
-        self.update()
+    def _zoom_self(self) -> None:
+        """Internal Method: Scale the `Canvas` itself, and return its own relative scale"""
+        if self._initial_size == [None, None]:
+            self._zoom_init()
         last_ratio = self._size[:]
         self._position = [self.winfo_x(), self.winfo_y()]
         self._size = [self.winfo_width(), self.winfo_height()]
         self._ratio = [self._size[0] / self._initial_size[0],
                        self._size[1] / self._initial_size[1]]
-        return self._size[0] / last_ratio[0], self._size[1] / last_ratio[1]
+
+        relative_ratio = self._size[0] / \
+            last_ratio[0], self._size[1] / last_ratio[1]
+        self._zoom_widgets(relative_ratio)
+        self._zoom_items(relative_ratio)
+        self._zoom_texts(relative_ratio)
+        self._zoom_images(relative_ratio)
+
+        for canvas in self._canvases:
+            canvas._zoom()
 
     def _zoom_widgets(self, relative_ratio: tuple[float, float]) -> None:
         """控件数据修改"""
         for widget in self._widgets:
-            widget.x1 *= relative_ratio[0]
-            widget.x2 *= relative_ratio[0]
-            widget.y1 *= relative_ratio[1]
-            widget.y2 *= relative_ratio[1]
+            widget.shape._size[0] *= relative_ratio[0]
+            widget.shape._size[1] *= relative_ratio[1]
+            widget.shape._position[0] *= relative_ratio[0]
+            widget.shape._position[1] *= relative_ratio[1]
 
     def _zoom_items(self, relative_ratio: tuple[float, float]) -> None:
         """元素位置缩放"""
@@ -485,10 +493,10 @@ class Canvas(tkinter.Canvas):
     def _zoom_texts(self, relative_ratio: tuple[float, float]) -> None:
         """字体大小缩放"""
         for text, value in self._texts.items():
-            value[1] *= math.sqrt(relative_ratio[0]*relative_ratio[1])
-            font = value[:]
-            font[1] = round(font[1])
-            self.itemconfigure(text, font=font)
+            value[0] *= math.sqrt(relative_ratio[0]*relative_ratio[1])
+            font_ = value[1].copy()
+            font_.config(size=round(value[0]))
+            self.itemconfigure(text, font=font_)
 
     def _zoom_images(self, relative_ratio: tuple[float, float]) -> None:
         """图像大小缩放（采用相对的绝对缩放）"""
@@ -498,14 +506,6 @@ class Canvas(tkinter.Canvas):
         #             temp_x * rate_x, temp_y * rate_y, precision=1.2)
         #         self.itemconfigure(image, image=value[1])
 
-    def _process_event(self, event: tkinter.Event) -> None:
-        """Internal Method: Process built-in events"""
-        for widget in self._widgets[::-1]:
-            if event.type not in widget.feature._events or not widget._through:
-                continue
-            if widget.feature._event_process(event) or not widget._through:
-                break
-
     def destroy(self) -> None:
         # Override: 兼容原生 tkinter 的容器控件
         if _canvases := getattr(self.master, "_canvases", None):
@@ -514,23 +514,32 @@ class Canvas(tkinter.Canvas):
 
     def create_text(self, *args, **kw) -> int:
         # Override: 添加对 text 类型的 _CanvasItemId 的字体大小的控制
-        if not (font := kw.get("font")):
-            kw["font"] = constants.FONT, constants.SIZE
-        elif isinstance(font, str):
-            kw["font"] = font, constants.SIZE
-        elif isinstance(font, int):
-            kw["font"] = constants.FONT, -abs(font)
+        if not (font_ := kw.get("font")):
+            kw["font"] = font.Font(family=constants.FONT, size=constants.SIZE)
+        elif isinstance(font_, str):
+            kw["font"] = font.Font(family=font_, size=constants.SIZE)
+        elif isinstance(font_, int):
+            kw["font"] = font.Font(family=constants.FONT, size=-abs(font_))
+        elif isinstance(font_, font.Font):
+            kw["font"].config(size=-abs(font_.cget("size")))
         else:
-            kw["font"] = list(kw["font"])
-            kw["font"][1] = -abs(kw["font"][1])
+            font_ = list(font_)
+            font_[1] = -abs(font_[1])
+            length = len(font_)
+            kw["font"] = font.Font(family=font_[0], size=font_[1],
+                                   weight=font_[2] if length > 2 else "normal",
+                                   slant=font_[3] if length > 3 else "roman")
+            # XXX
         text = tkinter.Canvas.create_text(self, *args, **kw)
-        self._texts[text] = list(kw["font"])
+        self._texts[text] = [kw["font"].cget("size"), kw["font"]]
         return text
 
     def create_image(self, *args, **kw) -> int:
         # Override: 添加对 image 类型的 _CanvasItemId 的图像大小的控制
         image = tkinter.Canvas.create_image(self, *args, **kw)
         self._images[image] = [kw.get("image"), None]
+        if self._images[image][0].__class__ == Image:
+            self._images[image][0] = self._images[image][0].image
         return image
 
     def itemconfigure(self, tagOrId: str | int, **kw) -> dict[str, tuple[str, str, str, str, str]] | None:
@@ -538,6 +547,52 @@ class Canvas(tkinter.Canvas):
         if kw.get("image").__class__ == Image:
             self._images[tagOrId] = [kw.get("image"), None]
         return tkinter.Canvas.itemconfigure(self, tagOrId, **kw)
+
+    def _touch(self, event: tkinter.Event) -> bool:
+        """"""
+        for widget in self.get_widgets()[::-1]:
+            if widget.feature._touch(event):
+                # if not widget._through:
+                #     continue
+                return True
+        self.configure(cursor="arrow")
+        return False
+
+    def _click(self, event: tkinter.Event) -> bool:
+        """"""
+        for widget in self.get_widgets()[::-1]:
+            if widget.feature._click(event):
+                if widget._through:
+                    continue
+                return True
+        return False
+
+    def _release(self, event: tkinter.Event) -> bool:
+        """"""
+        for widget in self.get_widgets()[::-1]:
+            if widget.feature._release(event):
+                if widget._through:
+                    continue
+                return True
+        return False
+
+    def _wheel(self, event: tkinter.Event) -> bool:
+        """"""
+        for widget in self.get_widgets()[::-1]:
+            if widget.feature._wheel(event):
+                if widget._through:
+                    continue
+                return True
+        return False
+
+    def _input(self, event: tkinter.Event) -> bool:
+        """"""
+        for widget in self.get_widgets()[::-1]:
+            if widget.feature._input(event):
+                if widget._through:
+                    continue
+                return True
+        return False
 
 
 class Shape:
@@ -551,9 +606,11 @@ class Shape:
         self._master: Canvas | None = None
         self._size: list[int, int] = [None, None]
         self._position: list[int, int] = [None, None]
-        self._items: list[int] = []
+        self._items_inside: list[int] = []
+        self._items_outline: list[int] = []
         self._is_transparency: bool = False
-        self._temp_data: list[dict[str, str]] = []
+        self._temp_data: tuple[list[str]] = [], []
+        self._id: str = hex(id(self))[2:]
 
     def borderwidth(self, value: int | None) -> int | None:
         """
@@ -562,8 +619,8 @@ class Shape:
         * `value`: the borderwidth of the `Shape` 
         """
         if value is None:
-            return self._master.itemcget(self._items[0], "width")
-        for item in self._items:
+            return self._master.itemcget(self._items_outline[0], "width")
+        for item in self._items_outline:
             self._master.itemconfigure(item, width=value)
 
     def center(self) -> tuple[int, int]:
@@ -580,7 +637,7 @@ class Shape:
         """Move the `Shape`"""
         self._position[0] += dx
         self._position[1] += dy
-        for item in self._items:
+        for item in self._master.find_withtag(self._id):
             self._master.move(item, dx, dy)
 
     def moveto(self, x: int, y: int) -> None:
@@ -589,8 +646,9 @@ class Shape:
 
     def destroy(self) -> None:
         """Destroy the `Shape`"""
-        self._master.delete(*self._items)
-        self._items.clear()
+        self._master.delete(*self._master.find_withtag(self._id))
+        self._items_inside.clear()
+        self._items_outline.clear()
         self._master = None
 
     def disappear(self) -> bool:
@@ -602,12 +660,12 @@ class Shape:
         """
         if self._is_transparency:
             return False
-        for item in self._items:
-            self._temp_data.append({
-                "fill": self._master.itemcget(item, "fill"),
-                "outline": self._master.itemcget(item, "outline")
-            })
-            self._master.itemconfigure(item, fill="", outline="")
+        for item in self._items_inside:
+            self._temp_data[0].append(self._master.itemcget(item, "fill"))
+            self._master.itemconfigure(item, fill="")
+        for item in self._items_outline:
+            self._temp_data[1].append(self._master.itemcget(item, "outline"))
+            self._master.itemconfigure(item, outline="")
         return True
 
     def appear(self) -> bool:
@@ -618,9 +676,11 @@ class Shape:
         """
         if not self._is_transparency:
             return False
-        for item, data in zip(self._items, self._temp_data):
-            self._master.itemconfigure(item, **data)
-        self._temp_data.clear()
+        for item, data in zip(self._items_inside, self._temp_data[0]):
+            self._master.itemconfigure(item, fill=data)
+        for item, data in zip(self._items_outline, self._temp_data[1]):
+            self._master.itemconfigure(item, outline=data)
+        self._temp_data = [], []
         return True
 
     def detect(self, position: tuple[int, int]) -> bool:
@@ -629,7 +689,7 @@ class Shape:
 
         * `position`: the specified coordinates
         """
-        if all(0 <= position[i] - self._position[i] <= self._size[i] for i in range(2)):
+        if all(0 <= (position[i] - self._position[i]) <= self._size[i] for i in range(2)):
             return True
         return False
 
@@ -642,9 +702,20 @@ class Shape:
         * `position`: the position of the `Shape`
         """
         self._master = master
-        self._size = size
-        self._position = position
-        self._items.append(master.create_rectangle(*self.region()))
+        self._size = list(size)
+        self._position = list(position)
+        item = master.create_rectangle(*self.region(), tags=id(self))
+        self._items_inside.append(item)
+        self._items_outline.append(item)
+
+    def configure(self, fill: str | None = None, outline: str | None = None) -> None:
+        """"""
+        if fill is not None:
+            for item in self._items_inside:
+                self._master.itemconfigure(item, fill=fill)
+        if outline is not None:
+            for item in self._items_outline:
+                self._master.itemconfigure(item, outline=outline)
 
 
 class Text:
@@ -654,8 +725,12 @@ class Text:
         self,
         text: str = "",
         *,
-        font: tuple[str, int, str] | tuple[str, int] | str | int = (
-            constants.FONT, constants.SIZE),
+        family: str = constants.FONT,
+        size: int = constants.SIZE,
+        weight: typing.Literal["normal", "bold"] = "normal",
+        slant: typing.Literal["roman", "italic"] = "roman",
+        underline: bool = False,
+        overstrike: bool = False,
         anchor: typing.Literal["n", "w", "s", "e", "nw",
                                "ne", "sw", "se", "center"] = "center",
         justify: typing.Literal["left", "center", "right"] = "left",
@@ -668,7 +743,7 @@ class Text:
     ) -> None:
         """
         * `text`: the value of `Text`
-        * `font`: the font of value
+
         * `anchor`: anchor mode of value
         * `justify`: justify mode of value
         * `angle`: rotation angle of value
@@ -682,7 +757,9 @@ class Text:
         self._length: int = len(text)
         self._position: list[int, int] = [None, None]
         self._text: str = text
-        self._font: tuple[str, int, str] | tuple[str, int] | str | int = font
+        self._font: font.Font = font.Font(
+            family=family, size=size, weight=weight, slant=slant,
+            underline=underline, overstrike=overstrike)
         self._anchor: typing.Literal["n", "w", "s", "e",
                                      "nw", "ne", "sw", "se", "center"] = anchor
         self._justify: typing.Literal["left", "center", "right"] = justify
@@ -702,8 +779,8 @@ class Text:
 
     def region(self) -> tuple[int, int, int, int]:
         """Return the decision region of the `Text`"""
-        width_half = font.Font(self._master, self._font).measure(self._text)/2
-        height_half = -self._font[1] / 2
+        width_half = self._font.measure(self._text)/2
+        height_half = -self._font.cget("size") / 2
         x, y = self._position
         return x-width_half, y-height_half, x+width_half, y+height_half
 
@@ -806,21 +883,41 @@ class Text:
         self._master = master
         self._position = position
         self._items.append(master.create_text(
-            *position, text=self._text, font=self._font, angle=self._angle, anchor=self._anchor))
+            *position, text=self._text, font=self._font,
+            angle=self._angle, anchor=self._anchor))
 
     def configure(
         self,
         *,
         text: str | None = None,
-        font: tuple[str, int, str] | tuple[str, int] | str | int | None = None,
+        family: str | None = None,
+        size: int | None = None,
+        weight: typing.Literal["normal", "bold"] | None = None,
+        slant: typing.Literal["roman", "italic"] | None = None,
+        underline: bool | None = None,
+        overstrike: bool | None = None,
         anchor: typing.Literal["n", "w", "s", "e", "nw",
                                "ne", "sw", "se", "center"] | None = None,
         justify: typing.Literal["left", "center", "right"] | None = None,
-        angle: float | None = None
+        angle: float | None = None,
+        fill: str | None = None
     ) -> None:
         """Modify the properties of `Text`"""
         self._text = self._text if text is None else text
-        self._font = self._font if font is None else font
+
+        if family is not None:
+            self._font.config(family=family)
+        if size is not None:
+            self._font.config(size=size)
+        if weight is not None:
+            self._font.config(weight=weight)
+        if slant is not None:
+            self._font.config(slant=slant)
+        if underline is not None:
+            self._font.config(underline=underline)
+        if overstrike is not None:
+            self._font.config(overstrike=overstrike)
+
         self._anchor = self._anchor if anchor is None else anchor
         self._justify = self._justify if justify is None else justify
         self._angle = self._angle if angle is None else angle
@@ -830,6 +927,8 @@ class Text:
             self._master.itemconfigure(
                 item, text=self._text, font=self._font, justify=self._justify,
                 angle=self._angle, anchor=self._anchor)
+            if fill is not None:
+                self._master.itemconfigure(item, fill=fill)
 
 
 class Image(tkinter.PhotoImage):
@@ -842,6 +941,7 @@ class Image(tkinter.PhotoImage):
         """"""
         self.filepath = filepath
         self.extension = self._get_extension()
+        self.image = None
 
     def _get_extension(self) -> str:
         """Internal Method: Get extension of the image file"""
@@ -857,15 +957,36 @@ class Feature:
         self
     ) -> None:
         """"""
-        self._events: list[str] = []
         self.master: Widget | None = None
-
-    def _event_process(self, event: tkinter.Event) -> bool:
-        """"""
+        self._state: typing.Literal["normal", "hover",
+                                    "click", "error", "disabled"] | None = None
+        self._data_shape: list[dict[str, str]] = []
+        self._data_text: list[dict[str, str]] = []
+        self._data_image: list[dict[str, str]] = []
 
     def bind(self, master: "Widget") -> None:
         """"""
         self.master = master
+
+    def _touch(self, event: tkinter.Event) -> bool:
+        """"""
+        return False
+
+    def _click(self, event: tkinter.Event) -> bool:
+        """"""
+        return False
+
+    def _release(self, event: tkinter.Event) -> bool:
+        """"""
+        return False
+
+    def _wheel(self, event: tkinter.Event) -> bool:
+        """"""
+        return False
+
+    def _input(self, event: tkinter.Event) -> bool:
+        """"""
+        return False
 
 
 class Widget:
@@ -901,12 +1022,12 @@ class Widget:
         self.shape.display(master, size, position)
         self.text.display(master, [p + s / 2 for p, s in zip(position, size)])
         self.feature.bind(self)
+        self.master._widgets.append(self)
 
     def destroy(self) -> None:
         """Destroy the `Widget`"""
         self.shape.destroy()
         self.text.destroy()
-        self.image.destroy()
 
     def move(self, dx: int, dy: int) -> None:
         """"""
@@ -939,19 +1060,4 @@ class Widget:
         """"""
 
     def configure(self) -> None:
-        """"""
-
-    def _touch(self, event: tkinter.Event) -> bool:
-        """"""
-
-    def _click(self, event: tkinter.Event) -> bool:
-        """"""
-
-    def _release(self, event: tkinter.Event) -> bool:
-        """"""
-
-    def _wheel(self, event: tkinter.Event) -> bool:
-        """"""
-
-    def _input(self, event: tkinter.Event) -> bool:
         """"""

@@ -1,7 +1,7 @@
 # Release Notes - 版本发布说明
 
-- Version - 最新版本 : `3.0.0.dev9`
-- Last Update - 上次更新 : 2024/02/16
+- Version - 最新版本 : `3.0.0.alpha1`
+- Last Update - 上次更新 : 2024/02/17
 
 ```
 
@@ -18,17 +18,17 @@ This section is still in development...
 
 ![png](example.png)
 
-The widget framework is almost complete, and the details are not yet complete  
-控件框架基本完成，细节部分还未完成
+The widget framework has been built, the details are not yet completed, and some widgets have been built for testing  
+控件框架搭建完成，细节部分还未完成，已构建部分控件用于测试
 
 <details><summary><b>Source Code - 源代码</b></summary>
 
 ```python
-import tkintertools as tkt
-from tkintertools import shapes
+import webbrowser
 
-root = tkt.Tk(title="tkt 3.0.0.dev9")
-root.center()
+import tkintertools as tkt
+
+root = tkt.Tk(title="tkt 3.0.0.alpha1")
 
 canvas = tkt.Canvas(root, bg='green', free_anchor=True)
 canvas.place(width=1152, height=720, x=640, y=360, anchor="center")
@@ -36,19 +36,14 @@ canvas.place(width=1152, height=720, x=640, y=360, anchor="center")
 canvas_2 = tkt.Canvas(canvas, bg='white', free_anchor=True, keep_ratio="full")
 canvas_2.place(width=1152, height=648, x=576, y=360, anchor="center")
 
-label = tkt.Label(canvas_2, (100, 50), (100, 100), text='Label')
-x1, y1, x2, y2 = label.text.region()
-tkt.Label(canvas_2, (x2-x1, y2-y1), (x1, y1))
+tkt.Label(canvas_2, (100, 50), (100, 100), text='Label')
+tkt.Button(canvas_2, (100, 50), (250, 100),
+           text='Button', command=lambda: print(1))
+tkt.UnderLineButton(canvas_2, (100, 50), (400, 100),
+                    text='UnderLine',
+                    command=lambda: webbrowser.open_new_tab("https://github.com/Xiaokang2022/tkintertools"))
 
 root.mainloop()
 ```
 
 </details>
-
-## ChangeLog - 更新日志
-
-...
-
-## Todos - 待办事项
-
-...

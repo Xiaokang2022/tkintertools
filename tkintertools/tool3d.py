@@ -14,45 +14,35 @@ class Canvas3D(core.Canvas):
 
     def __init__(
         self,
-        master,  # type: core.Tk | core.Toplevel
-        width,  # type: int
-        height,  # type: int
-        x=None,  # type: int | None
-        y=None,  # type: int | None
+        master: core.Tk | core.Toplevel | core.NestedToplevel | core.Canvas,
         *,
-        lock=True,  # type: bool
-        expand=True,  # type: bool
-        keep=True,  # type: bool
-        camera_distance=constants.CAMERA_DISTANCE,  # type: float
-        **kw
-    ):  # type: (...) -> None
-        """
-        * `master`: 父控件
-        * `width`: 画布宽度
-        * `height`: 画布高度
-        * `x`: 画布左上角的横坐标
-        * `y`: 画布左上角的纵坐标
-        * `lock`: 画布内控件的功能锁，为 `False` 时功能暂时失效
-        * `expand`: 画布内控件是否能缩放
-        * `keep`: 画布比例是否保持不变
-        * `camera_distance`: 相机位置与原点间的距离，默认值为 1000
-        * `**kw`: 与 `tkinter.Canvas` 类的参数相同
-        """
-        core.Canvas.__init__(self, master, width, height, x, y,
-                             lock=lock, expand=expand, keep=keep, **kw)
-        self.distance = camera_distance
-        self._items_3d = []  # type: list[Point | Line | Side]
-        self._geos = []  # type: list[Geometry]
+        expand: typing.Literal["", "x", "y", "xy"] = "xy",
+        keep_ratio: typing.Literal["min", "max", "full"] | None = None,
+        free_anchor: bool = False,
+        **kw,
+    ) -> None:
+        """"""
+        core.Canvas.__init__(
+            self, master, expand=expand, keep_ratio=keep_ratio, free_anchor=free_anchor, **kw)
+        self._items_3d: list[Point | Line | Side] = []
+        self._geos: list[Point | Line | Side] = []
+        self._distance: int = 1000
 
-    def items_3d(self):  # type: () -> tuple[Point | Line | Side, ...]
+    def distance(self, value: int | None = None) -> int | None:
+        """"""
+        if value is None:
+            return self._distance
+        self._distance = value
+
+    def items_3d(self) -> tuple["Point | Line | Side", ...]:
         """返回 `Canvas3D` 类全部的基本 3D 对象"""
         return tuple(self._items_3d)
 
-    def geos(self):  # type: () -> tuple[Geometry, ...]
+    def geos(self) -> tuple["Geometry", ...]:
         """返回 `Canvas3D` 类全部的几何体对象"""
         return tuple(self._geos)
 
-    def space_sort(self):  # type: () -> None
+    def space_sort(self) -> None:
         """空间位置排序"""  # BUG: 在距离比较近的两个对象时，仍会显示不正确
         self._items_3d.sort(key=lambda item: item._camera_distance())
         for item in self._items_3d:
@@ -64,43 +54,28 @@ class Space(Canvas3D):
 
     def __init__(
         self,
-        master,  # type: core.Tk | core.Toplevel
-        width,  # type: int
-        height,  # type: int
-        x=None,  # type: int | None
-        y=None,  # type: int | None
+        master: core.Tk | core.Toplevel | core.NestedToplevel | core.Canvas,
         *,
-        lock=True,  # type: bool
-        expand=True,  # type: bool
-        keep=True,  # type: bool
-        camera_distance=constants.CAMERA_DISTANCE,  # type: float
-        origin_size=constants.ORIGIN_SIZE,  # type: float
-        origin_width=constants.ORIGIN_WIDTH,  # type: float
-        origin_fill=constants.COLOR_FILL_ORIGIN,  # type: str
-        origin_outline=constants.COLOR_OUTLINE_ORIGIN,  # type: str
-        **kw
-    ):  # type: (...) -> None
-        """
-        * `master`: 父控件
-        * `width`: 画布宽度
-        * `height`: 画布高度
-        * `x`: 画布左上角的横坐标
-        * `y`: 画布左上角的纵坐标
-        * `lock`: 画布内控件的功能锁，为 `False` 时功能暂时失效
-        * `expand`: 画布内控件是否能缩放
-        * `keep`: 画布比例是否保持不变
-        * `camera_distance`: 相机位置与原点间的距离，默认值为 1000
-        * `origin_size`: 原点大小，默认值为 1
-        * `origin_width`: 原点轮廓宽度，默认值为 1
-        * `origin_fill`: 原点填充颜色，默认为无色
-        * `origin_outline`: 原点轮廓颜色，默认为无色
-        * `**kw`: 与 `tkinter.Canvas` 类的参数相同
-        """
-        Canvas3D.__init__(self, master, width, height, x, y, lock=lock,
-                          expand=expand, keep=keep, camera_distance=camera_distance, **kw)
-        self._origin = Point(self, constants.ORIGIN_COORDINATE, size=origin_size,
-                             width=origin_width, fill=origin_fill, outline=origin_outline)
+        expand: typing.Literal["", "x", "y", "xy"] = "xy",
+        keep_ratio: typing.Literal["min", "max", "full"] | None = None,
+        free_anchor: bool = False,
+        **kw,
+    ) -> None:
+        """"""
+        Canvas3D.__init__(
+            self, master, expand=expand, keep_ratio=keep_ratio, free_anchor=free_anchor, **kw)
+        self._bind_event()
+
+    def _zoom_init(self) -> None:
+        Canvas3D._zoom_init(self)
+        self._origin = Point(
+            self, constants.ORIGIN_COORDINATE, size=constants.ORIGIN_SIZE,
+            width=constants.ORIGIN_SIZE, fill=constants.COLOR_FILL_ORIGIN,
+            outline=constants.COLOR_FILL_ORIGIN)
         self._items_3d.clear()
+
+    def _bind_event(self) -> None:
+        """"""
         self.bind("<B3-Motion>", self._translate)
         self.bind("<Button-3>", lambda event: self._translate(event, True))
         self.bind("<ButtonRelease-3>",
@@ -115,8 +90,7 @@ class Space(Canvas3D):
         else:
             self.bind("<MouseWheel>", self._scale)
 
-    def _translate(self, event, flag=None, _cache=[]):
-        # type: (tkinter.Event, bool | None, list[float]) -> None
+    def _translate(self, event: tkinter.Event, flag: bool | None = None, _cache: list[float] = []) -> None:
         """平移事件"""
         if flag is True:  # 按下
             _cache[:] = [event.x, event.y]
@@ -129,7 +103,7 @@ class Space(Canvas3D):
         _cache[:] = [event.x, event.y]
         for item in self._items_3d + [self._origin]:
             item.translate(
-                0, dx*self.width[0]/self.width[1], -dy*self.height[0]/self.height[1])
+                0, dx*self._initial_size[0]/self._size[0], -dy*self._initial_size[1]/self._size[1])
             item.update()
         self.space_sort()
 
@@ -137,27 +111,27 @@ class Space(Canvas3D):
         # type: (tkinter.Event, bool | None, list[float]) -> None
         """旋转事件"""
         if flag is False:
-            if self._release(event):  # 兼容原 core.Canvas
-                return
+            # if self._release(event):  # 兼容原 core.Canvas
+            #     return
             self.configure(cursor="arrow")
             return
         else:
             if flag is True:  # NOTE: 缺少这个将导致罕见的报错（先按住按钮并拖动将触发）
                 _cache[:] = [event.x, event.y]
-            if self._click(event):
-                return
+            # if self._click(event):
+            #     return
             if flag is True:
                 self.configure(cursor="fleur")
                 return
         dx, dy = event.x - _cache[0], event.y - _cache[1]
         _cache[:] = [event.x, event.y]
         for item in self._items_3d:
-            item.rotate(0, 2*dy/self.width[1]*math.tau, 2*dx/self.height[1]*math.tau,
+            item.rotate(0, 2*dy/self._size[0]*math.tau, 2*dx/self._size[1]*math.tau,
                         center=self._origin.coordinates[0])
             item.update()
         self.space_sort()
 
-    def _scale(self, event, flag=None):  # type: (tkinter.Event, bool | None) -> None
+    def _scale(self, event: tkinter.Event, flag: bool | None = None) -> None:
         """缩放事件"""
         if flag is not None:
             event.delta = flag
@@ -168,8 +142,7 @@ class Space(Canvas3D):
         self.space_sort()
 
 
-def translate(coordinate, dx=0, dy=0, dz=0):
-    # type: (tuple[float, float, float], float, float, float) -> None
+def translate(coordinate: tuple[float, float, float], dx: float = 0, dy: float = 0, dz: float = 0) -> None:
     """将一个三维空间中的点进行平移
 
     * `coordinate`: 点的空间坐标
@@ -343,7 +316,7 @@ class _Object3D:
         """
         lst = [project(point, distance) for point in self.coordinates]
         if canvas is not None:
-            lst = [(pos[0] + canvas.width[0]/2, canvas.height[0]/2 - pos[1])
+            lst = [(pos[0] + canvas._size[0]/2, canvas._size[1]/2 - pos[1])
                    for pos in lst]
         return lst
 
@@ -397,17 +370,17 @@ class Point(_Object3D):
 
     def update(self):  # type: () -> None
         """更新对象的显示"""
-        x, y = self._project(self.canvas.distance, self.canvas)[0]
-        self.canvas.coords(self.item, (x-self.size) * self.canvas.rx, (y-self.size) *
-                           self.canvas.ry, (x+self.size) * self.canvas.rx, (y+self.size) * self.canvas.ry)
+        x, y = self._project(self.canvas._distance, self.canvas)[0]
+        self.canvas.coords(self.item, (x-self.size) * self.canvas._ratio[0], (y-self.size) *
+                           self.canvas._ratio[1], (x+self.size) * self.canvas._ratio[0], (y+self.size) * self.canvas._ratio[1])
         if self.text is not None:
             self.canvas.coords(
-                self.text, (x+self.delta[0]) * self.canvas.rx, (y-self.delta[1]) * self.canvas.ry)
+                self.text, (x+self.delta[0]) * self.canvas._ratio[0], (y-self.delta[1]) * self.canvas._ratio[1])
 
     def _camera_distance(self):  # type: () -> float
         """与相机距离"""
-        sign = math.copysign(1, self.canvas.distance - self.coordinates[0][0])
-        return sign * math.dist([self.canvas.distance, 0, 0], self.coordinates[0])
+        sign = math.copysign(1, self.canvas._distance - self.coordinates[0][0])
+        return sign * math.dist([self.canvas._distance, 0, 0], self.coordinates[0])
 
 
 class Line(_Object3D):
@@ -439,14 +412,14 @@ class Line(_Object3D):
 
     def update(self):  # type: () -> None
         """更新对象的显示"""
-        self.canvas.coords(self.item, *[coord * (self.canvas.ry if i else self.canvas.rx)
-                           for point in self._project(self.canvas.distance, self.canvas) for i, coord in enumerate(point)])
+        self.canvas.coords(self.item, *[coord * self.canvas._ratio[i]
+                           for point in self._project(self.canvas._distance, self.canvas) for i, coord in enumerate(point)])
 
     def _camera_distance(self):  # type: () -> float
         """与相机距离"""
         center = self.center()
-        sign = math.copysign(1, self.canvas.distance - center[0])
-        return sign * math.dist([self.canvas.distance, 0, 0], center)
+        sign = math.copysign(1, self.canvas._distance - center[0])
+        return sign * math.dist([self.canvas._distance, 0, 0], center)
 
 
 class Side(_Object3D):
@@ -480,13 +453,13 @@ class Side(_Object3D):
     def update(self):  # type: () -> None
         """更新对象的显示"""
         self.canvas.coords(
-            self.item, *[coord * (self.canvas.ry if i else self.canvas.rx) for point in self._project(self.canvas.distance, self.canvas) for i, coord in enumerate(point)])
+            self.item, *[coord * self.canvas._ratio[i] for point in self._project(self.canvas._distance, self.canvas) for i, coord in enumerate(point)])
 
     def _camera_distance(self):  # type: () -> float
         """与相机距离"""
         center = self.center()
-        sign = math.copysign(1, self.canvas.distance - center[0])
-        return sign * math.dist([self.canvas.distance, 0, 0], center)
+        sign = math.copysign(1, self.canvas._distance - center[0])
+        return sign * math.dist([self.canvas._distance, 0, 0], center)
 
 
 class Text3D(_Object3D):
@@ -523,17 +496,18 @@ class Text3D(_Object3D):
 
     def update(self):  # type: () -> None
         """更新对象的显示"""
-        x, y = self._project(self.canvas.distance, self.canvas)[0]
-        self.canvas.coords(self.item, x*self.canvas.rx, y*self.canvas.ry)
+        x, y = self._project(self.canvas._distance, self.canvas)[0]
+        self.canvas.coords(
+            self.item, x*self.canvas._ratio[0], y*self.canvas._ratio[1])
         font = list(self.font)
-        font[1] = round(font[1] * self.canvas.distance *
-                        math.sqrt(self.canvas.rx*self.canvas.ry) / self._camera_distance())
+        font[1] = round(font[1] * self.canvas._distance *
+                        math.sqrt(self.canvas._ratio[0]*self.canvas._ratio[1]) / self._camera_distance())
         self.canvas.itemconfigure(self.item, font=font)
 
     def _camera_distance(self):  # type: () -> float
         """与相机距离"""
-        sign = math.copysign(1, self.canvas.distance - self.coordinates[0][0])
-        return sign * math.dist([self.canvas.distance, 0, 0], self.coordinates[0])
+        sign = math.copysign(1, self.canvas._distance - self.coordinates[0][0])
+        return sign * math.dist([self.canvas._distance, 0, 0], self.coordinates[0])
 
 
 class Geometry:

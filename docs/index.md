@@ -49,7 +49,7 @@ pip install tkintertools
 
 ### Pre Release - 预发布版本
 
-- Version - 最新版本 : `3.0.0.dev9`
+- Version - 最新版本 : `3.0.0.alpha1`
 - Release - 发布日期 :
 - Feature - 更新内容 : [News-3.0.0(pre)](./news/3.0.0/News.md)
 
