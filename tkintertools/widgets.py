@@ -4,6 +4,29 @@ import typing
 from . import core, features, images, shapes, texts
 
 
+class Information(core.Widget):
+    """"""
+
+    def __init__(
+        self,
+        master: core.Canvas,
+        position: tuple[int, int],
+        size: tuple[int, int],
+        *,
+        text: str = "",
+        image: core.Image | None = None,
+        through: bool = False,
+    ) -> None:
+        """"""
+        core.Widget.__init__(
+            self, master, position, size,
+            shape=shapes.Rectangle(),
+            feature=features.NoFeature(),
+            text=texts.Information(text),
+            image=image, through=through
+        )
+
+
 class Label(core.Widget):
     """
     Label widget
@@ -14,18 +37,20 @@ class Label(core.Widget):
     def __init__(
         self,
         master: core.Canvas,
-        size: tuple[int, int],
         position: tuple[int, int],
+        size: tuple[int, int],
         *,
         text: str = "",
         image: core.Image | None = None,
-        through: bool = False
+        through: bool = False,
+        radius: int = 5
     ) -> None:
         """"""
         core.Widget.__init__(
-            self, master, size, position,
-            shape=shapes.Rectangle(),
-            feature=features.NoFeature(),
+            self, master, position, size,
+            shape=shapes.RoundedRectangle(
+                radius=radius) if radius > 0 else shapes.Rectangle(),
+            feature=features.Label(),
             text=texts.Information(text),
             image=image, through=through
         )
@@ -39,31 +64,33 @@ class Button(core.Widget):
     def __init__(
         self,
         master: core.Canvas,
-        size: tuple[int, int],
         position: tuple[int, int],
+        size: tuple[int, int],
         *,
         text: str = "",
         image: core.Image | None = None,
         through: bool = False,
-        command: typing.Callable | None = None
+        command: typing.Callable | None = None,
+        radius: int = 5
     ) -> None:
         core.Widget.__init__(
-            self, master, size, position,
-            shape=shapes.Rectangle(),
+            self, master, position, size,
+            shape=shapes.RoundedRectangle(
+                radius=radius) if radius > 0 else shapes.Rectangle(),
             feature=features.Button(command=command),
             text=texts.Information(text),
             image=image, through=through
         )
 
 
-class UnderLineButton(core.Widget):
+class UnderlineButton(core.Widget):
     """"""
 
     def __init__(
         self,
         master: core.Canvas,
-        size: tuple[int, int],
         position: tuple[int, int],
+        size: tuple[int, int],
         *,
         text: str = "",
         image: core.Image | None = None,
@@ -71,9 +98,41 @@ class UnderLineButton(core.Widget):
         command: typing.Callable | None = None
     ) -> None:
         core.Widget.__init__(
-            self, master, size, position,
+            self, master, position, size,
             shape=shapes.NoShape(),
             feature=features.UnderLine(command=command),
             text=texts.Information(text),
             image=image, through=through
         )
+
+
+class HighlightButton(core.Widget):
+    """"""
+
+    def __init__(
+        self,
+        master: core.Canvas,
+        position: tuple[int, int],
+        size: tuple[int, int],
+        *,
+        text: str = "",
+        image: core.Image | None = None,
+        through: bool = False,
+        command: typing.Callable | None = None
+    ) -> None:
+        core.Widget.__init__(
+            self, master, position, size,
+            shape=shapes.NoShape(),
+            feature=features.Highlight(command=command),
+            text=texts.Information(text),
+            image=image, through=through
+        )
+
+
+__all__ = [
+    "Information",
+    "Label",
+    "Button",
+    "UnderlineButton",
+    "HighlightButton",
+]

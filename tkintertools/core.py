@@ -157,6 +157,8 @@ class Tk(tkinter.Tk):
             if dark is not None:
                 ctypes.windll.dwmapi.DwmSetWindowAttribute(
                     HWND, 20, ctypes.byref(ctypes.c_int(dark)), 4)
+                if background is None:
+                    background = "#1F1F1F" if dark else "#F1F1F1"
             for i, value in enumerate((bordercolor, captioncolor, titlecolor)):
                 if value is not None:
                     ctypes.windll.dwmapi.DwmSetWindowAttribute(
@@ -353,7 +355,7 @@ class Canvas(tkinter.Canvas):
         self._canvases: list[Canvas] = []
         self._widgets: list[Widget] = []
         self._items: list[int] = []
-        self._texts: dict[int, list[int, font.Font]] = {}
+        self._texts: dict[int, list[font.Font | int]] = {}
         self._images: dict[int, list[Image]] = {}
 
         self._expand = expand
@@ -362,18 +364,30 @@ class Canvas(tkinter.Canvas):
 
         self.master._canvases.append(self)
 
-        self.bind("<Motion>", self._touch)
         self.bind("<Any-Key>", self._input)
-        self.bind("<Button-1>", self._click)
-        self.bind("<Button-2>", self._click)
-        self.bind("<Button-3>", self._click)
-        self.bind("<B1-Motion>", self._touch)
-        self.bind("<B2-Motion>", self._touch)
-        self.bind("<B3-Motion>", self._touch)
-        self.bind("<MouseWheel>", self._wheel)
-        self.bind("<ButtonRelease-1>", self._release)
-        self.bind("<ButtonRelease-2>", self._release)
-        self.bind("<ButtonRelease-3>", self._release)
+
+        if constants.SYSTEM == "Linux":
+            self.bind("<Button-4>", lambda event: self._wheel(event, "up"))
+            self.bind("<Button-5>", lambda event: self._wheel(event, "down"))
+        else:
+            self.bind("<MouseWheel>", self._wheel)
+
+        self.bind("<Button-1>", lambda event: self._click(event, "left"))
+        self.bind("<Button-2>", lambda event: self._click(event, "center"))
+        self.bind("<Button-3>", lambda event: self._click(event, "right"))
+
+        self.bind("<Motion>", lambda event: self._move(event, "none"))
+        self.bind("<B1-Motion>", lambda event: self._move(event, "left"))
+        self.bind("<B2-Motion>", lambda event: self._move(event, "center"))
+        self.bind("<B3-Motion>", lambda event: self._move(event, "right"))
+
+        self.bind("<ButtonRelease-1>",
+                  lambda event: self._release(event, "left"))
+        self.bind("<ButtonRelease-2>",
+                  lambda event: self._release(event, "center"))
+        self.bind("<ButtonRelease-3>",
+                  lambda event: self._release(event, "right"))
+
         self.bind("<Configure>", lambda _: self._zoom_self())
 
     def get_canvases(self) -> tuple[typing.Self, ...]:
@@ -494,9 +508,8 @@ class Canvas(tkinter.Canvas):
         """字体大小缩放"""
         for text, value in self._texts.items():
             value[0] *= math.sqrt(relative_ratio[0]*relative_ratio[1])
-            font_ = value[1].copy()
-            font_.config(size=round(value[0]))
-            self.itemconfigure(text, font=font_)
+            value[1].config(size=round(value[0]))
+            self.itemconfigure(text, font=value[1])
 
     def _zoom_images(self, relative_ratio: tuple[float, float]) -> None:
         """图像大小缩放（采用相对的绝对缩放）"""
@@ -548,51 +561,84 @@ class Canvas(tkinter.Canvas):
             self._images[tagOrId] = [kw.get("image"), None]
         return tkinter.Canvas.itemconfigure(self, tagOrId, **kw)
 
-    def _touch(self, event: tkinter.Event) -> bool:
+    def _move(
+        self,
+        event: tkinter.Event,
+        type_: typing.Literal["left", "center", "right", "none"]
+    ) -> None:
         """"""
-        for widget in self.get_widgets()[::-1]:
-            if widget.feature._touch(event):
-                # if not widget._through:
-                #     continue
-                return True
-        self.configure(cursor="arrow")
-        return False
+        if type_ == "none":
+            for widget in self.get_widgets()[::-1]:
+                if widget.feature._move_none(event) or widget._through:
+                    return
+            if self.cget("cursor") != "arrow":
+                self.configure(cursor="arrow")
+        elif type_ == "left":
+            for widget in self.get_widgets()[::-1]:
+                if widget.feature._move_left(event) or widget._through:
+                    return
+            if self.cget("cursor") != "arrow":
+                self.configure(cursor="arrow")
+        elif type_ == "right":
+            for widget in self.get_widgets()[::-1]:
+                if widget.feature._move_right(event) or widget._through:
+                    return
+            if self.cget("cursor") != "arrow":
+                self.configure(cursor="arrow")
+        elif type_ == "center":
+            for widget in self.get_widgets()[::-1]:
+                if widget.feature._move_center(event) or widget._through:
+                    return
+            if self.cget("cursor") != "arrow":
+                self.configure(cursor="arrow")
 
-    def _click(self, event: tkinter.Event) -> bool:
+    def _click(
+        self,
+        event: tkinter.Event,
+        type_: typing.Literal["left", "center", "right"]
+    ) -> None:
         """"""
-        for widget in self.get_widgets()[::-1]:
-            if widget.feature._click(event):
-                if widget._through:
-                    continue
-                return True
-        return False
+        if type_ == "left":
+            for widget in self.get_widgets()[::-1]:
+                if widget.feature._click_left(event):
+                    if widget._through:
+                        continue
+                    return
 
-    def _release(self, event: tkinter.Event) -> bool:
+    def _release(
+        self,
+        event: tkinter.Event,
+        type_: typing.Literal["left", "center", "right"]
+    ) -> None:
         """"""
-        for widget in self.get_widgets()[::-1]:
-            if widget.feature._release(event):
-                if widget._through:
-                    continue
-                return True
-        return False
+        if type_ == "left":
+            for widget in self.get_widgets()[::-1]:
+                if widget.feature._release_left(event):
+                    if widget._through:
+                        continue
+                    return
 
-    def _wheel(self, event: tkinter.Event) -> bool:
+    def _wheel(
+        self,
+        event: tkinter.Event,
+        type_: typing.Literal["up", "down"] | None = None
+    ) -> None:
         """"""
+        if type_ is not None:
+            event.delta = 120 if type_ == "up" else -120
         for widget in self.get_widgets()[::-1]:
             if widget.feature._wheel(event):
                 if widget._through:
                     continue
-                return True
-        return False
+                return
 
-    def _input(self, event: tkinter.Event) -> bool:
+    def _input(self, event: tkinter.Event) -> None:
         """"""
         for widget in self.get_widgets()[::-1]:
             if widget.feature._input(event):
                 if widget._through:
                     continue
-                return True
-        return False
+                return
 
 
 class Shape:
@@ -693,7 +739,7 @@ class Shape:
             return True
         return False
 
-    def display(self, master: Canvas, size: tuple[int, int], position: tuple[int, int]) -> None:
+    def display(self, master: Canvas, position: tuple[int, int], size: tuple[int, int]) -> None:
         """
         Display the `Shape` on a `Canvas`
 
@@ -835,7 +881,7 @@ class Text:
         * `position`: the specified coordinates
         """
         x1, y1, x2, y2 = self.region()
-        if 0 <= position[0] - x1 <= x2 and 0 <= position[1] - y1 <= y2:
+        if x1 <= position[0] <= x2 and y1 <= position[1] <= y2:
             return True
         return False
 
@@ -949,6 +995,36 @@ class Image(tkinter.PhotoImage):
             return self.filepath.rsplit(".", 1)[-1]
         return ""
 
+    def center(self) -> tuple[int, int]:
+        """"""
+
+    def region(self) -> tuple[int, int, int, int]:
+        """"""
+
+    def move(self, dx: int, dy: int) -> None:
+        """"""
+
+    def moveto(self, x: int, y: int) -> None:
+        """"""
+
+    def destroy(self) -> None:
+        """"""
+
+    def disappear(self) -> bool:
+        """"""
+
+    def appear(self) -> bool:
+        """"""
+
+    def detect(self, position: tuple[int, int]) -> bool:
+        """"""
+
+    def display(self, master: Canvas, position: tuple[int, int], size: tuple[int, int]) -> None:
+        """"""
+
+    def configure(self) -> None:
+        """"""
+
 
 class Feature:
     """Base Class: The features of a `Widget`"""
@@ -964,19 +1040,43 @@ class Feature:
         self._data_text: list[dict[str, str]] = []
         self._data_image: list[dict[str, str]] = []
 
-    def bind(self, master: "Widget") -> None:
-        """"""
-        self.master = master
-
-    def _touch(self, event: tkinter.Event) -> bool:
+    def _move_none(self, event: tkinter.Event) -> bool:
         """"""
         return False
 
-    def _click(self, event: tkinter.Event) -> bool:
+    def _move_left(self, event: tkinter.Event) -> bool:
         """"""
         return False
 
-    def _release(self, event: tkinter.Event) -> bool:
+    def _move_center(self, event: tkinter.Event) -> bool:
+        """"""
+        return False
+
+    def _move_right(self, event: tkinter.Event) -> bool:
+        """"""
+        return False
+
+    def _click_left(self, event: tkinter.Event) -> bool:
+        """"""
+        return False
+
+    def _click_center(self, event: tkinter.Event) -> bool:
+        """"""
+        return False
+
+    def _click_right(self, event: tkinter.Event) -> bool:
+        """"""
+        return False
+
+    def _release_left(self, event: tkinter.Event) -> bool:
+        """"""
+        return False
+
+    def _release_center(self, event: tkinter.Event) -> bool:
+        """"""
+        return False
+
+    def _release_right(self, event: tkinter.Event) -> bool:
         """"""
         return False
 
@@ -999,13 +1099,13 @@ class Widget:
     def __init__(
         self,
         master: Canvas,
-        size: tuple[int, int],
         position: tuple[int, int],
+        size: tuple[int, int],
         *,
         shape: Shape,
         text: Text,
         feature: Feature,
-        image: Image | None = None,
+        image: Image,
         through: bool = False
     ) -> None:
         """"""
@@ -1019,9 +1119,9 @@ class Widget:
         self.text = text
         self.image = image
 
-        self.shape.display(master, size, position)
+        self.shape.display(master, position, size)
         self.text.display(master, [p + s / 2 for p, s in zip(position, size)])
-        self.feature.bind(self)
+        self.feature.master = self
         self.master._widgets.append(self)
 
     def destroy(self) -> None:

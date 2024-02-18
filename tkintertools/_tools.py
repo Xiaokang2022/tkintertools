@@ -36,4 +36,9 @@ def _is_dark() -> bool | None:
 
 def _warning(value: str) -> None:
     """"""
-    print(f"\033[03mWarning: {value}\033[0m")
+    print(f"\033[33mWarning: {value}\033[0m")
+
+
+def _info(value: str) -> None:
+    """"""
+    print(f"\033[36mInfo: {value}\033[0m")
