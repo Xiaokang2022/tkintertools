@@ -8,8 +8,15 @@
 # See the Mulan PSL v2 for more details.
 
 """
-TKT-Designer
+tkt-designer
 """
 
-__author__ = "Xiaokang2022<2951256653@qq.com>"
-__version__ = "0.0.0"
+from . import main
+
+__author__ = "Xiaokang2022 <2951256653@qq.com>"
+__version__ = "0.0.1"
+
+
+def run(*args) -> None:
+    """Start tkt designer"""
+    main.Application(args).root.mainloop()

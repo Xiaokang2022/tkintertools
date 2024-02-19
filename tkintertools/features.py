@@ -15,13 +15,11 @@ class Label(core.Feature):
 
     def _move_none(self, event: tkinter.Event) -> bool:
         if flag := self.master.shape.detect((event.x, event.y)):
-            if self._state == "normal":
-                self._state = "hover"
-                self.master.shape.configure(fill="#E5F1FB", outline="#288CDB")
+            if self.master.state == "normal":
+                self.master.state = "hover"
         else:
-            if self._state != "normal":
-                self._state = "normal"
-                self.master.shape.configure(fill="#E1E1E1", outline="#C0C0C0")
+            if self.master.state != "normal":
+                self.master.state = "normal"
         return flag
 
 
@@ -41,14 +39,12 @@ class Button(core.Feature):
 
     def _move_none(self, event: tkinter.Event) -> bool:
         if flag := self.master.shape.detect((event.x, event.y)):
-            if self._state == "normal":
-                self._state = "hover"
-                self.master.shape.configure(fill="#E5F1FB", outline="#288CDB")
+            if self.master.state == "normal":
+                self.master.state = "hover"
                 self.master.master.configure(cursor="hand2")
         else:
-            if self._state != "normal":
-                self._state = "normal"
-                self.master.shape.configure(fill="#E1E1E1", outline="#C0C0C0")
+            if self.master.state != "normal":
+                self.master.state = "normal"
         return flag
 
     def _move_left(self, event: tkinter.Event) -> bool:
@@ -61,22 +57,20 @@ class Button(core.Feature):
         return self._move_none(event)
 
     def _click_left(self, event: tkinter.Event) -> bool:
-        if flag := self._state == "hover":
-            self._state = "click"
-            self.master.shape.configure(fill="#CCE4F7", outline="#4884B4")
+        if flag := self.master.state == "hover":
+            self.master.state = "click"
         return flag
 
     def _release_left(self, event: tkinter.Event) -> bool:
         """"""
         if self.master.shape.detect((event.x, event.y)):
-            if self._state == "click":
-                self._state = "hover"
-                self.master.shape.configure(fill="#E5F1FB", outline="#288CDB")
-                self._command(*self._args)
+            if self.master.state == "click":
+                self.master.state = "hover"
+                if self._command is not None:
+                    self._command(*self._args)
                 return True
-        elif self._state == "click":
-            self._state = "normal"
-            self.master.shape.configure(fill="#E1E1E1", outline="#C0C0C0")
+        elif self.master.state == "click":
+            self.master.state = "normal"
             self.master.master.configure(cursor="arrow")
         return False
 
@@ -86,31 +80,31 @@ class UnderLine(Button):
 
     def _move_none(self, event: tkinter.Event) -> bool:
         if flag := self.master.shape.detect((event.x, event.y)):
-            if self._state == "normal":
-                self._state = "hover"
-                self.master.text.configure(underline=True, fill="blue")
+            if self.master.state == "normal":
+                self.master.state = "hover"
+                self.master.text.configure(underline=True)
                 self.master.master.configure(cursor="hand2")
         else:
-            if self._state != "normal":
-                self._state = "normal"
-                self.master.text.configure(underline=False, fill="black")
+            if self.master.state != "normal":
+                self.master.state = "normal"
+                self.master.text.configure(underline=False)
         return flag
 
     def _click_left(self, event: tkinter.Event) -> bool:
-        if flag := self._state == "hover":
-            self._state = "click"
-            self.master.text.configure(fill="purple")
+        if flag := self.master.state == "hover":
+            self.master.state = "click"
         return flag
 
     def _release_left(self, event: tkinter.Event) -> bool:
         """"""
         if self.master.shape.detect((event.x, event.y)):
-            if self._state == "click":
-                self._state = "hover"
-                self._command(*self._args)
+            if self.master.state == "click":
+                self.master.state = "hover"
+                if self._command is not None:
+                    self._command(*self._args)
                 return True
-        elif self._state == "click":
-            self._state = "normal"
+        elif self.master.state == "click":
+            self.master.state = "normal"
             self.master.master.configure(cursor="arrow")
         return False
 
@@ -120,31 +114,29 @@ class Highlight(Button):
 
     def _move_none(self, event: tkinter.Event) -> bool:
         if flag := self.master.shape.detect((event.x, event.y)):
-            if self._state == "normal":
-                self._state = "hover"
-                self.master.text.configure(fill="#1F1F1F")
+            if self.master.state == "normal":
+                self.master.state = "hover"
                 self.master.master.configure(cursor="hand2")
         else:
-            if self._state != "normal":
-                self._state = "normal"
-                self.master.text.configure(fill="grey")
+            if self.master.state != "normal":
+                self.master.state = "normal"
         return flag
 
     def _click_left(self, event: tkinter.Event) -> bool:
-        if flag := self._state == "hover":
-            self._state = "click"
-            self.master.text.configure(fill="black")
+        if flag := self.master.state == "hover":
+            self.master.state = "click"
         return flag
 
     def _release_left(self, event: tkinter.Event) -> bool:
         """"""
         if self.master.shape.detect((event.x, event.y)):
-            if self._state == "click":
-                self._state = "hover"
-                self._command(*self._args)
+            if self.master.state == "click":
+                self.master.state = "hover"
+                if self._command is not None:
+                    self._command(*self._args)
                 return True
-        elif self._state == "click":
-            self._state = "normal"
+        elif self.master.state == "click":
+            self.master.state = "normal"
             self.master.master.configure(cursor="arrow")
         return False
 

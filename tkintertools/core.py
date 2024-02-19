@@ -333,6 +333,7 @@ class Canvas(tkinter.Canvas):
         master: Tk | Toplevel | NestedToplevel | typing.Self,
         *,
         expand: typing.Literal["", "x", "y", "xy"] = "xy",
+        zoom_item: bool = False,
         keep_ratio: typing.Literal["min", "max", "full"] | None = None,
         free_anchor: bool = False,
         **kw,
@@ -359,6 +360,7 @@ class Canvas(tkinter.Canvas):
         self._images: dict[int, list[Image]] = {}
 
         self._expand = expand
+        self._zoom_item = zoom_item
         self._free_anchor = free_anchor
         self._keep_ratio = keep_ratio
 
@@ -480,12 +482,13 @@ class Canvas(tkinter.Canvas):
         self._ratio = [self._size[0] / self._initial_size[0],
                        self._size[1] / self._initial_size[1]]
 
-        relative_ratio = self._size[0] / \
-            last_ratio[0], self._size[1] / last_ratio[1]
-        self._zoom_widgets(relative_ratio)
-        self._zoom_items(relative_ratio)
-        self._zoom_texts(relative_ratio)
-        self._zoom_images(relative_ratio)
+        if self._zoom_item:
+            relative_ratio = self._size[0] / \
+                last_ratio[0], self._size[1] / last_ratio[1]
+            self._zoom_widgets(relative_ratio)
+            self._zoom_items(relative_ratio)
+            self._zoom_texts(relative_ratio)
+            self._zoom_images(relative_ratio)
 
         for canvas in self._canvases:
             canvas._zoom()
@@ -649,25 +652,42 @@ class Shape:
     """
 
     def __init__(self) -> None:
-        self._master: Canvas | None = None
+        self.master: Canvas | None = None
+
         self._size: list[int, int] = [None, None]
         self._position: list[int, int] = [None, None]
         self._items_inside: list[int] = []
         self._items_outline: list[int] = []
+
         self._is_transparency: bool = False
         self._temp_data: tuple[list[str]] = [], []
-        self._id: str = hex(id(self))[2:]
 
-    def borderwidth(self, value: int | None) -> int | None:
-        """
-        Set or get the borderwidth of the `Shape`
+        # (fill, outline)
+        self._normal: tuple[str, str] = "white", "black"
+        self._hover: tuple[str, str] = "white", "black"
+        self._click: tuple[str, str] = "white", "black"
+        self._error: tuple[str, str] = "white", "black"
+        self._disabled: tuple[str, str] = "white", "black"
 
-        * `value`: the borderwidth of the `Shape` 
-        """
-        if value is None:
-            return self._master.itemcget(self._items_outline[0], "width")
-        for item in self._items_outline:
-            self._master.itemconfigure(item, width=value)
+    def get_style(
+        self,
+        mode: typing.Literal["normal", "hover", "click", "error", "disabled"]
+    ) -> dict[typing.Literal["fill", "outline"], str]:
+        """"""
+        style = getattr(self, f"_{mode}")
+        return {"fill": style[0], "outline": style[1]}
+
+    def set_style(self, **kw) -> None:
+        """"""
+        for name, value in kw.items():
+            setattr(self, f"_{name}", value)
+
+    def update(
+        self,
+        state: typing.Literal["normal", "hover", "click", "error", "disabled"]
+    ) -> None:
+        """"""
+        self.configure(**self.get_style(state))
 
     def center(self) -> tuple[int, int]:
         """Return the geometric center of the `Shape`"""
@@ -683,8 +703,8 @@ class Shape:
         """Move the `Shape`"""
         self._position[0] += dx
         self._position[1] += dy
-        for item in self._master.find_withtag(self._id):
-            self._master.move(item, dx, dy)
+        for item in set(self._items_inside + self._items_outline):
+            self.master.move(item, dx, dy)
 
     def moveto(self, x: int, y: int) -> None:
         """Move the `Shape` to a certain position"""
@@ -692,42 +712,10 @@ class Shape:
 
     def destroy(self) -> None:
         """Destroy the `Shape`"""
-        self._master.delete(*self._master.find_withtag(self._id))
+        self.master.delete(*set(self._items_inside + self._items_outline))
         self._items_inside.clear()
         self._items_outline.clear()
-        self._master = None
-
-    def disappear(self) -> bool:
-        """
-        Let the `Shape` disappear
-
-        ATTENTION: Instead of clearing the shape, making the shape disappear is not clearing the shape,
-        you can use the `appear` method to restore the original state
-        """
-        if self._is_transparency:
-            return False
-        for item in self._items_inside:
-            self._temp_data[0].append(self._master.itemcget(item, "fill"))
-            self._master.itemconfigure(item, fill="")
-        for item in self._items_outline:
-            self._temp_data[1].append(self._master.itemcget(item, "outline"))
-            self._master.itemconfigure(item, outline="")
-        return True
-
-    def appear(self) -> bool:
-        """
-        Let the `Shape` appear
-
-        ATTENTION: Contrary to the effect of the method disappear
-        """
-        if not self._is_transparency:
-            return False
-        for item, data in zip(self._items_inside, self._temp_data[0]):
-            self._master.itemconfigure(item, fill=data)
-        for item, data in zip(self._items_outline, self._temp_data[1]):
-            self._master.itemconfigure(item, outline=data)
-        self._temp_data = [], []
-        return True
+        self.master = None
 
     def detect(self, position: tuple[int, int]) -> bool:
         """
@@ -747,21 +735,50 @@ class Shape:
         * `size`: the size of the `Shape`
         * `position`: the position of the `Shape`
         """
-        self._master = master
+        self.master = master
         self._size = list(size)
         self._position = list(position)
-        item = master.create_rectangle(*self.region(), tags=id(self))
-        self._items_inside.append(item)
-        self._items_outline.append(item)
 
     def configure(self, fill: str | None = None, outline: str | None = None) -> None:
         """"""
         if fill is not None:
             for item in self._items_inside:
-                self._master.itemconfigure(item, fill=fill)
+                self.master.itemconfigure(item, fill=fill)
         if outline is not None:
             for item in self._items_outline:
-                self._master.itemconfigure(item, outline=outline)
+                self.master.itemconfigure(item, outline=outline)
+
+    def disappear(self) -> bool:
+        """
+        Let the `Shape` disappear
+
+        ATTENTION: Instead of clearing the shape, making the shape disappear is not clearing the shape,
+        you can use the `appear` method to restore the original state
+        """
+        if self._is_transparency:
+            return False
+        for item in self._items_inside:
+            self._temp_data[0].append(self.master.itemcget(item, "fill"))
+            self.master.itemconfigure(item, fill="")
+        for item in self._items_outline:
+            self._temp_data[1].append(self.master.itemcget(item, "outline"))
+            self.master.itemconfigure(item, outline="")
+        return True
+
+    def appear(self) -> bool:
+        """
+        Let the `Shape` appear
+
+        ATTENTION: Contrary to the effect of the method disappear
+        """
+        if not self._is_transparency:
+            return False
+        for item, data in zip(self._items_inside, self._temp_data[0]):
+            self.master.itemconfigure(item, fill=data)
+        for item, data in zip(self._items_outline, self._temp_data[1]):
+            self.master.itemconfigure(item, outline=data)
+        self._temp_data = [], []
+        return True
 
 
 class Text:
@@ -800,6 +817,7 @@ class Text:
         * `bbox_limit`: 
         """
         self._master: Canvas | None = None
+
         self._length: int = len(text)
         self._position: list[int, int] = [None, None]
         self._text: str = text
@@ -818,6 +836,32 @@ class Text:
         self._items: list[int] = []
         self._is_transparency: bool = False
         self._temp_data: list[str] = []
+
+        # fill
+        self._normal: str = "black"
+        self._hover: str = "black"
+        self._click: str = "black"
+        self._error: str = "black"
+        self._disabled: str = "black"
+
+    def get_style(
+        self,
+        mode: typing.Literal["normal", "hover", "click", "error", "disabled"]
+    ) -> str:
+        """"""
+        return getattr(self, f"_{mode}")
+
+    def set_style(self, **kw) -> None:
+        """"""
+        for name, value in kw.items():
+            setattr(self, f"_{name}", value)
+
+    def update(
+        self,
+        state: typing.Literal["normal", "hover", "click", "error", "disabled"]
+    ) -> None:
+        """"""
+        self.configure(fill=self.get_style(state))
 
     def center(self) -> tuple[int, int]:
         """Return the geometric center of the `Text`"""
@@ -846,33 +890,6 @@ class Text:
         self._master.delete(*self._items)
         self._items.clear()
         self._master = None
-
-    def disappear(self) -> bool:
-        """
-        Let the `Text` disappear
-
-        ATTENTION: Instead of clearing the text, making the text disappear is not clearing the text,
-        you can use the `appear` method to restore the original state
-        """
-        if self._is_transparency:
-            return False
-        for item in self._items:
-            self._temp_data.append(self._master.itemcget(item, "fill"))
-            self._master.itemconfigure(item, fill="")
-        return True
-
-    def appear(self) -> bool:
-        """
-        Let the `Text` appear
-
-        ATTENTION: Contrary to the effect of the method disappear
-        """
-        if not self._is_transparency:
-            return False
-        for item, data in zip(self._items, self._temp_data):
-            self._master.itemconfigure(item, fill=data)
-        self._temp_data.clear()
-        return True
 
     def detect(self, position: tuple[int, int]) -> bool:
         """
@@ -927,10 +944,7 @@ class Text:
         * `position`: the position of the `Shape`
         """
         self._master = master
-        self._position = position
-        self._items.append(master.create_text(
-            *position, text=self._text, font=self._font,
-            angle=self._angle, anchor=self._anchor))
+        self._position = list(position)
 
     def configure(
         self,
@@ -954,7 +968,7 @@ class Text:
         if family is not None:
             self._font.config(family=family)
         if size is not None:
-            self._font.config(size=size)
+            self._font.config(size=-abs(size))
         if weight is not None:
             self._font.config(weight=weight)
         if slant is not None:
@@ -976,13 +990,40 @@ class Text:
             if fill is not None:
                 self._master.itemconfigure(item, fill=fill)
 
+    def disappear(self) -> bool:
+        """
+        Let the `Text` disappear
+
+        ATTENTION: Instead of clearing the text, making the text disappear is not clearing the text,
+        you can use the `appear` method to restore the original state
+        """
+        if self._is_transparency:
+            return False
+        for item in self._items:
+            self._temp_data.append(self._master.itemcget(item, "fill"))
+            self._master.itemconfigure(item, fill="")
+        return True
+
+    def appear(self) -> bool:
+        """
+        Let the `Text` appear
+
+        ATTENTION: Contrary to the effect of the method disappear
+        """
+        if not self._is_transparency:
+            return False
+        for item, data in zip(self._items, self._temp_data):
+            self._master.itemconfigure(item, fill=data)
+        self._temp_data.clear()
+        return True
+
 
 class Image(tkinter.PhotoImage):
     """Base Class: an image of a `Widget`"""
 
     def __init__(
         self,
-        filepath: str
+        filepath: str = ""
     ) -> None:
         """"""
         self.filepath = filepath
@@ -1029,16 +1070,9 @@ class Image(tkinter.PhotoImage):
 class Feature:
     """Base Class: The features of a `Widget`"""
 
-    def __init__(
-        self
-    ) -> None:
+    def __init__(self) -> None:
         """"""
         self.master: Widget | None = None
-        self._state: typing.Literal["normal", "hover",
-                                    "click", "error", "disabled"] | None = None
-        self._data_shape: list[dict[str, str]] = []
-        self._data_text: list[dict[str, str]] = []
-        self._data_image: list[dict[str, str]] = []
 
     def _move_none(self, event: tkinter.Event) -> bool:
         """"""
@@ -1104,60 +1138,79 @@ class Widget:
         *,
         shape: Shape,
         text: Text,
-        feature: Feature,
         image: Image,
-        through: bool = False
+        feature: Feature,
+        through: bool
     ) -> None:
         """"""
         self.master = master
+
         self._size = size
         self._position = position
         self._through = through
+
+        self._state: typing.Literal["normal", "hover",
+                                    "click", "error", "disabled"] = "normal"
 
         self.shape = shape
         self.feature = feature
         self.text = text
         self.image = image
 
-        self.shape.display(master, position, size)
-        self.text.display(master, [p + s / 2 for p, s in zip(position, size)])
-        self.feature.master = self
-        self.master._widgets.append(self)
+        shape.display(master, position, size)
+        shape.update(self._state)
+        text.display(master, [p + s / 2 for p, s in zip(position, size)])
+        text.update(self._state)
+        feature.master = self
+        master._widgets.append(self)
+
+    @property
+    def state(self) -> typing.Literal["normal", "hover", "click", "error", "disabled"]:
+        """"""
+        return self._state
+
+    @state.setter
+    def state(self, value: typing.Literal["normal", "hover", "click", "error", "disabled"]) -> None:
+        """"""
+        self._state = value
+        self.update(value)
+
+    def update(self, state: typing.Literal['normal', 'hover', 'click', 'error', 'disabled'] = "normal") -> None:
+        """"""
+        self.shape.update(state)
+        self.text.update(state)
 
     def destroy(self) -> None:
         """Destroy the `Widget`"""
         self.shape.destroy()
         self.text.destroy()
+        self.image.destroy()
 
     def move(self, dx: int, dy: int) -> None:
         """"""
         self.shape.move(dx, dy)
         self.text.move(dx, dy)
+        self.image.move(dx, dy)
 
     def moveto(self, x: int, y: int) -> None:
         """"""
         self.shape.moveto(x, y)
         self.text.moveto(x, y)
+        self.image.moveto(x, y)
 
     def disappear(self) -> None:
         """"""
         self.shape.disappear()
         self.text.disappear()
+        self.image.disappear()
 
     def appear(self) -> None:
         """"""
         self.shape.appear()
         self.text.appear()
+        self.image.appear()
 
-    @typing.overload
-    def state(self) -> str: ...
-
-    @typing.overload
-    def state(self, __state: typing.Literal['default',
-              'hover', 'selected', 'disabled', 'error']) -> None: ...
-
-    def state(self, __state: typing.Literal['default', 'hover', 'selected', 'disabled', 'error'] | None = None) -> str | None:
+    def configure(self, **kw) -> None:
         """"""
-
-    def configure(self) -> None:
-        """"""
+        if value := kw.get("through"):
+            self._through = value

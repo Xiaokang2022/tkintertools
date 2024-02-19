@@ -8,24 +8,23 @@ from . import _tools, core
 class NoShape(core.Shape):
     """"""
 
-    def display(self, master: core.Canvas, position: tuple[int, int], size: tuple[int, int]) -> None:
-        self._master = master
-        self._size = list(size)
-        self._position = list(position)
-
 
 class Rectangle(core.Shape):
     """"""
+
+    def display(self, master: core.Canvas, position: tuple[int, int], size: tuple[int, int]) -> None:
+        core.Shape.display(self, master, position, size)
+        item = master.create_rectangle(*self.region())
+        self._items_inside.append(item)
+        self._items_outline.append(item)
 
 
 class Oval(core.Shape):
     """"""
 
     def display(self, master: core.Canvas, position: tuple[int, int], size: tuple[int, int]) -> None:
-        self._master = master
-        self._size = list(size)
-        self._position = list(position)
-        item = master.create_oval(*self.region(), tags=id(self))
+        core.Shape.display(self, master, position, size)
+        item = master.create_oval(*self.region())
         self._items_inside.append(item)
         self._items_outline.append(item)
 
@@ -48,15 +47,13 @@ class RegularPolygon(core.Shape):
     def display(self, master: core.Canvas, position: tuple[int, int], size: tuple[int, int]) -> None:
         if self.side < 3 or self.radius < 1:
             raise ValueError
-        self._master = master
-        self._size = [self.radius*2]*2
-        self._position = list(position)
+        core.Shape.display(self, master, position, [self.radius*2]*2)
         points = []
         for i in range(self.side):
             theta = math.tau*i/self.side+self.theta
             points.append(math.cos(theta)*self.radius+position[0]+size[0]/2)
             points.append(math.sin(theta)*self.radius+position[1]+size[1]/2)
-        item = master.create_polygon(*points, tags=id(self))
+        item = master.create_polygon(*points)
         self._items_inside.append(item)
         self._items_outline.append(item)
 
@@ -74,9 +71,7 @@ class RoundedRectangle(core.Shape):
 
     def display(self, master: core.Canvas, position: tuple[int, int], size: tuple[int, int]) -> None:
         """"""
-        self._master = master
-        self._size = list(size)
-        self._position = list(position)
+        core.Shape.display(self, master, position, size)
 
         x, y, w, h = *position, *size
         x1, y1, x2, y2 = x, y, x + w, y + h
@@ -114,12 +109,12 @@ class RoundedRectangle(core.Shape):
         """"""
         if fill is not None:
             for item in self._items_inside:
-                self._master.itemconfigure(item, fill=fill)
+                self.master.itemconfigure(item, fill=fill)
         if outline is not None:
             for item in self._items_outline[:4]:
-                self._master.itemconfigure(item, outline=outline)
+                self.master.itemconfigure(item, outline=outline)
             for item in self._items_outline[4:]:
-                self._master.itemconfigure(item, fill=outline)
+                self.master.itemconfigure(item, fill=outline)
 
 
 class SemicircularRectangle(core.Shape):
@@ -127,9 +122,7 @@ class SemicircularRectangle(core.Shape):
 
     def display(self, master: core.Canvas, position: tuple[int, int], size: tuple[int, int]) -> None:
         """"""
-        self._master = master
-        self._size = list(size)
-        self._position = list(position)
+        core.Shape.display(self, master, position, size)
 
         x, y, w, h = *position, *size
         x1, y1, x2, y2 = x, y, x + w, y + h
@@ -161,12 +154,12 @@ class SemicircularRectangle(core.Shape):
         """"""
         if fill is not None:
             for item in self._items_inside:
-                self._master.itemconfigure(item, fill=fill)
+                self.master.itemconfigure(item, fill=fill)
         if outline is not None:
             for item in self._items_outline[:2]:
-                self._master.itemconfigure(item, outline=outline)
+                self.master.itemconfigure(item, outline=outline)
             for item in self._items_outline[2:]:
-                self._master.itemconfigure(item, fill=outline)
+                self.master.itemconfigure(item, fill=outline)
 
 
 class SharpRectangle(core.Shape):
@@ -188,9 +181,7 @@ class SharpRectangle(core.Shape):
 
     def display(self, master: core.Canvas, position: tuple[int, int], size: tuple[int, int]) -> None:
         """"""
-        self._master = master
-        self._size = list(size)
-        self._position = list(position)
+        core.Shape.display(self, master, position, size)
 
         if size[0] < size[1]:
             raise ValueError
@@ -213,7 +204,7 @@ class SharpRectangle(core.Shape):
             x1+dx[0], y2
         ]
 
-        item = master.create_polygon(*points, tags=id(self))
+        item = master.create_polygon(*points)
         self._items_inside.append(item)
         self._items_outline.append(item)
 
@@ -233,9 +224,7 @@ class Parallelogram(core.Shape):
 
     def display(self, master: core.Canvas, position: tuple[int, int], size: tuple[int, int]) -> None:
         """"""
-        self._master = master
-        self._size = list(size)
-        self._position = list(position)
+        core.Shape.display(self, master, position, size)
 
         if (dx := size[1]*math.tan(self.theta)) >= size[0]:
             raise RuntimeError
@@ -250,7 +239,7 @@ class Parallelogram(core.Shape):
             x1, y2
         ]
 
-        item = master.create_polygon(*points, tags=id(self))
+        item = master.create_polygon(*points)
         self._items_inside.append(item)
         self._items_outline.append(item)
 

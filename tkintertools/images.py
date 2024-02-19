@@ -16,6 +16,9 @@ except ImportError:
 class NoImage(core.Image):
     """"""
 
+    def __init__(self) -> None:
+        return core.Image.__init__(self)
+
 
 class StillImage(core.Image):
     """"""
