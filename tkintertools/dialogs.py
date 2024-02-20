@@ -1,5 +1,11 @@
 """All standard Dialogs"""
 
+from . import core
+
+
+class Message(core.Dialog):
+    """"""
+
 
 # class BaseToolTip(Toplevel):
 #     """The base class of ToolTip"""

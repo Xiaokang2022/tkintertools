@@ -14,8 +14,6 @@ python3 -m tkintertools [options]
 ```
 """
 
-import sys
-
 if __name__ == "__main__":
     from . import designer
-    designer.run(*sys.argv)
+    designer.run()

@@ -50,7 +50,6 @@ import sys
 if sys.version_info < (3, 10):
     raise ImportError("Python version requirement is 3.12 or higher.")
 
-from .color import *
 from .constants import *
 from .core import *
 from .widgets import *

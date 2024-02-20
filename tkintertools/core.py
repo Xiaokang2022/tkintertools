@@ -11,7 +11,11 @@ Structure of Class:
 +--------+      +--------------+  |   +--------------------+   |
 | tkt.Tk | ---> | tkt.Toplevel | -+-> | tkt.NestedToplevel |   |
 +--------+      +--------------+  |   +--------------------+   |
-                                  +----------------------------+
+                       |          +----------------------------+
+                       v
+                +------------+
+                | tkt.Dialog |
+                +------------+
 +-----------+        +------------+
 | tk.Canvas | -----> | tkt.Canvas |
 +-----------+        +------------+
@@ -36,7 +40,7 @@ import math
 import platform
 import tkinter
 import typing
-from tkinter import font
+from tkinter import commondialog, dialog, font, messagebox
 
 from . import _tools, color, constants
 
@@ -68,9 +72,9 @@ class Tk(tkinter.Tk):
         if self.__class__ == Tk:  # NOTE: Subclasses of tkt.Tk do not inherit tk.Tk
             tkinter.Tk.__init__(self, **kw)
 
-        self._initial_size = list(size)
-        self._size = self._initial_size[:]
-        self._ratio = [1., 1.]
+        self._initial_size: tuple[int, int] = list(size)
+        self._size: tuple[int, int] = self._initial_size[:]
+        self._ratio: tuple[float, float] = [1., 1.]
         self._canvases: list[Canvas] = []
         self._theme: dict[str, str | bool | None] = self.master._theme if isinstance(
             self.master, tkinter.Wm) else {}
@@ -107,14 +111,19 @@ class Tk(tkinter.Tk):
         return tuple(self._canvases)
 
     def center(self) -> None:
-        """Center the window"""
+        """
+        Center the window
+
+        * `master`: 
+        """
         # self.update()  # ALPHA: What is the chance that the center will fail without this line of code?
         if self.master is None or self.__class__ == Toplevel:
             parent_width = self.winfo_screenwidth()
             parent_height = self.winfo_screenheight()
         else:
-            parent_width = self.master._size[0]
-            parent_height = self.master._size[1]
+            parent_width = self.master.winfo_width()
+            parent_height = self.master.winfo_height()
+
         x = (parent_width - self._size[0]) // 2
         y = (parent_height - self._size[1]) // 2
         self.geometry(position=(x, y))
@@ -254,6 +263,7 @@ class Toplevel(tkinter.Toplevel, Tk):
         *,
         title: str | None = None,
         transient: bool = False,
+        grab: bool = False,
         focus: bool = True,
         **kw,
     ) -> None:
@@ -263,15 +273,66 @@ class Toplevel(tkinter.Toplevel, Tk):
         * `position`: the position of the window, default value indicates that the location is random
         * `title`: title of window, default is the same as title of master
         * `transient`: instruct the window manager that this window is transient with regard to its master
+        * 
         * `focus`: whether direct input focus to this window
         * `**kw`: compatible with other parameters of class `tkinter.Toplevel`
         """
         tkinter.Toplevel.__init__(self, master, **kw)
-        Tk.__init__(self, size, position, title=title)
-        if focus:
-            self.focus_set()
         if transient:
             self.transient(self.master)
+        Tk.__init__(self, size, position, title=title)
+        if grab:
+            self.grab_set()
+        if focus:
+            self.focus_set()
+
+
+class Dialog(Toplevel):
+    """"""
+
+    def __init__(
+        self,
+        master: Tk | typing.Self | "NestedToplevel" | None = None,
+        size: tuple[int, int] = (720, 405),
+        position: tuple[int, int] | None = None,
+        *,
+        title: str | None = None,
+        transient: bool = False,
+        **kw,
+    ) -> None:
+        """
+        * `master`: parent widget
+        * `size`: the size of the window, default value is 960x540(px)
+        * `position`: the position of the window, default value indicates that the location is random
+        * `title`: title of window, default is the same as title of master
+        * `transient`: instruct the window manager that this window is transient with regard to its master
+        * 
+        * `focus`: whether direct input focus to this window
+        * `**kw`: compatible with other parameters of class `tkinter.Toplevel`
+        """
+        tkinter.Toplevel.__init__(self, master, **kw)
+        if transient:
+            self.transient(self.master)
+        Tk.__init__(self, size, position, title=title)
+        self.grab_set()
+        self.focus_set()
+        self.bind("<Button-1>", self._bell, "+")
+
+    def center(self) -> None:
+        if self.master is not None:
+            x = (self.master.winfo_width() -
+                 self._size[0]) // 2 + self.master.winfo_x()
+            y = (self.master.winfo_height() -
+                 self._size[1]) // 2 + self.master.winfo_y()
+        else:
+            x = (self.winfo_screenwidth() - self._size[0]) // 2
+            y = (self.winfo_screenheight() - self._size[1]) // 2
+        self.geometry(position=(x, y))
+
+    def _bell(self, event: tkinter.Event) -> None:
+        """"""
+        if not 0 <= event.x <= self._size[0] or not 0 <= event.y <= self._size[1]:
+            self.bell()
 
 
 class NestedToplevel(Toplevel):
