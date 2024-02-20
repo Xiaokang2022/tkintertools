@@ -26,3 +26,24 @@ The designer is in development mode
 ### Dark Theme - 暗黑主题
 
 ![png](example_2.png)
+
+### Start Designer - 启动设计器
+
+You can start using the command below  
+你可以使用下面的命令启动
+
+```bash
+python -m tkintertools [options]
+```
+
+In addition to this, you can also run the following Python code to start  
+除此之外，你还可以运行下面的 Python 代码启动
+
+```python
+from tkintertools import designer
+
+designer.run([options])
+```
+
+`[options]` above is optional  
+上述的 `[options]` 为可选参数
