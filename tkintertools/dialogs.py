@@ -1,10 +1,40 @@
 """All standard Dialogs"""
 
+import tkinter
+import typing
+
 from . import core
 
 
 class Message(core.Dialog):
     """"""
+
+
+def askfont(
+    bind: typing.Callable[[str]] | None = None,
+    initfont: str | tuple[str, int] | tuple[str, int, str] = ""
+) -> None:
+    """字体选择对话框，弹出选择字体的默认对话框窗口
+
+    * `bind`: 关联的回调函数，有且仅有一个参数 `font`
+    * `initfont`: 初始字体，格式为 `font` 参数默认格式
+
+    注意: 由于 `tkinter` 模块无法直接打开该窗口，所以此处添加了这个函数
+    """
+    args = []
+
+    if tkinter._default_root is None:
+        tkinter.Tk().withdraw()
+
+    if bind is not None:
+        args += ["-command", tkinter._default_root.register(bind)]
+    if initfont:
+        if isinstance(initfont, tuple):
+            initfont = " ".join(str(i) for i in initfont)
+        args += ["-font", initfont]
+    if args:
+        tkinter._default_root.tk.call("tk", "fontchooser", "configure", *args)
+    tkinter._default_root.tk.call("tk", "fontchooser", "show")
 
 
 # class BaseToolTip(Toplevel):

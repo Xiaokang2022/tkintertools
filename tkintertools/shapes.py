@@ -78,12 +78,12 @@ class RoundedRectangle(core.Shape):
         r, d = self.radius, self.radius*2
 
         if d > size[0] or d > size[1]:
-            _tools._warning("选择 `Shapes.Oval` 会更好")
+            _tools.warning("选择 `Shapes.Oval` 会更好")
             raise ValueError
         elif d == 0:
-            _tools._info("选择 `Shapes.Rectangle` 会更好")
+            _tools.info("选择 `Shapes.Rectangle` 会更好")
         elif size[0] < d < size[1] or size[1] < d < size[0]:
-            _tools._warning("选择 `Shapes.SemicircularRectangle` 会更好")
+            _tools.warning("选择 `Shapes.SemicircularRectangle` 会更好")
             raise ValueError
 
         self._items_inside = [
@@ -132,7 +132,7 @@ class SemicircularRectangle(core.Shape):
         if d < 0:
             raise ValueError
         elif d == 0:
-            _tools._info("shapes.Rectangle")
+            _tools.info("shapes.Rectangle")
 
         self._items_inside = [
             master.create_arc(x1, y1, x1+d, y1+d, outline="",
@@ -177,7 +177,7 @@ class SharpRectangle(core.Shape):
         if not 0 <= theta <= math.pi/3:
             raise ValueError
         if math.isclose(abs(self.ratio[0] - self.ratio[1]), 1):
-            _tools._info("Parallelogram")
+            _tools.info("Parallelogram")
 
     def display(self, master: core.Canvas, position: tuple[int, int], size: tuple[int, int]) -> None:
         """"""

@@ -40,7 +40,7 @@ import math
 import platform
 import tkinter
 import typing
-from tkinter import commondialog, dialog, font, messagebox
+from tkinter import font
 
 from . import _tools, color, constants
 
@@ -85,6 +85,7 @@ class Tk(tkinter.Tk):
 
         self.bind("<Configure>", lambda _: self._zoom())
 
+    # @typing.override
     def geometry(
         self,
         *,
@@ -111,11 +112,7 @@ class Tk(tkinter.Tk):
         return tuple(self._canvases)
 
     def center(self) -> None:
-        """
-        Center the window
-
-        * `master`: 
-        """
+        """Center the window"""
         # self.update()  # ALPHA: What is the chance that the center will fail without this line of code?
         if self.master is None or self.__class__ == Toplevel:
             parent_width = self.winfo_screenwidth()
@@ -162,7 +159,7 @@ class Tk(tkinter.Tk):
         try:
             HWND = ctypes.windll.user32.GetParent(self.winfo_id())
             if dark is None:
-                dark = _tools._is_dark()
+                dark = _tools.is_dark()
             if dark is not None:
                 ctypes.windll.dwmapi.DwmSetWindowAttribute(
                     HWND, 20, ctypes.byref(ctypes.c_int(dark)), 4)
@@ -173,7 +170,7 @@ class Tk(tkinter.Tk):
                     ctypes.windll.dwmapi.DwmSetWindowAttribute(
                         HWND, 34 + i, ctypes.byref(ctypes.c_int(color.str_to_hex(value, reverse=True))), 4)
         except:
-            _tools._warning(
+            _tools.warning(
                 "Some parameters are not available on the current OS!")
         if background is not None:
             self["bg"] = background
@@ -273,7 +270,7 @@ class Toplevel(tkinter.Toplevel, Tk):
         * `position`: the position of the window, default value indicates that the location is random
         * `title`: title of window, default is the same as title of master
         * `transient`: instruct the window manager that this window is transient with regard to its master
-        * 
+        * `grab`: set grab for this window
         * `focus`: whether direct input focus to this window
         * `**kw`: compatible with other parameters of class `tkinter.Toplevel`
         """
@@ -306,18 +303,13 @@ class Dialog(Toplevel):
         * `position`: the position of the window, default value indicates that the location is random
         * `title`: title of window, default is the same as title of master
         * `transient`: instruct the window manager that this window is transient with regard to its master
-        * 
-        * `focus`: whether direct input focus to this window
         * `**kw`: compatible with other parameters of class `tkinter.Toplevel`
         """
-        tkinter.Toplevel.__init__(self, master, **kw)
-        if transient:
-            self.transient(self.master)
-        Tk.__init__(self, size, position, title=title)
-        self.grab_set()
-        self.focus_set()
+        Toplevel.__init__(self, master, size, position, title=title,
+                          transient=transient, grab=True, focus=True, **kw)
         self.bind("<Button-1>", self._bell, "+")
 
+    # @typing.override
     def center(self) -> None:
         if self.master is not None:
             x = (self.master.winfo_width() -
@@ -330,7 +322,7 @@ class Dialog(Toplevel):
         self.geometry(position=(x, y))
 
     def _bell(self, event: tkinter.Event) -> None:
-        """"""
+        """Internal Method: When an attempt is made to move out of focus, a bell prompts the user"""
         if not 0 <= event.x <= self._size[0] or not 0 <= event.y <= self._size[1]:
             self.bell()
 
@@ -402,17 +394,19 @@ class Canvas(tkinter.Canvas):
         """
         * `master`: parent widget
         * `expand`: the mode of expand, `x` is horizontal, and `y` is vertical
+        * `zoom_item`: whether or not to scale its items
         * `keep_ratio`: the mode of aspect ratio, `min` follows the minimum value,
         `max` follows the maximum value, and `full` follows the maximum possible value
         * `free_anchor`: whether the anchor point is free-floating
         * `**kw`: compatible with other parameters of class `tkinter.Canvas`
         """
         tkinter.Canvas.__init__(self, master, **kw)
-        self._initial_size = [None, None]
-        self._size = self._initial_size[:]
-        self._initial_position = [None, None]
-        self._position = self._initial_position[:]
-        self._ratio = [1., 1.]
+
+        self._initial_size: tuple[int, int] = [None, None]
+        self._size: tuple[int, int] = self._initial_size[:]
+        self._initial_position: tuple[int, int] = [None, None]
+        self._position: tuple[int, int] = self._initial_position[:]
+        self._ratio: tuple[float, float] = [1., 1.]
 
         self._canvases: list[Canvas] = []
         self._widgets: list[Widget] = []
@@ -474,7 +468,7 @@ class Canvas(tkinter.Canvas):
         return tuple(self._images)
 
     def _zoom_init(self) -> None:
-        """"""
+        """Internal Method: Scale initialization"""
         self._size = self._initial_size = [
             self.winfo_width(), self.winfo_height()]
 
@@ -555,7 +549,7 @@ class Canvas(tkinter.Canvas):
             canvas._zoom()
 
     def _zoom_widgets(self, relative_ratio: tuple[float, float]) -> None:
-        """控件数据修改"""
+        """Internal Method: Modify data for the position and size of the widgets"""
         for widget in self._widgets:
             widget.shape._size[0] *= relative_ratio[0]
             widget.shape._size[1] *= relative_ratio[1]
@@ -563,34 +557,34 @@ class Canvas(tkinter.Canvas):
             widget.shape._position[1] *= relative_ratio[1]
 
     def _zoom_items(self, relative_ratio: tuple[float, float]) -> None:
-        """元素位置缩放"""
+        """Internal Method: Scale the items"""
         for item in self.find_all():
             self.coords(item, *[c * relative_ratio[i & 1]
                         for i, c in enumerate(self.coords(item))])
 
     def _zoom_texts(self, relative_ratio: tuple[float, float]) -> None:
-        """字体大小缩放"""
+        """Internal Method: Scale the texts"""
         for text, value in self._texts.items():
             value[0] *= math.sqrt(relative_ratio[0]*relative_ratio[1])
             value[1].config(size=round(value[0]))
             self.itemconfigure(text, font=value[1])
 
     def _zoom_images(self, relative_ratio: tuple[float, float]) -> None:
-        """图像大小缩放（采用相对的绝对缩放）"""
+        """Internal Method: Scale the images"""
         # for image, value in self._images.items():
         #     if value[0] and value[0].extension != "gif":
         #         value[1] = value[0].zoom(
         #             temp_x * rate_x, temp_y * rate_y, precision=1.2)
         #         self.itemconfigure(image, image=value[1])
 
+    # @typing.override
     def destroy(self) -> None:
-        # Override: 兼容原生 tkinter 的容器控件
         if _canvases := getattr(self.master, "_canvases", None):
             _canvases.remove(self)
         return tkinter.Canvas.destroy(self)
 
+    # @typing.override  # 添加对 text 类型的 _CanvasItemId 的字体大小的控制
     def create_text(self, *args, **kw) -> int:
-        # Override: 添加对 text 类型的 _CanvasItemId 的字体大小的控制
         if not (font_ := kw.get("font")):
             kw["font"] = font.Font(family=constants.FONT, size=constants.SIZE)
         elif isinstance(font_, str):
@@ -611,16 +605,16 @@ class Canvas(tkinter.Canvas):
         self._texts[text] = [kw["font"].cget("size"), kw["font"]]
         return text
 
+    # @typing.override  # 添加对 image 类型的 _CanvasItemId 的图像大小的控制
     def create_image(self, *args, **kw) -> int:
-        # Override: 添加对 image 类型的 _CanvasItemId 的图像大小的控制
         image = tkinter.Canvas.create_image(self, *args, **kw)
         self._images[image] = [kw.get("image"), None]
         if self._images[image][0].__class__ == Image:
             self._images[image][0] = self._images[image][0].image
         return image
 
+    # @typing.override  # 创建空 image 的 _CanvasItemId 时漏去对图像大小的控制
     def itemconfigure(self, tagOrId: str | int, **kw) -> dict[str, tuple[str, str, str, str, str]] | None:
-        # Override: 创建空 image 的 _CanvasItemId 时漏去对图像大小的控制
         if kw.get("image").__class__ == Image:
             self._images[tagOrId] = [kw.get("image"), None]
         return tkinter.Canvas.itemconfigure(self, tagOrId, **kw)
@@ -630,64 +624,43 @@ class Canvas(tkinter.Canvas):
         event: tkinter.Event,
         type_: typing.Literal["left", "center", "right", "none"]
     ) -> None:
-        """"""
-        if type_ == "none":
-            for widget in self.get_widgets()[::-1]:
-                if widget.feature._move_none(event) or widget._through:
-                    return
-            if self.cget("cursor") != "arrow":
-                self.configure(cursor="arrow")
-        elif type_ == "left":
-            for widget in self.get_widgets()[::-1]:
-                if widget.feature._move_left(event) or widget._through:
-                    return
-            if self.cget("cursor") != "arrow":
-                self.configure(cursor="arrow")
-        elif type_ == "right":
-            for widget in self.get_widgets()[::-1]:
-                if widget.feature._move_right(event) or widget._through:
-                    return
-            if self.cget("cursor") != "arrow":
-                self.configure(cursor="arrow")
-        elif type_ == "center":
-            for widget in self.get_widgets()[::-1]:
-                if widget.feature._move_center(event) or widget._through:
-                    return
-            if self.cget("cursor") != "arrow":
-                self.configure(cursor="arrow")
+        """Internal Method: Events to move the mouse"""
+        for widget in self.get_widgets()[::-1]:
+            if getattr(widget.feature, f"_move_{type_}")(event) or widget._through:
+                return
+        if self.cget("cursor") != "arrow":
+            self.configure(cursor="arrow")
 
     def _click(
         self,
         event: tkinter.Event,
         type_: typing.Literal["left", "center", "right"]
     ) -> None:
-        """"""
-        if type_ == "left":
-            for widget in self.get_widgets()[::-1]:
-                if widget.feature._click_left(event):
-                    if widget._through:
-                        continue
-                    return
+        """Internal Method: Events to click the mouse"""
+        for widget in self.get_widgets()[::-1]:
+            if getattr(widget.feature, f"_click_{type_}")(event):
+                if widget._through:
+                    continue
+                return
 
     def _release(
         self,
         event: tkinter.Event,
         type_: typing.Literal["left", "center", "right"]
     ) -> None:
-        """"""
-        if type_ == "left":
-            for widget in self.get_widgets()[::-1]:
-                if widget.feature._release_left(event):
-                    if widget._through:
-                        continue
-                    return
+        """Internal Method: Events to release the mouse"""
+        for widget in self.get_widgets()[::-1]:
+            if getattr(widget.feature, f"_release_{type_}")(event):
+                if widget._through:
+                    continue
+                return
 
     def _wheel(
         self,
         event: tkinter.Event,
         type_: typing.Literal["up", "down"] | None = None
     ) -> None:
-        """"""
+        """Internal Method: Events to scroll the mouse wheel"""
         if type_ is not None:
             event.delta = 120 if type_ == "up" else -120
         for widget in self.get_widgets()[::-1]:
@@ -697,7 +670,7 @@ class Canvas(tkinter.Canvas):
                 return
 
     def _input(self, event: tkinter.Event) -> None:
-        """"""
+        """Internal Method: Events for typing"""
         for widget in self.get_widgets()[::-1]:
             if widget.feature._input(event):
                 if widget._through:
@@ -721,7 +694,7 @@ class Shape:
         self._items_outline: list[int] = []
 
         self._is_transparency: bool = False
-        self._temp_data: tuple[list[str]] = [], []
+        self._temp_data: tuple[list[str], list[str]] = [], []
 
         # (fill, outline)
         self._normal: tuple[str, str] = "white", "black"
@@ -732,14 +705,18 @@ class Shape:
 
     def get_style(
         self,
-        mode: typing.Literal["normal", "hover", "click", "error", "disabled"]
+        state: typing.Literal["normal", "hover", "click", "error", "disabled"]
     ) -> dict[typing.Literal["fill", "outline"], str]:
-        """"""
-        style = getattr(self, f"_{mode}")
+        """
+        Get the style
+
+        * `state`: the state of the `Shape`
+        """
+        style = getattr(self, f"_{state}")
         return {"fill": style[0], "outline": style[1]}
 
     def set_style(self, **kw) -> None:
-        """"""
+        """Set the style"""
         for name, value in kw.items():
             setattr(self, f"_{name}", value)
 
@@ -747,7 +724,11 @@ class Shape:
         self,
         state: typing.Literal["normal", "hover", "click", "error", "disabled"]
     ) -> None:
-        """"""
+        """
+        Update the style of the `Shape` to the corresponding state
+
+        * `state`: the state of the `Shape`
+        """
         self.configure(**self.get_style(state))
 
     def center(self) -> tuple[int, int]:
@@ -801,7 +782,7 @@ class Shape:
         self._position = list(position)
 
     def configure(self, fill: str | None = None, outline: str | None = None) -> None:
-        """"""
+        """Configure properties of the `Shape` and update them immediately"""
         if fill is not None:
             for item in self._items_inside:
                 self.master.itemconfigure(item, fill=fill)
@@ -907,13 +888,17 @@ class Text:
 
     def get_style(
         self,
-        mode: typing.Literal["normal", "hover", "click", "error", "disabled"]
+        state: typing.Literal["normal", "hover", "click", "error", "disabled"]
     ) -> str:
-        """"""
-        return getattr(self, f"_{mode}")
+        """
+        Get the style
+
+        * `state`: the state of the `Text`
+        """
+        return getattr(self, f"_{state}")
 
     def set_style(self, **kw) -> None:
-        """"""
+        """Set the style"""
         for name, value in kw.items():
             setattr(self, f"_{name}", value)
 
@@ -921,7 +906,11 @@ class Text:
         self,
         state: typing.Literal["normal", "hover", "click", "error", "disabled"]
     ) -> None:
-        """"""
+        """
+        Update the style of the `Text` to the corresponding state
+
+        * `state`: the state of the `Text`
+        """
         self.configure(fill=self.get_style(state))
 
     def center(self) -> tuple[int, int]:
@@ -1002,7 +991,7 @@ class Text:
         Display the `Text` on a `Canvas`
 
         * `master`: a Canvas
-        * `position`: the position of the `Shape`
+        * `position`: the position of the `Text`
         """
         self._master = master
         self._position = list(position)
@@ -1023,7 +1012,7 @@ class Text:
         angle: float | None = None,
         fill: str | None = None
     ) -> None:
-        """Modify the properties of `Text`"""
+        """Configure properties of the `Text` and update them immediately"""
         self._text = self._text if text is None else text
 
         if family is not None:
@@ -1098,89 +1087,106 @@ class Image(tkinter.PhotoImage):
         return ""
 
     def center(self) -> tuple[int, int]:
-        """"""
+        """Return the geometric center of the `Image`"""
 
     def region(self) -> tuple[int, int, int, int]:
-        """"""
+        """Return the decision region of the `Image`"""
 
     def move(self, dx: int, dy: int) -> None:
-        """"""
+        """Move the `Image`"""
 
     def moveto(self, x: int, y: int) -> None:
-        """"""
+        """Move the `Image` to a certain position"""
 
     def destroy(self) -> None:
-        """"""
-
-    def disappear(self) -> bool:
-        """"""
-
-    def appear(self) -> bool:
-        """"""
+        """Destroy the `Image`"""
 
     def detect(self, position: tuple[int, int]) -> bool:
-        """"""
+        """
+        Detect whether the specified coordinates are within the `Image`
+
+        * `position`: the specified coordinates
+        """
 
     def display(self, master: Canvas, position: tuple[int, int], size: tuple[int, int]) -> None:
-        """"""
+        """
+        Display the `Image` on a `Canvas`
+
+        * `master`: a Canvas
+        * `position`: the position of the `Image`
+        """
 
     def configure(self) -> None:
-        """"""
+        """Configure properties of the `Image` and update them immediately"""
+
+    def disappear(self) -> bool:
+        """
+        Let the `Image` disappear
+
+        ATTENTION: Instead of clearing the image, making the image disappear is not clearing the image,
+        you can use the `appear` method to restore the original state
+        """
+
+    def appear(self) -> bool:
+        """
+        Let the `Image` appear
+
+        ATTENTION: Contrary to the effect of the method disappear
+        """
 
 
 class Feature:
     """Base Class: The features of a `Widget`"""
 
     def __init__(self) -> None:
-        """"""
         self.master: Widget | None = None
 
     def _move_none(self, event: tkinter.Event) -> bool:
-        """"""
+        """Internal Method: Event of moving the mouse"""
         return False
 
     def _move_left(self, event: tkinter.Event) -> bool:
-        """"""
+        """Internal Method: Event of holding down the left mouse button to move the mouse"""
         return False
 
     def _move_center(self, event: tkinter.Event) -> bool:
-        """"""
+        """Internal Method: Event of holding down the center mouse button to move the mouse"""
         return False
 
     def _move_right(self, event: tkinter.Event) -> bool:
-        """"""
+        """Internal Method: Event of holding down the right mouse button to move the mouse"""
         return False
 
     def _click_left(self, event: tkinter.Event) -> bool:
-        """"""
+        """Internal Method: Event of pressing the left mouse button"""
         return False
 
     def _click_center(self, event: tkinter.Event) -> bool:
-        """"""
+        """Internal Method: Event of pressing the center mouse button"""
         return False
 
     def _click_right(self, event: tkinter.Event) -> bool:
-        """"""
+        """Internal Method: Event of pressing the right mouse button"""
         return False
 
     def _release_left(self, event: tkinter.Event) -> bool:
-        """"""
+        """Internal Method: Event of releasing the left mouse button"""
         return False
 
     def _release_center(self, event: tkinter.Event) -> bool:
-        """"""
+        """Internal Method: Event of releasing the center mouse button"""
         return False
 
     def _release_right(self, event: tkinter.Event) -> bool:
-        """"""
+        """Internal Method: Event of releasing the right mouse button"""
         return False
 
     def _wheel(self, event: tkinter.Event) -> bool:
-        """"""
+        """Internal Method: Event of scrolling the mouse wheel"""
         return False
 
     def _input(self, event: tkinter.Event) -> bool:
-        """"""
+        """Internal Method: Event of typing"""
         return False
 
 
@@ -1188,7 +1194,7 @@ class Widget:
     """
     Base Widget Class
 
-    `Widget` = [`Shape`] + [`Text`] + [`Image`] + `Feature`
+    `Widget` = `Shape` + `Text` + `Image` + `Feature`
     """
 
     def __init__(
@@ -1227,51 +1233,59 @@ class Widget:
 
     @property
     def state(self) -> typing.Literal["normal", "hover", "click", "error", "disabled"]:
-        """"""
+        """The state of the widget"""
         return self._state
 
     @state.setter
     def state(self, value: typing.Literal["normal", "hover", "click", "error", "disabled"]) -> None:
-        """"""
         self._state = value
         self.update(value)
 
     def update(self, state: typing.Literal['normal', 'hover', 'click', 'error', 'disabled'] = "normal") -> None:
-        """"""
+        """Update the widget"""
         self.shape.update(state)
         self.text.update(state)
 
     def destroy(self) -> None:
-        """Destroy the `Widget`"""
+        """Destroy the widget"""
         self.shape.destroy()
         self.text.destroy()
         self.image.destroy()
 
     def move(self, dx: int, dy: int) -> None:
-        """"""
+        """Move the widget"""
         self.shape.move(dx, dy)
         self.text.move(dx, dy)
         self.image.move(dx, dy)
 
     def moveto(self, x: int, y: int) -> None:
-        """"""
+        """Move the Widget to a certain position"""
         self.shape.moveto(x, y)
         self.text.moveto(x, y)
         self.image.moveto(x, y)
 
+    def configure(self, **kw) -> None:
+        """Configure properties of the `Widget` and update them immediately"""
+        if value := kw.get("through"):
+            self._through = value
+
     def disappear(self) -> None:
-        """"""
+        """
+        Let the `Widget` disappear
+
+        ATTENTION: Instead of clearing the widget, making the widget disappear is not clearing the widget,
+        you can use the `appear` method to restore the original state
+        """
         self.shape.disappear()
         self.text.disappear()
         self.image.disappear()
 
     def appear(self) -> None:
-        """"""
+        """
+        Let the `Widget` appear
+
+        ATTENTION: Contrary to the effect of the method disappear
+        """
         self.shape.appear()
         self.text.appear()
         self.image.appear()
-
-    def configure(self, **kw) -> None:
-        """"""
-        if value := kw.get("through"):
-            self._through = value

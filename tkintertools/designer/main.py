@@ -49,10 +49,10 @@ class Work(core.Canvas):
         bg = "#1F1F1F" if self.master._theme["dark"] else "#F1F1F1"
         self.configure(bg=bg, highlightthickness=0)
         self.pack(fill="both", expand=True, anchor="center")
-        for x in range(-1, 2561, 25):
-            self.create_line(x, -1, x, 1601, fill="grey")
-        for y in range(-1, 1601, 25):
-            self.create_line(-1, y, 2561, y, fill="grey")
+        for x in range(-5, 2565, 32):
+            self.create_line(x, -5, x, 1605, fill="grey")
+        for y in range(-5, 1605, 32):
+            self.create_line(-5, y, 2565, y, fill="grey")
 
 
 class StateBar(core.Canvas):
