@@ -1,0 +1,2173 @@
+
+<!doctype html>
+<html lang="zh" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Data Structures and Algorithms and Numerical Calculation Methods">
+      
+      
+        <meta name="author" content="Xiaokang2022">
+      
+      
+        <link rel="canonical" href="https://Xiaokang2022.github.io/tkintertools/tutorials/1-2.html">
+      
+      
+        <link rel="prev" href="1-1.html">
+      
+      
+        <link rel="next" href="1-3.html">
+      
+      
+      <link rel="icon" href="../logo.png">
+      <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.5.12">
+    
+    
+      
+        <title>1.2 认识 tkintertools - tkintertools</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.7e359304.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+  
+  
+  
+  
+  <style>:root{--md-annotation-icon:url('data:image/svg+xml;charset=utf-8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M22 12a10 10 0 0 1-10 10A10 10 0 0 1 2 12 10 10 0 0 1 12 2a10 10 0 0 1 10 10M6 13h8l-3.5 3.5 1.42 1.42L17.84 12l-5.92-5.92L10.5 7.5 14 11H6v2Z"/></svg>');}</style>
+
+
+    
+    
+      
+        <script src="https://unpkg.com/iframe-worker/shim"></script>
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Microsoft+YaHei:300,300i,400,400i,700,700i%7Cconsolas:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Microsoft YaHei";--md-code-font:"consolas"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+   <link href="../assets/stylesheets/glightbox.min.css" rel="stylesheet"/><style>
+    html.glightbox-open { overflow: initial; height: 100%; }
+    .gslide-title { margin-top: 0px; user-select: text; }
+    .gslide-desc { color: #666; user-select: text; }
+    .gslide-image img { background: white; }
+    .gscrollbar-fixer { padding-right: 15px; }
+    .gdesc-inner { font-size: 0.75rem; }
+    body[data-md-color-scheme="slate"] .gdesc-inner { background: var(--md-default-bg-color);}
+    body[data-md-color-scheme="slate"] .gslide-title { color: var(--md-default-fg-color);}
+    body[data-md-color-scheme="slate"] .gslide-desc { color: var(--md-default-fg-color);}</style> <script src="../assets/javascripts/glightbox.min.js"></script></head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#12-tkintertools" class="md-skip">
+          跳转至
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="页眉">
+    <a href=".." title="tkintertools" class="md-header__button md-logo" aria-label="tkintertools" data-md-component="logo">
+      
+  <img src="../logo.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            tkintertools
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              1.2 认识 tkintertools
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="切换至亮色主题"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="切换至亮色主题" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m14.3 16-.7-2h-3.2l-.7 2H7.8L11 7h2l3.2 9h-1.9M20 8.69V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12 20 8.69m-9.15 3.96h2.3L12 9l-1.15 3.65Z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="teal" data-md-color-accent="pink"  aria-label="切换至暗色主题"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="切换至暗色主题" for="__palette_2" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12 20 8.69Z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="black" data-md-color-accent="yellow"  aria-label="切换至系统主题"  type="radio" name="__palette" id="__palette_2">
+    
+      <label class="md-header__button md-icon" title="切换至系统主题" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12c0-2.42-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12 20 8.69Z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var media,input,key,value,palette=__md_get("__palette");if(palette&&palette.color){"(prefers-color-scheme)"===palette.color.media&&(media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']"),palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent"));for([key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="搜索" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256l137.3-137.4c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="查找">
+        
+          <a href="javascript:void(0)" class="md-search__icon md-icon" title="分享" aria-label="分享" data-clipboard data-clipboard-text="" data-md-component="search-share" tabindex="-1">
+            
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7 0-.24-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.15c-.05.21-.08.43-.08.66 0 1.61 1.31 2.91 2.92 2.91 1.61 0 2.92-1.3 2.92-2.91A2.92 2.92 0 0 0 18 16.08Z"/></svg>
+          </a>
+        
+        <button type="reset" class="md-search__icon md-icon" title="清空当前内容" aria-label="清空当前内容" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            正在初始化搜索引擎
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/Xiaokang2022/tkintertools" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    Xiaokang2022/tkintertools
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="标签" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../index.html" class="md-tabs__link">
+          
+  
+    
+  
+  Home / 主页
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="0-1.html" class="md-tabs__link">
+          
+  
+    
+  
+  Tutorials / 教程
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../documents/main.html" class="md-tabs__link">
+          
+  
+    
+  
+  Documents / 文档
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../news/3.0.0/News.html" class="md-tabs__link">
+          
+  
+    
+  
+  News / 新闻
+
+        </a>
+      </li>
+    
+  
+
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../more/CONTRIBUTING.html" class="md-tabs__link">
+          
+  
+    
+  
+  More / 更多
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="导航栏" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="tkintertools" class="md-nav__button md-logo" aria-label="tkintertools" data-md-component="logo">
+      
+  <img src="../logo.png" alt="logo">
+
+    </a>
+    tkintertools
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/Xiaokang2022/tkintertools" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    Xiaokang2022/tkintertools
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+    <a href="../index.html" class="md-nav__link">
+      
+  
+  <span class="md-ellipsis">
+    Home / 主页
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+        
+        
+      
+      
+    
+    
+      
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+            
+  
+  <span class="md-ellipsis">
+    Tutorials / 教程
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            Tutorials / 教程
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="0-1.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    前言
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+    
+    
+      
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_2" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2_2" id="__nav_2_2_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    第一章：安装与初识
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2_2">
+            <span class="md-nav__icon md-icon"></span>
+            第一章：安装与初识
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="1-1.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    1.1 安装 tkintertools
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    1.2 认识 tkintertools
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="1-2.html" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    1.2 认识 tkintertools
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      一、基本介绍
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="一、基本介绍">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#11" class="md-nav__link">
+    <span class="md-ellipsis">
+      1.1 基本原理
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#12" class="md-nav__link">
+    <span class="md-ellipsis">
+      1.2 模块优点
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#13" class="md-nav__link">
+    <span class="md-ellipsis">
+      1.3 模块缺点
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      二、特色功能
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="二、特色功能">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21" class="md-nav__link">
+    <span class="md-ellipsis">
+      2.1 高度可配置的控件
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#22" class="md-nav__link">
+    <span class="md-ellipsis">
+      2.2 自动控制大小
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#23" class="md-nav__link">
+    <span class="md-ellipsis">
+      2.3 高清显示
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#24" class="md-nav__link">
+    <span class="md-ellipsis">
+      2.4 简单的动画效果
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#25" class="md-nav__link">
+    <span class="md-ellipsis">
+      2.5 渐变色
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#26" class="md-nav__link">
+    <span class="md-ellipsis">
+      2.6 详细的类型提示
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#27" class="md-nav__link">
+    <span class="md-ellipsis">
+      2.7 跨平台
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#28-3d" class="md-nav__link">
+    <span class="md-ellipsis">
+      2.8 简单 3D 绘图
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="1-3.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    1.3 tkintertools 初体验
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="2-1.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第二章：容器控件
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="3-1.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第三章：功能控件
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="4-1.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第四章：界面布局
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+    <a href="5-1.html" class="md-nav__link">
+      
+  
+  <span class="md-ellipsis">
+    第五章：图片
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+    <a href="6-1.html" class="md-nav__link">
+      
+  
+  <span class="md-ellipsis">
+    第六章：动画以及颜色效果
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+    <a href="7-1.html" class="md-nav__link">
+      
+  
+  <span class="md-ellipsis">
+    第七章：3D 子模块
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="8-1.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第八章：杂项
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="9-1.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    第九章：实战
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+    <a href="../documents/main.html" class="md-nav__link">
+      
+  
+  <span class="md-ellipsis">
+    Documents / 文档
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+    
+  
+  
+    <a href="../news/3.0.0/News.html" class="md-nav__link">
+      
+  
+  <span class="md-ellipsis">
+    News / 新闻
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+    <a href="../more/CONTRIBUTING.html" class="md-nav__link">
+      
+  
+  <span class="md-ellipsis">
+    More / 更多
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      一、基本介绍
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="一、基本介绍">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#11" class="md-nav__link">
+    <span class="md-ellipsis">
+      1.1 基本原理
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#12" class="md-nav__link">
+    <span class="md-ellipsis">
+      1.2 模块优点
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#13" class="md-nav__link">
+    <span class="md-ellipsis">
+      1.3 模块缺点
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      二、特色功能
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="二、特色功能">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21" class="md-nav__link">
+    <span class="md-ellipsis">
+      2.1 高度可配置的控件
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#22" class="md-nav__link">
+    <span class="md-ellipsis">
+      2.2 自动控制大小
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#23" class="md-nav__link">
+    <span class="md-ellipsis">
+      2.3 高清显示
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#24" class="md-nav__link">
+    <span class="md-ellipsis">
+      2.4 简单的动画效果
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#25" class="md-nav__link">
+    <span class="md-ellipsis">
+      2.5 渐变色
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#26" class="md-nav__link">
+    <span class="md-ellipsis">
+      2.6 详细的类型提示
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#27" class="md-nav__link">
+    <span class="md-ellipsis">
+      2.7 跨平台
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#28-3d" class="md-nav__link">
+    <span class="md-ellipsis">
+      2.8 简单 3D 绘图
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+  
+    <a href="https://github.com/Xiaokang2022/tkintertools/edit/master/docs/tutorials/1-2.md" title="编辑此页" class="md-content__button md-icon">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75L3 17.25Z"/></svg>
+    </a>
+  
+  
+    
+      
+    
+    <a href="https://github.com/Xiaokang2022/tkintertools/raw/master/docs/tutorials/1-2.md" title="查看本页的源代码" class="md-content__button md-icon">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0 8a5 5 0 0 1-5-5 5 5 0 0 1 5-5 5 5 0 0 1 5 5 5 5 0 0 1-5 5m0-12.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5Z"/></svg>
+    </a>
+  
+
+
+<h1 id="12-tkintertools">§1.2 认识 tkintertools<a class="headerlink" href="#12-tkintertools" title="Permanent link">&para;</a></h1>
+<h2 id="_1">一、基本介绍<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
+<p><code>tkintertools</code> 是一款基于 <code>tkinter</code> 模块、二次开发的轻量级界面编程模块。它的设计初心是为了辅助 <code>tkinter</code> 进行界面的开发，以达到 <strong>美化界面</strong>、<strong>快捷开发</strong>、<strong>简单易用</strong> 的目的。</p>
+<div class="admonition tip">
+<p class="admonition-title">提示</p>
+<p>想要充分地利用 <code>tkintertools</code> 模块，开发人员首先要对 <code>tkinter</code> 模块有一定的了解（不需要了解太多）！</p>
+</div>
+<h3 id="11">1.1 基本原理<a class="headerlink" href="#11" title="Permanent link">&para;</a></h3>
+<p>tkintertools 的控件并非真实的控件，而是在 tkinter 模块中 <code>Canvas</code> 对象中绘制而成的，也就是说，所有的控件都是没有句柄的，都只是 <code>Canvas</code> 对象中的线条和颜色块罢了。但就是这些线条和颜色块，就能重新构建我们的控件，尽管它们并非真的控件。由于是绘制而成的，自然我们就可以自定义我们控件的外观，而不再被原始控件的外观所约束。这就是所谓的 “<mark>美化界面</mark>” 啦！</p>
+<p>有了我们自己绘制的控件，当然还不够，还需要辅以一些工具类或者函数来帮助我们进行更加快捷的开发！比如能够快速形成动画的 <code>Animation</code> 类，不用我们自己管理控件缩放的重写的 <code>Canvas</code> 控件等等！这就是 “<mark>快捷开发</mark>”！</p>
+<p>有了这些东西，要是小白程序员不会用，看不懂文档，那这个模块也是没有用的！因此我了解了很多 Python 关于 type hints（类型提示）的知识，直接把开发文档作为 docstring（文档字符串）放在了每个类和函数源代码对应的位置，程序员可以在 IDE 中将鼠标移到类或者函数的名字上，简明文档就会自动弹出来。简明文档里面包含了这个类或者函数的用法、参数名称及作用，还有重载说明。当然，为了兼容不同的 Python 版本，我使用的 type hints 是最朴素的方式，直接以注释的方式呈现。这就是设计初心中的 “<mark>简单易用</mark>” 了。关于 type hints，请看 <a href="https://peps.python.org/pep-0484/">PEP 484 - Type Hints</a>。</p>
+<h3 id="12">1.2 模块优点<a class="headerlink" href="#12" title="Permanent link">&para;</a></h3>
+<p><code>tkintertools</code> 完全没有使用任何第三方模块和库，同时它也没有任何依赖包（除了 <code>tkinter</code> 本身），它的功能完全由内置模块和函数实现，而且它还是跨平台的！<br />
+它的控件是在 <code>tkinter</code> 模块中 <code>Canvas</code> 对象中绘制而成的，这就赋予了 <code>tkintertools</code> 控件一些在 <code>tkinter</code> 中没有的特性，列举如下：</p>
+<ul>
+<li>控件背景可以是透明的（实际上就是没有填充颜色）；</li>
+<li>控件的样式是高度自定义的（比如按钮有圆角）；</li>
+<li>模块十分轻量，模块本身不包含任何资源文件，只有代码，且没有任何第三方模块的依赖，且只有仅仅一百多 KB，不像那些大型的库，动不动就几十 MB；</li>
+</ul>
+<h3 id="13">1.3 模块缺点<a class="headerlink" href="#13" title="Permanent link">&para;</a></h3>
+<p>模块使用了原生的 <code>Canvas</code> 对象作为底层基础，必然就牺牲了一些特性，同时还产生了一些缺点：</p>
+<ul>
+<li>虚拟的控件无法获取焦点（Tab 键切换的那个焦点）；</li>
+<li>虚拟的控件在文本输入和显示的功能上存在一些缺陷，文本可能会显示在边框外面；</li>
+</ul>
+<h2 id="_2">二、特色功能<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
+<p>下面列举一些 <code>tkintertools</code> 模块还具有的一些特色功能（不一定完整）。</p>
+<h3 id="21">2.1 高度可配置的控件<a class="headerlink" href="#21" title="Permanent link">&para;</a></h3>
+<p><code>tkintertools</code> 模块的控件拥有许多参数供我们设置，比如圆角的半径、文本和边框以及控件内部的颜色，关联事件等等。<br />
+这里要说明的是，每个控件可以设置的关联事件不止一种，在鼠标经过控件时可以绑定事件，鼠标点击控件也可以，鼠标点击后松开也行等等。<br />
+文本和边框以及控件的填充色也是类似的，在鼠标经过控件、点击控件、点击后松开都可以设定颜色。<br />
+文本类控件还能够从右边逐步输入文本，文本输入提示符也可以不是单调无趣的竖线，可以是其他的，比如下划线等。  </p>
+<p>下面给大家简单展示几张图，让大家感受一下效果！</p>
+<p><a class="glightbox" href="images/1.2-2.1-1.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="png" src="images/1.2-2.1-1.png" /></a></p>
+<p>倒数第五排的控件有个透明的效果，上图展示不出来，这里加上背景图片会更清晰一点：</p>
+<p><a class="glightbox" href="images/1.2-2.1-2.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="png" src="images/1.2-2.1-2.png" /></a></p>
+<p>下面是源代码，上图中左下按钮点击后可以打开模块源代码的仓库，倒数第二排的开关可以切换背景。</p>
+<p><del>不接受反驳，我觉得这比 tkinter 原生的控件好看了 100 倍！</del></p>
+<details><summary><b>源代码</b></summary>
+
+<div class="language-python highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-1">  1</a></span>
+<span class="normal"><a href="#__codelineno-0-2">  2</a></span>
+<span class="normal"><a href="#__codelineno-0-3">  3</a></span>
+<span class="normal"><a href="#__codelineno-0-4">  4</a></span>
+<span class="normal"><a href="#__codelineno-0-5">  5</a></span>
+<span class="normal"><a href="#__codelineno-0-6">  6</a></span>
+<span class="normal"><a href="#__codelineno-0-7">  7</a></span>
+<span class="normal"><a href="#__codelineno-0-8">  8</a></span>
+<span class="normal"><a href="#__codelineno-0-9">  9</a></span>
+<span class="normal"><a href="#__codelineno-0-10"> 10</a></span>
+<span class="normal"><a href="#__codelineno-0-11"> 11</a></span>
+<span class="normal"><a href="#__codelineno-0-12"> 12</a></span>
+<span class="normal"><a href="#__codelineno-0-13"> 13</a></span>
+<span class="normal"><a href="#__codelineno-0-14"> 14</a></span>
+<span class="normal"><a href="#__codelineno-0-15"> 15</a></span>
+<span class="normal"><a href="#__codelineno-0-16"> 16</a></span>
+<span class="normal"><a href="#__codelineno-0-17"> 17</a></span>
+<span class="normal"><a href="#__codelineno-0-18"> 18</a></span>
+<span class="normal"><a href="#__codelineno-0-19"> 19</a></span>
+<span class="normal"><a href="#__codelineno-0-20"> 20</a></span>
+<span class="normal"><a href="#__codelineno-0-21"> 21</a></span>
+<span class="normal"><a href="#__codelineno-0-22"> 22</a></span>
+<span class="normal"><a href="#__codelineno-0-23"> 23</a></span>
+<span class="normal"><a href="#__codelineno-0-24"> 24</a></span>
+<span class="normal"><a href="#__codelineno-0-25"> 25</a></span>
+<span class="normal"><a href="#__codelineno-0-26"> 26</a></span>
+<span class="normal"><a href="#__codelineno-0-27"> 27</a></span>
+<span class="normal"><a href="#__codelineno-0-28"> 28</a></span>
+<span class="normal"><a href="#__codelineno-0-29"> 29</a></span>
+<span class="normal"><a href="#__codelineno-0-30"> 30</a></span>
+<span class="normal"><a href="#__codelineno-0-31"> 31</a></span>
+<span class="normal"><a href="#__codelineno-0-32"> 32</a></span>
+<span class="normal"><a href="#__codelineno-0-33"> 33</a></span>
+<span class="normal"><a href="#__codelineno-0-34"> 34</a></span>
+<span class="normal"><a href="#__codelineno-0-35"> 35</a></span>
+<span class="normal"><a href="#__codelineno-0-36"> 36</a></span>
+<span class="normal"><a href="#__codelineno-0-37"> 37</a></span>
+<span class="normal"><a href="#__codelineno-0-38"> 38</a></span>
+<span class="normal"><a href="#__codelineno-0-39"> 39</a></span>
+<span class="normal"><a href="#__codelineno-0-40"> 40</a></span>
+<span class="normal"><a href="#__codelineno-0-41"> 41</a></span>
+<span class="normal"><a href="#__codelineno-0-42"> 42</a></span>
+<span class="normal"><a href="#__codelineno-0-43"> 43</a></span>
+<span class="normal"><a href="#__codelineno-0-44"> 44</a></span>
+<span class="normal"><a href="#__codelineno-0-45"> 45</a></span>
+<span class="normal"><a href="#__codelineno-0-46"> 46</a></span>
+<span class="normal"><a href="#__codelineno-0-47"> 47</a></span>
+<span class="normal"><a href="#__codelineno-0-48"> 48</a></span>
+<span class="normal"><a href="#__codelineno-0-49"> 49</a></span>
+<span class="normal"><a href="#__codelineno-0-50"> 50</a></span>
+<span class="normal"><a href="#__codelineno-0-51"> 51</a></span>
+<span class="normal"><a href="#__codelineno-0-52"> 52</a></span>
+<span class="normal"><a href="#__codelineno-0-53"> 53</a></span>
+<span class="normal"><a href="#__codelineno-0-54"> 54</a></span>
+<span class="normal"><a href="#__codelineno-0-55"> 55</a></span>
+<span class="normal"><a href="#__codelineno-0-56"> 56</a></span>
+<span class="normal"><a href="#__codelineno-0-57"> 57</a></span>
+<span class="normal"><a href="#__codelineno-0-58"> 58</a></span>
+<span class="normal"><a href="#__codelineno-0-59"> 59</a></span>
+<span class="normal"><a href="#__codelineno-0-60"> 60</a></span>
+<span class="normal"><a href="#__codelineno-0-61"> 61</a></span>
+<span class="normal"><a href="#__codelineno-0-62"> 62</a></span>
+<span class="normal"><a href="#__codelineno-0-63"> 63</a></span>
+<span class="normal"><a href="#__codelineno-0-64"> 64</a></span>
+<span class="normal"><a href="#__codelineno-0-65"> 65</a></span>
+<span class="normal"><a href="#__codelineno-0-66"> 66</a></span>
+<span class="normal"><a href="#__codelineno-0-67"> 67</a></span>
+<span class="normal"><a href="#__codelineno-0-68"> 68</a></span>
+<span class="normal"><a href="#__codelineno-0-69"> 69</a></span>
+<span class="normal"><a href="#__codelineno-0-70"> 70</a></span>
+<span class="normal"><a href="#__codelineno-0-71"> 71</a></span>
+<span class="normal"><a href="#__codelineno-0-72"> 72</a></span>
+<span class="normal"><a href="#__codelineno-0-73"> 73</a></span>
+<span class="normal"><a href="#__codelineno-0-74"> 74</a></span>
+<span class="normal"><a href="#__codelineno-0-75"> 75</a></span>
+<span class="normal"><a href="#__codelineno-0-76"> 76</a></span>
+<span class="normal"><a href="#__codelineno-0-77"> 77</a></span>
+<span class="normal"><a href="#__codelineno-0-78"> 78</a></span>
+<span class="normal"><a href="#__codelineno-0-79"> 79</a></span>
+<span class="normal"><a href="#__codelineno-0-80"> 80</a></span>
+<span class="normal"><a href="#__codelineno-0-81"> 81</a></span>
+<span class="normal"><a href="#__codelineno-0-82"> 82</a></span>
+<span class="normal"><a href="#__codelineno-0-83"> 83</a></span>
+<span class="normal"><a href="#__codelineno-0-84"> 84</a></span>
+<span class="normal"><a href="#__codelineno-0-85"> 85</a></span>
+<span class="normal"><a href="#__codelineno-0-86"> 86</a></span>
+<span class="normal"><a href="#__codelineno-0-87"> 87</a></span>
+<span class="normal"><a href="#__codelineno-0-88"> 88</a></span>
+<span class="normal"><a href="#__codelineno-0-89"> 89</a></span>
+<span class="normal"><a href="#__codelineno-0-90"> 90</a></span>
+<span class="normal"><a href="#__codelineno-0-91"> 91</a></span>
+<span class="normal"><a href="#__codelineno-0-92"> 92</a></span>
+<span class="normal"><a href="#__codelineno-0-93"> 93</a></span>
+<span class="normal"><a href="#__codelineno-0-94"> 94</a></span>
+<span class="normal"><a href="#__codelineno-0-95"> 95</a></span>
+<span class="normal"><a href="#__codelineno-0-96"> 96</a></span>
+<span class="normal"><a href="#__codelineno-0-97"> 97</a></span>
+<span class="normal"><a href="#__codelineno-0-98"> 98</a></span>
+<span class="normal"><a href="#__codelineno-0-99"> 99</a></span>
+<span class="normal"><a href="#__codelineno-0-100">100</a></span>
+<span class="normal"><a href="#__codelineno-0-101">101</a></span>
+<span class="normal"><a href="#__codelineno-0-102">102</a></span>
+<span class="normal"><a href="#__codelineno-0-103">103</a></span>
+<span class="normal"><a href="#__codelineno-0-104">104</a></span>
+<span class="normal"><a href="#__codelineno-0-105">105</a></span>
+<span class="normal"><a href="#__codelineno-0-106">106</a></span>
+<span class="normal"><a href="#__codelineno-0-107">107</a></span>
+<span class="normal"><a href="#__codelineno-0-108">108</a></span>
+<span class="normal"><a href="#__codelineno-0-109">109</a></span>
+<span class="normal"><a href="#__codelineno-0-110">110</a></span>
+<span class="normal"><a href="#__codelineno-0-111">111</a></span>
+<span class="normal"><a href="#__codelineno-0-112">112</a></span>
+<span class="normal"><a href="#__codelineno-0-113">113</a></span>
+<span class="normal"><a href="#__codelineno-0-114">114</a></span>
+<span class="normal"><a href="#__codelineno-0-115">115</a></span>
+<span class="normal"><a href="#__codelineno-0-116">116</a></span>
+<span class="normal"><a href="#__codelineno-0-117">117</a></span>
+<span class="normal"><a href="#__codelineno-0-118">118</a></span>
+<span class="normal"><a href="#__codelineno-0-119">119</a></span>
+<span class="normal"><a href="#__codelineno-0-120">120</a></span>
+<span class="normal"><a href="#__codelineno-0-121">121</a></span>
+<span class="normal"><a href="#__codelineno-0-122">122</a></span>
+<span class="normal"><a href="#__codelineno-0-123">123</a></span>
+<span class="normal"><a href="#__codelineno-0-124">124</a></span>
+<span class="normal"><a href="#__codelineno-0-125">125</a></span>
+<span class="normal"><a href="#__codelineno-0-126">126</a></span>
+<span class="normal"><a href="#__codelineno-0-127">127</a></span>
+<span class="normal"><a href="#__codelineno-0-128">128</a></span>
+<span class="normal"><a href="#__codelineno-0-129">129</a></span>
+<span class="normal"><a href="#__codelineno-0-130">130</a></span>
+<span class="normal"><a href="#__codelineno-0-131">131</a></span>
+<span class="normal"><a href="#__codelineno-0-132">132</a></span>
+<span class="normal"><a href="#__codelineno-0-133">133</a></span>
+<span class="normal"><a href="#__codelineno-0-134">134</a></span>
+<span class="normal"><a href="#__codelineno-0-135">135</a></span>
+<span class="normal"><a href="#__codelineno-0-136">136</a></span>
+<span class="normal"><a href="#__codelineno-0-137">137</a></span>
+<span class="normal"><a href="#__codelineno-0-138">138</a></span>
+<span class="normal"><a href="#__codelineno-0-139">139</a></span>
+<span class="normal"><a href="#__codelineno-0-140">140</a></span>
+<span class="normal"><a href="#__codelineno-0-141">141</a></span>
+<span class="normal"><a href="#__codelineno-0-142">142</a></span>
+<span class="normal"><a href="#__codelineno-0-143">143</a></span>
+<span class="normal"><a href="#__codelineno-0-144">144</a></span>
+<span class="normal"><a href="#__codelineno-0-145">145</a></span>
+<span class="normal"><a href="#__codelineno-0-146">146</a></span>
+<span class="normal"><a href="#__codelineno-0-147">147</a></span>
+<span class="normal"><a href="#__codelineno-0-148">148</a></span>
+<span class="normal"><a href="#__codelineno-0-149">149</a></span>
+<span class="normal"><a href="#__codelineno-0-150">150</a></span>
+<span class="normal"><a href="#__codelineno-0-151">151</a></span>
+<span class="normal"><a href="#__codelineno-0-152">152</a></span>
+<span class="normal"><a href="#__codelineno-0-153">153</a></span>
+<span class="normal"><a href="#__codelineno-0-154">154</a></span>
+<span class="normal"><a href="#__codelineno-0-155">155</a></span>
+<span class="normal"><a href="#__codelineno-0-156">156</a></span>
+<span class="normal"><a href="#__codelineno-0-157">157</a></span>
+<span class="normal"><a href="#__codelineno-0-158">158</a></span>
+<span class="normal"><a href="#__codelineno-0-159">159</a></span>
+<span class="normal"><a href="#__codelineno-0-160">160</a></span>
+<span class="normal"><a href="#__codelineno-0-161">161</a></span>
+<span class="normal"><a href="#__codelineno-0-162">162</a></span>
+<span class="normal"><a href="#__codelineno-0-163">163</a></span>
+<span class="normal"><a href="#__codelineno-0-164">164</a></span>
+<span class="normal"><a href="#__codelineno-0-165">165</a></span>
+<span class="normal"><a href="#__codelineno-0-166">166</a></span>
+<span class="normal"><a href="#__codelineno-0-167">167</a></span>
+<span class="normal"><a href="#__codelineno-0-168">168</a></span>
+<span class="normal"><a href="#__codelineno-0-169">169</a></span>
+<span class="normal"><a href="#__codelineno-0-170">170</a></span>
+<span class="normal"><a href="#__codelineno-0-171">171</a></span>
+<span class="normal"><a href="#__codelineno-0-172">172</a></span>
+<span class="normal"><a href="#__codelineno-0-173">173</a></span>
+<span class="normal"><a href="#__codelineno-0-174">174</a></span>
+<span class="normal"><a href="#__codelineno-0-175">175</a></span>
+<span class="normal"><a href="#__codelineno-0-176">176</a></span>
+<span class="normal"><a href="#__codelineno-0-177">177</a></span>
+<span class="normal"><a href="#__codelineno-0-178">178</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1"></a><span class="kn">import</span> <span class="nn">webbrowser</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2"></a>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3"></a><span class="kn">import</span> <span class="nn">tkintertools</span> <span class="k">as</span> <span class="nn">tkt</span>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4"></a>
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5"></a>
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6"></a><span class="k">def</span> <span class="nf">colorful</span><span class="p">(</span><span class="n">canvas</span><span class="p">:</span> <span class="n">tkt</span><span class="o">.</span><span class="n">Canvas</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">width</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">height</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">colortup</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">],</span> <span class="n">flag</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;渐变色&quot;&quot;&quot;</span>
+</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8"></a>    <span class="k">if</span> <span class="n">flag</span><span class="p">:</span>
+</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9"></a>        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">width</span><span class="p">):</span>
+</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10"></a>            <span class="n">fill</span> <span class="o">=</span> <span class="n">tkt</span><span class="o">.</span><span class="n">color</span><span class="p">(</span><span class="n">colortup</span><span class="p">,</span> <span class="n">i</span> <span class="o">/</span> <span class="n">width</span><span class="p">)</span>
+</span><span id="__span-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11"></a>            <span class="n">canvas</span><span class="o">.</span><span class="n">create_line</span><span class="p">(</span><span class="n">x</span> <span class="o">+</span> <span class="n">i</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">x</span> <span class="o">+</span> <span class="n">i</span><span class="p">,</span> <span class="n">y</span> <span class="o">+</span> <span class="n">height</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">fill</span><span class="o">=</span><span class="n">fill</span><span class="p">)</span>
+</span><span id="__span-0-12"><a id="__codelineno-0-12" name="__codelineno-0-12"></a>    <span class="k">else</span><span class="p">:</span>
+</span><span id="__span-0-13"><a id="__codelineno-0-13" name="__codelineno-0-13"></a>        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">height</span><span class="p">):</span>
+</span><span id="__span-0-14"><a id="__codelineno-0-14" name="__codelineno-0-14"></a>            <span class="n">fill</span> <span class="o">=</span> <span class="n">tkt</span><span class="o">.</span><span class="n">color</span><span class="p">(</span><span class="n">colortup</span><span class="p">,</span> <span class="n">i</span> <span class="o">/</span> <span class="n">height</span><span class="p">)</span>
+</span><span id="__span-0-15"><a id="__codelineno-0-15" name="__codelineno-0-15"></a>            <span class="n">canvas</span><span class="o">.</span><span class="n">create_line</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">+</span> <span class="n">i</span><span class="p">,</span> <span class="n">x</span> <span class="o">+</span> <span class="n">width</span><span class="p">,</span> <span class="n">y</span> <span class="o">+</span> <span class="n">i</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">fill</span><span class="o">=</span><span class="n">fill</span><span class="p">)</span>
+</span><span id="__span-0-16"><a id="__codelineno-0-16" name="__codelineno-0-16"></a>
+</span><span id="__span-0-17"><a id="__codelineno-0-17" name="__codelineno-0-17"></a>
+</span><span id="__span-0-18"><a id="__codelineno-0-18" name="__codelineno-0-18"></a><span class="n">root</span> <span class="o">=</span> <span class="n">tkt</span><span class="o">.</span><span class="n">Tk</span><span class="p">(</span><span class="s1">&#39;tkintertools&#39;</span><span class="p">,</span> <span class="mi">1280</span><span class="p">,</span> <span class="mi">720</span><span class="p">)</span>
+</span><span id="__span-0-19"><a id="__codelineno-0-19" name="__codelineno-0-19"></a><span class="n">canvas</span> <span class="o">=</span> <span class="n">tkt</span><span class="o">.</span><span class="n">Canvas</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="mi">1280</span><span class="p">,</span> <span class="mi">720</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+</span><span id="__span-0-20"><a id="__codelineno-0-20" name="__codelineno-0-20"></a><span class="k">try</span><span class="p">:</span>
+</span><span id="__span-0-21"><a id="__codelineno-0-21" name="__codelineno-0-21"></a>    <span class="n">background</span> <span class="o">=</span> <span class="n">tkt</span><span class="o">.</span><span class="n">PhotoImage</span><span class="p">(</span><span class="s1">&#39;background.png&#39;</span><span class="p">)</span>
+</span><span id="__span-0-22"><a id="__codelineno-0-22" name="__codelineno-0-22"></a><span class="k">except</span><span class="p">:</span>
+</span><span id="__span-0-23"><a id="__codelineno-0-23" name="__codelineno-0-23"></a>    <span class="n">background</span> <span class="o">=</span> <span class="kc">None</span>
+</span><span id="__span-0-24"><a id="__codelineno-0-24" name="__codelineno-0-24"></a><span class="n">bg_item</span> <span class="o">=</span> <span class="n">canvas</span><span class="o">.</span><span class="n">create_image</span><span class="p">(</span><span class="mi">640</span><span class="p">,</span> <span class="mi">360</span><span class="p">,</span> <span class="n">image</span><span class="o">=</span><span class="n">background</span><span class="p">)</span>
+</span><span id="__span-0-25"><a id="__codelineno-0-25" name="__codelineno-0-25"></a>
+</span><span id="__span-0-26"><a id="__codelineno-0-26" name="__codelineno-0-26"></a><span class="n">colorful</span><span class="p">(</span><span class="n">canvas</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">360</span><span class="p">,</span> <span class="mi">150</span><span class="p">,</span> <span class="mi">40</span><span class="p">,</span> <span class="p">(</span><span class="s1">&#39;#FF0000&#39;</span><span class="p">,</span> <span class="s1">&#39;#00FF00&#39;</span><span class="p">))</span>
+</span><span id="__span-0-27"><a id="__codelineno-0-27" name="__codelineno-0-27"></a><span class="n">colorful</span><span class="p">(</span><span class="n">canvas</span><span class="p">,</span> <span class="mi">170</span><span class="p">,</span> <span class="mi">360</span><span class="p">,</span> <span class="mi">250</span><span class="p">,</span> <span class="mi">40</span><span class="p">,</span> <span class="p">(</span><span class="s1">&#39;#00FF00&#39;</span><span class="p">,</span> <span class="s1">&#39;#0000FF&#39;</span><span class="p">))</span>
+</span><span id="__span-0-28"><a id="__codelineno-0-28" name="__codelineno-0-28"></a><span class="n">colorful</span><span class="p">(</span><span class="n">canvas</span><span class="p">,</span> <span class="mi">430</span><span class="p">,</span> <span class="mi">360</span> <span class="o">+</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">60</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="p">(</span><span class="s1">&#39;#0000FF&#39;</span><span class="p">,</span> <span class="s1">&#39;#FF0000&#39;</span><span class="p">))</span>
+</span><span id="__span-0-29"><a id="__codelineno-0-29" name="__codelineno-0-29"></a><span class="n">colorful</span><span class="p">(</span><span class="n">canvas</span><span class="p">,</span> <span class="mi">500</span><span class="p">,</span> <span class="mi">360</span><span class="p">,</span> <span class="mi">200</span><span class="p">,</span> <span class="mi">40</span><span class="p">,</span> <span class="p">(</span><span class="s1">&#39;#00FFFF&#39;</span><span class="p">,</span> <span class="s1">&#39;#FF00FF&#39;</span><span class="p">))</span>
+</span><span id="__span-0-30"><a id="__codelineno-0-30" name="__codelineno-0-30"></a><span class="n">colorful</span><span class="p">(</span><span class="n">canvas</span><span class="p">,</span> <span class="mi">720</span><span class="p">,</span> <span class="mi">360</span> <span class="o">+</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="p">(</span><span class="s1">&#39;#FF00FF&#39;</span><span class="p">,</span> <span class="s1">&#39;#FFFF00&#39;</span><span class="p">))</span>
+</span><span id="__span-0-31"><a id="__codelineno-0-31" name="__codelineno-0-31"></a><span class="n">colorful</span><span class="p">(</span><span class="n">canvas</span><span class="p">,</span> <span class="mi">935</span><span class="p">,</span> <span class="mi">360</span> <span class="o">+</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">335</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="p">(</span><span class="s1">&#39;#FFFF00&#39;</span><span class="p">,</span> <span class="s1">&#39;#00FFFF&#39;</span><span class="p">))</span>
+</span><span id="__span-0-32"><a id="__codelineno-0-32" name="__codelineno-0-32"></a>
+</span><span id="__span-0-33"><a id="__codelineno-0-33" name="__codelineno-0-33"></a><span class="n">colorful</span><span class="p">(</span><span class="n">canvas</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">410</span><span class="p">,</span> <span class="mi">150</span><span class="p">,</span> <span class="mi">40</span><span class="p">,</span> <span class="p">(</span><span class="s1">&#39;#FF0000&#39;</span><span class="p">,</span> <span class="s1">&#39;#00FF00&#39;</span><span class="p">),</span> <span class="kc">False</span><span class="p">)</span>
+</span><span id="__span-0-34"><a id="__codelineno-0-34" name="__codelineno-0-34"></a><span class="n">colorful</span><span class="p">(</span><span class="n">canvas</span><span class="p">,</span> <span class="mi">170</span><span class="p">,</span> <span class="mi">410</span><span class="p">,</span> <span class="mi">250</span><span class="p">,</span> <span class="mi">40</span><span class="p">,</span> <span class="p">(</span><span class="s1">&#39;#00FF00&#39;</span><span class="p">,</span> <span class="s1">&#39;#0000FF&#39;</span><span class="p">),</span> <span class="kc">False</span><span class="p">)</span>
+</span><span id="__span-0-35"><a id="__codelineno-0-35" name="__codelineno-0-35"></a><span class="n">colorful</span><span class="p">(</span><span class="n">canvas</span><span class="p">,</span> <span class="mi">430</span><span class="p">,</span> <span class="mi">410</span> <span class="o">+</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">60</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="p">(</span><span class="s1">&#39;#0000FF&#39;</span><span class="p">,</span> <span class="s1">&#39;#FF0000&#39;</span><span class="p">),</span> <span class="kc">False</span><span class="p">)</span>
+</span><span id="__span-0-36"><a id="__codelineno-0-36" name="__codelineno-0-36"></a><span class="n">colorful</span><span class="p">(</span><span class="n">canvas</span><span class="p">,</span> <span class="mi">500</span><span class="p">,</span> <span class="mi">410</span><span class="p">,</span> <span class="mi">200</span><span class="p">,</span> <span class="mi">40</span><span class="p">,</span> <span class="p">(</span><span class="s1">&#39;#00FFFF&#39;</span><span class="p">,</span> <span class="s1">&#39;#FF00FF&#39;</span><span class="p">),</span> <span class="kc">False</span><span class="p">)</span>
+</span><span id="__span-0-37"><a id="__codelineno-0-37" name="__codelineno-0-37"></a><span class="n">colorful</span><span class="p">(</span><span class="n">canvas</span><span class="p">,</span> <span class="mi">720</span><span class="p">,</span> <span class="mi">410</span> <span class="o">+</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="p">(</span><span class="s1">&#39;#FF00FF&#39;</span><span class="p">,</span> <span class="s1">&#39;#FFFF00&#39;</span><span class="p">),</span> <span class="kc">False</span><span class="p">)</span>
+</span><span id="__span-0-38"><a id="__codelineno-0-38" name="__codelineno-0-38"></a><span class="n">colorful</span><span class="p">(</span><span class="n">canvas</span><span class="p">,</span> <span class="mi">935</span><span class="p">,</span> <span class="mi">410</span> <span class="o">+</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">335</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="p">(</span><span class="s1">&#39;#FFFF00&#39;</span><span class="p">,</span> <span class="s1">&#39;#00FFFF&#39;</span><span class="p">),</span> <span class="kc">False</span><span class="p">)</span>
+</span><span id="__span-0-39"><a id="__codelineno-0-39" name="__codelineno-0-39"></a>
+</span><span id="__span-0-40"><a id="__codelineno-0-40" name="__codelineno-0-40"></a><span class="n">tkt</span><span class="o">.</span><span class="n">Button</span><span class="p">(</span><span class="n">canvas</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">150</span><span class="p">,</span> <span class="mi">40</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="s1">&#39;Button&#39;</span><span class="p">,</span> <span class="n">radius</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+</span><span id="__span-0-41"><a id="__codelineno-0-41" name="__codelineno-0-41"></a><span class="n">tkt</span><span class="o">.</span><span class="n">Button</span><span class="p">(</span><span class="n">canvas</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">60</span><span class="p">,</span> <span class="mi">150</span><span class="p">,</span> <span class="mi">40</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="s1">&#39;Button&#39;</span><span class="p">)</span>
+</span><span id="__span-0-42"><a id="__codelineno-0-42" name="__codelineno-0-42"></a><span class="n">tkt</span><span class="o">.</span><span class="n">Button</span><span class="p">(</span><span class="n">canvas</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">110</span><span class="p">,</span> <span class="mi">150</span><span class="p">,</span> <span class="mi">40</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="s1">&#39;Button&#39;</span><span class="p">,</span> <span class="n">radius</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+</span><span id="__span-0-43"><a id="__codelineno-0-43" name="__codelineno-0-43"></a><span class="n">tkt</span><span class="o">.</span><span class="n">Button</span><span class="p">(</span><span class="n">canvas</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">160</span><span class="p">,</span> <span class="mi">150</span><span class="p">,</span> <span class="mi">40</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="s1">&#39;Button&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">set_live</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+</span><span id="__span-0-44"><a id="__codelineno-0-44" name="__codelineno-0-44"></a><span class="n">tkt</span><span class="o">.</span><span class="n">Button</span><span class="p">(</span><span class="n">canvas</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">210</span><span class="p">,</span> <span class="mi">150</span><span class="p">,</span> <span class="mi">40</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="s1">&#39;Button&#39;</span><span class="p">,</span> <span class="n">radius</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">borderwidth</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+</span><span id="__span-0-45"><a id="__codelineno-0-45" name="__codelineno-0-45"></a><span class="n">tkt</span><span class="o">.</span><span class="n">Button</span><span class="p">(</span><span class="n">canvas</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">260</span><span class="p">,</span> <span class="mi">150</span><span class="p">,</span> <span class="mi">40</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="s1">&#39;Button&#39;</span><span class="p">,</span> <span class="n">color_fill</span><span class="o">=</span><span class="p">(</span>
+</span><span id="__span-0-46"><a id="__codelineno-0-46" name="__codelineno-0-46"></a>    <span class="s1">&#39;lightgreen&#39;</span><span class="p">,</span> <span class="s1">&#39;springgreen&#39;</span><span class="p">,</span> <span class="s1">&#39;green&#39;</span><span class="p">),</span> <span class="n">color_outline</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;grey&#39;</span><span class="p">,</span> <span class="s1">&#39;black&#39;</span><span class="p">,</span> <span class="s1">&#39;black&#39;</span><span class="p">))</span>
+</span><span id="__span-0-47"><a id="__codelineno-0-47" name="__codelineno-0-47"></a><span class="n">tkt</span><span class="o">.</span><span class="n">Button</span><span class="p">(</span><span class="n">canvas</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">310</span><span class="p">,</span> <span class="mi">150</span><span class="p">,</span> <span class="mi">40</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="s1">&#39;Button&#39;</span><span class="p">,</span>
+</span><span id="__span-0-48"><a id="__codelineno-0-48" name="__codelineno-0-48"></a>           <span class="n">color_text</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;orange&#39;</span><span class="p">,</span> <span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="s1">&#39;red&#39;</span><span class="p">))</span>
+</span><span id="__span-0-49"><a id="__codelineno-0-49" name="__codelineno-0-49"></a><span class="n">tkt</span><span class="o">.</span><span class="n">Button</span><span class="p">(</span><span class="n">canvas</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">360</span><span class="p">,</span> <span class="mi">150</span><span class="p">,</span> <span class="mi">40</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="s1">&#39;Button&#39;</span><span class="p">,</span>
+</span><span id="__span-0-50"><a id="__codelineno-0-50" name="__codelineno-0-50"></a>           <span class="n">radius</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">color_fill</span><span class="o">=</span><span class="n">tkt</span><span class="o">.</span><span class="n">COLOR_NONE</span><span class="p">)</span>
+</span><span id="__span-0-51"><a id="__codelineno-0-51" name="__codelineno-0-51"></a><span class="n">tkt</span><span class="o">.</span><span class="n">Button</span><span class="p">(</span><span class="n">canvas</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">410</span><span class="p">,</span> <span class="mi">150</span><span class="p">,</span> <span class="mi">40</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="s1">&#39;Button&#39;</span><span class="p">,</span>
+</span><span id="__span-0-52"><a id="__codelineno-0-52" name="__codelineno-0-52"></a>           <span class="n">radius</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">color_fill</span><span class="o">=</span><span class="n">tkt</span><span class="o">.</span><span class="n">COLOR_NONE</span><span class="p">)</span>
+</span><span id="__span-0-53"><a id="__codelineno-0-53" name="__codelineno-0-53"></a><span class="n">tkt</span><span class="o">.</span><span class="n">Button</span><span class="p">(</span><span class="n">canvas</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">460</span><span class="p">,</span> <span class="mi">150</span><span class="p">,</span> <span class="mi">40</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="s1">&#39;Button&#39;</span><span class="p">,</span>
+</span><span id="__span-0-54"><a id="__codelineno-0-54" name="__codelineno-0-54"></a>           <span class="n">radius</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">color_fill</span><span class="o">=</span><span class="n">tkt</span><span class="o">.</span><span class="n">COLOR_NONE</span><span class="p">)</span>
+</span><span id="__span-0-55"><a id="__codelineno-0-55" name="__codelineno-0-55"></a><span class="n">tkt</span><span class="o">.</span><span class="n">Button</span><span class="p">(</span><span class="n">canvas</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">510</span><span class="p">,</span> <span class="mi">150</span><span class="p">,</span> <span class="mi">40</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="s1">&#39;Button&#39;</span><span class="p">,</span> <span class="n">justify</span><span class="o">=</span><span class="s1">&#39;left&#39;</span><span class="p">)</span>
+</span><span id="__span-0-56"><a id="__codelineno-0-56" name="__codelineno-0-56"></a><span class="n">tkt</span><span class="o">.</span><span class="n">Button</span><span class="p">(</span><span class="n">canvas</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">560</span><span class="p">,</span> <span class="mi">150</span><span class="p">,</span> <span class="mi">40</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="s1">&#39;Button&#39;</span><span class="p">,</span>
+</span><span id="__span-0-57"><a id="__codelineno-0-57" name="__codelineno-0-57"></a>           <span class="n">color_outline</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="s1">&#39;red&#39;</span><span class="p">))</span>
+</span><span id="__span-0-58"><a id="__codelineno-0-58" name="__codelineno-0-58"></a><span class="n">tkt</span><span class="o">.</span><span class="n">Button</span><span class="p">(</span><span class="n">canvas</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">610</span><span class="p">,</span> <span class="mi">150</span><span class="p">,</span> <span class="mi">40</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="s1">&#39;Button&#39;</span><span class="p">,</span> <span class="n">font</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;华文行楷&#39;</span><span class="p">,</span> <span class="n">tkt</span><span class="o">.</span><span class="n">SIZE</span><span class="p">))</span>
+</span><span id="__span-0-59"><a id="__codelineno-0-59" name="__codelineno-0-59"></a>
+</span><span id="__span-0-60"><a id="__codelineno-0-60" name="__codelineno-0-60"></a><span class="n">tooltip</span> <span class="o">=</span> <span class="n">tkt</span><span class="o">.</span><span class="n">ToolTip</span><span class="p">(</span><span class="s2">&quot;Click this to give me a star!</span><span class="se">\n</span><span class="s2">Thanks! (●&#39;◡&#39;●)&quot;</span><span class="p">)</span>
+</span><span id="__span-0-61"><a id="__codelineno-0-61" name="__codelineno-0-61"></a><span class="n">tkt</span><span class="o">.</span><span class="n">Button</span><span class="p">(</span><span class="n">canvas</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">660</span><span class="p">,</span> <span class="mi">150</span><span class="p">,</span> <span class="mi">40</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="s1">&#39;👉Like👈&#39;</span><span class="p">,</span> <span class="n">tooltip</span><span class="o">=</span><span class="n">tooltip</span><span class="p">,</span>
+</span><span id="__span-0-62"><a id="__codelineno-0-62" name="__codelineno-0-62"></a>           <span class="n">command</span><span class="o">=</span><span class="k">lambda</span><span class="p">:</span> <span class="n">webbrowser</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s1">&#39;https://github.com/Xiaokang2022/tkintertools&#39;</span><span class="p">))</span>
+</span><span id="__span-0-63"><a id="__codelineno-0-63" name="__codelineno-0-63"></a>
+</span><span id="__span-0-64"><a id="__codelineno-0-64" name="__codelineno-0-64"></a><span class="n">tkt</span><span class="o">.</span><span class="n">Entry</span><span class="p">(</span><span class="n">canvas</span><span class="p">,</span> <span class="mi">170</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">250</span><span class="p">,</span> <span class="mi">40</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;Entry&#39;</span><span class="p">,</span> <span class="s1">&#39;Input&#39;</span><span class="p">),</span> <span class="n">radius</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+</span><span id="__span-0-65"><a id="__codelineno-0-65" name="__codelineno-0-65"></a><span class="n">tkt</span><span class="o">.</span><span class="n">Entry</span><span class="p">(</span><span class="n">canvas</span><span class="p">,</span> <span class="mi">170</span><span class="p">,</span> <span class="mi">60</span><span class="p">,</span> <span class="mi">250</span><span class="p">,</span> <span class="mi">40</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;Entry&#39;</span><span class="p">,</span> <span class="s1">&#39;Input&#39;</span><span class="p">))</span>
+</span><span id="__span-0-66"><a id="__codelineno-0-66" name="__codelineno-0-66"></a><span class="n">tkt</span><span class="o">.</span><span class="n">Entry</span><span class="p">(</span><span class="n">canvas</span><span class="p">,</span> <span class="mi">170</span><span class="p">,</span> <span class="mi">110</span><span class="p">,</span> <span class="mi">250</span><span class="p">,</span> <span class="mi">40</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;Entry&#39;</span><span class="p">,</span> <span class="s1">&#39;Input&#39;</span><span class="p">),</span> <span class="n">radius</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+</span><span id="__span-0-67"><a id="__codelineno-0-67" name="__codelineno-0-67"></a><span class="n">tkt</span><span class="o">.</span><span class="n">Entry</span><span class="p">(</span><span class="n">canvas</span><span class="p">,</span> <span class="mi">170</span><span class="p">,</span> <span class="mi">160</span><span class="p">,</span> <span class="mi">250</span><span class="p">,</span> <span class="mi">40</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;Entry&#39;</span><span class="p">,</span> <span class="s1">&#39;Input&#39;</span><span class="p">))</span><span class="o">.</span><span class="n">set_live</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+</span><span id="__span-0-68"><a id="__codelineno-0-68" name="__codelineno-0-68"></a><span class="n">tkt</span><span class="o">.</span><span class="n">Entry</span><span class="p">(</span><span class="n">canvas</span><span class="p">,</span> <span class="mi">170</span><span class="p">,</span> <span class="mi">210</span><span class="p">,</span> <span class="mi">250</span><span class="p">,</span> <span class="mi">40</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="p">(</span>
+</span><span id="__span-0-69"><a id="__codelineno-0-69" name="__codelineno-0-69"></a>    <span class="s1">&#39;Entry&#39;</span><span class="p">,</span> <span class="s1">&#39;Input&#39;</span><span class="p">),</span> <span class="n">radius</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">borderwidth</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+</span><span id="__span-0-70"><a id="__codelineno-0-70" name="__codelineno-0-70"></a><span class="n">tkt</span><span class="o">.</span><span class="n">Entry</span><span class="p">(</span><span class="n">canvas</span><span class="p">,</span> <span class="mi">170</span><span class="p">,</span> <span class="mi">260</span><span class="p">,</span> <span class="mi">250</span><span class="p">,</span> <span class="mi">40</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;Entry&#39;</span><span class="p">,</span> <span class="s1">&#39;Input&#39;</span><span class="p">),</span> <span class="n">color_fill</span><span class="o">=</span><span class="p">(</span>
+</span><span id="__span-0-71"><a id="__codelineno-0-71" name="__codelineno-0-71"></a>    <span class="s1">&#39;skyblue&#39;</span><span class="p">,</span> <span class="s1">&#39;cyan&#39;</span><span class="p">,</span> <span class="s1">&#39;cyan&#39;</span><span class="p">),</span> <span class="n">color_outline</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;grey&#39;</span><span class="p">,</span> <span class="s1">&#39;black&#39;</span><span class="p">,</span> <span class="s1">&#39;black&#39;</span><span class="p">))</span>
+</span><span id="__span-0-72"><a id="__codelineno-0-72" name="__codelineno-0-72"></a><span class="n">tkt</span><span class="o">.</span><span class="n">Entry</span><span class="p">(</span><span class="n">canvas</span><span class="p">,</span> <span class="mi">170</span><span class="p">,</span> <span class="mi">310</span><span class="p">,</span> <span class="mi">250</span><span class="p">,</span> <span class="mi">40</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;Entry&#39;</span><span class="p">,</span> <span class="s1">&#39;Input&#39;</span><span class="p">),</span>
+</span><span id="__span-0-73"><a id="__codelineno-0-73" name="__codelineno-0-73"></a>          <span class="n">color_text</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;lightgreen&#39;</span><span class="p">,</span> <span class="s1">&#39;springgreen&#39;</span><span class="p">,</span> <span class="s1">&#39;springgreen&#39;</span><span class="p">))</span>
+</span><span id="__span-0-74"><a id="__codelineno-0-74" name="__codelineno-0-74"></a><span class="n">tkt</span><span class="o">.</span><span class="n">Entry</span><span class="p">(</span><span class="n">canvas</span><span class="p">,</span> <span class="mi">170</span><span class="p">,</span> <span class="mi">360</span><span class="p">,</span> <span class="mi">250</span><span class="p">,</span> <span class="mi">40</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;Entry&#39;</span><span class="p">,</span> <span class="s1">&#39;Input&#39;</span><span class="p">),</span>
+</span><span id="__span-0-75"><a id="__codelineno-0-75" name="__codelineno-0-75"></a>          <span class="n">radius</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">color_fill</span><span class="o">=</span><span class="n">tkt</span><span class="o">.</span><span class="n">COLOR_NONE</span><span class="p">)</span>
+</span><span id="__span-0-76"><a id="__codelineno-0-76" name="__codelineno-0-76"></a><span class="n">tkt</span><span class="o">.</span><span class="n">Entry</span><span class="p">(</span><span class="n">canvas</span><span class="p">,</span> <span class="mi">170</span><span class="p">,</span> <span class="mi">410</span><span class="p">,</span> <span class="mi">250</span><span class="p">,</span> <span class="mi">40</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;Entry&#39;</span><span class="p">,</span> <span class="s1">&#39;Input&#39;</span><span class="p">),</span>
+</span><span id="__span-0-77"><a id="__codelineno-0-77" name="__codelineno-0-77"></a>          <span class="n">radius</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">color_fill</span><span class="o">=</span><span class="n">tkt</span><span class="o">.</span><span class="n">COLOR_NONE</span><span class="p">)</span>
+</span><span id="__span-0-78"><a id="__codelineno-0-78" name="__codelineno-0-78"></a><span class="n">tkt</span><span class="o">.</span><span class="n">Entry</span><span class="p">(</span><span class="n">canvas</span><span class="p">,</span> <span class="mi">170</span><span class="p">,</span> <span class="mi">460</span><span class="p">,</span> <span class="mi">250</span><span class="p">,</span> <span class="mi">40</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;Entry&#39;</span><span class="p">,</span> <span class="s1">&#39;Input&#39;</span><span class="p">),</span>
+</span><span id="__span-0-79"><a id="__codelineno-0-79" name="__codelineno-0-79"></a>          <span class="n">radius</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">color_fill</span><span class="o">=</span><span class="n">tkt</span><span class="o">.</span><span class="n">COLOR_NONE</span><span class="p">)</span>
+</span><span id="__span-0-80"><a id="__codelineno-0-80" name="__codelineno-0-80"></a><span class="n">tkt</span><span class="o">.</span><span class="n">Entry</span><span class="p">(</span><span class="n">canvas</span><span class="p">,</span> <span class="mi">170</span><span class="p">,</span> <span class="mi">510</span><span class="p">,</span> <span class="mi">250</span><span class="p">,</span> <span class="mi">40</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;Entry&#39;</span><span class="p">,</span> <span class="s1">&#39;Input&#39;</span><span class="p">),</span> <span class="n">justify</span><span class="o">=</span><span class="s1">&#39;center&#39;</span><span class="p">)</span>
+</span><span id="__span-0-81"><a id="__codelineno-0-81" name="__codelineno-0-81"></a><span class="n">tkt</span><span class="o">.</span><span class="n">Entry</span><span class="p">(</span><span class="n">canvas</span><span class="p">,</span> <span class="mi">170</span><span class="p">,</span> <span class="mi">560</span><span class="p">,</span> <span class="mi">250</span><span class="p">,</span> <span class="mi">40</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;Entry&#39;</span><span class="p">,</span> <span class="s1">&#39;Input&#39;</span><span class="p">),</span>
+</span><span id="__span-0-82"><a id="__codelineno-0-82" name="__codelineno-0-82"></a>          <span class="n">color_outline</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="s1">&#39;red&#39;</span><span class="p">))</span>
+</span><span id="__span-0-83"><a id="__codelineno-0-83" name="__codelineno-0-83"></a><span class="n">tkt</span><span class="o">.</span><span class="n">Entry</span><span class="p">(</span><span class="n">canvas</span><span class="p">,</span> <span class="mi">170</span><span class="p">,</span> <span class="mi">610</span><span class="p">,</span> <span class="mi">250</span><span class="p">,</span> <span class="mi">40</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="p">(</span>
+</span><span id="__span-0-84"><a id="__codelineno-0-84" name="__codelineno-0-84"></a>    <span class="s1">&#39;Entry&#39;</span><span class="p">,</span> <span class="s1">&#39;Input&#39;</span><span class="p">),</span> <span class="n">font</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;华文行楷&#39;</span><span class="p">,</span> <span class="n">tkt</span><span class="o">.</span><span class="n">SIZE</span><span class="p">))</span>
+</span><span id="__span-0-85"><a id="__codelineno-0-85" name="__codelineno-0-85"></a><span class="n">tkt</span><span class="o">.</span><span class="n">Entry</span><span class="p">(</span><span class="n">canvas</span><span class="p">,</span> <span class="mi">170</span><span class="p">,</span> <span class="mi">660</span><span class="p">,</span> <span class="mi">250</span><span class="p">,</span> <span class="mi">40</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="p">(</span>
+</span><span id="__span-0-86"><a id="__codelineno-0-86" name="__codelineno-0-86"></a>    <span class="s1">&#39;Entry&#39;</span><span class="p">,</span> <span class="s1">&#39;Input&#39;</span><span class="p">),</span> <span class="n">show</span><span class="o">=</span><span class="s1">&#39;●&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="s1">&#39;Entry&#39;</span><span class="p">)</span>
+</span><span id="__span-0-87"><a id="__codelineno-0-87" name="__codelineno-0-87"></a>
+</span><span id="__span-0-88"><a id="__codelineno-0-88" name="__codelineno-0-88"></a><span class="n">tkt</span><span class="o">.</span><span class="n">Switch</span><span class="p">(</span><span class="n">canvas</span><span class="p">,</span> <span class="mi">430</span><span class="p">,</span> <span class="mi">10</span> <span class="o">+</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="n">radius</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+</span><span id="__span-0-89"><a id="__codelineno-0-89" name="__codelineno-0-89"></a><span class="n">tkt</span><span class="o">.</span><span class="n">Switch</span><span class="p">(</span><span class="n">canvas</span><span class="p">,</span> <span class="mi">430</span><span class="p">,</span> <span class="mi">60</span> <span class="o">+</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="n">radius</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+</span><span id="__span-0-90"><a id="__codelineno-0-90" name="__codelineno-0-90"></a><span class="n">tkt</span><span class="o">.</span><span class="n">Switch</span><span class="p">(</span><span class="n">canvas</span><span class="p">,</span> <span class="mi">430</span><span class="p">,</span> <span class="mi">110</span> <span class="o">+</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">30</span><span class="p">)</span>
+</span><span id="__span-0-91"><a id="__codelineno-0-91" name="__codelineno-0-91"></a><span class="n">tkt</span><span class="o">.</span><span class="n">Switch</span><span class="p">(</span><span class="n">canvas</span><span class="p">,</span> <span class="mi">430</span><span class="p">,</span> <span class="mi">160</span> <span class="o">+</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="n">radius</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span><span class="o">.</span><span class="n">set_live</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+</span><span id="__span-0-92"><a id="__codelineno-0-92" name="__codelineno-0-92"></a><span class="n">tkt</span><span class="o">.</span><span class="n">Switch</span><span class="p">(</span><span class="n">canvas</span><span class="p">,</span> <span class="mi">430</span><span class="p">,</span> <span class="mi">210</span> <span class="o">+</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="n">radius</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">borderwidth</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+</span><span id="__span-0-93"><a id="__codelineno-0-93" name="__codelineno-0-93"></a><span class="n">tkt</span><span class="o">.</span><span class="n">Switch</span><span class="p">(</span><span class="n">canvas</span><span class="p">,</span> <span class="mi">430</span><span class="p">,</span> <span class="mi">260</span> <span class="o">+</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">color_fill_on</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;orange&#39;</span><span class="p">,</span>
+</span><span id="__span-0-94"><a id="__codelineno-0-94" name="__codelineno-0-94"></a>           <span class="s1">&#39;yellow&#39;</span><span class="p">,</span> <span class="s1">&#39;yellow&#39;</span><span class="p">),</span> <span class="n">color_outline_on</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;grey&#39;</span><span class="p">,</span> <span class="s1">&#39;black&#39;</span><span class="p">,</span> <span class="s1">&#39;black&#39;</span><span class="p">))</span>
+</span><span id="__span-0-95"><a id="__codelineno-0-95" name="__codelineno-0-95"></a><span class="n">tkt</span><span class="o">.</span><span class="n">Switch</span><span class="p">(</span><span class="n">canvas</span><span class="p">,</span> <span class="mi">430</span><span class="p">,</span> <span class="mi">310</span> <span class="o">+</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span>
+</span><span id="__span-0-96"><a id="__codelineno-0-96" name="__codelineno-0-96"></a>           <span class="n">color_fill_slider</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="s1">&#39;yellow&#39;</span><span class="p">,</span> <span class="s1">&#39;yellow&#39;</span><span class="p">))</span>
+</span><span id="__span-0-97"><a id="__codelineno-0-97" name="__codelineno-0-97"></a><span class="n">tkt</span><span class="o">.</span><span class="n">Switch</span><span class="p">(</span><span class="n">canvas</span><span class="p">,</span> <span class="mi">430</span><span class="p">,</span> <span class="mi">360</span> <span class="o">+</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="n">radius</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+</span><span id="__span-0-98"><a id="__codelineno-0-98" name="__codelineno-0-98"></a>           <span class="n">color_fill_on</span><span class="o">=</span><span class="n">tkt</span><span class="o">.</span><span class="n">COLOR_NONE</span><span class="p">,</span> <span class="n">color_fill_off</span><span class="o">=</span><span class="n">tkt</span><span class="o">.</span><span class="n">COLOR_NONE</span><span class="p">)</span>
+</span><span id="__span-0-99"><a id="__codelineno-0-99" name="__codelineno-0-99"></a><span class="n">tkt</span><span class="o">.</span><span class="n">Switch</span><span class="p">(</span><span class="n">canvas</span><span class="p">,</span> <span class="mi">430</span><span class="p">,</span> <span class="mi">410</span> <span class="o">+</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="n">radius</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+</span><span id="__span-0-100"><a id="__codelineno-0-100" name="__codelineno-0-100"></a>           <span class="n">color_fill_on</span><span class="o">=</span><span class="n">tkt</span><span class="o">.</span><span class="n">COLOR_NONE</span><span class="p">,</span> <span class="n">color_fill_off</span><span class="o">=</span><span class="n">tkt</span><span class="o">.</span><span class="n">COLOR_NONE</span><span class="p">)</span>
+</span><span id="__span-0-101"><a id="__codelineno-0-101" name="__codelineno-0-101"></a><span class="n">tkt</span><span class="o">.</span><span class="n">Switch</span><span class="p">(</span><span class="n">canvas</span><span class="p">,</span> <span class="mi">430</span><span class="p">,</span> <span class="mi">460</span> <span class="o">+</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="n">radius</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+</span><span id="__span-0-102"><a id="__codelineno-0-102" name="__codelineno-0-102"></a>           <span class="n">color_fill_on</span><span class="o">=</span><span class="n">tkt</span><span class="o">.</span><span class="n">COLOR_NONE</span><span class="p">,</span> <span class="n">color_fill_off</span><span class="o">=</span><span class="n">tkt</span><span class="o">.</span><span class="n">COLOR_NONE</span><span class="p">)</span>
+</span><span id="__span-0-103"><a id="__codelineno-0-103" name="__codelineno-0-103"></a><span class="n">tkt</span><span class="o">.</span><span class="n">Switch</span><span class="p">(</span><span class="n">canvas</span><span class="p">,</span> <span class="mi">430</span><span class="p">,</span> <span class="mi">510</span> <span class="o">+</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">60</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</span><span id="__span-0-104"><a id="__codelineno-0-104" name="__codelineno-0-104"></a><span class="n">tkt</span><span class="o">.</span><span class="n">Switch</span><span class="p">(</span><span class="n">canvas</span><span class="p">,</span> <span class="mi">430</span><span class="p">,</span> <span class="mi">560</span> <span class="o">+</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="n">color_outline_on</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;red&#39;</span><span class="p">,</span>
+</span><span id="__span-0-105"><a id="__codelineno-0-105" name="__codelineno-0-105"></a>           <span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="s1">&#39;red&#39;</span><span class="p">),</span> <span class="n">color_outline_off</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="s1">&#39;red&#39;</span><span class="p">))</span>
+</span><span id="__span-0-106"><a id="__codelineno-0-106" name="__codelineno-0-106"></a><span class="n">tkt</span><span class="o">.</span><span class="n">Switch</span><span class="p">(</span><span class="n">canvas</span><span class="p">,</span> <span class="mi">430</span><span class="p">,</span> <span class="mi">610</span> <span class="o">+</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="n">on</span><span class="o">=</span><span class="k">lambda</span><span class="p">:</span> <span class="n">canvas</span><span class="o">.</span><span class="n">itemconfigure</span><span class="p">(</span><span class="n">bg_item</span><span class="p">,</span>
+</span><span id="__span-0-107"><a id="__codelineno-0-107" name="__codelineno-0-107"></a>           <span class="n">image</span><span class="o">=</span><span class="n">background</span><span class="p">),</span> <span class="n">off</span><span class="o">=</span><span class="k">lambda</span><span class="p">:</span> <span class="n">canvas</span><span class="o">.</span><span class="n">itemconfigure</span><span class="p">(</span><span class="n">bg_item</span><span class="p">,</span> <span class="n">image</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">),</span> <span class="n">default</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</span><span id="__span-0-108"><a id="__codelineno-0-108" name="__codelineno-0-108"></a>
+</span><span id="__span-0-109"><a id="__codelineno-0-109" name="__codelineno-0-109"></a><span class="n">tkt</span><span class="o">.</span><span class="n">Label</span><span class="p">(</span><span class="n">canvas</span><span class="p">,</span> <span class="mi">500</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">200</span><span class="p">,</span> <span class="mi">40</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="s1">&#39;Label&#39;</span><span class="p">,</span> <span class="n">radius</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+</span><span id="__span-0-110"><a id="__codelineno-0-110" name="__codelineno-0-110"></a><span class="n">tkt</span><span class="o">.</span><span class="n">Label</span><span class="p">(</span><span class="n">canvas</span><span class="p">,</span> <span class="mi">500</span><span class="p">,</span> <span class="mi">60</span><span class="p">,</span> <span class="mi">200</span><span class="p">,</span> <span class="mi">40</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="s1">&#39;Label&#39;</span><span class="p">)</span>
+</span><span id="__span-0-111"><a id="__codelineno-0-111" name="__codelineno-0-111"></a><span class="n">tkt</span><span class="o">.</span><span class="n">Label</span><span class="p">(</span><span class="n">canvas</span><span class="p">,</span> <span class="mi">500</span><span class="p">,</span> <span class="mi">110</span><span class="p">,</span> <span class="mi">200</span><span class="p">,</span> <span class="mi">40</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="s1">&#39;Label&#39;</span><span class="p">,</span> <span class="n">radius</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+</span><span id="__span-0-112"><a id="__codelineno-0-112" name="__codelineno-0-112"></a><span class="n">tkt</span><span class="o">.</span><span class="n">Label</span><span class="p">(</span><span class="n">canvas</span><span class="p">,</span> <span class="mi">500</span><span class="p">,</span> <span class="mi">160</span><span class="p">,</span> <span class="mi">200</span><span class="p">,</span> <span class="mi">40</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="s1">&#39;Label&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">set_live</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+</span><span id="__span-0-113"><a id="__codelineno-0-113" name="__codelineno-0-113"></a><span class="n">tkt</span><span class="o">.</span><span class="n">Label</span><span class="p">(</span><span class="n">canvas</span><span class="p">,</span> <span class="mi">500</span><span class="p">,</span> <span class="mi">210</span><span class="p">,</span> <span class="mi">200</span><span class="p">,</span> <span class="mi">40</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="s1">&#39;Label&#39;</span><span class="p">,</span> <span class="n">radius</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">borderwidth</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+</span><span id="__span-0-114"><a id="__codelineno-0-114" name="__codelineno-0-114"></a><span class="n">tkt</span><span class="o">.</span><span class="n">Label</span><span class="p">(</span><span class="n">canvas</span><span class="p">,</span> <span class="mi">500</span><span class="p">,</span> <span class="mi">260</span><span class="p">,</span> <span class="mi">200</span><span class="p">,</span> <span class="mi">40</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="s1">&#39;Label&#39;</span><span class="p">,</span> <span class="n">color_fill</span><span class="o">=</span><span class="p">(</span>
+</span><span id="__span-0-115"><a id="__codelineno-0-115" name="__codelineno-0-115"></a>    <span class="s1">&#39;lightpink&#39;</span><span class="p">,</span> <span class="s1">&#39;deeppink&#39;</span><span class="p">),</span> <span class="n">color_outline</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;grey&#39;</span><span class="p">,</span> <span class="s1">&#39;black&#39;</span><span class="p">))</span>
+</span><span id="__span-0-116"><a id="__codelineno-0-116" name="__codelineno-0-116"></a><span class="n">tkt</span><span class="o">.</span><span class="n">Label</span><span class="p">(</span><span class="n">canvas</span><span class="p">,</span> <span class="mi">500</span><span class="p">,</span> <span class="mi">310</span><span class="p">,</span> <span class="mi">200</span><span class="p">,</span> <span class="mi">40</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="s1">&#39;Label&#39;</span><span class="p">,</span>
+</span><span id="__span-0-117"><a id="__codelineno-0-117" name="__codelineno-0-117"></a>          <span class="n">color_text</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;skyblue&#39;</span><span class="p">,</span> <span class="s1">&#39;cyan&#39;</span><span class="p">))</span>
+</span><span id="__span-0-118"><a id="__codelineno-0-118" name="__codelineno-0-118"></a><span class="n">tkt</span><span class="o">.</span><span class="n">Label</span><span class="p">(</span><span class="n">canvas</span><span class="p">,</span> <span class="mi">500</span><span class="p">,</span> <span class="mi">360</span><span class="p">,</span> <span class="mi">200</span><span class="p">,</span> <span class="mi">40</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="s1">&#39;Label&#39;</span><span class="p">,</span>
+</span><span id="__span-0-119"><a id="__codelineno-0-119" name="__codelineno-0-119"></a>          <span class="n">radius</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">color_fill</span><span class="o">=</span><span class="n">tkt</span><span class="o">.</span><span class="n">COLOR_NONE</span><span class="p">)</span>
+</span><span id="__span-0-120"><a id="__codelineno-0-120" name="__codelineno-0-120"></a><span class="n">tkt</span><span class="o">.</span><span class="n">Label</span><span class="p">(</span><span class="n">canvas</span><span class="p">,</span> <span class="mi">500</span><span class="p">,</span> <span class="mi">410</span><span class="p">,</span> <span class="mi">200</span><span class="p">,</span> <span class="mi">40</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="s1">&#39;Label&#39;</span><span class="p">,</span>
+</span><span id="__span-0-121"><a id="__codelineno-0-121" name="__codelineno-0-121"></a>          <span class="n">radius</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">color_fill</span><span class="o">=</span><span class="n">tkt</span><span class="o">.</span><span class="n">COLOR_NONE</span><span class="p">)</span>
+</span><span id="__span-0-122"><a id="__codelineno-0-122" name="__codelineno-0-122"></a><span class="n">tkt</span><span class="o">.</span><span class="n">Label</span><span class="p">(</span><span class="n">canvas</span><span class="p">,</span> <span class="mi">500</span><span class="p">,</span> <span class="mi">460</span><span class="p">,</span> <span class="mi">200</span><span class="p">,</span> <span class="mi">40</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="s1">&#39;Label&#39;</span><span class="p">,</span> <span class="n">radius</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+</span><span id="__span-0-123"><a id="__codelineno-0-123" name="__codelineno-0-123"></a>          <span class="n">color_fill</span><span class="o">=</span><span class="n">tkt</span><span class="o">.</span><span class="n">COLOR_NONE</span><span class="p">,</span> <span class="n">color_text</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;grey&#39;</span><span class="p">,</span> <span class="s1">&#39;white&#39;</span><span class="p">,</span> <span class="s1">&#39;white&#39;</span><span class="p">))</span>
+</span><span id="__span-0-124"><a id="__codelineno-0-124" name="__codelineno-0-124"></a><span class="n">tkt</span><span class="o">.</span><span class="n">Label</span><span class="p">(</span><span class="n">canvas</span><span class="p">,</span> <span class="mi">500</span><span class="p">,</span> <span class="mi">510</span><span class="p">,</span> <span class="mi">200</span><span class="p">,</span> <span class="mi">40</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="s1">&#39;Label&#39;</span><span class="p">,</span> <span class="n">justify</span><span class="o">=</span><span class="s1">&#39;right&#39;</span><span class="p">)</span>
+</span><span id="__span-0-125"><a id="__codelineno-0-125" name="__codelineno-0-125"></a><span class="n">tkt</span><span class="o">.</span><span class="n">Label</span><span class="p">(</span><span class="n">canvas</span><span class="p">,</span> <span class="mi">500</span><span class="p">,</span> <span class="mi">560</span><span class="p">,</span> <span class="mi">200</span><span class="p">,</span> <span class="mi">40</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="s1">&#39;Label&#39;</span><span class="p">,</span>
+</span><span id="__span-0-126"><a id="__codelineno-0-126" name="__codelineno-0-126"></a>          <span class="n">color_outline</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="s1">&#39;red&#39;</span><span class="p">))</span>
+</span><span id="__span-0-127"><a id="__codelineno-0-127" name="__codelineno-0-127"></a><span class="n">tkt</span><span class="o">.</span><span class="n">Label</span><span class="p">(</span><span class="n">canvas</span><span class="p">,</span> <span class="mi">500</span><span class="p">,</span> <span class="mi">610</span><span class="p">,</span> <span class="mi">200</span><span class="p">,</span> <span class="mi">40</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="s1">&#39;Label&#39;</span><span class="p">,</span> <span class="n">font</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;华文行楷&#39;</span><span class="p">,</span> <span class="n">tkt</span><span class="o">.</span><span class="n">SIZE</span><span class="p">))</span>
+</span><span id="__span-0-128"><a id="__codelineno-0-128" name="__codelineno-0-128"></a>
+</span><span id="__span-0-129"><a id="__codelineno-0-129" name="__codelineno-0-129"></a><span class="n">tkt</span><span class="o">.</span><span class="n">CheckButton</span><span class="p">(</span><span class="n">canvas</span><span class="p">,</span> <span class="mi">720</span><span class="p">,</span> <span class="mi">10</span> <span class="o">+</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="s1">&#39;CheckButton&#39;</span><span class="p">,</span> <span class="n">radius</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+</span><span id="__span-0-130"><a id="__codelineno-0-130" name="__codelineno-0-130"></a><span class="n">tkt</span><span class="o">.</span><span class="n">CheckButton</span><span class="p">(</span><span class="n">canvas</span><span class="p">,</span> <span class="mi">720</span><span class="p">,</span> <span class="mi">60</span> <span class="o">+</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="s1">&#39;CheckButton&#39;</span><span class="p">)</span>
+</span><span id="__span-0-131"><a id="__codelineno-0-131" name="__codelineno-0-131"></a><span class="n">tkt</span><span class="o">.</span><span class="n">CheckButton</span><span class="p">(</span><span class="n">canvas</span><span class="p">,</span> <span class="mi">720</span><span class="p">,</span> <span class="mi">110</span> <span class="o">+</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="s1">&#39;CheckButton&#39;</span><span class="p">,</span> <span class="n">radius</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span>
+</span><span id="__span-0-132"><a id="__codelineno-0-132" name="__codelineno-0-132"></a><span class="n">tkt</span><span class="o">.</span><span class="n">CheckButton</span><span class="p">(</span><span class="n">canvas</span><span class="p">,</span> <span class="mi">720</span><span class="p">,</span> <span class="mi">160</span> <span class="o">+</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="s1">&#39;CheckButton&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">set_live</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+</span><span id="__span-0-133"><a id="__codelineno-0-133" name="__codelineno-0-133"></a><span class="n">tkt</span><span class="o">.</span><span class="n">CheckButton</span><span class="p">(</span><span class="n">canvas</span><span class="p">,</span> <span class="mi">720</span><span class="p">,</span> <span class="mi">210</span> <span class="o">+</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span>
+</span><span id="__span-0-134"><a id="__codelineno-0-134" name="__codelineno-0-134"></a>                <span class="n">text</span><span class="o">=</span><span class="s1">&#39;CheckButton&#39;</span><span class="p">,</span> <span class="n">radius</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">borderwidth</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+</span><span id="__span-0-135"><a id="__codelineno-0-135" name="__codelineno-0-135"></a><span class="n">tkt</span><span class="o">.</span><span class="n">CheckButton</span><span class="p">(</span><span class="n">canvas</span><span class="p">,</span> <span class="mi">720</span><span class="p">,</span> <span class="mi">260</span> <span class="o">+</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="s1">&#39;CheckButton&#39;</span><span class="p">,</span> <span class="n">color_fill</span><span class="o">=</span><span class="p">(</span>
+</span><span id="__span-0-136"><a id="__codelineno-0-136" name="__codelineno-0-136"></a>    <span class="s1">&#39;skyblue&#39;</span><span class="p">,</span> <span class="s1">&#39;cyan&#39;</span><span class="p">,</span> <span class="s1">&#39;cyan&#39;</span><span class="p">),</span> <span class="n">color_outline</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;grey&#39;</span><span class="p">,</span> <span class="s1">&#39;black&#39;</span><span class="p">,</span> <span class="s1">&#39;black&#39;</span><span class="p">))</span>
+</span><span id="__span-0-137"><a id="__codelineno-0-137" name="__codelineno-0-137"></a><span class="n">tkt</span><span class="o">.</span><span class="n">CheckButton</span><span class="p">(</span><span class="n">canvas</span><span class="p">,</span> <span class="mi">720</span><span class="p">,</span> <span class="mi">310</span> <span class="o">+</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="s1">&#39;CheckButton&#39;</span><span class="p">,</span>
+</span><span id="__span-0-138"><a id="__codelineno-0-138" name="__codelineno-0-138"></a>                <span class="n">color_text</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;pink&#39;</span><span class="p">,</span> <span class="s1">&#39;orange&#39;</span><span class="p">,</span> <span class="s1">&#39;orange&#39;</span><span class="p">))</span>
+</span><span id="__span-0-139"><a id="__codelineno-0-139" name="__codelineno-0-139"></a><span class="n">tkt</span><span class="o">.</span><span class="n">CheckButton</span><span class="p">(</span><span class="n">canvas</span><span class="p">,</span> <span class="mi">720</span><span class="p">,</span> <span class="mi">360</span> <span class="o">+</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="s1">&#39;CheckButton&#39;</span><span class="p">,</span> <span class="n">radius</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+</span><span id="__span-0-140"><a id="__codelineno-0-140" name="__codelineno-0-140"></a>                <span class="n">color_fill</span><span class="o">=</span><span class="n">tkt</span><span class="o">.</span><span class="n">COLOR_NONE</span><span class="p">,</span> <span class="n">color_text</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;grey&#39;</span><span class="p">,</span> <span class="s1">&#39;white&#39;</span><span class="p">,</span> <span class="s1">&#39;white&#39;</span><span class="p">))</span>
+</span><span id="__span-0-141"><a id="__codelineno-0-141" name="__codelineno-0-141"></a><span class="n">tkt</span><span class="o">.</span><span class="n">CheckButton</span><span class="p">(</span><span class="n">canvas</span><span class="p">,</span> <span class="mi">720</span><span class="p">,</span> <span class="mi">410</span> <span class="o">+</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="s1">&#39;CheckButton&#39;</span><span class="p">,</span> <span class="n">radius</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+</span><span id="__span-0-142"><a id="__codelineno-0-142" name="__codelineno-0-142"></a>                <span class="n">color_fill</span><span class="o">=</span><span class="n">tkt</span><span class="o">.</span><span class="n">COLOR_NONE</span><span class="p">,</span> <span class="n">color_text</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;grey&#39;</span><span class="p">,</span> <span class="s1">&#39;white&#39;</span><span class="p">,</span> <span class="s1">&#39;white&#39;</span><span class="p">))</span>
+</span><span id="__span-0-143"><a id="__codelineno-0-143" name="__codelineno-0-143"></a><span class="n">tkt</span><span class="o">.</span><span class="n">CheckButton</span><span class="p">(</span><span class="n">canvas</span><span class="p">,</span> <span class="mi">720</span><span class="p">,</span> <span class="mi">460</span> <span class="o">+</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="s1">&#39;CheckButton&#39;</span><span class="p">,</span> <span class="n">radius</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+</span><span id="__span-0-144"><a id="__codelineno-0-144" name="__codelineno-0-144"></a>                <span class="n">color_fill</span><span class="o">=</span><span class="n">tkt</span><span class="o">.</span><span class="n">COLOR_NONE</span><span class="p">,</span> <span class="n">color_text</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;grey&#39;</span><span class="p">,</span> <span class="s1">&#39;white&#39;</span><span class="p">,</span> <span class="s1">&#39;white&#39;</span><span class="p">))</span>
+</span><span id="__span-0-145"><a id="__codelineno-0-145" name="__codelineno-0-145"></a><span class="n">tkt</span><span class="o">.</span><span class="n">CheckButton</span><span class="p">(</span><span class="n">canvas</span><span class="p">,</span> <span class="mi">895</span><span class="p">,</span> <span class="mi">510</span> <span class="o">+</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="s1">&#39;CheckButton&#39;</span><span class="p">,</span>
+</span><span id="__span-0-146"><a id="__codelineno-0-146" name="__codelineno-0-146"></a>                <span class="n">justify</span><span class="o">=</span><span class="s1">&#39;left&#39;</span><span class="p">,</span> <span class="n">color_text</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;grey&#39;</span><span class="p">,</span> <span class="s1">&#39;white&#39;</span><span class="p">,</span> <span class="s1">&#39;white&#39;</span><span class="p">))</span>
+</span><span id="__span-0-147"><a id="__codelineno-0-147" name="__codelineno-0-147"></a><span class="n">tkt</span><span class="o">.</span><span class="n">CheckButton</span><span class="p">(</span><span class="n">canvas</span><span class="p">,</span> <span class="mi">720</span><span class="p">,</span> <span class="mi">560</span> <span class="o">+</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="s1">&#39;CheckButton&#39;</span><span class="p">,</span>
+</span><span id="__span-0-148"><a id="__codelineno-0-148" name="__codelineno-0-148"></a>                <span class="n">color_outline</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="s1">&#39;red&#39;</span><span class="p">),</span> <span class="n">color_text</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;grey&#39;</span><span class="p">,</span> <span class="s1">&#39;white&#39;</span><span class="p">,</span> <span class="s1">&#39;white&#39;</span><span class="p">))</span>
+</span><span id="__span-0-149"><a id="__codelineno-0-149" name="__codelineno-0-149"></a><span class="n">tkt</span><span class="o">.</span><span class="n">CheckButton</span><span class="p">(</span><span class="n">canvas</span><span class="p">,</span> <span class="mi">720</span><span class="p">,</span> <span class="mi">610</span> <span class="o">+</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="s1">&#39;CheckButton&#39;</span><span class="p">,</span>
+</span><span id="__span-0-150"><a id="__codelineno-0-150" name="__codelineno-0-150"></a>                <span class="n">font</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;华文行楷&#39;</span><span class="p">,</span> <span class="n">tkt</span><span class="o">.</span><span class="n">SIZE</span><span class="p">),</span> <span class="n">color_text</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;grey&#39;</span><span class="p">,</span> <span class="s1">&#39;white&#39;</span><span class="p">,</span> <span class="s1">&#39;white&#39;</span><span class="p">))</span>
+</span><span id="__span-0-151"><a id="__codelineno-0-151" name="__codelineno-0-151"></a><span class="n">tkt</span><span class="o">.</span><span class="n">CheckButton</span><span class="p">(</span><span class="n">canvas</span><span class="p">,</span> <span class="mi">720</span><span class="p">,</span> <span class="mi">660</span> <span class="o">+</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="s1">&#39;CheckButton&#39;</span><span class="p">,</span>
+</span><span id="__span-0-152"><a id="__codelineno-0-152" name="__codelineno-0-152"></a>                <span class="n">tick</span><span class="o">=</span><span class="s1">&#39;✕&#39;</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">color_text</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;grey&#39;</span><span class="p">,</span> <span class="s1">&#39;white&#39;</span><span class="p">,</span> <span class="s1">&#39;white&#39;</span><span class="p">))</span>
+</span><span id="__span-0-153"><a id="__codelineno-0-153" name="__codelineno-0-153"></a>
+</span><span id="__span-0-154"><a id="__codelineno-0-154" name="__codelineno-0-154"></a><span class="n">tkt</span><span class="o">.</span><span class="n">ProgressBar</span><span class="p">(</span><span class="n">canvas</span><span class="p">,</span> <span class="mi">935</span><span class="p">,</span> <span class="mi">10</span> <span class="o">+</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">335</span><span class="p">,</span> <span class="mi">30</span><span class="p">)</span>
+</span><span id="__span-0-155"><a id="__codelineno-0-155" name="__codelineno-0-155"></a><span class="n">tkt</span><span class="o">.</span><span class="n">ProgressBar</span><span class="p">(</span><span class="n">canvas</span><span class="p">,</span> <span class="mi">935</span><span class="p">,</span> <span class="mi">60</span> <span class="o">+</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">335</span><span class="p">,</span> <span class="mi">30</span><span class="p">)</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="mf">0.5</span><span class="p">)</span>
+</span><span id="__span-0-156"><a id="__codelineno-0-156" name="__codelineno-0-156"></a><span class="n">tkt</span><span class="o">.</span><span class="n">ProgressBar</span><span class="p">(</span><span class="n">canvas</span><span class="p">,</span> <span class="mi">935</span><span class="p">,</span> <span class="mi">110</span> <span class="o">+</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">335</span><span class="p">,</span> <span class="mi">30</span><span class="p">)</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+</span><span id="__span-0-157"><a id="__codelineno-0-157" name="__codelineno-0-157"></a><span class="n">tkt</span><span class="o">.</span><span class="n">ProgressBar</span><span class="p">(</span><span class="n">canvas</span><span class="p">,</span> <span class="mi">935</span><span class="p">,</span> <span class="mi">160</span> <span class="o">+</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">335</span><span class="p">,</span> <span class="mi">30</span><span class="p">)</span><span class="o">.</span><span class="n">set_live</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+</span><span id="__span-0-158"><a id="__codelineno-0-158" name="__codelineno-0-158"></a><span class="n">tkt</span><span class="o">.</span><span class="n">ProgressBar</span><span class="p">(</span><span class="n">canvas</span><span class="p">,</span> <span class="mi">935</span><span class="p">,</span> <span class="mi">210</span> <span class="o">+</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">335</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="n">borderwidth</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+</span><span id="__span-0-159"><a id="__codelineno-0-159" name="__codelineno-0-159"></a><span class="n">tkt</span><span class="o">.</span><span class="n">ProgressBar</span><span class="p">(</span><span class="n">canvas</span><span class="p">,</span> <span class="mi">935</span><span class="p">,</span> <span class="mi">260</span> <span class="o">+</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">335</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="n">color_fill</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;lightpink&#39;</span><span class="p">,</span>
+</span><span id="__span-0-160"><a id="__codelineno-0-160" name="__codelineno-0-160"></a>                <span class="s1">&#39;deeppink&#39;</span><span class="p">),</span> <span class="n">color_outline</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;grey&#39;</span><span class="p">,</span> <span class="s1">&#39;black&#39;</span><span class="p">))</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="mi">2</span> <span class="o">/</span> <span class="mi">3</span><span class="p">)</span>
+</span><span id="__span-0-161"><a id="__codelineno-0-161" name="__codelineno-0-161"></a><span class="n">tkt</span><span class="o">.</span><span class="n">ProgressBar</span><span class="p">(</span><span class="n">canvas</span><span class="p">,</span> <span class="mi">935</span><span class="p">,</span> <span class="mi">310</span> <span class="o">+</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">335</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span>
+</span><span id="__span-0-162"><a id="__codelineno-0-162" name="__codelineno-0-162"></a>                <span class="n">color_text</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;brown&#39;</span><span class="p">,</span> <span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="s1">&#39;red&#39;</span><span class="p">))</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="mi">1</span> <span class="o">/</span> <span class="mi">3</span><span class="p">)</span>
+</span><span id="__span-0-163"><a id="__codelineno-0-163" name="__codelineno-0-163"></a><span class="n">tkt</span><span class="o">.</span><span class="n">ProgressBar</span><span class="p">(</span><span class="n">canvas</span><span class="p">,</span> <span class="mi">935</span><span class="p">,</span> <span class="mi">360</span> <span class="o">+</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">335</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span>
+</span><span id="__span-0-164"><a id="__codelineno-0-164" name="__codelineno-0-164"></a>                <span class="n">color_fill</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="s1">&#39;pink&#39;</span><span class="p">))</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="mi">1</span> <span class="o">/</span> <span class="mi">6</span><span class="p">)</span>
+</span><span id="__span-0-165"><a id="__codelineno-0-165" name="__codelineno-0-165"></a><span class="n">tkt</span><span class="o">.</span><span class="n">ProgressBar</span><span class="p">(</span><span class="n">canvas</span><span class="p">,</span> <span class="mi">935</span><span class="p">,</span> <span class="mi">410</span> <span class="o">+</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">335</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span>
+</span><span id="__span-0-166"><a id="__codelineno-0-166" name="__codelineno-0-166"></a>                <span class="n">color_fill</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="s1">&#39;deeppink&#39;</span><span class="p">))</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="mi">1</span> <span class="o">/</span> <span class="mi">7</span><span class="p">)</span>
+</span><span id="__span-0-167"><a id="__codelineno-0-167" name="__codelineno-0-167"></a><span class="n">tkt</span><span class="o">.</span><span class="n">ProgressBar</span><span class="p">(</span><span class="n">canvas</span><span class="p">,</span> <span class="mi">935</span><span class="p">,</span> <span class="mi">460</span> <span class="o">+</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">335</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="n">color_fill</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">,</span>
+</span><span id="__span-0-168"><a id="__codelineno-0-168" name="__codelineno-0-168"></a>                <span class="s1">&#39;skyblue&#39;</span><span class="p">),</span> <span class="n">color_text</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;grey&#39;</span><span class="p">,</span> <span class="s1">&#39;white&#39;</span><span class="p">,</span> <span class="s1">&#39;white&#39;</span><span class="p">))</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="mi">1</span> <span class="o">/</span> <span class="mi">9</span><span class="p">)</span>
+</span><span id="__span-0-169"><a id="__codelineno-0-169" name="__codelineno-0-169"></a><span class="n">tkt</span><span class="o">.</span><span class="n">ProgressBar</span><span class="p">(</span><span class="n">canvas</span><span class="p">,</span> <span class="mi">935</span><span class="p">,</span> <span class="mi">510</span> <span class="o">+</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">335</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="n">justify</span><span class="o">=</span><span class="s1">&#39;left&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="mi">5</span> <span class="o">/</span> <span class="mi">7</span><span class="p">)</span>
+</span><span id="__span-0-170"><a id="__codelineno-0-170" name="__codelineno-0-170"></a><span class="n">tkt</span><span class="o">.</span><span class="n">ProgressBar</span><span class="p">(</span><span class="n">canvas</span><span class="p">,</span> <span class="mi">935</span><span class="p">,</span> <span class="mi">560</span> <span class="o">+</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">335</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span>
+</span><span id="__span-0-171"><a id="__codelineno-0-171" name="__codelineno-0-171"></a>                <span class="n">color_outline</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="s1">&#39;red&#39;</span><span class="p">))</span>
+</span><span id="__span-0-172"><a id="__codelineno-0-172" name="__codelineno-0-172"></a><span class="n">tkt</span><span class="o">.</span><span class="n">ProgressBar</span><span class="p">(</span><span class="n">canvas</span><span class="p">,</span> <span class="mi">935</span><span class="p">,</span> <span class="mi">610</span> <span class="o">+</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">335</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="n">font</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;华文行楷&#39;</span><span class="p">,</span> <span class="n">tkt</span><span class="o">.</span><span class="n">SIZE</span><span class="p">))</span>
+</span><span id="__span-0-173"><a id="__codelineno-0-173" name="__codelineno-0-173"></a><span class="n">tkt</span><span class="o">.</span><span class="n">ProgressBar</span><span class="p">(</span><span class="n">canvas</span><span class="p">,</span> <span class="mi">935</span><span class="p">,</span> <span class="mi">660</span> <span class="o">+</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">335</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;indeterminate&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="mf">0.3</span><span class="p">)</span>
+</span><span id="__span-0-174"><a id="__codelineno-0-174" name="__codelineno-0-174"></a>
+</span><span id="__span-0-175"><a id="__codelineno-0-175" name="__codelineno-0-175"></a><span class="n">canvas</span><span class="o">.</span><span class="n">create_text</span><span class="p">(</span><span class="mi">565</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">680</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="s1">&#39;Created by 小康2022&#39;</span><span class="p">,</span> <span class="n">fill</span><span class="o">=</span><span class="s1">&#39;grey&#39;</span><span class="p">)</span>
+</span><span id="__span-0-176"><a id="__codelineno-0-176" name="__codelineno-0-176"></a><span class="n">canvas</span><span class="o">.</span><span class="n">create_text</span><span class="p">(</span><span class="mi">565</span><span class="p">,</span> <span class="mi">680</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="s1">&#39;Created by 小康2022&#39;</span><span class="p">,</span> <span class="n">fill</span><span class="o">=</span><span class="s1">&#39;gold&#39;</span><span class="p">)</span>
+</span><span id="__span-0-177"><a id="__codelineno-0-177" name="__codelineno-0-177"></a>
+</span><span id="__span-0-178"><a id="__codelineno-0-178" name="__codelineno-0-178"></a><span class="n">root</span><span class="o">.</span><span class="n">mainloop</span><span class="p">()</span>
+</span></code></pre></div></td></tr></table></div>
+
+</details>
+
+<h3 id="22">2.2 自动控制大小<a class="headerlink" href="#22" title="Permanent link">&para;</a></h3>
+<p><code>tkintertools</code> 中的控件，其大小和形状可以随着窗口的变化而成比例地变化，不仅仅是控件中的文本，<code>Canvas</code> 绘制的图形也会随之变动，更让人兴奋的是，png 类型的图片也会随之成比例地缩放！当然，你也可以设定参数让其不随之变动，也可以设定参数使其在缩放的时候保持横纵方向的比例。<br />
+总之，很方便，很舒适！</p>
+<p>下面一张图展示了什么叫“解放双手，全自动控制”！顺便一提，下面的是旧版 <code>tkintertools</code> 的测试图像，暂时把图拿来充数，从操作系统看得出来，是以前的图。</p>
+<p><a class="glightbox" href="images/1.2-2.2-1.gif" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="gif" src="images/1.2-2.2-1.gif" /></a></p>
+<h3 id="23">2.3 高清显示<a class="headerlink" href="#23" title="Permanent link">&para;</a></h3>
+<p>其实这算是 <code>tkinter</code> 的一个 bug 没有修复而已……这是在 Windows 系统上独有的问题，对于电脑缩放比率不是 100% 的伙计们而言，这个问题就会出现，也就是窗口模糊。但好在 <code>tkintertools</code> 解决了这个问题！顺便一提，这个解决办法是在 Python 内置库 <code>idlelib</code> 中找到的。</p>
+<p><del>说明一下，这方法是我在 <code>idlelib</code> 源代码里面泡了好几个小时才找到的（我裂开来）……</del></p>
+<p>我们以 IDLE 为例，若是执行处理了 DPI 的相关功能，效果是这样的：</p>
+<p><a class="glightbox" href="images/1.2-2.3-1.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="png" src="images/1.2-2.3-1.png" /></a></p>
+<p>若是不执行相关的函数，效果是这样的：</p>
+<p><a class="glightbox" href="images/1.2-2.3-2.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="png" src="images/1.2-2.3-2.png" /></a></p>
+<p>这两张图片的清晰度完全不一样，这里可不是我故意改变了图片的清晰度！这在我的笔记本电脑上是真实存在的效果！下面是我笔记本的缩放比率（显然不是 100%）：</p>
+<p><a class="glightbox" href="images/1.2-2.3-3.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="png" src="images/1.2-2.3-3.png" /></a></p>
+<h3 id="24">2.4 简单的动画效果<a class="headerlink" href="#24" title="Permanent link">&para;</a></h3>
+<p>通过 <code>tkintertools</code> ，要实现一个简单的动画效果十分容易，下面就是一个示例（旧版图片，拿来暂时充数）：</p>
+<p><a class="glightbox" href="images/1.2-2.4-1.gif" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="gif" src="images/1.2-2.4-1.gif" /></a></p>
+<p>当然，不仅仅是这样的动画效果，还可以这样骚操作：</p>
+<p><a class="glightbox" href="images/1.2-2.4-2.gif" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="gif" src="images/1.2-2.4-2.gif" /></a></p>
+<p><del>这桌面壁纸有点抽风？？？</del></p>
+<h3 id="25">2.5 渐变色<a class="headerlink" href="#25" title="Permanent link">&para;</a></h3>
+<p>渐变色实际上并不是主要的功能，只是 <code>tkintertools</code> 附带的功能。<br />
+下面是一个简单的渐变色示例：</p>
+<p><a class="glightbox" href="images/1.2-2.5-1.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="png" src="images/1.2-2.5-1.png" /></a></p>
+<p>下面这张是不是更加逼真呢？</p>
+<p><a class="glightbox" href="images/1.2-2.5-2.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="png" src="images/1.2-2.5-2.png" /></a></p>
+<p><del>嗯，很逼真，但并没有什么用，而且还非常吃内存和性能（哭……）</del></p>
+<p>上面展示控件时的渐变色就是这么来的。</p>
+<h3 id="26">2.6 详细的类型提示<a class="headerlink" href="#26" title="Permanent link">&para;</a></h3>
+<p>参考 <a href="https://peps.python.org/pep-0526/">PEP 526</a>、<a href="https://peps.python.org/pep-0586/">PEP 586</a>、<a href="https://peps.python.org/pep-0604/">PEP 604</a> 和 <a href="https://peps.python.org/pep-0612/">PEP 612</a>，<code>tkintertools</code> 采用了<mark>最兼容</mark>的方式去实现详细的类型提示（兼容不同的 Python 版本），可适用 IDE 有 Visual Studio Code、PyCharm、Visual Studio 等。<br />
+那什么是类型提示呢？话不多说，直接看图就行（下面的图是以前的，现在有点不一样了）：</p>
+<p><a class="glightbox" href="images/1.2-2.6-1.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="png" src="images/1.2-2.6-1.png" /></a></p>
+<p>在 Visual Studio Code 编辑器中，当鼠标移至类或者函数的名字上面时，会自动显示该类或者函数的注释文档。通过这种方式，不需要看太多的帮助文档和资料就能熟练地使用 <code>tkintertools</code> 模块！</p>
+<p>这些类型提示，对应到源代码上去就是这些注释文档：</p>
+<p><a class="glightbox" href="images/1.2-2.6-2.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="png" src="images/1.2-2.6-2.png" /></a></p>
+<h3 id="27">2.7 跨平台<a class="headerlink" href="#27" title="Permanent link">&para;</a></h3>
+<p>目前已经测试通过的操作系统有：</p>
+<p><a class="glightbox" href="https://img.shields.io/badge/Windows-10-green?logo=windows10" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="Windows10" src="https://img.shields.io/badge/Windows-10-green?logo=windows10" /></a>
+<a class="glightbox" href="https://img.shields.io/badge/Windows-11-green?logo=windows11" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="Windows11" src="https://img.shields.io/badge/Windows-11-green?logo=windows11" /></a>
+<a class="glightbox" href="https://img.shields.io/badge/macOS-11-green?logo=macOS" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="macOS" src="https://img.shields.io/badge/macOS-11-green?logo=macOS" /></a>
+<a class="glightbox" href="https://img.shields.io/badge/macOS-14-green?logo=macOS" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="macOS" src="https://img.shields.io/badge/macOS-14-green?logo=macOS" /></a>
+<a class="glightbox" href="https://img.shields.io/badge/Ubuntu-22.04-green?logo=ubuntu" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="Ubuntu22.04" src="https://img.shields.io/badge/Ubuntu-22.04-green?logo=ubuntu" /></a>
+<a class="glightbox" href="https://img.shields.io/badge/Deepin-20.9-green?logo=deepin" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="Deepin20.9" src="https://img.shields.io/badge/Deepin-20.9-green?logo=deepin" /></a></p>
+<p>但我估摸着通过测试的要求应该是下面这样的：</p>
+<ul>
+<li><code>Windows</code>: 版本大于等于 7 应该都行，简单说就是 Windows 7 及以上</li>
+<li><code>macOS</code>: 版本大于 11 的应该可以，更低版本的没有测试过</li>
+<li><code>Linux</code>: 没啥大问题，应该都可以</li>
+</ul>
+<p>不同操作系统上的具体效果（并非完全一样，有一点点区别）可以在下一节末尾看到，这里就不展示啦。</p>
+<h3 id="28-3d">2.8 简单 3D 绘图<a class="headerlink" href="#28-3d" title="Permanent link">&para;</a></h3>
+<p><code>tkintertools</code> 的子模块 <code>tools_3d</code> 可以方便快捷地绘制一些直边的几何体以及单独的点、线和面，还有文本，以及进行一些简单的操作，如平移、旋转、缩放等。</p>
+<p><a class="glightbox" href="images/1.2-2.8-1.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="png" src="images/1.2-2.8-1.png" /></a></p>
+<p>第二张图片可以更好地显示空间感，而且呢，运行下面的源代码的程序，按下键盘上面的 “+” 和 “-” 可以缩放每个面的自身的大小，这样就可以看到下面这个三维结构内部的样子了！</p>
+<p><a class="glightbox" href="images/1.2-2.8-2.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="png" src="images/1.2-2.8-2.png" /></a></p>
+<p>你就说，这酷不酷吧？<del>哇噻！这真的是泰裤啦！</del></p>
+<details><summary><b>源代码</b></summary>
+
+<div class="language-python highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-1-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-1-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-1-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-1-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-1-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-1-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-1-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-1-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-1-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-1-10">10</a></span>
+<span class="normal"><a href="#__codelineno-1-11">11</a></span>
+<span class="normal"><a href="#__codelineno-1-12">12</a></span>
+<span class="normal"><a href="#__codelineno-1-13">13</a></span>
+<span class="normal"><a href="#__codelineno-1-14">14</a></span>
+<span class="normal"><a href="#__codelineno-1-15">15</a></span>
+<span class="normal"><a href="#__codelineno-1-16">16</a></span>
+<span class="normal"><a href="#__codelineno-1-17">17</a></span>
+<span class="normal"><a href="#__codelineno-1-18">18</a></span>
+<span class="normal"><a href="#__codelineno-1-19">19</a></span>
+<span class="normal"><a href="#__codelineno-1-20">20</a></span>
+<span class="normal"><a href="#__codelineno-1-21">21</a></span>
+<span class="normal"><a href="#__codelineno-1-22">22</a></span>
+<span class="normal"><a href="#__codelineno-1-23">23</a></span>
+<span class="normal"><a href="#__codelineno-1-24">24</a></span>
+<span class="normal"><a href="#__codelineno-1-25">25</a></span>
+<span class="normal"><a href="#__codelineno-1-26">26</a></span>
+<span class="normal"><a href="#__codelineno-1-27">27</a></span>
+<span class="normal"><a href="#__codelineno-1-28">28</a></span>
+<span class="normal"><a href="#__codelineno-1-29">29</a></span>
+<span class="normal"><a href="#__codelineno-1-30">30</a></span>
+<span class="normal"><a href="#__codelineno-1-31">31</a></span>
+<span class="normal"><a href="#__codelineno-1-32">32</a></span>
+<span class="normal"><a href="#__codelineno-1-33">33</a></span>
+<span class="normal"><a href="#__codelineno-1-34">34</a></span>
+<span class="normal"><a href="#__codelineno-1-35">35</a></span>
+<span class="normal"><a href="#__codelineno-1-36">36</a></span>
+<span class="normal"><a href="#__codelineno-1-37">37</a></span>
+<span class="normal"><a href="#__codelineno-1-38">38</a></span>
+<span class="normal"><a href="#__codelineno-1-39">39</a></span>
+<span class="normal"><a href="#__codelineno-1-40">40</a></span>
+<span class="normal"><a href="#__codelineno-1-41">41</a></span>
+<span class="normal"><a href="#__codelineno-1-42">42</a></span>
+<span class="normal"><a href="#__codelineno-1-43">43</a></span>
+<span class="normal"><a href="#__codelineno-1-44">44</a></span>
+<span class="normal"><a href="#__codelineno-1-45">45</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1"></a><span class="kn">import</span> <span class="nn">itertools</span>
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2"></a><span class="kn">import</span> <span class="nn">math</span>
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3"></a><span class="kn">import</span> <span class="nn">statistics</span>
+</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4"></a>
+</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5"></a><span class="kn">import</span> <span class="nn">tkintertools</span> <span class="k">as</span> <span class="nn">tkt</span>
+</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6"></a><span class="kn">from</span> <span class="nn">tkintertools</span> <span class="kn">import</span> <span class="n">tools_3d</span> <span class="k">as</span> <span class="n">t3d</span>
+</span><span id="__span-1-7"><a id="__codelineno-1-7" name="__codelineno-1-7"></a>
+</span><span id="__span-1-8"><a id="__codelineno-1-8" name="__codelineno-1-8"></a><span class="n">root</span> <span class="o">=</span> <span class="n">tkt</span><span class="o">.</span><span class="n">Tk</span><span class="p">(</span><span class="s1">&#39;3D&#39;</span><span class="p">,</span> <span class="mi">1280</span><span class="p">,</span> <span class="mi">720</span><span class="p">)</span>
+</span><span id="__span-1-9"><a id="__codelineno-1-9" name="__codelineno-1-9"></a><span class="n">space</span> <span class="o">=</span> <span class="n">t3d</span><span class="o">.</span><span class="n">Space</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="mi">1280</span><span class="p">,</span> <span class="mi">720</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">bg</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">,</span> <span class="n">keep</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</span><span id="__span-1-10"><a id="__codelineno-1-10" name="__codelineno-1-10"></a>
+</span><span id="__span-1-11"><a id="__codelineno-1-11" name="__codelineno-1-11"></a><span class="n">m</span> <span class="o">=</span> <span class="mi">200</span> <span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">50</span> <span class="o">-</span> <span class="mi">10</span> <span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">5</span><span class="p">))</span> <span class="o">/</span> <span class="mi">10</span>
+</span><span id="__span-1-12"><a id="__codelineno-1-12" name="__codelineno-1-12"></a><span class="n">n</span> <span class="o">=</span> <span class="mi">200</span> <span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">50</span> <span class="o">+</span> <span class="mi">10</span> <span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">5</span><span class="p">))</span> <span class="o">/</span> <span class="mi">10</span>
+</span><span id="__span-1-13"><a id="__codelineno-1-13" name="__codelineno-1-13"></a><span class="n">points</span> <span class="o">=</span> <span class="p">[]</span>  <span class="c1"># 顶点列表</span>
+</span><span id="__span-1-14"><a id="__codelineno-1-14" name="__codelineno-1-14"></a><span class="n">dis_side</span> <span class="o">=</span> <span class="mi">200</span> <span class="o">*</span> <span class="p">(</span><span class="mi">3</span> <span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span> <span class="o">+</span> <span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">15</span><span class="p">))</span> <span class="o">/</span> <span class="mi">12</span> <span class="o">/</span> \
+</span><span id="__span-1-15"><a id="__codelineno-1-15" name="__codelineno-1-15"></a>    <span class="p">((</span><span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">10</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">5</span><span class="p">)))</span> <span class="o">/</span> <span class="mi">4</span><span class="p">)</span>  <span class="c1"># 面到中心的距离</span>
+</span><span id="__span-1-16"><a id="__codelineno-1-16" name="__codelineno-1-16"></a><span class="n">count</span><span class="p">,</span> <span class="n">color_lst</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;00&#39;</span><span class="p">,</span> <span class="s1">&#39;77&#39;</span><span class="p">,</span> <span class="s1">&#39;FF&#39;</span><span class="p">]</span>  <span class="c1"># 颜色可能值</span>
+</span><span id="__span-1-17"><a id="__codelineno-1-17" name="__codelineno-1-17"></a><span class="n">color</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;#</span><span class="si">%s%s%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="n">g</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>
+</span><span id="__span-1-18"><a id="__codelineno-1-18" name="__codelineno-1-18"></a>         <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">color_lst</span> <span class="k">for</span> <span class="n">g</span> <span class="ow">in</span> <span class="n">color_lst</span> <span class="k">for</span> <span class="n">b</span> <span class="ow">in</span> <span class="n">color_lst</span><span class="p">]</span>  <span class="c1"># 颜色列表</span>
+</span><span id="__span-1-19"><a id="__codelineno-1-19" name="__codelineno-1-19"></a>
+</span><span id="__span-1-20"><a id="__codelineno-1-20" name="__codelineno-1-20"></a><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">m</span><span class="p">,</span> <span class="o">-</span><span class="n">m</span><span class="p">:</span>
+</span><span id="__span-1-21"><a id="__codelineno-1-21" name="__codelineno-1-21"></a>    <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="n">n</span><span class="p">,</span> <span class="o">-</span><span class="n">n</span><span class="p">:</span>
+</span><span id="__span-1-22"><a id="__codelineno-1-22" name="__codelineno-1-22"></a>        <span class="n">points</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">i</span><span class="p">])</span>
+</span><span id="__span-1-23"><a id="__codelineno-1-23" name="__codelineno-1-23"></a>        <span class="n">points</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">i</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">j</span><span class="p">])</span>
+</span><span id="__span-1-24"><a id="__codelineno-1-24" name="__codelineno-1-24"></a>        <span class="n">points</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">j</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
+</span><span id="__span-1-25"><a id="__codelineno-1-25" name="__codelineno-1-25"></a>
+</span><span id="__span-1-26"><a id="__codelineno-1-26" name="__codelineno-1-26"></a><span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">itertools</span><span class="o">.</span><span class="n">combinations</span><span class="p">(</span><span class="n">points</span><span class="p">,</span> <span class="mi">3</span><span class="p">):</span>  <span class="c1"># 所有的顶点组合</span>
+</span><span id="__span-1-27"><a id="__codelineno-1-27" name="__codelineno-1-27"></a>    <span class="n">dis</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">hypot</span><span class="p">(</span><span class="o">*</span><span class="p">[</span><span class="n">statistics</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">c</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">p</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">)])</span>
+</span><span id="__span-1-28"><a id="__codelineno-1-28" name="__codelineno-1-28"></a>    <span class="k">if</span> <span class="n">math</span><span class="o">.</span><span class="n">isclose</span><span class="p">(</span><span class="n">dis</span><span class="p">,</span> <span class="n">dis_side</span><span class="p">):</span>
+</span><span id="__span-1-29"><a id="__codelineno-1-29" name="__codelineno-1-29"></a>        <span class="n">t3d</span><span class="o">.</span><span class="n">Side</span><span class="p">(</span><span class="n">space</span><span class="p">,</span> <span class="o">*</span><span class="n">p</span><span class="p">,</span> <span class="n">fill</span><span class="o">=</span><span class="n">color</span><span class="p">[</span><span class="n">count</span><span class="p">],</span> <span class="n">outline</span><span class="o">=</span><span class="s1">&#39;white&#39;</span><span class="p">)</span>
+</span><span id="__span-1-30"><a id="__codelineno-1-30" name="__codelineno-1-30"></a>        <span class="n">count</span> <span class="o">+=</span> <span class="mi">1</span>
+</span><span id="__span-1-31"><a id="__codelineno-1-31" name="__codelineno-1-31"></a>
+</span><span id="__span-1-32"><a id="__codelineno-1-32" name="__codelineno-1-32"></a>
+</span><span id="__span-1-33"><a id="__codelineno-1-33" name="__codelineno-1-33"></a><span class="k">def</span> <span class="nf">scale</span><span class="p">(</span><span class="n">event</span><span class="p">):</span>
+</span><span id="__span-1-34"><a id="__codelineno-1-34" name="__codelineno-1-34"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot; 缩放事件 &quot;&quot;&quot;</span>
+</span><span id="__span-1-35"><a id="__codelineno-1-35" name="__codelineno-1-35"></a>    <span class="n">k</span> <span class="o">=</span> <span class="mf">1.05</span> <span class="k">if</span> <span class="n">event</span><span class="o">.</span><span class="n">keysym</span> <span class="o">==</span> <span class="s1">&#39;equal&#39;</span> <span class="k">else</span> <span class="mf">0.95</span> <span class="k">if</span> <span class="n">event</span><span class="o">.</span><span class="n">keysym</span> <span class="o">==</span> <span class="s1">&#39;minus&#39;</span> <span class="k">else</span> <span class="mi">1</span>
+</span><span id="__span-1-36"><a id="__codelineno-1-36" name="__codelineno-1-36"></a>    <span class="k">for</span> <span class="n">geo</span> <span class="ow">in</span> <span class="n">space</span><span class="o">.</span><span class="n">items_3d</span><span class="p">():</span>
+</span><span id="__span-1-37"><a id="__codelineno-1-37" name="__codelineno-1-37"></a>        <span class="n">geo</span><span class="o">.</span><span class="n">scale</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">k</span><span class="p">)</span>
+</span><span id="__span-1-38"><a id="__codelineno-1-38" name="__codelineno-1-38"></a>        <span class="n">geo</span><span class="o">.</span><span class="n">update</span><span class="p">()</span>
+</span><span id="__span-1-39"><a id="__codelineno-1-39" name="__codelineno-1-39"></a>    <span class="n">space</span><span class="o">.</span><span class="n">space_sort</span><span class="p">()</span>
+</span><span id="__span-1-40"><a id="__codelineno-1-40" name="__codelineno-1-40"></a>
+</span><span id="__span-1-41"><a id="__codelineno-1-41" name="__codelineno-1-41"></a>
+</span><span id="__span-1-42"><a id="__codelineno-1-42" name="__codelineno-1-42"></a><span class="n">space</span><span class="o">.</span><span class="n">space_sort</span><span class="p">()</span>
+</span><span id="__span-1-43"><a id="__codelineno-1-43" name="__codelineno-1-43"></a><span class="n">root</span><span class="o">.</span><span class="n">bind</span><span class="p">(</span><span class="s1">&#39;&lt;Key-equal&gt;&#39;</span><span class="p">,</span> <span class="n">scale</span><span class="p">)</span>
+</span><span id="__span-1-44"><a id="__codelineno-1-44" name="__codelineno-1-44"></a><span class="n">root</span><span class="o">.</span><span class="n">bind</span><span class="p">(</span><span class="s1">&#39;&lt;Key-minus&gt;&#39;</span><span class="p">,</span> <span class="n">scale</span><span class="p">)</span>
+</span><span id="__span-1-45"><a id="__codelineno-1-45" name="__codelineno-1-45"></a><span class="n">root</span><span class="o">.</span><span class="n">mainloop</span><span class="p">()</span>
+</span></code></pre></div></td></tr></table></div>
+
+</details>
+
+<p>此处只是一些基础操作，还有更多高级操作等你去挖掘！</p>
+
+
+
+
+
+
+
+  
+    
+  
+  
+    
+  
+
+
+  <aside class="md-source-file">
+    
+      
+  <span class="md-source-file__fact">
+    <span class="md-icon" title="最后更新">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1-2.1-2M12.5 7v5.2l4 2.4-1 1L11 13V7h1.5M11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2v1.8Z"/></svg>
+    </span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-datetime">March 1, 2024 21:00:59</span>
+  </span>
+
+    
+    
+      
+  <span class="md-source-file__fact">
+    <span class="md-icon" title="创建日期">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M14.47 15.08 11 13V7h1.5v5.25l3.08 1.83c-.41.28-.79.62-1.11 1m-1.39 4.84c-.36.05-.71.08-1.08.08-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8c0 .37-.03.72-.08 1.08.69.1 1.33.32 1.92.64.1-.56.16-1.13.16-1.72 0-5.5-4.5-10-10-10S2 6.5 2 12s4.47 10 10 10c.59 0 1.16-.06 1.72-.16-.32-.59-.54-1.23-.64-1.92M18 15v3h-3v2h3v3h2v-3h3v-2h-3v-3h-2Z"/></svg>
+    </span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-datetime">December 8, 2023 08:51:36</span>
+  </span>
+
+    
+    
+      
+  
+  <span class="md-source-file__fact">
+    <span class="md-icon" title="贡献者">
+      
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 4a4 4 0 0 1 4 4 4 4 0 0 1-4 4 4 4 0 0 1-4-4 4 4 0 0 1 4-4m0 10c4.42 0 8 1.79 8 4v2H4v-2c0-2.21 3.58-4 8-4Z"/></svg>
+      
+    </span>
+    <nav>
+      
+        <a href="mailto:2951256653@qq.com">Xiaokang2022</a>
+    </nav>
+  </span>
+
+    
+    
+  </aside>
+
+
+
+
+
+<h2 id="__comments">评论</h2>
+<script src="https://giscus.app/client.js" data-repo="Xiaokang2022/tkintertools" data-repo-id="R_kgDOJoVSHw"
+    data-category="General" data-category-id="DIC_kwDOJoVSH84CXQLx" data-mapping="pathname" data-strict="1"
+    data-reactions-enabled="1" data-emit-metadata="0" data-input-position="bottom" data-theme="dark" data-lang="zh-CN"
+    data-loading="lazy" crossorigin="anonymous" async>
+    </script>
+
+<!-- Synchronize Giscus theme with palette -->
+<script>
+    var giscus = document.querySelector("script[src*=giscus]")
+
+    // Set palette on initial load
+    var palette = __md_get("__palette")
+    if (palette && typeof palette.color === "object") {
+        var theme = palette.color.scheme === "slate"
+            ? "transparent_dark"
+            : "light"
+
+        // Instruct Giscus to set theme
+        giscus.setAttribute("data-theme", theme)
+    }
+
+    // Register event handlers after documented loaded
+    document.addEventListener("DOMContentLoaded", function () {
+        var ref = document.querySelector("[data-md-component=palette]")
+        ref.addEventListener("change", function () {
+            var palette = __md_get("__palette")
+            if (palette && typeof palette.color === "object") {
+                var theme = palette.color.scheme === "slate"
+                    ? "transparent_dark"
+                    : "light"
+
+                // Instruct Giscus to change theme
+                var frame = document.querySelector(".giscus-frame")
+                frame.contentWindow.postMessage(
+                    { giscus: { setConfig: { theme } } },
+                    "https://giscus.app"
+                )
+            }
+        })
+    })
+</script>
+
+                
+              </article>
+            </div>
+          
+          
+  <script>var tabs=__md_get("__tabs");if(Array.isArray(tabs))e:for(var set of document.querySelectorAll(".tabbed-set")){var tab,labels=set.querySelector(".tabbed-labels");for(tab of tabs)for(var label of labels.getElementsByTagName("label"))if(label.innerText.trim()===tab){var input=document.getElementById(label.htmlFor);input.checked=!0;continue e}}</script>
+
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12Z"/></svg>
+  回到页面顶部
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2024 Xiaokang2022
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        <div class="md-social">
+  
+    
+    
+    
+    
+    <a href="https://github.com/Xiaokang2022/tkintertools/" target="_blank" rel="noopener" title="GitHub 仓库" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
+    </a>
+  
+    
+    
+    
+    
+    <a href="https://pypi.org/project/tkintertools/" target="_blank" rel="noopener" title="PyPI 主页" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M439.8 200.5c-7.7-30.9-22.3-54.2-53.4-54.2h-40.1v47.4c0 36.8-31.2 67.8-66.8 67.8H172.7c-29.2 0-53.4 25-53.4 54.3v101.8c0 29 25.2 46 53.4 54.3 33.8 9.9 66.3 11.7 106.8 0 26.9-7.8 53.4-23.5 53.4-54.3v-40.7H226.2v-13.6h160.2c31.1 0 42.6-21.7 53.4-54.2 11.2-33.5 10.7-65.7 0-108.6zM286.2 404c11.1 0 20.1 9.1 20.1 20.3 0 11.3-9 20.4-20.1 20.4-11 0-20.1-9.2-20.1-20.4.1-11.3 9.1-20.3 20.1-20.3zM167.8 248.1h106.8c29.7 0 53.4-24.5 53.4-54.3V91.9c0-29-24.4-50.7-53.4-55.6-35.8-5.9-74.7-5.6-106.8.1-45.2 8-53.4 24.7-53.4 55.6v40.7h106.9v13.6h-147c-31.1 0-58.3 18.7-66.8 54.2-9.8 40.7-10.2 66.1 0 108.6 7.6 31.6 25.7 54.2 56.8 54.2H101v-48.8c0-35.3 30.5-66.4 66.8-66.4zm-6.7-142.6c-11.1 0-20.1-9.1-20.1-20.3.1-11.3 9-20.4 20.1-20.4 11 0 20.1 9.2 20.1 20.4s-9 20.3-20.1 20.3z"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+      <div class="md-progress" data-md-component="progress" role="progressbar"></div>
+    
+    
+    <script id="__config" type="application/json">{"base": "..", "features": ["announce.dismiss", "content.action.edit", "content.action.view", "content.code.annotate", "content.code.copy", "content.code.select", "content.tabs.link", "content.tooltips", "navigation.expand", "navigation.indexes", "navigation.instant", "navigation.instant.progress", "navigation.prune", "navigation.tabs", "navigation.top", "navigation.tracking", "search.highlight", "search.share", "search.suggest", "toc.follow"], "search": "../assets/javascripts/workers/search.b8dbb3d2.min.js", "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.c8d2eff1.min.js"></script>
+      
+        <script src="../javascripts/mathjax.js"></script>
+      
+        <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+    
+  <script>document$.subscribe(() => {const lightbox = GLightbox({"touchNavigation": true, "loop": false, "zoomable": true, "draggable": true, "openEffect": "zoom", "closeEffect": "zoom", "slideEffect": "slide"});})</script></body>
+</html>
