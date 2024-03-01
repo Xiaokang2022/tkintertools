@@ -26,7 +26,9 @@ markdown_extensions: # Python Markdown 官方扩展
   - pymdownx.inlinehilite # 支持行内代码块高亮，如 `#!python range()`
 
   - toc: # 目录设置
-      permalink: true
+      permalink: true # 启用目录锚点
+      title: 此页面 # 在右侧导航侧边栏中设置目录的标题
+      permalink_title: 锚链接到此部分以供参考 # 设置锚点链接的标题
 
   - pymdownx.arithmatex: # 允许数学表达式，即 $$y=x+1$$，或行内的 $x=1$
       generic: true
@@ -112,7 +114,7 @@ theme: # 主题设置
     # Palette toggle for light mode
     - media: "(prefers-color-scheme: light)"
       scheme: default
-      primary: teal # 明亮标题栏颜色
+      primary: white # 明亮标题栏颜色
       accent: pink # 明亮链接高亮颜色
       toggle:
         icon: material/brightness-7
@@ -137,7 +139,7 @@ theme: # 主题设置
     repo: fontawesome/brands/github # 右上角仓库图标
     edit: material/pencil # 页面编辑的图标
     view: material/eye # 页面查看源代码的图标
-    annotation: material/arrow-right-circle # 提示按钮的图标，详细操作见 https://squidfunk.github.io/mkdocs-material/reference/annotations/#in-content-tabs-tab-1
+    # annotation: material/arrow-right-circle # 提示按钮的图标，详细操作见 https://squidfunk.github.io/mkdocs-material/reference/annotations/#in-content-tabs-tab-1
 
 extra: # 额外设定
   homepage: . # 左上角徽标链接的地址（此处为根目录，即主页）
@@ -182,9 +184,6 @@ plugins: # 插件
       type: datetime # 每页底下显示最后更新日期（除开 index）
   - git-authors # 需 pip install mkdocs-git-authors-plugin
   - glightbox # 图像缩放，需 pip install mkdocs-glightbox
-  # - git-committers: # 需 pip install mkdocs-git-committers-plugin-2
-  #     repository: Xiaokang2022/tkintertools
-  #     branch: main
 
 nav: # 导航栏
   - Home / 主页:
