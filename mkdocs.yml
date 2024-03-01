@@ -1,143 +1,190 @@
-# 本地预览: mkdocs serve
-# 编译文档: mkdocs build
-# 上传文档: mkdocs gh-deploy
-
 site_name: tkintertools # 站点名称
-site_url: https://Xiaokang2022.github.io/tkintertools/ # 站点链接
+site_description: Data Structures and Algorithms and Numerical Calculation Methods # 站点描述
 site_author: Xiaokang2022 # 站点作者
-site_description: tkintertools is an auxiliary development module of tkinter # 站点描述
+site_url: https://Xiaokang2022.github.io/tkintertools/ # 站点链接
 repo_name: Xiaokang2022/tkintertools # 仓库名称
-repo_url: https://github.com/Xiaokang2022/tkintertools # 仓库源地址
-copyright: Copyright &copy; 2022 - 2024 Xiaokang2022 # 版权信息
+repo_url: https://github.com/Xiaokang2022/tkintertools # 仓库地址
+edit_uri: edit/master/docs/ # 编辑地址（页面会出现编辑按钮）
+copyright: Copyright &copy; 2024 Xiaokang2022 # 版权信息（会出现在左下角）
 remote_branch: gh-pages # GitHub Pages 分支名称（此处为默认值）
 
 markdown_extensions: # Python Markdown 官方扩展
-  - abbr
-  - admonition
-  - attr_list
-  - def_list
-  - footnotes
-  - md_in_html
-  - toc:
+  - meta # 允许元标记
+  - abbr # 允许文本悬浮提示，就是 ToolTip，通过 *[Text]: 啊吧啊吧
+  - admonition # 允许各种各样的提示框，或代码框，样式见 https://mkdoc-material.llango.com/reference/admonitions/
+  - attr_list # 允许给 md 元素增加 HTML 和 CSS 属性，如一个按钮 [Subscribe to our mailing list](#){: .md-button }，甚至图标，详细见 https://mkdoc-material.llango.com/reference/buttons/
+  - def_list # 允许定义性的列表，详细见 https://mkdoc-material.llango.com/reference/lists/
+  - footnotes # 允许脚注
+  - md_in_html # 允许 md 内嵌在 HTML 中
+  - tables # 允许用简单语法创建表格
+  - pymdownx.caret # 允许文本高亮，即 ==Text==
+  - pymdownx.mark # 允许文本下划线，即 ^^Text^^
+  - pymdownx.tilde # 允许文本删除线，即 ~~Text~~
+  - pymdownx.keys # 按键高亮，类似于行内代码那种，如 <kbd>Ctrl</kbd>，或者带图标的格式（强制小写）++ctrl++，也可组合 ++ctrl+s++
+  - pymdownx.smartsymbols # 允许上下标，如 x^2^（x²）
+  - pymdownx.details # 允许提示框与文本左右布局，而非原来的上下布局，如 !!! note inline "Hint"（左），!!! note inline end（右）
+  - pymdownx.inlinehilite # 支持行内代码块高亮，如 `#!python range()`
+
+  - toc: # 目录设置
       permalink: true
-  - pymdownx.arithmatex:
+
+  - pymdownx.arithmatex: # 允许数学表达式，即 $$y=x+1$$，或行内的 $x=1$
       generic: true
-  - pymdownx.betterem:
+
+  - pymdownx.betterem: # 允许斜体和加粗
       smart_enable: all
-  - pymdownx.caret
-  - pymdownx.details
-  - pymdownx.emoji:
+
+  - pymdownx.critic: # 允许批注，批注详情见 https://mkdoc-material.llango.com/reference/formatting/
+      mode: view # 批注模式，可为 view，accept 和 reject
+
+  - pymdownx.emoji: # 允许 Emoji 表情
       emoji_generator: !!python/name:material.extensions.emoji.to_svg
       emoji_index: !!python/name:material.extensions.emoji.twemoji
-  - pymdownx.highlight:
-      anchor_linenums: true
-      line_spans: __span
-      pygments_lang_class: true
-  - pymdownx.inlinehilite
-  - pymdownx.keys
-  - pymdownx.magiclink:
-      normalize_issue_symbols: true
-      repo_url_shorthand: true
-      user: squidfunk
-      repo: mkdocs-material
-  - pymdownx.mark
-  - pymdownx.smartsymbols
-  - pymdownx.snippets:
+
+  - pymdownx.highlight: # 允许代码块语法高亮
+      linenums: true # 可显示行号，也可指定起始行号，如 ```python linenums="2"，也可指定高亮行，如 hl_lines="2-3"
+      linenums_style: pymdownx.inline # 行号样式 pymdownx.inline 或者 table
+      anchor_linenums: true # 用锚链接包装代码块，便于超链接和共享
+      line_spans: __span # 这对于行突出显示等功能正常工作至关重要
+      pygments_lang_class: true # 对于自定义注释标记的功能至关重要
+      # auto_title: true # 自动为所有代码块添加一个标题
+
+  - pymdownx.snippets: # 允许外部加载代码
       auto_append:
         - includes/mkdocs.md
-  - pymdownx.superfences:
+
+  - pymdownx.superfences: # 允许各种嵌套
       custom_fences:
-        - name: mermaid
+        - name: mermaid # 允许 mermaid 图表语法
           class: mermaid
-          format: !!python/name:pymdownx.superfences.fence_code_format
-  - pymdownx.tabbed:
-      alternate_style: true
+          format:
+            !!python/name:pymdownx.superfences.fence_code_format # Todo 完成的图标
+
+
+  - pymdownx.tabbed: # 允许代码块添加标签，实现多语言等效果
+      alternate_style: true # 唯一支持的样式
       combine_header_slug: true
       slugify: !!python/object/apply:pymdownx.slugs.slugify
         kwds:
           case: lower
-  - pymdownx.tasklist:
-      custom_checkbox: true
-  - pymdownx.tilde
+
+  - pymdownx.tasklist: # 允许 Todo 列表清单
+      custom_checkbox: true # 样式
+      clickable_checkbox: true # 是否可通过点击切换状态（但无实际更改）
 
 theme: # 主题设置
   name: material # 第三方主题名称
+  custom_dir: overrides # 覆盖部分原来的主题
   language: zh # material 语言
   features:
-    - announce.dismiss
-    - content.action.edit
-    - content.action.view
-    - content.code.annotate
-    - content.code.copy
-    - content.code.select
-    - content.tabs.link
-    - content.tooltips
-    - navigation.expand
-    - navigation.footer
-    - navigation.instant
-    - navigation.instant.prefetch
-    - navigation.instant.progress
-    - navigation.prune
-    - navigation.tabs
-    - navigation.top
-    - navigation.tracking
-    - search.highlight
-    - search.share
-    - search.suggest
-    - toc.follow
+    # - header.autohide # 顶栏自动隐藏
+    - announce.dismiss # 公告栏可以被关闭
+    - content.action.edit # 允许页面被编辑
+    - content.action.view # 允许查看页面的源代码
+    - content.code.annotate # 允许内联代码注释
+    - content.code.copy # 代码块复制按钮，通过 ``` python { .yaml .copy } 默认开启，{ .yaml .no-copy } 关闭
+    - content.code.select # 允许用户动态应用线条突出显示，通过 ```python { .yaml .select}，反同
+    - content.tabs.link # 同样的标签，整个网站的同步切换，如 C -> C++，则其它类似的全部标签都同步切换
+    - content.tooltips # 脚注提示
+    - navigation.expand # 左侧边栏节点至多展开一个
+    - navigation.indexes # 左侧边栏节点是否包含 index 页面
+    # - navigation.footer # 页面底下换页的支持
+    - navigation.instant # 页面加载无需完全加载
+    - navigation.instant.progress # 加载速度慢时，在页面顶部显示加载进度
+    - navigation.prune # 减小站点的构建大小
+    - navigation.tabs # 导航栏标题栏
+    # - navigation.tabs.sticky # 导航栏标题栏位置固定
+    # - navigation.sections # 左侧边栏节点是否保持展开
+    - navigation.top # 回到顶部的按钮
+    - navigation.tracking # 锚点跟踪
+    - search.highlight # 搜索栏内容高亮
+    - search.share # 搜索栏分享按钮
+    - search.suggest # 搜索栏内容建议
+    - toc.follow # 锚点关注，侧边栏自动滚动，使锚点总是可见
+    # - toc.integrate # 右边侧栏是否集成到左侧边栏
   palette:
-    - media: "(prefers-color-scheme)" # 默认主题
-      primary: teal # 默认标题栏颜色
-      accent: orange # 默认链接高亮颜色
+    # Palette toggle for automatic mode
+    - media: "(prefers-color-scheme)"
       toggle:
         icon: material/brightness-auto
-        name: 切换至暗色主题
-    - media: "(prefers-color-scheme: light)" # 亮色主题
+        name: 切换至亮色主题
+
+    # Palette toggle for light mode
+    - media: "(prefers-color-scheme: light)"
       scheme: default
-      primary: light blue # 明亮标题栏颜色
+      primary: teal # 明亮标题栏颜色
       accent: pink # 明亮链接高亮颜色
       toggle:
         icon: material/brightness-7
-        name: 切换至系统主题
-    - media: "(prefers-color-scheme: dark)" # 暗色主题
+        name: 切换至暗色主题
+
+    # Palette toggle for dark mode
+    - media: "(prefers-color-scheme: dark)"
       scheme: slate
       primary: black # 黑暗标题栏颜色
       accent: yellow # 黑暗链接高亮颜色
       toggle:
         icon: material/brightness-4
-        name: 切换至亮色主题
+        name: 切换至系统主题
   font: # 字体
     text: Microsoft YaHei # 文本
     code: consolas # 代码
-  logo: "logo.png" # 徽标（要加上引号）
-  favicon: "logo.png" # 网站图标
+  logo: logo.png # 页面左上角徽标
+  favicon: logo.png # 网页的图标
   icon:
-    repo: fontawesome/brands/github
-    # admonition:  # 特殊注释
-    #   note: octicons/tag-16  # 笔记
-    #   abstract: octicons/checklist-16
-    #   info: octicons/info-16  # 说明
-    #   tip: octicons/squirrel-16  # 提示
-    #   success: octicons/check-16  # 成功
-    #   question: octicons/question-16  # 提问
-    #   warning: octicons/alert-16  # 警告
-    #   failure: octicons/x-circle-16  # 失败
-    #   danger: octicons/zap-16  # 危险
-    #   bug: octicons/bug-16  # BUG
-    #   example: octicons/beaker-16  # 举例
-    #   quote: octicons/quote-16  # 引用
+    previous: fontawesome/solid/angle-left # 左下角向前翻页的图标
+    next: fontawesome/solid/angle-right # 右下角向后翻页的图标
+    repo: fontawesome/brands/github # 右上角仓库图标
+    edit: material/pencil # 页面编辑的图标
+    view: material/eye # 页面查看源代码的图标
+    annotation: material/arrow-right-circle # 提示按钮的图标，详细操作见 https://squidfunk.github.io/mkdocs-material/reference/annotations/#in-content-tabs-tab-1
 
 extra: # 额外设定
+  homepage: . # 左上角徽标链接的地址（此处为根目录，即主页）
+  disqus: "Xiaokang2022" # 评论系统
+  annotate: # 允许代码块内非注释内的提示
+    json: [.s2]
   social: # 社交联系方式（页面右下角内容）
     - icon: fontawesome/brands/github # GitHub 仓库链接
       link: https://github.com/Xiaokang2022/tkintertools/
+      name: GitHub 仓库
     - icon: fontawesome/brands/python # PyPI 页面链接
       link: https://pypi.org/project/tkintertools/
-  homepage: . # 徽标链接的地址（此处为根目录，即主页）
+      name: PyPI 主页
+  # alternate: # 语言支持
+  #   # Switch to Chinese
+  #   - name: 中文
+  #     link: /
+  #     lang: zh
+  #   # Switch to English
+  #   - name: English
+  #     link: /tkintertools/en/
+  #     lang: en
+  # version: # 版本支持
+  #   provider: mike
+  #   default: stable
+
+extra_javascript: # 保证数学表达式能正确显示的运行时环境
+  - javascripts/mathjax.js
+  - https://polyfill.io/v3/polyfill.min.js?features=es6
+  - https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js
 
 plugins: # 插件
-  - search: # 唯一官方附带插件
+  - offline
+  - tags
+  - search: # 搜索插件
       separator: '[\s\u200b\-_,:!=\[\]()"`/]+|\.(?!\d)|&[lg]t;|(?!\b)(?=[A-Z][a-z])'
+      lang:
+        - zh
+        - en
+  - git-revision-date-localized: # 需 pip install mkdocs-git-revision-date-localized-plugin
+      enable_creation_date: true # 显示创建的日期
+      type: datetime # 每页底下显示最后更新日期（除开 index）
+  - git-authors # 需 pip install mkdocs-git-authors-plugin
+  - glightbox # 图像缩放，需 pip install mkdocs-glightbox
+  # - git-committers: # 需 pip install mkdocs-git-committers-plugin-2
+  #     repository: Xiaokang2022/tkintertools
+  #     branch: main
 
 nav: # 导航栏
   - Home / 主页:
@@ -217,3 +264,4 @@ nav: # 导航栏
       - Contribution Guide - 贡献指南: more/CONTRIBUTING.md
       - Change Log - 更新日志: more/CHANGELOG.md
       - License - 项目许可证: more/LICENSE.md
+# Upload Docs   : mkdocs gh-deploy

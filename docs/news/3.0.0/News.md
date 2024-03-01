@@ -1,3 +1,7 @@
+---
+comments: true
+---
+
 # Release Notes - 版本发布说明
 
 !!! info "Note - 说明"
