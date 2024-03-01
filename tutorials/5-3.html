@@ -37,12 +37,6 @@
       
       
 
-  
-  
-  
-  
-  <style>:root{--md-annotation-icon:url('data:image/svg+xml;charset=utf-8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M22 12a10 10 0 0 1-10 10A10 10 0 0 1 2 12 10 10 0 0 1 12 2a10 10 0 0 1 10 10M6 13h8l-3.5 3.5 1.42 1.42L17.84 12l-5.92-5.92L10.5 7.5 14 11H6v2Z"/></svg>');}</style>
-
 
     
     
@@ -151,7 +145,7 @@
     
     
     
-    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="teal" data-md-color-accent="pink"  aria-label="切换至暗色主题"  type="radio" name="__palette" id="__palette_1">
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="white" data-md-color-accent="pink"  aria-label="切换至暗色主题"  type="radio" name="__palette" id="__palette_1">
     
       <label class="md-header__button md-icon" title="切换至暗色主题" for="__palette_2" hidden>
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12 20 8.69Z"/></svg>
@@ -785,7 +779,9 @@
       
         
 
-<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+
+<nav class="md-nav md-nav--secondary" aria-label="此页面">
   
   
   
@@ -794,7 +790,7 @@
   
     <label class="md-nav__title" for="__toc">
       <span class="md-nav__icon md-icon"></span>
-      目录
+      此页面
     </label>
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
@@ -1176,7 +1172,9 @@
                   <div class="md-sidebar__inner">
                     
 
-<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+
+<nav class="md-nav md-nav--secondary" aria-label="此页面">
   
   
   
@@ -1185,7 +1183,7 @@
   
     <label class="md-nav__title" for="__toc">
       <span class="md-nav__icon md-icon"></span>
-      目录
+      此页面
     </label>
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
@@ -1262,13 +1260,13 @@
   
 
 
-<h1 id="53">§5.3 图片进阶<a class="headerlink" href="#53" title="Permanent link">&para;</a></h1>
+<h1 id="53">§5.3 图片进阶<a class="headerlink" href="#53" title="锚链接到此部分以供参考">&para;</a></h1>
 <p>这一小节不讲别的，就讲进度条和 gif 解析的联动。</p>
 <div class="admonition info">
 <p class="admonition-title">注意</p>
 <p>此小节会涉及到一些与多线程相关的知识。</p>
 </div>
-<h2 id="gif">一、获取 gif 图片的总帧数<a class="headerlink" href="#gif" title="Permanent link">&para;</a></h2>
+<h2 id="gif">一、获取 gif 图片的总帧数<a class="headerlink" href="#gif" title="锚链接到此部分以供参考">&para;</a></h2>
 <p>要想知道 gif 解析了多少，必须得先知道 gif 的总帧数。你可以通过其他的软件来获取 gif 图的总帧数，你也可也通过下面的代码来获取 gif 的总帧数。</p>
 <p><code>PhotoImage</code> 的 <code>get_total_frames</code> 可以获取 gif 的总帧数（并非 FPS）：</p>
 <div class="language-python highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-1">1</a></span>
@@ -1282,8 +1280,8 @@
 <p>当 gif 的总帧数比较大的时候，上面代码还是比较慢的，此时如果你有 <code>PIL</code> 库，这一过程将会加快几倍。当然，如果你没有 <code>PIL</code> 库，上面的代码依然可以获得 gif 的总帧数，只不过慢一些罢了。</p>
 </div>
 <p>通常我们并不会在正式程序中直接使用上述方法来获取 gif 的总帧数，我们应该在正式程序之前，就通过测试得到 gif 的帧数，然后作为常量写在程序中。因为获取 gif 总帧数并不是一个很快的过程，如果直接在正式程序中调用，卡顿的现象将十分明显。</p>
-<h2 id="_1">二、以进度条展示加载进度<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
-<h3 id="21">2.1 运行前解析的进度条展示<a class="headerlink" href="#21" title="Permanent link">&para;</a></h3>
+<h2 id="_1">二、以进度条展示加载进度<a class="headerlink" href="#_1" title="锚链接到此部分以供参考">&para;</a></h2>
+<h3 id="21">2.1 运行前解析的进度条展示<a class="headerlink" href="#21" title="锚链接到此部分以供参考">&para;</a></h3>
 <p>由于 gif 的解析是一个阻塞过程，所以这里我们要采用多线程来避免程序的严重卡顿。</p>
 <div class="language-python highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-1-1"> 1</a></span>
 <span class="normal"><a href="#__codelineno-1-2"> 2</a></span>
@@ -1330,7 +1328,7 @@
 <p>运行的效果是这样的（示例所用 gif 图片来自互联网，侵权删），如果你发现下面的图片很卡，放心，不是 <code>tkintertools</code> 的问题，而是你网页加载比较慢，耐心等待就好：</p>
 <p><a class="glightbox" href="images/5.3-2.1-1.gif" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="gif" src="images/5.3-2.1-1.gif" /></a></p>
 <p>当我们有大量的资源需要加载的时候，就可以将它们组合一下，一起加载，然后用进度条的方式展现啦！</p>
-<h3 id="22">2.2 运行时解析的进度条展示<a class="headerlink" href="#22" title="Permanent link">&para;</a></h3>
+<h3 id="22">2.2 运行时解析的进度条展示<a class="headerlink" href="#22" title="锚链接到此部分以供参考">&para;</a></h3>
 <p>尽管这种需求可能很少见，但在某些情况下，我们可能还是需要运行时解析的进度条展示。由于运行时解析的过程是封装在 <code>start</code> 方法中的，我们无法在外部通过像上述代码那样的方法来展示其进度。此时，我们就需要用到 <code>start</code> 方法的一个特殊的参数 <code>callback</code> 了，它可以在运行时解析过程中添加一个回调函数。</p>
 <p>有了这个方法，我们就可以轻松展示运行时解析的进度了：</p>
 <div class="language-python highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-2-1"> 1</a></span>

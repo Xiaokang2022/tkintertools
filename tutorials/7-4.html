@@ -37,12 +37,6 @@
       
       
 
-  
-  
-  
-  
-  <style>:root{--md-annotation-icon:url('data:image/svg+xml;charset=utf-8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M22 12a10 10 0 0 1-10 10A10 10 0 0 1 2 12 10 10 0 0 1 12 2a10 10 0 0 1 10 10M6 13h8l-3.5 3.5 1.42 1.42L17.84 12l-5.92-5.92L10.5 7.5 14 11H6v2Z"/></svg>');}</style>
-
 
     
     
@@ -151,7 +145,7 @@
     
     
     
-    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="teal" data-md-color-accent="pink"  aria-label="切换至暗色主题"  type="radio" name="__palette" id="__palette_1">
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="white" data-md-color-accent="pink"  aria-label="切换至暗色主题"  type="radio" name="__palette" id="__palette_1">
     
       <label class="md-header__button md-icon" title="切换至暗色主题" for="__palette_2" hidden>
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12 20 8.69Z"/></svg>
@@ -908,7 +902,9 @@
       
         
 
-<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+
+<nav class="md-nav md-nav--secondary" aria-label="此页面">
   
   
   
@@ -917,7 +913,7 @@
   
     <label class="md-nav__title" for="__toc">
       <span class="md-nav__icon md-icon"></span>
-      目录
+      此页面
     </label>
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
@@ -1188,7 +1184,9 @@
                   <div class="md-sidebar__inner">
                     
 
-<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+
+<nav class="md-nav md-nav--secondary" aria-label="此页面">
   
   
   
@@ -1197,7 +1195,7 @@
   
     <label class="md-nav__title" for="__toc">
       <span class="md-nav__icon md-icon"></span>
-      目录
+      此页面
     </label>
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
@@ -1265,9 +1263,9 @@
   
 
 
-<h1 id="74-3d">§7.4 3D 进阶<a class="headerlink" href="#74-3d" title="Permanent link">&para;</a></h1>
-<h2 id="3d">一、自定义 3D 画布<a class="headerlink" href="#3d" title="Permanent link">&para;</a></h2>
-<h3 id="11">1.1 绑定事件<a class="headerlink" href="#11" title="Permanent link">&para;</a></h3>
+<h1 id="74-3d">§7.4 3D 进阶<a class="headerlink" href="#74-3d" title="锚链接到此部分以供参考">&para;</a></h1>
+<h2 id="3d">一、自定义 3D 画布<a class="headerlink" href="#3d" title="锚链接到此部分以供参考">&para;</a></h2>
+<h3 id="11">1.1 绑定事件<a class="headerlink" href="#11" title="锚链接到此部分以供参考">&para;</a></h3>
 <p>每个 3D 对象都有三个基本的功能，分别为平移（<code>translate</code>）、旋转（<code>rotate</code>）和缩放（<code>scale</code>），使用者可以根据自身需要，自定义绑定事件并调用相关的方法。比如说，我们现在想做这样一个绑定：按下等号键和减号键可以使每个 3D 对象自身的大小进行缩放，那么就可以按下面的步骤做。</p>
 <p>分析：使 3D 对象自身大小进行缩放需要调用方法 <code>scale</code>，且缩放中心就是每个 3D 对象自身的几何中心，参数 <code>center</code> 值为 <code>None</code>，也就是默认值的时候，它会按自身的几何中心进行缩放。这里可以使用 <code>Canvas3D</code> 作为容器控件，也可以使用 <code>Space</code>，这并不会影响到这个功能的实现。</p>
 <p><a class="glightbox" href="images/7.4-1.1-1.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="png" src="images/7.4-1.1-1.png" /></a></p>
@@ -1331,7 +1329,7 @@
 </details>
 
 <p>实际上，<a href="1-2.html#21-高度可配置的控件">§1.2 认识 tkintertools</a> 中就有一张和这个类似的图片。</p>
-<h3 id="12">1.2 注意事项<a class="headerlink" href="#12" title="Permanent link">&para;</a></h3>
+<h3 id="12">1.2 注意事项<a class="headerlink" href="#12" title="锚链接到此部分以供参考">&para;</a></h3>
 <p>上文提到，使用 <code>Space</code> 也可以，不会有任何影响，但我们在前面了解到，<code>Sapce</code> 实现了一些内置功能，比如旋转，这些内置功能是通过绑定事件来实现的，而 <code>tkinter</code> 中绑定事件一般是会覆盖前面的，上面为什么可以呢？</p>
 <p>其实，<code>Space</code> 确实绑定了一些事件，但是并没有涉及到按键 + 和 -，因此没有上面影响，但这并不代表所有的事件都没有影响，在使用 <code>Space</code> 的时候，我们尽量要避开那些绑定的事件，如果确实需要绑定新的事件，但又不想覆盖掉旧的的事件，那么在绑定新事件的时候，你应该将参数 <code>add</code> 设为 <code>'+'</code>。</p>
 <div class="admonition tip">

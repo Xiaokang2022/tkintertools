@@ -37,12 +37,6 @@
       
       
 
-  
-  
-  
-  
-  <style>:root{--md-annotation-icon:url('data:image/svg+xml;charset=utf-8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M22 12a10 10 0 0 1-10 10A10 10 0 0 1 2 12 10 10 0 0 1 12 2a10 10 0 0 1 10 10M6 13h8l-3.5 3.5 1.42 1.42L17.84 12l-5.92-5.92L10.5 7.5 14 11H6v2Z"/></svg>');}</style>
-
 
     
     
@@ -151,7 +145,7 @@
     
     
     
-    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="teal" data-md-color-accent="pink"  aria-label="切换至暗色主题"  type="radio" name="__palette" id="__palette_1">
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="white" data-md-color-accent="pink"  aria-label="切换至暗色主题"  type="radio" name="__palette" id="__palette_1">
     
       <label class="md-header__button md-icon" title="切换至暗色主题" for="__palette_2" hidden>
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12 20 8.69Z"/></svg>
@@ -845,7 +839,9 @@
       
         
 
-<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+
+<nav class="md-nav md-nav--secondary" aria-label="此页面">
   
   
   
@@ -854,7 +850,7 @@
   
     <label class="md-nav__title" for="__toc">
       <span class="md-nav__icon md-icon"></span>
-      目录
+      此页面
     </label>
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
@@ -1290,7 +1286,9 @@
                   <div class="md-sidebar__inner">
                     
 
-<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+
+<nav class="md-nav md-nav--secondary" aria-label="此页面">
   
   
   
@@ -1299,7 +1297,7 @@
   
     <label class="md-nav__title" for="__toc">
       <span class="md-nav__icon md-icon"></span>
-      目录
+      此页面
     </label>
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
@@ -1469,8 +1467,8 @@
   
 
 
-<h1 id="71-3d">§7.1 3D 对象<a class="headerlink" href="#71-3d" title="Permanent link">&para;</a></h1>
-<h2 id="3d">一、3D 对象的容器控件<a class="headerlink" href="#3d" title="Permanent link">&para;</a></h2>
+<h1 id="71-3d">§7.1 3D 对象<a class="headerlink" href="#71-3d" title="锚链接到此部分以供参考">&para;</a></h1>
+<h2 id="3d">一、3D 对象的容器控件<a class="headerlink" href="#3d" title="锚链接到此部分以供参考">&para;</a></h2>
 <p><code>tkintertools</code> 的 3D 画布不是只有一个，它实际的继承关系是下面这样的：</p>
 <pre class="mermaid"><code>flowchart RL
     id1(tkinter.Canvas)
@@ -1480,9 +1478,9 @@
 
     id4 --&gt; id3 --&gt; id2 --&gt; id1</code></pre>
 <p>其中，后面两个是属于 <code>tkintertools</code> 的子模块 <code>tools_3d</code> 里面的。</p>
-<h3 id="11-space">1.1 Space 类<a class="headerlink" href="#11-space" title="Permanent link">&para;</a></h3>
+<h3 id="11-space">1.1 Space 类<a class="headerlink" href="#11-space" title="锚链接到此部分以供参考">&para;</a></h3>
 <p>内置的 <code>Space</code> 类已经帮我们绑定好了相关的操作方法，如鼠标右键拖动就是平移（<code>translate</code>）、鼠标左键拖动就是旋转（<code>rotate</code>）以及鼠标滚轮滚动就是缩放（<code>scale</code>），一般用于查看 3D 对象的外观。</p>
-<h3 id="12-canvas3d">1.2 Canvas3D 类<a class="headerlink" href="#12-canvas3d" title="Permanent link">&para;</a></h3>
+<h3 id="12-canvas3d">1.2 Canvas3D 类<a class="headerlink" href="#12-canvas3d" title="锚链接到此部分以供参考">&para;</a></h3>
 <p><code>Canvas3D</code> 属于是什么 3D 事件都没有绑定的一个容器控件了。它存在的目的就是让使用者可以自定义绑定的事件及绑定的函数，而不是强制使用某些按键来触发某些事件（如鼠标左键拖动旋转 3D 对象）。这里要说明一点的就是，由于 <code>tkinter</code> 模块制定绑定事件时，会把之前已经绑定的同类事件给覆盖掉，因此我们在自定义绑定事件的时候，不能把之前的给丢掉了，要在新的绑定事件中加上它们，此外，多个绑定事件之间的执行顺序非常重要，有时候顺序错误会导致不可估计的后果。</p>
 <p><code>Canvas3D</code> 类有一个名为 <code>space_sort</code> 方法非常关键，在每次画面改动之后都必须调用它来更新，否则画面不会有任何的变化。比如每一次平移、每一次旋转和缩放等，都需要调用一下它来更新一下画面。“space sort” 意为“空间位置排序”，也就是说，每次调用它后，它会根据每个 3D 对象的数据来得出它们的前后位置关系（尽管不精确，后面会再次提到），计算出前后关系再根据前后位置关系来更新画面。</p>
 <p>不过 <code>Space</code> 类中已经帮我们内置好了这个方法的调用，因此 <code>Space</code> 相比于 <code>Canvas3D</code> 来说非常方便。不过有时候我们并不想让用户能够拖动画面，我们可能只是想展示某一 3D 动画或者画面，这时 <code>Canvas3D</code> 就派上用场了！因为它根本就没有对应事件的绑定！</p>
@@ -1490,20 +1488,20 @@
 <p class="admonition-title">注意</p>
 <p>尽管 <code>Space</code> 如此方便了，但是无论是 <code>Space</code> 还是 <code>Canvas3D</code>，在新增加一个 3D 对象的时候，都应该调用一下 <code>space_sort</code> 方法来更新画面，因为考虑到性能和某些特殊要求的情况下，这个时候 <code>space_sort</code> 方法并不会被自动调用。</p>
 </div>
-<h3 id="13-3d">1.3 3D 容器控件的坐标规划<a class="headerlink" href="#13-3d" title="Permanent link">&para;</a></h3>
+<h3 id="13-3d">1.3 3D 容器控件的坐标规划<a class="headerlink" href="#13-3d" title="锚链接到此部分以供参考">&para;</a></h3>
 <p>3D 容器控件采用的都是右手系，原点位于画布中央，下图清晰地展示了 3D 容器中的空间坐标系：</p>
 <p><a class="glightbox" href="images/7.1-1.3-1.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="png" src="images/7.1-1.3-1.png" /></a></p>
 <p>上图中，X、Y 和 Z 分别表示直角空间坐标系的三个轴，O 表示原点。画布的默认视角都是正对着 X 轴正方向的，当然，这里我为了展示清楚，将整体平移和旋转了一下，所以原点并不在画布中央，视角也不是正对着 X 轴正方向的。</p>
-<h3 id="14-3d-ui">1.4 3D 容器控件上的 UI 控件<a class="headerlink" href="#14-3d-ui" title="Permanent link">&para;</a></h3>
+<h3 id="14-3d-ui">1.4 3D 容器控件上的 UI 控件<a class="headerlink" href="#14-3d-ui" title="锚链接到此部分以供参考">&para;</a></h3>
 <p>尽管 3D 对象的基准在画布中央，但是这并不会影响 UI 控件的布局。和其他画布一样，UI 控件仍是以左上角为基准，反平面坐标系（y 轴反向）。</p>
 <div class="admonition tip">
 <p class="admonition-title">提示</p>
 <p>无论怎样布局，UI 控件总是在 3D 对象的上方，也就是说，3D 对象不会遮挡 UI 控件。</p>
 </div>
-<h2 id="3d_1">二、创建基本的 3D 对象<a class="headerlink" href="#3d_1" title="Permanent link">&para;</a></h2>
+<h2 id="3d_1">二、创建基本的 3D 对象<a class="headerlink" href="#3d_1" title="锚链接到此部分以供参考">&para;</a></h2>
 <p>基本的 3D 对象包括点（<code>Point</code>）、线（<code>Line</code>）和面（<code>Side</code>），后面还会讲到几种稍微复杂的 3D 对象，如长方体等。</p>
 <p>为了方便演示效果，下面的代码都将采用 <code>Space</code> 作为容器控件来完成。</p>
-<h3 id="21">2.1 点<a class="headerlink" href="#21" title="Permanent link">&para;</a></h3>
+<h3 id="21">2.1 点<a class="headerlink" href="#21" title="锚链接到此部分以供参考">&para;</a></h3>
 <p>我们通过类 <code>Point</code> 来显示一个点，具体的参数可以去文档中查看。下面的代码我们绘制了多个点。</p>
 <div class="admonition info">
 <p class="admonition-title">注意</p>
@@ -1588,7 +1586,7 @@
 
 </details>
 
-<h3 id="22">2.2 线<a class="headerlink" href="#22" title="Permanent link">&para;</a></h3>
+<h3 id="22">2.2 线<a class="headerlink" href="#22" title="锚链接到此部分以供参考">&para;</a></h3>
 <p>我们通过类 <code>Line</code> 来显示一条有限长直线，具体参数参考文档。</p>
 <p>下面是一个十分简单的示例：</p>
 <p><a class="glightbox" href="images/7-1.2.2-1.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="png" src="images/7-1.2.2-1.png" /></a></p>
@@ -1683,7 +1681,7 @@
 
 </details>
 
-<h3 id="23">2.3 面<a class="headerlink" href="#23" title="Permanent link">&para;</a></h3>
+<h3 id="23">2.3 面<a class="headerlink" href="#23" title="锚链接到此部分以供参考">&para;</a></h3>
 <p>我们通过类 <code>Side</code> 来显示一个有限面积直边平面，具体参数参考文档。</p>
 <p>下面简单用面来绘制一个正二十面体：</p>
 <p><a class="glightbox" href="images/7-1.2.3-1.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="png" src="images/7-1.2.3-1.png" /></a></p>
@@ -1823,9 +1821,9 @@
 <p>目前由于技术原因，实际过程中不建议给面的内部上色，当两个面的距离比较近时，这两个面可能出现前后位置关系显示颠倒的问题！尚无比较好的解决办法！对于后面的复杂 3D 对象（即几何体）也是如此。<br />
 目前前后位置的确定是通过欧几里得距离计算得到的，在两个面之间有一定距离时才能正确显示其前后位置关系。</p>
 </div>
-<h2 id="3d_2">三、创建复杂的 3D 对象<a class="headerlink" href="#3d_2" title="Permanent link">&para;</a></h2>
+<h2 id="3d_2">三、创建复杂的 3D 对象<a class="headerlink" href="#3d_2" title="锚链接到此部分以供参考">&para;</a></h2>
 <p>复杂的 3D 对象是指非基本的对象，如长方体（<code>Cuboid</code>）、四面体（<code>Tetrahedron</code>）等复杂的几何体，当然，你也可以直接用基本的 3D 对象将它们模仿出来，但这并不是封装好的，它们并非一个整体，直接使用 <code>Geometry</code> 及其子类是更加推荐的选择。</p>
-<h3 id="31">3.1 长方体<a class="headerlink" href="#31" title="Permanent link">&para;</a></h3>
+<h3 id="31">3.1 长方体<a class="headerlink" href="#31" title="锚链接到此部分以供参考">&para;</a></h3>
 <p>我们可以直接使用 <code>Cuboid</code> 来创建一个长方体，具体参数见文档。</p>
 <p>下面利用长方体简单地绘制一个魔方，这里放一张白色背景的图（<del>防止你认为只有黑色背景</del>）。</p>
 <p><a class="glightbox" href="images/7.1-3.1-1.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="png" src="images/7.1-3.1-1.png" /></a></p>
@@ -1899,7 +1897,7 @@
 
 </details>
 
-<h3 id="32">3.2 四面体<a class="headerlink" href="#32" title="Permanent link">&para;</a></h3>
+<h3 id="32">3.2 四面体<a class="headerlink" href="#32" title="锚链接到此部分以供参考">&para;</a></h3>
 <p>同上，我们也可以用 <code>Tetrahedron</code> 直接创建四面体，具体参数见文档。</p>
 <p>这里就不炫了，搞个简单点的完事儿！</p>
 <p><a class="glightbox" href="images/7.1-3.2-1.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="png" src="images/7.1-3.2-1.png" /></a></p>
@@ -1938,7 +1936,7 @@
 
 </details>
 
-<h3 id="33">3.3 任意凸面几何体<a class="headerlink" href="#33" title="Permanent link">&para;</a></h3>
+<h3 id="33">3.3 任意凸面几何体<a class="headerlink" href="#33" title="锚链接到此部分以供参考">&para;</a></h3>
 <p>除了上面提到的两种，实际我们可以通过 <code>Geometry</code> 创建任意的（凸面）多面体。但这里要注意的是，凹面几何体也是可以创建的，不过目前不保证凹面几何体完全没问题，因此需慎用凹面几何体。</p>
 <p>本质上，<code>Geometry</code> 的背后都是 <code>Side</code>，它只不过是将其进行了一个组合和封装，因此我们就是通过多个 <code>Side</code> 类创建它的，此外，我们在创建了它之后，还可以用它的 <code>append</code> 方法向其继续添加 <code>Side</code>。</p>
 

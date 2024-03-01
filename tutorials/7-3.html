@@ -37,12 +37,6 @@
       
       
 
-  
-  
-  
-  
-  <style>:root{--md-annotation-icon:url('data:image/svg+xml;charset=utf-8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M22 12a10 10 0 0 1-10 10A10 10 0 0 1 2 12 10 10 0 0 1 12 2a10 10 0 0 1 10 10M6 13h8l-3.5 3.5 1.42 1.42L17.84 12l-5.92-5.92L10.5 7.5 14 11H6v2Z"/></svg>');}</style>
-
 
     
     
@@ -151,7 +145,7 @@
     
     
     
-    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="teal" data-md-color-accent="pink"  aria-label="切换至暗色主题"  type="radio" name="__palette" id="__palette_1">
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="white" data-md-color-accent="pink"  aria-label="切换至暗色主题"  type="radio" name="__palette" id="__palette_1">
     
       <label class="md-header__button md-icon" title="切换至暗色主题" for="__palette_2" hidden>
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12 20 8.69Z"/></svg>
@@ -887,7 +881,9 @@
       
         
 
-<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+
+<nav class="md-nav md-nav--secondary" aria-label="此页面">
   
   
   
@@ -896,7 +892,7 @@
   
     <label class="md-nav__title" for="__toc">
       <span class="md-nav__icon md-icon"></span>
-      目录
+      此页面
     </label>
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
@@ -1248,7 +1244,9 @@
                   <div class="md-sidebar__inner">
                     
 
-<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+
+<nav class="md-nav md-nav--secondary" aria-label="此页面">
   
   
   
@@ -1257,7 +1255,7 @@
   
     <label class="md-nav__title" for="__toc">
       <span class="md-nav__icon md-icon"></span>
-      目录
+      此页面
     </label>
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
@@ -1385,26 +1383,26 @@
   
 
 
-<h1 id="73-3d">§7.3 3D 动画<a class="headerlink" href="#73-3d" title="Permanent link">&para;</a></h1>
-<h2 id="3d-api">一、3D 对象 API<a class="headerlink" href="#3d-api" title="Permanent link">&para;</a></h2>
+<h1 id="73-3d">§7.3 3D 动画<a class="headerlink" href="#73-3d" title="锚链接到此部分以供参考">&para;</a></h1>
+<h2 id="3d-api">一、3D 对象 API<a class="headerlink" href="#3d-api" title="锚链接到此部分以供参考">&para;</a></h2>
 <p>3D 对象有许许多多方法供我们调用。</p>
-<h3 id="11-3d-api">1.1 基本 3D 对象的 API<a class="headerlink" href="#11-3d-api" title="Permanent link">&para;</a></h3>
+<h3 id="11-3d-api">1.1 基本 3D 对象的 API<a class="headerlink" href="#11-3d-api" title="锚链接到此部分以供参考">&para;</a></h3>
 <p>基本 3D 对象的 API 名称都是一样的，它们都是继承自类 <code>_Object3D</code>，都可以进行平移、旋转和缩放。</p>
-<h4 id="111">1.1.1 平移<a class="headerlink" href="#111" title="Permanent link">&para;</a></h4>
+<h4 id="111">1.1.1 平移<a class="headerlink" href="#111" title="锚链接到此部分以供参考">&para;</a></h4>
 <p>平移使用方法 <code>translate</code>，平移没有什么特别，就是移动对象在空间中的位置。</p>
-<h4 id="112">1.1.2 旋转<a class="headerlink" href="#112" title="Permanent link">&para;</a></h4>
+<h4 id="112">1.1.2 旋转<a class="headerlink" href="#112" title="锚链接到此部分以供参考">&para;</a></h4>
 <p>旋转使用方法 <code>rotate</code>，旋转有两个重载，可以旋转绕某一点进行旋转，也可以旋转绕某一条线进行旋转。
 两者的参数略有不同，默认情况下是绕原点进行旋转。</p>
-<h4 id="113">1.1.3 缩放<a class="headerlink" href="#113" title="Permanent link">&para;</a></h4>
+<h4 id="113">1.1.3 缩放<a class="headerlink" href="#113" title="锚链接到此部分以供参考">&para;</a></h4>
 <p>缩放使用方法 <code>scale</code>，缩放没有重载，但是它有一个参数非常有意思，即缩放参照点。将这个点设为原点，那么对象将会以原点为参照进行大小缩放，这样它的大小和位置都会发生改变。但如果我们将其设为改对象的几何中心，则对象只有大小会发生变化，位置不会有改动。</p>
-<h4 id="114">1.1.4 几何中心<a class="headerlink" href="#114" title="Permanent link">&para;</a></h4>
+<h4 id="114">1.1.4 几何中心<a class="headerlink" href="#114" title="锚链接到此部分以供参考">&para;</a></h4>
 <p>此 API 名为 <code>center</code>，调用它不会有任何变化，但它返回该对象的几何中心。可以配合其他 API 来进行使用。</p>
-<h3 id="12-3d-api">1.2 复杂 3D 对象的 API<a class="headerlink" href="#12-3d-api" title="Permanent link">&para;</a></h3>
+<h3 id="12-3d-api">1.2 复杂 3D 对象的 API<a class="headerlink" href="#12-3d-api" title="锚链接到此部分以供参考">&para;</a></h3>
 <p>其实复杂的 3D 对象本质上就是基本 3D 对象的组合体而已，因此它们在拥有基本 3D 对象的 API 的前提下，还有其他的方法。内置的两种复杂几何体都是继承于类 <code>Geometry</code>，它们本身没有额外的方法，但是 <code>Geometry</code> 相比于基本 3D 对象，增加了一个 <code>append</code> 方法，可以将更多的基本 3D 对象添加到一个几何体实例中去。</p>
-<h2 id="3d">二、通过动画类实现 3D 动画<a class="headerlink" href="#3d" title="Permanent link">&para;</a></h2>
+<h2 id="3d">二、通过动画类实现 3D 动画<a class="headerlink" href="#3d" title="锚链接到此部分以供参考">&para;</a></h2>
 <p>动画类指的就是上一章的 <code>Animation</code>，通过它我们可以很方便地实现一些简单乃至复杂的动画。</p>
 <p>有了 3D 对象的 API 之后，我们就可以通过动画类来实现各种各样<sub>~花里胡哨</sub>~的效果！<code>Animation</code> 的使用方法已在上一章讲述，这里不再赘述。</p>
-<h2 id="after">三、通过 after 方法实现简单动画<a class="headerlink" href="#after" title="Permanent link">&para;</a></h2>
+<h2 id="after">三、通过 after 方法实现简单动画<a class="headerlink" href="#after" title="锚链接到此部分以供参考">&para;</a></h2>
 <p>除了可以使用 <code>Animation</code> 类之外，我们还可以使用 <code>tkinter</code> 模块中的功能来实现一些简单的功能。</p>
 <p><code>tkinter</code> 模块中的控件都有一个名为 <code>after</code> 的方法，可以让我们快速做出比较简单的动画，实际上，<code>Animation</code> 的底层也是调用的 <code>after</code>，只不过进行了一些简单的封装。</p>
 <p>下面是一个简单的示例（如果下面的动图很卡，说明你网页加载比较慢，并非 <code>tkintertools</code> 的问题，耐心等待就好）：</p>

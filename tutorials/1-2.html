@@ -37,12 +37,6 @@
       
       
 
-  
-  
-  
-  
-  <style>:root{--md-annotation-icon:url('data:image/svg+xml;charset=utf-8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M22 12a10 10 0 0 1-10 10A10 10 0 0 1 2 12 10 10 0 0 1 12 2a10 10 0 0 1 10 10M6 13h8l-3.5 3.5 1.42 1.42L17.84 12l-5.92-5.92L10.5 7.5 14 11H6v2Z"/></svg>');}</style>
-
 
     
     
@@ -151,7 +145,7 @@
     
     
     
-    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="teal" data-md-color-accent="pink"  aria-label="切换至暗色主题"  type="radio" name="__palette" id="__palette_1">
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="white" data-md-color-accent="pink"  aria-label="切换至暗色主题"  type="radio" name="__palette" id="__palette_1">
     
       <label class="md-header__button md-icon" title="切换至暗色主题" for="__palette_2" hidden>
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12 20 8.69Z"/></svg>
@@ -650,7 +644,9 @@
       
         
 
-<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+
+<nav class="md-nav md-nav--secondary" aria-label="此页面">
   
   
   
@@ -659,7 +655,7 @@
   
     <label class="md-nav__title" for="__toc">
       <span class="md-nav__icon md-icon"></span>
-      目录
+      此页面
     </label>
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
@@ -1263,7 +1259,9 @@
                   <div class="md-sidebar__inner">
                     
 
-<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+
+<nav class="md-nav md-nav--secondary" aria-label="此页面">
   
   
   
@@ -1272,7 +1270,7 @@
   
     <label class="md-nav__title" for="__toc">
       <span class="md-nav__icon md-icon"></span>
-      目录
+      此页面
     </label>
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
@@ -1436,18 +1434,18 @@
   
 
 
-<h1 id="12-tkintertools">§1.2 认识 tkintertools<a class="headerlink" href="#12-tkintertools" title="Permanent link">&para;</a></h1>
-<h2 id="_1">一、基本介绍<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
+<h1 id="12-tkintertools">§1.2 认识 tkintertools<a class="headerlink" href="#12-tkintertools" title="锚链接到此部分以供参考">&para;</a></h1>
+<h2 id="_1">一、基本介绍<a class="headerlink" href="#_1" title="锚链接到此部分以供参考">&para;</a></h2>
 <p><code>tkintertools</code> 是一款基于 <code>tkinter</code> 模块、二次开发的轻量级界面编程模块。它的设计初心是为了辅助 <code>tkinter</code> 进行界面的开发，以达到 <strong>美化界面</strong>、<strong>快捷开发</strong>、<strong>简单易用</strong> 的目的。</p>
 <div class="admonition tip">
 <p class="admonition-title">提示</p>
 <p>想要充分地利用 <code>tkintertools</code> 模块，开发人员首先要对 <code>tkinter</code> 模块有一定的了解（不需要了解太多）！</p>
 </div>
-<h3 id="11">1.1 基本原理<a class="headerlink" href="#11" title="Permanent link">&para;</a></h3>
+<h3 id="11">1.1 基本原理<a class="headerlink" href="#11" title="锚链接到此部分以供参考">&para;</a></h3>
 <p>tkintertools 的控件并非真实的控件，而是在 tkinter 模块中 <code>Canvas</code> 对象中绘制而成的，也就是说，所有的控件都是没有句柄的，都只是 <code>Canvas</code> 对象中的线条和颜色块罢了。但就是这些线条和颜色块，就能重新构建我们的控件，尽管它们并非真的控件。由于是绘制而成的，自然我们就可以自定义我们控件的外观，而不再被原始控件的外观所约束。这就是所谓的 “<mark>美化界面</mark>” 啦！</p>
 <p>有了我们自己绘制的控件，当然还不够，还需要辅以一些工具类或者函数来帮助我们进行更加快捷的开发！比如能够快速形成动画的 <code>Animation</code> 类，不用我们自己管理控件缩放的重写的 <code>Canvas</code> 控件等等！这就是 “<mark>快捷开发</mark>”！</p>
 <p>有了这些东西，要是小白程序员不会用，看不懂文档，那这个模块也是没有用的！因此我了解了很多 Python 关于 type hints（类型提示）的知识，直接把开发文档作为 docstring（文档字符串）放在了每个类和函数源代码对应的位置，程序员可以在 IDE 中将鼠标移到类或者函数的名字上，简明文档就会自动弹出来。简明文档里面包含了这个类或者函数的用法、参数名称及作用，还有重载说明。当然，为了兼容不同的 Python 版本，我使用的 type hints 是最朴素的方式，直接以注释的方式呈现。这就是设计初心中的 “<mark>简单易用</mark>” 了。关于 type hints，请看 <a href="https://peps.python.org/pep-0484/">PEP 484 - Type Hints</a>。</p>
-<h3 id="12">1.2 模块优点<a class="headerlink" href="#12" title="Permanent link">&para;</a></h3>
+<h3 id="12">1.2 模块优点<a class="headerlink" href="#12" title="锚链接到此部分以供参考">&para;</a></h3>
 <p><code>tkintertools</code> 完全没有使用任何第三方模块和库，同时它也没有任何依赖包（除了 <code>tkinter</code> 本身），它的功能完全由内置模块和函数实现，而且它还是跨平台的！<br />
 它的控件是在 <code>tkinter</code> 模块中 <code>Canvas</code> 对象中绘制而成的，这就赋予了 <code>tkintertools</code> 控件一些在 <code>tkinter</code> 中没有的特性，列举如下：</p>
 <ul>
@@ -1455,15 +1453,15 @@
 <li>控件的样式是高度自定义的（比如按钮有圆角）；</li>
 <li>模块十分轻量，模块本身不包含任何资源文件，只有代码，且没有任何第三方模块的依赖，且只有仅仅一百多 KB，不像那些大型的库，动不动就几十 MB；</li>
 </ul>
-<h3 id="13">1.3 模块缺点<a class="headerlink" href="#13" title="Permanent link">&para;</a></h3>
+<h3 id="13">1.3 模块缺点<a class="headerlink" href="#13" title="锚链接到此部分以供参考">&para;</a></h3>
 <p>模块使用了原生的 <code>Canvas</code> 对象作为底层基础，必然就牺牲了一些特性，同时还产生了一些缺点：</p>
 <ul>
 <li>虚拟的控件无法获取焦点（Tab 键切换的那个焦点）；</li>
 <li>虚拟的控件在文本输入和显示的功能上存在一些缺陷，文本可能会显示在边框外面；</li>
 </ul>
-<h2 id="_2">二、特色功能<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
+<h2 id="_2">二、特色功能<a class="headerlink" href="#_2" title="锚链接到此部分以供参考">&para;</a></h2>
 <p>下面列举一些 <code>tkintertools</code> 模块还具有的一些特色功能（不一定完整）。</p>
-<h3 id="21">2.1 高度可配置的控件<a class="headerlink" href="#21" title="Permanent link">&para;</a></h3>
+<h3 id="21">2.1 高度可配置的控件<a class="headerlink" href="#21" title="锚链接到此部分以供参考">&para;</a></h3>
 <p><code>tkintertools</code> 模块的控件拥有许多参数供我们设置，比如圆角的半径、文本和边框以及控件内部的颜色，关联事件等等。<br />
 这里要说明的是，每个控件可以设置的关联事件不止一种，在鼠标经过控件时可以绑定事件，鼠标点击控件也可以，鼠标点击后松开也行等等。<br />
 文本和边框以及控件的填充色也是类似的，在鼠标经过控件、点击控件、点击后松开都可以设定颜色。<br />
@@ -1835,12 +1833,12 @@
 
 </details>
 
-<h3 id="22">2.2 自动控制大小<a class="headerlink" href="#22" title="Permanent link">&para;</a></h3>
+<h3 id="22">2.2 自动控制大小<a class="headerlink" href="#22" title="锚链接到此部分以供参考">&para;</a></h3>
 <p><code>tkintertools</code> 中的控件，其大小和形状可以随着窗口的变化而成比例地变化，不仅仅是控件中的文本，<code>Canvas</code> 绘制的图形也会随之变动，更让人兴奋的是，png 类型的图片也会随之成比例地缩放！当然，你也可以设定参数让其不随之变动，也可以设定参数使其在缩放的时候保持横纵方向的比例。<br />
 总之，很方便，很舒适！</p>
 <p>下面一张图展示了什么叫“解放双手，全自动控制”！顺便一提，下面的是旧版 <code>tkintertools</code> 的测试图像，暂时把图拿来充数，从操作系统看得出来，是以前的图。</p>
 <p><a class="glightbox" href="images/1.2-2.2-1.gif" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="gif" src="images/1.2-2.2-1.gif" /></a></p>
-<h3 id="23">2.3 高清显示<a class="headerlink" href="#23" title="Permanent link">&para;</a></h3>
+<h3 id="23">2.3 高清显示<a class="headerlink" href="#23" title="锚链接到此部分以供参考">&para;</a></h3>
 <p>其实这算是 <code>tkinter</code> 的一个 bug 没有修复而已……这是在 Windows 系统上独有的问题，对于电脑缩放比率不是 100% 的伙计们而言，这个问题就会出现，也就是窗口模糊。但好在 <code>tkintertools</code> 解决了这个问题！顺便一提，这个解决办法是在 Python 内置库 <code>idlelib</code> 中找到的。</p>
 <p><del>说明一下，这方法是我在 <code>idlelib</code> 源代码里面泡了好几个小时才找到的（我裂开来）……</del></p>
 <p>我们以 IDLE 为例，若是执行处理了 DPI 的相关功能，效果是这样的：</p>
@@ -1849,13 +1847,13 @@
 <p><a class="glightbox" href="images/1.2-2.3-2.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="png" src="images/1.2-2.3-2.png" /></a></p>
 <p>这两张图片的清晰度完全不一样，这里可不是我故意改变了图片的清晰度！这在我的笔记本电脑上是真实存在的效果！下面是我笔记本的缩放比率（显然不是 100%）：</p>
 <p><a class="glightbox" href="images/1.2-2.3-3.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="png" src="images/1.2-2.3-3.png" /></a></p>
-<h3 id="24">2.4 简单的动画效果<a class="headerlink" href="#24" title="Permanent link">&para;</a></h3>
+<h3 id="24">2.4 简单的动画效果<a class="headerlink" href="#24" title="锚链接到此部分以供参考">&para;</a></h3>
 <p>通过 <code>tkintertools</code> ，要实现一个简单的动画效果十分容易，下面就是一个示例（旧版图片，拿来暂时充数）：</p>
 <p><a class="glightbox" href="images/1.2-2.4-1.gif" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="gif" src="images/1.2-2.4-1.gif" /></a></p>
 <p>当然，不仅仅是这样的动画效果，还可以这样骚操作：</p>
 <p><a class="glightbox" href="images/1.2-2.4-2.gif" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="gif" src="images/1.2-2.4-2.gif" /></a></p>
 <p><del>这桌面壁纸有点抽风？？？</del></p>
-<h3 id="25">2.5 渐变色<a class="headerlink" href="#25" title="Permanent link">&para;</a></h3>
+<h3 id="25">2.5 渐变色<a class="headerlink" href="#25" title="锚链接到此部分以供参考">&para;</a></h3>
 <p>渐变色实际上并不是主要的功能，只是 <code>tkintertools</code> 附带的功能。<br />
 下面是一个简单的渐变色示例：</p>
 <p><a class="glightbox" href="images/1.2-2.5-1.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="png" src="images/1.2-2.5-1.png" /></a></p>
@@ -1863,14 +1861,14 @@
 <p><a class="glightbox" href="images/1.2-2.5-2.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="png" src="images/1.2-2.5-2.png" /></a></p>
 <p><del>嗯，很逼真，但并没有什么用，而且还非常吃内存和性能（哭……）</del></p>
 <p>上面展示控件时的渐变色就是这么来的。</p>
-<h3 id="26">2.6 详细的类型提示<a class="headerlink" href="#26" title="Permanent link">&para;</a></h3>
+<h3 id="26">2.6 详细的类型提示<a class="headerlink" href="#26" title="锚链接到此部分以供参考">&para;</a></h3>
 <p>参考 <a href="https://peps.python.org/pep-0526/">PEP 526</a>、<a href="https://peps.python.org/pep-0586/">PEP 586</a>、<a href="https://peps.python.org/pep-0604/">PEP 604</a> 和 <a href="https://peps.python.org/pep-0612/">PEP 612</a>，<code>tkintertools</code> 采用了<mark>最兼容</mark>的方式去实现详细的类型提示（兼容不同的 Python 版本），可适用 IDE 有 Visual Studio Code、PyCharm、Visual Studio 等。<br />
 那什么是类型提示呢？话不多说，直接看图就行（下面的图是以前的，现在有点不一样了）：</p>
 <p><a class="glightbox" href="images/1.2-2.6-1.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="png" src="images/1.2-2.6-1.png" /></a></p>
 <p>在 Visual Studio Code 编辑器中，当鼠标移至类或者函数的名字上面时，会自动显示该类或者函数的注释文档。通过这种方式，不需要看太多的帮助文档和资料就能熟练地使用 <code>tkintertools</code> 模块！</p>
 <p>这些类型提示，对应到源代码上去就是这些注释文档：</p>
 <p><a class="glightbox" href="images/1.2-2.6-2.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="png" src="images/1.2-2.6-2.png" /></a></p>
-<h3 id="27">2.7 跨平台<a class="headerlink" href="#27" title="Permanent link">&para;</a></h3>
+<h3 id="27">2.7 跨平台<a class="headerlink" href="#27" title="锚链接到此部分以供参考">&para;</a></h3>
 <p>目前已经测试通过的操作系统有：</p>
 <p><a class="glightbox" href="https://img.shields.io/badge/Windows-10-green?logo=windows10" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="Windows10" src="https://img.shields.io/badge/Windows-10-green?logo=windows10" /></a>
 <a class="glightbox" href="https://img.shields.io/badge/Windows-11-green?logo=windows11" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="Windows11" src="https://img.shields.io/badge/Windows-11-green?logo=windows11" /></a>
@@ -1885,7 +1883,7 @@
 <li><code>Linux</code>: 没啥大问题，应该都可以</li>
 </ul>
 <p>不同操作系统上的具体效果（并非完全一样，有一点点区别）可以在下一节末尾看到，这里就不展示啦。</p>
-<h3 id="28-3d">2.8 简单 3D 绘图<a class="headerlink" href="#28-3d" title="Permanent link">&para;</a></h3>
+<h3 id="28-3d">2.8 简单 3D 绘图<a class="headerlink" href="#28-3d" title="锚链接到此部分以供参考">&para;</a></h3>
 <p><code>tkintertools</code> 的子模块 <code>tools_3d</code> 可以方便快捷地绘制一些直边的几何体以及单独的点、线和面，还有文本，以及进行一些简单的操作，如平移、旋转、缩放等。</p>
 <p><a class="glightbox" href="images/1.2-2.8-1.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="png" src="images/1.2-2.8-1.png" /></a></p>
 <p>第二张图片可以更好地显示空间感，而且呢，运行下面的源代码的程序，按下键盘上面的 “+” 和 “-” 可以缩放每个面的自身的大小，这样就可以看到下面这个三维结构内部的样子了！</p>

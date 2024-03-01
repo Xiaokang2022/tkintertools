@@ -37,12 +37,6 @@
       
       
 
-  
-  
-  
-  
-  <style>:root{--md-annotation-icon:url('data:image/svg+xml;charset=utf-8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M22 12a10 10 0 0 1-10 10A10 10 0 0 1 2 12 10 10 0 0 1 12 2a10 10 0 0 1 10 10M6 13h8l-3.5 3.5 1.42 1.42L17.84 12l-5.92-5.92L10.5 7.5 14 11H6v2Z"/></svg>');}</style>
-
 
     
     
@@ -151,7 +145,7 @@
     
     
     
-    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="teal" data-md-color-accent="pink"  aria-label="切换至暗色主题"  type="radio" name="__palette" id="__palette_1">
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="white" data-md-color-accent="pink"  aria-label="切换至暗色主题"  type="radio" name="__palette" id="__palette_1">
     
       <label class="md-header__button md-icon" title="切换至暗色主题" for="__palette_2" hidden>
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12 20 8.69Z"/></svg>
@@ -1098,7 +1092,9 @@
       
         
 
-<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+
+<nav class="md-nav md-nav--secondary" aria-label="此页面">
   
   
   
@@ -1107,7 +1103,7 @@
   
     <label class="md-nav__title" for="__toc">
       <span class="md-nav__icon md-icon"></span>
-      目录
+      此页面
     </label>
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
@@ -1282,7 +1278,9 @@
                   <div class="md-sidebar__inner">
                     
 
-<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+
+<nav class="md-nav md-nav--secondary" aria-label="此页面">
   
   
   
@@ -1291,7 +1289,7 @@
   
     <label class="md-nav__title" for="__toc">
       <span class="md-nav__icon md-icon"></span>
-      目录
+      此页面
     </label>
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
@@ -1410,15 +1408,15 @@
   
 
 
-<h1 id="release-notes-">Release Notes - 版本发布说明<a class="headerlink" href="#release-notes-" title="Permanent link">&para;</a></h1>
+<h1 id="release-notes-">Release Notes - 版本发布说明<a class="headerlink" href="#release-notes-" title="锚链接到此部分以供参考">&para;</a></h1>
 <ul>
 <li>Version - 最新版本 : <code>2.6.6</code></li>
 <li>Release - 发布日期 : 2023/07/01</li>
 </ul>
 <div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1"></a>pip install tkintertools==2.6.6
 </span></code></pre></div></td></tr></table></div>
-<h2 id="changelog-">ChangeLog - 更新日志<a class="headerlink" href="#changelog-" title="Permanent link">&para;</a></h2>
-<h3 id="added-">Added - 新增<a class="headerlink" href="#added-" title="Permanent link">&para;</a></h3>
+<h2 id="changelog-">ChangeLog - 更新日志<a class="headerlink" href="#changelog-" title="锚链接到此部分以供参考">&para;</a></h2>
+<h3 id="added-">Added - 新增<a class="headerlink" href="#added-" title="锚链接到此部分以供参考">&para;</a></h3>
 <ul class="task-list">
 <li class="task-list-item">
 <p><label class="task-list-control"><input type="checkbox" checked/><span class="task-list-indicator"></span></label> The classes <code>_Point</code>, <code>_Line</code>, <code>_Side</code>, and <code>Geometry</code> of the 3D submodule all have a new method <code>center</code> that returns the geometric center of the 3D object<br />
@@ -1429,7 +1427,7 @@
 新增抽象类 <code>_3D_Object</code> 来作为类 <code>_Point</code>、<code>_Line</code> 和 <code>_Side</code> 的元基类</p>
 </li>
 </ul>
-<h3 id="optimized-">Optimized - 优化<a class="headerlink" href="#optimized-" title="Permanent link">&para;</a></h3>
+<h3 id="optimized-">Optimized - 优化<a class="headerlink" href="#optimized-" title="锚链接到此部分以供参考">&para;</a></h3>
 <ul class="task-list">
 <li class="task-list-item">
 <p><label class="task-list-control"><input type="checkbox" checked/><span class="task-list-indicator"></span></label> Optimized parameter passing in 3D submodules, users do not need to ensure the transitivity of <code>list</code> at all times, and parameters that used to only use the <code>list</code> type are now <code>Iterable</code> type<br />
@@ -1456,7 +1454,7 @@
 3D 子模块中相机距离的计算公式优化，提高了一点性能</p>
 </li>
 </ul>
-<h3 id="changed-">Changed - 变更<a class="headerlink" href="#changed-" title="Permanent link">&para;</a></h3>
+<h3 id="changed-">Changed - 变更<a class="headerlink" href="#changed-" title="锚链接到此部分以供参考">&para;</a></h3>
 <ul class="task-list">
 <li class="task-list-item">
 <p><label class="task-list-control"><input type="checkbox" checked/><span class="task-list-indicator"></span></label> The parameters <code>point1</code> and <code>point2</code> of class <code>Point</code> of the 3D submodule and its parent class <code>_Point</code> were renamed to <code>point_start</code> and <code>point_end</code> respectively<br />
@@ -1467,13 +1465,13 @@
 3D 子模块的类 <code>Space</code> 的参数 <code>origin_color</code> 被更改为四个新的参数，分别是 <code>origin_size</code>、<code>origin_width</code>、<code>origin_fill</code> 和 <code>origin_outline</code></p>
 </li>
 </ul>
-<h3 id="removed-">Removed - 移除<a class="headerlink" href="#removed-" title="Permanent link">&para;</a></h3>
+<h3 id="removed-">Removed - 移除<a class="headerlink" href="#removed-" title="锚链接到此部分以供参考">&para;</a></h3>
 <ul class="task-list">
 <li class="task-list-item"><label class="task-list-control"><input type="checkbox" checked/><span class="task-list-indicator"></span></label> The classes <code>Canvas_3D</code> and <code>Space</code> of the 3D submodule remove the parameters <code>dx</code> and <code>dy</code>, and the default field of view of the canvas remains centered, i.e. their center is now the original upper-left vertex<br />
 3D 子模块的类 <code>Canvas_3D</code> 和 <code>Space</code> 移除参数 <code>dx</code> 和 <code>dy</code>，画布默认视野保持居中，也就是说，现在它们的中心位置才是原来的左上角顶点</li>
 </ul>
-<h2 id="todos-">Todos - 待办事项<a class="headerlink" href="#todos-" title="Permanent link">&para;</a></h2>
-<h3 id="possible-features-">Possible Features - 期望功能<a class="headerlink" href="#possible-features-" title="Permanent link">&para;</a></h3>
+<h2 id="todos-">Todos - 待办事项<a class="headerlink" href="#todos-" title="锚链接到此部分以供参考">&para;</a></h2>
+<h3 id="possible-features-">Possible Features - 期望功能<a class="headerlink" href="#possible-features-" title="锚链接到此部分以供参考">&para;</a></h3>
 <ul class="task-list">
 <li class="task-list-item">
 <p><label class="task-list-control"><input type="checkbox"/><span class="task-list-indicator"></span></label> Perfect the scroll bar function of <code>Text</code> class<br />
@@ -1516,7 +1514,7 @@
 添加光源，并实现简单的光影渲染的效果</p>
 </li>
 </ul>
-<h3 id="known-bugs-">Known Bugs - 已知问题<a class="headerlink" href="#known-bugs-" title="Permanent link">&para;</a></h3>
+<h3 id="known-bugs-">Known Bugs - 已知问题<a class="headerlink" href="#known-bugs-" title="锚链接到此部分以供参考">&para;</a></h3>
 <ul class="task-list">
 <li class="task-list-item">
 <p><label class="task-list-control"><input type="checkbox"/><span class="task-list-indicator"></span></label> Solve the bug that the vertical position of the text is wrong when the <code>Text</code> class is enlarged<br />
