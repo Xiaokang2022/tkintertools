@@ -1,3 +1,5 @@
+# mkdocs gh-deploy
+
 site_name: tkintertools # 站点名称
 site_description: Data Structures and Algorithms and Numerical Calculation Methods # 站点描述
 site_author: Xiaokang2022 # 站点作者
@@ -7,6 +9,7 @@ repo_url: https://github.com/Xiaokang2022/tkintertools # 仓库地址
 edit_uri: edit/master/docs/ # 编辑地址（页面会出现编辑按钮）
 copyright: Copyright &copy; 2024 Xiaokang2022 # 版权信息（会出现在左下角）
 remote_branch: gh-pages # GitHub Pages 分支名称（此处为默认值）
+strict: false # 严格模式
 
 markdown_extensions: # Python Markdown 官方扩展
   - meta # 允许元标记
@@ -24,11 +27,16 @@ markdown_extensions: # Python Markdown 官方扩展
   - pymdownx.smartsymbols # 允许上下标，如 x^2^（x²）
   - pymdownx.details # 允许提示框与文本左右布局，而非原来的上下布局，如 !!! note inline "Hint"（左），!!! note inline end（右）
   - pymdownx.inlinehilite # 支持行内代码块高亮，如 `#!python range()`
+  - pymdownx.snippets # 允许外联任何内容
+  - pymdownx.magiclink # 自动识别超链接
 
   - toc: # 目录设置
-      permalink: true # 启用目录锚点
-      title: 此页面 # 在右侧导航侧边栏中设置目录的标题
-      permalink_title: 锚链接到此部分以供参考 # 设置锚点链接的标题
+      title: 目录 # 在右侧导航侧边栏中设置目录的标题
+      permalink_title: 点击即可链接到锚点 # 设置锚点链接的标题
+      permalink: "#" # 启用目录锚点，并设置符号为 “#”
+      slugify: !!python/object/apply:pymdownx.slugs.slugify
+        kwds:
+          case: lower
 
   - pymdownx.arithmatex: # 允许数学表达式，即 $$y=x+1$$，或行内的 $x=1$
       generic: true
@@ -51,10 +59,6 @@ markdown_extensions: # Python Markdown 官方扩展
       pygments_lang_class: true # 对于自定义注释标记的功能至关重要
       # auto_title: true # 自动为所有代码块添加一个标题
 
-  - pymdownx.snippets: # 允许外部加载代码
-      auto_append:
-        - includes/mkdocs.md
-
   - pymdownx.superfences: # 允许各种嵌套
       custom_fences:
         - name: mermaid # 允许 mermaid 图表语法
@@ -76,7 +80,7 @@ markdown_extensions: # Python Markdown 官方扩展
 
 theme: # 主题设置
   name: material # 第三方主题名称
-  custom_dir: overrides # 覆盖部分原来的主题
+  custom_dir: docs/overrides # 覆盖部分原来的主题
   language: zh # material 语言
   features:
     # - header.autohide # 顶栏自动隐藏
@@ -89,9 +93,10 @@ theme: # 主题设置
     - content.tabs.link # 同样的标签，整个网站的同步切换，如 C -> C++，则其它类似的全部标签都同步切换
     - content.tooltips # 脚注提示
     - navigation.expand # 左侧边栏节点至多展开一个
-    - navigation.indexes # 左侧边栏节点是否包含 index 页面
+    # - navigation.indexes # 左侧边栏节点是否包含 index 页面
     # - navigation.footer # 页面底下换页的支持
     - navigation.instant # 页面加载无需完全加载
+    - navigation.instant.prefetch # 页面预加载（Insider）
     - navigation.instant.progress # 加载速度慢时，在页面顶部显示加载进度
     - navigation.prune # 减小站点的构建大小
     - navigation.tabs # 导航栏标题栏
@@ -153,18 +158,13 @@ extra: # 额外设定
     - icon: fontawesome/brands/python # PyPI 页面链接
       link: https://pypi.org/project/tkintertools/
       name: PyPI 主页
-  # alternate: # 语言支持
-  #   # Switch to Chinese
-  #   - name: 中文
-  #     link: /
-  #     lang: zh
-  #   # Switch to English
-  #   - name: English
-  #     link: /tkintertools/en/
-  #     lang: en
-  # version: # 版本支持
-  #   provider: mike
-  #   default: stable
+  alternate: # 可选语言
+    - name: 简体中文 # 语言名称
+      link: /tkintertools/ # 链接
+      lang: zh # 语言
+    - name: English
+      link: /tkintertools/404.html
+      lang: en
 
 extra_javascript: # 保证数学表达式能正确显示的运行时环境
   - javascripts/mathjax.js
@@ -172,7 +172,8 @@ extra_javascript: # 保证数学表达式能正确显示的运行时环境
   - https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js
 
 plugins: # 插件
-  - offline
+  - offline:
+      enabled: !ENV [OFFLINE, false]
   - tags
   - search: # 搜索插件
       separator: '[\s\u200b\-_,:!=\[\]()"`/]+|\.(?!\d)|&[lg]t;|(?!\b)(?=[A-Z][a-z])'
@@ -182,8 +183,10 @@ plugins: # 插件
   - git-revision-date-localized: # 需 pip install mkdocs-git-revision-date-localized-plugin
       enable_creation_date: true # 显示创建的日期
       type: datetime # 每页底下显示最后更新日期（除开 index）
+      locale: zh # 换成中文显示
   - git-authors # 需 pip install mkdocs-git-authors-plugin
   - glightbox # 图像缩放，需 pip install mkdocs-glightbox
+  - statistics # 统计信息，需 pip install mkdocs-statistics-plugin
 
 nav: # 导航栏
   - Home / 主页:
@@ -263,4 +266,3 @@ nav: # 导航栏
       - Contribution Guide - 贡献指南: more/CONTRIBUTING.md
       - Change Log - 更新日志: more/CHANGELOG.md
       - License - 项目许可证: more/LICENSE.md
-# Upload Docs   : mkdocs gh-deploy
