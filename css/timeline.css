@@ -1,0 +1,133 @@
+.timeline-wrapper {
+    flex: 1;
+    overflow-y: auto;
+    padding: 15px 5px 30px 0;
+}
+
+.timeline-wrapper::before {
+    content: "";
+    position: absolute;
+    width: 1px;
+    top: 0;
+    left: 20px;
+    bottom: 0;
+    height: 100%;
+    background-image: linear-gradient(
+        to top,
+        var(--md-default-bg-color),
+        var(--md-default-fg-color--lighter) 100px 
+    );
+}
+
+.timeline {
+    position: relative;;
+    width: 100%;
+}
+
+.timeline-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 1em;
+}
+
+.timeline-dot-wrapper {
+    width: 60px;
+}
+
+.timeline-dot {
+    left: 12px;
+    position: relative;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: #d3d3d3;
+    box-shadow: 0 0 0 5px var(--md-default-bg-color);
+    /* text-align: center; */
+    top: 0;
+}
+
+.timeline-content {
+    width: 100%;
+    position: relative;
+}
+
+.timeline-content::before {
+    content: "";
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    transform: rotate(45deg);
+    background-color: var(--md-primary-fg-color);
+    left: -10px;
+    top: calc(50% - 10px);
+}
+
+.timeline-card {
+    position: relative;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    min-width: 0;
+    word-wrap: break-word;
+    background-color: var(--md-primary-fg-color);
+    background-clip: border-box;
+    border-radius: .25rem;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-left: 15px;
+    padding-right: 10px;
+}
+
+.changelog-time {
+    font-size: 1.2em;
+}
+
+.changelog-time::before {
+    content: "🕙 ";
+}
+
+.changelog-type {
+    background-color: #3f6ec6b0;
+    border-radius: 3px;
+    font-size: 85%;
+    padding: 3px;
+}
+.changelog-type::before {
+    content: "更新";
+}
+
+.changelog-content {
+    margin-top: 10px;
+}
+
+.changelog-content p {
+    margin-top: 0;
+    margin-bottom: 5px;
+}
+
+.changelog-content a {
+    color: var(--md-default-fg-color);
+}
+
+
+.changelog-type-function {
+    background-color: #e6695bb0;
+}
+.changelog-type-function::before {
+    content: "功能性更新";
+}
+
+.changelog-type-pageupdate {
+    background-color: #3f6ec6b0;
+}
+.changelog-type-pageupdate::before {
+    content: "页面更新";
+}
+
+.changelog-type-newpage {
+    background-color: #e6ad5bb0;
+}
+.changelog-type-newpage::before {
+    content: "新增页面";
+}

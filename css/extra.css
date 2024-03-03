@@ -1,0 +1,38 @@
+body {
+    /* font-family: "LXGW WenKai", sans-serif; */
+    /* Lite version */
+    /* font-family: "LXGW WenKai Lite", sans-serif; */
+    /* TC version */
+    /* font-family: "LXGW WenKai TC", sans-serif; */
+    /* Screen version */
+    font-family: "LXGW WenKai Screen", sans-serif;
+}
+
+:root {
+    --md-text-font: "LXGW WenKai Screen";
+    --md-code-font: "Consolas";
+}
+
+[data-md-color-scheme="default"] {
+    --md-default-fg-color: #333;
+    --md-default-fg-color--light: #333;
+    --md-primary-fg-color: #efefef;
+    --md-primary-bg-color: #1f1f1f;
+    --md-typeset-a-color: rgb(0, 196, 0);
+    --md-footer-fg-color: #222;
+    --md-footer-bg-color: #efefef;
+    --md-footer-bg-color--dark: #efefef;
+    --md-footer-fg-color--light: #222;
+    --md-footer-fg-color--lighter: #222;
+}
+
+[data-md-color-scheme="slate"] {
+    --md-default-fg-color: #bbb;
+    --md-default-fg-color--light: #bbb;
+    --md-accent-fg-color: gold;
+    --md-footer-fg-color: #ccc;
+    --md-footer-bg-color: #0d0d0d;
+    --md-footer-bg-color--dark: #0d0d0d;
+    --md-footer-fg-color--light: #ccc;
+    --md-footer-fg-color--lighter: #ccc;
+}
