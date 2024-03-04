@@ -36,3 +36,21 @@ body {
     --md-footer-fg-color--light: #ccc;
     --md-footer-fg-color--lighter: #ccc;
 }
+
+.changelog-type-Added {background-color: #599959;}
+.changelog-type-Added::before {content: "Added / 新增";}
+
+.changelog-type-Changed {background-color: #8C8C4C;}
+.changelog-type-Changed::before {content: "Changed / 变更";}
+
+.changelog-type-Removed {background-color: #B86B6B;}
+.changelog-type-Removed::before {content: "Removed / 移除";}
+
+.changelog-type-Optimized {background-color: #6B6BB8;}
+.changelog-type-Optimized::before {content: "Optimized / 优化";}
+
+.changelog-type-Fixed {background-color: #A666A6;}
+.changelog-type-Fixed::before {content: "Fixed / 修复";}
+
+.changelog-type-Deprecated {background-color: #997B59;}
+.changelog-type-Deprecated::before {content: "Deprecated / 弃用";}

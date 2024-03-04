@@ -1,0 +1,244 @@
+- "CL-2024":
+    - "<code>v2.6.21</code> 2024/01/01":
+        - "Changed": 子模块 <code>tools_3d</code> 中的类 <code>Text</code> 更名为 <code>Text3D</code> 以区分 <code>main</code> 中的 <code>Text</code>
+        - "Optimized": 完善了类型提示
+        - "Fixed": 修复了函数 <code>color</code> 的参数 <code>proportion</code> 失效的问题
+        - "Fixed": 修复了类 <code>Switch</code> 的方法 <code>configure</code> 参数取值错误的问题
+        - "Removed": 动画类 <code>Animation</code> 移除了参数 <code>color</code>（可用参数 <code>callback</code> 代替实现）
+- "CL-2023":
+    - "<code>v2.6.20</code> 2023/12/26":
+        - "Optimized": 图片类 <code>PhotoImage</code> 的暂停和继续播放功能被封装为方法 <code>pause</code> 和 <code>play</code>
+        - "Optimized": 优化类 <code>PhotoImage</code> 获取 gif 图片总帧数的方式，现在可以通过方法 <code>get_total_frames</code> 得到总帧数
+        - "Optimized": 函数 <code>color</code> 不再通过手动方式得到指定规律的渐变色，而是通过参数 <code>controller</code> 指定一个控制函数
+        - "Changed": 图片类 <code>PhotoImage</code> 原来用于开始播放的方法 <code>play</code> 更名为 <code>start</code> 避免与继续播放的方法 <code>play</code> 起冲突
+        - "Changed": 常量 <code>CONTROL</code> 更名为 <code>CONTROLLER</code>
+        - "Fixed": 修复了一些错误的类型提示
+    - "<code>v2.6.19</code> 2023/12/17":
+        - "Fixed": 修复了 gif 动图无法播放的问题
+        - "Optimized": 图片类 <code>PhotoImage</code> 关于播放 gif 动图的机制得到优化，若播放前没有预解析，则会自动进行播放时解析
+        - "Optimized": 优化了部分代码
+    - "<code>v2.6.18</code> 2023/12/10":
+        - "Fixed": 修复在不同位置的但字体大小设定相同的 3D 文本的实际字体大小不一致的 bug
+        - "Changed": 类 <code>Canvas_3D</code> 更名为 <code>Canvas3D</code>，类 <code>_3D_Object</code> 更名为 <code>_Object3D</code>
+        - "Optimized": 优化了部分代码
+    - "<code>v2.6.17</code> 2023/12/07":
+        - "Optimized": 修改了部分错误的英文单词
+        - "Changed": 字体单位由磅更改为像素
+        - "Changed": 减小了提示框控件的显示位置偏移
+        - "Fixed": 修复了提示框控件有可能显示在非常错误的位置的问题
+        - "Fixed": 修复了控件类 <code>Entry</code> 在非居中状态，且画布缩小之后，输入文本时进入死循环，导致窗口未响应的问题
+        - "Fixed": 修复了控件颜色属性某些时候不可更改的问题
+    - "<code>v2.6.16</code> 2023/12/01":
+        - "Added": 类 <code>ToolTip</code> 新增参数 <code>delay</code> 来增强功能
+        - "Optimized": 对函数 <code>askfont</code> 进行了优化，现在无需父容器控件也可以打开字体选择对话框
+        - "Changed": 部分常量的值进行了修改
+        - "Removed": 移除函数 <code>SetProcessDpiAwareness</code> 和常量 <code>PROCESS_SYSTEM_DPI_AWARE</code>
+        - "Fixed": 修复菜单栏字体大小异常的问题
+        - "Fixed": 修复图片无法加载的问题
+    - "<code>v2.6.15</code> 2023/11/26":
+        - "Added": 类 <code>Animation</code> 新增方法 <code>shutdown</code> 来终止当前动画
+        - "Added": 子模块 <code>tools_3d</code> 的类 <code>Cuboid</code> 和类 <code>Tetrahedron</code> 新增一些初始化参数来提高样式配置的自由度
+        - "Added": 新增常量 <code>TCL</code>、<code>PROPORTION</code>、<code>SEQLENGTH</code> 和 <code>NUM</code>
+        - "Added": 函数 <code>color</code> 新增参数 <code>seqlength</code> 和 <code>num</code> 来增强功能
+        - "Optimized": 函数 <code>color</code> 的参数支持的范围扩大，可以支持诸如 red、skyblue 和 cyan2 等颜色名称
+        - "Optimized": 部分函数无需父控件即可调用
+        - "Fixed": 修复了函数 <code>color</code> 在罕见情况下会得到错误结果的问题
+    - "<code>v2.6.14</code> 2023/11/17":
+        - "Added": 控件类 <code>CheckButton</code> 新增参数 <code>font</code> 来修改其字体
+        - "Changed": 修改部分颜色常量的名称和部分颜色相关的参数
+        - "Changed": 控件类 <code>Progressbar</code> 更名为 <code>ProgressBar</code>
+        - "Fixed": 修复控件类 <code>Switch</code> 颜色显示错误的问题
+        - "Fixed": 修复控件类 <code>CheckButton</code> 初始颜色不会立刻显示的问题
+        - "Fixed": 修复控件类 <code>Entry</code> 在调用方法 <code>set</code> 之后文本样式没有更新的问题
+    - "<code>v2.6.13</code> 2023/11/17":
+        - "Added": 子模块 <code>tools_3d</code> 的类 <code>Point</code> 新增标记文本相关功能以及对应参数：<code>markuptext</code>、<code>markupdelta</code>、<code>markupfont</code>、<code>markupfill</code> 和 <code>markupjustify</code>
+        - "Added": 子模块 <code>tools_3d</code> 新增类 <code>Text</code> 来实现始终朝向我们的 3D 文本（与标记文本不同，其有缩放功能）
+        - "Changed": 类 <code>Switch</code> 部分重构，由独立类变更为继承基类 <code>BaseWidget</code> 的子类，添加了许多和 <code>BaseWidget</code> 兼容的方法
+        - "Changed": 修改主代码文件名称为 main.py，避免占用特殊文件名 \_\_main\_\_.py
+        - "Fixed": 修复子模块 <code>tools_3d</code> 在 Z 坐标上正负颠倒的问题，即，将空间坐标系由左手坐标系改为右手坐标系
+    - "<code>v2.6.12</code> 2023/11/15":
+        - "Added": 控件类 <code>CheckButton</code> 新增参数 <code>tick</code> 来改变其标记符号
+        - "Added": 控件类 <code>Switch</code> 新增参数 <code>color_fill_slider</code> 和 <code>color_outline_slider</code> 来更改其内部滑块的外观
+        - "Optimized": 大幅度修改 docstring 的格式，以解决 docstring 在 PyCharm 上格式显示错乱的问题
+        - "Optimized": 移除冗余代码
+        - "Optimized": 优化了 <code>tools_3d</code> 子模块代码，提高了 13.26% 的性能
+        - "Fixed": 修复了点击控件时，其后面的控件也会被触发的问题
+        - "Fixed": 函数 <code>color</code> 返回值缺少符号 “#”
+        - "Fixed": 修复了 <code>tools_3d</code> 子模块的画布无法使用按钮等控件的问题
+        - "Fixed": 修复了控件类 <code>Switch</code> 点击内部滑块无法操控 <code>Switch</code> 的问题
+    - "<code>v2.6.11</code> 2023/10/17":
+        - "Optimized": 优化了子模块 <code>tools_3d</code> 的代码，引入内置模块 <code>array</code> 代替底层列表来提高计算速度，综合性能提升 11.66% ！
+        - "Removed": 移除了子模块 <code>tools_3d</code> 中的类 <code>_Point</code>、<code>_Line</code> 和 <code>_Side</code>
+    - "<code>v2.6.10</code> 2023/08/12":
+        - "Added": 新增文件 exceptions.py 及异常类 <code>ScaleArgsValueError</code>、<code>ColorArgsValueError</code> 和 <code>WidgetStateModeError</code> 以提供部分异常的描述
+        - "Added": 控件 <code>Progressbar</code> 新增不定模式
+        - "Changed": 常量 <code>SWITCH_WIDTH</code> 的值从 0 更改为 60
+        - "Changed": 类 <code>Switch</code> 的参数 <code>width</code> 由位置参数更改为关键字参数
+        - "Optimized": 将所有代码中格式化输出的方式由 “%” 方式更改为效率更高的 f-string 方式
+        - "Optimized": 优化了部分代码的类型提示
+        - "Removed": 移除函数 <code>text</code>，可使用 f-string 来对其进行代替
+    - "<code>v2.6.9</code> 2023/08/09":
+        - "Added": 新增控件开关（<code>Switch</code>）
+        - "Added": 新增控件提示框（<code>ToolTip</code>），且所有虚拟控件新增参数 <code>tooltip</code>
+        - "Added": 新增常量 <code>DURATION</code>、<code>TOOLTIP_FG</code>、<code>TOOLTIP_BG</code>、<code>TOOLTIP_HIGNLIGHT_THICKNESS</code>、<code>TOOLTIP_HIGNLIGHT_BACKGROUND</code>、<code>COLOR_SWITCH_ON</code>、<code>COLOR_SWITCH_OFF</code>、<code>SWITCH_WIDTH</code>、<code>SWITCH_HEIGHT</code>、<code>SWITCH_RADIUS</code> 和 <code>SWITCH_ANIMATION_MS</code>
+        - "Fixed": 修复了文本类控件调用方法 <code>clear</code> 无效的问题
+        - "Fixed": 修复了类 <code>Animation</code> 自动确定待移动控件的父控件时出现错误的问题
+        - "Changed": 类 <code>CheckButton</code> 的位置参数 <code>length</code> 更名为 <code>height</code>
+        - "Optimized": 优化了类 <code>Tk</code> 的方法 <code>wm_geometry</code> 以适应某些特殊格式的参数
+        - "Removed": 移除了类 <code>Singleton</code> 和函数 <code>move</code>
+    - "<code>v2.6.8</code> 2023/08/03":
+        - "Added": 若使用者的 Python 包含有 PIL 库，则在自动缩放图片时自动调用 PIL 来扩展类 <code>PhotoImage</code> 的功能
+        - "Added": 新增类 <code>Animation</code> 来实现更加高效、更加方便和功能性更强的动画效果
+        - "Added": 新增常量 <code>CONTROL</code>
+        - "Fixed": 修复控件 <code>Entry</code> 和 <code>Text</code> 粘贴文本时会报错的 bug
+        - "Changed": 修改常量 <code>FRAMES</code> 的名称为 <code>FPS</code>
+        - "Changed": 类 <code>PhotoImage</code> 的方法 <code>zoom</code> 的参数 <code>precision</code> 由位置参数变更为关键字参数
+        - "Deprecated": 函数 <code>move</code> 即将被弃用，请用新类 <code>Animation</code> 来代替
+        - "Deprecated": 类 <code>Singleton</code> 即将被弃用，后续版本中将不再提供单例模式类
+    - "<code>v2.6.7</code> 2023/07/06":
+        - "Added": 3D 子模块的函数 <code>rotate</code> 新增关键字参数 <code>axis</code> 来提供绕轴旋转的功能
+        - "Added": 新增常量 <code>ROTATE_CENTER</code>、<code>ORIGIN_COORDINATE</code>、<code>ORIGIN_SIZE</code>、<code>ORIGIN_WIDTH</code>、<code>ORIGIN_FILL</code> 和 <code>ORIGIN_OUTLINE</code>
+        - "Added": 类 <code>Tk</code> 和 <code>Toplevel</code> 新增关键字参数 <code>alpha</code>、<code>toolwindow</code>、<code>topmost</code> 和 <code>transparentcolor</code>
+        - "Fixed": 修复了类 <code>Text</code> 在使用鼠标滚轮滚动时会报错的 bug
+        - "Optimized": 优化了部分代码和类型提示
+        - "Optimized": 优化函数 <code>translate</code>、<code>rotate</code> 和 <code>scale</code> 内部的实现，提高了性能
+        - "Optimized": 修改和完善了大量的不完整的文档注释
+        - "Changed": 将部分类的部分方法更改为保护方法
+        - "Removed": 移除了抽象类和抽象方法
+    - "<code>v2.6.6</code> 2023/07/01":
+        - "Added": 3D 子模块的类 <code>_Point</code>、<code>_Line</code>、<code>_Side</code> 和 <code>Geometry</code> 都新增一个方法 <code>center</code> 返回该 3D 对象的几何中心
+        - "Added": 新增抽象类 <code>_3D_Object</code> 来作为类 <code>_Point</code>、<code>_Line</code> 和 <code>_Side</code> 的元基类
+        - "Optimized": 优化了 3D 子模块中的参数传递，使用者不需要时刻保证 <code>list</code> 的传递性，且原来只能使用 <code>list</code> 类型的参数现在为 <code>Iterable</code> 类型
+        - "Optimized": 3D 子模块中 3D 对象居中方式改变，相比原来性能提升了不少，代码量也减少了
+        - "Optimized": 改正了部分错误的类型提示，完善了部分缺少的方法注释
+        - "Optimized": 3D 子模块中原来用函数 <code>hypot</code> 计算两点间距离，现在直接用函数 <code>dist</code> 计算两点间欧几里得距离，提高性能
+        - "Optimized": 3D 子模块中优化了类 <code>Point</code> 的控件位置显示，让其始终保持在最前
+        - "Optimized": 3D 子模块中相机距离的计算公式优化，提高了一点性能
+        - "Changed": 3D 子模块的类 <code>Point</code> 及其父类 <code>_Point</code> 的参数 <code>point1</code> 和 <code>point2</code> 分别被重命名为 <code>point_start</code> 和 <code>point_end</code>
+        - "Changed": 3D 子模块的类 <code>Space</code> 的参数 <code>origin_color</code> 被更改为四个新的参数，分别是 <code>origin_size</code>、<code>origin_width</code>、<code>origin_fill</code> 和 <code>origin_outline</code>
+        - "Removed": 3D 子模块的类 <code>Canvas_3D</code> 和 <code>Space</code> 移除参数 <code>dx</code> 和 <code>dy</code>，画布默认视野保持居中，也就是说，现在它们的中心位置才是原来的左上角顶点
+    - "<code>v2.6.5</code> 2023/06/17":
+        - "Added": 子模块 <code>tools_3d</code> 新增类 <code>Space</code> 可以提供对 3D 对象进行平移、旋转和缩放等操作的功能
+        - "Fixed": 修复了类 <code>Cuboid</code> 和类 <code>Tetrahedron</code> 没有将实例添加到父类 <code>Canvas_3D</code> 的 bug
+        - "Fixed": 修复了当 3D 对象出现在相机位置后面时会显示错误的 bug
+        - "Fixed": 修复了部分错误的类型提示
+        - "Removed": 移除常量 <code>BACKGROUND</code> 并且不再对类 <code>Canvas</code> 的默认背景颜色做限定
+    - "<code>v2.6.4</code> 2023/06/12":
+        - "Added": <code>tool_3d</code> 子模块的类 <code>Canvas_3D</code> 新增对空间实际位置进行计算和排序的函数 <code>space_sort</code>，以支持几何体颜色的正确显示
+        - "Fixed": 修复了 3D 模块中的点、线与面之间移动和旋转不同步的 bug
+        - "Fixed": 修复了 3D 模块中的类 <code>Canvas_3D</code> 在传递原 <code>tkinter</code> 模块中的类 <code>Canvas</code> 的参数时会无效的 bug
+        - "Changed": 类 <code>Canvas_3D</code> 的参数 <code>cfg_3d</code> 被更改为 3 个具体的参数，分别为相机距离 <code>camera_distance</code>、画面横坐标偏差 <code>dx</code> 和画面纵坐标偏差 <code>dy</code>
+        - "Changed": 3D 子模块中相机距离常量的值更改为 1000
+        - "Changed": 兼容性更改，由于 Python3.7 即将步入 end-of-life 阶段，且为了提高程序性能，现无法兼容 Python3.7，但能够兼容 Python3.8
+    - "<code>v2.6.3</code> 2023/06/07":
+        - "Optimized": 3D 对象实现随画布大小变化而变化
+        - "Optimized": 使圆角半径的默认值更加智能，当系统为 <code>Windows11</code>、<code>Linux</code>、<code>Mac</code> 时为 4，其余情况为 0
+        - "Optimized": 添加了更多类型提示，尤其是对重载的提示
+        - "Fixed": 修复参数 <code>keep</code> 会对类 <code>Canvas</code> 的位置产生影响的 bug
+        - "Changed": 将3d模块中的类 <code>Canvas_3D</code> 的参数 <code>keep</code> 的默认值设为 <code>True</code>，即默认保持画布宽高缩放成比例
+    - "<code>v2.6.2</code> 2023/05/30":
+        - "Added": 新增 <code>tkintertools</code> 子模块 <code>tools_3d</code> 以支持绘制 3D 图形
+    - "<code>v2.6.1</code> 2023/05/21":
+        - "Optimized": 提升模块的跨平台性，可在 Windows 和 Linux 平台上运行
+        - "Optimized": 优化了类和函数的参考文档
+        - "Optimized": 提升模块兼容性，向下兼容至 Python3.7
+        - "Optimized": 优化了测试文件，兼容不同操作系统，修复少量 bug
+        - "Optimized": 优化控件复选框 <code>CheckButton</code> 的各项功能
+        - "Optimized": 类 <code>Canvas</code> 新增参数 <code>x</code> 和 <code>y</code> 以减少多余代码
+        - "Fixed": 修复了控件在调用了方法 <code>moveto</code> 后会发生错位的 bug
+        - "Removed": 删除无用常量 <code>SCALE</code>
+    - "<code>v2.6.0</code> 2023/03/28":
+        - "Added": 新增虚拟画布控件复选框：<code>CheckButton</code>
+        - "Fixed": 解决 <code>Text</code> 类 <code>set</code>、<code>append</code> 方法使用后不会立即更新的 bug
+        - "Optimized": 优化部分类和函数的参数
+    - "<code>v2.5.12</code> 2023/03/20":
+        - "Added": 所有控件新增参数 <code>image</code> 来添加背景图片
+        - "Fixed": 修复了 <code>move</code> 函数无法移动窗口的 bug
+        - "Optimized": 将关联键盘的绑定代码全部由类 <code>Tk</code> 移到类 <code>Canvas</code> 中
+        - "Optimized": 优化了部分代码，防止出现一些不应该出现的 bug
+        - "Removed": 删除了函数 <code>font</code>
+    - "<code>v2.5.11</code> 2023/03/13":
+        - "Added": 类 <code>Canvas</code> 新增参数 <code>keep</code> 以扩展功能
+        - "Added": 新增工具函数 <code>SetProcessDpiAwareness</code> 以增强功能
+        - "Added": 新增工具函数 <code>font</code> 以解决字体大小适配 DPI 级别的问题
+        - "Fixed": 修复了 Python 版本要求不准确的问题，模块最低运行要求应为 Python3.11
+        - "Fixed": 修复了控件基类 <code>_BaseWidget</code> 的方法 <code>configure</code> 在将参数 <code>text</code> 修改为空字符串时无法得到正常效果的问题
+        - "Optimized": 优化解决适配 DPI 问题的方案
+        - "Optimized": 优化了字体大小适配 DPI 的方式
+        - "Optimized": 画布控件在放置时就会根据画布的缩放而缩放，而不是在放置后才进行缩放
+    - "<code>v2.5.10</code> 2023/02/04":
+        - "Added": 画布虚拟控件基类 <code>_BaseWidget</code> 新增实例属性 <code>command_ex</code> 以扩展功能
+        - "Added": 函数 <code>move</code> 新增参数 <code>end</code> 以增强功能
+        - "Added": 画布虚拟控件基类新增方法 <code>moveto</code>
+        - "Fixed": 修复了类 <code>Tk</code> 无法使窗口与屏幕距离为 0 的 bug
+        - "Fixed": 修复了控件在有圆角状态下参数 <code>borderwidth</code> 失效的 bug
+        - "Changed": <code>Tk</code> 类和 <code>Toplevel</code> 类的初始化参数变得更加简洁了
+        - "Optimized": 画布虚拟控件的状态改变加了个先前状态检测，大幅提高性能
+        - "Optimized": 函数 <code>move</code> 的性能得到了优化
+    - "<code>v2.5.9</code> 2023/01/13":
+        - "Added": 类 <code>PhotoImage</code> 新增方法 <code>stop</code> 用于停止动图的播放
+        - "Fixed": 修复了 <code>Canvas</code> 类的方法 <code>moveto</code> 在参数上不完备的 bug
+        - "Fixed": 修复了有时候会产生多个控件同时触碰的 bug
+        - "Fixed": 修复了类 <code>PhotoImage</code> 的参数错误
+        - "Optimized": 优化代码，简化部分代码，删去冗余部分
+        - "Removed": 删除了 <code>Tk</code> 类和 <code>Toplevel</code> 类的冗余参数 <code>minsize</code> 和 <code>alpha</code>
+    - "<code>v2.5.8</code> 2023/01/12":
+        - "Fixed": 修复了函数 <code>move</code> 无法进行默认的移动模式 <code>flat</code> 的 bug
+        - "Fixed": 解决文本类控件在粘贴文本后光标会越闪越快的 bug
+        - "Optimized": 优化了 <code>move</code> 函数，提升了适用性、精度以及速度
+        - "Optimized": <code>Canvas</code> 类新增兼容方法 <code>coords</code>、<code>move</code>、<code>moveto</code> 和 <code>bbox</code>，完善了 DPI 的适配问题
+        - "Optimized": <code>Tk</code> 类新增方法 <code>wm_minszie</code>、<code>wm_maxsize</code> 以兼容 DPI 适配问题
+        - "Optimized": 优化 <code>PhotoImage</code> 类，使之无需全局化，即可使用
+        - "Optimized": 总体优化了代码，减少了代码量
+    - "<code>v2.5.7</code> 2023/01/10":
+        - "Added": <code>move</code> 函数新增参数 <code>frames</code>，可改变移动时的动画的帧数
+        - "Added": <code>Tk</code> 类新增对屏幕 DPI 的适配功能，可使窗口更加清晰
+        - "Added": 新增兼容版本以及兼容版本转换文件
+        - "Changed": 分别将函数 <code>move_widget</code>、<code>correct_text</code> 和 <code>change_color</code> 的函数名变更为 <code>move</code>、<code>text</code> 和 <code>color</code>
+        - "Changed": 修正了些许参数
+        - "Changed": 提高了移动函数的默认帧率参数至 30
+        - "Optimized": 优化了 <code>color</code> 函数和 <code>move</code> 函数的代码结构，使其更加简洁
+- "CL-2022":
+    - "<code>v2.5.6</code> 2022/12/12":
+        - "Fixed": 修复了单例模式类（<code>Singleton</code>）在初始化时无法传递参数的 bug
+        - "Fixed": 修复了 <code>Canvas</code> 类在缩放字体时，有时会找不到 <code>_CanvasItemId</code> 的字体参数的 bug
+        - "Changed": 图片的缩放方式由绝对缩放变更为相对的绝对缩放方式
+        - "Optimized": 优化了 <code>PhotoImage</code> 类的结构
+        - "Optimized": 删除了所有无用的代码（TODO 标记的）
+        - "Optimized": 引入了 fractions 模块并提高了图片缩放时的精度且减少了运算时间
+        - "Removed": <code>Canvas</code> 类删除了两个冗余的、重写的实例方法：<code>create_bitmap</code> 和 <code>create_window</code>
+    - "<code>v2.5.5</code> 2022/12/11":
+        - "Added": 为所有类的实例方法的 <code>self</code> 参数添加了类型提示 <code>Self</code>
+        - "Fixed": 修复了 <code>Canvas</code> 类缩放时，宽高在某些情况下不会改变的 bug
+        - "Changed": 修改了 <code>Tk</code> 类、<code>Toplevel</code> 类、<code>Canvas</code> 类的保护属性的获取方式
+        - "Changed": 大幅度地修改了画布缩放的机制，完全适应所有情况，并加快了缩放速度
+        - "Optimized": 优化了所有多重循环加判断语句的结构，使代码更为美观
+    - "<code>v2.5.4</code> 2022/12/08":
+        - "Added": 增加了一个新的控件：进度条（<code>Progressbar</code>）
+        - "Fixed": 修复了新建不同大小的 <code>Canvas</code> 时，画面大小会异常的 bug
+        - "Fixed": 解决了字体大小进行缩放时，在某种条件下缩小没有变化的 bug
+        - "Fixed": 解决了函数 <code>move_widget</code> 无法移动 <code>tkinter._CanvasItemId</code> 的 bug
+        - "Changed": 修改了关联事件的绑定机制，使得 <code>Canvas</code> 类可以被随时创建
+        - "Optimized": 美化了部分颜色
+        - "Optimized": 优化了函数 <code>move_widget</code> 中的部分代码
+    - "<code>v2.5.3</code> 2022/11/27":
+        - "Added": 增加了单例模式类（<code>Singleton</code>）供继承
+        - "Added": 增加 <code>Tk</code>、<code>Toplevel</code>、<code>Canvas</code> 的一些方法(属性)来访问一些不应该被直接访问的属性
+        - "Fixed": 解决了控件的 <code>destroy</code> 方法在遍历使用时只能删除一半控件的 bug
+        - "Optimized": <code>Canvas</code> 类重写 <code>destroy</code> 方法以兼容原 <code>destroy</code> 方法
+        - "Optimized": <code>Toplevel</code> 类重写 <code>destroy</code> 方法以兼容原 <code>destroy</code> 方法
+        - "Optimized": 优化了 <code>Tk</code>、<code>Toplevel</code> 的部分代码，<code>Toplevel</code> 控件的代码量大大缩减
+        - "Removed": 删除了 <code>Tk</code>、<code>Toplevel</code> 的 <code>proportion_lock</code> 参数及其功能
+    - "<code>v2.5.2</code> 2022/11/25":
+        - "Added": 添加了对文本类虚拟控件的鼠标样式
+        - "Fixed": 解决了文本类虚拟控件 <code>set</code>、<code>append</code> 方法某些时候会失效的 bug
+        - "Fixed": 解决了鼠标光标移动到按钮上时的鼠标样式会闪烁的 bug
+        - "Fixed": 修复了文本框控件 <code>read</code> 参数失效的 bug
+        - "Optimized": 改变鼠标位置检测顺序，进一步提升运行速度
+    - "<code>v2.5.1</code> 2022/11/23":
+        - "Added": 添加了对按钮虚拟控件的鼠标样式
+        - "Fixed": 解决了输入框放大后输入提示符位置没对齐的 bug
+        - "Fixed": 解决了文本类虚拟控件粘贴一次后会失去焦点的 bug
+        - "Fixed": 修复模块文档中的少许错误
+        - "Changed": 修改了鼠标位置判定机制，同时提升运行速度
+        - "Optimized": 删除了部分冗余代码，提升总体运行速度
