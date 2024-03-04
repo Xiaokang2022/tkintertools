@@ -1,3 +1,7 @@
+---
+statistics: True
+---
+
 <h1 align="center">tkintertools</h1>
 
 <p align="center"><img alt="logo" src="logo.png"/></p>
@@ -63,7 +67,14 @@ pip install tkintertools
 
 ## More - 更多
 
-- License - 项目许可证: [LICENSE.txt](./more/LICENSE.md)
+!!! info inline end "本站统计"
+    - 总页面：{{ pages }}
+    - 总字（词）数：{{ words }}
+    - 总代码行数：{{ codes }}
+    - 总访问量：<span id="busuanzi_value_site_pv"><i class="fa fa-spinner fa-spin"></i></span>
+
+- Navigation - 网站导航: [](./navigation.md)
+- License - 项目许可证: [LICENSE.md](./more/LICENSE.md)
 - ChangeLog - 更新日志: [CHANGELOG.md](./more/CHANGELOG.md)
 - Contribution Guide - 贡献指南: [CONTRIBUTING.md](./more/CONTRIBUTING.md)
 - Mirrors - 镜像源: [GitHub](https://github.com/Xiaokang2022/tkintertools) | [Gitee](https://gitee.com/xiaokang-2022/tkintertools) | [GitCode](https://gitcode.com/Xiaokang2022/tkintertools/overview)

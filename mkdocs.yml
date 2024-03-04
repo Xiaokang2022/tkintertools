@@ -153,22 +153,22 @@ extra: # 额外设定
       name: GitHub 仓库
     - icon: fontawesome/brands/python # PyPI 页面链接
       link: https://pypi.org/project/tkintertools/
-      name: PyPI 主页
-  alternate: # 可选语言
-    - name: 简体中文 # 语言名称
-      link: /tkintertools/ # 链接
-      lang: zh # 语言
-    - name: English
-      link: /tkintertools/404.html
-      lang: en
+      name: PyPI
+    - icon: fontawesome/solid/house
+      link: https://xiaokang2022.github.io/tkintertools/
+      name: 主页
+    - icon: fontawesome/solid/paper-plane
+      link: mailto:2951256653@qq.com
+      name: 联系作者
 
 extra_javascript: # 保证数学表达式能正确显示的运行时环境
-  - javascripts/mathjax.js
+  - extra/js/mathjax.js
   - https://polyfill.io/v3/polyfill.min.js?features=es6
   - https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js
 
 extra_css:
-  - css/extra.css
+  - extra/css/extra.css
+  - https://cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css # 访问统计转圈加载样式
   # - https://cdn.jsdelivr.net/npm/lxgw-wenkai-webfont@1.1.0/style.css
   # - https://cdn.jsdelivr.net/npm/lxgw-wenkai-lite-webfont@1.1.0/style.css
   # - https://cdn.jsdelivr.net/npm/lxgw-wenkai-tc-webfont@1.0.0/style.css
