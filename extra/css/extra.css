@@ -18,7 +18,7 @@ body {
     --md-default-fg-color--light: #333;
     --md-primary-fg-color: #efefef;
     --md-primary-bg-color: #1f1f1f;
-    --md-typeset-a-color: rgb(0, 196, 0);
+    --md-typeset-a-color: rgb(0, 128, 0);
     --md-footer-fg-color: #222;
     --md-footer-bg-color: #efefef;
     --md-footer-bg-color--dark: #efefef;
@@ -29,7 +29,7 @@ body {
 [data-md-color-scheme="slate"] {
     --md-default-fg-color: #bbb;
     --md-default-fg-color--light: #bbb;
-    --md-accent-fg-color: gold;
+    --md-accent-fg-color: #cccc00;
     --md-footer-fg-color: #ccc;
     --md-footer-bg-color: #0d0d0d;
     --md-footer-bg-color--dark: #0d0d0d;
