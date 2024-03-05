@@ -1,12 +1,10 @@
-tkintertools.exceptions
-===
+# tkintertools.exceptions
 
 文件描述: All exceptions  
-外部引用:   
+外部引用:  
 源码位置: tkintertools\exceptions.py
 
-Classes - 类
----
+## Classes - 类
 
 ### 01. ColorArgsValueError
 
@@ -23,7 +21,6 @@ Classes - 类
         ) -> None
         ```
 
-
 ### 02. ScaleArgsValueError
 
 !!! note "ScaleArgsValueError(ValueError) `Class`"
@@ -39,7 +36,6 @@ Classes - 类
         ) -> None
         ```
 
-
 ### 03. WidgetStateModeError
 
 !!! note "WidgetStateModeError(ValueError) `Class`"
@@ -54,5 +50,3 @@ Classes - 类
             value: str
         ) -> None
         ```
-
-

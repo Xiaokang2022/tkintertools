@@ -1,12 +1,10 @@
-tkintertools.constants
-===
+# tkintertools.constants
 
 文件描述: All constants  
 外部引用: `math`, `platform`  
 源码位置: tkintertools\constants.py
 
-Constants - 常量
----
+## Constants - 常量
 
 !!! note "BORDERWIDTH `Constant`"
 
@@ -16,7 +14,6 @@ Constants - 常量
 
     Default widget borderwidth
 
-
 !!! note "CAMERA_DISTANCE `Constant`"
 
     ```python
@@ -24,7 +21,6 @@ Constants - 常量
     ```
 
     Default 3D camera distance
-
 
 !!! note "COLOR_FILL_BUTTON `Constant`"
 
@@ -34,7 +30,6 @@ Constants - 常量
 
     Default `Button` fill color
 
-
 !!! note "COLOR_FILL_CHECKBUTTON `Constant`"
 
     ```python
@@ -42,7 +37,6 @@ Constants - 常量
     ```
 
     Default `CheckButton` fill color
-
 
 !!! note "COLOR_FILL_ENTRY `Constant`"
 
@@ -52,7 +46,6 @@ Constants - 常量
 
     Default `Entry` fill color
 
-
 !!! note "COLOR_FILL_LABEL `Constant`"
 
     ```python
@@ -60,7 +53,6 @@ Constants - 常量
     ```
 
     Default `Label` fill color
-
 
 !!! note "COLOR_FILL_LINE `Constant`"
 
@@ -70,7 +62,6 @@ Constants - 常量
 
     Default `Line` fill color
 
-
 !!! note "COLOR_FILL_OFF `Constant`"
 
     ```python
@@ -78,7 +69,6 @@ Constants - 常量
     ```
 
     Default fill color when `Switch` is off
-
 
 !!! note "COLOR_FILL_ON `Constant`"
 
@@ -88,7 +78,6 @@ Constants - 常量
 
     Default fill color when `Switch` is on
 
-
 !!! note "COLOR_FILL_ORIGIN `Constant`"
 
     ```python
@@ -96,7 +85,6 @@ Constants - 常量
     ```
 
     Default origin fill color
-
 
 !!! note "COLOR_FILL_POINT `Constant`"
 
@@ -106,7 +94,6 @@ Constants - 常量
 
     Default `Point` fill color
 
-
 !!! note "COLOR_FILL_PROGRESSBAR `Constant`"
 
     ```python
@@ -114,7 +101,6 @@ Constants - 常量
     ```
 
     Default `ProgressBar` fill color
-
 
 !!! note "COLOR_FILL_SIDE `Constant`"
 
@@ -124,7 +110,6 @@ Constants - 常量
 
     Default `Side` fill color
 
-
 !!! note "COLOR_FILL_SLIDER `Constant`"
 
     ```python
@@ -132,7 +117,6 @@ Constants - 常量
     ```
 
     Default slider fill color
-
 
 !!! note "COLOR_FILL_TEXT `Constant`"
 
@@ -142,7 +126,6 @@ Constants - 常量
 
     Default `Text` fill color
 
-
 !!! note "COLOR_NONE `Constant`"
 
     ```python
@@ -150,7 +133,6 @@ Constants - 常量
     ```
 
     Default transparent color tuple
-
 
 !!! note "COLOR_OUTLINE_BUTTON `Constant`"
 
@@ -160,7 +142,6 @@ Constants - 常量
 
     Default `Button` outline color
 
-
 !!! note "COLOR_OUTLINE_CHECKBUTTON `Constant`"
 
     ```python
@@ -168,7 +149,6 @@ Constants - 常量
     ```
 
     Default `CheckButton` outline color
-
 
 !!! note "COLOR_OUTLINE_ENTRY `Constant`"
 
@@ -178,7 +158,6 @@ Constants - 常量
 
     Default `Entry` outline color
 
-
 !!! note "COLOR_OUTLINE_LABEL `Constant`"
 
     ```python
@@ -186,7 +165,6 @@ Constants - 常量
     ```
 
     Default `Label` outline color
-
 
 !!! note "COLOR_OUTLINE_OFF `Constant`"
 
@@ -196,7 +174,6 @@ Constants - 常量
 
     Default outline color when `Switch` is off
 
-
 !!! note "COLOR_OUTLINE_ON `Constant`"
 
     ```python
@@ -204,7 +181,6 @@ Constants - 常量
     ```
 
     Default outline color when `Switch` is on
-
 
 !!! note "COLOR_OUTLINE_ORIGIN `Constant`"
 
@@ -214,7 +190,6 @@ Constants - 常量
 
     Default origin outline color
 
-
 !!! note "COLOR_OUTLINE_POINT `Constant`"
 
     ```python
@@ -222,7 +197,6 @@ Constants - 常量
     ```
 
     Default `Point` outline color
-
 
 !!! note "COLOR_OUTLINE_PROGRESSBAR `Constant`"
 
@@ -232,7 +206,6 @@ Constants - 常量
 
     Default `ProgressBar` outline color
 
-
 !!! note "COLOR_OUTLINE_SIDE `Constant`"
 
     ```python
@@ -240,7 +213,6 @@ Constants - 常量
     ```
 
     Default `Side` outline color
-
 
 !!! note "COLOR_OUTLINE_SLIDER `Constant`"
 
@@ -250,7 +222,6 @@ Constants - 常量
 
     Default slider outline color
 
-
 !!! note "COLOR_OUTLINE_TEXT `Constant`"
 
     ```python
@@ -258,7 +229,6 @@ Constants - 常量
     ```
 
     Default `Text` outline color
-
 
 !!! note "COLOR_TEXT `Constant`"
 
@@ -268,7 +238,6 @@ Constants - 常量
 
     Default text color
 
-
 !!! note "CONTROLLER `Constant`"
 
     ```python
@@ -276,7 +245,6 @@ Constants - 常量
     ```
 
     Default control function
-
 
 !!! note "CURSOR `Constant`"
 
@@ -286,7 +254,6 @@ Constants - 常量
 
     text cursor
 
-
 !!! note "DELAY `Constant`"
 
     ```python
@@ -294,7 +261,6 @@ Constants - 常量
     ```
 
     Default `ToolTip` delay
-
 
 !!! note "DURATION `Constant`"
 
@@ -304,7 +270,6 @@ Constants - 常量
 
     Default `ToolTip` duration
 
-
 !!! note "FONT `Constant`"
 
     ```python
@@ -312,7 +277,6 @@ Constants - 常量
     ```
 
     Default font
-
 
 !!! note "FPS `Constant`"
 
@@ -322,7 +286,6 @@ Constants - 常量
 
     Default animation FPS
 
-
 !!! note "LIMIT `Constant`"
 
     ```python
@@ -330,7 +293,6 @@ Constants - 常量
     ```
 
     Default widget text length limit
-
 
 !!! note "LINE_WIDTH `Constant`"
 
@@ -340,7 +302,6 @@ Constants - 常量
 
     Default `Line` width
 
-
 !!! note "NUM `Constant`"
 
     ```python
@@ -348,7 +309,6 @@ Constants - 常量
     ```
 
     Default number of RGB digits
-
 
 !!! note "ORIGIN_COORDINATE `Constant`"
 
@@ -358,7 +318,6 @@ Constants - 常量
 
     Default origin coordinate
 
-
 !!! note "ORIGIN_SIZE `Constant`"
 
     ```python
@@ -366,7 +325,6 @@ Constants - 常量
     ```
 
     Default origin size
-
 
 !!! note "ORIGIN_WIDTH `Constant`"
 
@@ -376,7 +334,6 @@ Constants - 常量
 
     Default origin width
 
-
 !!! note "POINT_SIZE `Constant`"
 
     ```python
@@ -384,7 +341,6 @@ Constants - 常量
     ```
 
     Default `Point` size
-
 
 !!! note "POINT_WIDTH `Constant`"
 
@@ -394,7 +350,6 @@ Constants - 常量
 
     Default `Point` width
 
-
 !!! note "PROPORTION `Constant`"
 
     ```python
@@ -402,7 +357,6 @@ Constants - 常量
     ```
 
     Default proportion of function color
-
 
 !!! note "RADIUS `Constant`"
 
@@ -412,7 +366,6 @@ Constants - 常量
 
     Default widget fillet radius
 
-
 !!! note "ROTATE_CENTER `Constant`"
 
     ```python
@@ -420,7 +373,6 @@ Constants - 常量
     ```
 
     Default rotation center
-
 
 !!! note "SEQLENGTH `Constant`"
 
@@ -430,7 +382,6 @@ Constants - 常量
 
     Default sequence length of function color
 
-
 !!! note "SIDE_WIDTH `Constant`"
 
     ```python
@@ -438,7 +389,6 @@ Constants - 常量
     ```
 
     Default `Side` width
-
 
 !!! note "SIZE `Constant`"
 
@@ -448,7 +398,6 @@ Constants - 常量
 
     Default font size
 
-
 !!! note "SWITCH_ANIMATION_MS `Constant`"
 
     ```python
@@ -456,7 +405,6 @@ Constants - 常量
     ```
 
     Default animation duration of the `Switch`
-
 
 !!! note "SWITCH_HEIGHT `Constant`"
 
@@ -466,7 +414,6 @@ Constants - 常量
 
     Default `Switch` height
 
-
 !!! note "SWITCH_RADIUS `Constant`"
 
     ```python
@@ -474,7 +421,6 @@ Constants - 常量
     ```
 
     Default `Switch` radius
-
 
 !!! note "SWITCH_WIDTH `Constant`"
 
@@ -484,7 +430,6 @@ Constants - 常量
 
     Default `Switch` width
 
-
 !!! note "SYSTEM `Constant`"
 
     ```python
@@ -492,7 +437,6 @@ Constants - 常量
     ```
 
     Operating System
-
 
 !!! note "TICK `Constant`"
 
@@ -502,7 +446,6 @@ Constants - 常量
 
     Default `Checkbox` symbol
 
-
 !!! note "TOOLTIP_BG `Constant`"
 
     ```python
@@ -510,7 +453,6 @@ Constants - 常量
     ```
 
     Default `ToolTip` background color
-
 
 !!! note "TOOLTIP_FG `Constant`"
 
@@ -520,7 +462,6 @@ Constants - 常量
 
     Default `ToolTip` foreground color
 
-
 !!! note "TOOLTIP_HIGHLIGHT_BACKGROUND `Constant`"
 
     ```python
@@ -529,7 +470,6 @@ Constants - 常量
 
     Default `ToolTip` highlightbackground
 
-
 !!! note "TOOLTIP_HIGHLIGHT_THICKNESS `Constant`"
 
     ```python
@@ -537,5 +477,3 @@ Constants - 常量
     ```
 
     Default `ToolTip` highlightthickness
-
-

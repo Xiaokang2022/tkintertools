@@ -1,19 +1,20 @@
 body {
     /* font-family: "LXGW WenKai", sans-serif; */
-    /* Lite version */
     /* font-family: "LXGW WenKai Lite", sans-serif; */
-    /* TC version */
     /* font-family: "LXGW WenKai TC", sans-serif; */
-    /* Screen version */
     font-family: "LXGW WenKai Screen", sans-serif;
+    /* 自定义字体为：LXGW WenKai Screen，可选四种不同的 */
 }
 
 :root {
     --md-text-font: "LXGW WenKai Screen";
+    /*文本字体*/
     --md-code-font: "Consolas";
+    /*代码字体*/
 }
 
 [data-md-color-scheme="default"] {
+    /*亮色样式*/
     --md-default-fg-color: #333;
     --md-default-fg-color--light: #333;
     --md-primary-fg-color: #efefef;
@@ -27,6 +28,7 @@ body {
 }
 
 [data-md-color-scheme="slate"] {
+    /*暗色样式*/
     --md-default-fg-color: #bbb;
     --md-default-fg-color--light: #bbb;
     --md-accent-fg-color: #cccc00;
@@ -37,20 +39,22 @@ body {
     --md-footer-fg-color--lighter: #ccc;
 }
 
-.changelog-type-Added {background-color: #599959;}
-.changelog-type-Added::before {content: "Added / 新增";}
+@keyframes heart {
 
-.changelog-type-Changed {background-color: #8C8C4C;}
-.changelog-type-Changed::before {content: "Changed / 变更";}
+    /* 心脏跳动的样式表 */
+    0%,
+    40%,
+    80%,
+    100% {
+        transform: scale(1);
+    }
 
-.changelog-type-Removed {background-color: #B86B6B;}
-.changelog-type-Removed::before {content: "Removed / 移除";}
+    20%,
+    60% {
+        transform: scale(1.15);
+    }
+}
 
-.changelog-type-Optimized {background-color: #6B6BB8;}
-.changelog-type-Optimized::before {content: "Optimized / 优化";}
-
-.changelog-type-Fixed {background-color: #A666A6;}
-.changelog-type-Fixed::before {content: "Fixed / 修复";}
-
-.changelog-type-Deprecated {background-color: #997B59;}
-.changelog-type-Deprecated::before {content: "Deprecated / 弃用";}
+.heart {
+    animation: heart 1000ms infinite;
+}

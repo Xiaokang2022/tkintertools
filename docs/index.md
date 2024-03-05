@@ -43,9 +43,9 @@ statistics: True
 
 ### Stable Release - 稳定版本
 
-- Version - 最新版本 : `2.6.21`
-- Release - 发布日期 : 2024/01/01
-- Feature - 更新内容 : [News-2.6.21](./news/2.6.21/News.md)
+-   Version - 最新版本 : `2.6.21`
+-   Release - 发布日期 : 2024/01/01
+-   Feature - 更新内容 : [News-2.6.21](./news/2.6.21/News.md)
 
 ```
 pip install tkintertools
@@ -53,28 +53,31 @@ pip install tkintertools
 
 ### Pre Release - 预发布版本
 
-- Version - 最新版本 : `3.0.0.alpha3`
-- Release - 发布日期 :
-- Feature - 更新内容 : [News-3.0.0(pre)](./news/3.0.0/News.md)
+-   Version - 最新版本 : `3.0.0.alpha3`
+-   Release - 发布日期 :
+-   Feature - 更新内容 : [News-3.0.0(pre)](./news/3.0.0/News.md)
 
 ```
 
 ```
 
 !!! info "Note - 注意"
-    It is not recommended that you use the pre-release version directly for formal development, but it is recommended that you use the pre-release version to experience the new features and to report certain issues that you find.  
+
+    It is not recommended that you use the pre-release version directly for formal development, but it is recommended that you use the pre-release version to experience the new features and to report certain issues that you find.
+
     不推荐你直接使用预发布版本进行正式开发，但推荐使用预发布版本来体验新功能，并上报发现的某些问题。
 
 ## More - 更多
 
 !!! info inline end "本站统计"
+
     - 总页面：{{ pages }}
     - 总字（词）数：{{ words }}
     - 总代码行数：{{ codes }}
     - 总访问量：<span id="busuanzi_value_site_pv"><i class="fa fa-spinner fa-spin"></i></span>
 
-- Navigation - 网站导航: [](./navigation.md)
-- License - 项目许可证: [LICENSE.md](./more/LICENSE.md)
-- ChangeLog - 更新日志: [CHANGELOG.md](./more/CHANGELOG.md)
-- Contribution Guide - 贡献指南: [CONTRIBUTING.md](./more/CONTRIBUTING.md)
-- Mirrors - 镜像源: [GitHub](https://github.com/Xiaokang2022/tkintertools) | [Gitee](https://gitee.com/xiaokang-2022/tkintertools) | [GitCode](https://gitcode.com/Xiaokang2022/tkintertools/overview)
+-   Navigation - 网站导航: [](./navigation.md)
+-   License - 项目许可证: [LICENSE.md](./more/LICENSE.md)
+-   ChangeLog - 更新日志: [CHANGELOG.md](./more/CHANGELOG.md)
+-   Contribution Guide - 贡献指南: [CONTRIBUTING.md](./more/CONTRIBUTING.md)
+-   Mirrors - 镜像源: [GitHub](https://github.com/Xiaokang2022/tkintertools) | [Gitee](https://gitee.com/xiaokang-2022/tkintertools) | [GitCode](https://gitcode.com/Xiaokang2022/tkintertools/overview)

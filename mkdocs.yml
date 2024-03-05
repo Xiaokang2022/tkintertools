@@ -11,264 +11,315 @@ copyright: Copyright &copy; 2024 Xiaokang2022 # 版权信息（会出现在左�
 remote_branch: gh-pages # GitHub Pages 分支名称（此处为默认值）
 strict: false # 严格模式
 
-markdown_extensions: # Python Markdown 官方扩展
-  - meta # 允许元标记
-  - abbr # 允许文本悬浮提示，就是 ToolTip，通过 *[Text]: 啊吧啊吧
-  - admonition # 允许各种各样的提示框，或代码框，样式见 https://mkdoc-material.llango.com/reference/admonitions/
-  - attr_list # 允许给 md 元素增加 HTML 和 CSS 属性，如一个按钮 [Subscribe to our mailing list](#){: .md-button }，甚至图标，详细见 https://mkdoc-material.llango.com/reference/buttons/
-  - def_list # 允许定义性的列表，详细见 https://mkdoc-material.llango.com/reference/lists/
-  - footnotes # 允许脚注
-  - md_in_html # 允许 md 内嵌在 HTML 中
-  - tables # 允许用简单语法创建表格
-  - pymdownx.caret # 允许文本高亮，即 ==Text==
-  - pymdownx.mark # 允许文本下划线，即 ^^Text^^
-  - pymdownx.tilde # 允许文本删除线，即 ~~Text~~
-  - pymdownx.keys # 按键高亮，类似于行内代码那种，如 <kbd>Ctrl</kbd>，或者带图标的格式（强制小写）++ctrl++，也可组合 ++ctrl+s++
-  - pymdownx.smartsymbols # 允许上下标，如 x^2^（x²）
-  - pymdownx.details # 允许提示框与文本左右布局，而非原来的上下布局，如 !!! note inline "Hint"（左），!!! note inline end（右）
-  - pymdownx.inlinehilite # 支持行内代码块高亮，如 `#!python range()`
-  - pymdownx.snippets # 允许外联任何内容
-  - pymdownx.magiclink # 自动识别超链接
+markdown_extensions:
+    # === 从这里开始到下面，是 pymdown-extensions 库的 markdown_extensions 配置 ===
+    # 需求：pip install pymdown-extensions （不过一般应该都装了）
 
-  - toc: # 目录设置
-      title: 目录 # 在右侧导航侧边栏中设置目录的标题
-      permalink_title: 点击即可链接到锚点 # 设置锚点链接的标题
-      permalink: "#" # 启用目录锚点，并设置符号为 “#”
-      slugify: !!python/object/apply:pymdownx.slugs.slugify
-        kwds:
-          case: lower
+    - pymdownx.caret # 允许文本高亮，即 ==Text==
+    - pymdownx.mark # 允许文本下划线，即 ^^Text^^
+    - pymdownx.tilde # 允许文本删除线，即 ~~Text~~
+    - pymdownx.keys # 按键高亮，类似于行内代码那种，如 <kbd>Ctrl</kbd>，或者带图标的格式（强制小写）++ctrl++，也可组合 ++ctrl+s++（推荐第二种方式，第二种自带图标）
+    - pymdownx.smartsymbols # 允许上下标，如 x^2^（x²）
+    - pymdownx.details # 允许提示框与文本左右布局，而非原来的上下布局，如 !!! note inline "Hint"（左），!!! note inline end（右）
+    - pymdownx.inlinehilite # 支持行内代码块高亮，如 `#!python range()`
+    - pymdownx.snippets # 允许外联任何内容
+    - pymdownx.smartsymbols # 智能符号，如 (c) 就是 ©️
+    - pymdownx.striphtml # 去除 HTML 中不需要的注释和 / 或标记属性，可减小 HTML 大小
 
-  - pymdownx.arithmatex: # 允许数学表达式，即 $$y=x+1$$，或行内的 $x=1$
-      generic: true
+    - pymdownx.escapeall # 允许使用反斜杠（pymdownx 支持，mkdocs 貌似部分支持，不完全支持）
+    - pymdownx.magiclink # 自动识别超链接（pymdownx 支持，mkdocs 暂时不支持）
+    - pymdownx.b64 # 允许使用 base64 编码嵌入本地 PNG、JPEG 和 GIF 图像引用（pymdownx 支持，mkdocs 暂时不支持）
+    - pymdownx.progressbar # 允许进度条语法（pymdownx 支持，mkdocs 暂时不支持）
+    - pymdownx.saneheaders # “#title” 也是标题，虽然中间没有空格（pymdownx 支持，mkdocs 暂时不支持）
 
-  - pymdownx.betterem: # 允许斜体和加粗
-      smart_enable: all
+    - pymdownx.blocks.admonition # 支持更高级提示框语法（危：可能与 admonition 冲突）
+    - pymdownx.blocks.definition # 支持更高级的定义块语法（危：可能与 def_list）
+    - pymdownx.blocks.details # 支持更高级的提示框布局（危：可能与 pymdownx.details 冲突）
+    - pymdownx.blocks.html # 支持一些更高级的 md 内嵌 HTML 语法（pymdownx.blocks 默认开启）
+    - pymdownx.blocks.tab # 支持更高级的标签块写法（危：可能与 pymdownx.tabbed 冲突）
 
-  - pymdownx.critic: # 允许批注，批注详情见 https://mkdoc-material.llango.com/reference/formatting/
-      mode: view # 批注模式，可为 view，accept 和 reject
+    - pymdownx.arithmatex: # 允许数学表达式，即 $$y=x+1$$，或行内的 $x=1$
+          generic: true
 
-  - pymdownx.emoji: # 允许 Emoji 表情
-      emoji_generator: !!python/name:material.extensions.emoji.to_svg
-      emoji_index: !!python/name:material.extensions.emoji.twemoji
+    - pymdownx.betterem: # 允许斜体和加粗
+          smart_enable: all
 
-  - pymdownx.highlight: # 允许代码块语法高亮
-      linenums: true # 可显示行号，也可指定起始行号，如 ```python linenums="2"，也可指定高亮行，如 hl_lines="2-3"
-      linenums_style: pymdownx.inline # 行号样式 pymdownx.inline 或者 table
-      anchor_linenums: true # 用锚链接包装代码块，便于超链接和共享
-      line_spans: __span # 这对于行突出显示等功能正常工作至关重要
-      pygments_lang_class: true # 对于自定义注释标记的功能至关重要
-      # auto_title: true # 自动为所有代码块添加一个标题
+    - pymdownx.critic: # 允许批注，批注详情见 https://mkdoc-material.llango.com/reference/formatting/
+          mode: view # 批注模式，可为 view，accept 和 reject，不懂干啥的
 
-  - pymdownx.superfences: # 允许各种嵌套
-      custom_fences:
-        - name: mermaid # 允许 mermaid 图表语法
-          class: mermaid
-          format:
-            !!python/name:pymdownx.superfences.fence_code_format # Todo 完成的图标
+    - pymdownx.highlight: # 允许代码块语法高亮
+          use_pygments: true # 使用 pygments 而不是 javascript，啥意思不懂
+          linenums: true # 全部显示行号，若为 false，也可指定起始行号，如 ```python linenums="2"，也可指定高亮行，如 hl_lines="2-3"
+          linenums_style: pymdownx-inline # 行号样式 pymdownx-inline 或者 inline 和 table（最好不要使用其它的值，会有 bug，如代码复制按钮错位）
+          anchor_linenums: true # 用锚链接包装代码行号，便于超链接和共享（就是行号可以像锚点一样被点击）
+          line_spans: __span # 这对于行突出显示等功能正常工作至关重要，不懂
+          pygments_lang_class: true # 对于自定义注释标记的功能至关重要，不懂
+          # auto_title: true # 自动为所有代码块添加一个标题
+
+    - pymdownx.emoji: # 允许 Emoji 表情
+          emoji_index: !!python/name:material.extensions.emoji.twemoji
+          emoji_generator: !!python/name:material.extensions.emoji.to_svg
+
+    - pymdownx.superfences: # 允许各种嵌套
+          custom_fences:
+              - name: mermaid # 允许 mermaid 图表语法
+                class: mermaid
+                format:
+                    !!python/name:pymdownx.superfences.fence_code_format # 不清楚干啥的
 
 
-  - pymdownx.tabbed: # 允许代码块添加标签，实现多语言等效果
-      alternate_style: true # 唯一支持的样式
-      combine_header_slug: true
-      slugify: !!python/object/apply:pymdownx.slugs.slugify
-        kwds:
-          case: lower
+    - pymdownx.tabbed: # 允许块（如代码块）添加标签，实现多语言等效果
+          alternate_style: true # 唯一支持的样式，不打开等于用不了
+          combine_header_slug: true # 后面的不知道干啥的
+          slugify: !!python/object/apply:pymdownx.slugs.slugify
+              kwds:
+                  case: lower
 
-  - pymdownx.tasklist: # 允许 Todo 列表清单
-      custom_checkbox: true # 样式
-      clickable_checkbox: true # 是否可通过点击切换状态（但无实际更改）
+    - pymdownx.tasklist: # 允许 Todo 列表清单
+          custom_checkbox: true # 允许修改其样式，不然用默认样式就很丑
+          clickable_checkbox: true # 是否可通过点击切换状态（但无实际更改，只有视觉效果）
+
+    # === 从这里开始到下面，是 Python-Markdown（MkDocs 默认的） 的 markdown_extensions 配置 ===
+
+    - meta # 允许元标记，页面源代码顶上那几行被横线保住的内容就是元标记，为了支持某些功能使用
+    - abbr # 允许文本悬浮提示，就是 ToolTip，例如：*[Text]: 啊吧啊吧
+    - admonition # 允许各种各样的提示框，或代码框，样式见 https://mkdoc-material.llango.com/reference/admonitions/
+    - attr_list # 允许给 md 元素增加 HTML 和 CSS 属性，如一个按钮 [Subscribe to our mailing list](#){: .md-button }，甚至图标，详细见 https://mkdoc-material.llango.com/reference/buttons/
+    - def_list # 允许“定义列表”的语法，详细见 https://mkdoc-material.llango.com/reference/lists/
+    - md_in_html # 允许 md 内嵌在 HTML 中
+    - tables # 允许用简单语法创建表格
+    - sane_lists # 理智列表，避免旧版 md 抽风（强烈推荐开启）
+    - wikilinks # 支持快捷链接语法，例如 [[a link]]，会变成 ./a_link/
+    - smarty # 貌似是为了提高兼容性的，不太清楚
+    # - nl2br # 换行符硬断裂，即文本不像旧版 md 那样，可以直接换行
+    # - codehilite # 被 pymdownx 相关扩展取代了，不建议使用这个
+    # - fenced_code # 被 pymdownx 相关扩展取代了，不建议使用这个
+
+    - footnotes: # 允许脚注
+          BACKLINK_TITLE: 返回脚注 {} # 底部脚注的提示词，建议改一下，默认是英文的
+          # SUPERSCRIPT_TEXT: {} # 脚注名称，默认就是 {}，表示标号
+
+    - toc: # 目录设置
+          title: 目录 # 在右侧导航侧边栏中设置目录的标题
+          permalink_title: 点击定位到锚点 # 设置锚点链接的提示词
+          permalink: "#" # 启用目录锚点，并设置符号为 “#”
+          slugify:
+              !!python/object/apply:pymdownx.slugs.slugify # 这啥玩意儿，不懂，抄官网的
+              kwds:
+                  case: lower
 
 theme: # 主题设置
-  name: material # 第三方主题名称
-  custom_dir: docs/overrides # 覆盖部分原来的主题
-  language: zh # material 语言
-  features:
-    # - header.autohide # 顶栏自动隐藏
-    - announce.dismiss # 公告栏可以被关闭
-    - content.action.edit # 允许页面被编辑
-    - content.action.view # 允许查看页面的源代码
-    - content.code.annotate # 允许内联代码注释
-    - content.code.copy # 代码块复制按钮，通过 ``` python { .yaml .copy } 默认开启，{ .yaml .no-copy } 关闭
-    - content.code.select # 允许用户动态应用线条突出显示，通过 ```python { .yaml .select}，反同
-    - content.tabs.link # 同样的标签，整个网站的同步切换，如 C -> C++，则其它类似的全部标签都同步切换
-    - content.tooltips # 脚注提示
-    - navigation.expand # 左侧边栏节点至多展开一个
-    # - navigation.indexes # 左侧边栏节点是否包含 index 页面
-    # - navigation.footer # 页面底下换页的支持
-    - navigation.instant # 页面加载无需完全加载
-    - navigation.instant.prefetch # 页面预加载（Insider）
-    - navigation.instant.progress # 加载速度慢时，在页面顶部显示加载进度
-    - navigation.prune # 减小站点的构建大小
-    - navigation.tabs # 导航栏标题栏
-    # - navigation.tabs.sticky # 导航栏标题栏位置固定
-    # - navigation.sections # 左侧边栏节点是否保持展开
-    - navigation.top # 回到顶部的按钮
-    - navigation.tracking # 锚点跟踪
-    - search.highlight # 搜索栏内容高亮
-    - search.share # 搜索栏分享按钮
-    - search.suggest # 搜索栏内容建议
-    - toc.follow # 锚点关注，侧边栏自动滚动，使锚点总是可见
-    # - toc.integrate # 右边侧栏是否集成到左侧边栏
-  palette:
-    # 系统主题
-    - media: "(prefers-color-scheme)"
-      toggle:
-        icon: material/brightness-auto
-        name: 切换至亮色主题
-    # 亮色主题
-    - media: "(prefers-color-scheme: light)"
-      scheme: default
-      # primary: grey # 明亮标题栏颜色
-      accent: pink # 明亮链接高亮颜色
-      toggle:
-        icon: material/brightness-7
-        name: 切换至暗色主题
-    # 暗色主题
-    - media: "(prefers-color-scheme: dark)"
-      scheme: slate
-      primary: black # 黑暗标题栏颜色
-      # accent: yellow # 黑暗链接高亮颜色
-      toggle:
-        icon: material/brightness-4
-        name: 切换至系统主题
-  font: false # 避免从谷歌加载字体导致网页加载变慢
-  logo: logo.png # 页面左上角徽标
-  favicon: logo.png # 网页的图标
-  icon:
-    previous: fontawesome/solid/angle-left # 左下角向前翻页的图标
-    next: fontawesome/solid/angle-right # 右下角向后翻页的图标
-    repo: fontawesome/brands/github # 右上角仓库图标
-    edit: material/pencil # 页面编辑的图标
-    view: material/eye # 页面查看源代码的图标
-    # annotation: material/arrow-right-circle # 提示按钮的图标，详细操作见 https://squidfunk.github.io/mkdocs-material/reference/annotations/#in-content-tabs-tab-1
+    name: material # 第三方主题名称
+    custom_dir: docs/overrides # 覆盖部分原来的主题（重载目录）
+    language: zh # material 语言
+    features:
+        # - header.autohide # 顶栏自动隐藏
+        - announce.dismiss # 公告栏可以被关闭
+        - content.action.edit # 允许页面被编辑（会出现编辑按钮）
+        - content.action.view # 允许查看页面的源代码（会出现查看源代码按钮）
+        - content.code.annotate # 允许内联代码注释
+        - content.code.copy # 例如：``` python { .yaml .copy } 默认开启，{ .yaml .no-copy } 关闭
+        - content.tabs.link # 同样的标签，整个网站的同步切换，如 C -> C++，则其它类似的全部标签都同步切换
+        - content.tooltips # 提示框（以前有的样式变好看了，此外还支持更高级的提示框语法）
+        # - navigation.expand # 左侧边栏节点默认全部展开（与 navigation.prune 不兼容）
+        - navigation.indexes # 左侧边栏大节点是否可以被导向到 index.md
+        - navigation.footer # 页面底下换页的支持
+        - navigation.instant # 页面不会重复加载（已加载页面不会再次加载）
+        - navigation.instant.progress # 加载速度慢时，在页面顶部显示加载进度（400ms 以上加载时间才会显示它）
+        - navigation.prune # 左侧栏节点至多展开一个，以此来减小站点的构建大小（对于页数100+的网站很有用，但是！与 navigation.expand 不兼容）
+        - navigation.tabs # 页面顶部导航栏
+        # - navigation.tabs.sticky # 导航栏标题栏位置固定
+        # - navigation.sections # 左侧边栏节点是否保持展开
+        - navigation.top # 回到顶部的按钮
+        - navigation.tracking # 锚点跟踪
+        - search.highlight # 搜索栏内容高亮
+        - search.share # 搜索栏分享按钮
+        - search.suggest # 搜索栏内容建议
+        - toc.follow # 锚点关注，侧边栏自动滚动，使锚点总是可见
+        # - toc.integrate # 右边侧栏是否集成到左侧边栏
+    palette: # 界面整体样式
+        - media: "(prefers-color-scheme)" # 系统主题
+          toggle: # 切换按钮
+              icon: material/theme-light-dark # 图标
+              name: 切换至明亮主题 # 提示词
+        - media: "(prefers-color-scheme: light)" # 亮色主题
+          scheme: default
+          # primary: grey # 标题栏颜色（建议自定义 CSS 调整，因为 footer 不会被此参数影响！）
+          accent: pink # 链接高亮颜色
+          toggle:
+              icon: material/weather-sunny
+              name: 切换至暗黑主题
+        - media: "(prefers-color-scheme: dark)" # 暗色主题
+          scheme: slate
+          primary: black
+          # accent: yellow
+          toggle:
+              icon: material/weather-night
+              name: 切换至系统主题
+    font: false # 避免从谷歌加载字体导致网页加载变慢（具体参数可以在自定义 CSS 中指定）
+    logo: logo.png # 页面左上角徽标
+    favicon: logo.png # 网页的图标
+    icon: # 图标重载，替换掉默认的图标
+        previous: fontawesome/solid/angle-left # 左下角向前翻页的图标
+        next: fontawesome/solid/angle-right # 右下角向后翻页的图标
+        repo: fontawesome/brands/github # 右上角仓库图标
+        edit: material/pencil # 页面编辑的图标
+        view: material/eye # 页面查看源代码的图标
+        # annotation: material/arrow-right-circle # 提示按钮的图标，详细操作见 https://squidfunk.github.io/mkdocs-material/reference/annotations/#in-content-tabs-tab-1
 
 extra: # 额外设定
-  homepage: . # 左上角徽标链接的地址（此处为根目录，即主页）
-  disqus: "Xiaokang2022" # 评论系统
-  annotate: # 允许代码块内非注释内的提示
-    json: [.s2]
-  social: # 社交联系方式（页面右下角内容）
-    - icon: fontawesome/brands/github # GitHub 仓库链接
-      link: https://github.com/Xiaokang2022/tkintertools/
-      name: GitHub 仓库
-    - icon: fontawesome/brands/python # PyPI 页面链接
-      link: https://pypi.org/project/tkintertools/
-      name: PyPI
-    - icon: fontawesome/solid/house
-      link: https://xiaokang2022.github.io/tkintertools/
-      name: 主页
-    - icon: fontawesome/solid/paper-plane
-      link: mailto:2951256653@qq.com
-      name: 联系作者
+    homepage: . # 左上角徽标链接的地址（此处为一个点，也就是主页）
+    annotate: # 允许代码块非注释内的提示，我也不太懂什么意思，貌似是可以在代码里面加悬浮提示框，而不只是在注释中（感觉这样不好，虽然我不用，但不能没有）
+        json: [.s2]
+    social: # 社交联系方式（页面右下角内容）
+        - icon: fontawesome/brands/github # GitHub 仓库链接
+          link: https://github.com/Xiaokang2022/tkintertools/
+          name: GitHub 仓库
+        - icon: fontawesome/brands/python # PyPI 页面链接
+          link: https://pypi.org/project/tkintertools/
+          name: PyPI
+        - icon: fontawesome/solid/house
+          link: https://xiaokang2022.github.io/tkintertools/
+          name: 主页
+        - icon: fontawesome/solid/paper-plane
+          link: mailto:2951256653@qq.com
+          name: 联系作者
 
-extra_javascript: # 保证数学表达式能正确显示的运行时环境
-  - extra/js/mathjax.js
-  - https://polyfill.io/v3/polyfill.min.js?features=es6
-  - https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js
+extra_javascript: # 额外 JS
+    - extra/js/shortcuts.js # 绑定左右键换页的键盘快捷键（这是我小康2022原创滴！）
+    - extra/js/tongji.baidu.js # 百度统计脚本
+    - extra/js/mathjax.js # 保证数学表达式能正确显示的运行时环境（下面两个也是）
+    - https://polyfill.io/v3/polyfill.min.js?features=es6
+    - https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js
+    - https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js # 不蒜子统计脚本
+    - https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js # 不蒜子数据修正需求文件
+    - extra/js/modify.js # 不蒜子数据修正（这个要放在需求文件的后面）
 
-extra_css:
-  - extra/css/extra.css
-  - https://cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css # 访问统计转圈加载样式
-  # - https://cdn.jsdelivr.net/npm/lxgw-wenkai-webfont@1.1.0/style.css
-  # - https://cdn.jsdelivr.net/npm/lxgw-wenkai-lite-webfont@1.1.0/style.css
-  # - https://cdn.jsdelivr.net/npm/lxgw-wenkai-tc-webfont@1.0.0/style.css
-  - https://cdn.jsdelivr.net/npm/lxgw-wenkai-screen-webfont@1.1.0/style.css # 自定义字体（霞鹜文楷）
+extra_css: # 额外 CSS
+    - extra/css/extra.css # 加载自定义的样式
+    - https://cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css # 访问统计转圈加载样式
+    - https://cdn.jsdelivr.net/npm/lxgw-wenkai-screen-webfont@1.1.0/style.css # 自定义字体（霞鹜文楷），下面三个也是，自选一个（和 extra.css 的对应即可）
+    # - https://cdn.jsdelivr.net/npm/lxgw-wenkai-webfont@1.1.0/style.css
+    # - https://cdn.jsdelivr.net/npm/lxgw-wenkai-lite-webfont@1.1.0/style.css
+    # - https://cdn.jsdelivr.net/npm/lxgw-wenkai-tc-webfont@1.0.0/style.css
 
 plugins: # 插件
-  - offline:
-      enabled: !ENV [OFFLINE, false]
-  - tags
-  - search: # 搜索插件
-      separator: '[\s\u200b\-_,:!=\[\]()"`/]+|\.(?!\d)|&[lg]t;|(?!\b)(?=[A-Z][a-z])'
-      lang:
-        - zh
-        - en
-  - git-revision-date-localized: # 需 pip install mkdocs-git-revision-date-localized-plugin
-      enable_creation_date: true # 显示创建的日期
-      type: datetime # 每页底下显示最后更新日期（除开 index）
-      locale: zh # 换成中文显示
-  - git-authors # 需 pip install mkdocs-git-authors-plugin
-  - changelog # 需 pip install mkdocs-changelog-plugin
-  - glightbox # 图像缩放，需 pip install mkdocs-glightbox
-  - statistics: # 统计信息，需 pip install mkdocs-statistics-plugin
-      codelines_per_minute: 15 # 每分钟可看的代码行数
-      words_per_minute: 150 # 每分钟可看的文本数
+    - search: # 搜索插件（内置）
+          separator: '[\s\u200b\-_,:!=\[\]()"`/]+|\.(?!\d)|&[lg]t;|(?!\b)(?=[A-Z][a-z])' # 分隔符，我也不懂，我从官方那里找来的
+          lang: # 支持的语言
+              - zh # 中文
+    - git-revision-date-localized: # 文章日期显示插件（pip install mkdocs-git-revision-date-localized-plugin）注意：build 时此插件加载非常缓慢！
+          enable_creation_date: true # 显示创建的日期
+          type: datetime # 每页底下显示最后更新日期，类型是 datatime（日期+时间），或者 data（只有日期）等
+          locale: zh # 换成中文显示
+    - git-authors: # 文章作者显示插件（pip install mkdocs-git-authors-plugin）注意：build 时此插件加载非常缓慢！
+          show_contribution: true # 显示贡献比例
+          show_line_count: true # 记录行数
+          show_email_address: true # 显示邮箱
+          count_empty_lines: false # 记录空行的贡献
+          fallback_to_empty: false # 不懂
+          sort_authors_by: contribution # 贡献者名单排序方式 (name, contribution)
+          authorship_threshold_percent: 0 # 筛选掉贡献比例低于该百分比的贡献者
+    - glightbox: # 图像缩放插件（pip install mkdocs-glightbox）
+          touchNavigation: true # 启用或禁用触摸导航（轻扫），应该是便于手机用户吧
+          loop: false # 换图时循环
+          effect: zoom # 打开图时的效果(zoom, fade, none)
+          slide_effect: slide # 切换图片时的效果(slide, zoom, fade, none)
+          width: auto # 内联元素和 iframe 的宽度。您可以使用任何单位或者 auto
+          height: auto # 同上
+          zoomable: false # 启用或禁用可缩放图像，不懂干啥的
+          draggable: true # 启用或禁用鼠标拖动以转到上一张和下一张图片
+          auto_caption: false # 自动启用或禁用使用图像的替代文本作为标题
+          caption_position: bottom # 标题位置 (bottom, top, left, right)
+          background: none # 背景颜色
+          shadow: true # 启用或禁用图像阴影
+    - changelog # 日志插件（pip install mkdocs-changelog-plugin）
+    - statistics: # 数据统计插件（pip install mkdocs-statistics-plugin）
+          codelines_per_minute: 15 # 每分钟可看的代码行数
+          words_per_minute: 150 # 每分钟可看的文本数
+    - minify: # 压缩文件的插件（pip install mkdocs-minify-plugin）
+          minify_html: true
+          minify_js: true
+          minify_css: true
+          htmlmin_opts:
+              remove_comments: true
+          cache_safe: true
 
 nav: # 导航栏
-  - Home / 主页:
-      - Profile - 简介: index.md
-      - Site Navigation - 站点导航: navigation.md
+    - Home / 主页:
+          - Profile - 简介: index.md
+          - Site Navigation - 站点导航: navigation.md
 
-  - Tutorials / 教程:
-      - 前言: tutorials/0-1.md
-      - 第一章：安装与初识:
-          - 1.1 安装 tkintertools: tutorials/1-1.md
-          - 1.2 认识 tkintertools: tutorials/1-2.md
-          - 1.3 tkintertools 初体验: tutorials/1-3.md
-      - 第二章：容器控件: tutorials/2-1.md
-        # - Tk
-        # - Toplevel
-        # - Canvas
-      - 第三章：功能控件: tutorials/3-1.md
-        # - Label
-        # - Button
-        # - CheckButton
-        # - Entry
-        # - Text
-        # - ProgressBar
-        # - Switch
-        # - ToolTip
-      - 第四章：界面布局: tutorials/4-1.md
-        # - Place
-        # - Slide
-      - 第五章：图片:
-          - 5.1 静态图片: tutorials/5-1.md
-          - 5.2 动态图片: tutorials/5-2.md
-          - 5.3 图片进阶: tutorials/5-3.md
-      - 第六章：动画以及颜色效果:
-          - 6.1 颜色效果: tutorials/6-1.md
-          - 6.2 动画制作: tutorials/6-2.md
-      - 第七章：3D 子模块:
-          - 7.1 3D 对象: tutorials/7-1.md
-          - 7.2 3D 文本: tutorials/7-2.md
-          - 7.3 3D 动画: tutorials/7-3.md
-          - 7.4 3D 进阶: tutorials/7-4.md
-      - 第八章：杂项: tutorials/8-1.md
-        # - 学会一些实用的小技巧
-        # - 混合使用 tkinter
-      - 第九章：实战: tutorials/9-1.md
-        # - 手把手实战教学
-        # - 引导式实战教学
-        # - 实战项目推荐
+    - Tutorials / 教程:
+          - 前言: tutorials/0-1.md
+          - 第一章：安装与初识:
+                - 1.1 安装 tkintertools: tutorials/1-1.md
+                - 1.2 认识 tkintertools: tutorials/1-2.md
+                - 1.3 tkintertools 初体验: tutorials/1-3.md
+          - 第二章：容器控件: tutorials/2-1.md
+            # - Tk
+            # - Toplevel
+            # - Canvas
+          - 第三章：功能控件: tutorials/3-1.md
+            # - Label
+            # - Button
+            # - CheckButton
+            # - Entry
+            # - Text
+            # - ProgressBar
+            # - Switch
+            # - ToolTip
+          - 第四章：界面布局: tutorials/4-1.md
+            # - Place
+            # - Slide
+          - 第五章：图片:
+                - 5.1 静态图片: tutorials/5-1.md
+                - 5.2 动态图片: tutorials/5-2.md
+                - 5.3 图片进阶: tutorials/5-3.md
+          - 第六章：动画以及颜色效果:
+                - 6.1 颜色效果: tutorials/6-1.md
+                - 6.2 动画制作: tutorials/6-2.md
+          - 第七章：3D 子模块:
+                - 7.1 3D 对象: tutorials/7-1.md
+                - 7.2 3D 文本: tutorials/7-2.md
+                - 7.3 3D 动画: tutorials/7-3.md
+                - 7.4 3D 进阶: tutorials/7-4.md
+          - 第八章：杂项: tutorials/8-1.md
+            # - 学会一些实用的小技巧
+            # - 混合使用 tkinter
+          - 第九章：实战: tutorials/9-1.md
+            # - 手把手实战教学
+            # - 引导式实战教学
+            # - 实战项目推荐
 
-  - Documents / 文档:
-      - main.py: documents/main.md
-      - tools_3d.py: documents/tools_3d.md
-      - exceptions.py: documents/exceptions.md
-      - constants.py: documents/constants.md
+    - Documents / 文档:
+          - main.py: documents/main.md
+          - tools_3d.py: documents/tools_3d.md
+          - exceptions.py: documents/exceptions.md
+          - constants.py: documents/constants.md
 
-  - News / 新闻:
-      - Series 3 - 系列 3:
-          - 3.0.0(pre): news/3.0.0/News.md
-      - Series 2 - 系列 2:
-          - 2.6.21: news/2.6.21/News.md
-          - 2.6.20: news/2.6.20/News.md
-          - 2.6.19: news/2.6.19/News.md
-          - 2.6.18: news/2.6.18/News.md
-          - 2.6.17: news/2.6.17/News.md
-          - 2.6.16: news/2.6.16/News.md
-          - 2.6.15: news/2.6.15/News.md
-          - 2.6.14: news/2.6.14/News.md
-          - 2.6.13: news/2.6.13/News.md
-          - 2.6.12: news/2.6.12/News.md
-          - 2.6.11: news/2.6.11/News.md
-          - 2.6.10: news/2.6.10/News.md
-          - 2.6.9: news/2.6.9/News.md
-          - 2.6.8: news/2.6.8/News.md
-          - 2.6.7: news/2.6.7/News.md
-          - 2.6.6: news/2.6.6/News.md
+    - News / 新闻:
+          - Series 3 - 系列 3:
+                - 3.0.0(pre): news/3.0.0/News.md
+          - Series 2 - 系列 2:
+                - 2.6.21: news/2.6.21/News.md
+                - 2.6.20: news/2.6.20/News.md
+                - 2.6.19: news/2.6.19/News.md
+                - 2.6.18: news/2.6.18/News.md
+                - 2.6.17: news/2.6.17/News.md
+                - 2.6.16: news/2.6.16/News.md
+                - 2.6.15: news/2.6.15/News.md
+                - 2.6.14: news/2.6.14/News.md
+                - 2.6.13: news/2.6.13/News.md
+                - 2.6.12: news/2.6.12/News.md
+                - 2.6.11: news/2.6.11/News.md
+                - 2.6.10: news/2.6.10/News.md
+                - 2.6.9: news/2.6.9/News.md
+                - 2.6.8: news/2.6.8/News.md
+                - 2.6.7: news/2.6.7/News.md
+                - 2.6.6: news/2.6.6/News.md
 
-  - More / 更多:
-      - Contribution Guide - 贡献指南: more/CONTRIBUTING.md
-      - Change Log - 更新日志: more/CHANGELOG.md
-      - License - 项目许可证: more/LICENSE.md
+    - More / 更多:
+          - Contribution Guide - 贡献指南: more/CONTRIBUTING.md
+          - Change Log - 更新日志: more/CHANGELOG.md
+          - License - 项目许可证: more/LICENSE.md

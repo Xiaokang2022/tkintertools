@@ -1,8 +1,8 @@
 {% if page.meta.comments %}
 <small color="gray">如果您觉得此页内容不错，您可以在下面的表情中点一个赞👍，让更多的人看到！</small>
 <h2 id="__comments">{{ lang.t("meta.comments") }}</h2>
-<script src="https://giscus.app/client.js" data-repo="Xiaokang2022/tkintertools" data-repo-id="R_kgDOJoVSHw"
-    data-category="General" data-category-id="DIC_kwDOJoVSH84CXQLx" data-mapping="pathname" data-strict="1"
+<script src="https://giscus.app/client.js" data-repo="Xiaokang2022/Fucking-Code" data-repo-id="R_kgDOLaaMVQ"
+    data-category="General" data-category-id="DIC_kwDOLaaMVc4Cdp1D" data-mapping="pathname" data-strict="1"
     data-reactions-enabled="1" data-emit-metadata="0" data-input-position="bottom" data-theme="preferred_color_scheme"
     data-lang="zh-CN" data-loading="lazy" crossorigin="anonymous" async>
     </script>
@@ -15,7 +15,7 @@
     var palette = __md_get("__palette")
     if (palette && typeof palette.color === "object") {
         var theme = palette.color.scheme === "slate"
-            ? "dark"
+            ? "dark"  /*此处需要改成 dark，不然很难看的*/
             : "light"
 
         // Instruct Giscus to set theme
@@ -29,7 +29,7 @@
             var palette = __md_get("__palette")
             if (palette && typeof palette.color === "object") {
                 var theme = palette.color.scheme === "slate"
-                    ? "dark"
+                    ? "dark"  /*此处和上面类似，需要改成 dark，不然很难看的*/
                     : "light"
 
                 // Instruct Giscus to change theme
@@ -42,4 +42,6 @@
         })
     })
 </script>
+<hr>
+<p align="center"><small color="gray">下面没有更多评论啦😆</small></p>
 {% endif %}

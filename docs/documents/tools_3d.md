@@ -1,12 +1,10 @@
-tkintertools.tools_3d
-===
+# tkintertools.tools_3d
 
 文件描述: 3D support  
 外部引用: `array`, `constants`, `exceptions`, `main`, `math`, `statistics`, `tkinter`, `typing`  
 源码位置: tkintertools\tools_3d.py
 
-Functions - 函数
----
+## Functions - 函数
 
 ### 01. project
 
@@ -23,7 +21,7 @@ Functions - 函数
 
     * `coordinate`: 点的空间坐标
     * `distance`: 正向平面的距离（平面正对着我们）
-    
+
 ### 02. rotate
 
 !!! note "rotate `Function`"
@@ -48,7 +46,7 @@ Functions - 函数
     * `dz`: z 方向逆时针旋转弧度
     * `center`: 旋转中心的空间坐标
     * `axis`: 旋转轴线的空间坐标
-    
+
 ### 03. scale
 
 !!! note "scale `Function`"
@@ -71,7 +69,7 @@ Functions - 函数
     * `ky`: y 方向缩放比例
     * `kz`: z 方向缩放比例
     * `center`: 缩放中心的空间坐标
-    
+
 ### 04. translate
 
 !!! note "translate `Function`"
@@ -91,9 +89,8 @@ Functions - 函数
     * `dx`: x 方向位移长度
     * `dy`: y 方向位移长度
     * `dz`: z 方向位移长度
-    
-Classes - 类
----
+
+## Classes - 类
 
 ### 01. Canvas3D
 
@@ -223,7 +220,6 @@ Classes - 类
         * `color_outline_front`: 正面边框颜色
         * `color_outline_back`: 后面边框颜色
 
-
 ### 03. Geometry
 
 !!! note "Geometry `Class`"
@@ -349,7 +345,7 @@ Classes - 类
 
 ### 04. Line
 
-!!! note "Line(_Object3D) `Class`"
+!!! note "Line(\_Object3D) `Class`"
 
     线
 
@@ -399,7 +395,7 @@ Classes - 类
 
 ### 05. Point
 
-!!! note "Point(_Object3D) `Class`"
+!!! note "Point(\_Object3D) `Class`"
 
     点
 
@@ -461,7 +457,7 @@ Classes - 类
 
 ### 06. Side
 
-!!! note "Side(_Object3D) `Class`"
+!!! note "Side(\_Object3D) `Class`"
 
     面
 
@@ -628,10 +624,9 @@ Classes - 类
         * `color_fill`: 内部颜色序列
         * `color_outline`: 边框颜色序列
 
-
 ### 09. Text3D
 
-!!! note "Text3D(_Object3D) `Class`"
+!!! note "Text3D(\_Object3D) `Class`"
 
     三维文本
 
@@ -682,9 +677,9 @@ Classes - 类
 
         更新对象的显示
 
-### 10. _Object3D
+### 10. \_Object3D
 
-!!! note "_Object3D `Class` `Internal`"
+!!! note "\_Object3D `Class` `Internal`"
 
     3D 对象基类
 
@@ -789,5 +784,3 @@ Classes - 类
         * `dx`: x 方向位移长度
         * `dy`: y 方向位移长度
         * `dz`: z 方向位移长度
-
-

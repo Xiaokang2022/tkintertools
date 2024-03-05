@@ -1,18 +1,16 @@
-Release Notes - 版本发布说明
-===========================
+# Release Notes - 版本发布说明
 
-* Version - 最新版本 : `2.6.14`
-* Release - 发布日期 : 2023/11/17
+-   Version - 最新版本 : `2.6.14`
+-   Release - 发布日期 : 2023/11/17
 
 ```
 pip install tkintertools==2.6.14
 ```
 
-Example - 样例演示
------------------
+## Example - 样例演示
 
-* OS - 操作系统 : Windows11 23H2
-* Interpreter - 解释器 : Python 3.12.0
+-   OS - 操作系统 : Windows11 23H2
+-   Interpreter - 解释器 : Python 3.12.0
 
 Here's what you can expect after improving the settings of each parameter of the widget and fixing many bugs:  
 下面是完善控件各个参数设定，修复了众多 bug 后所能呈现的效果：
@@ -160,66 +158,64 @@ root.mainloop()
 
 </details>
 
-ChangeLog - 更新日志
--------------------
+## ChangeLog - 更新日志
 
 ### Added - 新增
 
-- [X] The `CheckButton` widget class adds a `font` parameter to modify its font  
-控件类 `CheckButton` 新增参数 `font` 来修改其字体
+-   [x] The `CheckButton` widget class adds a `font` parameter to modify its font  
+        控件类 `CheckButton` 新增参数 `font` 来修改其字体
 
 ### Changed - 变更
 
-- [X] Modify the name of some color constants and the parameters related to some colors  
-修改部分颜色常量的名称和部分颜色相关的参数
+-   [x] Modify the name of some color constants and the parameters related to some colors  
+        修改部分颜色常量的名称和部分颜色相关的参数
 
-- [X] The widget class `Progressbar` is renamed to `ProgressBar`  
-控件类 `Progressbar` 更名为 `ProgressBar`
+-   [x] The widget class `Progressbar` is renamed to `ProgressBar`  
+        控件类 `Progressbar` 更名为 `ProgressBar`
 
 ### Fixed - 修复
 
-- [X] Fixed the bug that the color of the `Switch` of the widget class was displayed incorrectly  
-修复控件类 `Switch` 颜色显示错误的问题
+-   [x] Fixed the bug that the color of the `Switch` of the widget class was displayed incorrectly  
+        修复控件类 `Switch` 颜色显示错误的问题
 
-- [X] Fixed an bug where the initial color of the `CheckButton` of the widget class would not be displayed immediately  
-修复控件类 `CheckButton` 初始颜色不会立刻显示的问题
+-   [x] Fixed an bug where the initial color of the `CheckButton` of the widget class would not be displayed immediately  
+        修复控件类 `CheckButton` 初始颜色不会立刻显示的问题
 
-- [X] Fixed the bug that the text style of the widget class `Entry` was not updated after calling the method `set`  
-修复控件类 `Entry` 在调用方法 `set` 之后文本样式没有更新的问题
+-   [x] Fixed the bug that the text style of the widget class `Entry` was not updated after calling the method `set`  
+        修复控件类 `Entry` 在调用方法 `set` 之后文本样式没有更新的问题
 
-Todos - 待办事项
----------------
+## Todos - 待办事项
 
 ### Possible Features - 期望功能
 
-- [ ] Perfect the scroll bar function of `Text` class  
-完善 `Text` 类的滚动条功能
+-   [ ] Perfect the scroll bar function of `Text` class  
+        完善 `Text` 类的滚动条功能
 
-- [ ] Perfection and optimization of zoom function  
-对缩放功能的完善和优化
+-   [ ] Perfection and optimization of zoom function  
+        对缩放功能的完善和优化
 
-- [ ] Try adding support for some MarkDown syntax  
-尝试增加对部分 Markdown 语法的支持
+-   [ ] Try adding support for some MarkDown syntax  
+        尝试增加对部分 Markdown 语法的支持
 
-- [ ] Implement symmetry in 3D modules  
-实现 3D 模块中的对称功能
+-   [ ] Implement symmetry in 3D modules  
+        实现 3D 模块中的对称功能
 
-- [ ] Enhanced projection functionality in 3D modules  
-增强 3D 模块中的投影功能
+-   [ ] Enhanced projection functionality in 3D modules  
+        增强 3D 模块中的投影功能
 
-- [ ] Add more 3D spatial geometry classes  
-增加更多 3D 空间几何体类
+-   [ ] Add more 3D spatial geometry classes  
+        增加更多 3D 空间几何体类
 
--  [ ] Add lights and achieve simple light and shadow renderings  
-添加光源，并实现简单的光影渲染的效果
+-   [ ] Add lights and achieve simple light and shadow renderings  
+        添加光源，并实现简单的光影渲染的效果
 
 ### Known Bugs - 已知问题
 
-- [ ] Solve the bug that text shrinks and overflows after zooming text widgets  
-解决文本类控件缩放后文本产生缩水和溢出的 bug
+-   [ ] Solve the bug that text shrinks and overflows after zooming text widgets  
+        解决文本类控件缩放后文本产生缩水和溢出的 bug
 
-- [ ] Fix the bug of deletion misalignment when there is too much text in the `Text` class  
-解决 `Text` 类中文本过多时删减错位的 bug
+-   [ ] Fix the bug of deletion misalignment when there is too much text in the `Text` class  
+        解决 `Text` 类中文本过多时删减错位的 bug
 
-- [ ] The position relationship between the space before and after the 3D object is still problematic at some point  
-3D 对象前后空间的位置关系在某些时候仍有问题
+-   [ ] The position relationship between the space before and after the 3D object is still problematic at some point  
+        3D 对象前后空间的位置关系在某些时候仍有问题
