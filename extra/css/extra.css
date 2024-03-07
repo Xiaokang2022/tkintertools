@@ -1,11 +1,3 @@
-body {
-    /* font-family: "LXGW WenKai", sans-serif; */
-    /* font-family: "LXGW WenKai Lite", sans-serif; */
-    /* font-family: "LXGW WenKai TC", sans-serif; */
-    font-family: "LXGW WenKai Screen", sans-serif;
-    /* 自定义字体为：LXGW WenKai Screen，可选四种不同的 */
-}
-
 :root {
     --md-text-font: "LXGW WenKai Screen";
     /*文本字体*/
@@ -41,7 +33,7 @@ body {
 
 @keyframes heart {
 
-    /* 心脏跳动的样式表 */
+    /*心脏跳动的样式表，抄官网的代码*/
     0%,
     40%,
     80%,
@@ -58,6 +50,8 @@ body {
 .heart {
     animation: heart 1000ms infinite;
 }
+
+/*下面是 changelog 插件的自定义样式表*/
 
 .changelog-type-Added {
     background-color: #599959;
