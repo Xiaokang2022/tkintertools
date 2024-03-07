@@ -1,42 +1,43 @@
 # mkdocs gh-deploy
 
 site_name: tkintertools # 站点名称
-site_description: Data Structures and Algorithms and Numerical Calculation Methods # 站点描述
 site_author: Xiaokang2022 # 站点作者
+site_description: Data Structures and Algorithms and Numerical Calculation Methods # 站点描述
 site_url: https://Xiaokang2022.github.io/tkintertools/ # 站点链接
-repo_name: Xiaokang2022/tkintertools # 仓库名称
-repo_url: https://github.com/Xiaokang2022/tkintertools # 仓库地址
 edit_uri: edit/master/docs/ # 编辑地址（页面会出现编辑按钮）
+repo_url: https://github.com/Xiaokang2022/tkintertools # 仓库地址
+repo_name: Xiaokang2022/tkintertools # 仓库名称
 copyright: Copyright &copy; 2024 Xiaokang2022 # 版权信息（会出现在左下角）
 remote_branch: gh-pages # GitHub Pages 分支名称（此处为默认值）
+
 strict: false # 严格模式
 
 markdown_extensions:
   # === 从这里开始到下面，是 pymdown-extensions 库的 markdown_extensions 配置 ===
   # 需求：pip install pymdown-extensions （不过一般应该都装了）
 
-  - pymdownx.caret # 允许文本高亮，即 ==Text==
-  - pymdownx.mark # 允许文本下划线，即 ^^Text^^
-  - pymdownx.tilde # 允许文本删除线，即 ~~Text~~
   - pymdownx.keys # 按键高亮，类似于行内代码那种，如 <kbd>Ctrl</kbd>，或者带图标的格式（强制小写）++ctrl++，也可组合 ++ctrl+s++（推荐第二种方式，第二种自带图标）
-  - pymdownx.smartsymbols # 允许上下标，如 x^2^（x²）
+  - pymdownx.mark # 允许文本下划线，即 ^^Text^^
+  - pymdownx.caret # 允许文本高亮，即 ==Text==
+  - pymdownx.tilde # 允许文本删除线，即 ~~Text~~
   - pymdownx.details # 允许提示框与文本左右布局，而非原来的上下布局，如 !!! note inline "Hint"（左），!!! note inline end（右）
-  - pymdownx.inlinehilite # 支持行内代码块高亮，如 `#!python range()`
   - pymdownx.snippets # 允许外联任何内容
-  - pymdownx.smartsymbols # 智能符号，如 (c) 就是 ©️
   - pymdownx.striphtml # 去除 HTML 中不需要的注释和 / 或标记属性，可减小 HTML 大小
+  - pymdownx.smartsymbols # 允许上下标，如 x^2^（x²）
+  - pymdownx.inlinehilite # 支持行内代码块高亮，如 `#!python range()`
+  - pymdownx.smartsymbols # 智能符号，如 (c) 就是 ©️
 
+  - pymdownx.b64 # 允许使用 base64 编码嵌入本地 PNG、JPEG 和 GIF 图像引用（pymdownx 支持，mkdocs 暂时不支持）
   - pymdownx.escapeall # 允许使用反斜杠（pymdownx 支持，mkdocs 貌似部分支持，不完全支持）
   - pymdownx.magiclink # 自动识别超链接（pymdownx 支持，mkdocs 暂时不支持）
-  - pymdownx.b64 # 允许使用 base64 编码嵌入本地 PNG、JPEG 和 GIF 图像引用（pymdownx 支持，mkdocs 暂时不支持）
   - pymdownx.progressbar # 允许进度条语法（pymdownx 支持，mkdocs 暂时不支持）
   - pymdownx.saneheaders # “#title” 也是标题，虽然中间没有空格（pymdownx 支持，mkdocs 暂时不支持）
 
+  - pymdownx.blocks.tab # 支持更高级的标签块写法（危：可能与 pymdownx.tabbed 冲突）
+  - pymdownx.blocks.html # 支持一些更高级的 md 内嵌 HTML 语法（pymdownx.blocks 默认开启）
+  - pymdownx.blocks.details # 支持更高级的提示框布局（危：可能与 pymdownx.details 冲突）
   - pymdownx.blocks.admonition # 支持更高级提示框语法（危：可能与 admonition 冲突）
   - pymdownx.blocks.definition # 支持更高级的定义块语法（危：可能与 def_list）
-  - pymdownx.blocks.details # 支持更高级的提示框布局（危：可能与 pymdownx.details 冲突）
-  - pymdownx.blocks.html # 支持一些更高级的 md 内嵌 HTML 语法（pymdownx.blocks 默认开启）
-  - pymdownx.blocks.tab # 支持更高级的标签块写法（危：可能与 pymdownx.tabbed 冲突）
 
   - pymdownx.arithmatex: # 允许数学表达式，即 $$y=x+1$$，或行内的 $x=1$
       generic: true
@@ -83,14 +84,14 @@ markdown_extensions:
 
   - meta # 允许元标记，页面源代码顶上那几行被横线保住的内容就是元标记，为了支持某些功能使用
   - abbr # 允许文本悬浮提示，就是 ToolTip，例如：*[Text]: 啊吧啊吧
-  - admonition # 允许各种各样的提示框，或代码框，样式见 https://mkdoc-material.llango.com/reference/admonitions/
-  - attr_list # 允许给 md 元素增加 HTML 和 CSS 属性，如一个按钮 [Subscribe to our mailing list](#){: .md-button }，甚至图标，详细见 https://mkdoc-material.llango.com/reference/buttons/
-  - def_list # 允许“定义列表”的语法，详细见 https://mkdoc-material.llango.com/reference/lists/
-  - md_in_html # 允许 md 内嵌在 HTML 中
   - tables # 允许用简单语法创建表格
-  - sane_lists # 理智列表，避免旧版 md 抽风（强烈推荐开启）
-  - wikilinks # 支持快捷链接语法，例如 [[a link]]，会变成 ./a_link/
   - smarty # 貌似是为了提高兼容性的，不太清楚
+  - def_list # 允许“定义列表”的语法，详细见 https://mkdoc-material.llango.com/reference/lists/
+  - attr_list # 允许给 md 元素增加 HTML 和 CSS 属性，如一个按钮 [Subscribe to our mailing list](#){: .md-button }，甚至图标，详细见 https://mkdoc-material.llango.com/reference/buttons/
+  - wikilinks # 支持快捷链接语法，例如 [[a link]]，会变成 ./a_link/
+  - admonition # 允许各种各样的提示框，或代码框，样式见 https://mkdoc-material.llango.com/reference/admonitions/
+  - md_in_html # 允许 md 内嵌在 HTML 中
+  - sane_lists # 理智列表，避免旧版 md 抽风（强烈推荐开启）
   # - nl2br # 换行符硬断裂，即文本不像旧版 md 那样，可以直接换行
   # - codehilite # 被 pymdownx 相关扩展取代了，不建议使用这个
   # - fenced_code # 被 pymdownx 相关扩展取代了，不建议使用这个
@@ -114,27 +115,27 @@ theme: # 主题设置
   language: zh # material 语言
   features:
     # - header.autohide # 顶栏自动隐藏
-    - announce.dismiss # 公告栏可以被关闭
+    - content.tooltips # 提示框（以前有的样式变好看了，此外还支持更高级的提示框语法）
+    - content.code.copy # 例如：``` python { .yaml .copy } 默认开启，{ .yaml .no-copy } 关闭
+    - content.code.annotate # 允许内联代码注释
+    - content.tabs.link # 同样的标签，整个网站的同步切换，如 C -> C++，则其它类似的全部标签都同步切换
     - content.action.edit # 允许页面被编辑（会出现编辑按钮）
     - content.action.view # 允许查看页面的源代码（会出现查看源代码按钮）
-    - content.code.annotate # 允许内联代码注释
-    - content.code.copy # 例如：``` python { .yaml .copy } 默认开启，{ .yaml .no-copy } 关闭
-    - content.tabs.link # 同样的标签，整个网站的同步切换，如 C -> C++，则其它类似的全部标签都同步切换
-    - content.tooltips # 提示框（以前有的样式变好看了，此外还支持更高级的提示框语法）
+    - announce.dismiss # 公告栏可以被关闭
     # - navigation.expand # 左侧边栏节点默认全部展开（与 navigation.prune 不兼容）
-    - navigation.indexes # 左侧边栏大节点是否可以被导向到 index.md
+    - navigation.tabs # 页面顶部导航栏
+    - navigation.prune # 左侧栏节点至多展开一个，以此来减小站点的构建大小（对于页数100+的网站很有用，但是！与 navigation.expand 不兼容）
     - navigation.footer # 页面底下换页的支持
+    - navigation.indexes # 左侧边栏大节点是否可以被导向到 index.md
     - navigation.instant # 页面不会重复加载（已加载页面不会再次加载）
     - navigation.instant.progress # 加载速度慢时，在页面顶部显示加载进度（400ms 以上加载时间才会显示它）
-    - navigation.prune # 左侧栏节点至多展开一个，以此来减小站点的构建大小（对于页数100+的网站很有用，但是！与 navigation.expand 不兼容）
-    - navigation.tabs # 页面顶部导航栏
     # - navigation.tabs.sticky # 导航栏标题栏位置固定
     # - navigation.sections # 左侧边栏节点是否保持展开
     - navigation.top # 回到顶部的按钮
     - navigation.tracking # 锚点跟踪
-    - search.highlight # 搜索栏内容高亮
     - search.share # 搜索栏分享按钮
     - search.suggest # 搜索栏内容建议
+    - search.highlight # 搜索栏内容高亮
     - toc.follow # 锚点关注，侧边栏自动滚动，使锚点总是可见
     # - toc.integrate # 右边侧栏是否集成到左侧边栏
   palette: # 界面整体样式
@@ -198,10 +199,7 @@ extra_javascript: # 额外 JS
 extra_css: # 额外 CSS
   - extra/css/extra.css # 加载自定义的样式
   - https://cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css # 访问统计转圈加载样式
-  - https://cdn.jsdelivr.net/npm/lxgw-wenkai-screen-webfont@1.1.0/style.css # 自定义字体（霞鹜文楷），下面三个也是，自选一个（和 extra.css 的对应即可）
-  # - https://cdn.jsdelivr.net/npm/lxgw-wenkai-webfont@1.1.0/style.css
-  # - https://cdn.jsdelivr.net/npm/lxgw-wenkai-lite-webfont@1.1.0/style.css
-  # - https://cdn.jsdelivr.net/npm/lxgw-wenkai-tc-webfont@1.0.0/style.css
+  - https://cdn.jsdelivr.net/npm/lxgw-wenkai-screen-webfont@1.1.0/style.css # 自定义字体（霞鹜文楷）
 
 plugins: # 插件
   - search: # 搜索插件（内置）
