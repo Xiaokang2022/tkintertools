@@ -1,16 +1,17 @@
-# mkdocs gh-deploy
-
 site_name: tkintertools # 站点名称
-site_author: Xiaokang2022 # 站点作者
-site_description: Data Structures and Algorithms and Numerical Calculation Methods # 站点描述
 site_url: https://Xiaokang2022.github.io/tkintertools/ # 站点链接
-edit_uri: edit/master/docs/ # 编辑地址（页面会出现编辑按钮）
 repo_url: https://github.com/Xiaokang2022/tkintertools # 仓库地址
 repo_name: Xiaokang2022/tkintertools # 仓库名称
+edit_uri: edit/master/docs/ # 编辑地址（页面会出现编辑按钮）
+site_description: Data Structures and Algorithms and Numerical Calculation Methods # 站点描述
+site_author: Xiaokang2022 # 站点作者
 copyright: Copyright &copy; 2024 Xiaokang2022 # 版权信息（会出现在左下角）
 remote_branch: gh-pages # GitHub Pages 分支名称（此处为默认值）
-
-strict: false # 严格模式
+remote_name: origin # 远程分支的名称（默认值）
+docs_dir: docs # 文档目录（默认值）
+site_dir: site # 网站目录（默认值）
+strict: false # 严格模式，不太懂（默认值）
+dev_addr: 127.0.0.1:8000 # 开发模式下的 IP 地址（默认值）
 
 markdown_extensions:
   # === 从这里开始到下面，是 pymdown-extensions 库的 markdown_extensions 配置 ===
@@ -123,8 +124,8 @@ theme: # 主题设置
     - content.action.view # 允许查看页面的源代码（会出现查看源代码按钮）
     - announce.dismiss # 公告栏可以被关闭
     # - navigation.expand # 左侧边栏节点默认全部展开（与 navigation.prune 不兼容）
+    # - navigation.prune # 左侧栏节点至多展开一个，以此来减小站点的构建大小（对于页数100+的网站很有用，但是！与 navigation.expand 不兼容）
     - navigation.tabs # 页面顶部导航栏
-    - navigation.prune # 左侧栏节点至多展开一个，以此来减小站点的构建大小（对于页数100+的网站很有用，但是！与 navigation.expand 不兼容）
     - navigation.footer # 页面底下换页的支持
     - navigation.indexes # 左侧边栏大节点是否可以被导向到 index.md
     - navigation.instant # 页面不会重复加载（已加载页面不会再次加载）
@@ -146,7 +147,7 @@ theme: # 主题设置
     - media: "(prefers-color-scheme: light)" # 亮色主题
       scheme: default
       # primary: grey # 标题栏颜色（建议自定义 CSS 调整，因为 footer 不会被此参数影响！）
-      accent: pink # 链接高亮颜色
+      accent: purple # 链接高亮颜色
       toggle:
         icon: material/weather-sunny
         name: 切换至暗黑主题
