@@ -1,8 +1,8 @@
 :root {
-    --md-text-font: "LXGW WenKai Screen";
     /*文本字体*/
-    --md-code-font: "Consolas";
+    --md-text-font: "LXGW WenKai Screen";
     /*代码字体*/
+    --md-code-font: "Consolas";
 }
 
 [data-md-color-scheme="default"] {
@@ -11,13 +11,19 @@
     --md-default-fg-color--light: #333;
     --md-primary-fg-color: #efefef;
     --md-primary-bg-color: #1f1f1f;
-    --md-typeset-a-color: rgb(0, 128, 0);
+    --md-typeset-a-color: #007800;
     --md-footer-fg-color: #222;
     --md-footer-bg-color: #efefef;
     --md-footer-bg-color--dark: #efefef;
     --md-footer-fg-color--light: #222;
     --md-footer-fg-color--lighter: #222;
+    --md-code-hl-comment-color: #999;
 }
+
+/*
+0 1 2 3 4 5 6 7 8 9 A B C D E F
+F E D C B A 9 8 7 6 5 4 3 2 1 0
+*/
 
 [data-md-color-scheme="slate"] {
     /*暗色样式*/
@@ -29,6 +35,7 @@
     --md-footer-bg-color--dark: #0d0d0d;
     --md-footer-fg-color--light: #ccc;
     --md-footer-fg-color--lighter: #ccc;
+    --md-code-hl-comment-color: #777;
 }
 
 @keyframes heart {
@@ -50,8 +57,6 @@
 .heart {
     animation: heart 1000ms infinite;
 }
-
-/*下面是 changelog 插件的自定义样式表*/
 
 .changelog-type-Added {
     background-color: #599959;

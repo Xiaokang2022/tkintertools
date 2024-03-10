@@ -47,7 +47,7 @@ statistics: True
 -   Release - 发布日期 : 2024/01/01
 -   Feature - 更新内容 : [News-2.6.21](./news/2.6.21/News.md)
 
-```
+```sh linenums="0"
 pip install tkintertools
 ```
 
@@ -57,7 +57,7 @@ pip install tkintertools
 -   Release - 发布日期 :
 -   Feature - 更新内容 : [News-3.0.0(pre)](./news/3.0.0/News.md)
 
-```
+```sh linenums="0"
 
 ```
 
@@ -69,15 +69,39 @@ pip install tkintertools
 
 ## More - 更多
 
-!!! info inline end "本站统计"
+<div class="grid cards" markdown>
+
+-   [📗 **Navigation - 网站导航**](./navigation.md)
+
+    ***
+
+    对于本站的一个基本概览
+
+-   [📘 **License - 项目许可证**](./more/LICENSE.md)
+
+    ***
+
+    木兰宽松许可证, 第 2 版
+
+-   [📑 **ChangeLog - 更新日志**](./more/CHANGELOG.md)
+
+    ***
+
+    所有的更新记录
+
+-   [📕 **Contribution Guide - 贡献指南**](./more/CONTRIBUTING.md)
+
+    ***
+
+    在贡献之前先看看这个
+
+</div>
+
+!!! info "本站统计"
 
     - 总页面：{{ pages }}
     - 总字（词）数：{{ words }}
     - 总代码行数：{{ codes }}
     - 总访问量：<span id="busuanzi_value_site_pv"><i class="fa fa-spinner fa-spin"></i></span>
 
--   Navigation - 网站导航: [](./navigation.md)
--   License - 项目许可证: [LICENSE.md](./more/LICENSE.md)
--   ChangeLog - 更新日志: [CHANGELOG.md](./more/CHANGELOG.md)
--   Contribution Guide - 贡献指南: [CONTRIBUTING.md](./more/CONTRIBUTING.md)
--   Mirrors - 镜像源: [GitHub](https://github.com/Xiaokang2022/tkintertools) | [Gitee](https://gitee.com/xiaokang-2022/tkintertools) | [GitCode](https://gitcode.com/Xiaokang2022/tkintertools/overview)
+Mirrors - 镜像源: [GitHub](https://github.com/Xiaokang2022/tkintertools) | [Gitee](https://gitee.com/xiaokang-2022/tkintertools)

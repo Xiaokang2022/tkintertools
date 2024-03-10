@@ -5,13 +5,15 @@ comments: true
 # Release Notes - 版本发布说明
 
 !!! info "Note - 说明"
-    This section is still in development...  
+
+    This section is still in development...
+
     此部分仍在开发中...
 
 ## Framework - 框架
 
-- Version - 最新版本 : `3.0.0.alpha3`
-- Last Update - 上次更新 : 2024/02/20
+-   Version - 最新版本 : `3.0.0.alpha3`
+-   Last Update - 上次更新 : 2024/02/20
 
 Fixed a few bugs and added a lot of content to the framework  
 修复些许 bug，框架内增加大量内容
@@ -36,7 +38,7 @@ The designer is in development mode
 You can start using the command below  
 你可以使用下面的命令启动
 
-```bash
+```sh linenums="0"
 python -m tkintertools [options]
 ```
 
