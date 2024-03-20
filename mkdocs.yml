@@ -322,3 +322,6 @@ nav: # 导航栏
       - Contribution Guide - 贡献指南: more/CONTRIBUTING.md
       - Change Log - 更新日志: more/CHANGELOG.md
       - License - 项目许可证: more/LICENSE.md
+
+  - Projects / 项目:
+      - Overview - 项目概览: projects/index.md
