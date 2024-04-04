@@ -69,4 +69,4 @@ More - 更多
 * License - 项目许可证: [LICENSE.txt](LICENSE.txt)
 * ChangeLog - 更新日志: [CHANGELOG.md](CHANGELOG.md)
 * Contribution Guide - 贡献指南: [CONTRIBUTING.md](CONTRIBUTING.md)
-* Mirrors - 镜像源: [GitHub](https://github.com/Xiaokang2022/tkintertools) | [Gitee](https://gitee.com/xiaokang-2022/tkintertools) | [GitCode](https://gitcode.com/Xiaokang2022/tkintertools/overview)
+* Mirrors - 镜像源: [GitHub](https://github.com/Xiaokang2022/tkintertools) | [Gitee](https://gitee.com/xiaokang-2022/tkintertools)

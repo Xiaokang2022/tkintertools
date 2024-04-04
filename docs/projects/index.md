@@ -14,6 +14,7 @@ Here are some examples of projects developed with `tkintertools`.
 * OS - 操作系统: Windows
 * tkintertools: 2.6.21.1
 * url - 网址链接: https://xiaokang2022.blog.csdn.net/article/details/136768000
+* GitHub - 仓库: https://github.com/Xiaokang2022/Intelligent-Magic-Cube
 
 ![png](./images/Magic%20Cube.png)
 
@@ -24,6 +25,7 @@ Here are some examples of projects developed with `tkintertools`.
 * OS - 操作系统: Windows
 * tkintertools: 2.6.21.1
 * url - 网址链接: ?
+* GitHub - 仓库: ?
 
 ![png](./images/Super%20Gobang.png)
 
@@ -34,6 +36,7 @@ Here are some examples of projects developed with `tkintertools`.
 * OS - 操作系统: Windows
 * tkintertools: 3.0.0.alpha3
 * url - 网址链接: [News/3.0.0](../news/3.0.0/News.md)
+* GitHub - 仓库: https://github.com/Xiaokang2022/tkintertools
 
 ![png](../news/3.0.0/example_1.png)
 
@@ -53,6 +56,7 @@ Here are some examples of projects developed with `tkintertools`.
 * OS - 操作系统: Windows
 * tkintertools: 2.5.9.5
 * url - 网址链接: https://xiaokang2022.blog.csdn.net/article/details/128852029
+* GitHub - 仓库: https://github.com/Xiaokang2022/Chess
 
 ![png](./images/Chinese%20Chess.png)
 
@@ -63,6 +67,7 @@ Here are some examples of projects developed with `tkintertools`.
 * OS - 操作系统: Windows
 * tkintertools: 2.5.9
 * url - 网址链接: https://xiaokang2022.blog.csdn.net/article/details/128561339
+* GitHub - 仓库: https://github.com/Xiaokang2022/TodoList
 
 ![png](./images/Todo%20List.png)
 
@@ -73,5 +78,6 @@ Here are some examples of projects developed with `tkintertools`.
 * OS - 操作系统: Windows
 * tkintertools: 2.5.11.3
 * url - 网址链接: ?
+* GitHub - 仓库: ?
 
 ![png](./images/Questioner.png)
