@@ -1,0 +1,21 @@
+{
+    "Text": {
+        "normal": {
+            "text": {
+                "fill": "#1A1A1A",
+                "underline": false
+            }
+        },
+        "hover": {
+            "text": {
+                "fill": "blue",
+                "underline": true
+            }
+        },
+        "click": {
+            "text": {
+                "fill": "purple"
+            }
+        }
+    }
+}

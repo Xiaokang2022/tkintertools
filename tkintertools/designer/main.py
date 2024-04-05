@@ -1,9 +1,14 @@
 """Main codes of tkt-designer"""
 
+import pathlib
 import tkinter
 from tkinter import messagebox, simpledialog
 
-from .. import core, shapes, widgets
+from .. import constants, core, theme
+from ..extra import widgets_ex
+from ..stdandard import shapes, widgets
+
+theme_folder = pathlib.Path(__file__).parent
 
 
 class InfoToplevel(core.Dialog):
@@ -15,30 +20,21 @@ class MenuBar(core.Canvas):
 
     def build(self) -> None:
         """"""
-        bg = "black" if self.master._theme["dark"] else "white"
-        fg = "white" if self.master._theme["dark"] else "black"
-        self.configure(height=42, bg=bg, highlightthickness=0)
+        self.configure(
+            height=42, bg="black" if self.master._theme["dark"] else "white", highlightthickness=0)
         self.pack(fill="x", side="top")
-        menu_button = [
-            widgets.Button(self, (5, 5), (75, 30), text="File"),
-            widgets.Button(self, (85, 5), (75, 30), text="Edit"),
-            widgets.Button(self, (165, 5), (75, 30), text="View"),
-            widgets.Button(self, (245, 5), (75, 30), text="Set"),
-            widgets.Button(self, (325, 5), (75, 30), text="Help",
-                           command=lambda: InfoToplevel(Application.root, transient=True).center()),
-        ]
-        for button in menu_button:
-            button.text.configure(size=20)
-            button.text.set_style(normal=fg, hover=fg, click=fg)
-            if self.master._theme["dark"]:
-                button.shape.set_style(normal=(bg, bg), hover=(
-                    "#333", "#333"), click=("#333", "#777"))
-                self.create_line(-5, 41, 2565, 41, fill="#333")
-            else:
-                button.shape.set_style(normal=(bg, bg), hover=(
-                    "#CCC", "#CCC"), click=("#CCC", "#888"))
-                self.create_line(-5, 45, 2565, 45, fill="#CCC")
-            button.update()
+
+        widgets.Button(self, (5, 5), (75, 30), text="File", fontsize=20,
+                       styles=theme.get("MenuButton", theme_folder)),
+        widgets.Button(self, (85, 5), (75, 30), text="Edit", fontsize=20,
+                       styles=theme.get("MenuButton", theme_folder)),
+        widgets.Button(self, (165, 5), (75, 30), text="View", fontsize=20,
+                       styles=theme.get("MenuButton", theme_folder)),
+        widgets.Button(self, (245, 5), (75, 30), text="Set", fontsize=20,
+                       styles=theme.get("MenuButton", theme_folder)),
+        widgets.Button(self, (325, 5), (75, 30), text="Help", fontsize=20,
+                       styles=theme.get("MenuButton", theme_folder),
+                       command=lambda: InfoToplevel(Application.root, transient=True).center()),
 
 
 class Work(core.Canvas):
@@ -60,25 +56,17 @@ class StateBar(core.Canvas):
 
     def build(self) -> None:
         """"""
-        bg = "black" if self.master._theme["dark"] else "white"
-        self.configure(height=30, bg=bg, highlightthickness=0)
+        self.configure(
+            height=30, bg="black" if self.master._theme["dark"] else "white", highlightthickness=0)
         self.pack(fill="x", side="bottom")
-        state = widgets.Information(
-            self, (5, 0), (80, 30), text="State: OK", shape=shapes.NoShape())
-        state.text.configure(size=16)
-        fg = "white" if self.master._theme["dark"] else "black"
-        state.text.set_style(normal=fg, hover=fg, click=fg)
-        state.update()
-        if self.master._theme["dark"]:
-            self.create_line(-5, 0, 2565, 0, fill="#333")
-        else:
-            self.create_line(-5, 0, 2565, 0, fill="#CCC")
+        self.create_text(5, 15, text="State: OK", font=(
+            constants.FONT, 20), anchor="w", fill="white" if self.master._theme["dark"] else "black")
 
 
 class Application:
     """"""
 
-    root = core.Tk((1600, 900), title=f"Designer")
+    root = core.Tk((1600, 900), title=f"tkintertools")
     root.minsize(800, 600)
     root.center()
 

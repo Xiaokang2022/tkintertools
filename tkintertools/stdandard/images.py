@@ -4,7 +4,7 @@ import fractions
 import tkinter
 import typing
 
-from . import core
+from .. import core
 
 try:
     from PIL import Image, ImageTk
@@ -16,8 +16,8 @@ except ImportError:
 class NoImage(core.Image):
     """"""
 
-    def __init__(self) -> None:
-        return core.Image.__init__(self)
+    def display(self) -> None:
+        pass
 
 
 class StillImage(core.Image):

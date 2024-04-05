@@ -1,0 +1,28 @@
+{
+    "Shape": {
+        "normal": {
+            "all": {
+                "fill": "#1F1F1F",
+                "outline": "#1F1F1F"
+            }
+        },
+        "hover": {
+            "all": {
+                "fill": "#353535",
+                "outline": "#353535"
+            }
+        }
+    },
+    "Text": {
+        "normal": {
+            "text": {
+                "fill": "#F1F1F1"
+            }
+        },
+        "hover": {
+            "text": {
+                "fill": "#F1F1F1"
+            }
+        }
+    }
+}

@@ -1,0 +1,54 @@
+{
+    "Shape": {
+        "normal": {
+            "in": {
+                "fill": "black"
+            },
+            "out_line": {
+                "fill": "black"
+            },
+            "out_arc": {
+                "outline": "black"
+            }
+        },
+        "hover": {
+            "in": {
+                "fill": "#333"
+            },
+            "out_line": {
+                "fill": "#333"
+            },
+            "out_arc": {
+                "outline": "#333"
+            }
+        },
+        "click": {
+            "in": {
+                "fill": "#333"
+            },
+            "out_line": {
+                "fill": "#777"
+            },
+            "out_arc": {
+                "outline": "#777"
+            }
+        }
+    },
+    "Text": {
+        "normal": {
+            "text": {
+                "fill": "#F1F1F1"
+            }
+        },
+        "hover": {
+            "text": {
+                "fill": "#F1F1F1"
+            }
+        },
+        "click": {
+            "text": {
+                "fill": "#F1F1F1"
+            }
+        }
+    }
+}

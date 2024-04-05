@@ -3,11 +3,6 @@
 import math
 import platform
 
-# System constants
-
-SYSTEM = platform.system()
-"""Operating System"""
-
 # Color constants
 
 COLOR_FILL_BUTTON = "#E1E1E1", "#E5F1FB", "#CCE4F7", "#E0E0E0"
@@ -78,7 +73,7 @@ BORDERWIDTH = 1
 CURSOR = "│"
 """text cursor"""
 
-FONT = "Microsoft YaHei" if SYSTEM == "Windows" else "Arial"
+FONT = "Microsoft YaHei" if platform.system() == "Windows" else "Arial"
 """Default font"""
 
 SIZE = -24
@@ -87,8 +82,10 @@ SIZE = -24
 LIMIT = -1
 """Default widget text length limit"""
 
-RADIUS = 0 if SYSTEM == "Windows" and int(
-    platform.version()[-5:]) < 22000 else 5
+IS_WIN10 = platform.system() == "Windows" and int(
+    platform.version()[-5:]) < 22000
+
+RADIUS = 0 if IS_WIN10 else 5
 """Default widget fillet radius"""
 
 FPS = 60

@@ -1,9 +1,9 @@
-"""Support about color"""
+"""Support for color"""
 
 import tkinter
 import typing
 
-from . import _tools, constants, exceptions
+from .. import _tools, constants, exceptions
 
 
 @typing.overload

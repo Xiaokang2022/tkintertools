@@ -1,0 +1,39 @@
+{
+    "Shape": {
+        "normal": {
+            "all": {
+                "fill": "#333333",
+                "outline": "#333333"
+            }
+        },
+        "hover": {
+            "all": {
+                "fill": "#333333",
+                "outline": "#858585"
+            }
+        },
+        "click": {
+            "all": {
+                "fill": "#666666",
+                "outline": "#666666"
+            }
+        }
+    },
+    "Text": {
+        "normal": {
+            "text": {
+                "fill": "#F1F1F1"
+            }
+        },
+        "hover": {
+            "text": {
+                "fill": "#F1F1F1"
+            }
+        },
+        "click": {
+            "text": {
+                "fill": "#F1F1F1"
+            }
+        }
+    }
+}

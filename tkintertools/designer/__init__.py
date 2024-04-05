@@ -14,9 +14,6 @@ import sys
 
 from . import main
 
-__author__ = "Xiaokang2022 <2951256653@qq.com>"
-__version__ = "0.0.2"
-
 
 def run(**kw) -> None:
     """Start tkt designer"""

@@ -1,0 +1,21 @@
+{
+    "Text": {
+        "normal": {
+            "text": {
+                "fill": "#F1F1F1",
+                "underline": false
+            }
+        },
+        "hover": {
+            "text": {
+                "fill": "royalblue",
+                "underline": true
+            }
+        },
+        "click": {
+            "text": {
+                "fill": "purple"
+            }
+        }
+    }
+}

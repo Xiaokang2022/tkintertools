@@ -2,11 +2,12 @@
 
 import array
 import math
+import platform
 import statistics
 import tkinter
 import typing
 
-from . import constants, core, exceptions
+from .. import constants, core, exceptions
 
 
 class Canvas3D(core.Canvas):
@@ -84,7 +85,7 @@ class Space(Canvas3D):
         self.bind("<Button-1>", lambda event: self._rotate(event, True))
         self.bind("<ButtonRelease-1>",
                   lambda event: self._rotate(event, False))
-        if constants.SYSTEM == "Linux":  # 兼容 Linux 系统
+        if platform.system() == "Linux":  # 兼容 Linux 系统
             self.bind("<Button-4>", lambda event: self._scale(event, True))
             self.bind("<Button-5>", lambda event: self._scale(event, False))
         else:
@@ -316,7 +317,7 @@ class _Object3D:
         """
         lst = [project(point, distance) for point in self.coordinates]
         if canvas is not None:
-            lst = [(pos[0] + canvas._size[0]/2, canvas._size[1]/2 - pos[1])
+            lst = [(pos[0] + canvas._initial_size[0]/2, canvas._initial_size[1]/2 - pos[1])
                    for pos in lst]
         return lst
 

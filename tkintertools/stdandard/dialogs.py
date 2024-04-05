@@ -3,7 +3,7 @@
 import tkinter
 import typing
 
-from . import core
+from .. import core
 
 
 class Message(core.Dialog):
