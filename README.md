@@ -9,40 +9,18 @@
 </p>
 
 <p align="center">
-<a href=".">
-<img alt="Version" src="https://img.shields.io/pypi/v/tkintertools?label=Version"/>
-</a>
-<a href="./more/LICENSE">
-<img alt="License" src="https://img.shields.io/pypi/l/tkintertools?label=License"/>
-</a>
-<a href="https://pypistats.org/packages/tkintertools">
-<img alt="Downloads" src="https://img.shields.io/pypi/dm/tkintertools?label=Downloads&logo=pypi"/>
-</a>
-<a href="https://pepy.tech/project/tkintertools">
-<img alt="Total Downloads" src="https://static.pepy.tech/badge/tkintertools"/>
-</a>
+<a href="."><img alt="Version" src="https://img.shields.io/pypi/v/tkintertools?label=Version" title="当前最新稳定版" /></a>
+<a href="./more/LICENSE"><img alt="License" src="https://img.shields.io/pypi/l/tkintertools?label=License" title="木兰宽松许可证" /></a>
+<a href="https://pypistats.org/packages/tkintertools"><img alt="Downloads" src="https://img.shields.io/pypi/dm/tkintertools?label=Downloads&logo=pypi" title="月度累计下载量" /></a>
+<a href="https://pepy.tech/project/tkintertools"><img alt="Total Downloads" src="https://static.pepy.tech/badge/tkintertools" title="总下载量" /></a>
 <br/>
-<a href="https://github.com/Xiaokang2022/tkintertools/watchers">
-<img alt="Watchs" src="https://img.shields.io/github/watchers/Xiaokang2022/tkintertools?label=Watchs&logo=github&style=flat"/>
-</a>
-<a href="https://github.com/Xiaokang2022/tkintertools/forks">
-<img alt="Forks" src="https://img.shields.io/github/forks/Xiaokang2022/tkintertools?label=Forks&logo=github&style=flat"/>
-</a>
-<a href="https://github.com/Xiaokang2022/tkintertools/stargazers">
-<img alt="Stars" src="https://img.shields.io/github/stars/Xiaokang2022/tkintertools?label=Stars&color=gold&logo=github&style=flat"/>
-</a>
-<a href="https://github.com/Xiaokang2022/tkintertools/graphs/contributors">
-<img alt="Contributors" src="https://img.shields.io/github/contributors/Xiaokang2022/tkintertools?label=Contributors&logo=github"/>
-</a>
-<a href="https://github.com/Xiaokang2022/tkintertools/issues">
-<img alt="Issues" src="https://img.shields.io/github/issues/Xiaokang2022/tkintertools?label=Issues&logo=github"/>
-</a>
-<a href="https://github.com/Xiaokang2022/tkintertools/pulls">
-<img alt="PRs" src="https://img.shields.io/github/issues-pr/Xiaokang2022/tkintertools?label=PRs&logo=github"/>
-</a>
-<a href="https://github.com/Xiaokang2022/tkintertools">
-<img alt="Size" src="https://img.shields.io/github/languages/code-size/Xiaokang2022/tkintertools?label=Size&logo=github"/>
-</a>
+<a href="https://github.com/Xiaokang2022/tkintertools/watchers"><img alt="Watchs" src="https://img.shields.io/github/watchers/Xiaokang2022/tkintertools?label=Watchs&logo=github&style=flat" title="关注者人数" /></a>
+<a href="https://github.com/Xiaokang2022/tkintertools/forks"><img alt="Forks" src="https://img.shields.io/github/forks/Xiaokang2022/tkintertools?label=Forks&logo=github&style=flat" title="拉分支总数" /></a>
+<a href="https://github.com/Xiaokang2022/tkintertools/stargazers"><img alt="Stars" src="https://img.shields.io/github/stars/Xiaokang2022/tkintertools?label=Stars&color=gold&logo=github&style=flat" title="获赞总数" /></a>
+<a href="https://github.com/Xiaokang2022/tkintertools/graphs/contributors"><img alt="Contributors" src="https://img.shields.io/github/contributors/Xiaokang2022/tkintertools?label=Contributors&logo=github" title="贡献者人数" /></a>
+<a href="https://github.com/Xiaokang2022/tkintertools/issues"><img alt="Issues" src="https://img.shields.io/github/issues/Xiaokang2022/tkintertools?label=Issues&logo=github" title="开放问题总数" /></a>
+<a href="https://github.com/Xiaokang2022/tkintertools/pulls"><img alt="PRs" src="https://img.shields.io/github/issues-pr/Xiaokang2022/tkintertools?label=PRs&logo=github" title="开放拉取请求总数" /></a>
+<a href="https://github.com/Xiaokang2022/tkintertools"><img alt="Size" src="https://img.shields.io/github/languages/code-size/Xiaokang2022/tkintertools?label=Size&logo=github" title="项目源代码大小" /></a>
 </p>
 
 <p align="center">
@@ -72,6 +50,8 @@ Install - 模块安装
 pip install tkintertools
 ```
 
+[![Stable Version](./docs/tutorials/images/1.2-2.1-2.png)](https://xiaokang2022.github.io/tkintertools/tutorials/1-2/#21-%E9%AB%98%E5%BA%A6%E5%8F%AF%E9%85%8D%E7%BD%AE%E7%9A%84%E6%8E%A7%E4%BB%B6)
+
 ### Pre Release - 预发布版本
 
 * Version - 最新版本 : `3.0.0.alpha4`
@@ -81,6 +61,8 @@ pip install tkintertools
 ```
 
 ```
+
+[![Pre Version](./docs/news/3.0.0/light.png)](https://xiaokang2022.github.io/tkintertools/news/3.0.0/News/#base-test---%E5%9F%BA%E7%A1%80%E6%B5%8B%E8%AF%95)
 
 > [!Note]  
 > It is not recommended that you use the pre-release version directly for formal development, but it is recommended that you use the pre-release version to experience the new features and to report certain issues that you find.  

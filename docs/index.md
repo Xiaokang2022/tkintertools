@@ -137,7 +137,7 @@ pip install tkintertools
 ---
 
 <div align="center">
-<p><bug>贡献者列表</big></p>
+<p><big>贡献者列表</big></p>
 
 <img src="https://contrib.rocks/image?repo=Xiaokang2022/tkintertools" alt="contributors" />
 
