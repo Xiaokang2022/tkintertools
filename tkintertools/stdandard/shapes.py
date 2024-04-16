@@ -17,7 +17,7 @@ class Rectangle(core.Shape):
 
     def display(self) -> None:
         self.items = [self.widget.master.create_rectangle(
-            *self.region(), width=2, tags="all")]
+            *self.region(), tags="all")]
 
 
 class Oval(core.Shape):
@@ -33,27 +33,29 @@ class RegularPolygon(core.Shape):
 
     def __init__(
         self,
+        widget: core.Widget,
         *,
-        styles: core.Style | None = None,
+        delta: tuple[float, float, float, float] | None = None,
+        styles: dict[core.State, core.Style] | None = None,
         side: int = 3,
         angle: float = 0,
     ) -> None:
-        core.Shape.__init__(self, styles=styles)
         self.side = side
         self.angle = angle
+        return core.Shape.__init__(self, widget, delta=delta, styles=styles)
 
     def display(self) -> None:
+        x, y, r = self.x, self.y, min(self.width, self.height) / 2
         if self.side < 3 or self.widget.size // 2 < 1:
             raise ValueError
         points = []
         for i in range(self.side):
             angle = math.tau*i/self.side+self.angle
-            points.append(
-                math.cos(angle)*self.radius+self.widget.position[0]+self.widget.position[0]/2)
-            points.append(
-                math.sin(angle)*self.radius+self.widget.position[1]+self.widget.position[1]/2)
+            points.append(math.cos(angle)*r + x + y/2)
+            points.append(math.sin(angle)*r + y + x/2)
 
-        self.items = [self.widget.master.create_polygon(*points, tags="all")]
+        self.items = [self.widget.master.create_polygon(
+            *points, tags="all")]
 
 
 class RoundedRectangle(core.Shape):
@@ -61,16 +63,18 @@ class RoundedRectangle(core.Shape):
 
     def __init__(
         self,
+        widget: core.Widget,
         *,
-        styles: core.Style | None = None,
+        delta: tuple[float, float, float, float] | None = None,
+        styles: dict[core.State, core.Style] | None = None,
         radius: int = 5,
     ) -> None:
-        core.Shape.__init__(self, styles=styles)
         self.radius = radius
+        return core.Shape.__init__(self, widget, delta=delta, styles=styles)
 
     def display(self) -> None:
         """"""
-        x, y, w, h = *self.widget.position, *self.widget.size
+        x, y, w, h = self.x, self.y, self.width, self.height
         x1, y1, x2, y2 = x, y, x + w, y + h
         r, d = self.radius, self.radius*2
 
@@ -97,21 +101,21 @@ class RoundedRectangle(core.Shape):
             self.widget.master.create_rectangle(
                 x1, y1+r, x2, y2-r, outline="", tags="in"),
             self.widget.master.create_line(
-                x1+r, y1, x2-r, y1, width=2, tags="out_line"),
+                x1+r, y1, x2-r, y1, tags="out_line"),
             self.widget.master.create_line(
-                x1+r, y2, x2-r, y2, width=2, tags="out_line"),
+                x1+r, y2, x2-r, y2, tags="out_line"),
             self.widget.master.create_line(
-                x1, y1+r, x1, y2-r, width=2, tags="out_line"),
+                x1, y1+r, x1, y2-r, tags="out_line"),
             self.widget.master.create_line(
-                x2, y1+r, x2, y2-r, width=2, tags="out_line"),
+                x2, y1+r, x2, y2-r, tags="out_line"),
             self.widget.master.create_arc(
-                x1, y1, x1+d, y1+d, width=2, style="arc", start=90, tags="out_arc"),
+                x1, y1, x1+d, y1+d, style="arc", start=90, tags="out_arc"),
             self.widget.master.create_arc(
-                x2-d, y1, x2, y1+d, width=2, style="arc", start=0, tags="out_arc"),
+                x2-d, y1, x2, y1+d, style="arc", start=0, tags="out_arc"),
             self.widget.master.create_arc(
-                x1, y2-d, x1+d, y2, width=2, style="arc", start=180, tags="out_arc"),
+                x1, y2-d, x1+d, y2, style="arc", start=180, tags="out_arc"),
             self.widget.master.create_arc(
-                x2-d, y2-d, x2, y2, width=2, style="arc", start=-90, tags="out_arc"),
+                x2-d, y2-d, x2, y2, style="arc", start=-90, tags="out_arc"),
         ]
 
 
@@ -120,9 +124,9 @@ class SemicircularRectangle(core.Shape):
 
     def display(self) -> None:
         """"""
-        x, y, w, h = *self.widget.position, *self.widget.size
+        x, y, w, h = self.x, self.y, self.width, self.height
         x1, y1, x2, y2 = x, y, x + w, y + h
-        d = w - h
+        d = h
         r = d/2
 
         if d < 0:
@@ -141,10 +145,10 @@ class SemicircularRectangle(core.Shape):
                 x1, y1, x1+d, y1+d, style="arc", extent=180, start=90, tags="out_arc"),
             self.widget.master.create_arc(
                 x2-d, y2-d, x2, y2, style="arc", extent=180, start=-90, tags="out_arc"),
-            self.widget.master.create_rectangle(
-                x1+r, y1, x2-r, y2, tags="out"),
-            self.widget.master.create_rectangle(
-                x1+r, y2, x2-r, y2, tags="out"),
+            self.widget.master.create_line(
+                x1+r, y1, x2-r, y1, tags="out_line"),
+            self.widget.master.create_line(
+                x1+r, y2, x2-r, y2, tags="out_line"),
         ]
 
 
@@ -153,22 +157,24 @@ class SharpRectangle(core.Shape):
 
     def __init__(
         self,
+        widget: core.Widget,
         *,
-        styles: core.Style | None = None,
+        delta: tuple[float, float, float, float] | None = None,
+        styles: dict[core.State, core.Style] | None = None,
         theta: float = math.pi/6,
         ratio: tuple[float, float] = (0.5, 0.5),
     ) -> None:
-        core.Shape.__init__(self, styles=styles)
         self.theta = theta
         self.ratio = ratio
         if not 0 <= theta <= math.pi/3:
             raise ValueError
         if math.isclose(abs(self.ratio[0] - self.ratio[1]), 1):
             _tools.info("Parallelogram")
+        return core.Shape.__init__(self, widget, delta=delta, styles=styles)
 
     def display(self) -> None:
         """"""
-        x, y, w, h = *self.widget.position, *self.widget.size
+        x, y, w, h = self.x, self.y, self.width, self.height
 
         if w < h:
             raise ValueError
@@ -190,7 +196,8 @@ class SharpRectangle(core.Shape):
             x1+dx[0], y2
         ]
 
-        self.items = [self.widget.master.create_polygon(*points, tags="all")]
+        self.items = [self.widget.master.create_polygon(
+            *points, tags="all")]
 
 
 class Parallelogram(core.Shape):
@@ -198,18 +205,20 @@ class Parallelogram(core.Shape):
 
     def __init__(
         self,
+        widget: core.Widget,
         *,
-        styles: core.Style | None = None,
+        delta: tuple[float, float, float, float] | None = None,
+        styles: dict[core.State, core.Style] | None = None,
         theta: float = math.pi/6,
     ) -> None:
-        core.Shape.__init__(self, styles=styles)
         self.theta = theta
         if not 0 <= theta <= math.pi/3:
             raise ValueError
+        return core.Shape.__init__(self, widget, delta=delta, styles=styles)
 
     def display(self) -> None:
         """"""
-        x, y, w, h = *self.widget.position, *self.widget.size
+        x, y, w, h = self.x, self.y, self.width, self.height
 
         if (dx := h*math.tan(self.theta)) >= w:
             raise RuntimeError
@@ -223,16 +232,5 @@ class Parallelogram(core.Shape):
             x1, y2
         ]
 
-        self.items = [self.widget.master.create_polygon(*points, tags="all")]
-
-
-__all__ = [
-    "NoShape",
-    "Rectangle",
-    "Oval",
-    "RegularPolygon",
-    "RoundedRectangle",
-    "SemicircularRectangle",
-    "SharpRectangle",
-    "Parallelogram",
-]
+        self.items = [self.widget.master.create_polygon(
+            *points, tags="all")]

@@ -699,20 +699,3 @@ class Tetrahedron(Geometry):
             Side(canvas, point_2, point_3, point_4, width=boardwidth,
                  fill=color_fill[3], outline=color_outline[0]),
         ]
-
-
-__all__ = [
-    "Canvas3D",
-    "Space",
-    "translate",
-    "rotate",
-    "scale",
-    "project",
-    "Point",
-    "Line",
-    "Side",
-    "Text3D",
-    "Geometry",
-    "Cuboid",
-    "Tetrahedron",
-]

@@ -1,0 +1,35 @@
+{
+    "normal": {
+        "in": {
+            "fill": "#373737"
+        },
+        "out_line": {
+            "fill": "#3D3D3D"
+        },
+        "out_arc": {
+            "outline": "#3D3D3D"
+        }
+    },
+    "hover": {
+        "in": {
+            "fill": "#3C3C3C"
+        },
+        "out_line": {
+            "fill": "#3D3D3D"
+        },
+        "out_arc": {
+            "outline": "#3D3D3D"
+        }
+    },
+    "click": {
+        "in": {
+            "fill": "#323232"
+        },
+        "out_line": {
+            "fill": "#3D3D3D"
+        },
+        "out_arc": {
+            "outline": "#3D3D3D"
+        }
+    }
+}

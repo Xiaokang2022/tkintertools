@@ -87,3 +87,12 @@ def str_to_hex(__color: str, /, *, reverse: bool = False, add: int = 0) -> int:
         add <<= 8
         add += i
     return add
+
+
+def rgb_to_hex(r: int, g: int, b: int) -> int:
+    """Convert r, g, b to RGB"""
+    r <<= 8
+    r += g
+    r <<= 8
+    r += b
+    return r

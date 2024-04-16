@@ -1,0 +1,20 @@
+{
+    "normal": {
+        "text": {
+            "fill": "grey",
+            "size": 24
+        }
+    },
+    "hover": {
+        "text": {
+            "fill": "#1F1F1F",
+            "size": 28
+        }
+    },
+    "click": {
+        "text": {
+            "fill": "black",
+            "size": 26
+        }
+    }
+}

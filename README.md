@@ -54,8 +54,8 @@ pip install tkintertools
 
 ### Pre Release - 预发布版本
 
-* Version - 最新版本 : `3.0.0.alpha4`
-* Updated - 更新日期 : 2024/04/05
+* Version - 最新版本 : `3.0.0.alpha5`
+* Updated - 更新日期 : 2024/04/16
 * Feature - 更新内容 : [News-3.0.0(pre)](https://xiaokang2022.github.io/tkintertools/news/3.0.0/News/)
 
 ```
@@ -63,6 +63,7 @@ pip install tkintertools
 ```
 
 [![Pre Version](./docs/news/3.0.0/light.png)](https://xiaokang2022.github.io/tkintertools/news/3.0.0/News/#base-test---%E5%9F%BA%E7%A1%80%E6%B5%8B%E8%AF%95)
+[![Pre Version](./docs/news/3.0.0/dark.png)](https://xiaokang2022.github.io/tkintertools/news/3.0.0/News/#base-test---%E5%9F%BA%E7%A1%80%E6%B5%8B%E8%AF%95)
 
 > [!Note]  
 > It is not recommended that you use the pre-release version directly for formal development, but it is recommended that you use the pre-release version to experience the new features and to report certain issues that you find.  

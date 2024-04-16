@@ -1,0 +1,24 @@
+{
+    "normal": {
+        "in": {
+            "fill": "#32BF42"
+        },
+        "out_line": {
+            "fill": "#32BF42"
+        },
+        "out_arc": {
+            "outline": "#32BF42"
+        }
+    },
+    "hover": {
+        "in": {
+            "fill": "#06B025"
+        },
+        "out_line": {
+            "fill": "#06B025"
+        },
+        "out_arc": {
+            "outline": "#06B025"
+        }
+    }
+}

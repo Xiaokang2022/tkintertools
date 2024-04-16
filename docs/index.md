@@ -77,8 +77,8 @@ pip install tkintertools
 
 ### Pre Release - 预发布版本
 
--   Version - 最新版本 : `3.0.0.alpha4`
--   Updated - 更新日期 : 2024/04/05
+-   Version - 最新版本 : `3.0.0.alpha5`
+-   Updated - 更新日期 : 2024/04/16
 -   Feature - 更新内容 : [News-3.0.0(pre)](./news/3.0.0/News.md)
 
 ```sh linenums="0"

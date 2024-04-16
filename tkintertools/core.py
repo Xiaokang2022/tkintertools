@@ -6,12 +6,12 @@ Structure of Class:
 +-------+       +-------------+
 | tk.Tk |       | tk.Toplevel |
 +-------+       +-------------+
-    |                  |          +----------------------------+
-    v                  v          |  Only works on Windows OS  |
-+--------+      +--------------+  |   +--------------------+   |
-| tkt.Tk | ---> | tkt.Toplevel | -+-> | tkt.NestedToplevel |   |
-+--------+      +--------------+  |   +--------------------+   |
-                       |          +----------------------------+
+    |                  |          +--------------------------+
+    v                  v          |   Only works on Windows  |
++--------+      +--------------+  |   +--------------------+ |
+| tkt.Tk | ---> | tkt.Toplevel | -+-> | tkt.NestedToplevel | |
++--------+      +--------------+  |   +--------------------+ |
+                       |          +--------------------------+
                        v
                 +------------+
                 | tkt.Dialog |
@@ -21,41 +21,32 @@ Structure of Class:
 | tk.Canvas | -----> | tkt.Canvas |
 +-----------+        +------------+
 
-               +-------+
-               | Image |
-               +-------+
-                   |
-                   v          +-----------------------------+
-+------+      +--------+      |            Shape            |
-| Text | ---> | Widget | <--- | +-------+   +-------+       |
-+------+      +--------+      | | Item1 | + | Item2 | + ... |
-                   ^          | +-------+   +-------+       |
-                   |          +-----------------------------+
-               +---------+
-               | Feature |
-               +---------+
-
-+---------------------------------+
-|         CompositeWidget         |
-| +---------+   +---------+       |
-| | Widget1 | + | Widget2 | + ... |
-| +-------- +   +---------+       |
-| +-------+   +-------+           |
-| | Item1 | + | Item2 | + ...     |
-| +-------+   +-------+           |
-+---------------------------------+
+               +------------+
+               | Image, ... |
+               +------------+
+                     |
+                     v
++---------+      +--------+      +-----------+
+| Feature | ---> | Widget | <--- | Text, ... |
++---------+      +--------+      +-----------+ 
+                     ^
+                     |
+               +------------+
+               | Shape, ... |
+               +------------+
 ```
 """
 
+import abc
 import ctypes
 import math
+import pathlib
 import platform
 import tkinter
 import typing
-from abc import ABC, abstractmethod
 from tkinter import font
 
-from . import _tools, color, constants
+from . import _tools, color, constants, style
 
 if platform.system() == "Windows":  # Set Windows DPI awareness
     ctypes.WinDLL("shcore").SetProcessDpiAwareness(1)
@@ -582,8 +573,7 @@ class Canvas(tkinter.Canvas):
     def _zoom_items(self, relative_ratio: tuple[float, float]) -> None:
         """Internal Method: Scale the items"""
         for item in self.find_all():
-            self.coords(item, *[c * relative_ratio[i & 1]
-                        for i, c in enumerate(self.coords(item))])
+            self.scale(item, 0, 0, *relative_ratio)
 
     def _zoom_texts(self, relative_ratio: tuple[float, float]) -> None:
         """Internal Method: Scale the texts"""
@@ -633,7 +623,7 @@ class Canvas(tkinter.Canvas):
         image = tkinter.Canvas.create_image(self, *args, **kw)
         self._images[image] = [kw.get("image"), None]
         if self._images[image][0].__class__ == Image:
-            self._images[image][0] = self._images[image][0].image
+            self._images[image][0] = self._images[image][0].items
         return image
 
     @typing.override  # 创建空 image 的 _CanvasItemId 时漏去对图像大小的控制
@@ -649,7 +639,7 @@ class Canvas(tkinter.Canvas):
     ) -> None:
         """Internal Method: Events to move the mouse"""
         for widget in self.get_widgets()[::-1]:
-            if getattr(widget.feature, f"_move_{type_}")(event) or widget.through:
+            if getattr(widget.feature, f"_move_{type_}", lambda _: False)(event) or widget.through:
                 return
         if self.cget("cursor") != "arrow":
             self.configure(cursor="arrow")
@@ -661,7 +651,7 @@ class Canvas(tkinter.Canvas):
     ) -> None:
         """Internal Method: Events to click the mouse"""
         for widget in self.get_widgets()[::-1]:
-            if getattr(widget.feature, f"_click_{type_}")(event):
+            if getattr(widget.feature, f"_click_{type_}", lambda _: False)(event):
                 if widget.through:
                     continue
                 return
@@ -673,7 +663,7 @@ class Canvas(tkinter.Canvas):
     ) -> None:
         """Internal Method: Events to release the mouse"""
         for widget in self.get_widgets()[::-1]:
-            if getattr(widget.feature, f"_release_{type_}")(event):
+            if getattr(widget.feature, f"_release_{type_}", lambda _: False)(event):
                 if widget.through:
                     continue
                 return
@@ -687,7 +677,7 @@ class Canvas(tkinter.Canvas):
         if type_ is not None:
             event.delta = 120 if type_ == "up" else -120
         for widget in self.get_widgets()[::-1]:
-            if widget.feature._wheel(event):
+            if getattr(widget.feature, "_wheel", lambda _: False)(event):
                 if widget.through:
                     continue
                 return
@@ -695,97 +685,18 @@ class Canvas(tkinter.Canvas):
     def _input(self, event: tkinter.Event) -> None:
         """Internal Method: Events for typing"""
         for widget in self.get_widgets()[::-1]:
-            if widget.feature._input(event):
+            if getattr(widget.feature, "_input", lambda _: False)(event):
                 if widget.through:
                     continue
                 return
 
 
-class Shape(ABC):
-    """
-    Base Class: The Shape of a `Widget`
-
-    You can view all of its standard derivatives in file: shapes.py
-    """
-
-    def __init__(self, *, styles: dict[State, Style] | None = None) -> None:
-        self.widget: Widget = None
-        self.styles: dict[State, Style] = {} if styles is None else styles
-        self.items: list[int] = []
-
-    def _bind(self, widget: "Widget") -> typing.Self:
-        """"""
-        self.widget = widget
-        return self
-
-    def move(self, dx: int, dy: int) -> None:
-        """Move the `Shape`"""
-        for item in self.items:
-            self.widget.master.move(item, dx, dy)
-
-    def destroy(self) -> None:
-        """Destroy the `Shape`"""
-        self.widget.master.delete(*self.items)
-
-    def center(self) -> tuple[int, int]:
-        """Return the geometric center of the `Shape`"""
-        x1, y1, x2, y2 = self.region()
-        return (x1 + x2) // 2, (y1 + y2) // 2
-
-    def region(self) -> tuple[int, int, int, int]:
-        """Return the decision region of the `Shape`"""
-        width, height = self.widget.size
-        x, y = self.widget.position
-        return x, y, x + width, y + height
-
-    def detect(self, position: tuple[int, int]) -> bool:
-        """
-        Detect whether the specified coordinates are within the `Shape`
-
-        * `position`: the specified coordinates
-        """
-        x1, y1, x2, y2 = self.region()
-        return x1 <= position[0] <= x2 and y1 <= position[1] <= y2
-
-    def update(self, state: State | None = None) -> None:
-        """
-        Update the style of the `Shape` to the corresponding state
-
-        * `state`: the state of the `Shape`
-        """
-        if state is None:
-            state = self.widget.state
-        if self.styles.get(state) is not None:
-            self.configure(self.styles[state])
-
-    def zoom(self, ratio: tuple[float, float]) -> None:
-        """Scale the items"""
-        for item in self.items:
-            self.widget.master.coords(
-                item, *[c * ratio[i & 1] for i, c in enumerate(self.widget.master.coords(item))])
-
-    def configure(self, style: Style) -> None:
-        """Configure properties of the `Shape` and update them immediately"""
-        for item in self.items:
-            tag = self.widget.master.itemcget(item, "tag").split()[0]
-            if (kwargs := style.get(tag, None)) is not None:
-                self.widget.master.itemconfigure(item, **kwargs)
-
-    @abstractmethod
-    def display(self) -> None:
-        """Display the `Shape` on a `Canvas`"""
-
-
-class Feature(ABC):
+class Feature(abc.ABC):
     """Base Class: The features of a `Widget`"""
 
-    def __init__(self) -> None:
-        self.widget: Widget = None
-
-    def _bind(self, widget: "Widget") -> typing.Self:
-        """"""
-        self.widget = widget
-        return self
+    def __init__(self, widget: "Widget") -> None:
+        self.widget: Widget = widget
+        widget.feature = self
 
     def _move_none(self, event: tkinter.Event) -> bool:
         """Internal Method: Event of moving the mouse"""
@@ -836,11 +747,139 @@ class Feature(ABC):
         return False
 
 
-class Text(ABC):
+class Component(abc.ABC):
+    """The basic part of a `Widget`"""
+
+    def __init__(
+        self,
+        widget: "Widget",
+        *,
+        name: str | None = None,
+        delta: tuple[float, float, float, float] | None = None,
+        styles: dict[State, Style] | None = None,
+    ) -> None:
+        self.widget: Widget = widget
+        self.name: str = name
+        self.delta: tuple[float, float, float, float] = delta
+        self.styles = styles if styles else style.get(widget, self)
+        self.items: list[int] = []
+        widget.register(self)
+
+    @property
+    def x(self) -> float:
+        """"""
+        if self.delta is None:
+            return self.widget.position[0]
+        return self.widget.position[0] + (1 - self.delta[2]) * self.widget.size[0]/2
+
+    @property
+    def y(self) -> float:
+        """"""
+        if self.delta is None:
+            return self.widget.position[1]
+        return self.widget.position[1] + (1 - self.delta[3]) * self.widget.size[1]/2
+
+    @property
+    def width(self) -> float:
+        """"""
+        if self.delta is None:
+            return self.widget.size[0]
+        return self.widget.size[0] * self.delta[2]
+
+    @property
+    def height(self) -> float:
+        """"""
+        if self.delta is None:
+            return self.widget.size[1]
+        return self.widget.size[1] * self.delta[3]
+
+    def move(self, dx: int, dy: int) -> None:
+        """Move the `Component`"""
+        for item in self.items:
+            self.widget.master.move(item, dx, dy)
+
+    def destroy(self) -> None:
+        """Destroy the `Component`"""
+        self.widget.master.delete(*self.items)
+
+    def center(self) -> tuple[int, int]:
+        """Return the geometric center of the `Component`"""
+        x, y, w, h = *self.widget.position, *self.widget.size
+        if self.delta is None:
+            return x + w/2, y + h/2
+        return x + w/2 + self.delta[0], y + h/2 + self.delta[1]
+
+    def region(self) -> tuple[int, int, int, int]:
+        """Return the decision region of the `Component`"""
+        x, y, w, h = *self.widget.position, *self.widget.size
+        if self.delta is None:
+            return x, y, x + w, y + h
+        x += self.delta[0]
+        y += self.delta[1]
+        rw = (1 - self.delta[2]) * w/2
+        rh = (1 - self.delta[3]) * h/2
+        return x + rw, y + rh, x + w - rw, y + h - rh
+
+    def detect(self, position: tuple[int, int]) -> bool:
+        """
+        Detect whether the specified coordinates are within the `Component`
+
+        * `position`: the specified coordinates
+        """
+        x1, y1, x2, y2 = self.region()
+        return x1 <= position[0] <= x2 and y1 <= position[1] <= y2
+
+    def update(self, state: State | None = None) -> None:
+        """
+        Update the style of the `Component` to the corresponding state
+
+        * `state`: the state of the `Component`
+        """
+        if state is None:
+            state = self.widget.state
+        if self.styles.get(state) is not None:
+            self.configure(self.styles[state])
+
+    @abc.abstractmethod
+    def zoom(self, ratio: tuple[float, float]) -> None:
+        """Scale the `Component`"""
+
+    @abc.abstractmethod
+    def configure(self, style: Style) -> None:
+        """Configure properties of the `Component` and update them immediately"""
+
+    @abc.abstractmethod
+    def display(self) -> None:
+        """Display the `Component` on a `Canvas`"""
+
+
+class Shape(Component):
+    """
+    Base Class: The Shape of a `Widget`
+
+    You can view all of its standard derivatives in file: shapes.py
+    """
+
+    def zoom(self, ratio: tuple[float, float]) -> None:
+        """Scale the items"""
+        for item in self.items:
+            self.widget.master.scale(item, 0, 0, *ratio)
+
+    def configure(self, style: Style) -> None:
+        """Configure properties of the `Shape` and update them immediately"""
+        for item in self.items:
+            for tag in self.widget.master.itemcget(item, "tag").split():
+                # tag = self.widget.master.itemcget(item, "tag").split()[0]
+                if (kwargs := style.get(tag, None)) is not None:
+                    self.widget.master.itemconfigure(item, **kwargs)
+
+
+class Text(Component):
     """Base Class: The text of a `Widget`"""
 
     def __init__(
         self,
+        widget: "Widget",
         *,
         styles: dict[State, Style] | None = None,
         text: str = "",
@@ -856,34 +895,12 @@ class Text(ABC):
         * `text`: the value of `Text`
         * `limit`: the limitation of value length
         """
-        self.widget: Widget = None
-        self.styles: dict[State, Style] = {} if styles is None else styles
-        self.items: list[int] = []
-
         self.value: str = text
         self.limit: int = limit
         self.font: font.Font = font.Font(
             family=family, size=-abs(size), weight=weight, slant=slant,
             underline=underline, overstrike=overstrike)
-
-    def _bind(self, widget: "Widget") -> typing.Self:
-        """"""
-        self.widget = widget
-        return self
-
-    def move(self, dx: int, dy: int) -> None:
-        """Move the `Text`"""
-        for item in self.items:
-            self.widget.master.move(item, dx, dy)
-
-    def destroy(self) -> None:
-        """Destroy the `Text`"""
-        self.widget.master.delete(*self.items)
-
-    def center(self) -> tuple[int, int]:
-        """Return the geometric center of the `Text`"""
-        x, y, w, h = *self.widget.position, *self.widget.size
-        return x + w / 2, y + h / 2
+        return Component.__init__(self, widget, styles=styles)
 
     def region(self) -> tuple[int, int, int, int]:
         """Return the decision region of the `Text`"""
@@ -892,26 +909,6 @@ class Text(ABC):
         x, y = self.center()
         return x-width_half, y-height_half, x+width_half, y+height_half
 
-    def detect(self, position: tuple[int, int]) -> bool:
-        """
-        Detect whether the specified coordinates are within the `Text`
-
-        * `position`: the specified coordinates
-        """
-        x1, y1, x2, y2 = self.region()
-        return x1 <= position[0] <= x2 and y1 <= position[1] <= y2
-
-    def update(self, state: State | None = None) -> None:
-        """
-        Update the style of the `Text` to the corresponding state
-
-        * `state`: the state of the `Text`
-        """
-        if state is None:
-            state = self.widget.state
-        if self.styles.get(state) is not None:
-            self.configure(self.styles[state])
-
     def zoom(self, ratio: tuple[float, float]) -> None:
         """Scale the text"""
         for item in self.items:
@@ -919,8 +916,7 @@ class Text(ABC):
             value[0] *= math.sqrt(ratio[0]*ratio[1])
             value[1].config(size=round(value[0]))
             self.widget.master.itemconfigure(item, font=value[1])
-            self.widget.master.coords(
-                item, *[c * ratio[i & 1] for i, c in enumerate(self.widget.master.coords(item))])
+            self.widget.master.scale(item, 0, 0, *ratio)
 
     def get(self) -> str:
         """Get the value of `Text`"""
@@ -931,22 +927,26 @@ class Text(ABC):
         if len(text) > self.limit:
             raise ValueError
         self.value = text
+        self.widget.master.itemconfigure(self.items[0], text=self.value)
 
     def append(self, text: str) -> None:
         """Append value to the value of `Text`"""
         if len(self.value) + len(text) > self.limit:
             raise ValueError
         self.value = self.value + text
+        self.widget.master.itemconfigure(self.items[0], text=self.value)
 
     def delete(self, num: int) -> None:
         """Remove a portion of the `Text` value from the trail"""
         if num > len(self.value):
             raise ValueError
         self.value = self.value[:-num]
+        self.widget.master.itemconfigure(self.items[0], text=self.value)
 
     def clear(self) -> None:
         """Clear the value of `Text`"""
         self.value = ""
+        self.widget.master.itemconfigure(self.items[0], text=self.value)
 
     def _wrap_paramters(self, **kwargs) -> dict[str, typing.Any]:
         """"""
@@ -969,70 +969,30 @@ class Text(ABC):
                 self.widget.master.itemconfigure(
                     item, **self._wrap_paramters(**kwargs))
 
-    @abstractmethod
-    def display(self) -> None:
-        """Display the `Text` on a `Canvas`"""
 
-
-class Image(tkinter.PhotoImage):
+class Image(Component):
     """Base Class: an image of a `Widget`"""
 
     def __init__(
         self,
+        widget: "Widget",
         *,
-        file: str = ""
+        file: str = "",
+        styles: dict[State, Style] | None = None
     ) -> None:
         """"""
-        self.widget: Widget = None
         self.file = file
-        self.extension = self._get_extension()
-        self.image = None
-        tkinter.PhotoImage.__init__(self)
-
-    def _bind(self, widget: "Widget") -> typing.Self:
-        """"""
-        self.widget = widget
-        return self
-
-    def _get_extension(self) -> str:
-        """Internal Method: Get extension of the image file"""
-        if "." in self.file:
-            return self.file.rsplit(".", 1)[-1]
-        return ""
-
-    def center(self) -> tuple[int, int]:
-        """Return the geometric center of the `Image`"""
-
-    def region(self) -> tuple[int, int, int, int]:
-        """Return the decision region of the `Image`"""
+        self.extension = pathlib.Path(file).suffix
+        return Component.__init__(self, widget, styles=styles)
 
     def move(self, dx: int, dy: int) -> None:
         """Move the `Image`"""
 
-    def destroy(self) -> None:
-        """Destroy the `Image`"""
-
-    def detect(self, position: tuple[int, int]) -> bool:
-        """
-        Detect whether the specified coordinates are within the `Image`
-
-        * `position`: the specified coordinates
-        """
-
     def zoom(self, ratio: tuple[float, float]) -> None:
         """"""
-        # for image, value in self._images.items():
-        #     if value[0] and value[0].extension != "gif":
-        #         value[1] = value[0].zoom(
-        #             temp_x * rate_x, temp_y * rate_y, precision=1.2)
-        #         self.itemconfigure(image, image=value[1])
 
     def configure(self) -> None:
         """Configure properties of the `Image` and update them immediately"""
-
-    @abstractmethod
-    def display(self) -> None:
-        """Display the `Image` on a `Canvas`"""
 
 
 class Widget:
@@ -1048,13 +1008,8 @@ class Widget:
         position: tuple[int, int],
         size: tuple[int, int],
         *,
-        text: Text,
-        shape: Shape,
-        image: Image,
-        feature: Feature,
+        state: State = "normal",
         through: bool = False,
-        styles: dict[typing.Literal["Shape", "Text"],
-                     dict[State, Style]] | None = None
     ) -> None:
         """"""
         self.master = master
@@ -1062,25 +1017,28 @@ class Widget:
         self.size = list(size)
         self.through = through
 
-        self.text = text._bind(self)
-        self.shape = shape._bind(self)
-        self.image = image._bind(self)
-        self.feature = feature._bind(self)
+        self.texts: list[Text] = []
+        self.shapes: list[Shape] = []
+        self.images: list[Image] = []
 
-        self.state: typing.Literal["normal", "hover",
-                                   "click", "error", "disabled"] = "normal"
+        self.feature: Feature = None
 
-        if styles is not None:
-            self.text.styles.update(styles.get("Text", {}))
-            self.shape.styles.update(styles.get("Shape", {}))
+        self.state: State = state
 
-        shape.display()
-        text.display()
-        image.display()
-
-        self.update()
-        self._zoom()
         master._widgets.append(self)
+
+    def register(self, component: Component) -> None:
+        """"""
+        if isinstance(component, Shape):
+            self.shapes.append(component)
+        elif isinstance(component, Text):
+            self.texts.append(component)
+        elif isinstance(component, Image):
+            self.images.append(component)
+        else:
+            raise TypeError
+        component.display()
+        component.update()
 
     def _zoom(self, ratio: tuple[float, float] | None = None) -> None:
         """Zoom self"""
@@ -1090,33 +1048,29 @@ class Widget:
         self.size[1] *= ratio[1]
         self.position[0] *= ratio[0]
         self.position[1] *= ratio[1]
-        self.shape.zoom(ratio)
-        self.text.zoom(ratio)
-        self.image.zoom(ratio)
+        for elem in self.shapes + self.texts + self.images:
+            elem.zoom(ratio)
 
     def update(self, state: State | None = None) -> None:
         """Update the widget"""
         if state is not None:
             self.state = state
-        self.shape.update(state)
-        self.text.update(state)
+        for elem in self.shapes + self.texts:
+            elem.update(state)
 
     def move(self, dx: int, dy: int) -> None:
         """Move the widget"""
         self.position[0] += dx
         self.position[1] += dy
-        self.shape.move(dx, dy)
-        self.text.move(dx, dy)
-        self.image.move(dx, dy)
+        for elem in self.shapes + self.texts + self.images:
+            elem.move(dx, dy)
 
     def moveto(self, x: int, y: int) -> None:
         """Move the Widget to a certain position"""
-        origin_x, origin_y, *_ = self.shape.region()
-        return self.move(x - origin_x, y - origin_y)
+        return self.move(x - self.position[0], y - self.position[0])
 
     def destroy(self) -> None:
         """Destroy the widget"""
         self.master._widgets.remove(self)
-        self.shape.destroy()
-        self.text.destroy()
-        self.image.destroy()
+        for elem in self.shapes + self.texts + self.images:
+            elem.destroy()

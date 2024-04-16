@@ -185,5 +185,3 @@ COLOR_FILL_ORIGIN = ""
 
 COLOR_OUTLINE_ORIGIN = ""
 """Default origin outline color"""
-
-__all__ = list(filter(lambda name: name.isupper(), globals()))

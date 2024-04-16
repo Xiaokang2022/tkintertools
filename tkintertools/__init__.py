@@ -24,5 +24,5 @@ from .core import *
 from .extra.widgets_ex import *
 from .stdandard.widgets import *
 
-__version__ = "3.0.0.alpha4"
+__version__ = "3.0.0.alpha5"
 __author__ = "Xiaokang2022 <2951256653@qq.com>"

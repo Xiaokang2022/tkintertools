@@ -1,0 +1,68 @@
+{
+    "normal-off": {
+        "in": {
+            "fill": "#272727"
+        },
+        "out_line": {
+            "fill": "#9E9E9E"
+        },
+        "out_arc": {
+            "outline": "#9E9E9E"
+        }
+    },
+    "hover-off": {
+        "in": {
+            "fill": "#3B3B3B"
+        },
+        "out_line": {
+            "fill": "#A3A3A3"
+        },
+        "out_arc": {
+            "outline": "#A3A3A3"
+        }
+    },
+    "click-off": {
+        "in": {
+            "fill": "#404040"
+        },
+        "out_line": {
+            "fill": "#A3A3A3"
+        },
+        "out_arc": {
+            "outline": "#A3A3A3"
+        }
+    },
+    "normal-on": {
+        "in": {
+            "fill": "#4CC2FF"
+        },
+        "out_line": {
+            "fill": "#4CC2FF"
+        },
+        "out_arc": {
+            "outline": "#4CC2FF"
+        }
+    },
+    "hover-on": {
+        "in": {
+            "fill": "#49B3EB"
+        },
+        "out_line": {
+            "fill": "#49B3EB"
+        },
+        "out_arc": {
+            "outline": "#49B3EB"
+        }
+    },
+    "click-on": {
+        "in": {
+            "fill": "#49A8DA"
+        },
+        "out_line": {
+            "fill": "#5DBCED"
+        },
+        "out_arc": {
+            "outline": "#5DBCED"
+        }
+    }
+}

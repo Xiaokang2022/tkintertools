@@ -3,8 +3,10 @@
 import pathlib
 import typing
 
-from .. import constants, core, theme
+from .. import constants, core, style
 from ..stdandard import features, images, shapes, texts
+
+THEME_PATH = pathlib.Path(__file__).parent / "theme"
 
 
 class Information(core.Widget):
@@ -23,20 +25,14 @@ class Information(core.Widget):
         slant: typing.Literal['roman', 'italic'] = "roman",
         underline: bool = False,
         overstrike: bool = False,
-        styles: dict[typing.Literal["Shape", "Text"],
-                     dict[core.State, core.Style]] | None = None,
     ) -> None:
         """"""
-        core.Widget.__init__(
-            self, master, position, size,
-            text=texts.Information(text=text, family=family, size=fontsize, weight=weight,
-                                   slant=slant, underline=underline, overstrike=overstrike),
-            shape=shapes.RoundedRectangle(),
-            image=images.NoImage(),
-            feature=features.NoFeature(),
-            styles=styles if styles else theme.get(
-                self, pathlib.Path(__file__).parent)
-        )
+        core.Widget.__init__(self, master, position, size)
+        shapes.RoundedRectangle(
+            self, styles=style.get(self, "RoundedRectangle", path=THEME_PATH))
+        texts.Information(self, text=text, family=family, size=fontsize, weight=weight,
+                          slant=slant, underline=underline, overstrike=overstrike,
+                          styles=style.get(self, "Information", path=THEME_PATH))
 
 
 class UnderlineButton(core.Widget):
@@ -56,19 +52,12 @@ class UnderlineButton(core.Widget):
         underline: bool = False,
         overstrike: bool = False,
         command: typing.Callable | None = None,
-        styles: dict[typing.Literal["Shape", "Text"],
-                     dict[core.State, core.Style]] | None = None,
     ) -> None:
-        core.Widget.__init__(
-            self, master, position, size,
-            text=texts.Information(text=text, family=family, size=fontsize, weight=weight,
-                                   slant=slant, underline=underline, overstrike=overstrike),
-            shape=shapes.NoShape(),
-            image=images.NoImage(),
-            feature=features.UnderLine(command=command),
-            styles=styles if styles else theme.get(
-                self, pathlib.Path(__file__).parent)
-        )
+        core.Widget.__init__(self, master, position, size)
+        texts.Information(self, text=text, family=family, size=fontsize, weight=weight,
+                          slant=slant, underline=underline, overstrike=overstrike,
+                          styles=style.get(self, "Information", path=THEME_PATH))
+        features.UnderLine(self, command=command)
 
 
 class HighlightButton(core.Widget):
@@ -88,23 +77,9 @@ class HighlightButton(core.Widget):
         underline: bool = False,
         overstrike: bool = False,
         command: typing.Callable | None = None,
-        styles: dict[typing.Literal["Shape", "Text"],
-                     dict[core.State, core.Style]] | None = None,
     ) -> None:
-        core.Widget.__init__(
-            self, master, position, size,
-            text=texts.Information(text=text, family=family, size=fontsize, weight=weight,
-                                   slant=slant, underline=underline, overstrike=overstrike),
-            shape=shapes.NoShape(),
-            image=images.NoImage(),
-            feature=features.Highlight(command=command),
-            styles=styles if styles else theme.get(
-                self, pathlib.Path(__file__).parent)
-        )
-
-
-__all__ = [
-    "Information",
-    "UnderlineButton",
-    "HighlightButton",
-]
+        core.Widget.__init__(self, master, position, size)
+        texts.Information(self, text=text, family=family, size=fontsize, weight=weight,
+                          slant=slant, underline=underline, overstrike=overstrike,
+                          styles=style.get(self, "Information", path=THEME_PATH))
+        features.Highlight(self, command=command)

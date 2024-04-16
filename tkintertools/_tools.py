@@ -9,6 +9,18 @@ except ImportError:
     winreg = None
 
 
+def is_dark() -> bool | None:
+    """Determine whether the operating system is a dark theme"""
+    if winreg is None:
+        return None
+    try:
+        key = winreg.OpenKey(
+            winreg.HKEY_CURRENT_USER, "Software\\Microsoft\\Windows\\CurrentVersion\\Themes\\Personalize")
+        return not winreg.QueryValueEx(key, "AppsUseLightTheme")[0]
+    except FileNotFoundError:
+        return None
+
+
 def get_control_lst(
     controller: tuple[typing.Callable[[float], float], float, float],
     length: int,
@@ -20,18 +32,6 @@ def get_control_lst(
     if (maximum := max(lst)) == 0:
         return [controller[0](controller[1])] * length
     return [value/maximum for value in lst]
-
-
-def is_dark() -> bool | None:
-    """Determine whether the operating system is a dark theme"""
-    if winreg is None:
-        return None
-    try:
-        key = winreg.OpenKey(
-            winreg.HKEY_CURRENT_USER, "Software\\Microsoft\\Windows\\CurrentVersion\\Themes\\Personalize")
-        return not winreg.QueryValueEx(key, "AppsUseLightTheme")[0]
-    except FileNotFoundError:
-        return None
 
 
 def info(value: str) -> None:

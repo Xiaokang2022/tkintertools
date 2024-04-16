@@ -1,0 +1,20 @@
+{
+    "normal": {
+        "all": {
+            "fill": "#FEFEFE",
+            "outline": "#DCDCDC"
+        }
+    },
+    "hover": {
+        "all": {
+            "fill": "#FAFAFA",
+            "outline": "#DCDCDC"
+        }
+    },
+    "click": {
+        "all": {
+            "fill": "#F3F3F3",
+            "outline": "#DCDCDC"
+        }
+    }
+}

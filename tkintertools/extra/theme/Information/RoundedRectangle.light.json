@@ -1,0 +1,13 @@
+{
+    "normal": {
+        "in": {
+            "fill": "#FBFBFB"
+        },
+        "out_line": {
+            "fill": "#DCDCDC"
+        },
+        "out_arc": {
+            "outline": "#DCDCDC"
+        }
+    }
+}
