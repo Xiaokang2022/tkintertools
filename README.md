@@ -3,9 +3,9 @@
 <p align="center"><img alt="logo" src="logo.png" title="Nice Logo!" /></p>
 
 <p align="center">
-<code>tkintertools</code> 是 <code>tkinter</code> 的一个辅助开发模块
+<code>tkintertools</code> 是一个基于 <code>tkinter</code> 的 <code>Canvas</code> 类的 UI 框架
 <br/>
-<code>tkintertools</code> is an auxiliary development module of <code>tkinter</code>
+<code>tkintertools</code> is a UI framework based on the <code>Canvas</code> class of <code>tkinter</code>
 </p>
 
 <p align="center">
@@ -43,6 +43,10 @@
 Install - 模块安装
 -----------------
 
+> [!IMPORTANT]  
+> The open source license for `tkintertools 3` will be replaced with **MIT**, but the open source license for `tkintertools 2` will remain **MulanPSL-2.0**.  
+> `tkintertools 3` 的开源许可证将替换为 **MIT**，但 `tkintertools 2` 的开源许可证仍将保持为 **MulanPSL-2.0**。
+
 ### Stable Version - 稳定版本
 
 * 🔖 Version - 最新版本 : `2.6.21`
@@ -59,9 +63,9 @@ pip install tkintertools
 
 </details>
 
-> [!IMPORTANT]  
-> The open source license for `tkintertools` 3 will be replaced with **MIT**, but the open source license for `tkintertools` 2 will remain **MulanPSL-2.0**.  
-> `tkintertools` 3 的开源许可证将替换为 **MIT**，但 `tkintertools` 2 的开源许可证仍将保持为 **MulanPSL-2.0**。
+> [!WARNING]  
+> The source files for this project do not involve any resource files, only the tutorial and demo sections refer to some resources from the Internet. Those resources are not commercially available.  
+> 本项目的源文件不涉及任何资源文件，仅教程和演示部分涉及部分来自互联网的资源。那些资源不可用于商用。
 
 ### Development Version - 开发版本
 
