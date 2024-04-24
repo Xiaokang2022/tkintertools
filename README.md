@@ -10,7 +10,7 @@
 
 <p align="center">
 <a href="."><img alt="Version" src="https://img.shields.io/pypi/v/tkintertools?label=Version" title="当前最新稳定版" /></a>
-<a href="./more/LICENSE"><img alt="License" src="https://img.shields.io/pypi/l/tkintertools?label=License" title="木兰宽松许可证" /></a>
+<a href="./more/LICENSE"><img alt="License" src="https://img.shields.io/pypi/l/tkintertools?label=License" title="开源许可证" /></a>
 <a href="https://pypistats.org/packages/tkintertools"><img alt="Downloads" src="https://img.shields.io/pypi/dm/tkintertools?label=Downloads&logo=pypi" title="月度累计下载量" /></a>
 <a href="https://pepy.tech/project/tkintertools"><img alt="Total Downloads" src="https://static.pepy.tech/badge/tkintertools" title="总下载量" /></a>
 <br/>
@@ -51,6 +51,10 @@ pip install tkintertools
 ```
 
 [![Stable Version](./docs/tutorials/images/1.2-2.1-2.png)](https://xiaokang2022.github.io/tkintertools/tutorials/1-2/#21-%E9%AB%98%E5%BA%A6%E5%8F%AF%E9%85%8D%E7%BD%AE%E7%9A%84%E6%8E%A7%E4%BB%B6)
+
+> [!Important]  
+> The open source license for `tkintertools` 3 will be replaced with **MIT**, but the open source license for `tkintertools` 2 will remain **MulanPSL-2.0**.  
+> `tkintertools` 3 的开源许可证将替换为 **MIT**，但 `tkintertools` 2 的开源许可证仍将保持为 **MulanPSL-2.0**。
 
 ### Pre Release - 预发布版本
 
