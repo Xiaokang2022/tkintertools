@@ -1,6 +1,6 @@
 <h1 align="center">tkintertools</h1>
 
-<p align="center"><img alt="logo" src="logo.png" title="Nice Logo!" /></p>
+<p align="center"><img alt="logo" src="https://xiaokang2022.github.io/tkintertools/logo.png" title="Nice Logo!" /></p>
 
 <p align="center">
 <code>tkintertools</code> 是一个基于 <code>tkinter</code> 的 <code>Canvas</code> 类的 UI 框架
