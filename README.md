@@ -24,7 +24,7 @@
 </p>
 
 <p align="center">
-<img alt="Insights" src="https://repobeats.axiom.co/api/embed/ab8fae686a5a96f91fa71c40c53c189310924f5e.svg" />
+<a href="https://github.com/Xiaokang2022/tkintertools/pulse"><img alt="Insights" src="https://repobeats.axiom.co/api/embed/ab8fae686a5a96f91fa71c40c53c189310924f5e.svg" /></a>
 </p>
 
 <p align="center">
@@ -60,7 +60,9 @@ pip install tkintertools
 
 <details open><summary>Preview - 预览</summary>
 
-[![Preview](https://xiaokang2022.github.io/tkintertools/tutorials/images/1.2-2.1-2.png)](https://xiaokang2022.github.io/tkintertools/tutorials/1-2/#21-%E9%AB%98%E5%BA%A6%E5%8F%AF%E9%85%8D%E7%BD%AE%E7%9A%84%E6%8E%A7%E4%BB%B6)
+[![Preview UI](https://xiaokang2022.github.io/tkintertools/tutorials/images/1.2-2.1-2.png)](https://xiaokang2022.github.io/tkintertools/tutorials/1-2/#21-%E9%AB%98%E5%BA%A6%E5%8F%AF%E9%85%8D%E7%BD%AE%E7%9A%84%E6%8E%A7%E4%BB%B6)
+
+[![Preview 3D](https://xiaokang2022.github.io/tkintertools/tutorials/images/7.3-3.1-1.gif)](https://xiaokang2022.github.io/tkintertools/tutorials/7-3/#%E4%B8%89%E9%80%9A%E8%BF%87-after-%E6%96%B9%E6%B3%95%E5%AE%9E%E7%8E%B0%E7%AE%80%E5%8D%95%E5%8A%A8%E7%94%BB)
 
 </details>
 
@@ -81,6 +83,7 @@ pip install tkintertools
 <details open><summary>Preview - 预览</summary>
 
 [![Light Theme](https://xiaokang2022.github.io/tkintertools/news/3.0.0/light.png)](https://xiaokang2022.github.io/tkintertools/news/3.0.0/News/#base-test---%E5%9F%BA%E7%A1%80%E6%B5%8B%E8%AF%95)
+
 [![Dark Theme](https://xiaokang2022.github.io/tkintertools/news/3.0.0/dark.png)](https://xiaokang2022.github.io/tkintertools/news/3.0.0/News/#base-test---%E5%9F%BA%E7%A1%80%E6%B5%8B%E8%AF%95)
 
 </details>
