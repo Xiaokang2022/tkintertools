@@ -36,20 +36,20 @@
     </a>
 </p>
 
-> [!NOTE]
+> [!NOTE]  
 > Recently, the star ⭐ of this project has maintained a clear upward trend. I would like to thank you all for your support of this project! ❤️  
 > 近段时间，本项目的 Star ⭐ 一直保持明显的上升趋势。在此我衷心地感谢大家对本项目的支持！❤️
 
 Install - 模块安装
 -----------------
 
-### Stable Release - 稳定版本
+### Stable Version - 稳定版本
 
 * 🔖 Version - 最新版本 : `2.6.21`
 * 🕓 Release - 发布日期 : 2024/01/01
 * ✨ Feature - 更新内容 : [News-2.6.21](https://xiaokang2022.github.io/tkintertools/news/2.6.21/News/)
 
-```
+```sh
 pip install tkintertools
 ```
 
@@ -59,17 +59,17 @@ pip install tkintertools
 
 </details>
 
-> [!IMPORTANT]
+> [!IMPORTANT]  
 > The open source license for `tkintertools` 3 will be replaced with **MIT**, but the open source license for `tkintertools` 2 will remain **MulanPSL-2.0**.  
 > `tkintertools` 3 的开源许可证将替换为 **MIT**，但 `tkintertools` 2 的开源许可证仍将保持为 **MulanPSL-2.0**。
 
-### Pre Release - 预发布版本
+### Development Version - 开发版本
 
 * 🔖 Version - 最新版本 : `3.0.0.alpha5`
-* 🕓 Updated - 更新日期 : 2024/04/16
+* 🕓 Update - 更新日期 : 2024/04/16
 * ✨ Feature - 更新内容 : [News-3.0.0(pre)](https://xiaokang2022.github.io/tkintertools/news/3.0.0/News/)
 
-```
+```sh
 
 ```
 
@@ -80,7 +80,7 @@ pip install tkintertools
 
 </details>
 
-> [!TIP]
+> [!TIP]  
 > It is not recommended that you use the pre-release version directly for formal development, but it is recommended that you use the pre-release version to experience the new features and to report certain issues that you find.  
 > 不推荐你直接使用预发布版本进行正式开发，但推荐使用预发布版本来体验新功能，并上报发现的某些问题。
 
