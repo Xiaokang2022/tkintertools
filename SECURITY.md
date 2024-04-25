@@ -21,11 +21,3 @@ In general, there are no security vulnerabilities and other related issues in th
 
 But if so, please also contact the maintainers of this project in a private way, thank you!  
 但如果有哈，请以非公开的方式联系本项目的维护者，栓 Q 啦！
-
----
-
-<small>
-The content of this SECURITY.md refers to GitHub's default Security Policy.
-
-这个 SECURITY.md 的内容参考了 GitHub 上默认的安全策略。
-</small>
