@@ -95,8 +95,10 @@ pip install tkintertools
 More - 更多
 -----------
 
-* 📗 Tutorials & Documents - 教程和文档: [T&D](https://xiaokang2022.github.io/tkintertools/)
-* 📘 License - 项目许可证: [LICENSE.txt](LICENSE.txt)
-* 📙 ChangeLog - 更新日志: [CHANGELOG.md](CHANGELOG.md)
-* 📕 Contribution Guide - 贡献指南: [CONTRIBUTING.md](CONTRIBUTING.md)
-* 🚀 Mirrors - 镜像源: [GitHub](https://github.com/Xiaokang2022/tkintertools) | [Gitee](https://gitee.com/xiaokang-2022/tkintertools)
+* 📑 License - 项目许可证: [LICENSE.txt](LICENSE.txt)
+* 📕 Security - 安全策略: [SECURITY.md](SECURITY.md)
+* 📘 Change Log - 更新日志: [CHANGELOG.md](CHANGELOG.md)
+* 📗 Contribution Guide - 贡献指南: [CONTRIBUTING.md](CONTRIBUTING.md)
+* 📙 Code of Conduct - 行为准则: [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md)
+* 📚 Tutorials and Documents - 教程和文档: [Tutorials & Documents](https://xiaokang2022.github.io/tkintertools/)
+* 🚀 Mirror Source - 镜像源: [GitHub](https://github.com/Xiaokang2022/tkintertools) | [Gitee](https://gitee.com/xiaokang-2022/tkintertools)
