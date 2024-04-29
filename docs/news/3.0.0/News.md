@@ -161,47 +161,44 @@ comments: true
 ??? note "Test Code - 测试代码"
 
     ```python
-    import itertools
     import math
-    import random
-    import statistics
-    import tkinter
 
     import tkintertools as tkt
-    from tkintertools import d3
+    import tkintertools.animate.controllers as controllers
+    from tkintertools import animate, three
 
     root = tkt.Tk((1600, 900))
     root.theme(background="black")
-    space = d3.Space(root, keep_ratio="full", bg="black", free_anchor=True,
-                    highlightbackground="white")
+    space = three.Space(root, keep_ratio="full", bg="black", free_anchor=True,
+                        highlightbackground="white")
     space.place(width=1600, height=900, x=800, y=450, anchor="center")
     space.update_idletasks()
 
     r = 300
 
-    O = d3.Point(space, [0, 0, 0], fill='white', size=3)
-    X = d3.Line(space, [0, 0, 0], [1, 0, 0], fill='')
-    Y = d3.Line(space, [0, 0, 0], [0, 1, 0], fill='')
-    Z = d3.Line(space, [0, 0, 0], [0, 0, 1], fill='')
+    O = three.Point(space, [0, 0, 0], fill='white', size=3)
+    X = three.Line(space, [0, 0, 0], [1, 0, 0], fill='')
+    Y = three.Line(space, [0, 0, 0], [0, 1, 0], fill='')
+    Z = three.Line(space, [0, 0, 0], [0, 0, 1], fill='')
 
-    ring = {'x': [], 'y': [], 'z': []}  # type: dict[str, list[d3.Text3D]]
-    line = {'x': [], 'y': [], 'z': []}  # type: dict[str, list[d3.Text3D]]
+    ring: dict[str, list[three.Text3D]] = {'x': [], 'y': [], 'z': []}
+    line: dict[str, list[three.Text3D]] = {'x': [], 'y': [], 'z': []}
 
     for i in range(26):
         t = chr(65+i)
         φ = i/26 * math.tau
         c1 = r * math.sin(φ)
         c2 = r * math.cos(φ)
-        ring['x'].append(d3.Text3D(space, [0, c1, c2], text=t, fill='#FF0000'))
-        ring['y'].append(d3.Text3D(space, [c1, 0, c2], text=t, fill='#00FF00'))
-        ring['z'].append(d3.Text3D(space, [c1, c2, 0], text=t, fill='#0000FF'))
+        ring['x'].append(three.Text3D(space, [0, c1, c2], text=t, fill='#FF0000'))
+        ring['y'].append(three.Text3D(space, [c1, 0, c2], text=t, fill='#00FF00'))
+        ring['z'].append(three.Text3D(space, [c1, c2, 0], text=t, fill='#0000FF'))
 
     for i in range(10):
         t = str(i)
         c = (i+1) * 600/11 - r
-        line['x'].append(d3.Text3D(space, [c, 0, 0], text=t, fill='#00FFFF'))
-        line['y'].append(d3.Text3D(space, [0, c, 0], text=t, fill='#FF00FF'))
-        line['z'].append(d3.Text3D(space, [0, 0, c], text=t, fill='#FFFF00'))
+        line['x'].append(three.Text3D(space, [c, 0, 0], text=t, fill='#00FFFF'))
+        line['y'].append(three.Text3D(space, [0, c, 0], text=t, fill='#FF00FF'))
+        line['z'].append(three.Text3D(space, [0, 0, c], text=t, fill='#FFFF00'))
 
 
     def animation():
@@ -220,10 +217,12 @@ comments: true
         for obj3D in space.items_3d():
             obj3D.rotate(0, -0.01, 0.01, center=O.center())
             obj3D.update()
-        root.after(10, animation)
 
 
-    animation()
+    animate.Animation(1000, controllers.flat, repeat=math.inf,
+                    callback=lambda _: animation()).start()
+
+
     root.mainloop()
     ```
 
