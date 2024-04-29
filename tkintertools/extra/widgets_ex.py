@@ -4,7 +4,7 @@ import pathlib
 import typing
 
 from .. import constants, core, style
-from ..stdandard import features, images, shapes, texts
+from ..standard import features, images, shapes, texts
 
 THEME_PATH = pathlib.Path(__file__).parent / "theme"
 

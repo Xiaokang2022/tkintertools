@@ -6,7 +6,7 @@ from tkinter import messagebox, simpledialog
 
 from .. import constants, core, theme
 from ..extra import widgets_ex
-from ..stdandard import shapes, widgets
+from ..standard import shapes, widgets
 
 theme_folder = pathlib.Path(__file__).parent
 

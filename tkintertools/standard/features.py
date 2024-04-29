@@ -4,6 +4,7 @@ import tkinter
 import typing
 
 from .. import core
+from ..animate import animations
 
 
 class NoFeature(core.Feature):
@@ -82,10 +83,12 @@ class UnderLine(Button):
     def _move_none(self, event: tkinter.Event) -> bool:
         if flag := self.widget.texts[0].detect((event.x, event.y)):
             if self.widget.state == "normal":
+                self.widget.texts[0].font.config(underline=True)
                 self.widget.update("hover")
                 self.widget.master.configure(cursor="hand2")
         else:
             if self.widget.state != "normal":
+                self.widget.texts[0].font.config(underline=False)
                 self.widget.update("normal")
         return flag
 
@@ -98,11 +101,13 @@ class UnderLine(Button):
         """"""
         if self.widget.texts[0].detect((event.x, event.y)):
             if self.widget.state == "click":
+                self.widget.texts[0].font.config(underline=True)
                 self.widget.update("hover")
                 if self._command is not None:
                     self._command(*self._args)
                 return True
         elif self.widget.state == "click":
+            self.widget.texts[0].font.config(underline=False)
             self.widget.update("normal")
             self.widget.master.configure(cursor="arrow")
         return False
@@ -111,18 +116,31 @@ class UnderLine(Button):
 class Highlight(Button):
     """"""
 
+    def __init__(self, widget: core.Widget, *, command: typing.Callable[..., typing.Any], args: tuple = ()) -> None:
+        super().__init__(widget, command=command, args=args)
+        # self._font = self.widget.texts[0].font.cget("size")
+
     def _move_none(self, event: tkinter.Event) -> bool:
         if flag := self.widget.texts[0].detect((event.x, event.y)):
             if self.widget.state == "normal":
+                # self.widget.texts[0].font.config(size=-28)
+                animations.ScaleFontSize(
+                    self.widget.texts[0], 150, delta=28).start()
                 self.widget.update("hover")
                 self.widget.master.configure(cursor="hand2")
         else:
             if self.widget.state != "normal":
+                # self.widget.texts[0].font.config(size=-24)
+                animations.ScaleFontSize(
+                    self.widget.texts[0], 150, delta=24).start()
                 self.widget.update("normal")
         return flag
 
     def _click_left(self, _: tkinter.Event) -> bool:
         if flag := self.widget.state == "hover":
+            # self.widget.texts[0].font.config(size=-26)
+            animations.ScaleFontSize(
+                self.widget.texts[0], 150, delta=26).start()
             self.widget.update("click")
         return flag
 
@@ -130,11 +148,17 @@ class Highlight(Button):
         """"""
         if self.widget.texts[0].detect((event.x, event.y)):
             if self.widget.state == "click":
+                # self.widget.texts[0].font.config(size=-28)
+                animations.ScaleFontSize(
+                    self.widget.texts[0], 150, delta=28).start()
                 self.widget.update("hover")
                 if self._command is not None:
                     self._command(*self._args)
                 return True
         elif self.widget.state == "click":
+            # self.widget.texts[0].font.config(size=-24)
+            animations.ScaleFontSize(
+                self.widget.texts[0], 150, delta=24).start()
             self.widget.update("normal")
             self.widget.master.configure(cursor="arrow")
         return False

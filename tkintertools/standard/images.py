@@ -140,7 +140,7 @@ class DynamicImage(core.Image):
         """
         if __PIL:
             new_size = map(
-                int, [self.width() * rate_x, self.height() * rate_y])
+                int, [self.w() * rate_x, self.h() * rate_y])
             image = Image.open(self.path).resize(new_size)
             return ImageTk.PhotoImage(image)
         if precision is not None:
@@ -154,7 +154,7 @@ class DynamicImage(core.Image):
             image = image.subsample(rate_x.denominator, rate_y.denominator)
         else:
             width, height = int(
-                self.width() * rate_x), int(self.height() * rate_y)
+                self.w() * rate_x), int(self.h() * rate_y)
             image = tkinter.PhotoImage(width=width, height=height)
             for x in range(width):
                 for y in range(height):

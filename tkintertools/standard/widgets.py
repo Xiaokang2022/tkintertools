@@ -3,6 +3,7 @@
 import typing
 
 from .. import constants, core
+from ..animate import animations, controllers
 from . import features, images, shapes, texts
 
 
@@ -81,9 +82,11 @@ class Switch(core.Widget):
         command: typing.Callable[[bool], typing.Any] | None = None,
     ) -> None:
         core.Widget.__init__(self, master, position, (length, length / 2),
-                             state=f"normal-{"on" if default else "off"}")
+                             state=f"normal-{"on" if default else "off"}",
+                             animation=False)
         shapes.SemicircularRectangle(self)
-        shapes.Oval(self, delta=(-length/4, 0, 1/3, 2/3))
+        shapes.Oval(self, rel_position=(length/12, length/12),
+                    size=(length/3, length/3))
         features.Switch(self, command=command)
         if default:
             self.set(default)
@@ -95,8 +98,9 @@ class Switch(core.Widget):
     def set(self, value: bool) -> None:
         """"""
         self.update(f"{self.state.split("-")[0]}-{"on" if value else "off"}")
-        dx = self.shapes[0].width/2 if value else -self.shapes[0].width/2
-        self.shapes[1].move(dx, 0)
+        dx = self.shapes[0].w/2 if value else -self.shapes[0].w/2
+        animations.MoveComponent(
+            self.shapes[1], 250, controllers.smooth, delta=(dx, 0)).start()
 
 
 class CheckButton(core.Widget):
@@ -145,7 +149,8 @@ class RadioButton(core.Widget):
     ) -> None:
         core.Widget.__init__(self, master, position, (length, length))
         shapes.Oval(self, name="Oval_1")
-        shapes.Oval(self, name="Oval_2", delta=(0, 0, 0.5, 0.5))
+        shapes.Oval(self, name="Oval_2", rel_position=(
+            self.w/4, self.h/4), size=(self.w/2, self.h/2))
         features.RadioButton(self, command=command)
 
     def get(self) -> bool:
@@ -166,69 +171,74 @@ class ProgressBar(core.Widget):
         *,
         command: typing.Callable[[], typing.Any] | None = None,
     ) -> None:
+        self.value: float = 0
         core.Widget.__init__(self, master, position, size)
         if constants.IS_WIN10:
             shapes.Rectangle(self, name="Rectangle_1")
-            shapes.Rectangle(self, name="Rectangle_2", delta=(0, 0, 0.5, 0.8))
+            shapes.Rectangle(self, name="Rectangle_2", size=(
+                0, self.h*0.8), rel_position=(self.h*0.1, self.h*0.1))
         else:
             shapes.SemicircularRectangle(self, name="SemicircularRectangle_1")
             shapes.SemicircularRectangle(
-                self, name="SemicircularRectangle_2", delta=(0, 0, 0.5, 0.8))
+                self, name="SemicircularRectangle_2", size=(self.h*0.7, self.h*0.7), rel_position=(self.h*0.15, self.h*0.15))
         features.ProgressBar(self)
+        self.shapes[1].disappear()
+        self.command = command
+
+    def get(self) -> float:
+        """"""
+        return self.value
+
+    def set(self, value: float) -> None:
+        """"""
+        self.value = 0 if value < 0 else 1 if value > 1 else value
+        if self.value == 0:
+            return self.shapes[1].disappear()
+        elif not self.shapes[1].visible:
+            self.shapes[1].appear()
+        if isinstance(self.shapes[1], shapes.Rectangle):
+            x, y = self.shapes[1].x, self.shapes[1].y
+            w, h = (self.w - self.h*0.2)*self.value, self.shapes[1].h
+            self.master.coords(self.shapes[1].items[0], x, y, x+w, y+h)
+        else:
+            w, h = self.w - self.h*0.3 - self.shapes[1].h, self.shapes[1].h
+            x, y = self.shapes[1].x + h/2, self.shapes[1].y
+            w *= self.value
+            self.master.coords(self.shapes[1].items[2], x, y, x+w, y+h)
+            self.master.coords(self.shapes[1].items[5], x, y, x+w, y)
+            self.master.coords(self.shapes[1].items[6], x, y+h, x+w, y+h)
+            self.master.coords(
+                self.shapes[1].items[1], x+w-h/2, y, x+w+h/2, y+h)
+            self.master.coords(
+                self.shapes[1].items[4], x+w-h/2, y, x+w+h/2, y+h)
+        if value == 1 and self.command is not None:
+            self.command()
+
+
+class Slider(core.Widget):
+    """"""
+
+    def __init__(
+        self,
+        master: core.Canvas,
+        position: tuple[int, int],
+        length: int,
+        *,
+        command: typing.Callable[[float], typing.Any] | None = None,
+    ) -> None:
+        core.Widget.__init__(self, master, position, (length, 8))
+        if constants.IS_WIN10:
+            shapes.Rectangle(self)
+            shapes.Rectangle(self, size=(self.h, self.h*3),
+                             rel_position=(100, -self.h))
+        else:
+            shapes.SemicircularRectangle(self)
+            shapes.Oval(self, size=(self.h*3, self.h*3),
+                        rel_position=(100, -self.h))
+        features.Slider(self, command=command)
 
     def get(self) -> bool:
         """"""
 
     def set(self, value: float) -> None:
         """"""
-
-
-# class Slider(core.Widget):
-#     """"""
-
-#     def __init__(
-#         self,
-#         master: core.Canvas,
-#         position: tuple[int, int],
-#         length: int,
-#         *,
-#         command: typing.Callable[[float], typing.Any] | None = None,
-#     ) -> None:
-#         core.Widget.__init__(self, master, position, (length, 10))
-#         if constants.IS_WIN10:
-#             shapes.Rectangle(self)
-#             shapes.Rectangle(self, delta=(0, 0, 0.02, 3))
-#         else:
-#             shapes.SemicircularRectangle(self)
-#             shapes.Oval(self, delta=(0, 0, 0.05, 2))
-#         features.Slider(self, command=command)
-
-#     def get(self) -> bool:
-#         """"""
-
-#     def set(self, value: float) -> None:
-#         """"""
-
-
-# class Dial(core.Widget):
-#     """"""
-
-#     def __init__(
-#         self,
-#         master: core.Canvas,
-#         position: tuple[int, int],
-#         length: int,
-#         *,
-#         command: typing.Callable[[float], typing.Any] | None = None,
-#     ) -> None:
-#         core.Widget.__init__(self, master, position, (length, length))
-#         shapes.Oval(self)
-#         shapes.Oval(
-#             self, delta=(-self.position[0]*0.35, 0, 0.2, 0.2))
-#         features.Dial(self, command=command)
-
-#     def get(self) -> bool:
-#         """"""
-
-#     def set(self, value: float) -> None:
-#         """"""

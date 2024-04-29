@@ -85,6 +85,8 @@ LIMIT = -1
 IS_WIN10 = platform.system() == "Windows" and int(
     platform.version()[-5:]) < 22000
 
+# IS_WIN10 = not IS_WIN10
+
 RADIUS = 0 if IS_WIN10 else 5
 """Default widget fillet radius"""
 

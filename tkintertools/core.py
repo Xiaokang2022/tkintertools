@@ -28,7 +28,7 @@ Structure of Class:
                      v
 +---------+      +--------+      +-----------+
 | Feature | ---> | Widget | <--- | Text, ... |
-+---------+      +--------+      +-----------+ 
++---------+      +--------+      +-----------+
                      ^
                      |
                +------------+
@@ -38,6 +38,7 @@ Structure of Class:
 """
 
 import abc
+import copy
 import ctypes
 import math
 import pathlib
@@ -47,6 +48,7 @@ import typing
 from tkinter import font
 
 from . import _tools, color, constants, style
+from .animate import animations
 
 if platform.system() == "Windows":  # Set Windows DPI awareness
     ctypes.WinDLL("shcore").SetProcessDpiAwareness(1)
@@ -565,10 +567,15 @@ class Canvas(tkinter.Canvas):
     def _zoom_widgets(self, relative_ratio: tuple[float, float]) -> None:
         """Internal Method: Modify data for the position and size of the widgets"""
         for widget in self._widgets:
-            widget.size[0] *= relative_ratio[0]
-            widget.size[1] *= relative_ratio[1]
-            widget.position[0] *= relative_ratio[0]
-            widget.position[1] *= relative_ratio[1]
+            widget.w *= relative_ratio[0]
+            widget.h *= relative_ratio[1]
+            widget.x *= relative_ratio[0]
+            widget.y *= relative_ratio[1]
+            for component in widget.shapes + widget.texts + widget.images:
+                component.w *= relative_ratio[0]
+                component.h *= relative_ratio[1]
+                component.x *= relative_ratio[0]
+                component.y *= relative_ratio[1]
 
     def _zoom_items(self, relative_ratio: tuple[float, float]) -> None:
         """Internal Method: Scale the items"""
@@ -753,50 +760,32 @@ class Component(abc.ABC):
     def __init__(
         self,
         widget: "Widget",
+        rel_position: tuple[int, int] = (0, 0),
+        size: tuple[int, int] | None = None,
         *,
         name: str | None = None,
-        delta: tuple[float, float, float, float] | None = None,
         styles: dict[State, Style] | None = None,
     ) -> None:
         self.widget: Widget = widget
+        self.x = rel_position[0] + widget.x
+        self.y = rel_position[1] + widget.y
+        self.w, self.h = size if size else (widget.w, widget.h)
         self.name: str = name
-        self.delta: tuple[float, float, float, float] = delta
         self.styles = styles if styles else style.get(widget, self)
         self.items: list[int] = []
+        self.visible: bool = True
         widget.register(self)
-
-    @property
-    def x(self) -> float:
-        """"""
-        if self.delta is None:
-            return self.widget.position[0]
-        return self.widget.position[0] + (1 - self.delta[2]) * self.widget.size[0]/2
-
-    @property
-    def y(self) -> float:
-        """"""
-        if self.delta is None:
-            return self.widget.position[1]
-        return self.widget.position[1] + (1 - self.delta[3]) * self.widget.size[1]/2
-
-    @property
-    def width(self) -> float:
-        """"""
-        if self.delta is None:
-            return self.widget.size[0]
-        return self.widget.size[0] * self.delta[2]
-
-    @property
-    def height(self) -> float:
-        """"""
-        if self.delta is None:
-            return self.widget.size[1]
-        return self.widget.size[1] * self.delta[3]
 
     def move(self, dx: int, dy: int) -> None:
         """Move the `Component`"""
+        self.x += dx
+        self.y += dy
         for item in self.items:
             self.widget.master.move(item, dx, dy)
+
+    def moveto(self, x: int, y: int) -> None:  # BUG: can't use twice!
+        """Move the `Component` to a certain position"""
+        return self.move(x - self.x, y - self.y)
 
     def destroy(self) -> None:
         """Destroy the `Component`"""
@@ -804,21 +793,11 @@ class Component(abc.ABC):
 
     def center(self) -> tuple[int, int]:
         """Return the geometric center of the `Component`"""
-        x, y, w, h = *self.widget.position, *self.widget.size
-        if self.delta is None:
-            return x + w/2, y + h/2
-        return x + w/2 + self.delta[0], y + h/2 + self.delta[1]
+        return self.x + self.w/2, self.y + self.h/2
 
     def region(self) -> tuple[int, int, int, int]:
         """Return the decision region of the `Component`"""
-        x, y, w, h = *self.widget.position, *self.widget.size
-        if self.delta is None:
-            return x, y, x + w, y + h
-        x += self.delta[0]
-        y += self.delta[1]
-        rw = (1 - self.delta[2]) * w/2
-        rh = (1 - self.delta[3]) * h/2
-        return x + rw, y + rh, x + w - rw, y + h - rh
+        return self.x, self.y, self.x + self.w, self.y + self.h
 
     def detect(self, position: tuple[int, int]) -> bool:
         """
@@ -829,7 +808,7 @@ class Component(abc.ABC):
         x1, y1, x2, y2 = self.region()
         return x1 <= position[0] <= x2 and y1 <= position[1] <= y2
 
-    def update(self, state: State | None = None) -> None:
+    def update(self, state: State | None = None, *, no_delay: bool = False) -> None:
         """
         Update the style of the `Component` to the corresponding state
 
@@ -837,16 +816,38 @@ class Component(abc.ABC):
         """
         if state is None:
             state = self.widget.state
-        if self.styles.get(state) is not None:
-            self.configure(self.styles[state])
+        if self.styles.get(state) is not None and self.visible:
+            self.configure(self.styles[state], no_delay=no_delay)
+
+    def configure(self, style: Style, *, no_delay: bool = False) -> None:
+        """Configure properties of the `Component` and update them immediately"""
+        for item in self.items:
+            for tag in self.widget.master.itemcget(item, "tag").split():
+                if (kwargs := style.get(tag)) is not None:
+                    if self.widget.animation and not no_delay:
+                        for key, value in kwargs.items():
+                            animations.Gradient(
+                                self.widget.master, item, key, 150, delta=value).start()
+                    else:
+                        self.widget.master.itemconfigure(item, **kwargs)
+
+    def appear(self) -> None:
+        """"""
+        self.visible = True
+        self.update(self.widget.state, no_delay=True)
+
+    def disappear(self) -> None:
+        """"""
+        self.visible = False
+        temp_style = copy.deepcopy(self.styles[self.widget.state])
+        for style in temp_style.values():
+            for arg in style:
+                style[arg] = ""
+        self.configure(temp_style, no_delay=True)
 
     @abc.abstractmethod
     def zoom(self, ratio: tuple[float, float]) -> None:
         """Scale the `Component`"""
-
-    @abc.abstractmethod
-    def configure(self, style: Style) -> None:
-        """Configure properties of the `Component` and update them immediately"""
 
     @abc.abstractmethod
     def display(self) -> None:
@@ -864,14 +865,6 @@ class Shape(Component):
         """Scale the items"""
         for item in self.items:
             self.widget.master.scale(item, 0, 0, *ratio)
-
-    def configure(self, style: Style) -> None:
-        """Configure properties of the `Shape` and update them immediately"""
-        for item in self.items:
-            for tag in self.widget.master.itemcget(item, "tag").split():
-                # tag = self.widget.master.itemcget(item, "tag").split()[0]
-                if (kwargs := style.get(tag, None)) is not None:
-                    self.widget.master.itemconfigure(item, **kwargs)
 
 
 class Text(Component):
@@ -948,27 +941,6 @@ class Text(Component):
         self.value = ""
         self.widget.master.itemconfigure(self.items[0], text=self.value)
 
-    def _wrap_paramters(self, **kwargs) -> dict[str, typing.Any]:
-        """"""
-        wrapped_kwargs = {}
-        for key, value in kwargs.items():
-            if key in ("family", "size", "weight", "slant", "underline", "overstrike"):
-                if key == "size":
-                    value = -abs(value)
-                self.font.configure(**{key: value})
-            else:
-                wrapped_kwargs[key] = value
-        wrapped_kwargs["font"] = self.font
-        return wrapped_kwargs
-
-    def configure(self, style: Style) -> None:
-        """Configure properties of the `Text` and update them immediately"""
-        for item in self.items:
-            tag = self.widget.master.itemcget(item, "tag").split()[0]
-            if (kwargs := style.get(tag, None)) is not None:
-                self.widget.master.itemconfigure(
-                    item, **self._wrap_paramters(**kwargs))
-
 
 class Image(Component):
     """Base Class: an image of a `Widget`"""
@@ -985,14 +957,8 @@ class Image(Component):
         self.extension = pathlib.Path(file).suffix
         return Component.__init__(self, widget, styles=styles)
 
-    def move(self, dx: int, dy: int) -> None:
-        """Move the `Image`"""
-
     def zoom(self, ratio: tuple[float, float]) -> None:
         """"""
-
-    def configure(self) -> None:
-        """Configure properties of the `Image` and update them immediately"""
 
 
 class Widget:
@@ -1010,12 +976,14 @@ class Widget:
         *,
         state: State = "normal",
         through: bool = False,
+        animation: bool = True,
     ) -> None:
         """"""
         self.master = master
-        self.position = list(position)
-        self.size = list(size)
+        self.x, self.y = position
+        self.w, self.h = size
         self.through = through
+        self.animation = animation
 
         self.texts: list[Text] = []
         self.shapes: list[Shape] = []
@@ -1038,16 +1006,16 @@ class Widget:
         else:
             raise TypeError
         component.display()
-        component.update()
+        component.update(no_delay=True)
 
     def _zoom(self, ratio: tuple[float, float] | None = None) -> None:
         """Zoom self"""
         if ratio is None:
             ratio = self.master._ratio
-        self.size[0] *= ratio[0]
-        self.size[1] *= ratio[1]
-        self.position[0] *= ratio[0]
-        self.position[1] *= ratio[1]
+        self.w *= ratio[0]
+        self.h *= ratio[1]
+        self.x *= ratio[0]
+        self.y *= ratio[1]
         for elem in self.shapes + self.texts + self.images:
             elem.zoom(ratio)
 
@@ -1060,14 +1028,14 @@ class Widget:
 
     def move(self, dx: int, dy: int) -> None:
         """Move the widget"""
-        self.position[0] += dx
-        self.position[1] += dy
+        self.x += dx
+        self.y += dy
         for elem in self.shapes + self.texts + self.images:
             elem.move(dx, dy)
 
     def moveto(self, x: int, y: int) -> None:
         """Move the Widget to a certain position"""
-        return self.move(x - self.position[0], y - self.position[0])
+        return self.move(x - self.x, y - self.y)
 
     def destroy(self) -> None:
         """Destroy the widget"""

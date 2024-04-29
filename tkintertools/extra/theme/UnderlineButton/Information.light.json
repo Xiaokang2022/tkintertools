@@ -1,14 +1,12 @@
 {
     "normal": {
         "text": {
-            "fill": "#1A1A1A",
-            "underline": false
+            "fill": "#1A1A1A"
         }
     },
     "hover": {
         "text": {
-            "fill": "blue",
-            "underline": true
+            "fill": "blue"
         }
     },
     "click": {

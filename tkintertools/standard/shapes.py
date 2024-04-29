@@ -34,25 +34,26 @@ class RegularPolygon(core.Shape):
     def __init__(
         self,
         widget: core.Widget,
+        rel_position: tuple[int, int] = (0, 0),
+        size: tuple[int, int] | None = None,
         *,
-        delta: tuple[float, float, float, float] | None = None,
         styles: dict[core.State, core.Style] | None = None,
         side: int = 3,
         angle: float = 0,
     ) -> None:
         self.side = side
         self.angle = angle
-        return core.Shape.__init__(self, widget, delta=delta, styles=styles)
+        return core.Shape.__init__(self, widget, rel_position, size, styles=styles)
 
     def display(self) -> None:
-        x, y, r = self.x, self.y, min(self.width, self.height) / 2
-        if self.side < 3 or self.widget.size // 2 < 1:
+        r = min(self.w, self.h) / 2
+        if self.side < 3:
             raise ValueError
         points = []
         for i in range(self.side):
             angle = math.tau*i/self.side+self.angle
-            points.append(math.cos(angle)*r + x + y/2)
-            points.append(math.sin(angle)*r + y + x/2)
+            points.append(math.cos(angle)*r + self.x + self.w/2)
+            points.append(math.sin(angle)*r + self.y + self.h/2)
 
         self.items = [self.widget.master.create_polygon(
             *points, tags="all")]
@@ -64,17 +65,18 @@ class RoundedRectangle(core.Shape):
     def __init__(
         self,
         widget: core.Widget,
+        rel_position: tuple[int, int] = (0, 0),
+        size: tuple[int, int] | None = None,
         *,
-        delta: tuple[float, float, float, float] | None = None,
         styles: dict[core.State, core.Style] | None = None,
         radius: int = 5,
     ) -> None:
         self.radius = radius
-        return core.Shape.__init__(self, widget, delta=delta, styles=styles)
+        return core.Shape.__init__(self, widget, rel_position, size, styles=styles)
 
     def display(self) -> None:
         """"""
-        x, y, w, h = self.x, self.y, self.width, self.height
+        x, y, w, h = self.x, self.y, self.w, self.h
         x1, y1, x2, y2 = x, y, x + w, y + h
         r, d = self.radius, self.radius*2
 
@@ -124,7 +126,7 @@ class SemicircularRectangle(core.Shape):
 
     def display(self) -> None:
         """"""
-        x, y, w, h = self.x, self.y, self.width, self.height
+        x, y, w, h = self.x, self.y, self.w, self.h
         x1, y1, x2, y2 = x, y, x + w, y + h
         d = h
         r = d/2
@@ -158,8 +160,9 @@ class SharpRectangle(core.Shape):
     def __init__(
         self,
         widget: core.Widget,
+        rel_position: tuple[int, int] = (0, 0),
+        size: tuple[int, int] | None = None,
         *,
-        delta: tuple[float, float, float, float] | None = None,
         styles: dict[core.State, core.Style] | None = None,
         theta: float = math.pi/6,
         ratio: tuple[float, float] = (0.5, 0.5),
@@ -170,11 +173,11 @@ class SharpRectangle(core.Shape):
             raise ValueError
         if math.isclose(abs(self.ratio[0] - self.ratio[1]), 1):
             _tools.info("Parallelogram")
-        return core.Shape.__init__(self, widget, delta=delta, styles=styles)
+        return core.Shape.__init__(self, widget, rel_position, size, styles=styles)
 
     def display(self) -> None:
         """"""
-        x, y, w, h = self.x, self.y, self.width, self.height
+        x, y, w, h = self.x, self.y, self.w, self.h
 
         if w < h:
             raise ValueError
@@ -206,19 +209,20 @@ class Parallelogram(core.Shape):
     def __init__(
         self,
         widget: core.Widget,
+        rel_position: tuple[int, int] = (0, 0),
+        size: tuple[int, int] | None = None,
         *,
-        delta: tuple[float, float, float, float] | None = None,
         styles: dict[core.State, core.Style] | None = None,
         theta: float = math.pi/6,
     ) -> None:
         self.theta = theta
         if not 0 <= theta <= math.pi/3:
             raise ValueError
-        return core.Shape.__init__(self, widget, delta=delta, styles=styles)
+        return core.Shape.__init__(self, widget, rel_position, size, styles=styles)
 
     def display(self) -> None:
         """"""
-        x, y, w, h = self.x, self.y, self.width, self.height
+        x, y, w, h = self.x, self.y, self.w, self.h
 
         if (dx := h*math.tan(self.theta)) >= w:
             raise RuntimeError
