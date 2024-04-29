@@ -36,12 +36,22 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
+         <loc>https://Xiaokang2022.github.io/tkintertools/more/CODE_OF_CONDUCT/</loc>
+         <lastmod>2024-04-29</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
          <loc>https://Xiaokang2022.github.io/tkintertools/more/CONTRIBUTING/</loc>
          <lastmod>2024-04-29</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://Xiaokang2022.github.io/tkintertools/more/LICENSE/</loc>
+         <lastmod>2024-04-29</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://Xiaokang2022.github.io/tkintertools/more/SECURITY/</loc>
          <lastmod>2024-04-29</lastmod>
          <changefreq>daily</changefreq>
     </url>
