@@ -330,3 +330,7 @@ nav: # 导航栏
 
   - Projects / 项目:
       - Overview - 项目概览: projects/index.md
+      - New Version Projects - 新版项目:
+          - 01. Intelligent Magic Cube: projects/Intelligent Magic Cube.md
+      - Old Version Projects - 旧版项目:
+          - 01. Chess: projects/Chess.md

@@ -7,7 +7,11 @@ Here are some examples of projects developed with `tkintertools`.
 
 ## New Version Projects - 新版项目
 
-### 1. Magic Cube - 魔方
+### 1. Intelligent Magic Cube - 智能魔方
+
+<img alt="Watchers" src="https://img.shields.io/github/watchers/Xiaokang2022/Intelligent-Magic-Cube?label=Watchers&logo=github&style=flat" title="Watchers" />
+<img alt="Forks" src="https://img.shields.io/github/forks/Xiaokang2022/Intelligent-Magic-Cube?label=Forks&logo=github&style=flat" title="Forks" />
+<img alt="Stars" src="https://img.shields.io/github/stars/Xiaokang2022/Intelligent-Magic-Cube?label=Stars&color=gold&logo=github&style=flat" title="Stars" />
 
 * Version - 版本: 1.2
 * Python - 环境: 3.12
@@ -16,7 +20,7 @@ Here are some examples of projects developed with `tkintertools`.
 * url - 网址链接: https://xiaokang2022.blog.csdn.net/article/details/136768000
 * GitHub - 仓库: https://github.com/Xiaokang2022/Intelligent-Magic-Cube
 
-![png](./images/Magic%20Cube.png)
+![png](https://github.com/Xiaokang2022/Intelligent-Magic-Cube/blob/main/preview.png?raw=true)
 
 ### 2. Super Gobang - 五子棋
 
@@ -51,14 +55,18 @@ Here are some examples of projects developed with `tkintertools`.
 
 ### 1. Chinese Chess - 中国象棋
 
-* Version - 版本: 1.3
-* Python - 环境: 3.10
+<img alt="Watchers" src="https://img.shields.io/github/watchers/Xiaokang2022/Chess?label=Watchers&logo=github&style=flat" title="Watchers" />
+<img alt="Forks" src="https://img.shields.io/github/forks/Xiaokang2022/Chess?label=Forks&logo=github&style=flat" title="Forks" />
+<img alt="Stars" src="https://img.shields.io/github/stars/Xiaokang2022/Chess?label=Stars&color=gold&logo=github&style=flat" title="Stars" />
+
+* Version - 版本: 1.8
+* Python - 环境: 3.12
 * OS - 操作系统: Windows
 * tkintertools: 2.5.9.5
 * url - 网址链接: https://xiaokang2022.blog.csdn.net/article/details/128852029
 * GitHub - 仓库: https://github.com/Xiaokang2022/Chess
 
-![png](./images/Chinese%20Chess.png)
+![png](https://github.com/Xiaokang2022/Chess/blob/master/preview.png?raw=true)
 
 ### 2. Todo List - 任务清单
 
