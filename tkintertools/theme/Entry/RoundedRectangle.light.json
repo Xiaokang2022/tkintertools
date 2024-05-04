@@ -1,0 +1,35 @@
+{
+    "normal": {
+        "in": {
+            "fill": "#FBFBFB"
+        },
+        "out_line": {
+            "fill": "#E5E5E5"
+        },
+        "out_arc": {
+            "outline": "#E5E5E5"
+        }
+    },
+    "hover": {
+        "in": {
+            "fill": "#F6F6F6"
+        },
+        "out_line": {
+            "fill": "#E5E5E5"
+        },
+        "out_arc": {
+            "outline": "#E5E5E5"
+        }
+    },
+    "click": {
+        "in": {
+            "fill": "#FFFFFF"
+        },
+        "out_line": {
+            "fill": "#E5E5E5"
+        },
+        "out_arc": {
+            "outline": "#E5E5E5"
+        }
+    }
+}

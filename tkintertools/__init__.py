@@ -27,15 +27,18 @@ If you want to know more information,
 please see https://github.com/Xiaokang2022/tkintertools.
 """
 
+import ctypes
+import platform
 import sys
 
 if sys.version_info < (3, 12):
     raise ImportError("Python version requirement is 3.12 or higher.")
 
-from .constants import *
-from .core import *
-from .extra.widgets_ex import *
-from .standard.widgets import *
+if platform.system() == "Windows":  # Set Windows DPI awareness
+    ctypes.WinDLL("shcore").SetProcessDpiAwareness(1)
 
-__version__ = "3.0.0.alpha6"
+from .core import *
+from .standard import *
+
+__version__ = "3.0.0.alpha7"
 __author__ = "Xiaokang2022 <2951256653@qq.com>"

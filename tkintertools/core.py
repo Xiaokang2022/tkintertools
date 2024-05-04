@@ -43,16 +43,15 @@ import ctypes
 import math
 import pathlib
 import platform
+import threading
 import tkinter
+import tkinter.font as font
 import typing
-from tkinter import font
 
-from . import _tools, color, constants, style
+import darkdetect
+
+from . import color, constants, exceptions, style
 from .animate import animations
-
-if platform.system() == "Windows":  # Set Windows DPI awareness
-    ctypes.WinDLL("shcore").SetProcessDpiAwareness(1)
-
 
 type State = str | int
 type Tag = str | int
@@ -93,6 +92,8 @@ class Tk(tkinter.Tk):
         self.title(title)
         self.theme(**self._theme)
         self.geometry(size=size, position=position)
+        threading.Thread(target=darkdetect.listener, args=(
+            lambda theme: self._switch_theme(theme == "Dark"),), daemon=True).start()
 
         self.bind("<Configure>", lambda _: self._zoom())
 
@@ -170,7 +171,7 @@ class Tk(tkinter.Tk):
         try:
             HWND = ctypes.windll.user32.GetParent(self.winfo_id())
             if dark is None:
-                dark = _tools.is_dark()
+                dark = darkdetect.isDark()
             if dark is not None:
                 ctypes.windll.dwmapi.DwmSetWindowAttribute(
                     HWND, 20, ctypes.byref(ctypes.c_int(dark)), 4)
@@ -181,13 +182,28 @@ class Tk(tkinter.Tk):
                     ctypes.windll.dwmapi.DwmSetWindowAttribute(
                         HWND, 34 + i, ctypes.byref(ctypes.c_int(color.str_to_hex(value, reverse=True))), 4)
         except:
-            _tools.warning(
+            exceptions._warning(
                 f"Some parameters are not available on the current OS({platform.system()})!")
         if background is not None:
             self["bg"] = background
         self._theme.update(
             dark=dark, bordercolor=bordercolor, captioncolor=captioncolor,
             titlecolor=titlecolor, background=background)
+
+    def _switch_theme(self, dark: bool) -> None:
+        """"""
+        self.theme(dark=dark)
+        for container in self.children:
+            if isinstance(container, Toplevel):
+                container._switch_theme(dark=dark)
+        for canvas in self._canvases:
+            canvas["bg"] = canvas.master["bg"]
+            canvas["insertbackground"] = "white" if dark else "black"
+            for widget in canvas._widgets:
+                for component in widget.shapes + widget.texts + widget.images:
+                    if styles := style.get(widget, component):
+                        component.styles = styles
+                widget.update()
 
     def alpha(self, value: float | None = None) -> float | None:
         """
@@ -434,6 +450,8 @@ class Canvas(tkinter.Canvas):
             self["bg"] = master["bg"]
         if kw.get("highlightthickness") is None:
             self["highlightthickness"] = 0
+        if kw.get("insertbackground") is None:
+            self["insertbackground"] = "white" if master._theme["dark"] else "black"
 
         self.master._canvases.append(self)
 
@@ -462,6 +480,8 @@ class Canvas(tkinter.Canvas):
                   lambda event: self._release(event, "right"))
 
         self.bind("<Configure>", lambda _: self._zoom_self())
+
+        self.focus_set()
 
     def get_canvases(self) -> tuple[typing.Self, ...]:
         """Retrun all child `Canvas` of the `Canvas`"""
@@ -831,19 +851,19 @@ class Component(abc.ABC):
                     else:
                         self.widget.master.itemconfigure(item, **kwargs)
 
-    def appear(self) -> None:
+    def appear(self, *, no_delay: bool = True) -> None:
         """"""
         self.visible = True
-        self.update(self.widget.state, no_delay=True)
+        self.update(self.widget.state, no_delay=no_delay)
 
-    def disappear(self) -> None:
+    def disappear(self, *, no_delay: bool = True) -> None:
         """"""
         self.visible = False
         temp_style = copy.deepcopy(self.styles[self.widget.state])
         for style in temp_style.values():
             for arg in style:
                 style[arg] = ""
-        self.configure(temp_style, no_delay=True)
+        self.configure(temp_style, no_delay=no_delay)
 
     @abc.abstractmethod
     def zoom(self, ratio: tuple[float, float]) -> None:
@@ -1019,12 +1039,12 @@ class Widget:
         for elem in self.shapes + self.texts + self.images:
             elem.zoom(ratio)
 
-    def update(self, state: State | None = None) -> None:
+    def update(self, state: State | None = None, *, no_delay: bool = False) -> None:
         """Update the widget"""
         if state is not None:
             self.state = state
         for elem in self.shapes + self.texts:
-            elem.update(state)
+            elem.update(state, no_delay=no_delay)
 
     def move(self, dx: int, dy: int) -> None:
         """Move the widget"""
@@ -1042,3 +1062,7 @@ class Widget:
         self.master._widgets.remove(self)
         for elem in self.shapes + self.texts + self.images:
             elem.destroy()
+
+    def focus_set(self, *args) -> None:
+        """"""
+        self.master.focus(*args)

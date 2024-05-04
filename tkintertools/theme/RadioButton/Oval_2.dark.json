@@ -10,5 +10,11 @@
             "fill": "#49B3EB",
             "outline": "#49B3EB"
         }
+    },
+    "click": {
+        "all": {
+            "fill": "#49B3EB",
+            "outline": "#49B3EB"
+        }
     }
 }

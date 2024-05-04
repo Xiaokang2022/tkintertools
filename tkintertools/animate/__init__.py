@@ -60,5 +60,5 @@ class Animation:
 
     def stop(self) -> None:
         """"""
-        for task in self._tasks:
+        for task in self._tasks[::-1]:
             tkinter._default_root.after_cancel(task)

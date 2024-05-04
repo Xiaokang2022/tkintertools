@@ -1,6 +1,181 @@
 Change Log - 更新日志
 ====================
 
+[`3.0.0.alpha7`] - 2024-05-05
+-----------------------------
+
+- [X] Introducing a pure Python-based third-party module, `darkdetect`, to implement theme dynamic following system and multi-OS dark theme support   
+引入纯 Python 实现的第三方模块 `darkdetect`，以实现主题动态跟随系统以及多操作系统暗黑主题的支持 
+
+- [X] Added text class widget  
+新增文本类小部件
+
+- [X] Fixed a few bugs and added a lot of content to the framework  
+修复些许 bug，框架内增加大量内容
+
+- [X] Some basic dialogs have been added  
+增加了部分基本对话框
+
+[`3.0.0.alpha6`] - 2024-04-30
+-----------------------------
+
+- [X] The framework has been further upgraded to allow you to build widgets for complex elements  
+框架进一步升级，可以构建复杂元素的小部件了
+
+- [X] A lot of bugs have been fixed, and a lot of content has been improved within the framework  
+修复大量 bug，框架内完善大量内容
+
+- [X] The animation sub-module has been added to build high-precision and complex animations  
+新增动画子模块，可以构建高精度复杂动画了
+
+- [X] Color gradient animations are added to widgets, and special animations are added to some widgets, such as switch switches  
+小部件增加颜色渐变动画，部分小部件增加特殊动画，如开关切换等
+
+- [X] Some widgets have been improved  
+完善部分小部件
+
+[`3.0.0.alpha5`] - 2024-04-16
+-----------------------------
+
+- [X] The framework has been upgraded to allow you to build multi-element widgets  
+框架升级，可以构建多元素的控件了
+
+- [X] A lot of bugs have been fixed, and a lot of content has been improved within the framework  
+修复大量 bug，框架内完善大量内容
+
+- [X] The theme binding method has been changed to improve the degree of automation, free hands as much as possible, and reduce the amount of code for users  
+主题绑定方式更改，提高自动化程度，尽可能解放双手，减少用户的代码量
+
+- [X] UI evolution to reduce aliasing and improve clarity  
+UI 进化，减小锯齿感，提升清晰度
+
+- [X] Some standard widgets have been added  
+增加部分标准控件
+
+[`3.0.0.alpha4`] - 2024-04-05
+-----------------------------
+
+- [X] The 3D submodule of `tkt 2` was successfully ported to `tkt 3`  
+成功将 `tkt 2` 的 3D 子模块移植到 `tkt 3` 上
+
+- [X] A lot of bugs have been fixed, and a lot of content has been improved within the framework  
+修复大量 bug，框架内完善大量内容
+
+- [X] Added a theme mechanism that allows two sets of themes that can be switched between light and dark  
+新增主题机制，允许明暗两套可切换的主题
+
+- [X] The UI has been updated to provide both Windows 10 and Windows 11 style dark and bright themes  
+UI 更新，提供 Windows 10 和 Windows 11 风格的暗黑与明亮两套主题
+
+- [X] Highly customizable widgets are now available  
+可高度定制化小部件了
+
+[`3.0.0.alpha3`] - 2024-02-20
+-----------------------------
+
+- [X] Fixed a few bugs and added a lot of content to the framework  
+修复些许 bug，框架内增加大量内容
+
+- [X] The designer is in development mode  
+设计器已进入开发状态
+
+[`3.0.0.alpha2`] - 2024-02-18
+-----------------------------
+
+- [X] Fixed a few bugs and added a lot of content to the framework  
+修复些许 bug，框架内增加大量内容
+
+- [X] Added some widgets  
+新增一些小部件
+
+- [X] The background color of the container widget automatically follows the parent widget  
+容器小部件的背景色自动跟随父小部件
+
+[`3.0.0.alpha1`] - 2024-02-17
+-----------------------------
+
+- [X] The widget framework has been built, the details are not yet completed, and some widgets have been built for testing  
+控件框架搭建完成，细节部分还未完成，已构建部分控件用于测试
+
+- [X] Customizable widgets are now available  
+可定制化小部件了
+
+- [X] Fixed a few bugs and added a lot of content to the framework  
+修复些许 bug，框架内增加大量内容
+
+- [X] Improved `Canvas`'s scaling mechanism  
+完善了 `Canvas` 的缩放机制
+
+- [X] Added some widgets  
+新增一些小部件
+
+[`3.0.0.dev9`] - 2023-02-16
+---------------------------
+
+- [X] The widget framework is almost complete, and the details are not yet complete  
+控件框架基本完成，细节部分还未完成
+
+[`3.0.0.dev8`] - 2023-02-15
+---------------------------
+
+- [X] Container widget `tkt.Canvas` has completed support for `tkinter._CanvasItemId`, as well as a host of other improvements  
+容器控件 `tkt.Canvas` 已完成对 `tkinter._CanvasItemId` 的支持，以及其它大量改进
+
+[`3.0.0.dev7`] - 2023-02-04
+---------------------------
+
+- [X] Container widget `tkt.Canvas` has been adapted to three layouts: `Pack`, `Place`, and `Grid`, with `Place` being strengthened  
+容器控件 `tkt.Canvas` 已完成对三种布局方式 `Pack`、`Place` 和 `Grid` 的适配，其中 `Place` 被加强
+
+[`3.0.0.dev6`] - 2024-01-19
+---------------------------
+
+- [X] The window nesting feature is added under the Windows platform  
+Windows 平台下新增窗口嵌套功能
+
+- [X] Added controls for window border color, title bar background color, and title bar foreground color under the Windows platform  
+Windows 平台下新增对窗口边框颜色、标题栏背景色和标题栏前景色的控制
+
+[`3.0.0.dev5`] - 2023-09-26
+---------------------------
+
+- [X] Basic functions are being refactored...  
+基本功能重构中……
+
+[`3.0.0.dev4`] - 2023-09-24
+---------------------------
+
+- [X] Basic functions are being refactored...  
+基本功能重构中……
+
+[`3.0.0.dev3`] - 2023-09-21
+---------------------------
+
+- [X] Basic functions are being refactored...  
+基本功能重构中……
+
+[`3.0.0.dev2`] - 2023-09-21
+---------------------------
+
+- [X] Basic functions are being refactored...  
+基本功能重构中……
+
+[`3.0.0.dev1`] - 2023-09-20
+---------------------------
+
+- [X] Basic functions are being refactored...  
+基本功能重构中……
+
+[`3.0.0.dev0`] - 2023-09-19
+---------------------------
+
+- [X] Start a refactoring of the new version of `tkt 3` to solve the problems that can't be solved in `tkt 2` and bring more and better features!  
+开启全新版本 `tkt 3` 的重构，以解决 `tkt 2` 中无法解决的问题，并带来更多更棒的功能！
+
+> [!NOTE]
+> Here's the changelog for `tkt 2`  
+> 下面是 `tkt 2` 的更新日志
+
 [`2.6.21`] - 2024-01-01
 -----------------------
 

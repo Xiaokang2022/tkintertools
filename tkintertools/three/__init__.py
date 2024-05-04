@@ -7,7 +7,7 @@ import statistics
 import tkinter
 import typing
 
-from .. import constants, core, exceptions
+from .. import constants, core
 
 
 class Canvas3D(core.Canvas):
@@ -229,9 +229,6 @@ def scale(coordinate, kx=1, ky=1, kz=1, *, center):
     * `kz`: z 方向缩放比例
     * `center`: 缩放中心的空间坐标
     """
-    for k in kx, ky, kz:
-        if k <= 0:
-            raise exceptions.ScaleArgsValueError(k)
     for i, k in enumerate((kx, ky, kz)):
         coordinate[i] += (coordinate[i] - center[i]) * (k-1)
 
@@ -605,7 +602,7 @@ class Cuboid(Geometry):
         width,  # type: float
         height,  # type: float
         *,
-        boardwidth=constants.BORDERWIDTH,  # type: int
+        boardwidth=1,  # type: int
         color_fill_up="",  # type: str
         color_fill_down="",  # type: str
         color_fill_left="",  # type: str
@@ -672,7 +669,7 @@ class Tetrahedron(Geometry):
         point_3,  # type: tuple[float, float, float]
         point_4,  # type: tuple[float, float, float]
         *,
-        boardwidth=constants.BORDERWIDTH,  # type: int
+        boardwidth=1,  # type: int
         color_fill=("", "", "", ""),  # type: tuple[str, str, str, str]
         color_outline=("#000000", "#000000", "#000000", "#000000")
         # type: tuple[str, str, str, str]

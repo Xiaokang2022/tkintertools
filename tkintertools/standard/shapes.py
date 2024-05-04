@@ -2,7 +2,7 @@
 
 import math
 
-from .. import _tools, core
+from .. import core, exceptions
 
 
 class NoShape(core.Shape):
@@ -10,6 +10,29 @@ class NoShape(core.Shape):
 
     def display(self) -> None:
         pass
+
+
+class Line(core.Shape):
+    """"""
+
+    def __init__(
+        self,
+        widget: core.Widget,
+        rel_position: tuple[int, int] = (0, 0),
+        size: tuple[int, int] | None = None,
+        *,
+        width: int = 0,
+        points: list[tuple[float, float]] = [],
+        styles: dict[str | int, dict[str | int, dict[str, str]]] | None = None
+    ) -> None:
+        self.points = points
+        self.width = width
+        core.Shape.__init__(self, widget, rel_position, size, styles=styles)
+
+    def display(self) -> None:
+        points = [(x+self.x, y+self.y) for x, y in self.points]
+        self.items = [self.widget.master.create_line(
+            *points, tags="all", capstyle='round', width=self.width)]
 
 
 class Rectangle(core.Shape):
@@ -26,6 +49,21 @@ class Oval(core.Shape):
     def display(self) -> None:
         self.items = [self.widget.master.create_oval(
             *self.region(), tags="all")]
+
+
+# class Arc(core.Shape):
+#     """"""
+
+#     def __init__(
+#         self,
+#         widget: core.Widget,
+#         rel_position: tuple[int, int] = (0, 0),
+#         size: tuple[int, int] | None = None,
+#         *,
+#         angle: float = 0,
+#         styles: dict[str | int, dict[str | int, dict[str, str]]] | None = None
+#     ) -> None:
+#         super().__init__(widget, rel_position, size, styles=styles)
 
 
 class RegularPolygon(core.Shape):
@@ -81,12 +119,12 @@ class RoundedRectangle(core.Shape):
         r, d = self.radius, self.radius*2
 
         if d > w or d > h:
-            _tools.warning("选择 `Shapes.Oval` 会更好")
+            exceptions._warning("`Shapes.Oval`")
             raise ValueError
         elif d == 0:
-            _tools.info("选择 `Shapes.Rectangle` 会更好")
+            exceptions._info("`Shapes.Rectangle`")
         elif w < d < h or w < d < h:
-            _tools.warning("选择 `Shapes.SemicircularRectangle` 会更好")
+            exceptions._warning("`Shapes.SemicircularRectangle`")
             raise ValueError
 
         self.items = [
@@ -134,7 +172,7 @@ class SemicircularRectangle(core.Shape):
         if d < 0:
             raise ValueError
         elif d == 0:
-            _tools.info("shapes.Rectangle")
+            exceptions._info("shapes.Rectangle")
 
         self.items = [
             self.widget.master.create_arc(
@@ -172,7 +210,7 @@ class SharpRectangle(core.Shape):
         if not 0 <= theta <= math.pi/3:
             raise ValueError
         if math.isclose(abs(self.ratio[0] - self.ratio[1]), 1):
-            _tools.info("Parallelogram")
+            exceptions._info("Parallelogram")
         return core.Shape.__init__(self, widget, rel_position, size, styles=styles)
 
     def display(self) -> None:
@@ -238,3 +276,22 @@ class Parallelogram(core.Shape):
 
         self.items = [self.widget.master.create_polygon(
             *points, tags="all")]
+
+
+class Cursor(core.Shape):
+    """"""
+
+    def __init__(
+        self,
+        widget: core.Widget,
+        height: int,
+        *,
+        styles: dict[str | int, dict[str | int, dict[str, str]]] | None = None
+    ) -> None:
+        self.height = height
+        core.Shape.__init__(self, widget, styles=styles)
+
+    def display(self) -> None:
+        dh = self.h - self.height
+        coords = [(self.x, self.y+dh/2), (self.x, self.y+self.h-dh/2)]
+        self.items = [self.widget.master.create_line(*coords, tags="all")]

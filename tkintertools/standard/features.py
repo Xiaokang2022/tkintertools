@@ -84,17 +84,17 @@ class UnderLine(Button):
         if flag := self.widget.texts[0].detect((event.x, event.y)):
             if self.widget.state == "normal":
                 self.widget.texts[0].font.config(underline=True)
-                self.widget.update("hover")
+                self.widget.update("hover", no_delay=True)
                 self.widget.master.configure(cursor="hand2")
         else:
             if self.widget.state != "normal":
                 self.widget.texts[0].font.config(underline=False)
-                self.widget.update("normal")
+                self.widget.update("normal", no_delay=True)
         return flag
 
     def _click_left(self, _: tkinter.Event) -> bool:
         if flag := self.widget.state == "hover":
-            self.widget.update("click")
+            self.widget.update("click", no_delay=True)
         return flag
 
     def _release_left(self, event: tkinter.Event) -> bool:
@@ -102,13 +102,13 @@ class UnderLine(Button):
         if self.widget.texts[0].detect((event.x, event.y)):
             if self.widget.state == "click":
                 self.widget.texts[0].font.config(underline=True)
-                self.widget.update("hover")
+                self.widget.update("hover", no_delay=True)
                 if self._command is not None:
                     self._command(*self._args)
                 return True
         elif self.widget.state == "click":
             self.widget.texts[0].font.config(underline=False)
-            self.widget.update("normal")
+            self.widget.update("normal", no_delay=True)
             self.widget.master.configure(cursor="arrow")
         return False
 
@@ -118,19 +118,16 @@ class Highlight(Button):
 
     def __init__(self, widget: core.Widget, *, command: typing.Callable[..., typing.Any], args: tuple = ()) -> None:
         super().__init__(widget, command=command, args=args)
-        # self._font = self.widget.texts[0].font.cget("size")
 
     def _move_none(self, event: tkinter.Event) -> bool:
         if flag := self.widget.texts[0].detect((event.x, event.y)):
             if self.widget.state == "normal":
-                # self.widget.texts[0].font.config(size=-28)
                 animations.ScaleFontSize(
                     self.widget.texts[0], 150, delta=28).start()
                 self.widget.update("hover")
                 self.widget.master.configure(cursor="hand2")
         else:
             if self.widget.state != "normal":
-                # self.widget.texts[0].font.config(size=-24)
                 animations.ScaleFontSize(
                     self.widget.texts[0], 150, delta=24).start()
                 self.widget.update("normal")
@@ -138,7 +135,6 @@ class Highlight(Button):
 
     def _click_left(self, _: tkinter.Event) -> bool:
         if flag := self.widget.state == "hover":
-            # self.widget.texts[0].font.config(size=-26)
             animations.ScaleFontSize(
                 self.widget.texts[0], 150, delta=26).start()
             self.widget.update("click")
@@ -148,7 +144,6 @@ class Highlight(Button):
         """"""
         if self.widget.texts[0].detect((event.x, event.y)):
             if self.widget.state == "click":
-                # self.widget.texts[0].font.config(size=-28)
                 animations.ScaleFontSize(
                     self.widget.texts[0], 150, delta=28).start()
                 self.widget.update("hover")
@@ -156,7 +151,6 @@ class Highlight(Button):
                     self._command(*self._args)
                 return True
         elif self.widget.state == "click":
-            # self.widget.texts[0].font.config(size=-24)
             animations.ScaleFontSize(
                 self.widget.texts[0], 150, delta=24).start()
             self.widget.update("normal")
@@ -204,13 +198,17 @@ class Switch(Button):
 class CheckButton(Button):
     """"""
 
+    def _click_left(self, _: tkinter.Event) -> bool:
+        if flag := self.widget.state == "hover":
+            self.widget.update("click", no_delay=True)
+        return flag
+
     def _release_left(self, event: tkinter.Event) -> bool:
         """"""
         if self.widget.shapes[0].detect((event.x, event.y)):
             if self.widget.state == "click":
-                self.widget.update("hover")
-                boolean = not self.widget.get()
-                self.widget.set(boolean)
+                self.widget.set(boolean := not self.widget.get())
+                self.widget.update("hover", no_delay=True)
                 if self._command is not None:
                     self._command(boolean)
                 return True
@@ -220,7 +218,7 @@ class CheckButton(Button):
         return False
 
 
-class RadioButton(Button):
+class RadioButton(CheckButton):
     """"""
 
 
@@ -228,9 +226,59 @@ class ProgressBar(Label):
     """"""
 
 
-class Slider(Button):
+class Entry(Button):
     """"""
 
+    def __init__(
+        self,
+        widget: core.Widget
+    ) -> None:
+        """"""
+        core.Feature.__init__(self, widget)
 
-class Dial(Button):
-    """"""
+    def _move_none(self, event: tkinter.Event) -> bool:
+        if flag := self.widget.shapes[0].detect((event.x, event.y)):
+            self.widget.master.configure(cursor="xterm")
+            if self.widget.state == "normal":
+                self.widget.update("hover")
+        else:
+            if self.widget.state == "hover":
+                self.widget.update("normal")
+        return flag
+
+    def _click_left(self, event: tkinter.Event) -> bool:
+        if flag := self.widget.shapes[0].detect((event.x, event.y)):
+            self.widget.update("click")
+            self.widget.master.focus(self.widget.texts[0].items[0])
+            self.widget.texts[0].set_cursor(self.widget.texts[0].length())
+        else:
+            self.widget.update("normal")
+            self.widget.master.focus("")
+        return flag
+
+    def _release_left(self, event: tkinter.Event) -> bool:
+        """"""
+        return False
+
+    def _input(self, event: tkinter.Event) -> bool:
+        if self.widget.state == "click":
+            if event.keysym == "Right":
+                self.widget.texts[0].set_cursor(
+                    self.widget.texts[0].get_cursor() + 1)
+            elif event.keysym == "Left":
+                if (index := self.widget.texts[0].get_cursor() - 1) >= 0:
+                    self.widget.texts[0].set_cursor(index)
+            elif event.keysym == "BackSpace":
+                if (index := self.widget.texts[0].get_cursor() - 1) >= 0:
+                    self.widget.texts[0].delete(index, index)
+            elif event.char.isprintable():
+                if self.widget.texts[0].length() < self.widget.texts[0].limit:
+                    self.widget.texts[0].insert(
+                        self.widget.texts[0].get_cursor(), event.char)
+                if self.widget.texts[0].width() > self.widget.w:
+                    pass
+        return False
+
+
+# class Slider(core.Feature):
+#     """"""

@@ -72,8 +72,8 @@ pip install tkintertools
 
 ### Development Version - 开发版本
 
-* 🔖 Version - 最新版本 : `3.0.0.alpha6`
-* 🕓 Update - 更新日期 : 2024/04/30
+* 🔖 Version - 最新版本 : `3.0.0.alpha7`
+* 🕓 Update - 更新日期 : 2024/05/05
 * ✨ Feature - 更新内容 : [News-3.0.0(pre)](https://xiaokang2022.github.io/tkintertools/news/3.0.0/News/)
 
 ```sh
