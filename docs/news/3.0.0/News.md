@@ -4,32 +4,24 @@ comments: true
 
 # Release Notes - 版本发布说明
 
-!!! warning "Warning - 警告"
-
-    This section is still in development...  
-    此部分仍在开发中...
-
 ## Framework - 框架
 
--   Version - 最新版本 : `3.0.0.alpha6`
--   Last Update - 上次更新 : 2024/04/30
+-   Version - 最新版本 : `3.0.0.alpha7`
+-   Last Update - 上次更新 : 2024/05/05
 
 ### Change Things - 更新内容
 
-- [X] The framework has been further upgraded to allow you to build widgets for complex elements  
-框架进一步升级，可以构建复杂元素的小部件了
+- [X] Introducing a pure Python-based third-party module, `darkdetect`, to implement theme dynamic following system and multi-OS dark theme support   
+引入纯 Python 实现的第三方模块 `darkdetect`，以实现主题动态跟随系统以及多操作系统暗黑主题的支持 
 
-- [X] A lot of bugs have been fixed, and a lot of content has been improved within the framework  
-修复大量 bug，框架内完善大量内容
+- [X] Added text class widget  
+新增文本类小部件
 
-- [X] The animation sub-module has been added to build high-precision and complex animations  
-新增动画子模块，可以构建高精度复杂动画了
+- [X] Fixed a few bugs and added a lot of content to the framework  
+修复些许 bug，框架内增加大量内容
 
-- [X] Color gradient animations are added to widgets, and special animations are added to some widgets, such as switch switches  
-小部件增加颜色渐变动画，部分小部件增加特殊动画，如开关切换等
-
-- [X] Some widgets have been improved  
-完善部分小部件
+- [X] Some basic dialogs have been added  
+增加了部分基本对话框
 
 ### Base Test - 基础测试
 
@@ -72,12 +64,12 @@ comments: true
     tkt.UnderlineButton(canvas, (650, 100), (200, 50), text='UnderlineButton')
     tkt.HighlightButton(canvas, (900, 100), (200, 50), text='HighlightButton')
 
-    tkt.Switch(canvas, (100, 200), 60, default=True)
-    tkt.CheckButton(canvas, (350, 200), 30, default=True)
-    tkt.RadioButton(canvas, (500, 200), 24)
+    tkt.Entry(canvas, (100, 200), (200, 40))
+    tkt.Switch(canvas, (350, 200), 60, default=True)
+    tkt.CheckButton(canvas, (500, 200), 30, default=True)
+    tkt.RadioButton(canvas, (550, 200), 24)
     pb1 = tkt.ProgressBar(canvas, (650, 200), (450, 8))
     pb2 = tkt.ProgressBar(canvas, (650, 200+30), (450, 20))
-
 
     animations.Animation(2000, controllers.smooth, callback=pb1.set,
                         fps=60, repeat=math.inf).start(delay=0)
@@ -92,9 +84,10 @@ comments: true
     tkt.UnderlineButton(canvas, (650, 300), (200, 50), text='UnderlineButton')
     tkt.HighlightButton(canvas, (900, 300), (200, 50), text='HighlightButton')
 
-    tkt.Switch(canvas, (100, 400), 60)
-    tkt.CheckButton(canvas, (350, 400), 30, default=True)
-    tkt.RadioButton(canvas, (500, 400), 24)
+    tkt.Entry(canvas, (100, 400), (200, 40))
+    tkt.Switch(canvas, (350, 400), 60)
+    tkt.CheckButton(canvas, (500, 400), 30)
+    tkt.RadioButton(canvas, (550, 400), 24).set(False)
     pb3 = tkt.ProgressBar(canvas, (650, 400), (450, 8))
     pb4 = tkt.ProgressBar(canvas, (650, 400+30), (450, 20))
 
@@ -133,9 +126,9 @@ comments: true
             s1 = style.get(tkt.Button, shapes.Rectangle)
             s2 = style.get(tkt.Button, shapes.RoundedRectangle)
             match id:
-                case 0: shapes.Rectangle(self, styles=s1)
+                case 0: shapes.Rectangle(self)
                 case 1: shapes.Oval(self, styles=s1)
-                case 2: shapes.RegularPolygon(self, styles=s1, side=5)
+                case 2: shapes.RegularPolygon(self, side=5)
                 case 3: shapes.RoundedRectangle(self, styles=s2)
                 case 4: shapes.SemicircularRectangle(self, styles=s2)
                 case 5: shapes.SharpRectangle(self, styles=s1)
