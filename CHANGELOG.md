@@ -4,6 +4,7 @@ Changelog - 更新日志
 > [!TIP]  
 > This changelog has the following 7 types of updates, each of which is represented by 7 different colors  
 > 此更新日志有以下 7 中类型的更新内容，分别用 7 中不同颜色来表示
+> 
 > * 🟢 **Added - 新增**
 > * 🔴 **Removed - 移除**
 > * 🟡 **Changed - 变更**
@@ -271,7 +272,7 @@ Windows 平台下新增对窗口边框颜色、标题栏背景色和标题栏前
 - Fixed a bug where the parameter `proportion` of the function `color` was invalid  
 修复了函数 `color` 的参数 `proportion` 失效的问题
 
-- Fixed a bug where the `configure` parameter of the `Switch` class was incorrect
+- Fixed a bug where the `configure` parameter of the `Switch` class was incorrect  
 修复了类 `Switch` 的方法 `configure` 参数取值错误的问题
 
 🔴 **Removed - 移除**
@@ -640,11 +641,8 @@ Windows 平台下新增对窗口边框颜色、标题栏背景色和标题栏前
 🟣 **Fixed - 修复**
 
 - Fixed the bug that widgets `Entry` and `Text` would report an error when pasting text  
-修复小部件 `Entry` 和 `Text` 粘贴文本时会报错的 bug
-
-> [!NOTE]  
-> Thanks to netizens [一梦千年](mailto:1076336488@qq.com) for discovering the above bug  
-> 感谢网友 [一梦千年](mailto:1076336488@qq.com) 发现了上面的 bug
+修复小部件 `Entry` 和 `Text` 粘贴文本时会报错的 bug  
+💡 *This bug was discovered by [一梦千年](mailto:1076336488@qq.com)*
 
 🟡 **Changed - 变更**
 
@@ -1202,11 +1200,8 @@ Windows 平台下新增对窗口边框颜色、标题栏背景色和标题栏前
 🟣 **Fixed - 修复**
 
 - Solved the bug that the `destroy` method of the widget can only delete half of the widgets when traversing  
-解决了小部件的 `destroy` 方法在遍历使用时只能删除一半小部件的 bug
-
-> [!NOTE]  
-> Thanks to [-ShuiGuang-](https://blog.csdn.net/atlantis618) for finding the above bug  
-> 感谢 [-ShuiGuang-](https://blog.csdn.net/atlantis618) 发现了上面的 bug
+解决了小部件的 `destroy` 方法在遍历使用时只能删除一半小部件的 bug  
+💡 *This bug was discovered by [-ShuiGuang-](https://blog.csdn.net/atlantis618)*
 
 🔵 **Optimized - 优化**
 
@@ -1281,10 +1276,10 @@ Windows 平台下新增对窗口边框颜色、标题栏背景色和标题栏前
 - Some redundant codes are deleted to improve the overall running speed  
 删除了部分冗余代码，提升总体运行速度
 
-📑 Older Log - 之前的日志
--------------------------
+📑 Older Logs - 旧日志
+----------------------
 
-> [!TIP]  
+> [!NOTE]  
 > The following logs belong to the ones found from ancient commit records, only date and version number, no specific content... Since I didn't get into the habit of logging before, there are no more detailed logs, but fortunately the version number is inherited 😅  
 > 下面的日志属于从远古的提交记录中找到的，只有日期和版本号，没有具体的内容…… 由于我以前没有养成记录日志的习惯，故没有更多的详细的日志了，好在版本号继承了下来 😅
 
