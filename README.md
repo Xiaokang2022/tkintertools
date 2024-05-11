@@ -1,6 +1,6 @@
 <h1 align="center">tkintertools</h1>
 
-<p align="center"><img alt="logo" src="https://xiaokang2022.github.io/tkintertools/logo.png" title="Nice Logo!" /></p>
+<p align="center"><img alt="logo" src="https://xiaokang2022.github.io/tkintertools/logo.png" title="Logo" /></p>
 
 <p align="center">
 <code>tkintertools</code> 是一个基于 <code>tkinter</code> 的 <code>Canvas</code> 类的 UI 框架
@@ -9,11 +9,11 @@
 </p>
 
 <p align="center">
-<a href="."><img alt="Version" src="https://img.shields.io/pypi/v/tkintertools?label=Version" title="Stable Version" /></a>
+<a href="."><img alt="Version" src="https://img.shields.io/pypi/v/tkintertools?label=Version" title="Version" /></a>
 <a href="./LICENSE.txt"><img alt="License" src="https://img.shields.io/pypi/l/tkintertools?label=License" title="License" /></a>
 <a href="https://pypistats.org/packages/tkintertools"><img alt="Downloads" src="https://img.shields.io/pypi/dm/tkintertools?label=Downloads" title="Downloads" /></a>
 <a href="https://pepy.tech/project/tkintertools"><img alt="Total Downloads" src="https://static.pepy.tech/badge/tkintertools" title="Total Downloads" /></a>
-<a href="https://github.com/Xiaokang2022/tkintertools"><img alt="Size" src="https://img.shields.io/github/languages/code-size/Xiaokang2022/tkintertools?label=Size" /></a>
+<a href="https://github.com/Xiaokang2022/tkintertools"><img alt="Size" src="https://img.shields.io/github/languages/code-size/Xiaokang2022/tkintertools?label=Size" title="Code Size"/></a>
 <br/>
 <a href="https://github.com/Xiaokang2022/tkintertools/watchers"><img alt="Watchers" src="https://img.shields.io/github/watchers/Xiaokang2022/tkintertools?label=Watchers&logo=github&style=flat" title="Watchers" /></a>
 <a href="https://github.com/Xiaokang2022/tkintertools/forks"><img alt="Forks" src="https://img.shields.io/github/forks/Xiaokang2022/tkintertools?label=Forks&logo=github&style=flat" title="Forks" /></a>
@@ -38,15 +38,11 @@
 </p>
 
 > [!NOTE]  
-> Recently, the star ⭐ of this project has maintained a clear upward trend. I would like to thank you all for your support of this project! ❤️  
-> 近段时间，本项目的 Star ⭐ 一直保持明显的上升趋势。在此我衷心地感谢大家对本项目的支持！❤️
+> Recently, the ⭐ of this project has maintained a clear upward trend. I would like to thank you all for your support of this project! ❤️  
+> 近段时间，本项目的 ⭐ 一直保持明显的上升趋势。在此我衷心地感谢大家对本项目的支持！❤️
 
 Install - 模块安装
 -----------------
-
-> [!IMPORTANT]  
-> The open source license for `tkintertools 3` will be replaced with **MIT**, but the open source license for `tkintertools 2` will remain **MulanPSL-2.0**.  
-> `tkintertools 3` 的开源许可证将替换为 **MIT**，但 `tkintertools 2` 的开源许可证仍将保持为 **MulanPSL-2.0**。
 
 ### Stable Version - 稳定版本
 
@@ -66,15 +62,11 @@ pip install tkintertools
 
 </details>
 
-> [!WARNING]  
-> The source files for this project do not involve any resource files, only the tutorial and demo sections refer to some resources from the Internet. Those resources are not commercially available.  
-> 本项目的源文件不涉及任何资源文件，仅教程和演示部分涉及部分来自互联网的资源。那些资源不可用于商用。
-
 ### Development Version - 开发版本
 
 * 🔖 Version - 最新版本 : `3.0.0.alpha7`
 * 🕓 Update - 更新日期 : 2024/05/05
-* ✨ Feature - 更新内容 : [News-3.0.0(pre)](https://xiaokang2022.github.io/tkintertools/news/3.0.0/News/)
+* ✨ Feature - 更新内容 : [News-3.0.0](https://xiaokang2022.github.io/tkintertools/news/3.0.0/News/)
 
 ```sh
 
@@ -88,17 +80,20 @@ pip install tkintertools
 
 </details>
 
-> [!TIP]  
-> It is not recommended that you use the pre-release version directly for formal development, but it is recommended that you use the pre-release version to experience the new features and to report certain issues that you find.  
-> 不推荐你直接使用预发布版本进行正式开发，但推荐使用预发布版本来体验新功能，并上报发现的某些问题。
+> [!IMPORTANT]  
+> `tkt 2.*` has been discontinued, for new features, please use `tkt 3.*`. Also note that `tkt 3.*` is almost completely incompatible with `tkt 2.*`, and porting a project from `tkt 2.*` to `tkt 3.*` can be difficult.  
+> `tkt 2.*` 已放弃支持，如需获取新的功能，请使用 `tkt 3.*`。同时请注意，`tkt 3.*` 与 `tkt 2.*` 几乎完全不兼容，将项目从 `tkt 2.*` 移植到 `tkt 3.*` 可能会十分困难。
 
 More - 更多
 -----------
 
-* 📑 License - 项目许可证: [LICENSE.txt](LICENSE.txt)
-* 📕 Security - 安全策略: [SECURITY.md](SECURITY.md)
-* 📘 Change Log - 更新日志: [CHANGELOG.md](CHANGELOG.md)
+* 📑 License - 项目许可: [LICENSE.txt](LICENSE.txt)
+* 📘 Changelog - 更新日志: [CHANGELOG.md](CHANGELOG.md)
+* 📕 Security Policy - 安全策略: [SECURITY.md](SECURITY.md)
 * 📗 Contribution Guide - 贡献指南: [CONTRIBUTING.md](CONTRIBUTING.md)
 * 📙 Code of Conduct - 行为准则: [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md)
 * 📚 Tutorials and Documents - 教程和文档: [Tutorials & Documents](https://xiaokang2022.github.io/tkintertools/)
-* 🚀 Mirror Source - 镜像源: [GitHub](https://github.com/Xiaokang2022/tkintertools) | [Gitee](https://gitee.com/xiaokang-2022/tkintertools)
+* 🚀 Repository Mirrors - 存储库镜像源:
+[GitHub](https://github.com/Xiaokang2022/tkintertools) |
+[Gitee](https://gitee.com/xiaokang-2022/tkintertools) |
+[GitCode](https://gitcode.com/Xiaokang2022/tkintertools/overview)
