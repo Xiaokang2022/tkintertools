@@ -1,1 +1,1 @@
-darkdetect
+darkdetect[macos-listener]

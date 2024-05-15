@@ -1,0 +1,54 @@
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "tkintertools"
+authors = [{ name = "Xiaokang2022", email = "2951256653@qq.com" }]
+maintainers = [{ name = "Xiaokang2022", email = "2951256653@qq.com" }]
+description = "tkintertools is a UI framework based on the Canvas class of tkinter"
+readme = "README.md"
+license = { file = "LICENSE.txt" }
+requires-python = ">=3.10"
+keywords = [
+    "tkinter",
+    "tkintertools",
+    "gui",
+    "ui",
+    "3d",
+    "cross-platform",
+    "themed",
+]
+dependencies = ["darkdetect[macos-listener]"]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: Microsoft :: Windows",
+    "Operating System :: POSIX :: Linux",
+    "Operating System :: MacOS",
+    "Intended Audience :: Developers",
+    "Natural Language :: English",
+    "Natural Language :: Chinese (Simplified)",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Topic :: Software Development :: Widget Sets",
+    "Typing :: Typed",
+]
+dynamic = ["version"]
+
+[project.urls]
+Source = "https://github.com/Xiaokang2022/tkintertools"
+Homepage = "https://xiaokang2022.github.io/tkintertools/"
+"Bug Reports" = "https://github.com/Xiaokang2022/tkintertools/issues"
+
+[tool.setuptools.dynamic]
+version = { attr = "tkintertools.__version__" }
+
+[tool.setuptools.packages.find]
+include = ["tkintertools*"]
+namespaces = false
+
+[tool.setuptools.package-data]
+pypackage = ["tkintertools/*/*.json"]
+
+# python -m build
+# python -m twine upload dist/*
