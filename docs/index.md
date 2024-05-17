@@ -53,7 +53,7 @@ statistics: True
 pip install tkintertools
 ```
 
-??? "Preview - 预览"
+???+ "Preview - 预览"
 
     [![Preview UI](https://xiaokang2022.github.io/tkintertools/tutorials/images/1.2-2.1-2.png)](https://xiaokang2022.github.io/tkintertools/tutorials/1-2/#21-%E9%AB%98%E5%BA%A6%E5%8F%AF%E9%85%8D%E7%BD%AE%E7%9A%84%E6%8E%A7%E4%BB%B6)
 
@@ -71,11 +71,23 @@ pip install tkintertools
 pip install tkintertools==3.0.0b1
 ```
 
-??? "Preview - 预览"
+???+ "Preview - 预览"
+
+    * **Windows11 Light Theme**
 
     ![Light Theme](./news/3.0.0/light-win11.png)
 
-    ![Dark Theme](./news/3.0.0/dark-win11.png)
+    * **Windows10 Dark Theme**
+
+    ![Dark Theme](./news/3.0.0/dark-win10.png)
+
+    * **WSL Light Theme**
+
+    ![Light Theme](./news/3.0.0/light-wsl.png)
+
+    * **macOS Dark Theme**
+
+    ![Dark Theme](./news/3.0.0/dark-mac.png)
 
 !!! warning
 
