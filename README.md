@@ -65,7 +65,7 @@ pip install tkintertools
 * ✨ Feature - 更新内容 : [News-3.0.0](https://xiaokang2022.github.io/tkintertools/news/3.0.0/News/)
 
 ```sh
-
+pip install tkintertools==3.0.0b1
 ```
 
 <details open><summary>Preview - 预览</summary>
