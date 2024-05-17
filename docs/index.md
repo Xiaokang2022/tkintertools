@@ -4,7 +4,7 @@ statistics: True
 
 <h1 align="center">tkintertools</h1>
 
-<p align="center"><img alt="logo" src="https://xiaokang2022.github.io/tkintertools/logo.png" title="Nice Logo!" /></p>
+<p align="center"><img alt="logo" src="https://xiaokang2022.github.io/tkintertools/logo.png" title="Logo" /></p>
 
 <p align="center">
 <code>tkintertools</code> 是一个基于 <code>tkinter</code> 的 <code>Canvas</code> 类的 UI 框架
@@ -17,7 +17,7 @@ statistics: True
 <a href="./more/LICENSE.txt"><img alt="License" src="https://img.shields.io/pypi/l/tkintertools?label=License" title="License" /></a>
 <a href="https://pypistats.org/packages/tkintertools"><img alt="Downloads" src="https://img.shields.io/pypi/dm/tkintertools?label=Downloads" title="Downloads" /></a>
 <a href="https://pepy.tech/project/tkintertools"><img alt="Total Downloads" src="https://static.pepy.tech/badge/tkintertools" title="Total Downloads" /></a>
-<a href="https://github.com/Xiaokang2022/tkintertools"><img alt="Size" src="https://img.shields.io/github/languages/code-size/Xiaokang2022/tkintertools?label=Size" /></a>
+<a href="https://github.com/Xiaokang2022/tkintertools"><img alt="Size" src="https://img.shields.io/github/languages/code-size/Xiaokang2022/tkintertools?label=Size" title="Code Size"/></a>
 <br/>
 <a href="https://github.com/Xiaokang2022/tkintertools/watchers"><img alt="Watchers" src="https://img.shields.io/github/watchers/Xiaokang2022/tkintertools?label=Watchers&logo=github&style=flat" title="Watchers" /></a>
 <a href="https://github.com/Xiaokang2022/tkintertools/forks"><img alt="Forks" src="https://img.shields.io/github/forks/Xiaokang2022/tkintertools?label=Forks&logo=github&style=flat" title="Forks" /></a>
@@ -41,17 +41,7 @@ statistics: True
     </a>
 </p>
 
-!!! note
-
-    Recently, the star ⭐ of this project has maintained a clear upward trend. I would like to thank you all for your support of this project! ❤️  
-    近段时间，本项目的 Star ⭐ 一直保持明显的上升趋势。在此我衷心地感谢大家对本项目的支持！❤️
-
 ## Install - 模块安装
-
-!!! info 
-
-    The open source license for `tkintertools 3` will be replaced with **MIT**, but the open source license for `tkintertools 2` will remain **MulanPSL-2.0**.  
-    `tkintertools 3` 的开源许可证将替换为 **MIT**，但 `tkintertools 2` 的开源许可证仍将保持为 **MulanPSL-2.0**。
 
 ### Stable Release - 稳定版本
 
@@ -71,55 +61,44 @@ pip install tkintertools
 
 </details>
 
-!!! warning
-
-    The source files for this project do not involve any resource files, only the tutorial and demo sections refer to some resources from the Internet. Those resources are not commercially available.  
-    本项目的源文件不涉及任何资源文件，仅教程和演示部分涉及部分来自互联网的资源。那些资源不可用于商用。
-
 ### Pre Release - 预发布版本
 
--   Version - 最新版本 : `3.0.0.alpha7`
--   Updated - 更新日期 : 2024/05/05
--   Feature - 更新内容 : [News-3.0.0(pre)](./news/3.0.0/News.md)
+-   Version - 最新版本 : `3.0.0.beta1`
+-   Updated - 更新日期 : 2024/05/17
+-   Feature - 更新内容 : [News-3.0.0](./news/3.0.0/News.md)
 
 ```sh linenums="0"
-
+pip install tkintertools==3.0.0b1
 ```
 
 ??? "Preview - 预览"
 
-    [![Light Theme](https://xiaokang2022.github.io/tkintertools/news/3.0.0/light.png)](https://xiaokang2022.github.io/tkintertools/news/3.0.0/News/#base-test---%E5%9F%BA%E7%A1%80%E6%B5%8B%E8%AF%95)
+    ![Light Theme](./news/3.0.0/light-win11.png)
 
-    [![Dark Theme](https://xiaokang2022.github.io/tkintertools/news/3.0.0/dark.png)](https://xiaokang2022.github.io/tkintertools/news/3.0.0/News/#base-test---%E5%9F%BA%E7%A1%80%E6%B5%8B%E8%AF%95)
+    ![Dark Theme](./news/3.0.0/dark-win11.png)
 
-!!! tip
+!!! warning
 
-    It is not recommended that you use the pre-release version directly for formal development, but it is recommended that you use the pre-release version to experience the new features and to report certain issues that you find.  
-    不推荐你直接使用预发布版本进行正式开发，但推荐使用预发布版本来体验新功能，并上报发现的某些问题。
+    `tkt 2.*` has been discontinued, for new features, please use `tkt 3.*`. Also note that `tkt 3.*` is almost completely incompatible with `tkt 2.*`, and porting a project from `tkt 2.*` to `tkt 3.*` can be difficult.  
+    `tkt 2.*` 已放弃支持，如需获取新的功能，请使用 `tkt 3.*`。同时请注意，`tkt 3.*` 与 `tkt 2.*` 几乎完全不兼容，将项目从 `tkt 2.*` 移植到 `tkt 3.*` 可能会十分困难。
 
 ## More - 更多
 
 <div class="grid cards" markdown>
 
--   [🚀 **Navigation - 网站导航**](./navigation.md)
+-   [📑 **License - 项目许可**](./more/LICENSE.md)
 
     ***
 
-    对于本站的一个基本概览
+    MIT，最宽松的开源许可之一
 
--   [📑 **License - 项目许可证**](./more/LICENSE.md)
-
-    ***
-
-    看看是不是你所想的许可证
-
--   [📕 **Security - 安全策略**](./more/SECURITY.md)
+-   [📋 **Todo - 任务清单**](./more/TODO.md)
 
     ***
 
-    安全漏洞的处理方法
+    看看作者都有些什么计划
 
--   [📘 **ChangeLog - 更新日志**](./more/CHANGELOG.md)
+-   [📘 **Changelog - 更新日志**](./more/CHANGELOG.md)
 
     ***
 
@@ -129,7 +108,13 @@ pip install tkintertools
 
     ***
 
-    在贡献之前先看看这个
+    在贡献之前先瞄一下这个
+
+-   [📕 **Security Policy - 安全策略**](./more/SECURITY.md)
+
+    ***
+
+    安全漏洞的处理方法
 
 -   [📙 **Code of Conduct - 行为准则**](./more/CODE_OF_CONDUCT.md)
 

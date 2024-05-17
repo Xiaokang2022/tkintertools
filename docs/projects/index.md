@@ -33,19 +33,6 @@ Here are some examples of projects developed with `tkintertools`.
 
 ![png](./images/Super%20Gobang.png)
 
-### 3. TKT Designer
-
-* Version - 版本: 0.0.2
-* Python - 环境: 3.12
-* OS - 操作系统: Windows
-* tkintertools: 3.0.0.alpha3
-* url - 网址链接: [News/3.0.0](../news/3.0.0/News.md)
-* GitHub - 仓库: https://github.com/Xiaokang2022/tkintertools
-
-![png](../news/3.0.0/example_1.png)
-
-![png](../news/3.0.0/example_2.png)
-
 ## Old Version Projects - 旧版项目
 
 !!! warning "Warning - 警告"

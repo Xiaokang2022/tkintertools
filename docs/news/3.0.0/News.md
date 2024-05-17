@@ -6,251 +6,127 @@ comments: true
 
 ## Framework - 框架
 
--   Version - 最新版本 : `3.0.0.alpha7`
--   Last Update - 上次更新 : 2024/05/05
+- 🔖 Version - 最新版本 : `3.0.0.beta1`
+- 🕓 Last Update - 上次更新 : 2024/05/17
+
+```sh linenums="0"
+pip install tkintertools==3.0.0b1
+```
 
 ### Change Things - 更新内容
 
-- [X] Introducing a pure Python-based third-party module, `darkdetect`, to implement theme dynamic following system and multi-OS dark theme support   
-引入纯 Python 实现的第三方模块 `darkdetect`，以实现主题动态跟随系统以及多操作系统暗黑主题的支持 
+🟢 **Added - 新增**
 
-- [X] Added text class widget  
-新增文本类小部件
+- The docstrings for a portion of the code has been added  
+添加了一部分代码的文本字符串
 
-- [X] Fixed a few bugs and added a lot of content to the framework  
-修复些许 bug，框架内增加大量内容
+- Added the animation class `MoveItem` to move items on the canvas  
+增加了动画类 `MoveItem` 来移动画布上的 Item
 
-- [X] Some basic dialogs have been added  
-增加了部分基本对话框
+- The animation base class `Animation` adds the initialization parameter `derivation` to control whether the parameters of the callback function are derived  
+动画基类 `Animation` 增加了初始化参数 `derivation` 来控制回调函数的参数是否求导
 
-### Base Test - 基础测试
+- The subpackage `color` adds the module `colormap` to speed up the conversion of color names to their corresponding RGB codes  
+子包 `color` 增加了模块 `colormap` 来加速颜色名称到其对应 RGB 码的转换速度
 
-- **Light Mode**
+- The subpackage `color` adds the functions `contrast`, `convert`, `blend` and `gradient` to complete the color processing mechanism  
+子包 `color` 新增函数 `contrast`、`convert`、`blend` 和 `gradient` 来完善颜色处理机制的功能
 
-![png](./light.png)
+- The subpackage `style` adds the module `theme` to control the overall theme of the application  
+子包 `style` 新增模块 `theme` 来控制应用程序整体的主题
 
-- **Dark Mode**
+- Added method `disabled` to the widget class to disable it. If a style with a disabled state is defined in the stylesheet, the defined style is used, otherwise the style in the disabled state is automatically generated based on the current style (color to background color conversion by a factor of 0.618)  
+小部件类新增方法 `disabled` 来使其处于禁用状态。若在样式表中定义了禁用状态的样式，则会使用定义的样式，否则根据当前样式自动生成禁用状态的样式（色彩向背景色转换 0.618 倍）
 
-![png](./dark.png)
+- The widget `RadioButton` has a new initialization parameter `default` to control its default state  
+小部件 `RadioButton` 新增初始化参数 `default` 来控制其默认的状态
 
-??? note "Test Code - 测试代码"
+- Experimental support for color strings in RGBA format has been added to the Color subpackage  
+颜色子包新增对 RGBA 格式的颜色字符串的实验性支持
 
-    ```python
-    """Test"""
+🟣 **Fixed - 修复**
 
-    import math
-    import typing
+- Fixed an bug where the animation classes `MoveWidget` and `MoveComponent` were not moving objects to the correct position when they were called repeatedly  
+修复了动画类 `MoveWidget` 和 `MoveComponent` 在被反复调用的情况下无法将对象移动到正确位置的问题
 
-    import tkintertools as tkt
-    import tkintertools.animate.animations as animations
-    import tkintertools.animate.controllers as controllers
-    import tkintertools.constants as constants
-    import tkintertools.standard.features as features
-    import tkintertools.standard.shapes as shapes
-    import tkintertools.standard.texts as texts
-    import tkintertools.style as style
+- Fixed an bug where the animation class `ScaleFontSize` did not scale the font size correctly  
+修复了动画类 `ScaleFontSize` 无法正确缩放字体大小的问题
 
-    root = tkt.Tk(title=f"tkintertools {tkt.__version__}")
-    root.center()
+- Fixed and enhanced a bug with the centering function of container widgets such as `Toplevel`  
+修复并增强了容器小部件 `Toplevel` 等在居中功能上的问题
 
-    canvas = tkt.Canvas(root, free_anchor=True, keep_ratio="full", zoom_item=True)
-    canvas.place(width=1280, height=720, x=640, y=360, anchor="center")
+🔵 **Optimized - 优化**
 
-    constants.IS_WIN10 = False
+- Optimized the way to get the style file, the widget can set a relative name to reduce the amount of code, and the relative name starts with a decimal point  
+优化了样式文件的获取方式，小组件可以设置相对名称来减少代码量，相对名称以小数点开头
 
-    tkt.Information(canvas, (100, 100), (200, 50), text="Information")
-    tkt.Label(canvas, (350, 100), (100, 50), text='Label')
-    tkt.Button(canvas,  (500, 100), (100, 50), text='Button')
-    tkt.UnderlineButton(canvas, (650, 100), (200, 50), text='UnderlineButton')
-    tkt.HighlightButton(canvas, (900, 100), (200, 50), text='HighlightButton')
+- The theme mechanism is optimized, there is no longer a need to write a tag in the style file, and the mapping relationship between the color parameters of the item and the keywords of the style file can be written in the definition of `Shape`, so as to reduce the redundant content in the style file and improve the compatibility between the style files  
+主题机制优化，样式文件中不再需要写出 tag，可在 `Shape` 的定义中写明 Item 的颜色参数与样式文件关键字的映射关系，以此缩减样式文件中的冗余内容，提高各样式文件之间的兼容性
 
-    tkt.Entry(canvas, (100, 200), (200, 40))
-    tkt.Switch(canvas, (350, 200), 60, default=True)
-    tkt.CheckButton(canvas, (500, 200), 30, default=True)
-    tkt.RadioButton(canvas, (550, 200), 24)
-    pb1 = tkt.ProgressBar(canvas, (650, 200), (450, 8))
-    pb2 = tkt.ProgressBar(canvas, (650, 200+30), (450, 20))
+- Optimized the appearance of some widgets  
+优化部分小部件外观
 
-    animations.Animation(2000, controllers.smooth, callback=pb1.set,
-                        fps=60, repeat=math.inf).start(delay=0)
-    animations.Animation(2000, controllers.smooth, callback=pb2.set,
-                        fps=60, repeat=math.inf).start(delay=500)
+- Improved cross-platform compatibility  
+提高了跨平台的兼容性
 
-    constants.IS_WIN10 = True
+- Improved 3D submodule compatibility with the new version of `tkintertools`  
+提高了 3D 子模块对新版 `tkintertools` 兼容性
 
-    tkt.Information(canvas, (100, 300), (200, 50), text="Information")
-    tkt.Label(canvas, (350, 300), (100, 50), text='Label')
-    tkt.Button(canvas,  (500, 300), (100, 50), text='Button')
-    tkt.UnderlineButton(canvas, (650, 300), (200, 50), text='UnderlineButton')
-    tkt.HighlightButton(canvas, (900, 300), (200, 50), text='HighlightButton')
+- Change the constants `FONT` and `SIZE` to dynamic values, so that font modifications can take effect globally  
+将常量 `FONT` 和 `SIZE` 改成动态取值，便于字体修改可以全局生效
 
-    tkt.Entry(canvas, (100, 400), (200, 40))
-    tkt.Switch(canvas, (350, 400), 60)
-    tkt.CheckButton(canvas, (500, 400), 30)
-    tkt.RadioButton(canvas, (550, 400), 24).set(False)
-    pb3 = tkt.ProgressBar(canvas, (650, 400), (450, 8))
-    pb4 = tkt.ProgressBar(canvas, (650, 400+30), (450, 20))
+🟡 **Changed - 变更**
 
+- The animation class `Gradient` no longer converts an empty color string to black when it accepts it, but simply throws an exception  
+动画类 `Gradient` 在接受空颜色字符串时不再将其转化为黑色，而是直接抛出异常
 
-    animations.Animation(2000, controllers.smooth, callback=pb3.set,
-                        fps=60, repeat=math.inf).start(delay=1000)
-    animations.Animation(2000, controllers.smooth, callback=pb4.set,
-                        fps=60, repeat=math.inf).start(delay=1500)
+- The implementation code for the 3D subpackage has been moved from file `three/__init__.py` to file `three/engine.py`  
+3D 子包的实现代码从文件 `three/__init__.py` 移动到了文件 `three/engine.py`
 
+- The submodule `style` has been changed to the sub-package `style` and its contents have been reorganized  
+子模块 `style` 变更为子包 `style`，其内容进行了重新的整理
 
-    constants.IS_WIN10 = False
+🔴 **Removed - 移除**
 
+- Remove the useless class from the submodule `images` of the subpackage `standard`  
+移除子包 `standard` 的子模块 `images` 中无用的类
 
-    class MyCustomButton(tkt.Widget):
+- Remove the function `color` from the color subpack (There are other better implementations)  
+移除颜色子包中的函数 `color`（已有其他更好的实现）
 
-        def __init__(
-            self,
-            id: int,
-            master: tkt.Canvas,
-            position: tuple[int, int],
-            size: tuple[int, int],
-            *,
-            text: str = "",
-            family: str = constants.FONT,
-            fontsize: int = constants.SIZE,
-            weight: typing.Literal['normal', 'bold'] = "normal",
-            slant: typing.Literal['roman', 'italic'] = "roman",
-            underline: bool = False,
-            overstrike: bool = False,
-            command: typing.Callable | None = None,
-        ) -> None:
-            if id == 2:
-                position[1] -= 25
-                size = 100, 100
-            tkt.Widget.__init__(self, master, position, size)
-            s1 = style.get(tkt.Button, shapes.Rectangle)
-            s2 = style.get(tkt.Button, shapes.RoundedRectangle)
-            match id:
-                case 0: shapes.Rectangle(self)
-                case 1: shapes.Oval(self, styles=s1)
-                case 2: shapes.RegularPolygon(self, side=5)
-                case 3: shapes.RoundedRectangle(self, styles=s2)
-                case 4: shapes.SemicircularRectangle(self, styles=s2)
-                case 5: shapes.SharpRectangle(self, styles=s1)
-                case 6: shapes.Parallelogram(self, styles=s1)
-            texts.Information(self, text=text, family=family, size=fontsize, weight=weight,
-                            slant=slant, underline=underline, overstrike=overstrike,
-                            styles=style.get(tkt.Button, texts.Information))
-            features.Button(self, command=command)
+🟤 **Refactored - 重构**
 
+- Some of the code has been refactored  
+重构了部分代码
 
-    for i in range(7):
-        x = 100 + i*150
-        MyCustomButton(i, canvas, [x, 550], (100, 50), text="MCB")
+## Preview - 预览
 
+### Windows11
 
-    root.mainloop()
-    ```
+![png](./light-win11.png)
 
-### 3D Test - 3D 测试
+![png](./dark-win11.png)
 
-![3D](./3D.png)
+### Windows10
 
-??? note "Test Code - 测试代码"
+![png](./light-win10.png)
 
-    ```python
-    import math
+![png](./dark-win10.png)
 
-    import tkintertools as tkt
-    import tkintertools.animate.controllers as controllers
-    from tkintertools import animate, three
+### macOS
 
-    root = tkt.Tk((1600, 900))
-    root.theme(background="black")
-    space = three.Space(root, keep_ratio="full", bg="black", free_anchor=True,
-                        highlightbackground="white")
-    space.place(width=1600, height=900, x=800, y=450, anchor="center")
-    space.update_idletasks()
+![png](./light-mac.png)
 
-    r = 300
+![png](./dark-mac.png)
 
-    O = three.Point(space, [0, 0, 0], fill='white', size=3)
-    X = three.Line(space, [0, 0, 0], [1, 0, 0], fill='')
-    Y = three.Line(space, [0, 0, 0], [0, 1, 0], fill='')
-    Z = three.Line(space, [0, 0, 0], [0, 0, 1], fill='')
+### WSL
 
-    ring: dict[str, list[three.Text3D]] = {'x': [], 'y': [], 'z': []}
-    line: dict[str, list[three.Text3D]] = {'x': [], 'y': [], 'z': []}
+![png](./light-wsl.png)
 
-    for i in range(26):
-        t = chr(65+i)
-        φ = i/26 * math.tau
-        c1 = r * math.sin(φ)
-        c2 = r * math.cos(φ)
-        ring['x'].append(three.Text3D(space, [0, c1, c2], text=t, fill='#FF0000'))
-        ring['y'].append(three.Text3D(space, [c1, 0, c2], text=t, fill='#00FF00'))
-        ring['z'].append(three.Text3D(space, [c1, c2, 0], text=t, fill='#0000FF'))
+![png](./dark-wsl.png)
 
-    for i in range(10):
-        t = str(i)
-        c = (i+1) * 600/11 - r
-        line['x'].append(three.Text3D(space, [c, 0, 0], text=t, fill='#00FFFF'))
-        line['y'].append(three.Text3D(space, [0, c, 0], text=t, fill='#FF00FF'))
-        line['z'].append(three.Text3D(space, [0, 0, c], text=t, fill='#FFFF00'))
+### Kubuntu
 
+![png](./light-kde.png)
 
-    def animation():
-        for obj3D in ring['x']:
-            obj3D.rotate(0.05, axis=X.coordinates)
-        for obj3D in ring['y']:
-            obj3D.rotate(0.05, axis=Y.coordinates)
-        for obj3D in ring['z']:
-            obj3D.rotate(0.05, axis=Z.coordinates)
-        for obj3D in line['x']:
-            obj3D.rotate(-0.05, axis=Y.coordinates)
-        for obj3D in line['y']:
-            obj3D.rotate(-0.05, axis=Z.coordinates)
-        for obj3D in line['z']:
-            obj3D.rotate(-0.05, axis=X.coordinates)
-        for obj3D in space.items_3d():
-            obj3D.rotate(0, -0.01, 0.01, center=O.center())
-            obj3D.update()
-
-
-    animate.Animation(1000, controllers.flat, repeat=math.inf,
-                    callback=lambda _: animation()).start()
-
-
-    root.mainloop()
-    ```
-
-## Designer - 设计器
-
-The designer is in development mode  
-设计器已进入开发状态
-
-!!! info "Important - 重要"
-
-    When tkintertools 3 enters beta, Designer will be detached from the tkintertools project and become a separate project to reduce the size of the project when it is packaged by users in the future.  
-    tkintertools 3 进入 beta 版本后，designer 将从 tkintertools 项目中分离，并成为一个单独的项目，以减小未来用户打包时项目的大小。
-
-### Light Theme - 明亮主题
-
-![png](./example_1.png)
-
-### Dark Theme - 暗黑主题
-
-![png](./example_2.png)
-
-### Start Designer - 启动设计器
-
-You can start using the command below  
-你可以使用下面的命令启动
-
-```sh linenums="0"
-python -m tkintertools [options]
-```
-
-In addition to this, you can also run the following Python code to start  
-除此之外，你还可以运行下面的 Python 代码启动
-
-```python
-from tkintertools import designer
-
-designer.run()
-```
+![png](./dark-kde.png)

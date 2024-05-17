@@ -235,7 +235,6 @@ plugins: # 插件
       caption_position: bottom # 标题位置 (bottom, top, left, right)
       background: none # 背景颜色
       shadow: true # 启用或禁用图像阴影
-  - changelog # 日志插件（pip install mkdocs-changelog-plugin）
   - statistics: # 数据统计插件（pip install mkdocs-statistics-plugin）
       codelines_per_minute: 15 # 每分钟可看的代码行数
       words_per_minute: 150 # 每分钟可看的文本数
@@ -322,10 +321,11 @@ nav: # 导航栏
           - 2.6.6: news/2.6.6/News.md
 
   - More / 更多:
-      - Contribution Guide - 贡献指南: more/CONTRIBUTING.md
-      - Change Log - 更新日志: more/CHANGELOG.md
       - License - 项目许可证: more/LICENSE.md
-      - Security - 安全策略: more/SECURITY.md
+      - Todo - 任务清单: more/TODO.md
+      - Changelog - 更新日志: more/CHANGELOG.md
+      - Contribution Guide - 贡献指南: more/CONTRIBUTING.md
+      - Security Policy - 安全策略: more/SECURITY.md
       - Code of Conduct - 行为准则: more/CODE_OF_CONDUCT.md
 
   - Projects / 项目:
