@@ -2,6 +2,7 @@
 Core codes of tkintertools
 
 Structure of Class:
+
 ```text
 +-------+       +-------------+
 | tk.Tk |       | tk.Toplevel |
@@ -21,19 +22,26 @@ Structure of Class:
 | tk.Canvas | -----> | tkt.Canvas |
 +-----------+        +------------+
 
-               +------------+
-               | Image, ... |
-               +------------+
-                     |
-                     v
-+---------+      +--------+      +-----------+
-| Feature | ---> | Widget | <--- | Text, ... |
-+---------+      +--------+      +-----------+
-                     ^
-                     |
-               +------------+
-               | Shape, ... |
-               +------------+
++------------+
+| Image, ... |
++------------+
+      ^
+      |
++-----------+      +-----------+
+| Component | ---> | Text, ... |
++-----------+      +-----------+
+      |
+      v
++------------+
+| Shape, ... |
++------------+
+
++----------------------------------+
+|              Widget              |
+| +---------+   +----------------+ |
+| | Feature | + | Component, ... | |
+| +---------+   +----------------+ |
++----------------------------------+
 ```
 """
 
@@ -43,19 +51,14 @@ import ctypes
 import math
 import pathlib
 import platform
-import threading
 import tkinter
 import tkinter.font as font
 import typing
 
-import darkdetect
-
-from . import color, constants, exceptions, style
-from .animate import animations
-
-type State = str | int
-type Tag = str | int
-type Style = dict[Tag, dict[str, str]]
+from . import constants
+from .animation import animations
+from .color import rgb
+from .style import parser, theme
 
 
 class Tk(tkinter.Tk):
@@ -79,25 +82,20 @@ class Tk(tkinter.Tk):
         * `title`: the title of the window, default value is an empty string
         * `**kw`: compatible with other parameters of class `tkinter.Tk`
         """
-        if self.__class__ == Tk:  # NOTE: Subclasses of tkt.Tk do not inherit tk.Tk
+        if self.__class__ == Tk:  # Subclasses of tkt.Tk do not inherit tk.Tk
             tkinter.Tk.__init__(self, **kw)
 
         self._initial_size: tuple[int, int] = list(size)
         self._size: tuple[int, int] = self._initial_size[:]
         self._ratio: tuple[float, float] = [1., 1.]
         self._canvases: list[Canvas] = []
-        self._theme: dict[str, str | bool | None] = self.master._theme if isinstance(
-            self.master, tkinter.Wm) else {}
 
         self.title(title)
-        self.theme(**self._theme)
         self.geometry(size=size, position=position)
-        threading.Thread(target=darkdetect.listener, args=(
-            lambda theme: self._switch_theme(theme == "Dark"),), daemon=True).start()
-
+        self._theme(theme.DARK_MODE)
+        theme.register_event(self._theme)
         self.bind("<Configure>", lambda _: self._zoom())
 
-    @typing.override
     def geometry(
         self,
         *,
@@ -123,23 +121,23 @@ class Tk(tkinter.Tk):
         """Retrun all instances of `Canvas` of the window"""
         return tuple(self._canvases)
 
-    def center(self) -> None:
+    def center(self, master: tkinter.Misc | None = None) -> None:
         """Center the window"""
-        # self.update()  # ALPHA: What is the chance that the center will fail without this line of code?
-        if self.master is None or self.__class__ == Toplevel:
+        if master is None:  # center self in whole screen
             parent_width = self.winfo_screenwidth()
             parent_height = self.winfo_screenheight()
+            dx, dy = 0, 0
         else:
-            parent_width = self.master.winfo_width()
-            parent_height = self.master.winfo_height()
+            parent_width = master.winfo_width()
+            parent_height = master.winfo_height()
+            dx, dy = master.winfo_x(), master.winfo_y()
 
         x = (parent_width - self._size[0]) // 2
         y = (parent_height - self._size[1]) // 2
-        self.geometry(position=(x, y))
+        self.geometry(position=(x + dx, y + dy))
 
     def _zoom(self) -> None:
         """Internal Method: Zoom contents of the window"""
-        # self.update()  # ALPHA
         if self._size != (size := [self.winfo_width(), self.winfo_height()]):
             self._size = size
             self._ratio[0] = self._size[0] / self._initial_size[0]
@@ -147,63 +145,20 @@ class Tk(tkinter.Tk):
             for canvas in self._canvases:
                 canvas._zoom()
 
-    def theme(
-        self,
-        *,
-        dark: bool | None = None,
-        bordercolor: str | None = None,
-        captioncolor: str | None = None,
-        titlecolor: str | None = None,
-        background: str | None = None,
-    ) -> None:
+    def _theme(self, dark: bool) -> None:
         """
         Change the theme of the window
 
         * `dark`: whether it is in dark mode
-        * `bordercolor`: window border color
-        * `captioncolor`: window caption color
-        * `titlecolor`: window title color
-        * `background`: window background color
-
-        ATTENTION: some parameter only works on Windows OS!
         """
-        self.update()
-        try:
-            HWND = ctypes.windll.user32.GetParent(self.winfo_id())
-            if dark is None:
-                dark = darkdetect.isDark()
-            if dark is not None:
-                ctypes.windll.dwmapi.DwmSetWindowAttribute(
-                    HWND, 20, ctypes.byref(ctypes.c_int(dark)), 4)
-                if background is None:
-                    background = "#1F1F1F" if dark else "#F1F1F1"
-            for i, value in enumerate((bordercolor, captioncolor, titlecolor)):
-                if value is not None:
-                    ctypes.windll.dwmapi.DwmSetWindowAttribute(
-                        HWND, 34 + i, ctypes.byref(ctypes.c_int(color.str_to_hex(value, reverse=True))), 4)
-        except:
-            exceptions._warning(
-                f"Some parameters are not available on the current OS({platform.system()})!")
-        if background is not None:
-            self["bg"] = background
-        self._theme.update(
-            dark=dark, bordercolor=bordercolor, captioncolor=captioncolor,
-            titlecolor=titlecolor, background=background)
-
-    def _switch_theme(self, dark: bool) -> None:
-        """"""
-        self.theme(dark=dark)
-        for container in self.children:
-            if isinstance(container, Toplevel):
-                container._switch_theme(dark=dark)
+        self.update_idletasks()
+        self["bg"] = "#202020" if dark else "#F1F1F1"
+        theme.custom_window(self, dark=dark)
+        for child in self.children:
+            if isinstance(child, Toplevel):
+                child._theme(dark)
         for canvas in self._canvases:
-            canvas["bg"] = canvas.master["bg"]
-            canvas["insertbackground"] = "white" if dark else "black"
-            for widget in canvas._widgets:
-                for component in widget.shapes + widget.texts + widget.images:
-                    if styles := style.get(widget, component):
-                        component.styles = styles
-                widget.update()
+            canvas._theme(dark)
 
     def alpha(self, value: float | None = None) -> float | None:
         """
@@ -221,12 +176,10 @@ class Tk(tkinter.Tk):
 
         ATTENTION: This method should be called later
         """
-        self.update()
+        self.update_idletasks()
         if value is None:
             return bool(self.attributes("-fullscreen"))
         self.attributes("-fullscreen", value)
-        if not value:  # When you cancel the full-screen state, the `theme` method is invalidated
-            self.theme(**self._theme)
 
     def toolwindow(self, value: bool | None = True) -> bool | None:
         """
@@ -281,7 +234,7 @@ class Toplevel(tkinter.Toplevel, Tk):
 
     def __init__(
         self,
-        master: Tk | typing.Self | "NestedToplevel" | None = None,
+        master: "Tk | Toplevel | NestedToplevel | None" = None,
         size: tuple[int, int] = (960, 540),
         position: tuple[int, int] | None = None,
         *,
@@ -316,7 +269,7 @@ class Dialog(Toplevel):
 
     def __init__(
         self,
-        master: Tk | typing.Self | "NestedToplevel" | None = None,
+        master: "Tk | Dialog | NestedToplevel | None" = None,
         size: tuple[int, int] = (720, 405),
         position: tuple[int, int] | None = None,
         *,
@@ -336,18 +289,6 @@ class Dialog(Toplevel):
                           transient=transient, grab=True, focus=True, **kw)
         self.bind("<Button-1>", self._bell, "+")
 
-    @typing.override
-    def center(self) -> None:
-        if self.master is not None:
-            x = (self.master.winfo_width() -
-                 self._size[0]) // 2 + self.master.winfo_x()
-            y = (self.master.winfo_height() -
-                 self._size[1]) // 2 + self.master.winfo_y()
-        else:
-            x = (self.winfo_screenwidth() - self._size[0]) // 2
-            y = (self.winfo_screenheight() - self._size[1]) // 2
-        self.geometry(position=(x, y))
-
     def _bell(self, event: tkinter.Event) -> None:
         """Internal Method: When an attempt is made to move out of focus, a bell prompts the user"""
         if not 0 <= event.x <= self._size[0] or not 0 <= event.y <= self._size[1]:
@@ -358,12 +299,14 @@ class NestedToplevel(Toplevel):
     """
     A window nested within another window
 
-    ATTENTION: this CLASS only works on Windows OS
+    WARNING: 
+
+    this CLASS only works on Windows OS!
     """
 
     def __init__(
         self,
-        master: Tk | Toplevel | typing.Self | "Canvas" | None = None,
+        master: "Tk | Toplevel | NestedToplevel | Canvas | None" = None,
         size: tuple[int, int] = (640, 360),
         position: tuple[int, int] | None = None,
         *,
@@ -382,7 +325,7 @@ class NestedToplevel(Toplevel):
         * `**kw`: compatible with other parameters of class `tkinter.Toplevel`
         """
         if platform.system() != "Windows":
-            raise RuntimeError("This CLASS only works on Windows OS!")
+            raise RuntimeError("NestedToplevel only works on Windows OS!")
         Toplevel.__init__(self, master, size, position,
                           title=title, transient=transient, **kw)
         self._handle = ctypes.windll.user32.GetParent(self.winfo_id())
@@ -401,6 +344,28 @@ class NestedToplevel(Toplevel):
             self.master.focus_set()
 
 
+class _Trigger:
+    """"""
+
+    def __init__(self, command: typing.Callable) -> None:
+        """"""
+        self._flag: bool = False
+        self._command = command
+
+    def get(self) -> bool:
+        return self._flag
+
+    def reset(self) -> None:
+        """"""
+        self._flag = False
+
+    def update(self, value: bool = True, *args, **kwargs) -> None:
+        """"""
+        if not self._flag and value:
+            self._flag = True
+            self._command(*args, **kwargs)
+
+
 class Canvas(tkinter.Canvas):
     """
     Scalable Canvas
@@ -410,7 +375,7 @@ class Canvas(tkinter.Canvas):
 
     def __init__(
         self,
-        master: Tk | Toplevel | NestedToplevel | typing.Self,
+        master: "Tk | Toplevel | NestedToplevel | Canvas",
         *,
         expand: typing.Literal["", "x", "y", "xy"] = "xy",
         zoom_item: bool = False,
@@ -446,16 +411,18 @@ class Canvas(tkinter.Canvas):
         self._free_anchor = free_anchor
         self._keep_ratio = keep_ratio
 
-        if kw.get("bg") is None:
-            self["bg"] = master["bg"]
+        self.trigger_config = _Trigger(self._config)
+        self.trigger_focus = _Trigger(self.focus)
+
         if kw.get("highlightthickness") is None:
             self["highlightthickness"] = 0
-        if kw.get("insertbackground") is None:
-            self["insertbackground"] = "white" if master._theme["dark"] else "black"
+
+        self._theme(theme.DARK_MODE)
 
         self.master._canvases.append(self)
 
         self.bind("<Any-Key>", self._input)
+        # self.bind("<Enter>", lambda _: self.focus_set())  # Sometime will fail
 
         if platform.system() == "Linux":
             self.bind("<Button-4>", lambda event: self._wheel(event, "up"))
@@ -481,9 +448,29 @@ class Canvas(tkinter.Canvas):
 
         self.bind("<Configure>", lambda _: self._zoom_self())
 
-        self.focus_set()
+    def _config(self, **kwargs) -> None:
+        """"""
+        kwargs = {key: value for key,
+                  value in kwargs.items() if self.cget(key) != value}
+        self.configure(**kwargs)
 
-    def get_canvases(self) -> tuple[typing.Self, ...]:
+    def _theme(self, dark: bool) -> None:
+        """"""
+        self.update_idletasks()
+        self["bg"] = "#202020" if dark else "#F1F1F1"
+        self["insertbackground"] = "#FFFFFF" if dark else "#000000"
+        for canvas in self._canvases:
+            canvas._theme(dark)
+        for widget in self._widgets:
+            for component in widget.shapes + widget.texts + widget.images:
+                if styles := parser.get(widget, component):
+                    component.styles = styles
+            if widget._before_disabled:
+                widget.disabled()
+            else:
+                widget.update()
+
+    def get_canvases(self) -> tuple["Canvas", ...]:
         """Retrun all child `Canvas` of the `Canvas`"""
         return tuple(self._canvases)
 
@@ -509,34 +496,16 @@ class Canvas(tkinter.Canvas):
             self.winfo_width(), self.winfo_height()]
 
         anchor = self.place_info().get("anchor", None)
-        if anchor == "nw" or anchor == None:
-            dx = 0
-            dy = 0
-        elif anchor == "n":
-            dx = self._initial_size[0] // 2
-            dy = 0
-        elif anchor == "w":
-            dx = 0
-            dy = self._initial_size[1] // 2
-        elif anchor == "ne":
-            dx = self._initial_size[0]
-            dy = 0
-        elif anchor == "sw":
-            dx = 0
-            dy = self._initial_size[1]
-        elif anchor == "e":
-            dx = self._initial_size[0]
-            dy = self._initial_size[1] // 2
-        elif anchor == "s":
-            dx = self._initial_size[0]
-            dy = self._initial_size[1] // 2
-        elif anchor == "se":
-            dx = self._initial_size[0]
-            dy = self._initial_size[1]
-        else:
-            dx = self._initial_size[0] // 2
-            dy = self._initial_size[1] // 2
-
+        match anchor:
+            case "nw" | None: dx, dy = 0, 0
+            case "n": dx, dy = self._initial_size[0] // 2, 0
+            case "w": dx, dy = 0, self._initial_size[1] // 2
+            case "ne": dx, dy = self._initial_size[0], 0
+            case "sw": dx, dy = 0, self._initial_size[1]
+            case "e": dx, dy = self._initial_size[0], self._initial_size[1] // 2
+            case "s": dx, dy = self._initial_size[0], self._initial_size[1] // 2
+            case "se": dx, dy = self._initial_size[0], self._initial_size[1]
+            case _: dx, dy = self._initial_size[0] // 2, self._initial_size[1] // 2
         self._position = self._initial_position = [
             self.winfo_x()+dx, self.winfo_y()+dy]
 
@@ -611,19 +580,13 @@ class Canvas(tkinter.Canvas):
 
     def _zoom_images(self, relative_ratio: tuple[float, float]) -> None:
         """Internal Method: Scale the images"""
-        # for image, value in self._images.items():
-        #     if value[0] and value[0].extension != "gif":
-        #         value[1] = value[0].zoom(
-        #             temp_x * rate_x, temp_y * rate_y, precision=1.2)
-        #         self.itemconfigure(image, image=value[1])
+        # TODO: Complete this method
 
-    @typing.override
     def destroy(self) -> None:
         if _canvases := getattr(self.master, "_canvases", None):
             _canvases.remove(self)
         return tkinter.Canvas.destroy(self)
 
-    @typing.override  # 添加对 text 类型的 _CanvasItemId 的字体大小的控制
     def create_text(self, *args, **kw) -> int:
         if not (font_ := kw.get("font")):
             kw["font"] = font.Font(family=constants.FONT, size=constants.SIZE)
@@ -640,12 +603,10 @@ class Canvas(tkinter.Canvas):
             kw["font"] = font.Font(family=font_[0], size=font_[1],
                                    weight=font_[2] if length > 2 else "normal",
                                    slant=font_[3] if length > 3 else "roman")
-            # XXX
         text = tkinter.Canvas.create_text(self, *args, **kw)
         self._texts[text] = [kw["font"].cget("size"), kw["font"]]
         return text
 
-    @typing.override  # 添加对 image 类型的 _CanvasItemId 的图像大小的控制
     def create_image(self, *args, **kw) -> int:
         image = tkinter.Canvas.create_image(self, *args, **kw)
         self._images[image] = [kw.get("image"), None]
@@ -653,7 +614,6 @@ class Canvas(tkinter.Canvas):
             self._images[image][0] = self._images[image][0].items
         return image
 
-    @typing.override  # 创建空 image 的 _CanvasItemId 时漏去对图像大小的控制
     def itemconfigure(self, tagOrId: str | int, **kw) -> dict[str, tuple[str, str, str, str, str]] | None:
         if kw.get("image").__class__ == Image:
             self._images[tagOrId] = [kw.get("image"), None]
@@ -665,23 +625,26 @@ class Canvas(tkinter.Canvas):
         type_: typing.Literal["left", "center", "right", "none"]
     ) -> None:
         """Internal Method: Events to move the mouse"""
+        self.trigger_config.reset()
         for widget in self.get_widgets()[::-1]:
-            if getattr(widget.feature, f"_move_{type_}", lambda _: False)(event) or widget.through:
-                return
-        if self.cget("cursor") != "arrow":
-            self.configure(cursor="arrow")
+            if widget.feature is not None:
+                if getattr(widget.feature, f"_move_{type_}")(event) and not widget.through:
+                    event.x = math.nan
+        self.trigger_config.update(cursor="arrow")
 
     def _click(
         self,
         event: tkinter.Event,
         type_: typing.Literal["left", "center", "right"]
     ) -> None:
-        """Internal Method: Events to click the mouse"""
+        """Internal Method: Events to active the mouse"""
+        self.focus_set()
+        self.trigger_focus.reset()
         for widget in self.get_widgets()[::-1]:
-            if getattr(widget.feature, f"_click_{type_}", lambda _: False)(event):
-                if widget.through:
-                    continue
-                return
+            if widget.feature is not None:
+                if getattr(widget.feature, f"_click_{type_}")(event) and not widget.through:
+                    event.x = math.nan
+        self.trigger_focus.update(True, "")
 
     def _release(
         self,
@@ -690,10 +653,9 @@ class Canvas(tkinter.Canvas):
     ) -> None:
         """Internal Method: Events to release the mouse"""
         for widget in self.get_widgets()[::-1]:
-            if getattr(widget.feature, f"_release_{type_}", lambda _: False)(event):
-                if widget.through:
-                    continue
-                return
+            if widget.feature is not None:
+                if getattr(widget.feature, f"_release_{type_}")(event) and not widget.through:
+                    event.x = math.nan
 
     def _wheel(
         self,
@@ -704,18 +666,16 @@ class Canvas(tkinter.Canvas):
         if type_ is not None:
             event.delta = 120 if type_ == "up" else -120
         for widget in self.get_widgets()[::-1]:
-            if getattr(widget.feature, "_wheel", lambda _: False)(event):
-                if widget.through:
-                    continue
-                return
+            if widget.feature is not None:
+                if getattr(widget.feature, "_wheel")(event) and not widget.through:
+                    event.x = math.nan
 
     def _input(self, event: tkinter.Event) -> None:
         """Internal Method: Events for typing"""
         for widget in self.get_widgets()[::-1]:
-            if getattr(widget.feature, "_input", lambda _: False)(event):
-                if widget.through:
-                    continue
-                return
+            if widget.feature is not None:
+                if getattr(widget.feature, "_input")(event) and not widget.through:
+                    event.x = math.nan
 
 
 class Feature(abc.ABC):
@@ -784,26 +744,28 @@ class Component(abc.ABC):
         size: tuple[int, int] | None = None,
         *,
         name: str | None = None,
-        styles: dict[State, Style] | None = None,
+        animation: bool = True,
+        styles: dict[str, dict[str, str]] | None = None,
     ) -> None:
         self.widget: Widget = widget
         self.x = rel_position[0] + widget.x
         self.y = rel_position[1] + widget.y
         self.w, self.h = size if size else (widget.w, widget.h)
-        self.name: str = name
-        self.styles = styles if styles else style.get(widget, self)
+        self.name: str | None = name
+        self.styles = styles if styles else parser.get(widget, self)
         self.items: list[int] = []
         self.visible: bool = True
+        self.animation = animation
         widget.register(self)
 
-    def move(self, dx: int, dy: int) -> None:
+    def move(self, dx: float, dy: float) -> None:
         """Move the `Component`"""
         self.x += dx
         self.y += dy
         for item in self.items:
             self.widget.master.move(item, dx, dy)
 
-    def moveto(self, x: int, y: int) -> None:  # BUG: can't use twice!
+    def moveto(self, x: float, y: float) -> None:
         """Move the `Component` to a certain position"""
         return self.move(x - self.x, y - self.y)
 
@@ -819,16 +781,12 @@ class Component(abc.ABC):
         """Return the decision region of the `Component`"""
         return self.x, self.y, self.x + self.w, self.y + self.h
 
-    def detect(self, position: tuple[int, int]) -> bool:
-        """
-        Detect whether the specified coordinates are within the `Component`
-
-        * `position`: the specified coordinates
-        """
+    def detect(self, x: int, y: int) -> bool:
+        """Detect whether the specified coordinates are within the `Component`"""
         x1, y1, x2, y2 = self.region()
-        return x1 <= position[0] <= x2 and y1 <= position[1] <= y2
+        return x1 <= x <= x2 and y1 <= y <= y2
 
-    def update(self, state: State | None = None, *, no_delay: bool = False) -> None:
+    def update(self, state: str | None = None, *, no_delay: bool = False) -> None:
         """
         Update the style of the `Component` to the corresponding state
 
@@ -836,20 +794,47 @@ class Component(abc.ABC):
         """
         if state is None:
             state = self.widget.state
-        if self.styles.get(state) is not None and self.visible:
+        if not self.visible:
+            return
+        if self.styles.get(state) is not None:
             self.configure(self.styles[state], no_delay=no_delay)
 
-    def configure(self, style: Style, *, no_delay: bool = False) -> None:
+    def _get_disabled_style(self, refer_state: str = "normal") -> dict[str, str]:
+        """"""
+        if self.styles.get("disabled") is None:
+            self.styles["disabled"] = copy.deepcopy(
+                self.styles.get(refer_state, {}))
+            for key, value in self.styles["disabled"].items():
+                self.styles["disabled"][key] = rgb.rgb_to_str(rgb.convert(
+                    rgb.str_to_rgb(value), rgb.str_to_rgb(self.widget.master["bg"]), 0.618))
+        return self.styles["disabled"]
+
+    def configure(self, style: dict[str, str], *, no_delay: bool = False) -> None:
         """Configure properties of the `Component` and update them immediately"""
         for item in self.items:
-            for tag in self.widget.master.itemcget(item, "tag").split():
-                if (kwargs := style.get(tag)) is not None:
-                    if self.widget.animation and not no_delay:
-                        for key, value in kwargs.items():
-                            animations.Gradient(
-                                self.widget.master, item, key, 150, delta=value).start()
+            tags = self.widget.master.itemcget(item, "tags").split()
+            kwargs = {key: value for key, param in zip(
+                tags[0:-1:2], tags[1:len(tags):2]) if (value := style.get(param)) is not None}
+            if self.widget.animation and self.animation and not no_delay:
+                for key, value in kwargs.items():
+                    start_color: str = self.widget.master.itemcget(item, key)
+                    if start_color.startswith("#") and len(start_color) == 9:
+                        start_color = rgb.rgb_to_str(rgb._str_to_rgba(
+                            start_color, refer=self.widget.master["bg"]))
+                    if value.startswith("#") and len(value) == 9:
+                        value = rgb.rgb_to_str(rgb._str_to_rgba(
+                            value, refer=self.widget.master["bg"]))
+                    if value == "" or start_color == "":  # Null characters cannot be parsed
+                        self.widget.master.itemconfigure(item, **{key: value})
                     else:
-                        self.widget.master.itemconfigure(item, **kwargs)
+                        animations.Gradient(
+                            self.widget.master, item, key, 150, (start_color, value)).start()
+            else:
+                for key, value in kwargs.items():
+                    if value.startswith("#") and len(value) == 9:
+                        kwargs[key] = rgb.rgb_to_str(rgb._str_to_rgba(
+                            value, refer=self.widget.master["bg"]))
+                self.widget.master.itemconfigure(item, **kwargs)
 
     def appear(self, *, no_delay: bool = True) -> None:
         """"""
@@ -859,11 +844,21 @@ class Component(abc.ABC):
     def disappear(self, *, no_delay: bool = True) -> None:
         """"""
         self.visible = False
-        temp_style = copy.deepcopy(self.styles[self.widget.state])
-        for style in temp_style.values():
-            for arg in style:
-                style[arg] = ""
+        temp_style = copy.deepcopy(self.styles.get(self.widget.state))
+        if temp_style is None:
+            return
+        for arg in temp_style:
+            temp_style[arg] = ""
         self.configure(temp_style, no_delay=no_delay)
+
+    def __getitem__(self, key: str) -> dict[str, str]:
+        """"""
+        return self.styles[key]
+
+    def __setitem__(self, key: str, value: dict[str, str]) -> None:
+        """"""
+        self.styles[key].update(value)
+        self.update(no_delay=True)
 
     @abc.abstractmethod
     def zoom(self, ratio: tuple[float, float]) -> None:
@@ -893,11 +888,13 @@ class Text(Component):
     def __init__(
         self,
         widget: "Widget",
+        rel_position: tuple[int, int] = (0, 0),
         *,
-        styles: dict[State, Style] | None = None,
+        styles: dict[str, dict[str, str]] | None = None,
+        animation: bool = True,
         text: str = "",
-        family: str = constants.FONT,
-        size: int = constants.SIZE,
+        family: str | None = None,
+        size: int | None = None,
         weight: typing.Literal["normal", "bold"] = "normal",
         slant: typing.Literal["roman", "italic"] = "roman",
         underline: bool = False,
@@ -910,10 +907,15 @@ class Text(Component):
         """
         self.value: str = text
         self.limit: int = limit
+        self.left: int = 0
+        self.right: int = 0
         self.font: font.Font = font.Font(
-            family=family, size=-abs(size), weight=weight, slant=slant,
+            family=family if family else constants.FONT,
+            size=-abs(size if size else constants.SIZE),
+            weight=weight, slant=slant,
             underline=underline, overstrike=overstrike)
-        return Component.__init__(self, widget, styles=styles)
+        Component.__init__(self, widget, rel_position,
+                           styles=styles, animation=animation)
 
     def region(self) -> tuple[int, int, int, int]:
         """Return the decision region of the `Text`"""
@@ -931,36 +933,6 @@ class Text(Component):
             self.widget.master.itemconfigure(item, font=value[1])
             self.widget.master.scale(item, 0, 0, *ratio)
 
-    def get(self) -> str:
-        """Get the value of `Text`"""
-        return self.value
-
-    def set(self, text: str) -> None:
-        """Set the value of `Text`"""
-        if len(text) > self.limit:
-            raise ValueError
-        self.value = text
-        self.widget.master.itemconfigure(self.items[0], text=self.value)
-
-    def append(self, text: str) -> None:
-        """Append value to the value of `Text`"""
-        if len(self.value) + len(text) > self.limit:
-            raise ValueError
-        self.value = self.value + text
-        self.widget.master.itemconfigure(self.items[0], text=self.value)
-
-    def delete(self, num: int) -> None:
-        """Remove a portion of the `Text` value from the trail"""
-        if num > len(self.value):
-            raise ValueError
-        self.value = self.value[:-num]
-        self.widget.master.itemconfigure(self.items[0], text=self.value)
-
-    def clear(self) -> None:
-        """Clear the value of `Text`"""
-        self.value = ""
-        self.widget.master.itemconfigure(self.items[0], text=self.value)
-
 
 class Image(Component):
     """Base Class: an image of a `Widget`"""
@@ -970,12 +942,12 @@ class Image(Component):
         widget: "Widget",
         *,
         file: str = "",
-        styles: dict[State, Style] | None = None
+        styles: dict[str, dict[str, str]] | None = None
     ) -> None:
         """"""
         self.file = file
         self.extension = pathlib.Path(file).suffix
-        return Component.__init__(self, widget, styles=styles)
+        Component.__init__(self, widget, styles=styles)
 
     def zoom(self, ratio: tuple[float, float]) -> None:
         """"""
@@ -994,7 +966,8 @@ class Widget:
         position: tuple[int, int],
         size: tuple[int, int],
         *,
-        state: State = "normal",
+        name: str | None = None,
+        state: str = "normal",
         through: bool = False,
         animation: bool = True,
     ) -> None:
@@ -1004,6 +977,7 @@ class Widget:
         self.w, self.h = size
         self.through = through
         self.animation = animation
+        self.name = name
 
         self.texts: list[Text] = []
         self.shapes: list[Shape] = []
@@ -1011,7 +985,8 @@ class Widget:
 
         self.feature: Feature = None
 
-        self.state: State = state
+        self.state: str = state
+        self._before_disabled: str = ""
 
         master._widgets.append(self)
 
@@ -1023,8 +998,6 @@ class Widget:
             self.texts.append(component)
         elif isinstance(component, Image):
             self.images.append(component)
-        else:
-            raise TypeError
         component.display()
         component.update(no_delay=True)
 
@@ -1039,8 +1012,10 @@ class Widget:
         for elem in self.shapes + self.texts + self.images:
             elem.zoom(ratio)
 
-    def update(self, state: State | None = None, *, no_delay: bool = False) -> None:
+    def update(self, state: str | None = None, *, no_delay: bool = False) -> None:
         """Update the widget"""
+        if self._before_disabled:
+            return
         if state is not None:
             self.state = state
         for elem in self.shapes + self.texts:
@@ -1056,6 +1031,20 @@ class Widget:
     def moveto(self, x: int, y: int) -> None:
         """Move the Widget to a certain position"""
         return self.move(x - self.x, y - self.y)
+
+    def disabled(self, flag: bool = True) -> None:
+        """"""
+        if flag:
+            if not self._before_disabled:
+                self._before_disabled = self.state
+            for elem in self.shapes + self.texts:
+                elem._get_disabled_style(self._before_disabled)
+            self._before_disabled, last_state = "", self._before_disabled  # Let theme to change
+            self.update("disabled", no_delay=True)
+            self._before_disabled = last_state
+        else:
+            self._before_disabled, last_state = "", self._before_disabled  # Unlock
+            self.update(last_state, no_delay=True)
 
     def destroy(self) -> None:
         """Destroy the widget"""

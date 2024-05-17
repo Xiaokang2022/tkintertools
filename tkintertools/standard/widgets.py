@@ -4,8 +4,34 @@ import math
 import typing
 
 from .. import constants, core
-from ..animate import animations, controllers
+from ..animation import animations, controllers
 from . import features, images, shapes, texts
+
+
+class Information(core.Widget):
+    """"""
+
+    def __init__(
+        self,
+        master: core.Canvas,
+        position: tuple[int, int],
+        size: tuple[int, int] = (0, 0),
+        *,
+        name: str | None = None,
+        animation: bool = True,
+        text: str = "",
+        family: str | None = None,
+        fontsize: int | None = None,
+        weight: typing.Literal['normal', 'bold'] = "normal",
+        slant: typing.Literal['roman', 'italic'] = "roman",
+        underline: bool = False,
+        overstrike: bool = False,
+    ) -> None:
+        """"""
+        core.Widget.__init__(self, master, position, size,
+                             name=name, animation=animation)
+        texts.Information(self, text=text, family=family, size=fontsize, weight=weight,
+                          slant=slant, underline=underline, overstrike=overstrike)
 
 
 class Label(core.Widget):
@@ -19,19 +45,22 @@ class Label(core.Widget):
         self,
         master: core.Canvas,
         position: tuple[int, int],
-        size: tuple[int, int],
+        size: tuple[int, int] = (120, 50),
         *,
+        name: str | None = None,
+        animation: bool = True,
         text: str = "",
-        family: str = constants.FONT,
-        fontsize: int = constants.SIZE,
+        family: str | None = None,
+        fontsize: int | None = None,
         weight: typing.Literal['normal', 'bold'] = "normal",
         slant: typing.Literal['roman', 'italic'] = "roman",
         underline: bool = False,
         overstrike: bool = False,
     ) -> None:
         """"""
-        core.Widget.__init__(self, master, position, size)
-        if constants.IS_WIN10:
+        core.Widget.__init__(self, master, position, size,
+                             name=name, animation=animation)
+        if constants.SYSTEM == "Windows10":
             shapes.Rectangle(self)
         else:
             shapes.RoundedRectangle(self)
@@ -49,19 +78,22 @@ class Button(core.Widget):
         self,
         master: core.Canvas,
         position: tuple[int, int],
-        size: tuple[int, int],
+        size: tuple[int, int] = (120, 50),
         *,
+        name: str | None = None,
+        animation: bool = True,
         text: str = "",
-        family: str = constants.FONT,
-        fontsize: int = constants.SIZE,
+        family: str | None = None,
+        fontsize: int | None = None,
         weight: typing.Literal['normal', 'bold'] = "normal",
         slant: typing.Literal['roman', 'italic'] = "roman",
         underline: bool = False,
         overstrike: bool = False,
         command: typing.Callable | None = None,
     ) -> None:
-        core.Widget.__init__(self, master, position, size)
-        if constants.IS_WIN10:
+        core.Widget.__init__(self, master, position, size,
+                             name=name, animation=animation)
+        if constants.SYSTEM == "Windows10":
             shapes.Rectangle(self)
         else:
             shapes.RoundedRectangle(self)
@@ -77,17 +109,24 @@ class Switch(core.Widget):
         self,
         master: core.Canvas,
         position: tuple[int, int],
-        length: int,
+        length: int = 60,
         *,
+        name: str | None = None,
+        animation: bool = True,
         default: bool = False,
         command: typing.Callable[[bool], typing.Any] | None = None,
     ) -> None:
         core.Widget.__init__(self, master, position, (length, length / 2),
-                             state=f"normal-{"on" if default else "off"}",
-                             animation=False)
-        shapes.SemicircularRectangle(self)
-        shapes.Oval(self, rel_position=(length/12, length/12),
-                    size=(length/3, length/3))
+                             state=f"normal-{'on' if default else 'off'}",
+                             name=name, animation=animation)
+        if constants.SYSTEM == "Windows10":
+            shapes.Rectangle(self, name=".out")
+            shapes.Rectangle(self, name=".in", rel_position=(
+                length/12, length/12), size=(length/3, length/3), animation=False)
+        else:
+            shapes.SemicircularRectangle(self)
+            shapes.Oval(self, rel_position=(length/12, length/12),
+                        size=(length/3, length/3), animation=False)
         features.Switch(self, command=command)
         if default:
             self.set(default)
@@ -98,10 +137,55 @@ class Switch(core.Widget):
 
     def set(self, value: bool) -> None:
         """"""
-        self.update(f"{self.state.split("-")[0]}-{"on" if value else "off"}")
+        self.update(
+            f"{self.state.split('-')[0]}-{'on' if value else 'off'}", no_delay=True)
         dx = self.shapes[0].w/2 if value else -self.shapes[0].w/2
         animations.MoveComponent(
-            self.shapes[1], 250, controllers.smooth, delta=(dx, 0), fps=60).start()
+            self.shapes[1], 250, (dx, 0), controller=controllers.smooth, fps=60).start()
+
+
+class Entry(core.Widget):
+    """"""
+
+    def __init__(
+        self,
+        master: core.Canvas,
+        position: tuple[int, int],
+        size: tuple[int, int] = (250, 50),
+        *,
+        name: str | None = None,
+        animation: bool = True,
+        limit: int = math.inf
+    ) -> None:
+        core.Widget.__init__(self, master, position, size,
+                             name=name, animation=animation)
+        if constants.SYSTEM == "Windows10":
+            shapes.Rectangle(self)
+        else:
+            shapes.RoundedRectangle(self, name=".out")
+            shapes.RoundedRectangle(self, name=".in", size=(self.w, self.h-3))
+        texts.SingleLineText(self, text="", limit=limit)
+        features.Entry(self)
+
+    def get(self) -> str:
+        """"""
+        return self.texts[0].get()
+
+    def set(self, value: str) -> None:
+        """"""
+        self.texts[0].set(value)
+
+    def append(self, value: str) -> None:
+        """"""
+        self.texts[0].append(value)
+
+    def delete(self, count: int) -> None:
+        """"""
+        self.texts[0].pop(count)
+
+    def clear(self) -> None:
+        """"""
+        self.set("")
 
 
 class CheckButton(core.Widget):
@@ -111,13 +195,16 @@ class CheckButton(core.Widget):
         self,
         master: core.Canvas,
         position: tuple[int, int],
-        length: int,
+        length: int = 30,
         *,
+        name: str | None = None,
+        animation: bool = True,
         default: bool = False,
         command: typing.Callable[[bool], typing.Any] | None = None,
     ) -> None:
-        core.Widget.__init__(self, master, position, (length, length))
-        if constants.IS_WIN10:
+        core.Widget.__init__(self, master, position,
+                             (length, length), name=name, animation=animation)
+        if constants.SYSTEM == "Windows10":
             shapes.Rectangle(self)
         else:
             shapes.RoundedRectangle(self)
@@ -143,15 +230,26 @@ class RadioButton(core.Widget):
         self,
         master: core.Canvas,
         position: tuple[int, int],
-        length: int,
+        length: int = 24,
         *,
+        name: str | None = None,
+        animation: bool = True,
+        default: bool = False,
         command: typing.Callable[[int], typing.Any] | None = None,
     ) -> None:
-        core.Widget.__init__(self, master, position, (length, length))
-        shapes.Oval(self, name="Oval_1")
-        shapes.Oval(self, name="Oval_2", rel_position=(
-            self.w/4, self.h/4), size=(self.w/2, self.h/2))
+        core.Widget.__init__(self, master, position,
+                             (length, length), name=name, animation=animation)
+        if constants.SYSTEM == "Windows10":
+            shapes.Rectangle(self, name=".out")
+            shapes.Rectangle(self, name=".in", rel_position=(
+                self.w/4, self.h/4), size=(self.w/2, self.h/2)).disappear()
+        else:
+            shapes.Oval(self, name=".out")
+            shapes.Oval(self, name=".in", rel_position=(
+                self.w/4, self.h/4), size=(self.w/2, self.h/2)).disappear()
         features.RadioButton(self, command=command)
+        if default:
+            self.shapes[1].appear()
 
     def get(self) -> bool:
         """"""
@@ -171,20 +269,23 @@ class ProgressBar(core.Widget):
         self,
         master: core.Canvas,
         position: tuple[int, int],
-        size: tuple[int, int],
+        size: tuple[int, int] = (400, 20),
         *,
+        name: str | None = None,
+        animation: bool = True,
         command: typing.Callable[[], typing.Any] | None = None,
     ) -> None:
         self.value: float = 0
-        core.Widget.__init__(self, master, position, size)
-        if constants.IS_WIN10:
-            shapes.Rectangle(self, name="Rectangle_1")
-            shapes.Rectangle(self, name="Rectangle_2", size=(
+        core.Widget.__init__(self, master, position, size,
+                             name=name, animation=animation)
+        if constants.SYSTEM == "Windows10":
+            shapes.Rectangle(self, name=".out")
+            shapes.Rectangle(self, name=".in", size=(
                 0, self.h*0.8), rel_position=(self.h*0.1, self.h*0.1))
         else:
-            shapes.SemicircularRectangle(self, name="SemicircularRectangle_1")
-            shapes.SemicircularRectangle(
-                self, name="SemicircularRectangle_2", size=(self.h*0.7, self.h*0.7), rel_position=(self.h*0.15, self.h*0.15))
+            shapes.SemicircularRectangle(self, name=".out")
+            shapes.SemicircularRectangle(self, name=".in", size=(
+                self.h*0.7, self.h*0.7), rel_position=(self.h*0.15, self.h*0.15))
         features.ProgressBar(self)
         self.shapes[1].disappear()
         self.command = command
@@ -219,73 +320,6 @@ class ProgressBar(core.Widget):
             self.command()
 
 
-class Entry(core.Widget):
-    """"""
-
-    def __init__(
-        self,
-        master: core.Canvas,
-        position: tuple[int, int],
-        size: tuple[int, int],
-        *,
-        limit: int = math.inf
-    ) -> None:
-        core.Widget.__init__(self, master, position, size)
-        if constants.IS_WIN10:
-            shapes.Rectangle(self)
-        else:
-            shapes.RoundedRectangle(self)
-        texts.SingleLineText(self, text="", limit=limit)
-        features.Entry(self)
-
-    def get(self) -> str:
-        """"""
-        return self.value
-
-    def set(self, value: str) -> None:
-        """"""
-        self.value = value
-
-    def append(self, value: str) -> None:
-        """"""
-        self.value += value
-
-    def delete(self, count: int) -> None:
-        """"""
-        self.value = self.value[:-count]
-
-    def clear(self) -> None:
-        """"""
-        self.value = ""
-
-
-class Information(core.Widget):
-    """"""
-
-    def __init__(
-        self,
-        master: core.Canvas,
-        position: tuple[int, int],
-        size: tuple[int, int],
-        *,
-        text: str = "",
-        family: str = constants.FONT,
-        fontsize: int = constants.SIZE,
-        weight: typing.Literal['normal', 'bold'] = "normal",
-        slant: typing.Literal['roman', 'italic'] = "roman",
-        underline: bool = False,
-        overstrike: bool = False,
-    ) -> None:
-        """"""
-        core.Widget.__init__(self, master, position, size)
-        if constants.IS_WIN10:
-            shapes.Rectangle(self)
-        else:
-            shapes.RoundedRectangle(self)
-        texts.Information(self, text=text, family=family, size=fontsize, weight=weight,
-                          slant=slant, underline=underline, overstrike=overstrike)
-
-
 class UnderlineButton(core.Widget):
     """"""
 
@@ -293,18 +327,22 @@ class UnderlineButton(core.Widget):
         self,
         master: core.Canvas,
         position: tuple[int, int],
-        size: tuple[int, int],
+        size: tuple[int, int] = (0, 0),
         *,
         text: str = "",
-        family: str = constants.FONT,
-        fontsize: int = constants.SIZE,
+        family: str | None = None,
+        fontsize: int | None = None,
         weight: typing.Literal['normal', 'bold'] = "normal",
         slant: typing.Literal['roman', 'italic'] = "roman",
         underline: bool = False,
         overstrike: bool = False,
         command: typing.Callable | None = None,
+        name: str | None = None,
+        through: bool = False,
+        animation: bool = False,
     ) -> None:
-        core.Widget.__init__(self, master, position, size)
+        core.Widget.__init__(self, master, position, size,
+                             name=name, through=through, animation=animation)
         texts.Information(self, text=text, family=family, size=fontsize, weight=weight,
                           slant=slant, underline=underline, overstrike=overstrike)
         features.UnderLine(self, command=command)
@@ -317,51 +355,21 @@ class HighlightButton(core.Widget):
         self,
         master: core.Canvas,
         position: tuple[int, int],
-        size: tuple[int, int],
+        size: tuple[int, int] = (0, 0),
         *,
+        name: str | None = None,
+        animation: bool = True,
         text: str = "",
-        family: str = constants.FONT,
-        fontsize: int = constants.SIZE,
+        family: str | None = None,
+        fontsize: int | None = None,
         weight: typing.Literal['normal', 'bold'] = "normal",
         slant: typing.Literal['roman', 'italic'] = "roman",
         underline: bool = False,
         overstrike: bool = False,
         command: typing.Callable | None = None,
     ) -> None:
-        core.Widget.__init__(self, master, position, size)
+        core.Widget.__init__(self, master, position, size,
+                             name=name, animation=animation)
         texts.Information(self, text=text, family=family, size=fontsize, weight=weight,
                           slant=slant, underline=underline, overstrike=overstrike)
         features.Highlight(self, command=command)
-
-
-# class Slider(core.Widget):
-#     """"""
-
-#     def __init__(
-#         self,
-#         master: core.Canvas,
-#         position: tuple[int, int],
-#         length: int,
-#         *,
-#         default: float = 0,
-#         command: typing.Callable[[float], typing.Any] | None = None,
-#     ) -> None:
-#         self.value = default
-#         core.Widget.__init__(self, master, position, (length, 8))
-#         if constants.IS_WIN10:
-#             shapes.Rectangle(self)
-#             shapes.Rectangle(self, size=(self.h, self.h*3),
-#                              rel_position=(100, -self.h))
-#         else:
-#             shapes.SemicircularRectangle(self)
-#             shapes.Oval(self, size=(self.h*3, self.h*3),
-#                         rel_position=(100, -self.h))
-#         features.Slider(self, command=command)
-
-#     def get(self) -> bool:
-#         """"""
-#         return self.value
-
-#     def set(self, value: float) -> None:
-#         """"""
-#         self.value = 0 if value < 0 else 1 if value > 1 else value

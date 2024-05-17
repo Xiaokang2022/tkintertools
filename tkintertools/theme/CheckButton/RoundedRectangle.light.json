@@ -1,35 +1,14 @@
 {
     "normal": {
-        "in": {
-            "fill": "#FEFEFE"
-        },
-        "out_line": {
-            "fill": "#DCDCDC"
-        },
-        "out_arc": {
-            "outline": "#DCDCDC"
-        }
+        "fill": "#FEFEFE",
+        "outline": "#DCDCDC"
     },
     "hover": {
-        "in": {
-            "fill": "#FAFAFA"
-        },
-        "out_line": {
-            "fill": "#DCDCDC"
-        },
-        "out_arc": {
-            "outline": "#DCDCDC"
-        }
+        "fill": "#FAFAFA",
+        "outline": "#DCDCDC"
     },
-    "click": {
-        "in": {
-            "fill": "#F3F3F3"
-        },
-        "out_line": {
-            "fill": "#DCDCDC"
-        },
-        "out_arc": {
-            "outline": "#DCDCDC"
-        }
+    "active": {
+        "fill": "#F3F3F3",
+        "outline": "#DCDCDC"
     }
 }

@@ -1,0 +1,14 @@
+{
+    "normal": {
+        "fill": "#FBFBFB",
+        "outline": "#E5E5E5"
+    },
+    "hover": {
+        "fill": "#F6F6F6",
+        "outline": "#E5E5E5"
+    },
+    "active": {
+        "fill": "#FFFFFF",
+        "outline": "#E5E5E5"
+    }
+}

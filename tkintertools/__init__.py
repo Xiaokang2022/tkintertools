@@ -1,3 +1,16 @@
+"""
+The `tkintertools` is a UI framework based on the `Canvas` class of `tkinter`.
+
+* Homepage: https://xiaokang2022.github.io/tkintertools/
+* GitHub: https://github.com/Xiaokang2022/tkintertools
+* Gitee(Mirror): https://gitee.com/xiaokang-2022/tkintertools
+* GitCode(Mirror): https://gitcode.com/Xiaokang2022/tkintertools
+
+If you ❤️ this package, leave your ⭐ to me, thanks!
+
+![Stars](https://img.shields.io/github/stars/Xiaokang2022/tkintertools?label=Stars&color=gold&logo=github&style=flat)
+"""
+
 # MIT License
 
 # Copyright(c) 2022 Xiaokang2022
@@ -20,25 +33,20 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-"""
-tkintertools is an auxiliary development module of the Python3 built-in module tkinter.
-
-If you want to know more information,
-please see https://github.com/Xiaokang2022/tkintertools.
-"""
-
 import ctypes
 import platform
 import sys
 
-if sys.version_info < (3, 12):
-    raise ImportError("Python version requirement is 3.12 or higher.")
+if sys.version_info < (3, 10):
+    raise ImportError(
+        "tkintertools requires a Python version of 3.10 or greater.")
 
 if platform.system() == "Windows":  # Set Windows DPI awareness
-    ctypes.WinDLL("shcore").SetProcessDpiAwareness(1)
+    ctypes.windll.shcore.SetProcessDpiAwareness(1)
 
+from .constants import *
 from .core import *
 from .standard import *
 
-__version__ = "3.0.0.alpha7"
+__version__ = "3.0.0.beta1"
 __author__ = "Xiaokang2022 <2951256653@qq.com>"

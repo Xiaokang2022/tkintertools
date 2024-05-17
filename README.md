@@ -37,17 +37,13 @@
     </a>
 </p>
 
-> [!NOTE]  
-> Recently, the ⭐ of this project has maintained a clear upward trend. I would like to thank you all for your support of this project! ❤️  
-> 近段时间，本项目的 ⭐ 一直保持明显的上升趋势。在此我衷心地感谢大家对本项目的支持！❤️
-
 Install - 模块安装
 -----------------
 
 ### Stable Version - 稳定版本
 
 * 🔖 Version - 最新版本 : `2.6.21`
-* 🕓 Release - 发布日期 : 2024/01/01
+* 🕓 Release - 发布日期 : 2024-01-01
 * ✨ Feature - 更新内容 : [News-2.6.21](https://xiaokang2022.github.io/tkintertools/news/2.6.21/News/)
 
 ```sh
@@ -64,8 +60,8 @@ pip install tkintertools
 
 ### Development Version - 开发版本
 
-* 🔖 Version - 最新版本 : `3.0.0.alpha7`
-* 🕓 Update - 更新日期 : 2024/05/05
+* 🔖 Version - 最新版本 : `3.0.0.beta1`
+* 🕓 Release - 发布日期 : 2024-05-17
 * ✨ Feature - 更新内容 : [News-3.0.0](https://xiaokang2022.github.io/tkintertools/news/3.0.0/News/)
 
 ```sh
@@ -87,7 +83,7 @@ pip install tkintertools
 More - 更多
 -----------
 
-* 📋 To-dos - 待办事项: [TODO.md](TODO.md)
+* 📋 Todo - 待办事项: [TODO.md](TODO.md)
 * 📑 License - 项目许可: [LICENSE.txt](LICENSE.txt)
 * 📘 Changelog - 更新日志: [CHANGELOG.md](CHANGELOG.md)
 * 📕 Security Policy - 安全策略: [SECURITY.md](SECURITY.md)
