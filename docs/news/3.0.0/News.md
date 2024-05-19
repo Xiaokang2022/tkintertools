@@ -138,7 +138,6 @@ import itertools
 import math
 import random
 import statistics
-import tkinter.font as font
 import webbrowser
 
 import tkintertools as tkt

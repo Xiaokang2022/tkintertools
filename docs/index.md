@@ -45,9 +45,9 @@ statistics: True
 
 ### Stable Release - 稳定版本
 
--   Version - 最新版本 : `2.6.21`
--   Release - 发布日期 : 2024/01/01
--   Feature - 更新内容 : [News-2.6.21](./news/2.6.21/News.md)
+- 🔖 Version - 最新版本 : `2.6.21`
+- 🕓 Release - 发布日期 : 2024/01/01
+- ✨ Feature - 更新内容 : [News-2.6.21](./news/2.6.21/News.md)
 
 ```sh linenums="0"
 pip install tkintertools
@@ -61,11 +61,11 @@ pip install tkintertools
 
 </details>
 
-### Pre Release - 预发布版本
+### Development Release - 开发版本
 
--   Version - 最新版本 : `3.0.0.beta1`
--   Updated - 更新日期 : 2024/05/17
--   Feature - 更新内容 : [News-3.0.0](./news/3.0.0/News.md)
+- 🔖 Version - 最新版本 : `3.0.0.beta1`
+- 🕓 Updated - 更新日期 : 2024/05/17
+- ✨ Feature - 更新内容 : [News-3.0.0](./news/3.0.0/News.md)
 
 ```sh linenums="0"
 pip install tkintertools==3.0.0b1

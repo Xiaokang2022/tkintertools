@@ -249,7 +249,6 @@ plugins: # 插件
 nav: # 导航栏
   - Home / 主页:
       - Profile - 简介: index.md
-      - Site Navigation - 站点导航: navigation.md
 
   - Tutorials / 教程:
       - 前言: tutorials/0-1.md
