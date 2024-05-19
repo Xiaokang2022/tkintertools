@@ -1,11 +1,11 @@
 {
     "normal": {
-        "fill": "#1A1A1A"
+        "fill": "#ffffff"
     },
     "hover": {
-        "fill": "#1A1A1A"
+        "fill": "#ffffff"
     },
     "active": {
-        "fill": "#1A1A1A"
+        "fill": "#ffffff"
     }
 }

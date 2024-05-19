@@ -1,14 +1,14 @@
 {
     "normal": {
-        "fill": "#333333",
-        "outline": "#333333"
+        "fill": "#0076f8",
+        "outline": "#C0C0C0"
     },
     "hover": {
-        "fill": "#333333",
-        "outline": "#858585"
+        "fill": "#0076f8",
+        "outline": "#288CDB"
     },
     "active": {
-        "fill": "#666666",
-        "outline": "#666666"
+        "fill": "#0076f8",
+        "outline": "#4884B4"
     }
 }

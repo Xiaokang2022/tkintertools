@@ -1,26 +1,26 @@
 {
     "normal-off": {
-        "fill": "#F5F5F7",
-        "outline": "#B8B8B9"
+        "fill": "#e1e1e1",
+        "outline": "#c2c2c2"
     },
     "hover-off": {
-        "fill": "#E7E8EA",
-        "outline": "#858687"
+        "fill": "#e1e1e1",
+        "outline": "#c2c2c2"
     },
     "active-off": {
-        "fill": "#DEDFE2",
-        "outline": "#848586"
+        "fill": "#e1e1e1",
+        "outline": "#c2c2c2"
     },
     "normal-on": {
-        "fill": "#0067C0",
-        "outline": "#0067C0"
+        "fill": "#0c6fe8",
+        "outline": "#0c6fe8"
     },
     "hover-on": {
-        "fill": "#1975C5",
-        "outline": "#1975C5"
+        "fill": "#0c6fe8",
+        "outline": "#0c6fe8"
     },
     "active-on": {
-        "fill": "#2D7FC6",
-        "outline": "#2072B9"
+        "fill": "#0c6fe8",
+        "outline": "#0c6fe8"
     }
 }

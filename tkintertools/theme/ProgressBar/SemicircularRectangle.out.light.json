@@ -1,10 +1,10 @@
 {
     "normal": {
-        "fill": "#FBFBFB",
-        "outline": "#DCDCDC"
+        "fill": "#ffffff",
+        "outline": "#ffffff"
     },
     "hover": {
-        "fill": "#F6F6F6",
-        "outline": "#DCDCDC"
+        "fill": "#ffffff",
+        "outline": "#ffffff"
     }
 }

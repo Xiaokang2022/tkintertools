@@ -1,15 +1,15 @@
 {
     "normal-off": {
-        "fill": "#5D5D5E",
-        "outline": "#5D5D5E"
+        "fill": "#FFFFFF",
+        "outline": "#FFFFFF"
     },
     "hover-off": {
-        "fill": "#585859",
-        "outline": "#585859"
+        "fill": "#FFFFFF",
+        "outline": "#FFFFFF"
     },
     "active-off": {
-        "fill": "#545556",
-        "outline": "#545556"
+        "fill": "#FFFFFF",
+        "outline": "#FFFFFF"
     },
     "normal-on": {
         "fill": "#FFFFFF",
