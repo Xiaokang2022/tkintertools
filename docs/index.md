@@ -14,7 +14,7 @@ statistics: True
 
 <p align="center">
 <a href="."><img alt="Version" src="https://img.shields.io/pypi/v/tkintertools?label=Version" title="Stable Version" /></a>
-<a href="./more/LICENSE.txt"><img alt="License" src="https://img.shields.io/pypi/l/tkintertools?label=License" title="License" /></a>
+<a href="./LICENSE.txt"><img alt="License" src="https://img.shields.io/pypi/l/tkintertools?label=License" title="License" /></a>
 <a href="https://pypistats.org/packages/tkintertools"><img alt="Downloads" src="https://img.shields.io/pypi/dm/tkintertools?label=Downloads" title="Downloads" /></a>
 <a href="https://pepy.tech/project/tkintertools"><img alt="Total Downloads" src="https://static.pepy.tech/badge/tkintertools" title="Total Downloads" /></a>
 <a href="https://github.com/Xiaokang2022/tkintertools"><img alt="Size" src="https://img.shields.io/github/languages/code-size/Xiaokang2022/tkintertools?label=Size" title="Code Size"/></a>
@@ -43,7 +43,7 @@ statistics: True
 
 ## Install - 模块安装
 
-### Stable Release - 稳定版本
+### Stable Version - 稳定版本
 
 - 🔖 Version - 最新版本 : `2.6.21`
 - 🕓 Release - 发布日期 : 2024/01/01
@@ -61,7 +61,7 @@ pip install tkintertools
 
 </details>
 
-### Development Release - 开发版本
+### Development Version - 开发版本
 
 - 🔖 Version - 最新版本 : `3.0.0.beta1`
 - 🕓 Updated - 更新日期 : 2024/05/17
@@ -98,37 +98,37 @@ pip install tkintertools==3.0.0b1
 
 <div class="grid cards" markdown>
 
--   [📑 **License - 项目许可**](./more/LICENSE.md)
+-   [📑 **License - 项目许可**](./LICENSE.md)
 
     ***
 
     MIT，最宽松的开源许可之一
 
--   [📋 **Todo - 任务清单**](./more/TODO.md)
+-   [📋 **Todo - 任务清单**](./TODO.md)
 
     ***
 
     看看作者都有些什么计划
 
--   [📘 **Changelog - 更新日志**](./more/CHANGELOG.md)
+-   [📘 **Changelog - 更新日志**](./CHANGELOG.md)
 
     ***
 
     所有的更新记录
 
--   [📗 **Contribution Guide - 贡献指南**](./more/CONTRIBUTING.md)
+-   [📗 **Contribution Guide - 贡献指南**](./CONTRIBUTING.md)
 
     ***
 
     在贡献之前先瞄一下这个
 
--   [📕 **Security Policy - 安全策略**](./more/SECURITY.md)
+-   [📕 **Security Policy - 安全策略**](./SECURITY.md)
 
     ***
 
     安全漏洞的处理方法
 
--   [📙 **Code of Conduct - 行为准则**](./more/CODE_OF_CONDUCT.md)
+-   [📙 **Code of Conduct - 行为准则**](./CODE_OF_CONDUCT.md)
 
     ***
 

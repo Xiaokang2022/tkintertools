@@ -249,6 +249,12 @@ plugins: # 插件
 nav: # 导航栏
   - Home / 主页:
       - Profile - 简介: index.md
+      - License - 项目许可证: LICENSE.md
+      - Todo - 任务清单: TODO.md
+      - Changelog - 更新日志: CHANGELOG.md
+      - Contribution Guide - 贡献指南: CONTRIBUTING.md
+      - Security Policy - 安全策略: SECURITY.md
+      - Code of Conduct - 行为准则: CODE_OF_CONDUCT.md
 
   - Tutorials / 教程:
       - 前言: tutorials/0-1.md
@@ -318,14 +324,6 @@ nav: # 导航栏
           - 2.6.8: news/2.6.8/News.md
           - 2.6.7: news/2.6.7/News.md
           - 2.6.6: news/2.6.6/News.md
-
-  - More / 更多:
-      - License - 项目许可证: more/LICENSE.md
-      - Todo - 任务清单: more/TODO.md
-      - Changelog - 更新日志: more/CHANGELOG.md
-      - Contribution Guide - 贡献指南: more/CONTRIBUTING.md
-      - Security Policy - 安全策略: more/SECURITY.md
-      - Code of Conduct - 行为准则: more/CODE_OF_CONDUCT.md
 
   - Projects / 项目:
       - Overview - 项目概览: projects/index.md
