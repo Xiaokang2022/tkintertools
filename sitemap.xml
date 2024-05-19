@@ -6,6 +6,36 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
+         <loc>https://Xiaokang2022.github.io/tkintertools/CHANGELOG/</loc>
+         <lastmod>2024-05-19</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://Xiaokang2022.github.io/tkintertools/CODE_OF_CONDUCT/</loc>
+         <lastmod>2024-05-19</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://Xiaokang2022.github.io/tkintertools/CONTRIBUTING/</loc>
+         <lastmod>2024-05-19</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://Xiaokang2022.github.io/tkintertools/LICENSE/</loc>
+         <lastmod>2024-05-19</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://Xiaokang2022.github.io/tkintertools/SECURITY/</loc>
+         <lastmod>2024-05-19</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://Xiaokang2022.github.io/tkintertools/TODO/</loc>
+         <lastmod>2024-05-19</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
          <loc>https://Xiaokang2022.github.io/tkintertools/documents/constants/</loc>
          <lastmod>2024-05-19</lastmod>
          <changefreq>daily</changefreq>
@@ -22,36 +52,6 @@
     </url>
     <url>
          <loc>https://Xiaokang2022.github.io/tkintertools/documents/tools_3d/</loc>
-         <lastmod>2024-05-19</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://Xiaokang2022.github.io/tkintertools/more/CHANGELOG/</loc>
-         <lastmod>2024-05-19</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://Xiaokang2022.github.io/tkintertools/more/CODE_OF_CONDUCT/</loc>
-         <lastmod>2024-05-19</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://Xiaokang2022.github.io/tkintertools/more/CONTRIBUTING/</loc>
-         <lastmod>2024-05-19</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://Xiaokang2022.github.io/tkintertools/more/LICENSE/</loc>
-         <lastmod>2024-05-19</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://Xiaokang2022.github.io/tkintertools/more/SECURITY/</loc>
-         <lastmod>2024-05-19</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://Xiaokang2022.github.io/tkintertools/more/TODO/</loc>
          <lastmod>2024-05-19</lastmod>
          <changefreq>daily</changefreq>
     </url>
