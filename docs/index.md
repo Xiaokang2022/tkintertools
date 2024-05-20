@@ -89,7 +89,7 @@ pip install tkintertools==3.0.0b1
 
     ![Dark Theme](./news/3.0.0/dark-mac.png)
 
-!!! warning
+!!! warning "Warning - 警告"
 
     `tkt 2.*` has been discontinued, for new features, please use `tkt 3.*`. Also note that `tkt 3.*` is almost completely incompatible with `tkt 2.*`, and porting a project from `tkt 2.*` to `tkt 3.*` can be difficult.  
     `tkt 2.*` 已放弃支持，如需获取新的功能，请使用 `tkt 3.*`。同时请注意，`tkt 3.*` 与 `tkt 2.*` 几乎完全不兼容，将项目从 `tkt 2.*` 移植到 `tkt 3.*` 可能会十分困难。
@@ -102,41 +102,47 @@ pip install tkintertools==3.0.0b1
 
     ***
 
+    MIT, one of the most permissive open source licenses  
     MIT，最宽松的开源许可之一
 
 -   [📋 **Todo - 待办事项**](./TODO.md)
 
     ***
 
+    Let's see what the authors have planned  
     看看作者都有些什么计划
 
 -   [📘 **Changelog - 更新日志**](./CHANGELOG.md)
 
     ***
 
-    所有的更新记录
+    Changelog for all versions  
+    所有版本的更新日志
 
 -   [📗 **Contribution Guide - 贡献指南**](./CONTRIBUTING.md)
 
     ***
 
+    Take a look at this before you contribute  
     在贡献之前先瞄一下这个
 
 -   [📕 **Security Policy - 安全策略**](./SECURITY.md)
 
     ***
 
+    How to deal with security vulnerabilities  
     安全漏洞的处理方法
 
 -   [📙 **Code of Conduct - 行为准则**](./CODE_OF_CONDUCT.md)
 
     ***
 
+    Something that contributors should know  
     贡献者应该了解的一些东西
 
 </div>
 
-!!! info "本站统计"
+!!! info "Site statistics - 本站统计"
 
     - 总页面：{{ pages }}
     - 总字（词）数：{{ words }}
@@ -152,7 +158,6 @@ pip install tkintertools==3.0.0b1
 ---
 
 <div align="center">
-<p><big>贡献者列表</big></p>
 
 <img src="https://contrib.rocks/image?repo=Xiaokang2022/tkintertools" alt="contributors" />
 
