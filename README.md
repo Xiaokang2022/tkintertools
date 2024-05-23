@@ -1,3 +1,7 @@
+> [!IMPORTANT]  
+> Due to the growing nature of the project, the original name `tkintertools` is no longer in line with its original intended, so the project is going to be renamed to "tkinter advanced canvas UI framework" (`tacUI`) in version `3.0.0.rc1`. If you have any other ideas or suggestions, you can put them in the discussion forum.  
+> 由于本项目的不断壮大，原名称 `tkintertools` 已不符合其本意，故本项目准备在进入 `3.0.0.rc1` 版本时更名为 “tkinter advanced canvas UI framework”（`tacUI`）。如有其它想法或建议，可在讨论区中提出。
+
 <h1 align="center">tkintertools</h1>
 
 <p align="center"><img alt="logo" src="https://xiaokang2022.github.io/tkintertools/logo.png" title="Logo" /></p>
@@ -88,7 +92,7 @@ pip install tkintertools==3.0.0b1
 
 </details>
 
-> [!IMPORTANT]  
+> [!WARNING]  
 > `tkt 2.*` has been discontinued, for new features, please use `tkt 3.*`. Also note that `tkt 3.*` is almost completely incompatible with `tkt 2.*`, and porting a project from `tkt 2.*` to `tkt 3.*` can be difficult.  
 > `tkt 2.*` 已放弃支持，如需获取新的功能，请使用 `tkt 3.*`。同时请注意，`tkt 3.*` 与 `tkt 2.*` 几乎完全不兼容，将项目从 `tkt 2.*` 移植到 `tkt 3.*` 可能会十分困难。
 
