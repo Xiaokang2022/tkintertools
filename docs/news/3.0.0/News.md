@@ -101,13 +101,13 @@ pip install tkintertools==3.0.0b1
 
 ## Preview - 预览
 
-### Windows11
+### Windows 11
 
 ![png](./light-win11.png)
 
 ![png](./dark-win11.png)
 
-### Windows10
+### Windows 10
 
 ![png](./light-win10.png)
 
@@ -119,17 +119,17 @@ pip install tkintertools==3.0.0b1
 
 ![png](./dark-mac.png)
 
-### WSL
+### Ubuntu 24.04 (GNOME)
 
-![png](./light-wsl.png)
+![png](./light-ubuntu.png)
 
-![png](./dark-wsl.png)
+![png](./dark-ubuntu.png)
 
-### Kubuntu
+### Kubuntu 24.04 (KDE)
 
-![png](./light-kde.png)
+![png](./light-kubuntu.png)
 
-![png](./dark-kde.png)
+![png](./dark-kubuntu.png)
 
 ### Demo Code
 
