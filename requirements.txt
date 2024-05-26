@@ -1,2 +1,2 @@
-darkdetect
+darkdetect==0.8.0
 darkdetect[macos-listener]

@@ -100,6 +100,15 @@ pip install tkintertools==3.0.0b1
 > `tkt 2.*` has been discontinued, for new features, please use `tkt 3.*`. Also note that `tkt 3.*` is almost completely incompatible with `tkt 2.*`, and porting a project from `tkt 2.*` to `tkt 3.*` can be difficult.  
 > `tkt 2.*` 已放弃支持，如需获取新的功能，请使用 `tkt 3.*`。同时请注意，`tkt 3.*` 与 `tkt 2.*` 几乎完全不兼容，将项目从 `tkt 2.*` 移植到 `tkt 3.*` 可能会十分困难。
 
+Dependency packages - 依赖包
+---------------------------
+
+### darkdetect
+
+* Version - 版本 : `0.8.0`
+* License - 许可 : BSD 3-Clause
+* GitHub - 仓库 : [darkdetect](https://github.com/albertosottile/darkdetect)
+
 More - 更多
 -----------
 
