@@ -13,11 +13,11 @@
 </p>
 
 <p align="center">
-<a href="."><img alt="Version" src="https://img.shields.io/pypi/v/tkintertools?label=Version" title="Version" /></a>
-<a href="./LICENSE.txt"><img alt="License" src="https://img.shields.io/pypi/l/tkintertools?label=License" title="License" /></a>
-<a href="https://pypistats.org/packages/tkintertools"><img alt="Downloads" src="https://img.shields.io/pypi/dm/tkintertools?label=Downloads" title="Downloads" /></a>
+<a href="https://github.com/Xiaokang2022/tkintertools/releases"><img alt="Release" src="https://img.shields.io/github/v/release/Xiaokang2022/tkintertools?include_prereleases&logo=github&label=Version" title="Latest Version" /></a>
+<a href="./LICENSE.txt"><img alt="License" src="https://img.shields.io/github/license/Xiaokang2022/tkintertools?logo=github&label=License" title="License" /></a>
+<a href="https://pypistats.org/packages/tkintertools"><img alt="Downloads" src="https://img.shields.io/pypi/dm/tkintertools?label=Downloads&logo=pypi&logoColor=skyblue" title="Downloads" /></a>
 <a href="https://pepy.tech/project/tkintertools"><img alt="Total Downloads" src="https://static.pepy.tech/badge/tkintertools" title="Total Downloads" /></a>
-<a href="https://github.com/Xiaokang2022/tkintertools"><img alt="Size" src="https://img.shields.io/github/languages/code-size/Xiaokang2022/tkintertools?label=Size" title="Code Size"/></a>
+<a href="https://github.com/Xiaokang2022/tkintertools"><img alt="Size" src="https://img.shields.io/github/languages/code-size/Xiaokang2022/tkintertools?label=Size&logo=github" title="Code Size"/></a>
 <br/>
 <a href="https://github.com/Xiaokang2022/tkintertools/watchers"><img alt="Watchers" src="https://img.shields.io/github/watchers/Xiaokang2022/tkintertools?label=Watchers&logo=github&style=flat" title="Watchers" /></a>
 <a href="https://github.com/Xiaokang2022/tkintertools/forks"><img alt="Forks" src="https://img.shields.io/github/forks/Xiaokang2022/tkintertools?label=Forks&logo=github&style=flat" title="Forks" /></a>
@@ -41,10 +41,10 @@
     </a>
 </p>
 
-Install - 模块安装
------------------
+📦 Installation - 安装
+-----------------------
 
-### Stable Version - 稳定版本
+### ✅ Stable Version - 稳定版本
 
 * 🔖 Version - 最新版本 : `2.6.21`
 * 🕓 Release - 发布日期 : 2024-01-01
@@ -54,7 +54,7 @@ Install - 模块安装
 pip install tkintertools
 ```
 
-<details open><summary>Preview - 预览</summary>
+<details open><summary>👁️ Preview - 预览</summary>
 
 [![Preview UI](https://xiaokang2022.github.io/tkintertools/tutorials/images/1.2-2.1-2.png)](https://xiaokang2022.github.io/tkintertools/tutorials/1-2/#21-%E9%AB%98%E5%BA%A6%E5%8F%AF%E9%85%8D%E7%BD%AE%E7%9A%84%E6%8E%A7%E4%BB%B6)
 
@@ -62,7 +62,7 @@ pip install tkintertools
 
 </details>
 
-### Development Version - 开发版本
+### 🔥 Development Version - 开发版本
 
 * 🔖 Version - 最新版本 : `3.0.0.beta1`
 * 🕓 Release - 发布日期 : 2024-05-17
@@ -72,7 +72,7 @@ pip install tkintertools
 pip install tkintertools==3.0.0b1
 ```
 
-<details open><summary>Preview - 预览</summary>
+<details open><summary>👁️ Preview - 预览</summary>
 
 * **Windows 11 Dark Theme**
 
@@ -100,17 +100,17 @@ pip install tkintertools==3.0.0b1
 > `tkt 2.*` has been discontinued, for new features, please use `tkt 3.*`. Also note that `tkt 3.*` is almost completely incompatible with `tkt 2.*`, and porting a project from `tkt 2.*` to `tkt 3.*` can be difficult.  
 > `tkt 2.*` 已放弃支持，如需获取新的功能，请使用 `tkt 3.*`。同时请注意，`tkt 3.*` 与 `tkt 2.*` 几乎完全不兼容，将项目从 `tkt 2.*` 移植到 `tkt 3.*` 可能会十分困难。
 
-Dependency packages - 依赖包
----------------------------
+📦 Dependency packages - 依赖包
+-------------------------------
 
-### darkdetect
+### 1️⃣ darkdetect
 
-* Version - 版本 : `0.8.0`
-* License - 许可 : BSD 3-Clause
-* GitHub - 仓库 : [darkdetect](https://github.com/albertosottile/darkdetect)
+* 🔖 Version - 版本 : `0.8.0`
+* 📑 License - 许可 : BSD 3-Clause
+* 🔗 GitHub - 仓库 : [darkdetect](https://github.com/albertosottile/darkdetect)
 
-More - 更多
------------
+👀 More - 更多
+---------------
 
 * 📋 Todo - 待办事项: [TODO.md](TODO.md)
 * 📑 License - 项目许可: [LICENSE.txt](LICENSE.txt)
