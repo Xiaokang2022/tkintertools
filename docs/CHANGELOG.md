@@ -11,6 +11,76 @@
     * 🟠 **Deprecated - 弃用**
     * 🟤 **Refactored - 重构**
 
+🔖 `3.0.0.beta2`
+----------------
+
+🕓 *Release Date: 2024-06-03*
+
+🟢 **Added - 新增**
+
+- The docstrings for a portion of the code has been added  
+添加了一部分代码的文本字符串
+
+- Modules have added a special variable `__all__`  
+模块都增加了特殊变量 `__all__`
+
+- Subpackage `color` Added module `hsl` to support HSL color coding  
+子包 `color` 新增模块 `hsl` 以支持 HSL 颜色码
+
+- The submodule `constants` adds the function `reset` to reset all constants to default  
+子模块 `constants` 新增函数 `reset` 来重置所有常量为默认值
+
+- The submodule `theme` of the sub-package `style` has added the function `set_color_theme` to use the external theme  
+子包 `style` 的子模块 `theme` 新增函数 `set_color_theme` 来使用外部主题
+
+- Added subpackage `toolbox` and function `load_font` to introduce external font files  
+新增子包 `toolbox` 以及函数 `load_font` 来引入外部字体文件
+
+- Submodule `enhanced` of sub-package `toolbox` adds class `PhotoImage`  
+子包 `toolbox` 的子模块 `enhanced` 新增类 `PhotoImage`
+
+- The submodule `tools` class `_Trigger` has been further enhanced by the addition of methods `lock` and `unlock` and related properties  
+子模块 `tools` 的类 `_Trigger` 新增方法 `lock` 和 `unlock` 以及相关属性，来进一步增强它的功能
+
+- The submodule `images` has added a class `StillImage` to support png type static images  
+子模块 `images` 新增类 `StillImage` 来支持 png 类型的静态图片
+
+- Virtual Picture Base Class `virtual.Image` implements the relevant methods  
+虚拟图片基类 `virtual.Image` 实现了相关方法
+
+- The virtual widget base class `virtual.Widget` added new methods `appear` and `disappear` to hide and reproduce the widget as a whole  
+虚拟小部件基类 `virtual.Widget` 新增了方法 `appear` 和 `disappear` 来实现小部件整体的隐藏和再现
+
+🟡 **Changed - 变更**
+
+- The classes `Message`, `ColorChooser`, and `FontChooser` of the submodule `dialogs` have been renamed `TkMessage`, `TkColorChooser`, and `TkFontChooser`, respectively  
+子模块 `dialogs` 的类 `Message`、`ColorChooser` 和 `FontChooser` 分别更名为 `TkMessage`、`TkColorChooser` 和 `TkFontChooser`
+
+- The function `tkintertools.style.theme.use_theme` is renamed to `set_color_mode`  
+函数 `tkintertools.style.theme.use_theme` 更名为 `set_color_mode`
+
+- The rotation event of the class `Space` of the subpack `three` has been changed from the original left-mouse button to the middle mouse button  
+子包 `three` 的类 `Space` 的旋转事件由原来的鼠标左键触发更改为鼠标中键触发
+
+🔵 **Optimized - 优化**
+
+- Optimized the implementation of the function `custom_window` of the submodule `theme` to prevent it from taking effect in some cases  
+优化了子模块 `theme` 的函数 `custom_window` 的实现方式，防止某些情况下无法生效
+
+- All container widgets have been optimized to prevent the functionality from working under certain conditions  
+所有容器小部件都得到了优化，防止某些条件下会出现相关功能未生效的情况
+
+- All virtual widgets are perfected with initialization parameters  
+所有虚拟小部件都完善了初始化参数
+
+🟤 **Refactored - 重构**
+
+- Core code refactoring, from module `core.py` to sub-package `core`  
+核心代码重构，由模块 `core.py` 重构为子包 `core`
+
+- Subpackage `three` refactoring  
+子包 `three` 重构
+
 🔖 `3.0.0.beta1`
 ----------------
 

@@ -19,41 +19,35 @@
 - [ ] Improve the basics of text widgets  
 完善基础的文本类小部件
 
-- [ ] Add support for other color systems, such as HSV  
-增加对其它颜色系统的支持，如 HSV
-
 - [ ] Add macOS theme style styling for built-in widgets  
 增加内置小部件的 macOS 主题风格的样式
-
-📌 In Planning - 计划中
------------------------
-
-- [ ] Improve compatibility of 3D subpackages with `tkintertools 3`  
-提高 3D 子包对 `tkintertools 3` 的兼容性
-
-- [ ] Add slider widget  
-增加滑动条小部件
-
-- [ ] Add text box widget  
-增加文本框小部件
-
-- [ ] Add Tooltip widget  
-增加提示框小部件
 
 - [ ] Add support for multiple image formats  
 增加对多种格式图片的支持
 
+- [ ] Add slider widget  
+增加滑动条小部件
+
+- [ ] Add Tooltip widget  
+增加提示框小部件
+
 - [ ] Improve the 3D engine  
 改善 3D 引擎
+
+📌 In Planning - 计划中
+-----------------------
+
+- [ ] Add text box widget  
+增加文本框小部件
+
+- [ ] Add a lighting system to the 3D subpackage  
+在 3D 子包中增加光照系统
 
 💡 In Consideration - 考虑中
 ----------------------------
 
 - [ ] Add Physics engine  
 增加物理引擎
-
-- [ ] Add a lighting system to the 3D subpackage  
-在 3D 子包中增加光照系统
 
 - [ ] Add 2D engine (port and enhance `turtle` to `tkintertools`)  
 增加 2D 引擎（移植并强化 `turtle` 到 `tkintertools` 中）
