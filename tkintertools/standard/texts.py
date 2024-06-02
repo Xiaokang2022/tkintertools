@@ -2,12 +2,18 @@
 
 import typing
 
-from .. import core
+from ..core import virtual
+
+__all__ = [
+    "Information",
+    "SingleLineText",
+]
 
 
-class Information(core.Text):
+class Information(virtual.Text):
     """"""
 
+    # @typing.override
     def display(self) -> None:
         self.items.append(self.widget.master.create_text(
             *self.center(), text=self.value, font=self.font, tags=("fill", "fill")))
@@ -43,9 +49,10 @@ class Information(core.Text):
         self.widget.master.itemconfigure(self.items[0], text=self.value)
 
 
-class SingleLineText(core.Text):
+class SingleLineText(virtual.Text):
     """"""
 
+    # @typing.override
     def display(self) -> None:
         self.items.append(self.widget.master.create_text(
             *self.center(), text=self.value, font=self.font, tags=("fill", "fill")))

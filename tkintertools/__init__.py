@@ -44,9 +44,9 @@ if sys.version_info < (3, 10):
 if platform.system() == "Windows":  # Set Windows DPI awareness
     ctypes.windll.shcore.SetProcessDpiAwareness(1)
 
-from .constants import *
 from .core import *
 from .standard import *
+from .toolbox.enhanced import *
 
-__version__ = "3.0.0.beta1"
+__version__ = "3.0.0.beta2"
 __author__ = "Xiaokang2022 <2951256653@qq.com>"

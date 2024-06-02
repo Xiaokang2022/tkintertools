@@ -3,22 +3,34 @@
 import math
 import typing
 
-from .. import constants, core
 from ..animation import animations, controllers
+from ..core import constants, containers, virtual
+from ..toolbox import enhanced
 from . import features, images, shapes, texts
 
+__all__ = [
+    "Information",
+    "Label",
+    "Button",
+    "Switch",
+    "Entry",
+    "CheckButton",
+    "RadioButton",
+    "ProgressBar",
+    "UnderlineButton",
+    "HighlightButton",
+]
 
-class Information(core.Widget):
+
+class Information(virtual.Widget):
     """"""
 
     def __init__(
         self,
-        master: core.Canvas,
+        master: containers.Canvas,
         position: tuple[int, int],
         size: tuple[int, int] = (0, 0),
         *,
-        name: str | None = None,
-        animation: bool = True,
         text: str = "",
         family: str | None = None,
         fontsize: int | None = None,
@@ -26,15 +38,21 @@ class Information(core.Widget):
         slant: typing.Literal['roman', 'italic'] = "roman",
         underline: bool = False,
         overstrike: bool = False,
+        image: enhanced.PhotoImage | None = None,
+        name: str | None = None,
+        through: bool = False,
+        animation: bool = True,
     ) -> None:
         """"""
-        core.Widget.__init__(self, master, position, size,
-                             name=name, animation=animation)
+        virtual.Widget.__init__(self, master, position, size,
+                                name=name, through=through, animation=animation)
+        if image is not None:
+            images.StillImage(self, image=image)
         texts.Information(self, text=text, family=family, size=fontsize, weight=weight,
                           slant=slant, underline=underline, overstrike=overstrike)
 
 
-class Label(core.Widget):
+class Label(virtual.Widget):
     """
     Label widget
 
@@ -43,12 +61,10 @@ class Label(core.Widget):
 
     def __init__(
         self,
-        master: core.Canvas,
+        master: containers.Canvas,
         position: tuple[int, int],
         size: tuple[int, int] = (120, 50),
         *,
-        name: str | None = None,
-        animation: bool = True,
         text: str = "",
         family: str | None = None,
         fontsize: int | None = None,
@@ -56,32 +72,36 @@ class Label(core.Widget):
         slant: typing.Literal['roman', 'italic'] = "roman",
         underline: bool = False,
         overstrike: bool = False,
+        image: enhanced.PhotoImage | None = None,
+        name: str | None = None,
+        through: bool = False,
+        animation: bool = True,
     ) -> None:
         """"""
-        core.Widget.__init__(self, master, position, size,
-                             name=name, animation=animation)
+        virtual.Widget.__init__(self, master, position, size,
+                                name=name, through=through, animation=animation)
         if constants.SYSTEM == "Windows10":
             shapes.Rectangle(self)
         else:
             shapes.RoundedRectangle(self)
+        if image is not None:
+            images.StillImage(self, image=image)
         texts.Information(self, text=text, family=family, size=fontsize, weight=weight,
                           slant=slant, underline=underline, overstrike=overstrike)
         features.Label(self)
 
 
-class Button(core.Widget):
+class Button(virtual.Widget):
     """
     Button Widget
     """
 
     def __init__(
         self,
-        master: core.Canvas,
+        master: containers.Canvas,
         position: tuple[int, int],
         size: tuple[int, int] = (120, 50),
         *,
-        name: str | None = None,
-        animation: bool = True,
         text: str = "",
         family: str | None = None,
         fontsize: int | None = None,
@@ -90,35 +110,43 @@ class Button(core.Widget):
         underline: bool = False,
         overstrike: bool = False,
         command: typing.Callable | None = None,
+        image: enhanced.PhotoImage | None = None,
+        name: str | None = None,
+        through: bool = False,
+        animation: bool = True,
     ) -> None:
-        core.Widget.__init__(self, master, position, size,
-                             name=name, animation=animation)
+        virtual.Widget.__init__(self, master, position, size,
+                                name=name, through=through, animation=animation)
         if constants.SYSTEM == "Windows10":
             shapes.Rectangle(self)
         else:
             shapes.RoundedRectangle(self)
+        if image is not None:
+            images.StillImage(self, image=image)
         texts.Information(self, text=text, family=family, size=fontsize, weight=weight,
                           slant=slant, underline=underline, overstrike=overstrike)
         features.Button(self, command=command)
 
 
-class Switch(core.Widget):
+class Switch(virtual.Widget):
     """"""
 
     def __init__(
         self,
-        master: core.Canvas,
+        master: containers.Canvas,
         position: tuple[int, int],
         length: int = 60,
         *,
-        name: str | None = None,
-        animation: bool = True,
         default: bool = False,
         command: typing.Callable[[bool], typing.Any] | None = None,
+        image: enhanced.PhotoImage | None = None,
+        name: str | None = None,
+        through: bool = False,
+        animation: bool = True,
     ) -> None:
-        core.Widget.__init__(self, master, position, (length, length / 2),
-                             state=f"normal-{'on' if default else 'off'}",
-                             name=name, animation=animation)
+        virtual.Widget.__init__(self, master, position, (length, length / 2),
+                                state=f"normal-{'on' if default else 'off'}",
+                                name=name, through=through, animation=animation)
         if constants.SYSTEM == "Windows10":
             shapes.Rectangle(self, name=".out")
             shapes.Rectangle(self, name=".in", rel_position=(
@@ -127,6 +155,8 @@ class Switch(core.Widget):
             shapes.SemicircularRectangle(self)
             shapes.Oval(self, rel_position=(length/12, length/12),
                         size=(length/3, length/3), animation=False)
+        if image is not None:
+            images.StillImage(self, image=image)
         features.Switch(self, command=command)
         if default:
             self.set(default)
@@ -144,26 +174,30 @@ class Switch(core.Widget):
             self.shapes[1], 250, (dx, 0), controller=controllers.smooth, fps=60).start()
 
 
-class Entry(core.Widget):
+class Entry(virtual.Widget):
     """"""
 
     def __init__(
         self,
-        master: core.Canvas,
+        master: containers.Canvas,
         position: tuple[int, int],
         size: tuple[int, int] = (250, 50),
         *,
+        limit: int = math.inf,
+        image: enhanced.PhotoImage | None = None,
         name: str | None = None,
+        through: bool = False,
         animation: bool = True,
-        limit: int = math.inf
     ) -> None:
-        core.Widget.__init__(self, master, position, size,
-                             name=name, animation=animation)
+        virtual.Widget.__init__(self, master, position, size,
+                                name=name, through=through, animation=animation)
         if constants.SYSTEM == "Windows10":
             shapes.Rectangle(self)
         else:
             shapes.RoundedRectangle(self, name=".out")
             shapes.RoundedRectangle(self, name=".in", size=(self.w, self.h-3))
+        if image is not None:
+            images.StillImage(self, image=image)
         texts.SingleLineText(self, text="", limit=limit)
         features.Entry(self)
 
@@ -188,26 +222,30 @@ class Entry(core.Widget):
         self.set("")
 
 
-class CheckButton(core.Widget):
+class CheckButton(virtual.Widget):
     """"""
 
     def __init__(
         self,
-        master: core.Canvas,
+        master: containers.Canvas,
         position: tuple[int, int],
         length: int = 30,
         *,
-        name: str | None = None,
-        animation: bool = True,
         default: bool = False,
         command: typing.Callable[[bool], typing.Any] | None = None,
+        image: enhanced.PhotoImage | None = None,
+        name: str | None = None,
+        through: bool = False,
+        animation: bool = True,
     ) -> None:
-        core.Widget.__init__(self, master, position,
-                             (length, length), name=name, animation=animation)
+        virtual.Widget.__init__(self, master, position, (length, length),
+                                name=name, through=through, animation=animation)
         if constants.SYSTEM == "Windows10":
             shapes.Rectangle(self)
         else:
             shapes.RoundedRectangle(self)
+        if image is not None:
+            images.StillImage(self, image=image)
         texts.Information(self).set("✔")
         features.CheckButton(self, command=command)
         self.set(default)
@@ -223,22 +261,24 @@ class CheckButton(core.Widget):
         self.texts[0].disappear()
 
 
-class RadioButton(core.Widget):
+class RadioButton(virtual.Widget):
     """"""
 
     def __init__(
         self,
-        master: core.Canvas,
+        master: containers.Canvas,
         position: tuple[int, int],
         length: int = 24,
         *,
-        name: str | None = None,
-        animation: bool = True,
         default: bool = False,
         command: typing.Callable[[int], typing.Any] | None = None,
+        image: enhanced.PhotoImage | None = None,
+        name: str | None = None,
+        through: bool = False,
+        animation: bool = True,
     ) -> None:
-        core.Widget.__init__(self, master, position,
-                             (length, length), name=name, animation=animation)
+        virtual.Widget.__init__(self, master, position, (length, length),
+                                name=name, through=through, animation=animation)
         if constants.SYSTEM == "Windows10":
             shapes.Rectangle(self, name=".out")
             shapes.Rectangle(self, name=".in", rel_position=(
@@ -247,6 +287,8 @@ class RadioButton(core.Widget):
             shapes.Oval(self, name=".out")
             shapes.Oval(self, name=".in", rel_position=(
                 self.w/4, self.h/4), size=(self.w/2, self.h/2)).disappear()
+        if image is not None:
+            images.StillImage(self, image=image)
         features.RadioButton(self, command=command)
         if default:
             self.shapes[1].appear()
@@ -262,22 +304,24 @@ class RadioButton(core.Widget):
         self.shapes[1].disappear()
 
 
-class ProgressBar(core.Widget):
+class ProgressBar(virtual.Widget):
     """"""
 
     def __init__(
         self,
-        master: core.Canvas,
+        master: containers.Canvas,
         position: tuple[int, int],
         size: tuple[int, int] = (400, 20),
         *,
-        name: str | None = None,
-        animation: bool = True,
         command: typing.Callable[[], typing.Any] | None = None,
+        image: enhanced.PhotoImage | None = None,
+        name: str | None = None,
+        through: bool = False,
+        animation: bool = True,
     ) -> None:
         self.value: float = 0
-        core.Widget.__init__(self, master, position, size,
-                             name=name, animation=animation)
+        virtual.Widget.__init__(self, master, position, size,
+                                name=name, through=through, animation=animation)
         if constants.SYSTEM == "Windows10":
             shapes.Rectangle(self, name=".out")
             shapes.Rectangle(self, name=".in", size=(
@@ -286,6 +330,8 @@ class ProgressBar(core.Widget):
             shapes.SemicircularRectangle(self, name=".out")
             shapes.SemicircularRectangle(self, name=".in", size=(
                 self.h*0.7, self.h*0.7), rel_position=(self.h*0.15, self.h*0.15))
+        if image is not None:
+            images.StillImage(self, image=image)
         features.ProgressBar(self)
         self.shapes[1].disappear()
         self.command = command
@@ -320,12 +366,12 @@ class ProgressBar(core.Widget):
             self.command()
 
 
-class UnderlineButton(core.Widget):
+class UnderlineButton(virtual.Widget):
     """"""
 
     def __init__(
         self,
-        master: core.Canvas,
+        master: containers.Canvas,
         position: tuple[int, int],
         size: tuple[int, int] = (0, 0),
         *,
@@ -337,28 +383,29 @@ class UnderlineButton(core.Widget):
         underline: bool = False,
         overstrike: bool = False,
         command: typing.Callable | None = None,
+        image: enhanced.PhotoImage | None = None,
         name: str | None = None,
         through: bool = False,
         animation: bool = False,
     ) -> None:
-        core.Widget.__init__(self, master, position, size,
-                             name=name, through=through, animation=animation)
+        virtual.Widget.__init__(self, master, position, size,
+                                name=name, through=through, animation=animation)
+        if image is not None:
+            images.StillImage(self, image=image)
         texts.Information(self, text=text, family=family, size=fontsize, weight=weight,
                           slant=slant, underline=underline, overstrike=overstrike)
-        features.UnderLine(self, command=command)
+        features.Underline(self, command=command)
 
 
-class HighlightButton(core.Widget):
+class HighlightButton(virtual.Widget):
     """"""
 
     def __init__(
         self,
-        master: core.Canvas,
+        master: containers.Canvas,
         position: tuple[int, int],
         size: tuple[int, int] = (0, 0),
         *,
-        name: str | None = None,
-        animation: bool = True,
         text: str = "",
         family: str | None = None,
         fontsize: int | None = None,
@@ -367,9 +414,15 @@ class HighlightButton(core.Widget):
         underline: bool = False,
         overstrike: bool = False,
         command: typing.Callable | None = None,
+        image: enhanced.PhotoImage | None = None,
+        name: str | None = None,
+        through: bool = False,
+        animation: bool = True,
     ) -> None:
-        core.Widget.__init__(self, master, position, size,
-                             name=name, animation=animation)
+        virtual.Widget.__init__(self, master, position, size,
+                                name=name, through=through, animation=animation)
+        if image is not None:
+            images.StillImage(self, image=image)
         texts.Information(self, text=text, family=family, size=fontsize, weight=weight,
                           slant=slant, underline=underline, overstrike=overstrike)
         features.Highlight(self, command=command)

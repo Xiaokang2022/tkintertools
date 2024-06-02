@@ -13,7 +13,7 @@
 </p>
 
 <p align="center">
-<a href="https://github.com/Xiaokang2022/tkintertools/releases"><img alt="Release" src="https://img.shields.io/github/v/release/Xiaokang2022/tkintertools?include_prereleases&logo=github&label=Version" title="Latest Version" /></a>
+<a href="https://github.com/Xiaokang2022/tkintertools/releases"><img alt="Version" src="https://img.shields.io/github/v/release/Xiaokang2022/tkintertools?include_prereleases&logo=github&label=Version" title="Latest Version" /></a>
 <a href="./LICENSE.txt"><img alt="License" src="https://img.shields.io/github/license/Xiaokang2022/tkintertools?logo=github&label=License" title="License" /></a>
 <a href="https://pypistats.org/packages/tkintertools"><img alt="Downloads" src="https://img.shields.io/pypi/dm/tkintertools?label=Downloads&logo=pypi&logoColor=skyblue" title="Downloads" /></a>
 <a href="https://pepy.tech/project/tkintertools"><img alt="Total Downloads" src="https://static.pepy.tech/badge/tkintertools" title="Total Downloads" /></a>
@@ -64,12 +64,12 @@ pip install tkintertools
 
 ### 🔥 Development Version - 开发版本
 
-* 🔖 Version - 最新版本 : `3.0.0.beta1`
-* 🕓 Release - 发布日期 : 2024-05-17
-* ✨ Feature - 更新内容 : [News-3.0.0](https://xiaokang2022.github.io/tkintertools/news/3.0.0/News/)
+* 🔖 Version - 最新版本 : `3.0.0.beta2`
+* 🕓 Release - 发布日期 : 2024-06-03
+* ✨ Feature - 更新内容 : [News-3.0.0b2](https://xiaokang2022.github.io/tkintertools/news/3.0.0/News/)
 
 ```sh
-pip install tkintertools==3.0.0b1
+pip install tkintertools==3.0.0b2
 ```
 
 <details open><summary>👁️ Preview - 预览</summary>

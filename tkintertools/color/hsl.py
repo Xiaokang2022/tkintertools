@@ -1,0 +1,116 @@
+"""Support for HSL"""
+
+import colorsys
+import math
+import statistics
+import typing
+
+from ..animation import controllers
+from . import rgb
+
+__all__ = [
+    "contrast",
+    "convert",
+    "blend",
+    "gradient",
+    "hsl_to_rgb",
+    "rgb_to_hsl",
+]
+
+HSL = tuple[float, float, float]
+"""
+H: Hue, 0.0 ~ 2π
+S: Saturation, 0.0 ~ 1.0
+L: Lightness, 0.0 ~ 1.0
+"""
+
+MAX = math.tau, 1, 1
+
+
+def contrast(
+    hsl: HSL,
+    /,
+    channels: tuple[bool, bool, bool] = (True, True, True),
+) -> HSL:
+    """
+    Get a contrasting color of a color
+
+    * `hsl`: a tuple, HSL codes
+    * `channels`: three color channels
+    """
+    return tuple(map(lambda x: x[0] * (x[1]-x[2]), zip(channels, MAX, hsl)))
+
+
+def convert(
+    first: HSL,
+    second: HSL,
+    rate: float,
+    *,
+    channels: tuple[bool, bool, bool] = (True, True, True),
+) -> HSL:
+    """
+    Convert one color to another proportionally
+
+    * `first`: first color
+    * `second`: second color
+    * `rate`: conversion rate
+    * `channels`: three color channels
+    """
+    return tuple(first[i] + (second[i]-first[i])*rate*v for i, v in enumerate(channels))
+
+
+def blend(
+    colors: list[HSL],
+    *,
+    weights: list[tuple] | None = None
+) -> HSL:
+    """
+    Mix colors by weight
+
+    * `colors`: color list
+    * `weights`: weight list
+    """
+    colors = zip(*colors)
+    if weights is None:  # Same weights
+        return tuple(map(lambda x: statistics.mean(x), colors))
+    _total = sum(weights)
+    weights = tuple(map(lambda x: x/_total, weights))  # Different weights
+    return tuple(sum(map(lambda x: x[0]*x[1], zip(c, weights))) for c in colors)
+
+
+def gradient(
+    first: HSL,
+    second: HSL,
+    count: int,
+    rate: float = 1,
+    *,
+    channels: tuple[bool, bool, bool] = (True, True, True),
+    contoller: typing.Callable[[float], float] = controllers.flat,
+) -> list[HSL]:
+    """
+    Get a list of color gradients from one color to another proportionally
+
+    * `first`: first color
+    * `second`: second color
+    * `count`: number of gradients
+    * `rate`: conversion rate
+    * `channels`: three color channels
+    * `controller`: control function
+    """
+    rgb_list: list[HSL] = []
+    delta = tuple(rate * (j-i) * k for i, j, k in zip(first, second, channels))
+    for x in (contoller(i/count) for i in range(count)):
+        rgb_list.append(tuple(c + x*r for c, r in zip(first, delta)))
+    return rgb_list
+
+
+def hsl_to_rgb(hsl: HSL) -> rgb.RGB:
+    """"""
+    c = colorsys.hls_to_rgb(hsl[0]/math.tau, hsl[1], hsl[2])
+    return tuple(round(i*255) for i in c)
+
+
+def rgb_to_hsl(rgb: rgb.RGB) -> HSL:
+    """"""
+    c = colorsys.rgb_to_hls(*tuple(i/255 for i in rgb))
+    return c[0]*math.tau, c[1], c[2]

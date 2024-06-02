@@ -1,163 +1,310 @@
-"""
-core codes of 3D
+"""Core codes of 3D"""
 
-WARNING:
-
-The contents of this file are ported from tkt 2 and haven't been modified too much,
-there may be some issues!
-"""
-
+import abc
 import array
+import dataclasses
 import math
 import platform
 import statistics
 import tkinter
 import typing
 
-from .. import constants, core
+from ..core import constants, containers, virtual
+
+__all__ = [
+    "Canvas",
+    "Space",
+    "translate",
+    "rotate",
+    "scale",
+    "project",
+    "Component",
+    "Point",
+    "Line",
+    "Side",
+    "Text3D",
+    "Geometry",
+]
 
 
-class Canvas3D(core.Canvas):
-    """3D 画布基类"""
+class Canvas(containers.Canvas):
+    """Base class of 3D Canvas"""
 
     def __init__(
         self,
-        master: core.Tk | core.Toplevel | core.NestedToplevel | core.Canvas,
+        master: containers.Tk | containers.Canvas,
         *,
         expand: typing.Literal["", "x", "y", "xy"] = "xy",
         zoom_item: bool = False,
-        keep_ratio: typing.Literal["min", "max", "full"] | None = None,
+        keep_ratio: typing.Literal["min", "max"] | None = None,
         free_anchor: bool = False,
         **kw,
     ) -> None:
-        """"""
-        core.Canvas.__init__(
+        containers.Canvas.__init__(
             self, master, expand=expand, zoom_item=zoom_item,
             keep_ratio=keep_ratio, free_anchor=free_anchor, **kw)
-        self._items_3d: list[Point | Line | Side] = []
-        self._geos: list[Point | Line | Side] = []
+        self._components: list[Component] = []
+        self._geometries: list[Geometry] = []
         self._distance: int = 1000
 
-    def distance(self, value: int | None = None) -> int | None:
-        """"""
-        if value is None:
-            return self._distance
-        self._distance = value
+    @property
+    def components(self) -> tuple["Component", ...]:
+        """Return all `Component` of this Canvas"""
+        return tuple(self._components)
 
-    def items_3d(self) -> tuple["Point | Line | Side", ...]:
-        """返回 `Canvas3D` 类全部的基本 3D 对象"""
-        return tuple(self._items_3d)
-
-    def geos(self) -> tuple["Geometry", ...]:
-        """返回 `Canvas3D` 类全部的几何体对象"""
-        return tuple(self._geos)
+    @property
+    def geometries(self) -> tuple["Geometry", ...]:
+        """Return all `Geometry` of this Canvas"""
+        return tuple(self._geometries)
 
     def space_sort(self) -> None:
-        """空间位置排序"""
-        self._items_3d.sort(key=lambda item: item._camera_distance())
-        for item in self._items_3d:
+        """Sort the contextual relationship between the spatial positions of the components"""
+        self._components.sort(key=lambda item: item._camera_distance())
+        for item in self._components:
             self.lower(item.item)
 
 
-class Space(Canvas3D):
-    """三维空间"""
+# class _Widget(virtual.Widget):
+#     """A virtual widget that binds a feature of the 3D canvas to event processing"""
+
+#     def __init__(self, master: containers.Canvas, feature: virtual.Feature) -> None:
+#         """
+#         * `master`: parent canvas
+#         * `feature`: Feature class, not instance
+#         """
+#         virtual.Widget.__init__(self, master, master._position, master._size)
+#         feature(self)
+
+
+# class _SpaceFeature(virtual.Feature):
+#     """Handles events related to 3D canvas rigging"""
+
+#     def __init__(self, widget: virtual.Widget) -> None:
+#         virtual.Feature.__init__(self, widget)
+#         self._cache: tuple[int, int] | None = None
+
+#     def _click_right(self, event: tkinter.Event) -> bool:
+#         self._cache = event.x, event.y
+#         self.widget.master._trigger_config.update(cursor="fleur")
+#         self.widget.master._trigger_config.lock()
+#         return True
+
+#     def _release_right(self, event: tkinter.Event) -> bool:
+#         self._cache = None
+#         self.widget.master._trigger_config.unlock()
+#         return True
+
+#     def _move_right(self, event: tkinter.Event) -> bool:
+#         dx, dy = event.x - self._cache[0], event.y - self._cache[1]
+#         self._cache = event.x, event.y
+
+#         for item in self.widget.master._components + [self.widget.master._origin]:
+#             item.translate(
+#                 0,
+#                 dx*self.widget.master._initial_size[0]/self.widget.master._size[0],
+#                 -dy*self.widget.master._initial_size[1]/self.widget.master._size[1])
+#             item.update()
+#         self.widget.master.space_sort()
+
+
+class Space(Canvas):
+    """A canvas where you can view 3D objects"""
 
     def __init__(
         self,
-        master: core.Tk | core.Toplevel | core.NestedToplevel | core.Canvas,
+        master: containers.Tk | containers.Canvas,
         *,
         expand: typing.Literal["", "x", "y", "xy"] = "xy",
         zoom_item: bool = False,
-        keep_ratio: typing.Literal["min", "max", "full"] | None = None,
+        keep_ratio: typing.Literal["min", "max"] | None = None,
         free_anchor: bool = False,
         **kw,
     ) -> None:
-        """"""
-        Canvas3D.__init__(
+        Canvas.__init__(
             self, master, expand=expand, zoom_item=zoom_item,
             keep_ratio=keep_ratio, free_anchor=free_anchor, **kw)
-        self._bind_event()
 
-    def _zoom_init(self) -> None:
-        Canvas3D._zoom_init(self)
-        self._origin = Point(self, (0, 0, 0), size=1,
-                             width=1, fill="", outline="")
-        self._items_3d.clear()
-
-    def _zoom(self) -> None:
-        """"""
-        Canvas3D._zoom(self)
-        self.update_idletasks()
-        for item in self._items_3d:
-            item.update()
-        self.space_sort()
-
-    def _bind_event(self) -> None:
-        """"""
         self.bind("<B3-Motion>", self._translate, "+")
         self.bind("<Button-3>", lambda event: self._translate(event, True), "+")
         self.bind("<ButtonRelease-3>",
                   lambda event: self._translate(event, False), "+")
-        self.bind("<B1-Motion>", self._rotate, "+")
-        self.bind("<Button-1>", lambda event: self._rotate(event, True), "+")
-        self.bind("<ButtonRelease-1>",
+
+        self.bind("<B2-Motion>", self._rotate, "+")
+        self.bind("<Button-2>", lambda event: self._rotate(event, True), "+")
+        self.bind("<ButtonRelease-2>",
                   lambda event: self._rotate(event, False), "+")
+
         if platform.system() == "Linux":  # 兼容 Linux 系统
             self.bind("<Button-4>", lambda event: self._scale(event, True), "+")
             self.bind("<Button-5>", lambda event: self._scale(event, False), "+")
         else:
             self.bind("<MouseWheel>", self._scale, "+")
 
-    def _translate(self, event: tkinter.Event, flag: bool | None = None, _cache: list[float] = []) -> None:
-        """平移事件"""
-        if flag is True:  # 按下
+    # @typing.override
+    def _initialization(self) -> None:
+        Canvas._initialization(self)
+        # _Widget(self, _SpaceFeature)
+        self._origin = Point(self, (0, 0, 0), fill="", outline="")
+        self._components.clear()
+
+    # @typing.override
+    def _zoom_self(self) -> None:
+        Canvas._zoom_self(self)
+        for item in self._components:
+            item.update()
+        self.space_sort()
+
+    def _translate(
+        self,
+        event: tkinter.Event,
+        press: bool | None = None,
+        _cache: list[float] = []
+    ) -> None:
+        """
+        Triggering of a translation event
+
+        * `event`: Event
+        * `press`: True, False, and None represent press, release, and move events, respectively
+        * `_cache`: cache values that record the coordinates of mouse presses
+        """
+        if press is True:  # Press
             _cache[:] = [event.x, event.y]
             self.configure(cursor="fleur")
+            self._trigger_config.lock()
             return
-        elif flag is False:  # 松开
+
+        elif press is False:  # Release
+            self._trigger_config.unlock()
             self.configure(cursor="arrow")
             return
+
         dx, dy = event.x - _cache[0], event.y - _cache[1]
         _cache[:] = [event.x, event.y]
-        for item in self._items_3d + [self._origin]:
+
+        for item in self._components + [self._origin]:
             item.translate(
                 0, dx*self._initial_size[0]/self._size[0], -dy*self._initial_size[1]/self._size[1])
             item.update()
         self.space_sort()
 
-    def _rotate(self, event, flag=None, _cache=[]):
-        # type: (tkinter.Event, bool | None, list[float]) -> None
-        """旋转事件"""
-        if flag is False:
-            # if self._release(event):  # 兼容原 core.Canvas
-            #     return
+    def _rotate(
+        self,
+        event: tkinter.Event,
+        press: bool | None = None,
+        _cache: list[float] = []
+    ) -> None:
+        """
+        Triggering of a rotation event
+
+        * `event`: Event
+        * `press`: True, False, and None represent press, release, and move events, respectively
+        * `_cache`: cache values that record the coordinates of mouse presses
+        """
+        if press is True:  # Press
+            _cache[:] = [event.x, event.y]
+            self.configure(cursor="fleur")
+            self._trigger_config.lock()
+            return
+
+        elif press is False:  # Release
+            self._trigger_config.unlock()
             self.configure(cursor="arrow")
             return
-        else:
-            if flag is True:
-                _cache[:] = [event.x, event.y]
-            # if self._click(event):
-            #     return
-            if flag is True:
-                self.configure(cursor="fleur")
-                return
+
         dx, dy = event.x - _cache[0], event.y - _cache[1]
         _cache[:] = [event.x, event.y]
-        for item in self._items_3d:
+
+        for item in self._components:
             item.rotate(0, 2*dy/self._size[0]*math.tau, 2*dx/self._size[1]*math.tau,
                         center=self._origin.coordinates[0])
             item.update()
         self.space_sort()
 
     def _scale(self, event: tkinter.Event, flag: bool | None = None) -> None:
-        """缩放事件"""
+        """Triggering of a scaling event"""
         if flag is not None:
             event.delta = flag
-        k = 1.1 if event.delta > 0 else 0.9
-        for item in self._items_3d:
+        k = 11/10 if event.delta > 0 else 10/11
+
+        for item in self._components:
             item.scale(k, k, k, center=self._origin.coordinates[0])
             item.update()
         self.space_sort()
+
+
+# class Scene(Canvas):
+#     """"""
+
+
+# @dataclasses.dataclass
+# class Quaternion:
+#     """"""
+
+#     w: float = 0
+#     x: float = 0
+#     y: float = 0
+#     z: float = 0
+
+#     def __matmul__(self, other: "Quaternion") -> "Quaternion":
+#         """"""
+#         w = self.w*other.w - self.x*other.x - self.y*other.y - self.z*other.z
+#         x = self.x*other.w + self.w*other.x - self.z*other.y + self.y*other.z
+#         y = self.y*other.w + self.z*other.x + self.w*other.y - self.x*other.z
+#         z = self.z*other.w - self.y*other.x + self.x*other.y + self.w*other.z
+#         return Quaternion(w, x, y, z)
+
+#     def conjugate(self) -> "Quaternion":
+#         """"""
+#         return Quaternion(self.w, -self.x, -self.y, -self.z)
+
+#     @property
+#     def imag(self) -> tuple[float, float, float]:
+#         """"""
+#         return self.x, self.y, self.z
+
+
+# def q_rotate(point: tuple[float, float, float], axis: tuple[float, float, float], theta: float) -> tuple[float, float, float]:
+#     """"""
+#     theta /= 2
+#     p = Quaternion(0, *point)
+#     q = Quaternion(math.cos(theta), *[a*math.sin(theta) for a in axis])
+#     r = q@p@q.conjugate()
+#     return r.imag
+
+
+# def translate(coordinate: list[float], delta: list[float], *, reference: list[float] | None = None) -> None:
+#     """"""
+#     if reference is None:
+#         for i, v in enumerate(delta):
+#             coordinate[i] += v
+#     else:
+#         pass
+
+
+# def rotate(coordinate: list[float], delta: list[float], *, reference: list[float]) -> None:
+#     """"""
+
+
+# def scale(coordinate: list[float], delta: list[float], *, reference: list[float] | None = None) -> None:
+#     """"""
+#     if reference is None:
+#         for i, v in enumerate(delta):
+#             coordinate[i] *= v
+#     else:
+#         for i, v in enumerate(delta):
+#             coordinate[i] += (coordinate[i]-reference[i]) * (v-1)
+
+
+# def reflect() -> None:
+#     """"""
+
+
+# def shear() -> None:
+#     """"""
+
+
+# def project() -> None:
+#     """"""
 
 
 def translate(coordinate: tuple[float, float, float], dx: float = 0, dy: float = 0, dz: float = 0) -> None:
@@ -196,7 +343,7 @@ def rotate(coordinate, dx=0, dy=0, dz=0, *, center, axis=None):
     * `axis`: 旋转轴线的空间坐标
     """
     if axis is not None:  # 参照为线（定轴转动）
-        center = _Object3D(*axis).center()  # 旋转轴中点
+        center = Component(*axis).center()  # 旋转轴中点
         n = list(axis[0])
         for i in range(3):
             n[i] -= axis[1][i]
@@ -264,7 +411,49 @@ def project(coordinate, distance):
     return coordinate[1]*k, coordinate[2]*k
 
 
-class _Object3D:
+# class Camera:
+#     """"""
+
+#     def __init__(
+#         self,
+#         position: tuple[float, float, float],
+#         towards: tuple[float, float, float],
+#         *,
+#         zoom: float = 1,
+#         hFOV: float = math.pi/3,
+#     ) -> None:
+#         """"""
+#         self.hFOV = hFOV
+#         self.position = position
+
+#     def project(self, coordinate: tuple[float, float, float]) -> tuple[float, float]:
+#         """"""
+
+#     def zoom(self, value: float) -> None:
+#         """"""
+
+#     def set_pos(self, pos: tuple[float, float, float]) -> None:
+#         """"""
+
+
+# class Light:
+#     """"""
+
+#     def __init__(
+#         self,
+#         color: str,
+#         item: "Component",
+#         *,
+#         strength: float = 1,
+#     ) -> None:
+#         """"""
+
+
+# class Shade:
+#     """"""
+
+
+class Component(abc.ABC):
     """3D 对象基类"""
 
     def __init__(self, *coordinates):
@@ -301,7 +490,17 @@ class _Object3D:
         * `center`: 旋转中心，默认为原点
         * `axis`: 旋转轴线，无默认值
         """
-        for coordinate in self.coordinates:
+        for i, coordinate in enumerate(self.coordinates):
+            # if dx != 0:
+            #     coordinate = q_rotate(coordinate, (1, 0, 0), dx)
+            # if dy != 0:
+            #     coordinate = q_rotate(coordinate, (0, 1, 0), dy)
+            # if dz != 0:
+            #     coordinate = q_rotate(coordinate, (0, 0, 1), dz)
+            # coordinate = array.array('f', coordinate)
+            # for j in range(3):
+            #     coordinate[j] += center[j]
+            # self.coordinates[i] = coordinate
             rotate(coordinate, dx, dy, dz, center=center, axis=axis)
 
     def scale(self, kx=1, ky=1, kz=1, *, center=None):
@@ -323,7 +522,7 @@ class _Object3D:
         return tuple(statistics.mean(xyz) for xyz in zip(*self.coordinates))
 
     def _project(self, distance, canvas=None):
-        # type: (float, Canvas3D | Space | None) -> list[tuple[float, float]]
+        # type: (float, Canvas | Space | None) -> list[tuple[float, float]]
         """投影对象自身
 
         * `distance`: 对象与观察者的距离
@@ -335,13 +534,16 @@ class _Object3D:
                    for pos in lst]
         return lst
 
+    @abc.abstractmethod
+    def update(self) -> None: ...
 
-class Point(_Object3D):
+
+class Point(Component):
     """点"""
 
     def __init__(
         self,
-        canvas,  # type: Canvas3D | Space
+        canvas,  # type: Canvas | Space
         coords,  # type: tuple[float, float, float]
         *,
         size=1,  # type: float
@@ -368,8 +570,8 @@ class Point(_Object3D):
         * `markupfill`: 标记文本颜色
         * `markupjustify`: 标记文本多行对齐方式
         """
-        _Object3D.__init__(self, list(coords))
-        canvas._items_3d.append(self)
+        Component.__init__(self, list(coords))
+        canvas._components.append(self)
         self.canvas = canvas
         self.size = size
         self.width = width
@@ -386,11 +588,11 @@ class Point(_Object3D):
     def update(self):  # type: () -> None
         """更新对象的显示"""
         x, y = self._project(self.canvas._distance, self.canvas)[0]
-        self.canvas.coords(self.item, (x-self.size) * self.canvas._ratio[0], (y-self.size) *
-                           self.canvas._ratio[1], (x+self.size) * self.canvas._ratio[0], (y+self.size) * self.canvas._ratio[1])
+        self.canvas.coords(self.item, (x-self.size) * self.canvas.ratios[0], (y-self.size) *
+                           self.canvas.ratios[1], (x+self.size) * self.canvas.ratios[0], (y+self.size) * self.canvas.ratios[1])
         if self.text is not None:
             self.canvas.coords(
-                self.text, (x+self.delta[0]) * self.canvas._ratio[0], (y-self.delta[1]) * self.canvas._ratio[1])
+                self.text, (x+self.delta[0]) * self.canvas.ratios[0], (y-self.delta[1]) * self.canvas.ratios[1])
 
     def _camera_distance(self):  # type: () -> float
         """与相机距离"""
@@ -398,12 +600,12 @@ class Point(_Object3D):
         return sign * math.dist([self.canvas._distance, 0, 0], self.coordinates[0])
 
 
-class Line(_Object3D):
+class Line(Component):
     """线"""
 
     def __init__(
         self,
-        canvas,  # type: Canvas3D | Space
+        canvas,  # type: Canvas | Space
         point_start,  # type: tuple[float, float, float]
         point_end,  # type: tuple[float, float, float]
         *,
@@ -417,8 +619,8 @@ class Line(_Object3D):
         * `width`: 线的宽度
         * `fill`: 线的颜色
         """
-        _Object3D.__init__(self, list(point_start), list(point_end))
-        canvas._items_3d.append(self)
+        Component.__init__(self, list(point_start), list(point_end))
+        canvas._components.append(self)
         self.canvas = canvas
         self.width = width
         self.fill = fill
@@ -427,7 +629,7 @@ class Line(_Object3D):
 
     def update(self):  # type: () -> None
         """更新对象的显示"""
-        self.canvas.coords(self.item, *[coord * self.canvas._ratio[i]
+        self.canvas.coords(self.item, *[coord * self.canvas.ratios[i]
                            for point in self._project(self.canvas._distance, self.canvas) for i, coord in enumerate(point)])
 
     def _camera_distance(self):  # type: () -> float
@@ -437,12 +639,12 @@ class Line(_Object3D):
         return sign * math.dist([self.canvas._distance, 0, 0], center)
 
 
-class Side(_Object3D):
+class Side(Component):
     """面"""
 
     def __init__(
         self,
-        canvas,  # type: Canvas3D | Space
+        canvas,  # type: Canvas | Space
         *points,  # type: tuple[float, float, float]
         width=1,  # type: float
         fill="",  # type: str
@@ -455,8 +657,8 @@ class Side(_Object3D):
         * `fill`: 面内部的填充颜色
         * `outline`: 面轮廓的颜色
         """
-        _Object3D.__init__(self, *[list(point) for point in points])
-        canvas._items_3d.append(self)
+        Component.__init__(self, *[list(point) for point in points])
+        canvas._components.append(self)
         self.canvas = canvas
         self.width = width
         self.fill = fill
@@ -468,7 +670,7 @@ class Side(_Object3D):
     def update(self):  # type: () -> None
         """更新对象的显示"""
         self.canvas.coords(
-            self.item, *[coord * self.canvas._ratio[i] for point in self._project(self.canvas._distance, self.canvas) for i, coord in enumerate(point)])
+            self.item, *[coord * self.canvas.ratios[i] for point in self._project(self.canvas._distance, self.canvas) for i, coord in enumerate(point)])
 
     def _camera_distance(self):  # type: () -> float
         """与相机距离"""
@@ -477,12 +679,12 @@ class Side(_Object3D):
         return sign * math.dist([self.canvas._distance, 0, 0], center)
 
 
-class Text3D(_Object3D):
+class Text3D(Component):
     """三维文本"""
 
     def __init__(
         self,
-        canvas,  # type: Canvas3D | Space
+        canvas,  # type: Canvas | Space
         coords,  # type: tuple[float, float, float]
         text="",  # type: str
         *,
@@ -500,8 +702,8 @@ class Text3D(_Object3D):
         * `justify`: 多行文本对齐方式
         * `fill`: 点内部的填充颜色
         """
-        _Object3D.__init__(self, list(coords))
-        canvas._items_3d.append(self)
+        Component.__init__(self, list(coords))
+        canvas._components.append(self)
         self.canvas = canvas
         self.font = font
         self.fill = fill
@@ -514,10 +716,10 @@ class Text3D(_Object3D):
         """更新对象的显示"""
         x, y = self._project(self.canvas._distance, self.canvas)[0]
         self.canvas.coords(
-            self.item, x*self.canvas._ratio[0], y*self.canvas._ratio[1])
+            self.item, x*self.canvas.ratios[0], y*self.canvas.ratios[1])
         font = list(self.font)
         font[1] = round(font[1] * self.canvas._distance *
-                        math.sqrt(self.canvas._ratio[0]*self.canvas._ratio[1]) / self._camera_distance())
+                        math.sqrt(self.canvas.ratios[0]*self.canvas.ratios[1]) / self._camera_distance())
         self.canvas.itemconfigure(self.item, font=font)
 
     def _camera_distance(self):  # type: () -> float
@@ -531,14 +733,14 @@ class Geometry:
 
     def __init__(
         self,
-        canvas,  # type: Canvas3D | Space
+        canvas,  # type: Canvas | Space
         *sides,  # type: Side
     ):  # type: (...) -> None
         """
         * `canvas`: 父画布
         * `sides`: 组成几何体的面
         """
-        canvas._geos.append(self)
+        canvas._geometries.append(self)
         self.canvas = canvas
         self.sides = list(sides)
 
@@ -605,112 +807,3 @@ class Geometry:
         """
         for side in sides:
             self.sides.append(side)
-
-
-class Cuboid(Geometry):
-    """长方体"""
-
-    def __init__(
-        self,
-        canvas,  # type: Canvas3D | Space
-        x,  # type: float
-        y,  # type: float
-        z,  # type: float
-        length,  # type: float
-        width,  # type: float
-        height,  # type: float
-        *,
-        boardwidth=1,  # type: int
-        color_fill_up="",  # type: str
-        color_fill_down="",  # type: str
-        color_fill_left="",  # type: str
-        color_fill_right="",  # type: str
-        color_fill_front="",  # type: str
-        color_fill_back="",  # type: str
-        color_outline_up="#000000",  # type: str
-        color_outline_down="#000000",  # type: str
-        color_outline_left="#000000",  # type: str
-        color_outline_right="#000000",  # type: str
-        color_outline_front="#000000",  # type: str
-        color_outline_back="#000000",  # type: str
-    ):  # type: (...) -> None
-        """
-        * `canvas`: 父画布
-        * `x`: 左上角 x 坐标
-        * `y`: 左上角 y 坐标
-        * `z`: 左上角 z 坐标
-        * `length`: 长度
-        * `width`: 宽度
-        * `height`: 高度
-        * `boardwidth`: 边框线条宽度
-        * `color_fill_up`: 上表面内部颜色
-        * `color_fill_down`: 下表面内部颜色
-        * `color_fill_left`: 左侧面内部颜色
-        * `color_fill_right`: 右侧面内部颜色
-        * `color_fill_front`: 正面内部颜色
-        * `color_fill_back`: 后面内部颜色
-        * `color_outline_up`: 上表面边框颜色
-        * `color_outline_down`: 下表面边框颜色
-        * `color_outline_left`: 左侧面边框颜色
-        * `color_outline_right`: 右侧面边框颜色
-        * `color_outline_front`: 正面边框颜色
-        * `color_outline_back`: 后面边框颜色
-        """
-        canvas._geos.append(self)
-        self.canvas = canvas
-        coords = [[x + l, y + w, z + h]
-                  for l in (0, length) for w in (0, width) for h in (0, height)]
-        self.sides = [
-            Side(canvas, coords[0], coords[1], coords[3], coords[2],
-                 width=boardwidth, fill=color_fill_back, outline=color_outline_back),
-            Side(canvas, coords[0], coords[1], coords[5], coords[4],
-                 width=boardwidth, fill=color_fill_left, outline=color_outline_left),
-            Side(canvas, coords[0], coords[2], coords[6], coords[4],
-                 width=boardwidth, fill=color_fill_down, outline=color_outline_down),
-            Side(canvas, coords[1], coords[3], coords[7], coords[5],
-                 width=boardwidth, fill=color_fill_up, outline=color_outline_up),
-            Side(canvas, coords[2], coords[3], coords[7], coords[6],
-                 width=boardwidth, fill=color_fill_right, outline=color_outline_right),
-            Side(canvas, coords[4], coords[5], coords[7], coords[6],
-                 width=boardwidth, fill=color_fill_front, outline=color_outline_front),
-        ]
-
-
-class Tetrahedron(Geometry):
-    """四面体"""
-
-    def __init__(
-        self,
-        canvas,  # type: Canvas3D | Space
-        point_1,  # type: tuple[float, float, float]
-        point_2,  # type: tuple[float, float, float]
-        point_3,  # type: tuple[float, float, float]
-        point_4,  # type: tuple[float, float, float]
-        *,
-        boardwidth=1,  # type: int
-        color_fill=("", "", "", ""),  # type: tuple[str, str, str, str]
-        color_outline=("#000000", "#000000", "#000000", "#000000")
-        # type: tuple[str, str, str, str]
-    ):  # type: (...) -> None
-        """
-        * `canvas`: 父画布
-        * `point_1`: 第一个顶点
-        * `point_2`: 第二个顶点
-        * `point_3`: 第三个顶点
-        * `point_4`: 第四个顶点
-        * `boardwidth`: 边框线条宽度
-        * `color_fill`: 内部颜色序列
-        * `color_outline`: 边框颜色序列
-        """
-        canvas._geos.append(self)
-        self.canvas = canvas
-        self.sides = [
-            Side(canvas, point_1, point_2, point_3, width=boardwidth,
-                 fill=color_fill[0], outline=color_outline[0]),
-            Side(canvas, point_1, point_2, point_4, width=boardwidth,
-                 fill=color_fill[1], outline=color_outline[0]),
-            Side(canvas, point_1, point_3, point_4, width=boardwidth,
-                 fill=color_fill[2], outline=color_outline[0]),
-            Side(canvas, point_2, point_3, point_4, width=boardwidth,
-                 fill=color_fill[3], outline=color_outline[0]),
-        ]

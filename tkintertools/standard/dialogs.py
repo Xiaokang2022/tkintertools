@@ -4,10 +4,14 @@ import tkinter
 import tkinter.colorchooser as colorchooser
 import typing
 
-__all__ = ["Message", "ColorChooser", "FontChooser"]
+__all__ = [
+    "TkMessage",
+    "TkColorChooser",
+    "TkFontChooser",
+]
 
 
-class Message:
+class TkMessage:
     """Message pop-up"""
 
     def __init__(
@@ -57,7 +61,7 @@ class Message:
             command(value)
 
 
-class ColorChooser:
+class TkColorChooser:
     """Color chooser pop-up"""
 
     def __init__(
@@ -80,7 +84,7 @@ class ColorChooser:
             command(color[1])
 
 
-class FontChooser:
+class TkFontChooser:
     """Font chooser pop-up"""
 
     def __init__(

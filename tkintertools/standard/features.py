@@ -3,16 +3,28 @@
 import tkinter
 import typing
 
-from .. import core
 from ..animation import animations
+from ..core import virtual
+
+__all__ = [
+    "Label",
+    "Button",
+    "Underline",
+    "Highlight",
+    "Switch",
+    "CheckButton",
+    "RadioButton",
+    "ProgressBar",
+    "Entry",
+]
 
 
-class Label(core.Feature):
+class Label(virtual.Feature):
     """"""
 
     def _move_none(self, event: tkinter.Event) -> bool:
         if flag := self.widget.shapes[0].detect(event.x, event.y):
-            self.widget.master.trigger_config.update(cursor="arrow")
+            self.widget.master._trigger_config.update(cursor="arrow")
             if self.widget.state != "hover":
                 self.widget.update("hover")
         else:
@@ -21,24 +33,24 @@ class Label(core.Feature):
         return flag
 
 
-class Button(core.Feature):
+class Button(virtual.Feature):
     """"""
 
     def __init__(
         self,
-        widget: core.Widget,
+        widget: virtual.Widget,
         *,
         command: typing.Callable | None = None,
         args: tuple = (),
     ) -> None:
         """"""
-        core.Feature.__init__(self, widget)
+        virtual.Feature.__init__(self, widget)
         self._command: typing.Callable = command
         self._args: tuple = args
 
     def _move_none(self, event: tkinter.Event) -> bool:
         if flag := self.widget.shapes[0].detect(event.x, event.y):
-            self.widget.master.trigger_config.update(cursor="hand2")
+            self.widget.master._trigger_config.update(cursor="hand2")
             if self.widget.state == "normal":
                 self.widget.update("hover")
         else:
@@ -70,12 +82,12 @@ class Button(core.Feature):
         return flag
 
 
-class UnderLine(Button):
+class Underline(Button):
     """"""
 
     def _move_none(self, event: tkinter.Event) -> bool:
         if flag := self.widget.texts[0].detect(event.x, event.y):
-            self.widget.master.trigger_config.update(cursor="hand2")
+            self.widget.master._trigger_config.update(cursor="hand2")
             if self.widget.state == "normal":
                 self.widget.update("hover")
                 self.widget.texts[0].font.config(underline=True)
@@ -106,7 +118,7 @@ class Highlight(Button):
 
     def _move_none(self, event: tkinter.Event) -> bool:
         if flag := self.widget.texts[0].detect(event.x, event.y):
-            self.widget.master.trigger_config.update(cursor="hand2")
+            self.widget.master._trigger_config.update(cursor="hand2")
             if self.widget.state == "normal":
                 self.widget.update("hover")
                 animations.ScaleFontSize(
@@ -142,7 +154,7 @@ class Switch(Button):
 
     def _move_none(self, event: tkinter.Event) -> bool:
         if flag := self.widget.shapes[0].detect(event.x, event.y):
-            self.widget.master.trigger_config.update(cursor="hand2")
+            self.widget.master._trigger_config.update(cursor="hand2")
             if self.widget.state.startswith("normal"):
                 self.widget.update(
                     f"hover-{'on' if self.widget.get() else 'off'}")
@@ -203,7 +215,7 @@ class Entry(Button):
 
     def _move_none(self, event: tkinter.Event) -> bool:
         if flag := self.widget.shapes[0].detect(event.x, event.y):
-            self.widget.master.trigger_config.update(cursor="xterm")
+            self.widget.master._trigger_config.update(cursor="xterm")
             if self.widget.state == "normal":
                 self.widget.update("hover")
         else:
@@ -215,7 +227,7 @@ class Entry(Button):
         if flag := self.widget.shapes[0].detect(event.x, event.y):
             self.widget.update("active")
             if self.widget.state == "active":  # Maybe widget is disabled
-                self.widget.master.trigger_focus.update(
+                self.widget.master._trigger_focus.update(
                     True, self.widget.texts[0].items[0])
                 self.widget.texts[0].cursor_set(
                     self.widget.texts[0]._text_length())

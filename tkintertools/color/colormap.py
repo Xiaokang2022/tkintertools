@@ -2,6 +2,11 @@
 
 import tkinter
 
+__all__ = [
+    "COLOR_MAP",
+    "name_to_rgb",
+]
+
 COLOR_MAP: dict[str, tuple[int, int, int]] = {
     'alice blue': (240, 248, 255),
     'aliceblue': (240, 248, 255),

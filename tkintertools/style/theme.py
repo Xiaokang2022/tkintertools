@@ -1,6 +1,7 @@
 """Support for theme"""
 
 import ctypes
+import pathlib
 import platform
 import threading
 import tkinter
@@ -10,25 +11,51 @@ import darkdetect
 
 from ..color import rgb
 
+__all__ = [
+    "DARK_MODE",
+    "COLOR_MODE",
+    "SYSTEM_THEME_PATH",
+    "selected_theme_path",
+    "set_color_theme",
+    "set_color_mode",
+    "register_event",
+    "remove_event",
+    "custom_window",
+]
+
 DARK_MODE: bool = darkdetect.isDark()
-THEME_MODE: typing.Literal["system", "dark", "light"] = "system"
+COLOR_MODE: typing.Literal["system", "dark", "light"] = "system"
+SYSTEM_THEME_PATH = pathlib.Path(__file__).parent.parent / "theme"
+
+selected_theme_path = SYSTEM_THEME_PATH
 
 _callback_events: dict[typing.Callable[[bool, typing.Any],
                                        typing.Any], tuple[typing.Any, ...]] = {}
 
 
-def use_theme(__theme: typing.Literal["system", "dark", "light"], /) -> None:
+def set_color_theme(theme_path: pathlib.Path | str = SYSTEM_THEME_PATH) -> bool:
     """
-    Set the theme for the entire program
+    Set a special color theme for the entire program
 
-    theme can be light, dark, and follow the system, default is follow the system
+    color theme is a path of theme folder, default value is `system_theme_path`
     """
-    global DARK_MODE, THEME_MODE
-    THEME_MODE = __theme
-    if __theme == "system":
+    global selected_theme_path
+    selected_theme_path = pathlib.Path(theme_path)
+    set_color_mode(COLOR_MODE)
+
+
+def set_color_mode(color_mode: typing.Literal["system", "dark", "light"], /) -> None:
+    """
+    Set the color mode for the entire program
+
+    color mode can be light, dark, and follow the system, default is follow the system
+    """
+    global DARK_MODE, COLOR_MODE
+    COLOR_MODE = color_mode
+    if color_mode == "system":
         DARK_MODE = darkdetect.isDark()
     else:
-        DARK_MODE = __theme == "dark"
+        DARK_MODE = color_mode == "dark"
     _process_event(DARK_MODE)
 
 
@@ -63,7 +90,7 @@ def _process_event(dark: bool) -> None:
 def _callback(theme: str) -> None:
     """callback function that is triggered when a system theme is switched.
     Valid only if the theme mode is set to Follow System"""
-    if THEME_MODE != "system":
+    if COLOR_MODE != "system":
         return
     global DARK_MODE
     DARK_MODE = theme == "Dark"
@@ -89,7 +116,7 @@ def custom_window(
 
     WARNING:
 
-    This class is only valid under Windows OS!
+    This function is only works on Windows OS!
     """
     if platform.system() != "Windows":
         return
@@ -98,8 +125,10 @@ def custom_window(
     if dark is None:
         dark = DARK_MODE
     if dark is not None:
-        ctypes.windll.dwmapi.DwmSetWindowAttribute(
-            HWND, 20, ctypes.byref(ctypes.c_int(dark)), 4)
+        if ctypes.windll.dwmapi.DwmSetWindowAttribute(
+                HWND, 20, ctypes.byref(ctypes.c_int(dark)), 4) != 0:
+            ctypes.windll.dwmapi.DwmSetWindowAttribute(
+                HWND, 19, ctypes.byref(ctypes.c_int(dark)), 4)
     for i, value in enumerate((bordercolor, captioncolor, titlecolor)):
         if value is not None:
             ctypes.windll.dwmapi.DwmSetWindowAttribute(

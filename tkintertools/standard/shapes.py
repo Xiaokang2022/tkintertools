@@ -3,15 +3,26 @@
 import math
 import warnings
 
-from .. import core
+from ..core import virtual
+
+__all__ = [
+    "Line",
+    "Rectangle",
+    "Oval",
+    "RegularPolygon",
+    "RoundedRectangle",
+    "SemicircularRectangle",
+    "SharpRectangle",
+    "Parallelogram",
+]
 
 
-class Line(core.Shape):
+class Line(virtual.Shape):
     """"""
 
     def __init__(
         self,
-        widget: core.Widget,
+        widget: virtual.Widget,
         rel_position: tuple[int, int] = (0, 0),
         size: tuple[int, int] | None = None,
         *,
@@ -23,37 +34,40 @@ class Line(core.Shape):
     ) -> None:
         self.points = points
         self.width = width
-        core.Shape.__init__(self, widget, rel_position, size,
-                            name=name, styles=styles, animation=animation)
+        virtual.Shape.__init__(self, widget, rel_position, size,
+                               name=name, styles=styles, animation=animation)
 
+    # @typing.override
     def display(self) -> None:
         points = [(x+self.x, y+self.y) for x, y in self.points]
         self.items = [self.widget.master.create_line(
             *points, tags=("fill", "fill"), width=self.width)]
 
 
-class Rectangle(core.Shape):
+class Rectangle(virtual.Shape):
     """"""
 
+    # @typing.override
     def display(self) -> None:
         self.items = [self.widget.master.create_rectangle(
             *self.region(), tags=("fill", "fill", "outline", "outline"))]
 
 
-class Oval(core.Shape):
+class Oval(virtual.Shape):
     """"""
 
+    # @typing.override
     def display(self) -> None:
         self.items = [self.widget.master.create_oval(
             *self.region(), tags=("fill", "fill", "outline", "outline"))]
 
 
-class RegularPolygon(core.Shape):
+class RegularPolygon(virtual.Shape):
     """"""
 
     def __init__(
         self,
-        widget: core.Widget,
+        widget: virtual.Widget,
         rel_position: tuple[int, int] = (0, 0),
         size: tuple[int, int] | None = None,
         *,
@@ -65,9 +79,10 @@ class RegularPolygon(core.Shape):
     ) -> None:
         self.side = side
         self.angle = angle
-        core.Shape.__init__(self, widget, rel_position, size,
-                            name=name, styles=styles, animation=animation)
+        virtual.Shape.__init__(self, widget, rel_position, size,
+                               name=name, styles=styles, animation=animation)
 
+    # @typing.override
     def display(self) -> None:
         r = min(self.w, self.h) / 2
         if self.side < 3:
@@ -82,12 +97,12 @@ class RegularPolygon(core.Shape):
             *points, tags=("fill", "fill", "outline", "outline"))]
 
 
-class RoundedRectangle(core.Shape):
+class RoundedRectangle(virtual.Shape):
     """"""
 
     def __init__(
         self,
-        widget: core.Widget,
+        widget: virtual.Widget,
         rel_position: tuple[int, int] = (0, 0),
         size: tuple[int, int] | None = None,
         *,
@@ -97,9 +112,10 @@ class RoundedRectangle(core.Shape):
         radius: int = 5,
     ) -> None:
         self.radius = radius
-        core.Shape.__init__(self, widget, rel_position, size,
-                            name=name, styles=styles, animation=animation)
+        virtual.Shape.__init__(self, widget, rel_position, size,
+                               name=name, styles=styles, animation=animation)
 
+    # @typing.override
     def display(self) -> None:
         """"""
         x, y, w, h = self.x, self.y, self.w, self.h
@@ -147,9 +163,10 @@ class RoundedRectangle(core.Shape):
         ]
 
 
-class SemicircularRectangle(core.Shape):
+class SemicircularRectangle(virtual.Shape):
     """"""
 
+    # @typing.override
     def display(self) -> None:
         """"""
         x, y, w, h = self.x, self.y, self.w, self.h
@@ -180,12 +197,12 @@ class SemicircularRectangle(core.Shape):
         ]
 
 
-class SharpRectangle(core.Shape):
+class SharpRectangle(virtual.Shape):
     """"""
 
     def __init__(
         self,
-        widget: core.Widget,
+        widget: virtual.Widget,
         rel_position: tuple[int, int] = (0, 0),
         size: tuple[int, int] | None = None,
         *,
@@ -201,9 +218,10 @@ class SharpRectangle(core.Shape):
             warnings.warn("Parameters are not suitable")
         if math.isclose(abs(self.ratio[0] - self.ratio[1]), 1):
             warnings.warn("Parameters are not suitable")
-        core.Shape.__init__(self, widget, rel_position, size,
-                            name=name, styles=styles, animation=animation)
+        virtual.Shape.__init__(self, widget, rel_position, size,
+                               name=name, styles=styles, animation=animation)
 
+    # @typing.override
     def display(self) -> None:
         """"""
         x, y, w, h = self.x, self.y, self.w, self.h
@@ -232,12 +250,12 @@ class SharpRectangle(core.Shape):
             *points, tags=("fill", "fill", "outline", "outline"))]
 
 
-class Parallelogram(core.Shape):
+class Parallelogram(virtual.Shape):
     """"""
 
     def __init__(
         self,
-        widget: core.Widget,
+        widget: virtual.Widget,
         rel_position: tuple[int, int] = (0, 0),
         size: tuple[int, int] | None = None,
         *,
@@ -249,9 +267,10 @@ class Parallelogram(core.Shape):
         self.theta = theta
         if not abs(theta) <= math.pi/3:
             warnings.warn("Parameters are not suitable")
-        core.Shape.__init__(self, widget, rel_position, size,
-                            name=name, styles=styles, animation=animation)
+        virtual.Shape.__init__(self, widget, rel_position, size,
+                               name=name, styles=styles, animation=animation)
 
+    # @typing.override
     def display(self) -> None:
         """"""
         x, y, w, h = self.x, self.y, self.w, self.h

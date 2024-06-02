@@ -19,7 +19,7 @@ keywords = [
     "cross-platform",
     "themed",
 ]
-dependencies = ["darkdetect[macos-listener]"]
+dependencies = ["darkdetect", "darkdetect[macos-listener]"]
 classifiers = [
     "Programming Language :: Python :: 3",
     "License :: OSI Approved :: MIT License",
@@ -32,6 +32,7 @@ classifiers = [
     "Topic :: Software Development :: Libraries :: Python Modules",
     "Topic :: Software Development :: Widget Sets",
     "Typing :: Typed",
+    "Development Status :: 4 - Beta",
 ]
 dynamic = ["version"]
 

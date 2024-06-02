@@ -5,14 +5,15 @@ import inspect
 import json
 import pathlib
 
-from .. import core
+from ..core import virtual
 from . import theme
 
-system_theme_path = pathlib.Path(__file__).parent.parent / "theme"
-default_theme_path = pathlib.Path().cwd() / "theme"
+__all__ = [
+    "get",
+]
 
 
-def _get_name(obj: "str | core.Widget | core.Component") -> str:
+def _get_name(obj: "str | virtual.Widget | virtual.Component") -> str:
     """Get the name of the object"""
     if getattr(obj, "name", None) is not None:
         if obj.name.startswith("."):  # Special rule
@@ -58,14 +59,14 @@ def _get_file(widget: str, component: str, path: pathlib.Path, dark: bool) -> "d
     * `path`: path to the theme folder
     * `dark`: whether it is in dark mode
     """
-    for path in set((system_theme_path, default_theme_path, path)):
+    for path in set((theme.SYSTEM_THEME_PATH, theme.selected_theme_path, path)):
         if file := _get_path(path, widget, component, dark):
             with open(file, "r", encoding="utf-8") as data:
                 return json.load(data)
     return {}
 
 
-def get(widget: "str | core.Widget", component: "str | core.Component", *, path: str | pathlib.Path = system_theme_path) -> "dict[str, dict[str, str]]":
+def get(widget: "str | virtual.Widget", component: "str | virtual.Component", *, path: str | pathlib.Path = theme.selected_theme_path) -> "dict[str, dict[str, str]]":
     """
     Get style data based on parameters
 

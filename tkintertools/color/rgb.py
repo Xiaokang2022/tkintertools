@@ -1,4 +1,4 @@
-"""Support for RGB codes"""
+"""Support for RGB"""
 
 import statistics
 import typing
@@ -6,21 +6,37 @@ import typing
 from ..animation import controllers
 from . import colormap
 
+__all__ = [
+    "contrast",
+    "convert",
+    "blend",
+    "gradient",
+    "str_to_rgb",
+    "rgb_to_str",
+]
+
 RGB = tuple[int, int, int]
+"""
+R: Red, 0 ~ 255
+G: Green, 0 ~ 255
+B: Blue, 0 ~ 255
+"""
+
+MAX = 255, 255, 255
 
 
 def contrast(
     rgb: RGB,
     /,
-    channel: tuple[bool, bool, bool] = (True, True, True),
+    channels: tuple[bool, bool, bool] = (True, True, True),
 ) -> RGB:
     """
     Get a contrasting color of a color
 
     * `rgb`: a tuple, RGB codes
-    * `channel`: three color channels
+    * `channels`: three color channels
     """
-    return tuple(map(lambda x: x[1] * (256-x[0]), zip(rgb, channel)))
+    return tuple(map(lambda x: x[0] * (x[1]-x[2]), zip(channels, MAX, rgb)))
 
 
 def convert(
@@ -28,7 +44,7 @@ def convert(
     second: RGB,
     rate: float,
     *,
-    channel: tuple[bool, bool, bool] = (True, True, True),
+    channels: tuple[bool, bool, bool] = (True, True, True),
 ) -> RGB:
     """
     Convert one color to another proportionally
@@ -36,9 +52,9 @@ def convert(
     * `first`: first color
     * `second`: second color
     * `rate`: conversion rate
-    * `channel`: three color channels
+    * `channels`: three color channels
     """
-    return tuple(first[i] + round((second[i]-first[i])*rate*v) for i, v in enumerate(channel))
+    return tuple(first[i] + round((second[i]-first[i])*rate*v) for i, v in enumerate(channels))
 
 
 def blend(
@@ -86,12 +102,12 @@ def gradient(
     return rgb_list
 
 
-def _str_to_rgba(__c: str, *, refer: str) -> RGB:
+def _str_to_rgba(__c: str, *, reference: str) -> RGB:
     """Experimental: Convert color strings(RGBA) to RGB codes"""
     hex, a = divmod(int(__c[1:], 16), 256)
     hex, b = divmod(hex, 256)
     r, g = divmod(hex, 256)
-    refer_rgb = str_to_rgb(refer)
+    refer_rgb = str_to_rgb(reference)
     return convert((r, g, b), refer_rgb, 1 - a/255)
 
 

@@ -20,6 +20,13 @@ import functools
 import math
 import typing
 
+__all__ = [
+    "controller_generator",
+    "flat",
+    "smooth",
+    "rebound",
+]
+
 
 def _map_t(
     start: float,

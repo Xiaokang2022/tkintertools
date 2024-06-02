@@ -4,9 +4,18 @@ import numbers
 import tkinter
 import typing
 
-from .. import core
 from ..color import rgb
+from ..core import virtual
 from . import controllers
+
+__all__ = [
+    "Animation",
+    "MoveWidget",
+    "MoveComponent",
+    "MoveItem",
+    "Gradient",
+    "ScaleFontSize",
+]
 
 
 class Animation:
@@ -93,7 +102,7 @@ class MoveWidget(Animation):
 
     def __init__(
         self,
-        widget: "core.Widget",
+        widget: "virtual.Widget",
         ms: int,
         delta: tuple[float, float],
         *,
@@ -124,7 +133,7 @@ class MoveComponent(Animation):
 
     def __init__(
         self,
-        component: "core.Component",
+        component: "virtual.Component",
         ms: int,
         delta: tuple[float, float],
         *,
@@ -155,7 +164,7 @@ class MoveItem(Animation):
 
     def __init__(
         self,
-        canvas: "core.Canvas",
+        canvas: "virtual.Canvas",
         item: int,
         ms: int,
         delta: tuple[float, float],
@@ -188,7 +197,7 @@ class Gradient(Animation):
 
     def __init__(
         self,
-        canvas: "core.Canvas",
+        canvas: "virtual.Canvas",
         item: int,
         option: str,
         ms: int,
@@ -228,7 +237,7 @@ class ScaleFontSize(Animation):
 
     def __init__(
         self,
-        text: "core.Text",
+        text: "virtual.Text",
         ms: int,
         delta: float | tuple[float, float],
         *,
