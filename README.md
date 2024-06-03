@@ -74,25 +74,21 @@ pip install tkintertools==3.0.0b2
 
 <details open><summary>👁️ Preview - 预览</summary>
 
-* **Windows 11 Dark Theme**
+* **Demo1 Light Theme**
 
-![Light - Win11](https://xiaokang2022.github.io/tkintertools/news/3.0.0/dark-win11.png)
+![Light - Demo1](https://xiaokang2022.github.io/tkintertools/news/3.0.0/demo1-light.png)
 
-* **Windows 10 Light Theme**
+* **Demo1 Dark Theme**
 
-![Dark - Win10](https://xiaokang2022.github.io/tkintertools/news/3.0.0/light-win10.png)
+![Dark - Demo1](https://xiaokang2022.github.io/tkintertools/news/3.0.0/demo1-dark.png)
 
-* **Ubuntu 24.04 (GNOME) Dark Theme**
+* **Demo2 Light Theme**
 
-![Light - Ubuntu](https://xiaokang2022.github.io/tkintertools/news/3.0.0/dark-ubuntu.png)
+![Light - Demo2](https://xiaokang2022.github.io/tkintertools/news/3.0.0/demo2-light.png)
 
-* **Kubuntu 24.04 (KDE) Light Theme**
+* **Demo2 Dark Theme**
 
-![Light - Kubuntu](https://xiaokang2022.github.io/tkintertools/news/3.0.0/light-kubuntu.png)
-
-* **macOS Dark Theme**
-
-![Dark - MacOS](https://xiaokang2022.github.io/tkintertools/news/3.0.0/dark-mac.png)
+![Light - Demo2](https://xiaokang2022.github.io/tkintertools/news/3.0.0/demo2-dark.png)
 
 </details>
 
