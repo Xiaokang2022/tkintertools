@@ -179,7 +179,6 @@ extra: # 额外设定
       lang: en
   # version:
   #   provider: mike
-  #   default: stable
   homepage: . # 左上角徽标链接的地址（此处为一个点，也就是主页）
   annotate: # 允许代码块非注释内的提示，我也不太懂什么意思，貌似是可以在代码里面加悬浮提示框，而不只是在注释中（感觉这样不好，虽然我不用，但不能没有）
     json: [.s2]
@@ -337,7 +336,3 @@ nav: # 导航栏
 
   - Projects / 项目:
       - Overview - 项目概览: projects/index.md
-      - New Version Projects - 新版项目:
-          - 01. Intelligent Magic Cube: projects/Intelligent Magic Cube.md
-      - Old Version Projects - 旧版项目:
-          - 01. Chess: projects/Chess.md
