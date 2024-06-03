@@ -74,21 +74,21 @@ pip install tkintertools==3.0.0b2
 
 ???+ "Preview - 预览"
 
-    * **Windows11 Light Theme**
+    * **Demo1 Light Theme**
 
-    ![Light Theme](./news/3.0.0/light-win11.png)
+    ![Light Theme](./news/3.0.0/demo1-light.png)
 
-    * **Windows10 Dark Theme**
+    * **Demo1 Dark Theme**
 
-    ![Dark Theme](./news/3.0.0/dark-win10.png)
+    ![Dark Theme](./news/3.0.0/demo1-dark.png)
 
-    * **Ubuntu Light Theme**
+    * **Demo2 Light Theme**
 
-    ![Light Theme](./news/3.0.0/light-ubuntu.png)
+    ![Light Theme](./news/3.0.0/demo2-light.png)
 
-    * **macOS Dark Theme**
+    * **Demo2 Dark Theme**
 
-    ![Dark Theme](./news/3.0.0/dark-mac.png)
+    ![Dark Theme](./news/3.0.0/demo2-dark.png)
 
 !!! warning "Warning - 警告"
 
