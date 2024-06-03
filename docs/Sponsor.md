@@ -38,8 +38,9 @@ I'll put `[your nickname]` and the time and amount of your sponsorship below! Of
 This page will be updated on an ongoing basis to list as many people as possible who have given monetary sponsorship!  
 本页面将持续更新，以尽可能列出所有给出金钱赞助的人！
 
-Last Update / 上次更新: 2024-06-03
+This page is not updated automatically, but manually by me, so please understand that the sponsored list may not be updated in time.  
+此页面并非自动更新，而是由我手动更新的，因此赞助列表可能更新不及时，请谅解。
 
-| 🕓 Date / 日期 | 😀 Sponsor / 赞助者 | 💰 Amount / 金额 |
-| :-----------: | :----------------: | :-------------: |
-|  2024-06-03   |      rgzz666       |      1.00       |
+| 🕓 Date / 日期 | 😀 Sponsor / 赞助者 | 💰 Amount / 金额 | ❤️ Sponsor Method / 赞赏方式 |
+| :-----------: | :----------------: | :-------------: | :-------------------------: |
+|  2024-06-03   |      rgzz666       |      1.00       |         微信赞赏码          |
