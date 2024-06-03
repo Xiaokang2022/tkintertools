@@ -105,6 +105,16 @@ pip install tkintertools==3.0.0b2
 * 📑 License - 许可 : BSD 3-Clause
 * 🔗 GitHub - 仓库 : [darkdetect](https://github.com/albertosottile/darkdetect)
 
+⚡ Known Bugs - 已知问题
+------------------------
+
+- [ ] When too much text is entered into the widget `Entry`, it will cause the program to crash once the characters are deleted or the position of the cursor is moved  
+当小部件 `Entry` 输入的文本过多时，一旦删除字符或移动光标的位置，将导致程序崩溃
+
+> [!CAUTION]  
+> Due to the above fatal bugs, it is not recommended to use the beta version in a production environment!  
+> 由于存在上述致命问题，不建议在生产环境中使用 beta 版本！
+
 👀 More - 更多
 ---------------
 
