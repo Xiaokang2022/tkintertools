@@ -264,6 +264,7 @@ nav: # 导航栏
       - Contribution Guide - 贡献指南: CONTRIBUTING.md
       - Security Policy - 安全策略: SECURITY.md
       - Code of Conduct - 行为准则: CODE_OF_CONDUCT.md
+      - Sponsor this project - 赞助项目: Sponsor.md
 
   - Tutorials / 教程:
       - 前言: tutorials/0-1.md
