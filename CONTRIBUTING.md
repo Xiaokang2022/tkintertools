@@ -1,4 +1,4 @@
-Contribution Guide - 贡献指南
+Contribution Guide / 贡献指南
 ============================
 
 First off, thanks for taking the time to contribute! ❤️  
@@ -11,27 +11,27 @@ All types of contributions are encouraged and valued.Please see the table of con
 > If you like the project, but just don't have time to contribute, that's fine. There are other easy ways to support the project and show your gratitude, and we are also very happy, such as star the project!⭐  
 > 如果你喜欢这个项目，但只是没有时间做出贡献，那也没关系。还有其他简单的方法可以支持该项目并表达您的感激之情，我们也非常高兴，例如给这个项目加星标！⭐
 
-❓ I Have a Question - 有个问题
+❓ I Have a Question / 有个问题
 -------------------------------
 
-### 💡 Issue - 问题
+### 💡 Issue / 问题
 
 If you want to ask a question, we assume that you have read the available Documentation.If you still don't find an answer you're happy with, you can start an issue and we'll get back to you as quickly as possible. However, before initiating an issue, please search for existing issues related to your issue to avoid initiating duplicate issues.  
 如果您想提出问题，我们假设您已经阅读了可用的文档。如果仍然没有找到您满意的答案，您可以发起一个 issue，我们将尽可能快地给出答复。但在发起 issue 之前，请先搜索是否存在已有 issue 与你的问题相关，以避免发起内容重复的 issue。
 
-### 💬 Discussion - 讨论
+### 💬 Discussion / 讨论
 
 If you have any suggestions, etc., you can start a discussion in the discussion board. For example, you can start a discussion about a feature, discuss it with someone else or a project maintainer, and we will make improvements to the project based on the results of the discussion, or we may not take the suggestion.  
 如果你有什么建议等，你可以在讨论区发起一个讨论。比如你可以发起关于某项功能的讨论，与别人或者项目维护者进行相关的讨论，我们会根据讨论结果对项目进行相关改进，当然，也可能不会采纳相关建议。
 
-✏️ I Want To Contribute - 想要贡献
+✏️ I Want To Contribute / 想要贡献
 ----------------------------------
 
 > [!IMPORTANT]  
 > When contributing to this project, you must agree that you have authored **100%** of the content, that you have the necessary rights to the content and that the content you contribute may be provided under the project license.  
 > 在为本项目做出贡献时，您必须同意您创作了 **100%** 的内容，您对内容拥有必要的权利，并且您贡献的内容可以在项目许可下提供。
 
-### 📝 Source Codes - 源代码
+### 📝 Source Codes / 源代码
 
 * It must be able to run stably in the latest stable version of the programming environment;  
 必须保证能在最新稳定版本的编程环境下稳定运行；
@@ -44,7 +44,7 @@ If you have any suggestions, etc., you can start a discussion in the discussion 
 * All in English, including docstrings;  
 全部使用英语，包括文档字符串；
 
-### 📑 Documents - 文档
+### 📑 Documents / 文档
 
 * Correct, detailed, and easy to understand;  
 正确、详细且通俗易懂；
@@ -53,7 +53,7 @@ If you have any suggestions, etc., you can start a discussion in the discussion 
 * If possible, please translate into both English and Chinese;  
 如果可能，请翻译为中英双语；
 
-### 📖 Tutorials - 教程
+### 📖 Tutorials / 教程
 
 * Accurate;  
 准确无误；
@@ -68,25 +68,25 @@ If you have any suggestions, etc., you can start a discussion in the discussion 
 * If possible, please translate into both English and Chinese;  
 如果可能，请翻译为中英双语；
 
-### 📚 Others - 其他内容
+### 📚 Others / 其他内容
 
 * Compliance with certain specifications is sufficient, depending on the circumstances;  
 符合某些规范即可，具体视情况而定；
 
-✨ What is the Style - 风格指南
+✨ What is the Style / 风格指南
 -------------------------------
 
-### 1️⃣ Code Style - 代码风格
+### 1️⃣ Code Style / 代码风格
 
 If you want your PR to be merged, we want your code style to be as official as possible, and if you can, we prefer your code to be in line with the project's code style.  
 如果你想要你的 PR 被合并，我们希望你的代码风格尽量符合官方的风格，如果可以，我们更希望你的代码可以符合本项目的代码风格。
 
-### 2️⃣ Other Style - 其它风格
+### 2️⃣ Other Style / 其它风格
 
 For other content, such as issues, we don't make any stylistic requirements.  
 其它内容，如 issues 等，我们不对风格做任何要求。
 
-🤝 Join The Project Team - 加入团队
+🤝 Join The Project Team / 加入团队
 -----------------------------------
 
 If you would like to join the project team, please contact the maintainers of the project team, here is some information about the authors of this project:   

@@ -40,20 +40,20 @@
     </a>
 </p>
 
-📦 Installation - 安装
------------------------
+📦 Installation / 安装
+----------------------
 
-### ✅ Stable Version - 稳定版本
+### ✅ Stable Version / 稳定版本
 
-* 🔖 Version - 最新版本 : `2.6.21`
-* 🕓 Release - 发布日期 : 2024-01-01
-* ✨ Feature - 更新内容 : [News-2.6.21](https://xiaokang2022.github.io/tkintertools/news/2.6.21/News/)
+* 🔖 Version / 最新版本 : `2.6.21`
+* 🕓 Release / 发布日期 : 2024-01-01
+* ✨ Feature / 更新内容 : [News-2.6.21](https://xiaokang2022.github.io/tkintertools/news/2.6.21/News/)
 
 ```sh
 pip install tkintertools
 ```
 
-<details open><summary>👁️ Preview - 预览</summary>
+<details open><summary>👁️ Preview / 预览</summary>
 
 [![Preview UI](https://xiaokang2022.github.io/tkintertools/tutorials/images/1.2-2.1-2.png)](https://xiaokang2022.github.io/tkintertools/tutorials/1-2/#21-%E9%AB%98%E5%BA%A6%E5%8F%AF%E9%85%8D%E7%BD%AE%E7%9A%84%E6%8E%A7%E4%BB%B6)
 
@@ -61,33 +61,33 @@ pip install tkintertools
 
 </details>
 
-### 🔥 Development Version - 开发版本
+### 🔥 Development Version / 开发版本
 
-* 🔖 Version - 最新版本 : `3.0.0.beta2`
-* 🕓 Release - 发布日期 : 2024-06-03
-* ✨ Feature - 更新内容 : [News-3.0.0b2](https://xiaokang2022.github.io/tkintertools/news/3.0.0/News/)
+* 🔖 Version / 最新版本 : `3.0.0.beta2`
+* 🕓 Release / 发布日期 : 2024-06-03
+* ✨ Feature / 更新内容 : [News-3.0.0b2](https://xiaokang2022.github.io/tkintertools/news/3.0.0/News/)
 
 ```sh
 pip install tkintertools==3.0.0b2
 ```
 
-<details open><summary>👁️ Preview - 预览</summary>
+<details open><summary>👁️ Preview / 预览</summary>
 
 * **Demo1 Light Theme**
 
-![Light - Demo1](https://xiaokang2022.github.io/tkintertools/news/3.0.0/demo1-light.png)
+![Light / Demo1](https://xiaokang2022.github.io/tkintertools/news/3.0.0/demo1-light.png)
 
 * **Demo1 Dark Theme**
 
-![Dark - Demo1](https://xiaokang2022.github.io/tkintertools/news/3.0.0/demo1-dark.png)
+![Dark / Demo1](https://xiaokang2022.github.io/tkintertools/news/3.0.0/demo1-dark.png)
 
 * **Demo2 Light Theme**
 
-![Light - Demo2](https://xiaokang2022.github.io/tkintertools/news/3.0.0/demo2-light.png)
+![Light / Demo2](https://xiaokang2022.github.io/tkintertools/news/3.0.0/demo2-light.png)
 
 * **Demo2 Dark Theme**
 
-![Light - Demo2](https://xiaokang2022.github.io/tkintertools/news/3.0.0/demo2-dark.png)
+![Light / Demo2](https://xiaokang2022.github.io/tkintertools/news/3.0.0/demo2-dark.png)
 
 </details>
 
@@ -95,16 +95,16 @@ pip install tkintertools==3.0.0b2
 > `tkt 2.*` has been discontinued, for new features, please use `tkt 3.*`. Also note that `tkt 3.*` is almost completely incompatible with `tkt 2.*`, and porting a project from `tkt 2.*` to `tkt 3.*` can be difficult.  
 > `tkt 2.*` 已放弃支持，如需获取新的功能，请使用 `tkt 3.*`。同时请注意，`tkt 3.*` 与 `tkt 2.*` 几乎完全不兼容，将项目从 `tkt 2.*` 移植到 `tkt 3.*` 可能会十分困难。
 
-📦 Dependency - 依赖包
+📦 Dependency / 依赖包
 ----------------------
 
 ### 1️⃣ darkdetect
 
-* 🔖 Version - 版本 : `0.8.0`
-* 📑 License - 许可 : BSD 3-Clause
-* 🔗 GitHub - 仓库 : [darkdetect](https://github.com/albertosottile/darkdetect)
+* 🔖 Version / 版本 : `0.8.0`
+* 📑 License / 许可 : BSD 3-Clause
+* 🔗 GitHub / 仓库 : [darkdetect](https://github.com/albertosottile/darkdetect)
 
-⚡ Known Bugs - 已知问题
+⚡ Known Bugs / 已知问题
 ------------------------
 
 - [ ] When too much text is entered into the widget `Entry`, it will cause the program to crash once the characters are deleted or the position of the cursor is moved  
@@ -114,17 +114,17 @@ pip install tkintertools==3.0.0b2
 > Due to the above fatal bugs, it is not recommended to use the beta version in a production environment!  
 > 由于存在上述致命问题，不建议在生产环境中使用 beta 版本！
 
-👀 More - 更多
----------------
+👀 More / 更多
+--------------
 
-* 📋 Todo - 待办事项: [TODO.md](TODO.md)
-* 📑 License - 项目许可: [LICENSE.txt](LICENSE.txt)
-* 📘 Changelog - 更新日志: [CHANGELOG.md](CHANGELOG.md)
-* 📕 Security Policy - 安全策略: [SECURITY.md](SECURITY.md)
-* 📗 Contribution Guide - 贡献指南: [CONTRIBUTING.md](CONTRIBUTING.md)
-* 📙 Code of Conduct - 行为准则: [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md)
-* 📚 Tutorials and Documents - 教程和文档: [Tutorials & Documents](https://xiaokang2022.github.io/tkintertools/)
-* 🚀 Repository Mirrors - 存储库镜像源:
+* 📋 Todo / 待办事项: [TODO.md](TODO.md)
+* 📑 License / 项目许可: [LICENSE.txt](LICENSE.txt)
+* 📘 Changelog / 更新日志: [CHANGELOG.md](CHANGELOG.md)
+* 📕 Security Policy / 安全策略: [SECURITY.md](SECURITY.md)
+* 📗 Contribution Guide / 贡献指南: [CONTRIBUTING.md](CONTRIBUTING.md)
+* 📙 Code of Conduct / 行为准则: [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md)
+* 📚 Tutorials and Documents / 教程和文档: [Tutorials & Documents](https://xiaokang2022.github.io/tkintertools/)
+* 🚀 Repository Mirrors / 存储库镜像源:
 [GitHub](https://github.com/Xiaokang2022/tkintertools) |
 [Gitee](https://gitee.com/xiaokang-2022/tkintertools) |
 [GitCode](https://gitcode.com/Xiaokang2022/tkintertools/overview)
