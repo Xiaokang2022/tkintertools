@@ -36,6 +36,12 @@ Todo / 待办事项
 - [ ] Improve the 3D engine  
 改善 3D 引擎
 
+- [ ] Add support for `Matplotlib`  
+增加对 `Matplotlib` 的支持
+
+- [ ] Add highly customizable windows  
+增加可高度定制的窗口
+
 📌 In Planning / 计划中
 -----------------------
 
@@ -47,6 +53,12 @@ Todo / 待办事项
 
 - [ ] Add list box widget  
 增加列表框小部件
+
+- [ ] Add simple support for Markdown  
+增加对 Markdown 的简单支持
+
+- [ ] Add support for menu bar  
+增加对菜单栏的支持
 
 💡 In Consideration / 考虑中
 ----------------------------
