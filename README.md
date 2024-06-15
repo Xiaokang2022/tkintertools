@@ -1,6 +1,6 @@
 > [!IMPORTANT]  
-> Due to the growing nature of the project, the original name `tkintertools` is no longer in line with its original intended, so the project is going to be renamed to "tkinter advanced canvas UI framework" (`tacUI`) in version `3.0.0.rc1`. If you have any other ideas or suggestions, you can put them in the discussion forum.  
-> 由于本项目的不断壮大，原名称 `tkintertools` 已不符合其本意，故本项目准备在进入 `3.0.0.rc1` 版本时更名为 “tkinter advanced canvas UI framework”（`tacUI`）。如有其它想法或建议，可在讨论区中提出。
+> Due to the growing nature of the project, the original name `tkintertools` is no longer in line with its original intended, so the project is going to be renamed to "tkinter advanced canvas UI framework" (`tacUI`) in version `3.0.0.rc1`. If you have any other ideas or suggestions, you can put them in the [Discussions](https://github.com/Xiaokang2022/tkintertools/discussions).  
+> 由于本项目的不断壮大，原名称 `tkintertools` 已不符合其本意，故本项目准备在进入 `3.0.0.rc1` 版本时更名为 “tkinter advanced canvas UI framework”（`tacUI`）。如有其它想法或建议，可在[讨论区](https://github.com/Xiaokang2022/tkintertools/discussions)中提出。
 
 <h1 align="center">tkintertools</h1>
 
@@ -91,38 +91,37 @@ pip install tkintertools==3.0.0b2
 
 </details>
 
-> [!WARNING]  
-> `tkt 2.*` has been discontinued, for new features, please use `tkt 3.*`. Also note that `tkt 3.*` is almost completely incompatible with `tkt 2.*`, and porting a project from `tkt 2.*` to `tkt 3.*` can be difficult.  
-> `tkt 2.*` 已放弃支持，如需获取新的功能，请使用 `tkt 3.*`。同时请注意，`tkt 3.*` 与 `tkt 2.*` 几乎完全不兼容，将项目从 `tkt 2.*` 移植到 `tkt 3.*` 可能会十分困难。
-
 📦 Dependency / 依赖包
 ----------------------
 
-### 1️⃣ darkdetect
+> [!NOTE]  
+> All dependencies are listed in [*requirements.txt*](./requirements.txt), but optional packages don't have to be installed  
+> 所有的依赖包均会在 [*requirements.txt*](./requirements.txt) 中列出，但可选包并不一定要安装
 
-* 🔖 Version / 版本 : `0.8.0`
-* 📑 License / 许可 : BSD 3-Clause
-* 🔗 GitHub / 仓库 : [darkdetect](https://github.com/albertosottile/darkdetect)
+### 📌 Required Packages / 必需包
 
-⚡ Known Bugs / 已知问题
-------------------------
+- [X] 1️⃣ [darkdetect](https://github.com/albertosottile/darkdetect) - `0.8.0`
+- [X] 2️⃣ [darkdetect[macos-listener]](https://github.com/albertosottile/darkdetect) - `0.8.0`
 
-- [ ] When too much text is entered into the widget `Entry`, it will cause the program to crash once the characters are deleted or the position of the cursor is moved  
-当小部件 `Entry` 输入的文本过多时，一旦删除字符或移动光标的位置，将导致程序崩溃
+### 🎨 Optional Packages / 可选包
 
-> [!CAUTION]  
-> Due to the above fatal bugs, it is not recommended to use the beta version in a production environment!  
-> 由于存在上述致命问题，不建议在生产环境中使用 beta 版本！
+Considering that too many packages will result in a large size of the project file when packing, the optional packages selected below are recommended to be installed  
+考虑到调用的包过多将导致打包时项目文件的大小过大，因此下面被选中的可选包是推荐安装的
+
+- [X] 1️⃣ [pywinstyles](https://github.com/Akascape/py-window-styles) - `1.8`
+- [ ] 2️⃣ [hPyT](https://github.com/Zingzy/hPyT) - `1.3.1`
+- [ ] 3️⃣ [matplotlib](https://github.com/matplotlib/matplotlib) - `>=3.9.0`
+- [ ] 4️⃣ [pillow](https://github.com/python-pillow/Pillow) - `>=10.0.0`
 
 👀 More / 更多
 --------------
 
-* 📋 Todo / 待办事项: [TODO.md](TODO.md)
-* 📑 License / 项目许可: [LICENSE.txt](LICENSE.txt)
-* 📘 Changelog / 更新日志: [CHANGELOG.md](CHANGELOG.md)
-* 📕 Security Policy / 安全策略: [SECURITY.md](SECURITY.md)
-* 📗 Contribution Guide / 贡献指南: [CONTRIBUTING.md](CONTRIBUTING.md)
-* 📙 Code of Conduct / 行为准则: [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md)
+* 📋 Todo / 待办事项: [*TODO.md*](TODO.md)
+* 📑 License / 项目许可: [*LICENSE.txt*](LICENSE.txt)
+* 📘 Changelog / 更新日志: [*CHANGELOG.md*](CHANGELOG.md)
+* 📕 Security Policy / 安全策略: [*SECURITY.md*](SECURITY.md)
+* 📗 Contribution Guide / 贡献指南: [*CONTRIBUTING.md*](CONTRIBUTING.md)
+* 📙 Code of Conduct / 行为准则: [*CODE_OF_CONDUCT.md*](CODE_OF_CONDUCT.md)
 * 📚 Tutorials and Documents / 教程和文档: [Tutorials & Documents](https://xiaokang2022.github.io/tkintertools/)
 * 🚀 Repository Mirrors / 存储库镜像源:
 [GitHub](https://github.com/Xiaokang2022/tkintertools) |

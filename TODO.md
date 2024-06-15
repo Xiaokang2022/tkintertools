@@ -60,6 +60,12 @@ Todo / 待办事项
 - [ ] Add support for menu bar  
 增加对菜单栏的支持
 
+- [ ] Add support for OpenCV  
+增加对 OpenCV 的支持
+
+- [ ] Add support for OpenGL  
+增加对 OpenGL 的支持
+
 💡 In Consideration / 考虑中
 ----------------------------
 
