@@ -15,7 +15,7 @@ Todo / 待办事项
 🔥 In Development / 开发中
 --------------------------
 
-- [ ] Add docstrings  
+- [X] Add docstrings  
 添加文本字符串
 
 - [ ] Improve the basics of text widgets  
@@ -24,7 +24,7 @@ Todo / 待办事项
 - [ ] Add macOS theme style styling for built-in widgets  
 增加内置小部件的 macOS 主题风格的样式
 
-- [ ] Add support for multiple image formats  
+- [X] Add support for multiple image formats  
 增加对多种格式图片的支持
 
 - [ ] Add slider widget  
@@ -36,7 +36,7 @@ Todo / 待办事项
 - [ ] Improve the 3D engine  
 改善 3D 引擎
 
-- [ ] Add support for `Matplotlib`  
+- [X] Add support for `Matplotlib`  
 增加对 `Matplotlib` 的支持
 
 - [ ] Add highly customizable windows  
@@ -66,14 +66,14 @@ Todo / 待办事项
 - [ ] Add support for OpenGL  
 增加对 OpenGL 的支持
 
+- [ ] Add 2D engine (port and enhance `turtle` to `tkintertools`)  
+增加 2D 引擎（移植并强化 `turtle` 到 `tkintertools` 中）
+
 💡 In Consideration / 考虑中
 ----------------------------
 
 - [ ] Add Physics engine  
 增加物理引擎
-
-- [ ] Add 2D engine (port and enhance `turtle` to `tkintertools`)  
-增加 2D 引擎（移植并强化 `turtle` 到 `tkintertools` 中）
 
 - [ ] Add game system  
 增加游戏系统

@@ -100,19 +100,21 @@ pip install tkintertools==3.0.0b2
 
 ### 📌 Required Packages / 必需包
 
-- [X] 1️⃣ [darkdetect](https://github.com/albertosottile/darkdetect) - `0.8.0`
-- [X] 2️⃣ [darkdetect[macos-listener]](https://github.com/albertosottile/darkdetect) - `0.8.0`
+Not yet  
+暂无
 
 ### 🎨 Optional Packages / 可选包
 
 Considering that too many packages will result in a large size of the project file when packing, the optional packages selected below are recommended to be installed  
 考虑到调用的包过多将导致打包时项目文件的大小过大，因此下面被选中的可选包是推荐安装的
 
-- [X] 1️⃣ [pywinstyles](https://github.com/Akascape/py-window-styles) - `1.8`
-- [ ] 2️⃣ [hPyT](https://github.com/Zingzy/hPyT) - `1.3.1`
-- [ ] 3️⃣ [win32material](https://github.com/littlewhitecloud/win32style) - `1.0.4`
-- [ ] 4️⃣ [matplotlib](https://github.com/matplotlib/matplotlib) - `>=3.9.0`
-- [ ] 5️⃣ [pillow](https://github.com/python-pillow/Pillow) - `>=10.0.0`
+- [X] [darkdetect](https://github.com/albertosottile/darkdetect) - `0.8.0`
+- [X] [darkdetect[macos-listener]](https://github.com/albertosottile/darkdetect) - `0.8.0`
+- [X] [pywinstyles](https://github.com/Akascape/py-window-styles) - `1.8`
+- [X] [pillow](https://github.com/python-pillow/Pillow) - `>=10.0.0`
+- [ ] [hPyT](https://github.com/Zingzy/hPyT) - `1.3.1`
+- [ ] [win32material](https://github.com/littlewhitecloud/win32style) - `1.0.5`
+- [ ] [matplotlib](https://github.com/matplotlib/matplotlib) - `>=3.9.0`
 
 👀 More / 更多
 --------------
