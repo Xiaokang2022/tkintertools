@@ -2,5 +2,6 @@ darkdetect==0.8.0
 darkdetect[macos-listener]
 pywinstyles==1.8
 hPyT==1.3.1
+win32material==1.0.4
 matplotlib>=3.9.0
 pillow>=10.0.0

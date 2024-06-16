@@ -110,8 +110,9 @@ Considering that too many packages will result in a large size of the project fi
 
 - [X] 1️⃣ [pywinstyles](https://github.com/Akascape/py-window-styles) - `1.8`
 - [ ] 2️⃣ [hPyT](https://github.com/Zingzy/hPyT) - `1.3.1`
-- [ ] 3️⃣ [matplotlib](https://github.com/matplotlib/matplotlib) - `>=3.9.0`
-- [ ] 4️⃣ [pillow](https://github.com/python-pillow/Pillow) - `>=10.0.0`
+- [ ] 3️⃣ [win32material](https://github.com/littlewhitecloud/win32style) - `1.0.4`
+- [ ] 4️⃣ [matplotlib](https://github.com/matplotlib/matplotlib) - `>=3.9.0`
+- [ ] 5️⃣ [pillow](https://github.com/python-pillow/Pillow) - `>=10.0.0`
 
 👀 More / 更多
 --------------
