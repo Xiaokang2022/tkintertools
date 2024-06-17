@@ -71,23 +71,25 @@ pip install tkintertools
 pip install tkintertools==3.0.0b3
 ```
 
+* Demos / 演示: https://github.com/Xiaokang2022/tkintertools-demos
+
 ???+ "Preview / 预览"
 
-    * **Demo1 Light Theme**
+![](https://github.com/Xiaokang2022/tkintertools-demos/blob/main/preview/demo0-1.png?raw=true)
 
-    ![Light Theme](./news/3.0.0/demo1-light.png)
+![](https://github.com/Xiaokang2022/tkintertools-demos/blob/main/preview/demo0-2.png?raw=true)
 
-    * **Demo1 Dark Theme**
+![](https://github.com/Xiaokang2022/tkintertools-demos/blob/main/preview/demo1.png?raw=true)
 
-    ![Dark Theme](./news/3.0.0/demo1-dark.png)
+![](https://github.com/Xiaokang2022/tkintertools-demos/blob/main/preview/demo2.png?raw=true)
 
-    * **Demo2 Light Theme**
+![](https://github.com/Xiaokang2022/tkintertools-demos/blob/main/preview/demo3.png?raw=true)
 
-    ![Light Theme](./news/3.0.0/demo2-light.png)
+![](https://github.com/Xiaokang2022/tkintertools-demos/blob/main/preview/demo4-1.png?raw=true)
 
-    * **Demo2 Dark Theme**
+![](https://github.com/Xiaokang2022/tkintertools-demos/blob/main/preview/demo4-2.png?raw=true)
 
-    ![Dark Theme](./news/3.0.0/demo2-dark.png)
+![](https://github.com/Xiaokang2022/tkintertools-demos/blob/main/preview/demo5.png?raw=true)
 
 ## 📦 Dependency / 依赖包
 
