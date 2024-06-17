@@ -71,9 +71,13 @@ pip install tkintertools
 pip install tkintertools==3.0.0b3
 ```
 
+* Demos / 演示: https://github.com/Xiaokang2022/tkintertools-demos
+
 <details open><summary>👁️ Preview / 预览</summary>
 
-![](https://github.com/Xiaokang2022/tkintertools-demos/blob/main/preview/demo0.png?raw=true)
+![](https://github.com/Xiaokang2022/tkintertools-demos/blob/main/preview/demo0-1.png?raw=true)
+
+![](https://github.com/Xiaokang2022/tkintertools-demos/blob/main/preview/demo0-2.png?raw=true)
 
 ![](https://github.com/Xiaokang2022/tkintertools-demos/blob/main/preview/demo1.png?raw=true)
 
