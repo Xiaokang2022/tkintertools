@@ -123,25 +123,3 @@ def str_to_rgb(__c: str, /) -> RGB:
 def rgb_to_str(rgb: RGB) -> str:
     """Convert RGB codes to color strings"""
     return f"#{rgb[0]:02X}{rgb[1]:02X}{rgb[2]:02X}"
-
-
-def _str_to_hex(
-    __color: str,
-    /,
-    *,
-    reverse: bool = False,
-    add: int = 0
-) -> int:
-    """
-    Convert color strings to hexadecimal integers
-
-    * `__color`: color string
-    * `reverse`: Whether to reverse RGB to BGR
-    * `add`: added value of the decimal RGB code
-    """
-    rgb = str_to_rgb(__color)
-    tup = tuple(value >> 8 for value in rgb)
-    for i in reversed(tup) if reverse else tup:
-        add <<= 8
-        add += i
-    return add

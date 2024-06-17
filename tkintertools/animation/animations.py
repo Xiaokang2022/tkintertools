@@ -3,17 +3,20 @@
 import numbers
 import tkinter
 import typing
+import warnings
 
 from ..color import rgb
-from ..core import virtual
+from ..core import containers, virtual
 from . import controllers
 
 __all__ = [
     "Animation",
+    "MoveTkWidget",
     "MoveWidget",
     "MoveComponent",
     "MoveItem",
-    "Gradient",
+    "GradientTkWidget",
+    "GradientItem",
     "ScaleFontSize",
 ]
 
@@ -97,8 +100,41 @@ class Animation:
             tkinter.Misc.after_cancel(tkinter._default_root, task)
 
 
+class MoveTkWidget(Animation):
+    """Animation of moving a `tkinter.Widget`"""
+
+    def __init__(
+        self,
+        widget: tkinter.Widget,
+        ms: int,
+        delta: tuple[float, float],
+        *,
+        controller: typing.Callable[[float], float] = controllers.flat,
+        end: typing.Callable[[], typing.Any] | None = None,
+        repeat: int = 0,
+        fps: int = 30,
+    ) -> None:
+        """
+        * `widget`: tkinter widget that is moved
+        * `ms`: animation duration
+        * `delta`: displacement, (dx, dy)
+        * `controller`: control function
+        * `end`: the function that is called at the end of the animation normally
+        * `repeat`: the number of times the entire animation is repeated
+        * `fps`: the frame rate of the animation
+        """
+        if not widget.place_info():
+            warnings.warn("Canvas is not laid out by Place")
+        x0, y0, dx, dy = widget.winfo_x(), widget.winfo_y(), *delta
+        Animation.__init__(
+            self, ms, controller,
+            callback=lambda k: widget.place(x=x0+dx*k, y=y0+dy*k),
+            end=end, repeat=repeat, fps=fps,
+        )
+
+
 class MoveWidget(Animation):
-    """Animation of moving a widget"""
+    """Animation of moving a `Widget`"""
 
     def __init__(
         self,
@@ -129,7 +165,7 @@ class MoveWidget(Animation):
 
 
 class MoveComponent(Animation):
-    """Animation of moving a component"""
+    """Animation of moving a `Component`"""
 
     def __init__(
         self,
@@ -164,7 +200,7 @@ class MoveItem(Animation):
 
     def __init__(
         self,
-        canvas: "virtual.Canvas",
+        canvas: "containers.Canvas",
         item: int,
         ms: int,
         delta: tuple[float, float],
@@ -192,12 +228,49 @@ class MoveItem(Animation):
         )
 
 
-class Gradient(Animation):
+class GradientTkWidget(Animation):
     """Animation for color gradients"""
 
     def __init__(
         self,
-        canvas: "virtual.Canvas",
+        widget: tkinter.Widget,
+        option: str,
+        ms: int,
+        delta: tuple[str, str],
+        *,
+        controller: typing.Callable[[float], float] = controllers.flat,
+        end: typing.Callable[[], typing.Any] | None = None,
+        repeat: int = 0,
+        fps: int = 30,
+        derivation: bool = False,
+    ) -> None:
+        """
+        * `widget`: tkinter widget
+        * `option`: parameter name of the part of the item that needs to be modified in color
+        * `ms`: animation duration
+        * `delta`: (start color, stop color)
+        * `controller`: control function
+        * `end`: the function that is called at the end of the animation normally
+        * `repeat`: the number of times the entire animation is repeated
+        * `fps`: the frame rate of the animation
+        * `derivation`: whether the callback function is derivative
+        """
+        if not all(delta):
+            raise ValueError("Null characters cannot be parsed")
+        Animation.__init__(
+            self, ms, controller,
+            callback=lambda p: widget.configure(
+                **{option: rgb.rgb_to_str(rgb.convert(rgb.str_to_rgb(delta[0]), rgb.str_to_rgb(delta[1]), p))}),
+            end=end, repeat=repeat, fps=fps, derivation=derivation,
+        )
+
+
+class GradientItem(Animation):
+    """Animation for color gradients"""
+
+    def __init__(
+        self,
+        canvas: "containers.Canvas",
         item: int,
         option: str,
         ms: int,

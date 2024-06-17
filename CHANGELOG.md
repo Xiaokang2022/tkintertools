@@ -13,6 +13,110 @@ Changelog / 更新日志
 > * 🟠 **Deprecated / 弃用**
 > * 🟤 **Refactored / 重构**
 
+🔖 `3.0.0.beta3`
+----------------
+
+🕓 *Release Date / 发布日期 : 2024-06-17*
+
+🟢 **Added / 新增**
+
+- The docstrings for a portion of the code has been added  
+添加了一部分代码的文本字符串
+
+- `animation.animations` has added class `MoveTkWidget` to move a tkinter widget  
+`animation.animations` 新增类 `MoveTkWidget` 来移动一个 tkinter 小部件
+
+- `core.containers.Canvas` added the parameter `name` to bind the theme  
+`core.containers.Canvas` 新增参数 `name` 来绑定主题
+
+- `core.containers.Canvas` added method `_zoom_children` to scale the tkinter widget of the Place layout  
+`core.containers.Canvas` 新增方法 `_zoom_children` 来实现对 Place 布局的 tkinter 小部件的缩放
+
+- Introduce the optional third-party package `pillow` and add a new class `PhotoImage` in `toolbox.enhanced` to improve image scaling performance  
+引入可选的第三方包 `pillow` 并在 `toolbox.enhanced` 新增类 `PhotoImage` 以提高图片缩放的性能
+
+- Introduce an optional third-party package `matplotlib` and add a new module `mpl` to `toolbox` to achieve compatibility with `matplotlib` related interfaces  
+引入可选的第三方包 `matplotlib` 并在 `toolbox` 中新增模块 `mpl` 来实现对 `matplotlib` 相关接口的兼容
+
+- `toolbox.tools` adds the function `get_hwnd` to fetch the HWND of the widget  
+`toolbox.tools` 新增函数 `get_hwnd` 来实现小部件的 HWND 的获取
+
+- `toolbox.tools` adds a new function `embed_window` to embed a widget into another widget, which only works on Windows  
+`toolbox.tools` 新增函数 `embed_window` 来将一个小部件嵌入到另外一个小部件中，仅在 Windows 系统中有效
+
+- `toolbox.tools` adds a new function `screen_size` to get the width and height of the screen  
+`toolbox.tools` 新增函数 `screen_size` 来获取屏幕的宽度和高度
+
+- `toolbox.tools` adds a new function `set_mouse_position` to set the mouse position, which only works on Windows  
+`toolbox.tools` 新增函数 `set_mouse_position` 来设置鼠标的位置，仅在 Windows 系统中有效
+
+- `toolbox.tools` adds a new function `_forward_methods` to implement the forwarding of class methods  
+`toolbox.tools` 新增函数 `_forward_methods` 来实现类方法的转发
+
+- Introduce optional third-party packages `pywinstyles`, `win32material` and `hPyT`, and add many new parameters to `style.manager.customize_window` to implement the corresponding interfaces  
+引入可选的第三方包 `pywinstyles`、`win32material` 和 `hPyT` 并在 `style.manager.customize_window` 新增许多参数来实现对应的接口
+
+🔴 **Removed / 移除**
+
+- Remove function `color.rgb._str_to_hex`, this function is useless  
+移除函数 `color.rgb._str_to_hex`，此函数无用
+
+- Remove class `core.containers.Dialog`, this class is useless  
+移除类 `core.containers.Dialog`，此类无用
+
+- Removed the class `core.containers.ChildWindow` and there is a better way to replace it  
+移除类 `core.containers.ChildWindow`，已有其它更好的替换方式
+
+- Remove redundant code from `three.engine` in preparation for the next refactoring  
+移除 `three.engine` 中的冗余代码，为下个版本重构做准备
+
+🟡 **Changed / 变更**
+
+- `animation.animations.Gradient` renamed to `GradientItem`  
+`animation.animations.Gradient` 更名为 `GradientItem`
+
+- The value of `core.constants.SIZE` has been changed from -24 to -20 (a value close to the system text size)  
+`core.constants.SIZE` 的值从 -24 更改为 -20（与系统文本大小接近的值）
+
+- The default size of most widgets has been reduced to accommodate the font size change  
+大部分小部件的默认大小缩小了，以配合字体大小的变更
+
+- `style.theme` is renamed to `manager` to avoid having the same name as the theme folder  
+`style.theme` 更名为 `manager`，避免跟主题文件夹 theme 重名
+
+- The rules for storing theme files have been completely changed, as shown in the module docstring for `style.parser`  
+主题文件存放规则完全更改，具体见 `style.parser` 的模块文档字符串
+
+- `style.theme.custom_window` renamed to `style.manager.customize_window`  
+`style.theme.custom_window` 更名为 `style.manager.customize_window`
+
+- `three.engine.Side` renamed to `three.engine.Plane`  
+`three.engine.Side` 更名为 `three.engine.Plane`
+
+🔵 **Optimized / 优化**
+
+- Now the third-party package `darkdetect` is no longer required, but optional. When this package is missing, some features will be unavailable  
+现在第三方包 `darkdetect` 不是必需的了，而是可选的。当缺少此包，将导致部分功能不可用
+
+🟣 **Fixed / 修复**
+
+- Fixed some incorrect docstrings  
+修正了部分错误的文档字符串
+
+- Fixed an issue where the subject response event was not removed when the window was closed  
+修复了窗口关闭时未删去主题响应事件的问题
+
+- Fixed an issue where the widget style did not change completely in some cases when the widget was disabled  
+修复了小部件禁用时，部分情况下小部件样式未完全更改的问题
+
+🟤 **Refactored / 重构**
+
+- `core.virtual` refactoring to remove redundant code and optimize existing code  
+`core.virtual` 重构，删去冗余代码，优化已有代码
+
+- `style` refactored  
+`style` 重构
+
 🔖 `3.0.0.beta2`
 ----------------
 

@@ -8,7 +8,7 @@ The `tkintertools` is a UI framework based on the `Canvas` class of `tkinter`.
 
 If you ❤️ this package, leave your ⭐ to me, thanks!
 
-![Stars](https://img.shields.io/github/stars/Xiaokang2022/tkintertools?label=Stars&color=gold&logo=github&style=flat)
+![](https://img.shields.io/github/stars/Xiaokang2022/tkintertools?label=Stars&color=gold&logo=github&style=flat)
 """
 
 # MIT License
@@ -33,20 +33,20 @@ If you ❤️ this package, leave your ⭐ to me, thanks!
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-import ctypes
-import platform
 import sys
-
-if sys.version_info < (3, 10):
-    raise ImportError(
-        "tkintertools requires a Python version of 3.10 or greater.")
-
-if platform.system() == "Windows":  # Set Windows DPI awareness
-    ctypes.windll.shcore.SetProcessDpiAwareness(1)
 
 from .core import *
 from .standard import *
 from .toolbox.enhanced import *
 
-__version__ = "3.0.0.beta2"
+if sys.version_info < (3, 10):
+    raise ImportError(
+        "tkintertools requires a Python version of 3.10 or greater.")
+
+if sys.platform == "win32":
+    import ctypes
+    ctypes.windll.shcore.SetProcessDpiAwareness(1)  # Set Windows DPI awareness
+
+
+__version__ = "3.0.0.beta3"
 __author__ = "Xiaokang2022 <2951256653@qq.com>"

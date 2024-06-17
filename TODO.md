@@ -15,17 +15,11 @@ Todo / 待办事项
 🔥 In Development / 开发中
 --------------------------
 
-- [X] Add docstrings  
+- [ ] Add docstrings  
 添加文本字符串
 
 - [ ] Improve the basics of text widgets  
 完善基础的文本类小部件
-
-- [ ] Add macOS theme style styling for built-in widgets  
-增加内置小部件的 macOS 主题风格的样式
-
-- [X] Add support for multiple image formats  
-增加对多种格式图片的支持
 
 - [ ] Add slider widget  
 增加滑动条小部件
@@ -36,11 +30,10 @@ Todo / 待办事项
 - [ ] Improve the 3D engine  
 改善 3D 引擎
 
-- [X] Add support for `Matplotlib`  
-增加对 `Matplotlib` 的支持
-
 - [ ] Add highly customizable windows  
 增加可高度定制的窗口
+
+- [ ] 增加对动图的支持
 
 📌 In Planning / 计划中
 -----------------------

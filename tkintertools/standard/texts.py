@@ -16,7 +16,8 @@ class Information(virtual.Text):
     # @typing.override
     def display(self) -> None:
         self.items.append(self.widget.master.create_text(
-            *self.center(), text=self.value, font=self.font, tags=("fill", "fill")))
+            *self.center(), text=self.value, font=self.font, justify=self.justify,
+            anchor=self.anchor, tags=("fill", "fill")))
 
     def get(self) -> str:
         """Get the value of `Text`"""
@@ -55,7 +56,8 @@ class SingleLineText(virtual.Text):
     # @typing.override
     def display(self) -> None:
         self.items.append(self.widget.master.create_text(
-            *self.center(), text=self.value, font=self.font, tags=("fill", "fill")))
+            *self.center(), text=self.value, font=self.font, justify=self.justify,
+            anchor=self.anchor, tags=("fill", "fill")))
 
     def _text_get(self) -> str:
         """"""
@@ -162,23 +164,23 @@ class SingleLineText(virtual.Text):
         """"""
         if add:
             for i in range(-2, 3):
-                if self.font.measure(self.value[self.left: self.right+i]) >= self.w:
+                if self.font.measure(self.value[self.left: self.right+i]) >= self.size[0]:
                     self.right += i
                     break
         else:
             for i in range(-2, 3):
-                if self.font.measure(self.value[self.left-i: self.right+i]) >= self.w:
+                if self.font.measure(self.value[self.left-i: self.right+i]) >= self.size[0]:
                     self.left += i
                     break
         return self.value[self.left: self.right]
 
     def _text_overflow(self) -> bool:
         """"""
-        return self.font.measure(self._text_get()) >= self.w - 2
+        return self.font.measure(self._text_get()) >= self.size[0] - 2
 
     def overflow(self) -> bool:
         """"""
-        return self.font.measure(self.value) >= self.w - 2
+        return self.font.measure(self.value) >= self.size[0] - 2
 
     def update_add(self, anchor_left: bool) -> None:
         """"""

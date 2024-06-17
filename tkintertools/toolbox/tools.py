@@ -1,11 +1,17 @@
 """Some useful utility classes or utility functions"""
 
 import ctypes
+import inspect
 import platform
+import tkinter
 import typing
 
 __all__ = [
+    "get_hwnd",
+    "embed_window",
     "load_font",
+    "screen_size",
+    "set_mouse_position",
 ]
 
 
@@ -48,6 +54,45 @@ class _Trigger:
             self._command(*args, **kwargs)
 
 
+def _forward_methods(source_object: object | type, target_object: object) -> None:
+    """
+    Forward methods and attributes of one object to another object
+
+    * `source_object`: the source object, that is, the forwarded object
+    * `target_object`: the target object, that is, the object to be forwarded
+    """
+    if inspect.isclass(source_object):
+        source_object = source_object.__class__
+    for name, value in inspect.getmembers(source_object, inspect.ismethod):
+        setattr(target_object, name, value)
+    for name, value in inspect.getmembers(source_object, inspect.isfunction):
+        setattr(target_object, name, value)
+
+
+def get_hwnd(widget: tkinter.Widget) -> int:
+    """Get the HWND of a widget"""
+    return ctypes.windll.user32.GetParent(widget.winfo_id())
+
+
+def embed_window(
+    window: tkinter.Misc,
+    parent: tkinter.Misc | None,
+    *,
+    focus: bool = False,
+) -> None:
+    """
+    Embed a widget into another widget
+
+    * `window`: Widget that will be embedded in
+    * `parent`: parent widget, None indicates the screen
+    * `focus`: whether direct input focus to this window
+    """
+    ctypes.windll.user32.SetParent(
+        get_hwnd(window), parent.winfo_id() if parent else None)
+    if not focus:
+        window.master.focus_set()
+
+
 def load_font(font_path: str | bytes, *, private: bool = True, enumerable: bool = False) -> bool:
     """
     Makes fonts located in file `font_path` available to the font system
@@ -57,7 +102,7 @@ def load_font(font_path: str | bytes, *, private: bool = True, enumerable: bool 
     and this font will be unloaded when the process dies
     * `enumerable`: if True, this font will appear when enumerating fonts
 
-    TIP:
+    TIPS:
 
     This function is referenced from `customtkinter.FontManager.load_font`,
     CustomTkinter: https://github.com/TomSchimansky/CustomTkinter
@@ -80,3 +125,23 @@ def load_font(font_path: str | bytes, *, private: bool = True, enumerable: bool 
         pass
 
     return False
+
+
+def screen_size() -> tuple[int, int]:
+    """Return the width and height of the screen"""
+    if tkinter._default_root is None:
+        temp_tk = tkinter.Tk()
+        temp_tk.withdraw()
+        width = temp_tk.winfo_screenwidth()
+        height = temp_tk.winfo_screenheight()
+        temp_tk.destroy()
+        return width, height
+
+    width = tkinter._default_root.winfo_screenwidth()
+    height = tkinter._default_root.winfo_screenheight()
+    return width, height
+
+
+def set_mouse_position(x: int, y: int) -> None:
+    """Set mouse cursor position"""
+    ctypes.windll.user32.SetCursorPos(x, y)

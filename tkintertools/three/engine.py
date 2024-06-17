@@ -2,14 +2,13 @@
 
 import abc
 import array
-import dataclasses
 import math
 import platform
 import statistics
 import tkinter
 import typing
 
-from ..core import constants, containers, virtual
+from ..core import constants, containers
 
 __all__ = [
     "Canvas",
@@ -21,7 +20,7 @@ __all__ = [
     "Component",
     "Point",
     "Line",
-    "Side",
+    "Plane",
     "Text3D",
     "Geometry",
 ]
@@ -38,11 +37,11 @@ class Canvas(containers.Canvas):
         zoom_item: bool = False,
         keep_ratio: typing.Literal["min", "max"] | None = None,
         free_anchor: bool = False,
-        **kw,
+        **kwargs,
     ) -> None:
         containers.Canvas.__init__(
             self, master, expand=expand, zoom_item=zoom_item,
-            keep_ratio=keep_ratio, free_anchor=free_anchor, **kw)
+            keep_ratio=keep_ratio, free_anchor=free_anchor, **kwargs)
         self._components: list[Component] = []
         self._geometries: list[Geometry] = []
         self._distance: int = 1000
@@ -64,49 +63,6 @@ class Canvas(containers.Canvas):
             self.lower(item.item)
 
 
-# class _Widget(virtual.Widget):
-#     """A virtual widget that binds a feature of the 3D canvas to event processing"""
-
-#     def __init__(self, master: containers.Canvas, feature: virtual.Feature) -> None:
-#         """
-#         * `master`: parent canvas
-#         * `feature`: Feature class, not instance
-#         """
-#         virtual.Widget.__init__(self, master, master._position, master._size)
-#         feature(self)
-
-
-# class _SpaceFeature(virtual.Feature):
-#     """Handles events related to 3D canvas rigging"""
-
-#     def __init__(self, widget: virtual.Widget) -> None:
-#         virtual.Feature.__init__(self, widget)
-#         self._cache: tuple[int, int] | None = None
-
-#     def _click_right(self, event: tkinter.Event) -> bool:
-#         self._cache = event.x, event.y
-#         self.widget.master._trigger_config.update(cursor="fleur")
-#         self.widget.master._trigger_config.lock()
-#         return True
-
-#     def _release_right(self, event: tkinter.Event) -> bool:
-#         self._cache = None
-#         self.widget.master._trigger_config.unlock()
-#         return True
-
-#     def _move_right(self, event: tkinter.Event) -> bool:
-#         dx, dy = event.x - self._cache[0], event.y - self._cache[1]
-#         self._cache = event.x, event.y
-
-#         for item in self.widget.master._components + [self.widget.master._origin]:
-#             item.translate(
-#                 0,
-#                 dx*self.widget.master._initial_size[0]/self.widget.master._size[0],
-#                 -dy*self.widget.master._initial_size[1]/self.widget.master._size[1])
-#             item.update()
-#         self.widget.master.space_sort()
-
-
 class Space(Canvas):
     """A canvas where you can view 3D objects"""
 
@@ -118,11 +74,11 @@ class Space(Canvas):
         zoom_item: bool = False,
         keep_ratio: typing.Literal["min", "max"] | None = None,
         free_anchor: bool = False,
-        **kw,
+        **kwargs,
     ) -> None:
         Canvas.__init__(
             self, master, expand=expand, zoom_item=zoom_item,
-            keep_ratio=keep_ratio, free_anchor=free_anchor, **kw)
+            keep_ratio=keep_ratio, free_anchor=free_anchor, **kwargs)
 
         self.bind("<B3-Motion>", self._translate, "+")
         self.bind("<Button-3>", lambda event: self._translate(event, True), "+")
@@ -134,7 +90,7 @@ class Space(Canvas):
         self.bind("<ButtonRelease-2>",
                   lambda event: self._rotate(event, False), "+")
 
-        if platform.system() == "Linux":  # 兼容 Linux 系统
+        if platform.system() == "Linux":
             self.bind("<Button-4>", lambda event: self._scale(event, True), "+")
             self.bind("<Button-5>", lambda event: self._scale(event, False), "+")
         else:
@@ -230,81 +186,6 @@ class Space(Canvas):
             item.scale(k, k, k, center=self._origin.coordinates[0])
             item.update()
         self.space_sort()
-
-
-# class Scene(Canvas):
-#     """"""
-
-
-# @dataclasses.dataclass
-# class Quaternion:
-#     """"""
-
-#     w: float = 0
-#     x: float = 0
-#     y: float = 0
-#     z: float = 0
-
-#     def __matmul__(self, other: "Quaternion") -> "Quaternion":
-#         """"""
-#         w = self.w*other.w - self.x*other.x - self.y*other.y - self.z*other.z
-#         x = self.x*other.w + self.w*other.x - self.z*other.y + self.y*other.z
-#         y = self.y*other.w + self.z*other.x + self.w*other.y - self.x*other.z
-#         z = self.z*other.w - self.y*other.x + self.x*other.y + self.w*other.z
-#         return Quaternion(w, x, y, z)
-
-#     def conjugate(self) -> "Quaternion":
-#         """"""
-#         return Quaternion(self.w, -self.x, -self.y, -self.z)
-
-#     @property
-#     def imag(self) -> tuple[float, float, float]:
-#         """"""
-#         return self.x, self.y, self.z
-
-
-# def q_rotate(point: tuple[float, float, float], axis: tuple[float, float, float], theta: float) -> tuple[float, float, float]:
-#     """"""
-#     theta /= 2
-#     p = Quaternion(0, *point)
-#     q = Quaternion(math.cos(theta), *[a*math.sin(theta) for a in axis])
-#     r = q@p@q.conjugate()
-#     return r.imag
-
-
-# def translate(coordinate: list[float], delta: list[float], *, reference: list[float] | None = None) -> None:
-#     """"""
-#     if reference is None:
-#         for i, v in enumerate(delta):
-#             coordinate[i] += v
-#     else:
-#         pass
-
-
-# def rotate(coordinate: list[float], delta: list[float], *, reference: list[float]) -> None:
-#     """"""
-
-
-# def scale(coordinate: list[float], delta: list[float], *, reference: list[float] | None = None) -> None:
-#     """"""
-#     if reference is None:
-#         for i, v in enumerate(delta):
-#             coordinate[i] *= v
-#     else:
-#         for i, v in enumerate(delta):
-#             coordinate[i] += (coordinate[i]-reference[i]) * (v-1)
-
-
-# def reflect() -> None:
-#     """"""
-
-
-# def shear() -> None:
-#     """"""
-
-
-# def project() -> None:
-#     """"""
 
 
 def translate(coordinate: tuple[float, float, float], dx: float = 0, dy: float = 0, dz: float = 0) -> None:
@@ -409,48 +290,6 @@ def project(coordinate, distance):
         return [math.inf]*2
     k = distance / relative_dis
     return coordinate[1]*k, coordinate[2]*k
-
-
-# class Camera:
-#     """"""
-
-#     def __init__(
-#         self,
-#         position: tuple[float, float, float],
-#         towards: tuple[float, float, float],
-#         *,
-#         zoom: float = 1,
-#         hFOV: float = math.pi/3,
-#     ) -> None:
-#         """"""
-#         self.hFOV = hFOV
-#         self.position = position
-
-#     def project(self, coordinate: tuple[float, float, float]) -> tuple[float, float]:
-#         """"""
-
-#     def zoom(self, value: float) -> None:
-#         """"""
-
-#     def set_pos(self, pos: tuple[float, float, float]) -> None:
-#         """"""
-
-
-# class Light:
-#     """"""
-
-#     def __init__(
-#         self,
-#         color: str,
-#         item: "Component",
-#         *,
-#         strength: float = 1,
-#     ) -> None:
-#         """"""
-
-
-# class Shade:
-#     """"""
 
 
 class Component(abc.ABC):
@@ -639,7 +478,7 @@ class Line(Component):
         return sign * math.dist([self.canvas._distance, 0, 0], center)
 
 
-class Side(Component):
+class Plane(Component):
     """面"""
 
     def __init__(
@@ -734,7 +573,7 @@ class Geometry:
     def __init__(
         self,
         canvas,  # type: Canvas | Space
-        *sides,  # type: Side
+        *sides,  # type: Plane
     ):  # type: (...) -> None
         """
         * `canvas`: 父画布
@@ -800,7 +639,7 @@ class Geometry:
         for side in self.sides:
             side.update()
 
-    def append(self, *sides):  # type: (Side) -> None
+    def append(self, *sides):  # type: (Plane) -> None
         """给几何体添加更多新的面
 
         * `sides`: `Side` 类

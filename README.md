@@ -49,7 +49,7 @@
 * 🕓 Release / 发布日期 : 2024-01-01
 * ✨ Feature / 更新内容 : [News-2.6.21](https://xiaokang2022.github.io/tkintertools/news/2.6.21/News/)
 
-```sh
+```bash
 pip install tkintertools
 ```
 
@@ -63,12 +63,12 @@ pip install tkintertools
 
 ### 🔥 Development Version / 开发版本
 
-* 🔖 Version / 最新版本 : `3.0.0.beta2`
-* 🕓 Release / 发布日期 : 2024-06-03
-* ✨ Feature / 更新内容 : [News-3.0.0b2](https://xiaokang2022.github.io/tkintertools/news/3.0.0/News/)
+* 🔖 Version / 最新版本 : `3.0.0.beta3`
+* 🕓 Release / 发布日期 : 2024-06-17
+* ✨ Feature / 更新内容 : [News-3.0.0b3](https://xiaokang2022.github.io/tkintertools/news/3.0.0/News/)
 
-```sh
-pip install tkintertools==3.0.0b2
+```bash
+pip install tkintertools==3.0.0b3
 ```
 
 <details open><summary>👁️ Preview / 预览</summary>
@@ -109,12 +109,25 @@ Considering that too many packages will result in a large size of the project fi
 考虑到调用的包过多将导致打包时项目文件的大小过大，因此下面被选中的可选包是推荐安装的
 
 - [X] [darkdetect](https://github.com/albertosottile/darkdetect) - `0.8.0`
-- [X] [darkdetect[macos-listener]](https://github.com/albertosottile/darkdetect) - `0.8.0`
 - [X] [pywinstyles](https://github.com/Akascape/py-window-styles) - `1.8`
 - [X] [pillow](https://github.com/python-pillow/Pillow) - `>=10.0.0`
 - [ ] [hPyT](https://github.com/Zingzy/hPyT) - `1.3.1`
 - [ ] [win32material](https://github.com/littlewhitecloud/win32style) - `1.0.5`
 - [ ] [matplotlib](https://github.com/matplotlib/matplotlib) - `>=3.9.0`
+
+The following command installs the recommended optional dependencies:  
+以下命令可以安装推荐的可选依赖包：
+
+```bash
+pip install tkintertools[suggest]==3.0.0b3
+```
+
+The following command installs all optional dependencies:  
+以下命令可以安装全部可选依赖包：
+
+```bash
+pip install tkintertools[full]==3.0.0b3
+```
 
 👀 More / 更多
 --------------

@@ -23,7 +23,7 @@ class Label(virtual.Feature):
     """"""
 
     def _move_none(self, event: tkinter.Event) -> bool:
-        if flag := self.widget.shapes[0].detect(event.x, event.y):
+        if flag := self.widget._shapes[0].detect(event.x, event.y):
             self.widget.master._trigger_config.update(cursor="arrow")
             if self.widget.state != "hover":
                 self.widget.update("hover")
@@ -49,7 +49,7 @@ class Button(virtual.Feature):
         self._args: tuple = args
 
     def _move_none(self, event: tkinter.Event) -> bool:
-        if flag := self.widget.shapes[0].detect(event.x, event.y):
+        if flag := self.widget._shapes[0].detect(event.x, event.y):
             self.widget.master._trigger_config.update(cursor="hand2")
             if self.widget.state == "normal":
                 self.widget.update("hover")
@@ -74,7 +74,7 @@ class Button(virtual.Feature):
 
     def _release_left(self, event: tkinter.Event) -> bool:
         """"""
-        if flag := self.widget.shapes[0].detect(event.x, event.y):
+        if flag := self.widget._shapes[0].detect(event.x, event.y):
             if self.widget.state == "active":
                 self.widget.update("hover")
                 if self._command is not None:
@@ -86,15 +86,15 @@ class Underline(Button):
     """"""
 
     def _move_none(self, event: tkinter.Event) -> bool:
-        if flag := self.widget.texts[0].detect(event.x, event.y):
+        if flag := self.widget._texts[0].detect(event.x, event.y):
             self.widget.master._trigger_config.update(cursor="hand2")
             if self.widget.state == "normal":
                 self.widget.update("hover")
-                self.widget.texts[0].font.config(underline=True)
+                self.widget._texts[0].font.config(underline=True)
         else:
             if self.widget.state != "normal":
                 self.widget.update("normal")
-                self.widget.texts[0].font.config(underline=False)
+                self.widget._texts[0].font.config(underline=False)
         return flag
 
     def _click_left(self, _: tkinter.Event) -> bool:
@@ -104,10 +104,10 @@ class Underline(Button):
 
     def _release_left(self, event: tkinter.Event) -> bool:
         """"""
-        if flag := self.widget.texts[0].detect(event.x, event.y):
+        if flag := self.widget._texts[0].detect(event.x, event.y):
             if self.widget.state == "active":
                 self.widget.update("hover")
-                self.widget.texts[0].font.config(underline=True)
+                self.widget._texts[0].font.config(underline=True)
                 if self._command is not None:
                     self._command(*self._args)
         return flag
@@ -117,33 +117,33 @@ class Highlight(Button):
     """"""
 
     def _move_none(self, event: tkinter.Event) -> bool:
-        if flag := self.widget.texts[0].detect(event.x, event.y):
+        if flag := self.widget._texts[0].detect(event.x, event.y):
             self.widget.master._trigger_config.update(cursor="hand2")
             if self.widget.state == "normal":
                 self.widget.update("hover")
                 animations.ScaleFontSize(
-                    self.widget.texts[0], 150, delta=28).start()
+                    self.widget._texts[0], 150, delta=28).start()
         else:
             if self.widget.state != "normal":
                 self.widget.update("normal")
                 animations.ScaleFontSize(
-                    self.widget.texts[0], 150, delta=24).start()
+                    self.widget._texts[0], 150, delta=24).start()
         return flag
 
     def _click_left(self, _: tkinter.Event) -> bool:
         if flag := self.widget.state == "hover":
             self.widget.update("active")
             animations.ScaleFontSize(
-                self.widget.texts[0], 150, delta=26).start()
+                self.widget._texts[0], 150, delta=26).start()
         return flag
 
     def _release_left(self, event: tkinter.Event) -> bool:
         """"""
-        if flag := self.widget.texts[0].detect(event.x, event.y):
+        if flag := self.widget._texts[0].detect(event.x, event.y):
             if self.widget.state == "active":
                 self.widget.update("hover")
                 animations.ScaleFontSize(
-                    self.widget.texts[0], 150, delta=28).start()
+                    self.widget._texts[0], 150, delta=28).start()
                 if self._command is not None:
                     self._command(*self._args)
         return flag
@@ -153,7 +153,7 @@ class Switch(Button):
     """"""
 
     def _move_none(self, event: tkinter.Event) -> bool:
-        if flag := self.widget.shapes[0].detect(event.x, event.y):
+        if flag := self.widget._shapes[0].detect(event.x, event.y):
             self.widget.master._trigger_config.update(cursor="hand2")
             if self.widget.state.startswith("normal"):
                 self.widget.update(
@@ -172,7 +172,7 @@ class Switch(Button):
 
     def _release_left(self, event: tkinter.Event) -> bool:
         """"""
-        if flag := self.widget.shapes[0].detect(event.x, event.y):
+        if flag := self.widget._shapes[0].detect(event.x, event.y):
             if self.widget.state.startswith("active"):
                 boolean = not self.widget.get()
                 self.widget.set(boolean)
@@ -193,7 +193,7 @@ class CheckButton(Button):
 
     def _release_left(self, event: tkinter.Event) -> bool:
         """"""
-        if flag := self.widget.shapes[0].detect(event.x, event.y):
+        if flag := self.widget._shapes[0].detect(event.x, event.y):
             if self.widget.state == "active":
                 self.widget.set(boolean := not self.widget.get())
                 self.widget.update("hover", no_delay=True)
@@ -214,7 +214,7 @@ class Entry(Button):
     """"""
 
     def _move_none(self, event: tkinter.Event) -> bool:
-        if flag := self.widget.shapes[0].detect(event.x, event.y):
+        if flag := self.widget._shapes[0].detect(event.x, event.y):
             self.widget.master._trigger_config.update(cursor="xterm")
             if self.widget.state == "normal":
                 self.widget.update("hover")
@@ -224,13 +224,13 @@ class Entry(Button):
         return flag
 
     def _click_left(self, event: tkinter.Event) -> bool:
-        if flag := self.widget.shapes[0].detect(event.x, event.y):
+        if flag := self.widget._shapes[0].detect(event.x, event.y):
             self.widget.update("active")
             if self.widget.state == "active":  # Maybe widget is disabled
                 self.widget.master._trigger_focus.update(
-                    True, self.widget.texts[0].items[0])
-                self.widget.texts[0].cursor_set(
-                    self.widget.texts[0]._text_length())
+                    True, self.widget._texts[0].items[0])
+                self.widget._texts[0].cursor_set(
+                    self.widget._texts[0]._text_length())
         else:
             if self.widget.state != "normal":
                 self.widget.update("normal")
@@ -243,13 +243,13 @@ class Entry(Button):
     def _input(self, event: tkinter.Event) -> bool:
         if self.widget.state == "active":
             match event.keysym:
-                case "Right": self.widget.texts[0].move_area(1)
-                case "Left": self.widget.texts[0].move_area(-1)
+                case "Right": self.widget._texts[0].move_area(1)
+                case "Left": self.widget._texts[0].move_area(-1)
                 case "BackSpace":
-                    if self.widget.texts[0].value:
-                        self.widget.texts[0].pop(1)
+                    if self.widget._texts[0].value:
+                        self.widget._texts[0].pop(1)
                 case _:
                     if event.char.isprintable():
-                        if not self.widget.texts[0].limitation():
-                            self.widget.texts[0].append(event.char)
+                        if not self.widget._texts[0].limitation():
+                            self.widget._texts[0].append(event.char)
         return False

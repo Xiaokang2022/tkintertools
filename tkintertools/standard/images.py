@@ -8,7 +8,7 @@ __all__ = [
 
 
 class StillImage(virtual.Image):
-    """"""
+    """A simple still image"""
 
     # @typing.override
     def display(self) -> None:

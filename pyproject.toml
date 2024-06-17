@@ -8,7 +8,7 @@ authors = [{ name = "Xiaokang2022", email = "2951256653@qq.com" }]
 maintainers = [{ name = "Xiaokang2022", email = "2951256653@qq.com" }]
 description = "tkintertools is a UI framework based on the Canvas class of tkinter"
 readme = "README.md"
-license = { file = "LICENSE.txt" }
+license = { text = "MIT License" }
 requires-python = ">=3.10"
 keywords = [
     "tkinter",
@@ -19,7 +19,6 @@ keywords = [
     "cross-platform",
     "themed",
 ]
-dependencies = ["darkdetect", "darkdetect[macos-listener]"]
 classifiers = [
     "Programming Language :: Python :: 3",
     "License :: OSI Approved :: MIT License",
@@ -36,10 +35,29 @@ classifiers = [
 ]
 dynamic = ["version"]
 
+[project.optional-dependencies]
+suggest = [
+    "darkdetect==0.8.0; platform_system != 'Darwin'",
+    "darkdetect[macos-listener]==0.8.0; platform_system == 'Darwin'",
+    "pywinstyles==1.8; platform_system == 'Windows'",
+    "pillow>=10.0.0",
+]
+full = [
+    "darkdetect==0.8.0; platform_system != 'Darwin'",
+    "darkdetect[macos-listener]==0.8.0; platform_system == 'Darwin'",
+    "pywinstyles==1.8; platform_system == 'Windows'",
+    "hPyT==1.3.1; platform_system == 'Windows'",
+    "win32material==1.0.5; platform_system == 'Windows'",
+    "matplotlib>=3.9.0",
+    "pillow>=10.0.0",
+]
+
 [project.urls]
-Source = "https://github.com/Xiaokang2022/tkintertools"
+"Source code" = "https://github.com/Xiaokang2022/tkintertools"
 Homepage = "https://xiaokang2022.github.io/tkintertools/"
-"Bug Reports" = "https://github.com/Xiaokang2022/tkintertools/issues"
+Changelog = "https://xiaokang2022.github.io/tkintertools/CHANGELOG/"
+"Release notes" = "https://xiaokang2022.github.io/tkintertools/news/3.0.0/News/"
+"Bug tracker" = "https://github.com/Xiaokang2022/tkintertools/issues"
 
 [tool.setuptools.dynamic]
 version = { attr = "tkintertools.__version__" }
