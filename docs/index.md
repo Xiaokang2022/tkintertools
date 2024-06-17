@@ -40,20 +40,20 @@ statistics: True
     </a>
 </p>
 
-📦 Installation - 安装
+📦 Installation / 安装
 -----------------------
 
-### ✅ Stable Version - 稳定版本
+### ✅ Stable Version / 稳定版本
 
-* 🔖 Version - 最新版本 : `2.6.21`
-* 🕓 Release - 发布日期 : 2024-01-01
-* ✨ Feature - 更新内容 : [News-2.6.21](./news/2.6.21/News.md)
+* 🔖 Version / 最新版本 : `2.6.21`
+* 🕓 Release / 发布日期 : 2024-01-01
+* ✨ Feature / 更新内容 : [News-2.6.21](./news/2.6.21/News.md)
 
 ```sh linenums="0"
 pip install tkintertools
 ```
 
-???+ "Preview - 预览"
+???+ "Preview / 预览"
 
     [![Preview UI](./tutorials/images/1.2-2.1-2.png)](https://xiaokang2022.github.io/tkintertools/tutorials/1-2/#21-%E9%AB%98%E5%BA%A6%E5%8F%AF%E9%85%8D%E7%BD%AE%E7%9A%84%E6%8E%A7%E4%BB%B6)
 
@@ -61,17 +61,17 @@ pip install tkintertools
 
 </details>
 
-### 🔥 Development Version - 开发版本
+### 🔥 Development Version / 开发版本
 
-* 🔖 Version - 最新版本 : `3.0.0.beta2`
-* 🕓 Release - 发布日期 : 2024-06-03
-* ✨ Feature - 更新内容 : [News-3.0.0b2](./news/3.0.0/News.md)
+* 🔖 Version / 最新版本 : `3.0.0.beta3`
+* 🕓 Release / 发布日期 : 2024-06-17
+* ✨ Feature / 更新内容 : [News-3.0.0b3](./news/3.0.0/News.md)
 
 ```sh linenums="0"
-pip install tkintertools==3.0.0b2
+pip install tkintertools==3.0.0b3
 ```
 
-???+ "Preview - 预览"
+???+ "Preview / 预览"
 
     * **Demo1 Light Theme**
 
@@ -89,59 +89,84 @@ pip install tkintertools==3.0.0b2
 
     ![Dark Theme](./news/3.0.0/demo2-dark.png)
 
-!!! warning "Warning - 警告"
+## 📦 Dependency / 依赖包
 
-    `tkt 2.*` has been discontinued, for new features, please use `tkt 3.*`. Also note that `tkt 3.*` is almost completely incompatible with `tkt 2.*`, and porting a project from `tkt 2.*` to `tkt 3.*` can be difficult.  
-    `tkt 2.*` 已放弃支持，如需获取新的功能，请使用 `tkt 3.*`。同时请注意，`tkt 3.*` 与 `tkt 2.*` 几乎完全不兼容，将项目从 `tkt 2.*` 移植到 `tkt 3.*` 可能会十分困难。
+!!! tip
 
-## 📦 Dependency - 依赖包
+    All dependencies are listed in [*requirements.txt*](https://github.com/Xiaokang2022/tkintertools/blob/master/requirements.txt), but optional packages don't have to be installed  
+    所有的依赖包均会在 [*requirements.txt*](https://github.com/Xiaokang2022/tkintertools/blob/master/requirements.txt) 中列出，但可选包并不一定要安装
 
-### 1️⃣ darkdetect
+### 📌 Required Packages / 必需包
 
-* 🔖 Version - 版本 : `0.8.0`
-* 📑 License - 许可 : BSD 3-Clause
-* 🔗 GitHub - 仓库 : [darkdetect](https://github.com/albertosottile/darkdetect)
+Not yet  
+暂无
 
-## 👀 More - 更多
+### 🎨 Optional Packages / 可选包
+
+Considering that too many packages will result in a large size of the project file when packing, the optional packages selected below are recommended to be installed  
+考虑到调用的包过多将导致打包时项目文件的大小过大，因此下面被选中的可选包是推荐安装的
+
+- [X] [darkdetect](https://github.com/albertosottile/darkdetect) - `0.8.0`
+- [X] [pywinstyles](https://github.com/Akascape/py-window-styles) - `1.8`
+- [X] [pillow](https://github.com/python-pillow/Pillow) - `>=10.0.0`
+- [ ] [hPyT](https://github.com/Zingzy/hPyT) - `1.3.1`
+- [ ] [win32material](https://github.com/littlewhitecloud/win32style) - `1.0.5`
+- [ ] [matplotlib](https://github.com/matplotlib/matplotlib) - `>=3.9.0`
+
+The following command installs the recommended optional dependencies:  
+以下命令可以安装推荐的可选依赖包：
+
+```bash linenums="0"
+pip install tkintertools[suggest]==3.0.0b3
+```
+
+The following command installs all optional dependencies:  
+以下命令可以安装全部可选依赖包：
+
+```bash linenums="0"
+pip install tkintertools[full]==3.0.0b3
+```
+
+## 👀 More / 更多
 
 <div class="grid cards" markdown>
 
--   [📑 **License - 项目许可**](./LICENSE.md)
+-   [📑 **License / 项目许可**](./LICENSE.md)
 
     ***
 
     MIT, one of the most permissive open source licenses  
     MIT，最宽松的开源许可之一
 
--   [📋 **Todo - 待办事项**](./TODO.md)
+-   [📋 **Todo / 待办事项**](./TODO.md)
 
     ***
 
     Let's see what the authors have planned  
     看看作者都有些什么计划
 
--   [📘 **Changelog - 更新日志**](./CHANGELOG.md)
+-   [📘 **Changelog / 更新日志**](./CHANGELOG.md)
 
     ***
 
     Changelog for all versions  
     所有版本的更新日志
 
--   [📗 **Contribution Guide - 贡献指南**](./CONTRIBUTING.md)
+-   [📗 **Contribution Guide / 贡献指南**](./CONTRIBUTING.md)
 
     ***
 
     Take a look at this before you contribute  
     在贡献之前先瞄一下这个
 
--   [📕 **Security Policy - 安全策略**](./SECURITY.md)
+-   [📕 **Security Policy / 安全策略**](./SECURITY.md)
 
     ***
 
     How to deal with security vulnerabilities  
     安全漏洞的处理方法
 
--   [📙 **Code of Conduct - 行为准则**](./CODE_OF_CONDUCT.md)
+-   [📙 **Code of Conduct / 行为准则**](./CODE_OF_CONDUCT.md)
 
     ***
 
@@ -150,7 +175,7 @@ pip install tkintertools==3.0.0b2
 
 </div>
 
-!!! info "Site statistics - 本站统计"
+!!! info "Site statistics / 本站统计"
 
     - 总页面：{{ pages }}
     - 总字（词）数：{{ words }}
