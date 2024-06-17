@@ -68,7 +68,7 @@ pip install tkintertools
 * ✨ Feature / 更新内容 : [News-3.0.0b3](./news/3.0.0/News.md)
 
 ```sh linenums="0"
-pip install tkintertools==3.0.0b3
+pip install tkintertools[suggest]==3.0.0b3
 ```
 
 * Demos / 演示: https://github.com/Xiaokang2022/tkintertools-demos
@@ -79,7 +79,9 @@ pip install tkintertools==3.0.0b3
 
 ![](https://github.com/Xiaokang2022/tkintertools-demos/blob/main/preview/demo0-2.png?raw=true)
 
-![](https://github.com/Xiaokang2022/tkintertools-demos/blob/main/preview/demo1.png?raw=true)
+![](https://github.com/Xiaokang2022/tkintertools-demos/blob/main/preview/demo1-1.png?raw=true)
+
+![](https://github.com/Xiaokang2022/tkintertools-demos/blob/main/preview/demo1-2.png?raw=true)
 
 ![](https://github.com/Xiaokang2022/tkintertools-demos/blob/main/preview/demo2.png?raw=true)
 
@@ -89,7 +91,9 @@ pip install tkintertools==3.0.0b3
 
 ![](https://github.com/Xiaokang2022/tkintertools-demos/blob/main/preview/demo4-2.png?raw=true)
 
-![](https://github.com/Xiaokang2022/tkintertools-demos/blob/main/preview/demo5.png?raw=true)
+![](https://github.com/Xiaokang2022/tkintertools-demos/blob/main/preview/demo5-1.png?raw=true)
+
+![](https://github.com/Xiaokang2022/tkintertools-demos/blob/main/preview/demo5-2.png?raw=true)
 
 ## 📦 Dependency / 依赖包
 
