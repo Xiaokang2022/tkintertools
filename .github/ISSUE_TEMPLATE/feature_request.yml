@@ -1,0 +1,47 @@
+name: ✨ Feature Request
+description: Suggest an idea for this project.
+labels: "enhancement"
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Please read our [Contribution Guideline](../CONTRIBUTING.md) before completing this report.
+        请在填写此报告前先阅读我们的[贡献指南](../CONTRIBUTING.md)。
+  - type: textarea
+    id: description
+    attributes:
+      label: 🎯 Feature Description
+      description: |
+        Describe in detail what kind of features you would like to see in this project!  
+        详细描述一下你期望本项目能有什么样的功能吧！
+      placeholder: Tell us what you want!  
+    validations:
+      required: true
+  - type: textarea
+    id: idea
+    attributes:
+      label: 🚀 Possible Implementation
+      description: |
+        If you have a solution for implementing the feature you want, you can briefly write your ideas here.  
+        如果你对你想要的功能有实现的方案，可以在这里简单写一下你的思路。
+  - type: input
+    id: contact
+    attributes:
+      label: ✉️ Contact Details
+      description: |
+        How can we get in touch with you if we need more info?  
+        如果需要更多信息，我们如何与您取得联系？
+      placeholder: ex. email@example.com
+    validations:
+      required: false
+  - type: checkboxes
+    id: terms
+    attributes:
+      label: ⚠️ Code of Conduct
+      description: |
+        By submitting this issue, you agree to follow our [Code of Conduct](../CODE_OF_CONDUCT.md).  
+        提交此问题，即表示您同意遵守我们的[行为准则](../CODE_OF_CONDUCT.md)。
+      options:
+        - label: I agree to follow this project's Code of Conduct
+          required: true
