@@ -3,9 +3,9 @@ site_url: https://Xiaokang2022.github.io/tkintertools/ # 站点链接
 repo_url: https://github.com/Xiaokang2022/tkintertools # 仓库地址
 repo_name: Xiaokang2022/tkintertools # 仓库名称
 edit_uri: edit/docs/docs/ # 编辑地址（页面会出现编辑按钮）
-site_description: Data Structures and Algorithms and Numerical Calculation Methods # 站点描述
+site_description: Official Website of tkintertools  # 站点描述
 site_author: Xiaokang2022 # 站点作者
-copyright: Copyright &copy; 2024 Xiaokang2022 # 版权信息（会出现在左下角）
+copyright: Copyright &copy; 2022 Xiaokang2022 # 版权信息（会出现在左下角）
 remote_branch: gh-pages # GitHub Pages 分支名称（此处为默认值）
 remote_name: origin # 远程分支的名称（默认值）
 docs_dir: docs # 文档目录（默认值）
