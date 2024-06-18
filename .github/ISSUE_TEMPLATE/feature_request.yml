@@ -6,8 +6,8 @@ body:
   - type: markdown
     attributes:
       value: |
-        Please read our [Contribution Guideline](../CONTRIBUTING.md) before completing this report.
-        请在填写此报告前先阅读我们的[贡献指南](../CONTRIBUTING.md)。
+        Please read our [Contribution Guideline](../blob/master/CONTRIBUTING.md) before completing this report.
+        请在填写此报告前先阅读我们的[贡献指南](../blob/master/CONTRIBUTING.md)。
   - type: textarea
     id: description
     attributes:
@@ -40,8 +40,8 @@ body:
     attributes:
       label: ⚠️ Code of Conduct
       description: |
-        By submitting this issue, you agree to follow our [Code of Conduct](../CODE_OF_CONDUCT.md).  
-        提交此问题，即表示您同意遵守我们的[行为准则](../CODE_OF_CONDUCT.md)。
+        By submitting this issue, you agree to follow our [Code of Conduct](../blob/master/CODE_OF_CONDUCT.md).  
+        提交此问题，即表示您同意遵守我们的[行为准则](../blob/master/CODE_OF_CONDUCT.md)。
       options:
         - label: I agree to follow this project's Code of Conduct
           required: true
