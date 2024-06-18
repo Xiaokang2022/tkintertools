@@ -1,6 +1,3 @@
-Changelog / 更新日志
-===================
-
 !!! tip
 
     This changelog has the following 7 types of updates, each of which is represented by 7 different colors  
