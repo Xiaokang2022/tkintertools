@@ -44,3 +44,4 @@ This page is not updated automatically, but manually by me, so please understand
 | 🕓 Date / 日期 | 😀 Sponsor / 赞助者 | 💰 Amount / 金额 | ❤️ Sponsor Method / 赞赏方式 |
 | :-----------: | :----------------: | :-------------: | :-------------------------: |
 |  2024-06-03   |      rgzz666       |      1.00       |         微信赞赏码          |
+|  2024-06-23   |         -          |      6.66       |         微信赞赏码          |

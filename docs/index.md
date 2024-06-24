@@ -1,5 +1,6 @@
 ---
 statistics: True
+comments: true
 ---
 
 <h1 align="center">tkintertools</h1>
@@ -75,25 +76,25 @@ pip install tkintertools[suggest]==3.0.0b3
 
 ???+ "Preview / 预览"
 
-![](https://github.com/Xiaokang2022/tkintertools-demos/blob/main/preview/demo0-1.png?raw=true)
+    ![](https://github.com/Xiaokang2022/tkintertools-demos/blob/main/preview/demo0-1.png?raw=true)
 
-![](https://github.com/Xiaokang2022/tkintertools-demos/blob/main/preview/demo0-2.png?raw=true)
+    ![](https://github.com/Xiaokang2022/tkintertools-demos/blob/main/preview/demo0-2.png?raw=true)
 
-![](https://github.com/Xiaokang2022/tkintertools-demos/blob/main/preview/demo1-1.png?raw=true)
+    ![](https://github.com/Xiaokang2022/tkintertools-demos/blob/main/preview/demo1-1.png?raw=true)
 
-![](https://github.com/Xiaokang2022/tkintertools-demos/blob/main/preview/demo1-2.png?raw=true)
+    ![](https://github.com/Xiaokang2022/tkintertools-demos/blob/main/preview/demo1-2.png?raw=true)
 
-![](https://github.com/Xiaokang2022/tkintertools-demos/blob/main/preview/demo2.png?raw=true)
+    ![](https://github.com/Xiaokang2022/tkintertools-demos/blob/main/preview/demo2.png?raw=true)
 
-![](https://github.com/Xiaokang2022/tkintertools-demos/blob/main/preview/demo3.png?raw=true)
+    ![](https://github.com/Xiaokang2022/tkintertools-demos/blob/main/preview/demo3.png?raw=true)
 
-![](https://github.com/Xiaokang2022/tkintertools-demos/blob/main/preview/demo4-1.png?raw=true)
+    ![](https://github.com/Xiaokang2022/tkintertools-demos/blob/main/preview/demo4-1.png?raw=true)
 
-![](https://github.com/Xiaokang2022/tkintertools-demos/blob/main/preview/demo4-2.png?raw=true)
+    ![](https://github.com/Xiaokang2022/tkintertools-demos/blob/main/preview/demo4-2.png?raw=true)
 
-![](https://github.com/Xiaokang2022/tkintertools-demos/blob/main/preview/demo5-1.png?raw=true)
+    ![](https://github.com/Xiaokang2022/tkintertools-demos/blob/main/preview/demo5-1.png?raw=true)
 
-![](https://github.com/Xiaokang2022/tkintertools-demos/blob/main/preview/demo5-2.png?raw=true)
+    ![](https://github.com/Xiaokang2022/tkintertools-demos/blob/main/preview/demo5-2.png?raw=true)
 
 ## 📦 Dependency / 依赖包
 
@@ -192,12 +193,4 @@ pip install tkintertools[full]==3.0.0b3
 [⚡快速开始](./tutorials/1-2.md){ .md-button .md-button--primary title="从认识 tkintertools 开始！" }
 [<big>:star:{ .heart } 支持本项目</big>](https://github.com/Xiaokang2022/tkintertools/){ .md-button .md-button--primary title="给项目点个 Star 吧，球球了！" }
 [✨最新内容](./news/3.0.0/News.md){ .md-button .md-button--primary title="点我了解最近更新的内容！" }
-</div>
-
----
-
-<div align="center">
-
-<img src="https://contrib.rocks/image?repo=Xiaokang2022/tkintertools" alt="contributors" />
-
 </div>
