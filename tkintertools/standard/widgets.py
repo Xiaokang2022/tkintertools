@@ -23,7 +23,7 @@ __all__ = [
 
 
 class Information(virtual.Widget):
-    """"""
+    """Information widget, generally used to display plain text"""
 
     def __init__(
         self,
@@ -31,7 +31,7 @@ class Information(virtual.Widget):
         position: tuple[int, int],
         size: tuple[int, int] = (0, 0),
         *,
-        text: str = "",
+        text: str = "Information",
         family: str | None = None,
         fontsize: int | None = None,
         weight: typing.Literal['normal', 'bold'] = "normal",
@@ -46,7 +46,24 @@ class Information(virtual.Widget):
         through: bool = False,
         animation: bool = True,
     ) -> None:
-        """"""
+        """
+        * `master`: parent canvas
+        * `position`: position of the widget
+        * `size`: size of the widget
+        * `text`: text of the widget
+        * `family`: font family
+        * `fontsize`: font size
+        * `weight`: weight of the text
+        * `slant`: slant of the text
+        * `underline`: whether the text is underline
+        * `overstrike`: whether the text is overstrike
+        * `justify`: justify mode of the text
+        * `anchor`: anchor of the text
+        * `image`: image of the widget
+        * `name`: name of the widget
+        * `through`: wether detect another widget under the widget
+        * `animation`: wether enable animation
+        """
         virtual.Widget.__init__(self, master, position, size,
                                 name=name, through=through, animation=animation)
         if image is not None:
@@ -56,11 +73,7 @@ class Information(virtual.Widget):
 
 
 class Label(virtual.Widget):
-    """
-    Label widget
-
-    Used to display information
-    """
+    """Label widget, which is generally used to display key information"""
 
     def __init__(
         self,
@@ -68,7 +81,7 @@ class Label(virtual.Widget):
         position: tuple[int, int],
         size: tuple[int, int] = (100, 40),
         *,
-        text: str = "",
+        text: str = "Label",
         family: str | None = None,
         fontsize: int | None = None,
         weight: typing.Literal['normal', 'bold'] = "normal",
@@ -83,7 +96,24 @@ class Label(virtual.Widget):
         through: bool = False,
         animation: bool = True,
     ) -> None:
-        """"""
+        """
+        * `master`: parent canvas
+        * `position`: position of the widget
+        * `size`: size of the widget
+        * `text`: text of the widget
+        * `family`: font family
+        * `fontsize`: font size
+        * `weight`: weight of the text
+        * `slant`: slant of the text
+        * `underline`: whether the text is underline
+        * `overstrike`: whether the text is overstrike
+        * `justify`: justify mode of the text
+        * `anchor`: anchor of the text
+        * `image`: image of the widget
+        * `name`: name of the widget
+        * `through`: wether detect another widget under the widget
+        * `animation`: wether enable animation
+        """
         virtual.Widget.__init__(self, master, position, size,
                                 name=name, through=through, animation=animation)
         if constants.SYSTEM == "Windows10":
@@ -98,9 +128,7 @@ class Label(virtual.Widget):
 
 
 class Button(virtual.Widget):
-    """
-    Button Widget
-    """
+    """Button widget, typically used to trigger a function"""
 
     def __init__(
         self,
@@ -108,7 +136,7 @@ class Button(virtual.Widget):
         position: tuple[int, int],
         size: tuple[int, int] = (100, 40),
         *,
-        text: str = "",
+        text: str = "Button",
         family: str | None = None,
         fontsize: int | None = None,
         weight: typing.Literal['normal', 'bold'] = "normal",
@@ -124,7 +152,25 @@ class Button(virtual.Widget):
         through: bool = False,
         animation: bool = True,
     ) -> None:
-        """"""
+        """
+        * `master`: parent canvas
+        * `position`: position of the widget
+        * `size`: size of the widget
+        * `text`: text of the widget
+        * `family`: font family
+        * `fontsize`: font size
+        * `weight`: weight of the text
+        * `slant`: slant of the text
+        * `underline`: whether the text is underline
+        * `overstrike`: whether the text is overstrike
+        * `justify`: justify mode of the text
+        * `anchor`: anchor of the text
+        * `command`: a function that is triggered when the button is pressed
+        * `image`: image of the widget
+        * `name`: name of the widget
+        * `through`: wether detect another widget under the widget
+        * `animation`: wether enable animation
+        """
         virtual.Widget.__init__(self, master, position, size,
                                 name=name, through=through, animation=animation)
         if constants.SYSTEM == "Windows10":
@@ -139,7 +185,7 @@ class Button(virtual.Widget):
 
 
 class Switch(virtual.Widget):
-    """"""
+    """Switch widget, typically used to control the turning of a function on and off"""
 
     def __init__(
         self,
@@ -154,7 +200,17 @@ class Switch(virtual.Widget):
         through: bool = False,
         animation: bool = True,
     ) -> None:
-        """"""
+        """
+        * `master`: parent canvas
+        * `position`: position of the widget
+        * `length`: length of the widget
+        * `default`: default state of the widget
+        * `command`: a function that is triggered when the switch is changed
+        * `image`: image of the widget
+        * `name`: name of the widget
+        * `through`: wether detect another widget under the widget
+        * `animation`: wether enable animation
+        """
         virtual.Widget.__init__(self, master, position, (length, length / 2),
                                 state=f"normal-{'on' if default else 'off'}",
                                 name=name, through=through, animation=animation)
@@ -173,11 +229,11 @@ class Switch(virtual.Widget):
             self.set(default)
 
     def get(self) -> bool:
-        """"""
+        """Get the state of the switch"""
         return self.state.endswith("on")
 
     def set(self, value: bool) -> None:
-        """"""
+        """Set the state of the switch"""
         self.update(
             f"{self.state.split('-')[0]}-{'on' if value else 'off'}", no_delay=True)
         dx = self._shapes[0].size[0]/2 if value else -self._shapes[0].size[0]/2
@@ -186,7 +242,7 @@ class Switch(virtual.Widget):
 
 
 class Entry(virtual.Widget):
-    """"""
+    """Input box widget, generally used to enter certain information on a single line"""
 
     def __init__(
         self,
@@ -194,6 +250,12 @@ class Entry(virtual.Widget):
         position: tuple[int, int],
         size: tuple[int, int] = (200, 40),
         *,
+        family: str | None = None,
+        fontsize: int | None = None,
+        weight: typing.Literal['normal', 'bold'] = "normal",
+        slant: typing.Literal['roman', 'italic'] = "roman",
+        underline: bool = False,
+        overstrike: bool = False,
         justify: typing.Literal["left", "center", "right"] = "left",
         anchor: typing.Literal["n", "e", "w", "s",
                                "nw", "ne", "sw", "se"] = "center",
@@ -203,7 +265,26 @@ class Entry(virtual.Widget):
         through: bool = False,
         animation: bool = True,
     ) -> None:
-        """"""
+        """
+        * `master`: parent canvas
+        * `position`: position of the widget
+        * `size`: size of the widget
+        * `family`: font family
+        * `fontsize`: font size
+        * `weight`: weight of the text
+        * `slant`: slant of the text
+        * `underline`: whether the text is underline
+        * `overstrike`: whether the text is overstrike
+        * `justify`: justify mode of the text
+        * `anchor`: anchor of the text
+        * `placeholder`: # TODO
+        * `limit`: 
+        * `show`: 
+        * `image`: image of the widget
+        * `name`: name of the widget
+        * `through`: wether detect another widget under the widget
+        * `animation`: wether enable animation
+        """
         virtual.Widget.__init__(self, master, position, size,
                                 name=name, through=through, animation=animation)
         if constants.SYSTEM == "Windows10":
@@ -214,8 +295,8 @@ class Entry(virtual.Widget):
                 self, name=".in", size=(self.size[0], self.size[1]-3))
         if image is not None:
             images.StillImage(self, image=image)
-        texts.SingleLineText(self, text="", justify=justify,
-                             anchor=anchor, limit=limit)
+        texts.SingleLineText(self, family=family, fontsize=fontsize, weight=weight, slant=slant,
+                             underline=underline, overstrike=overstrike, justify=justify, anchor=anchor, limit=limit)
         features.Entry(self)
 
     def get(self) -> str:
@@ -240,7 +321,7 @@ class Entry(virtual.Widget):
 
 
 class CheckButton(virtual.Widget):
-    """"""
+    """Checkbox button widget, generally used to check some options"""
 
     def __init__(
         self,
@@ -255,7 +336,17 @@ class CheckButton(virtual.Widget):
         through: bool = False,
         animation: bool = True,
     ) -> None:
-        """"""
+        """
+        * `master`: parent canvas
+        * `position`: position of the widget
+        * `length`: length of the widget
+        * `default`: default state of the widget
+        * `command`: a function that is triggered when the state of check button is on
+        * `image`: image of the widget
+        * `name`: name of the widget
+        * `through`: wether detect another widget under the widget
+        * `animation`: wether enable animation
+        """
         virtual.Widget.__init__(self, master, position, (length, length),
                                 name=name, through=through, animation=animation)
         if constants.SYSTEM == "Windows10":
@@ -269,18 +360,18 @@ class CheckButton(virtual.Widget):
         self.set(default)
 
     def get(self) -> bool:
-        """"""
+        """Get the state of the check button"""
         return self._texts[0].visible
 
     def set(self, value: bool) -> None:
-        """"""
+        """Set the state of the check button"""
         if value:
             return self._texts[0].appear()
         self._texts[0].disappear()
 
 
 class RadioButton(virtual.Widget):
-    """"""
+    """Radio button widget, generally used to select one of several options"""
 
     def __init__(
         self,
@@ -295,7 +386,17 @@ class RadioButton(virtual.Widget):
         through: bool = False,
         animation: bool = True,
     ) -> None:
-        """"""
+        """
+        * `master`: parent canvas
+        * `position`: position of the widget
+        * `length`: length of the widget
+        * `default`: default state of the widget
+        * `command`: a function that is triggered when the state of radio button is on
+        * `image`: image of the widget
+        * `name`: name of the widget
+        * `through`: wether detect another widget under the widget
+        * `animation`: wether enable animation
+        """
         virtual.Widget.__init__(self, master, position, (length, length),
                                 name=name, through=through, animation=animation)
         if constants.SYSTEM == "Windows10":
@@ -313,18 +414,18 @@ class RadioButton(virtual.Widget):
             self._shapes[1].appear()
 
     def get(self) -> bool:
-        """"""
+        """Get the state of the radio button"""
         return self._shapes[1].visible
 
     def set(self, value: bool) -> None:
-        """"""
+        """Set the state of the radio button"""
         if value:
             return self._shapes[1].appear()
         self._shapes[1].disappear()
 
 
 class ProgressBar(virtual.Widget):
-    """"""
+    """Progress bar widget, typically used to show the progress of an event"""
 
     def __init__(
         self,
@@ -338,7 +439,16 @@ class ProgressBar(virtual.Widget):
         through: bool = False,
         animation: bool = True,
     ) -> None:
-        """"""
+        """
+        * `master`: parent canvas
+        * `position`: position of the widget
+        * `size`: size of the widget
+        * `command`: a function that is triggered when the progress of progress bar is 100%
+        * `image`: image of the widget
+        * `name`: name of the widget
+        * `through`: wether detect another widget under the widget
+        * `animation`: wether enable animation
+        """
         self.value: float = 0
         virtual.Widget.__init__(self, master, position, size,
                                 name=name, through=through, animation=animation)
@@ -357,11 +467,11 @@ class ProgressBar(virtual.Widget):
         self.command = command
 
     def get(self) -> float:
-        """"""
+        """Get the progress of the progress bar"""
         return self.value
 
     def set(self, value: float) -> None:
-        """"""
+        """Set the progress of the progress bar"""
         self.value = 0 if value < 0 else 1 if value > 1 else value
         if self.value == 0:
             return self._shapes[1].disappear()
@@ -390,7 +500,7 @@ class ProgressBar(virtual.Widget):
 
 
 class UnderlineButton(virtual.Widget):
-    """"""
+    """Underline button, generally used to display web links"""
 
     def __init__(
         self,
@@ -398,7 +508,7 @@ class UnderlineButton(virtual.Widget):
         position: tuple[int, int],
         size: tuple[int, int] = (0, 0),
         *,
-        text: str = "",
+        text: str = "UnderlineButton",
         family: str | None = None,
         fontsize: int | None = None,
         weight: typing.Literal['normal', 'bold'] = "normal",
@@ -414,7 +524,25 @@ class UnderlineButton(virtual.Widget):
         through: bool = False,
         animation: bool = False,
     ) -> None:
-        """"""
+        """
+        * `master`: parent canvas
+        * `position`: position of the widget
+        * `size`: size of the widget
+        * `text`: text of the widget
+        * `family`: font family
+        * `fontsize`: font size
+        * `weight`: weight of the text
+        * `slant`: slant of the text
+        * `underline`: whether the text is underline
+        * `overstrike`: whether the text is overstrike
+        * `justify`: justify mode of the text
+        * `anchor`: anchor of the text
+        * `command`: a function that is triggered when the underline button is pressed
+        * `image`: image of the widget
+        * `name`: name of the widget
+        * `through`: wether detect another widget under the widget
+        * `animation`: wether enable animation
+        """
         virtual.Widget.__init__(self, master, position, size,
                                 name=name, through=through, animation=animation)
         if image is not None:
@@ -425,7 +553,7 @@ class UnderlineButton(virtual.Widget):
 
 
 class HighlightButton(virtual.Widget):
-    """"""
+    """Highlight button, no outline, which added a highlight effect"""
 
     def __init__(
         self,
@@ -433,7 +561,7 @@ class HighlightButton(virtual.Widget):
         position: tuple[int, int],
         size: tuple[int, int] = (0, 0),
         *,
-        text: str = "",
+        text: str = "HighlightButton",
         family: str | None = None,
         fontsize: int | None = None,
         weight: typing.Literal['normal', 'bold'] = "normal",
@@ -449,7 +577,25 @@ class HighlightButton(virtual.Widget):
         through: bool = False,
         animation: bool = True,
     ) -> None:
-        """"""
+        """
+        * `master`: parent canvas
+        * `position`: position of the widget
+        * `size`: size of the widget
+        * `text`: text of the widget
+        * `family`: font family
+        * `fontsize`: font size
+        * `weight`: weight of the text
+        * `slant`: slant of the text
+        * `underline`: whether the text is underline
+        * `overstrike`: whether the text is overstrike
+        * `justify`: justify mode of the text
+        * `anchor`: anchor of the text
+        * `command`: a function that is triggered when the hightlight button is pressed
+        * `image`: image of the widget
+        * `name`: name of the widget
+        * `through`: wether detect another widget under the widget
+        * `animation`: wether enable animation
+        """
         virtual.Widget.__init__(self, master, position, size,
                                 name=name, through=through, animation=animation)
         if image is not None:

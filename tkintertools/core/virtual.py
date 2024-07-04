@@ -44,6 +44,7 @@ class Component(abc.ABC):
         name: str | None = None,
         animation: bool = True,
         styles: dict[str, dict[str, str]] | None = None,
+        **kwargs,
     ) -> None:
         """
         * `widget`: parent widget
@@ -52,6 +53,7 @@ class Component(abc.ABC):
         * `name`: name of component
         * `animation`: Wether use animation to change color
         * `styles`: style dict of component
+        * `kwargs`: extra parameters for CanvasItem
         """
         self.widget = widget
         self.position = [widget.position[0] + relative_position[0],
@@ -64,6 +66,8 @@ class Component(abc.ABC):
         self.items: list[int] = []
         self.gradient: animations.GradientItem | None = None
         self.visible: bool = True
+
+        self.kwargs = kwargs
 
         widget.register(self)
 
@@ -219,6 +223,7 @@ class Text(Component):
         name: str | None = None,
         animation: bool = True,
         styles: dict[str, dict[str, str]] | None = None,
+        **kwargs,
     ) -> None:
         """
         * `widget`: parent widget
@@ -238,6 +243,7 @@ class Text(Component):
         * `name`: name of component
         * `animation`: Wether use animation to change color
         * `styles`: style dict of component
+        * `kwargs`: extra parameters for CanvasItem
         """
         self.value = text
         self.show = show
@@ -252,7 +258,7 @@ class Text(Component):
         self.left: int = 0
         self.right: int = 0
         Component.__init__(self, widget, relative_position, size=size,
-                           name=name, styles=styles, animation=animation)
+                           name=name, styles=styles, animation=animation, **kwargs)
 
     def region(self) -> tuple[int, int, int, int]:
         """Return the decision region of the `Text`"""
@@ -282,6 +288,7 @@ class Image(Component):
         name: str | None = None,
         animation: bool = True,
         styles: dict[str, dict[str, str]] | None = None,
+        **kwargs,
     ) -> None:
         """
         * `widget`: parent widget
@@ -291,10 +298,11 @@ class Image(Component):
         * `name`: name of component
         * `animation`: Wether use animation to change color
         * `styles`: style dict of component
+        * `kwargs`: extra parameters for CanvasItem
         """
         self.image = image
-        Component.__init__(self, widget, relative_position,
-                           size, name=name, animation=animation, styles=styles)
+        Component.__init__(self, widget, relative_position, size,
+                           name=name, animation=animation, styles=styles, **kwargs)
 
     # @typing.override
     def zoom(self, ratios: tuple[float, float]) -> None:

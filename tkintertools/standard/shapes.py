@@ -18,7 +18,7 @@ __all__ = [
 
 
 class Line(virtual.Shape):
-    """"""
+    """Create a line for a widget"""
 
     def __init__(
         self,
@@ -26,46 +26,54 @@ class Line(virtual.Shape):
         relative_position: tuple[int, int] = (0, 0),
         size: tuple[int, int] | None = None,
         *,
-        width: int = 0,
         points: list[tuple[float, float]] = [],
         name: str | None = None,
         animation: bool = True,
-        styles: dict[str | int, dict[str | int, dict[str, str]]] | None = None
+        styles: dict[str | int, dict[str | int, dict[str, str]]] | None = None,
+        **kwargs,
     ) -> None:
-        """"""
+        """
+        * `widget`: parent widget
+        * `relative_position`: position relative to its widgets
+        * `size`: size of component
+        * `points`: key points of line
+        * `name`: name of component
+        * `animation`: Wether use animation to change color
+        * `styles`: style dict of component
+        * `kwargs`: extra parameters for CanvasItem
+        """
         self.points = points
-        self.width = width
         virtual.Shape.__init__(self, widget, relative_position, size,
-                               name=name, styles=styles, animation=animation)
+                               name=name, styles=styles, animation=animation, **kwargs)
 
     # @typing.override
     def display(self) -> None:
         points = [(x+self.position[0], y+self.position[1])
                   for x, y in self.points]
         self.items = [self.widget.master.create_line(
-            *points, tags=("fill", "fill"), width=self.width)]
+            *points, tags=("fill", "fill"), **self.kwargs)]
 
 
 class Rectangle(virtual.Shape):
-    """"""
+    """Create a rectangle for a widget"""
 
     # @typing.override
     def display(self) -> None:
         self.items = [self.widget.master.create_rectangle(
-            *self.region(), tags=("fill", "fill", "outline", "outline"))]
+            *self.region(), tags=("fill", "fill", "outline", "outline"), **self.kwargs)]
 
 
 class Oval(virtual.Shape):
-    """"""
+    """Create a oval for a widget"""
 
     # @typing.override
     def display(self) -> None:
         self.items = [self.widget.master.create_oval(
-            *self.region(), tags=("fill", "fill", "outline", "outline"))]
+            *self.region(), tags=("fill", "fill", "outline", "outline"), **self.kwargs)]
 
 
 class RegularPolygon(virtual.Shape):
-    """"""
+    """Create a regular polygon for a widget"""
 
     def __init__(
         self,
@@ -78,12 +86,23 @@ class RegularPolygon(virtual.Shape):
         name: str | None = None,
         animation: bool = True,
         styles: dict[str, dict[str, str]] | None = None,
+        **kwargs,
     ) -> None:
-        """"""
+        """
+        * `widget`: parent widget
+        * `relative_position`: position relative to its widgets
+        * `size`: size of component
+        * `side`: number of sides of a regular polygon
+        * `angle`: number of radians of a regular polygon rotated clockwise
+        * `name`: name of component
+        * `animation`: Wether use animation to change color
+        * `styles`: style dict of component
+        * `kwargs`: extra parameters for CanvasItem
+        """
         self.side = side
         self.angle = angle
         virtual.Shape.__init__(self, widget, relative_position, size,
-                               name=name, styles=styles, animation=animation)
+                               name=name, styles=styles, animation=animation, **kwargs)
 
     # @typing.override
     def display(self) -> None:
@@ -99,11 +118,11 @@ class RegularPolygon(virtual.Shape):
                           self.position[1] + self.size[1]/2)
 
         self.items = [self.widget.master.create_polygon(
-            *points, tags=("fill", "fill", "outline", "outline"))]
+            *points, tags=("fill", "fill", "outline", "outline"), **self.kwargs)]
 
 
 class RoundedRectangle(virtual.Shape):
-    """"""
+    """Create a rounded rectangle for a widget"""
 
     def __init__(
         self,
@@ -115,11 +134,21 @@ class RoundedRectangle(virtual.Shape):
         name: str | None = None,
         animation: bool = True,
         styles: dict[str, dict[str, str]] | None = None,
+        **kwargs,
     ) -> None:
-        """"""
+        """
+        * `widget`: parent widget
+        * `relative_position`: position relative to its widgets
+        * `size`: size of component
+        * `radius`: radius of the fillet
+        * `name`: name of component
+        * `animation`: Wether use animation to change color
+        * `styles`: style dict of component
+        * `kwargs`: extra parameters for CanvasItem
+        """
         self.radius = radius
         virtual.Shape.__init__(self, widget, relative_position, size,
-                               name=name, styles=styles, animation=animation)
+                               name=name, styles=styles, animation=animation, **kwargs)
 
     # @typing.override
     def display(self) -> None:
@@ -129,47 +158,45 @@ class RoundedRectangle(virtual.Shape):
 
         if d > w or d > h:
             warnings.warn("Parameters are not suitable")
-            warnings.warn("Parameters are not suitable")
         elif d == 0:
             warnings.warn("Parameters are not suitable")
         elif w < d < h or w < d < h:
             warnings.warn("Parameters are not suitable")
-            warnings.warn("Parameters are not suitable")
 
         self.items = [
             self.widget.master.create_arc(
-                x1, y1, x1+d, y1+d, outline="", start=90, tags=("fill", "fill")),
+                x1, y1, x1+d, y1+d, outline="", start=90, tags=("fill", "fill"), **self.kwargs),
             self.widget.master.create_arc(
-                x2-d, y1, x2, y1+d, outline="", start=0, tags=("fill", "fill")),
+                x2-d, y1, x2, y1+d, outline="", start=0, tags=("fill", "fill"), **self.kwargs),
             self.widget.master.create_arc(
-                x1, y2-d, x1+d, y2, outline="", start=180, tags=("fill", "fill")),
+                x1, y2-d, x1+d, y2, outline="", start=180, tags=("fill", "fill"), **self.kwargs),
             self.widget.master.create_arc(
-                x2-d, y2-d, x2, y2, outline="", start=-90, tags=("fill", "fill")),
+                x2-d, y2-d, x2, y2, outline="", start=-90, tags=("fill", "fill"), **self.kwargs),
             self.widget.master.create_rectangle(
-                x1+r, y1, x2-r+1, y2, outline="", tags=("fill", "fill")),
+                x1+r, y1, x2-r+1, y2, outline="", tags=("fill", "fill"), **self.kwargs),
             self.widget.master.create_rectangle(
-                x1, y1+r, x2, y2-r+1, outline="", tags=("fill", "fill")),
+                x1, y1+r, x2, y2-r+1, outline="", tags=("fill", "fill"), **self.kwargs),
             self.widget.master.create_line(
-                x1+r, y1, x2-r+1, y1, tags=("fill", "outline")),
+                x1+r, y1, x2-r+1, y1, tags=("fill", "outline"), **self.kwargs),
             self.widget.master.create_line(
-                x1+r, y2, x2-r+1, y2, tags=("fill", "outline")),
+                x1+r, y2, x2-r+1, y2, tags=("fill", "outline"), **self.kwargs),
             self.widget.master.create_line(
-                x1, y1+r, x1, y2-r+1, tags=("fill", "outline")),
+                x1, y1+r, x1, y2-r+1, tags=("fill", "outline"), **self.kwargs),
             self.widget.master.create_line(
-                x2, y1+r, x2, y2-r+1, tags=("fill", "outline")),
+                x2, y1+r, x2, y2-r+1, tags=("fill", "outline"), **self.kwargs),
             self.widget.master.create_arc(
-                x1, y1, x1+d, y1+d, style="arc", start=90, tags=("outline", "outline")),
+                x1, y1, x1+d, y1+d, style="arc", start=90, tags=("outline", "outline"), **self.kwargs),
             self.widget.master.create_arc(
-                x2-d, y1, x2, y1+d, style="arc", start=0, tags=("outline", "outline")),
+                x2-d, y1, x2, y1+d, style="arc", start=0, tags=("outline", "outline"), **self.kwargs),
             self.widget.master.create_arc(
-                x1, y2-d, x1+d, y2, style="arc", start=180, tags=("outline", "outline")),
+                x1, y2-d, x1+d, y2, style="arc", start=180, tags=("outline", "outline"), **self.kwargs),
             self.widget.master.create_arc(
-                x2-d, y2-d, x2, y2, style="arc", start=-90, tags=("outline", "outline")),
+                x2-d, y2-d, x2, y2, style="arc", start=-90, tags=("outline", "outline"), **self.kwargs),
         ]
 
 
 class SemicircularRectangle(virtual.Shape):
-    """"""
+    """Create a semicircular rectangle for a widget"""
 
     # @typing.override
     def display(self) -> None:
@@ -185,24 +212,24 @@ class SemicircularRectangle(virtual.Shape):
 
         self.items = [
             self.widget.master.create_arc(
-                x1, y1, x1+d, y1+d, outline="", extent=180, start=90, tags=("fill", "fill")),
+                x1, y1, x1+d, y1+d, outline="", extent=180, start=90, tags=("fill", "fill"), **self.kwargs),
             self.widget.master.create_arc(
-                x2-d, y1, x2, y1+d, outline="", extent=180, start=-90, tags=("fill", "fill")),
+                x2-d, y1, x2, y1+d, outline="", extent=180, start=-90, tags=("fill", "fill"), **self.kwargs),
             self.widget.master.create_rectangle(
-                x1+r, y1, x2-r+1, y2, outline="", tags=("fill", "fill")),
+                x1+r, y1, x2-r+1, y2, outline="", tags=("fill", "fill"), **self.kwargs),
             self.widget.master.create_arc(
-                x1, y1, x1+d, y1+d, style="arc", extent=180, start=90, tags=("outline", "outline")),
+                x1, y1, x1+d, y1+d, style="arc", extent=180, start=90, tags=("outline", "outline"), **self.kwargs),
             self.widget.master.create_arc(
-                x2-d, y2-d, x2, y2, style="arc", extent=180, start=-90, tags=("outline", "outline")),
+                x2-d, y2-d, x2, y2, style="arc", extent=180, start=-90, tags=("outline", "outline"), **self.kwargs),
             self.widget.master.create_line(
-                x1+r, y1, x2-r+1, y1, tags=("fill", "outline")),
+                x1+r, y1, x2-r+1, y1, tags=("fill", "outline"), **self.kwargs),
             self.widget.master.create_line(
-                x1+r, y2, x2-r+1, y2, tags=("fill", "outline")),
+                x1+r, y2, x2-r+1, y2, tags=("fill", "outline"), **self.kwargs),
         ]
 
 
 class SharpRectangle(virtual.Shape):
-    """"""
+    """Create a sharp rectangle for a widget"""
 
     def __init__(
         self,
@@ -215,8 +242,19 @@ class SharpRectangle(virtual.Shape):
         name: str | None = None,
         animation: bool = True,
         styles: dict[str, dict[str, str]] | None = None,
+        **kwargs,
     ) -> None:
-        """"""
+        """
+        * `widget`: parent widget
+        * `relative_position`: position relative to its widgets
+        * `size`: size of component
+        * `theta`: number of radians of sharp corners
+        * `ratio`: height ratio of the left and right sharp corners
+        * `name`: name of component
+        * `animation`: Wether use animation to change color
+        * `styles`: style dict of component
+        * `kwargs`: extra parameters for CanvasItem
+        """
         self.theta = theta
         self.ratio = ratio
         if not 0 <= theta <= math.pi/3:
@@ -224,7 +262,7 @@ class SharpRectangle(virtual.Shape):
         if math.isclose(abs(self.ratio[0] - self.ratio[1]), 1):
             warnings.warn("Parameters are not suitable")
         virtual.Shape.__init__(self, widget, relative_position, size,
-                               name=name, styles=styles, animation=animation)
+                               name=name, styles=styles, animation=animation, **kwargs)
 
     # @typing.override
     def display(self) -> None:
@@ -251,11 +289,11 @@ class SharpRectangle(virtual.Shape):
         ]
 
         self.items = [self.widget.master.create_polygon(
-            *points, tags=("fill", "fill", "outline", "outline"))]
+            *points, tags=("fill", "fill", "outline", "outline"), **self.kwargs)]
 
 
 class Parallelogram(virtual.Shape):
-    """"""
+    """Create a parallelogram for a widget"""
 
     def __init__(
         self,
@@ -267,13 +305,23 @@ class Parallelogram(virtual.Shape):
         name: str | None = None,
         animation: bool = True,
         styles: dict[str, dict[str, str]] | None = None,
+        **kwargs,
     ) -> None:
-        """"""
+        """
+        * `widget`: parent widget
+        * `relative_position`: position relative to its widgets
+        * `size`: size of component
+        * `theta`: number of radians that the parallelogram is inclined to
+        * `name`: name of component
+        * `animation`: Wether use animation to change color
+        * `styles`: style dict of component
+        * `kwargs`: extra parameters for CanvasItem
+        """
         self.theta = theta
         if not abs(theta) <= math.pi/3:
             warnings.warn("Parameters are not suitable")
         virtual.Shape.__init__(self, widget, relative_position, size,
-                               name=name, styles=styles, animation=animation)
+                               name=name, styles=styles, animation=animation, **kwargs)
 
     # @typing.override
     def display(self) -> None:
@@ -292,4 +340,4 @@ class Parallelogram(virtual.Shape):
         ]
 
         self.items = [self.widget.master.create_polygon(
-            *points, tags=("fill", "fill", "outline", "outline"))]
+            *points, tags=("fill", "fill", "outline", "outline"), **self.kwargs)]

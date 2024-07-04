@@ -11,7 +11,7 @@ __all__ = [
 
 
 class Information(virtual.Text):
-    """"""
+    """General information text"""
 
     # @typing.override
     def display(self) -> None:
@@ -51,7 +51,7 @@ class Information(virtual.Text):
 
 
 class SingleLineText(virtual.Text):
-    """"""
+    """Single-line editable text"""
 
     # @typing.override
     def display(self) -> None:
