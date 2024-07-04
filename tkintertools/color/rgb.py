@@ -23,6 +23,7 @@ B: Blue, 0 ~ 255
 """
 
 MAX = 255, 255, 255
+"""The maximum value of the RGB code"""
 
 
 def contrast(

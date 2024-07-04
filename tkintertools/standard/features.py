@@ -20,7 +20,7 @@ __all__ = [
 
 
 class Label(virtual.Feature):
-    """"""
+    """Feature of Label"""
 
     def _move_none(self, event: tkinter.Event) -> bool:
         if flag := self.widget._shapes[0].detect(event.x, event.y):
@@ -34,7 +34,7 @@ class Label(virtual.Feature):
 
 
 class Button(virtual.Feature):
-    """"""
+    """Feature of Button"""
 
     def __init__(
         self,
@@ -43,7 +43,11 @@ class Button(virtual.Feature):
         command: typing.Callable | None = None,
         args: tuple = (),
     ) -> None:
-        """"""
+        """
+        * `widget`: parent widget
+        * `command`: callback function
+        * `args`: arguments of callback function
+        """
         virtual.Feature.__init__(self, widget)
         self._command: typing.Callable = command
         self._args: tuple = args
@@ -83,7 +87,7 @@ class Button(virtual.Feature):
 
 
 class Underline(Button):
-    """"""
+    """Feature of underline"""
 
     def _move_none(self, event: tkinter.Event) -> bool:
         if flag := self.widget._texts[0].detect(event.x, event.y):
@@ -114,7 +118,7 @@ class Underline(Button):
 
 
 class Highlight(Button):
-    """"""
+    """Feature of highlight"""
 
     def _move_none(self, event: tkinter.Event) -> bool:
         if flag := self.widget._texts[0].detect(event.x, event.y):
@@ -150,7 +154,7 @@ class Highlight(Button):
 
 
 class Switch(Button):
-    """"""
+    """Feature of Switch"""
 
     def _move_none(self, event: tkinter.Event) -> bool:
         if flag := self.widget._shapes[0].detect(event.x, event.y):
@@ -184,7 +188,7 @@ class Switch(Button):
 
 
 class CheckButton(Button):
-    """"""
+    """Feature of CheckButton"""
 
     def _click_left(self, _: tkinter.Event) -> bool:
         if flag := self.widget.state == "hover":
@@ -203,15 +207,15 @@ class CheckButton(Button):
 
 
 class RadioButton(CheckButton):
-    """"""
+    """Feature of RadioButton"""
 
 
 class ProgressBar(Label):
-    """"""
+    """Feature of ProgressBar"""
 
 
 class Entry(Button):
-    """"""
+    """Feature of Entry"""
 
     def _move_none(self, event: tkinter.Event) -> bool:
         if flag := self.widget._shapes[0].detect(event.x, event.y):

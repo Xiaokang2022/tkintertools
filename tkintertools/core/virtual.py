@@ -315,6 +315,9 @@ class Feature(abc.ABC):
     """The features of a `Widget`"""
 
     def __init__(self, widget: "Widget") -> None:
+        """
+        * `widget`: parent widget
+        """
         self.widget = widget
         widget._feature = self
 

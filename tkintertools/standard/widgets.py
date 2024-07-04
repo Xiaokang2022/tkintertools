@@ -259,6 +259,8 @@ class Entry(virtual.Widget):
         justify: typing.Literal["left", "center", "right"] = "left",
         anchor: typing.Literal["n", "e", "w", "s",
                                "nw", "ne", "sw", "se"] = "center",
+        placeholder: str = "",
+        show: str | None = None,
         limit: int = math.inf,
         image: enhanced.PhotoImage | None = None,
         name: str | None = None,
@@ -277,9 +279,9 @@ class Entry(virtual.Widget):
         * `overstrike`: whether the text is overstrike
         * `justify`: justify mode of the text
         * `anchor`: anchor of the text
-        * `placeholder`: # TODO
-        * `limit`: 
-        * `show`: 
+        * `placeholder`: a placeholder for the prompt
+        * `show`: a custom character that replaces the original character
+        * `limit`: limit on the number of characters
         * `image`: image of the widget
         * `name`: name of the widget
         * `through`: wether detect another widget under the widget

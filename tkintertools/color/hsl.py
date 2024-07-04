@@ -25,6 +25,7 @@ L: Lightness, 0.0 ~ 1.0
 """
 
 MAX = math.tau, 1, 1
+"""The maximum value of the HSL code"""
 
 
 def contrast(
@@ -105,12 +106,12 @@ def gradient(
 
 
 def hsl_to_rgb(hsl: HSL) -> rgb.RGB:
-    """"""
+    """Convert HSL to RGB codes"""
     c = colorsys.hls_to_rgb(hsl[0]/math.tau, hsl[1], hsl[2])
     return tuple(round(i*255) for i in c)
 
 
 def rgb_to_hsl(rgb: rgb.RGB) -> HSL:
-    """"""
+    """Convert RGB to HSL codes"""
     c = colorsys.rgb_to_hls(*tuple(i/255 for i in rgb))
     return c[0]*math.tau, c[1], c[2]
