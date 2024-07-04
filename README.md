@@ -13,17 +13,17 @@
 </p>
 
 <p align="center">
-<a href="https://github.com/Xiaokang2022/tkintertools/releases"><img alt="Version" src="https://img.shields.io/github/v/release/Xiaokang2022/tkintertools?include_prereleases&logo=github&label=Version" title="Latest Version" /></a>
-<a href="https://pypistats.org/packages/tkintertools"><img alt="Downloads" src="https://img.shields.io/pypi/dm/tkintertools?label=Downloads&logo=pypi&logoColor=skyblue" title="Downloads" /></a>
-<a href="https://pepy.tech/project/tkintertools"><img alt="Total Downloads" src="https://img.shields.io/pepy/dt/tkintertools?logo=pypi&logoColor=gold&label=Total%20Downloads" title="Total Downloads" /></a>
-<a href="https://github.com/Xiaokang2022/tkintertools"><img alt="Size" src="https://img.shields.io/github/languages/code-size/Xiaokang2022/tkintertools?label=Size&logo=github" title="Code Size"/></a>
+<a href="https://github.com/Xiaokang2022/tkintertools/releases"><img alt="Version" src="https://custom-icon-badges.demolab.com/github/v/release/Xiaokang2022/tkintertools?include_prereleases&logo=tag&label=Version" title="Latest Version" /></a>
+<a href="https://pypistats.org/packages/tkintertools"><img alt="Downloads" src="https://custom-icon-badges.demolab.com/pypi/dm/tkintertools?label=Downloads&logo=pypi&logoColor=yellow" title="Downloads" /></a>
+<a href="https://pepy.tech/project/tkintertools"><img alt="Total Downloads" src="https://custom-icon-badges.demolab.com/pepy/dt/tkintertools?logo=download&label=Total%20Downloads" title="Total Downloads" /></a>
+<a href="https://github.com/Xiaokang2022/tkintertools"><img alt="Size" src="https://custom-icon-badges.demolab.com/github/languages/code-size/Xiaokang2022/tkintertools?label=Size&logo=code" title="Code Size"/></a>
 <br/>
-<a href="https://github.com/Xiaokang2022/tkintertools/watchers"><img alt="Watchers" src="https://img.shields.io/github/watchers/Xiaokang2022/tkintertools?label=Watchers&logo=github&style=flat" title="Watchers" /></a>
-<a href="https://github.com/Xiaokang2022/tkintertools/forks"><img alt="Forks" src="https://img.shields.io/github/forks/Xiaokang2022/tkintertools?label=Forks&logo=github&style=flat" title="Forks" /></a>
-<a href="https://github.com/Xiaokang2022/tkintertools/stargazers"><img alt="Stars" src="https://img.shields.io/github/stars/Xiaokang2022/tkintertools?label=Stars&color=gold&logo=github&style=flat" title="Stars" /></a>
-<a href="https://github.com/Xiaokang2022/tkintertools/issues"><img alt="Issues" src="https://img.shields.io/github/issues/Xiaokang2022/tkintertools?label=Issues&logo=github" title="Issues" /></a>
-<a href="https://github.com/Xiaokang2022/tkintertools/pulls"><img alt="Pull Requests" src="https://img.shields.io/github/issues-pr/Xiaokang2022/tkintertools?label=Pull%20Requests&logo=github" title="Pull Requests" /></a>
-<a href="https://github.com/Xiaokang2022/tkintertools/discussions"><img alt="Discussions" src="https://img.shields.io/github/discussions/Xiaokang2022/tkintertools?label=Discussions&logo=github" title="Discussions" /></a>
+<a href="https://github.com/Xiaokang2022/tkintertools/watchers"><img alt="Watchers" src="https://custom-icon-badges.demolab.com/github/watchers/Xiaokang2022/tkintertools?label=Watchers&logo=eye&style=flat" title="Watchers" /></a>
+<a href="https://github.com/Xiaokang2022/tkintertools/forks"><img alt="Forks" src="https://custom-icon-badges.demolab.com/github/forks/Xiaokang2022/tkintertools?label=Forks&logo=repo-forked&style=flat" title="Forks" /></a>
+<a href="https://github.com/Xiaokang2022/tkintertools/stargazers"><img alt="Stars" src="https://custom-icon-badges.demolab.com/github/stars/Xiaokang2022/tkintertools?label=Stars&color=gold&logo=star&style=flat" title="Stars" /></a>
+<a href="https://github.com/Xiaokang2022/tkintertools/issues"><img alt="Issues" src="https://custom-icon-badges.demolab.com/github/issues/Xiaokang2022/tkintertools?label=Issues&logo=issue-opened" title="Issues" /></a>
+<a href="https://github.com/Xiaokang2022/tkintertools/pulls"><img alt="Pull Requests" src="https://custom-icon-badges.demolab.com/github/issues-pr/Xiaokang2022/tkintertools?label=Pull%20Requests&logo=git-pull-request" title="Pull Requests" /></a>
+<a href="https://github.com/Xiaokang2022/tkintertools/discussions"><img alt="Discussions" src="https://custom-icon-badges.demolab.com/github/discussions/Xiaokang2022/tkintertools?label=Discussions&logo=comment-discussion" title="Discussions" /></a>
 </p>
 
 <p align="center">
