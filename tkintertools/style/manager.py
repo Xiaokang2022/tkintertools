@@ -182,7 +182,7 @@ def customize_window(
                 case "rectangular": boarder_type = win32material.BORDERTYPE.RECTANGULAR
                 case "smallround": boarder_type = win32material.BORDERTYPE.SMALLROUND
                 case "round": boarder_type = win32material.BORDERTYPE.ROUND
-            win32material.SetBorderType(tools.get_hwnd(window), boarder_type)
+            win32material.SetWindowBorder(tools.get_hwnd(window), boarder_type)
 
 
 def _process_event(dark: bool) -> None:
