@@ -382,6 +382,10 @@ class Feature(abc.ABC):
         """Event of cut operation"""
         return False
 
+    def _double_click(self, event: tkinter.Event) -> bool:
+        """Event of double pressing the left mouse button"""
+        return False
+
 
 class Widget:
     """

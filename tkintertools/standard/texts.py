@@ -141,14 +141,42 @@ class SingleLineText(virtual.Text):
         """Delete the actual text that appears on the component"""
         self.widget.master.dchars(self.items[0], start, end)
 
+    def _text_length(self) -> int:
+        """Get the length of actual text that appears on the component"""
+        return self.widget.master.index(self.items[0], "end")
+
+    def _text_overflow(self) -> bool:
+        """Whether the text content extends beyond the text box"""
+        x1, y1, x2, y2 = self.widget.master.bbox(self.items[0])
+        return (x2-x1) + self.get_gap()*2 >= self.size[0]
+
+    def select_set(self, start: int, end: int) -> None:
+        """Set the index tuple of the selected text, [start, end]"""
+        self.widget.master.select_from(self.items[0], start)
+        self.widget.master.select_to(self.items[0], end)
+
+    def select_get(self) -> tuple[int, int]:
+        """Get the index tuple of the selected text"""
+        start = self.widget.master.index(self.items[0], "sel.first")
+        end = self.widget.master.index(self.items[0], "sel.last")
+        return start, end
+
+    def select_all(self) -> None:
+        """Select all texts"""
+        self.select_set(0, self._text_length())
+
+    def select_clear(self) -> None:
+        """Clear the selected text"""
+        self.widget.master.select_clear()
+
     def get(self) -> str:
         """Get text of the component"""
         return self.text
 
     def set(self, value: str) -> None:
         """Set text of the component"""
-        self.text = value  # BUG
-        self._text_set(value)
+        self.delete(0, "end")
+        self.append(value)
 
     def insert(self, index: int, value: str) -> None:
         """"""
@@ -165,10 +193,6 @@ class SingleLineText(virtual.Text):
             else:
                 self._text_delete(length-1, "end")
 
-    def get_gap(self) -> float:
-        """"""  # BUG
-        return (self.size[1]-abs(self.font["size"])) / 3
-
     def delete(self, start: int, end: int | typing.Literal["end"]) -> None:
         """[start, end]"""
         if end == "end":
@@ -178,73 +202,40 @@ class SingleLineText(virtual.Text):
                 self.text[self.left+end+1:]
         self._text_delete(start, end)
 
-        while self.overflow():
+        while self._text_overflow():
             if self.cursor_get() == 0:
                 break
 
-    def select_set(self, start: int, end: int) -> None:
-        """[start, end]"""
-        self.widget.master.select_from(self.items[0], start)
-        self.widget.master.select_to(self.items[0], end)
-
-    def select_get(self) -> tuple[int, int]:
+    def pop(self, count: int) -> None:
         """"""
-        start = self.widget.master.index(self.items[0], "sel.first")
-        end = self.widget.master.index(self.items[0], "sel.last")
-        return start, end
+        if (index := self.cursor_get() - 1) >= 0:
+            self.delete(index, index)
 
-    def select_all(self) -> None:
+    def append(self, value: str) -> None:
         """"""
-        self.select_set(0, self._text_length())
+        if len(self.text) < self.limit:
+            self.insert(self.cursor_get(), value)
+            self.right += len(value)
 
-    def select_clear(self) -> None:
+    def get_gap(self) -> float:
         """"""
-        self.widget.master.select_clear()
+        if self.items:  # XXX: Maybe need to be optimized?
+            x1, y1, x2, y2 = self.widget.master.bbox(self.items[0])
+            return (self.size[1] - (y2-y1)) / 3
+        return (self.size[1] - abs(self.font.cget("size"))) / 3
 
-    def _text_length(self) -> int:
-        """Get the length of actual text that appears on the component"""
-        return self.widget.master.index(self.items[0], "end")
-
-    def width(self) -> int:
-        """Get the width of actual text that appears on the component"""
-        x1, y1, x2, y2 = self.widget.master.bbox(self.items[0])
-        return x2 - x1
+    def cursor_get(self) -> int:
+        """Get the index position of the text cursor"""
+        return self.widget.master.index(self.items[0], "insert")
 
     def cursor_set(self, index: int) -> int:
-        """"""
+        """Set the index position of the text cursor"""
         if index < 0:
             index = self._text_length() + index + 1
         self.widget.master.icursor(self.items[0], index)
 
-    def cursor_get(self) -> int:
-        """"""
-        return self.widget.master.index(self.items[0], "insert")
-
-    def limitation(self) -> int:
-        """"""
-        if (count := len(self.text) - self.limit) > 0:
-            return count
-        return 0
-
-    def _text_overflow(self) -> bool:
-        """"""
-        return self.font.measure(self._text_get()) + self.get_gap()*2 >= self.size[0] - 2
-
-    def overflow(self) -> bool:
-        """"""
-        return self.font.measure(self.text) >= self.size[0] - 2
-
-    def update_add(self, anchor_left: bool) -> None:
-        """"""
-        if anchor_left:
-            while self._text_overflow():
-                self._text_set(self._text_get()[:-1])
-        else:
-            while self._text_overflow():
-                self._text_set(self._text_get()[1:])
-
-    def move_cursor(self, count: int) -> None:
-        """"""
+    def cursor_move(self, count: int) -> None:
+        """Move the index position of the text cursor"""
         index = self.cursor_get()
         if count < 0 < index:
             return self.cursor_set(index + count)
@@ -256,13 +247,17 @@ class SingleLineText(virtual.Text):
             if self._text_overflow():
                 print(2)
 
-    def pop(self, count: int) -> None:
-        """"""
-        if (index := self.cursor_get() - 1) >= 0:
-            self.delete(index, index)
-
-    def append(self, value: str) -> None:
-        """"""
-        if self._text_length() < self.limit:
-            self.insert(self.cursor_get(), value)
-            self.right += len(value)
+    def cursor_find(self, x: int) -> int:
+        """Return the index of text with the x position of mouse"""
+        x1, y1, x2, y2 = self.widget.master.bbox(self.items[0])
+        if x <= x1:
+            return 0
+        if x >= x2:
+            return -1
+        actual_text = self._text_get()
+        avg_half_width = (x2-x1)/self._text_length()/2
+        for i in range(len(actual_text)):
+            dx = self.font.measure(actual_text[:i])
+            if x1 + dx + avg_half_width > x:
+                return i
+        return -1

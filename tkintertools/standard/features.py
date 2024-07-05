@@ -234,7 +234,7 @@ class Entry(Button):
                 self.widget.master._trigger_focus.update(
                     True, self.widget._texts[0].items[0])
                 self.widget._texts[0].cursor_set(
-                    self.widget._texts[0]._text_length())
+                    self.widget._texts[0].cursor_find(event.x))
                 self.widget.master.itemconfigure(
                     self.widget._texts[0].items[1], fill="")
         else:
@@ -243,6 +243,7 @@ class Entry(Button):
                 if not self.widget._texts[0].get():
                     self.widget.master.itemconfigure(
                         self.widget._texts[0].items[1], fill="#787878")
+        self.widget._texts[0].select_clear()
         return flag
 
     def _release_left(self, event: tkinter.Event) -> bool:
@@ -251,20 +252,23 @@ class Entry(Button):
     def _input(self, event: tkinter.Event) -> bool:
         if self.widget.state == "active":
             match event.keysym:
-                case "Right": self.widget._texts[0].move_cursor(1)
-                case "Left": self.widget._texts[0].move_cursor(-1)
+                case "Right": self.widget._texts[0].cursor_move(1)
+                case "Left": self.widget._texts[0].cursor_move(-1)
                 case "BackSpace":
                     if self.widget._texts[0].text:
                         self.widget._texts[0].pop(1)
                 case _:
                     if event.char.isprintable():
-                        if not self.widget._texts[0].limitation():
-                            self.widget._texts[0].append(event.char)
+                        self.widget._texts[0].append(event.char)
         return False
 
     def _paste(self, event: tkinter.Event) -> bool:
-        if self.widget.state == "active":
+        if flag := self.widget.state == "active":
             if value := self.widget.master.clipboard_get():
                 self.widget._texts[0].append(value)
-                return True
-        return False
+        return flag
+
+    def _double_click(self, event: tkinter.Event) -> bool:
+        if flag := self.widget.state == "active":
+            self.widget._texts[0].select_all()
+        return flag

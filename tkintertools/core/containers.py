@@ -361,6 +361,8 @@ class Canvas(tkinter.Canvas):
         self.bind("<<Paste>>", self._paste)
         self.bind("<<Cut>>", self._cut)
 
+        self.bind("<Double-1>", self._double_click)
+
         self.bind("<Configure>", lambda _: self._zoom_self())
 
     @property
@@ -630,29 +632,36 @@ class Canvas(tkinter.Canvas):
                     event.x = math.nan
 
     def _input(self, event: tkinter.Event) -> None:
-        """Events for typing"""
+        """Event for typing"""
         for widget in self._widgets[::-1]:
             if widget._feature is not None:
                 if getattr(widget._feature, "_input")(event) and not widget.through:
                     event.x = math.nan
 
     def _copy(self, event: tkinter.Event) -> None:
-        """Events for copy operation"""
+        """Event for copy operation"""
         for widget in self._widgets[::-1]:
             if widget._feature is not None:
                 if getattr(widget._feature, "_copy")(event) and not widget.through:
                     pass
 
     def _paste(self, event: tkinter.Event) -> None:
-        """Events for paste operation"""
+        """Event for paste operation"""
         for widget in self._widgets[::-1]:
             if widget._feature is not None:
                 if getattr(widget._feature, "_paste")(event) and not widget.through:
                     pass
 
     def _cut(self, event: tkinter.Event) -> None:
-        """Events for cut operation"""
+        """Event for cut operation"""
         for widget in self._widgets[::-1]:
             if widget._feature is not None:
                 if getattr(widget._feature, "_cut")(event) and not widget.through:
+                    pass
+
+    def _double_click(self, event: tkinter.Event) -> None:
+        """Event for double pressing the left mouse button"""
+        for widget in self._widgets[::-1]:
+            if widget._feature is not None:
+                if getattr(widget._feature, "_double_click")(event) and not widget.through:
                     pass
