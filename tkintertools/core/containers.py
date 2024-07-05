@@ -357,6 +357,10 @@ class Canvas(tkinter.Canvas):
         self.bind("<ButtonRelease-3>",
                   lambda event: self._release(event, "right"))
 
+        self.bind("<<Copy>>", self._copy)
+        self.bind("<<Paste>>", self._paste)
+        self.bind("<<Cut>>", self._cut)
+
         self.bind("<Configure>", lambda _: self._zoom_self())
 
     @property
@@ -631,3 +635,24 @@ class Canvas(tkinter.Canvas):
             if widget._feature is not None:
                 if getattr(widget._feature, "_input")(event) and not widget.through:
                     event.x = math.nan
+
+    def _copy(self, event: tkinter.Event) -> None:
+        """Events for copy operation"""
+        for widget in self._widgets[::-1]:
+            if widget._feature is not None:
+                if getattr(widget._feature, "_copy")(event) and not widget.through:
+                    pass
+
+    def _paste(self, event: tkinter.Event) -> None:
+        """Events for paste operation"""
+        for widget in self._widgets[::-1]:
+            if widget._feature is not None:
+                if getattr(widget._feature, "_paste")(event) and not widget.through:
+                    pass
+
+    def _cut(self, event: tkinter.Event) -> None:
+        """Events for cut operation"""
+        for widget in self._widgets[::-1]:
+            if widget._feature is not None:
+                if getattr(widget._feature, "_cut")(event) and not widget.through:
+                    pass

@@ -211,6 +211,7 @@ class Text(Component):
         text: str = "",
         limit: int = math.inf,
         show: str | None = None,
+        placeholder: str = "",
         anchor: typing.Literal["n", "e", "w", "s",
                                "nw", "ne", "sw", "se"] = "center",
         justify: typing.Literal["left", "center", "right"] = "left",
@@ -240,13 +241,15 @@ class Text(Component):
         * `anchor`: anchor of the text
         * `limit`: limit on the number of characters
         * `show`: display a value that obscures the original content
+        * `placeholder`: a placeholder for the prompt
         * `name`: name of component
         * `animation`: Wether use animation to change color
         * `styles`: style dict of component
         * `kwargs`: extra parameters for CanvasItem
         """
-        self.value = text
+        self.text = text
         self.show = show
+        self.placeholder = placeholder
         self.limit = limit
         self.anchor = anchor
         self.justify = justify
@@ -255,9 +258,7 @@ class Text(Component):
             size=-abs(fontsize if fontsize else constants.SIZE),
             weight=weight, slant=slant,
             underline=underline, overstrike=overstrike)
-        self.left: int = 0
-        self.right: int = 0
-        Component.__init__(self, widget, relative_position, size=size,
+        Component.__init__(self, widget, relative_position, size,
                            name=name, styles=styles, animation=animation, **kwargs)
 
     def region(self) -> tuple[int, int, int, int]:
@@ -367,6 +368,18 @@ class Feature(abc.ABC):
 
     def _input(self, event: tkinter.Event) -> bool:
         """Event of typing"""
+        return False
+
+    def _copy(self, event: tkinter.Event) -> bool:
+        """Event of copy operation"""
+        return False
+
+    def _paste(self, event: tkinter.Event) -> bool:
+        """Event of paste operation"""
+        return False
+
+    def _cut(self, event: tkinter.Event) -> bool:
+        """Event of cut operation"""
         return False
 
 

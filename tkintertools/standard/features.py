@@ -235,25 +235,36 @@ class Entry(Button):
                     True, self.widget._texts[0].items[0])
                 self.widget._texts[0].cursor_set(
                     self.widget._texts[0]._text_length())
+                self.widget.master.itemconfigure(
+                    self.widget._texts[0].items[1], fill="")
         else:
             if self.widget.state != "normal":
                 self.widget.update("normal")
+                if not self.widget._texts[0].get():
+                    self.widget.master.itemconfigure(
+                        self.widget._texts[0].items[1], fill="#787878")
         return flag
 
     def _release_left(self, event: tkinter.Event) -> bool:
-        """"""
         return False
 
     def _input(self, event: tkinter.Event) -> bool:
         if self.widget.state == "active":
             match event.keysym:
-                case "Right": self.widget._texts[0].move_area(1)
-                case "Left": self.widget._texts[0].move_area(-1)
+                case "Right": self.widget._texts[0].move_cursor(1)
+                case "Left": self.widget._texts[0].move_cursor(-1)
                 case "BackSpace":
-                    if self.widget._texts[0].value:
+                    if self.widget._texts[0].text:
                         self.widget._texts[0].pop(1)
                 case _:
                     if event.char.isprintable():
                         if not self.widget._texts[0].limitation():
                             self.widget._texts[0].append(event.char)
+        return False
+
+    def _paste(self, event: tkinter.Event) -> bool:
+        if self.widget.state == "active":
+            if value := self.widget.master.clipboard_get():
+                self.widget._texts[0].append(value)
+                return True
         return False

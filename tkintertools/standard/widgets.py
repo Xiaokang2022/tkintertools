@@ -19,6 +19,7 @@ __all__ = [
     "ProgressBar",
     "UnderlineButton",
     "HighlightButton",
+    "IconButton",
 ]
 
 
@@ -256,9 +257,7 @@ class Entry(virtual.Widget):
         slant: typing.Literal['roman', 'italic'] = "roman",
         underline: bool = False,
         overstrike: bool = False,
-        justify: typing.Literal["left", "center", "right"] = "left",
-        anchor: typing.Literal["n", "e", "w", "s",
-                               "nw", "ne", "sw", "se"] = "center",
+        align: typing.Literal["left", "right", "center"] = "left",
         placeholder: str = "",
         show: str | None = None,
         limit: int = math.inf,
@@ -277,10 +276,9 @@ class Entry(virtual.Widget):
         * `slant`: slant of the text
         * `underline`: whether the text is underline
         * `overstrike`: whether the text is overstrike
-        * `justify`: justify mode of the text
-        * `anchor`: anchor of the text
+        * `align`: align mode of the text
+        * `show`: display a value that obscures the original content
         * `placeholder`: a placeholder for the prompt
-        * `show`: a custom character that replaces the original character
         * `limit`: limit on the number of characters
         * `image`: image of the widget
         * `name`: name of the widget
@@ -298,7 +296,8 @@ class Entry(virtual.Widget):
         if image is not None:
             images.StillImage(self, image=image)
         texts.SingleLineText(self, family=family, fontsize=fontsize, weight=weight, slant=slant,
-                             underline=underline, overstrike=overstrike, justify=justify, anchor=anchor, limit=limit)
+                             underline=underline, overstrike=overstrike, align=align, limit=limit,
+                             show=show, placeholder=placeholder)
         features.Entry(self)
 
     def get(self) -> str:
@@ -605,3 +604,61 @@ class HighlightButton(virtual.Widget):
         texts.Information(self, text=text, family=family, fontsize=fontsize, weight=weight, slant=slant,
                           underline=underline, overstrike=overstrike, justify=justify, anchor=anchor)
         features.Highlight(self, command=command)
+
+
+class IconButton(virtual.Widget):
+    """A button with an icon on the left side"""
+
+    def __init__(
+        self,
+        master: containers.Canvas,
+        position: tuple[int, int],
+        size: tuple[int, int] = (120, 40),
+        *,
+        text: str = "Button",
+        family: str | None = None,
+        fontsize: int | None = None,
+        weight: typing.Literal['normal', 'bold'] = "normal",
+        slant: typing.Literal['roman', 'italic'] = "roman",
+        underline: bool = False,
+        overstrike: bool = False,
+        justify: typing.Literal["left", "center", "right"] = "left",
+        anchor: typing.Literal["n", "e", "w", "s",
+                               "nw", "ne", "sw", "se"] = "w",
+        command: typing.Callable | None = None,
+        image: enhanced.PhotoImage | None = None,
+        name: str | None = None,
+        through: bool = False,
+        animation: bool = True,
+    ) -> None:
+        """
+        * `master`: parent canvas
+        * `position`: position of the widget
+        * `size`: size of the widget
+        * `text`: text of the widget
+        * `family`: font family
+        * `fontsize`: font size
+        * `weight`: weight of the text
+        * `slant`: slant of the text
+        * `underline`: whether the text is underline
+        * `overstrike`: whether the text is overstrike
+        * `justify`: justify mode of the text
+        * `anchor`: anchor of the text
+        * `command`: a function that is triggered when the button is pressed
+        * `image`: image of the widget
+        * `name`: name of the widget
+        * `through`: wether detect another widget under the widget
+        * `animation`: wether enable animation
+        """
+        virtual.Widget.__init__(self, master, position, size,
+                                name=name, through=through, animation=animation)
+        if constants.SYSTEM == "Windows10":
+            shapes.Rectangle(self)
+        else:
+            shapes.RoundedRectangle(self)
+        if image is not None:
+            images.StillImage(self, ((size[1]-size[0]) / 2, 0), image=image)
+        texts.Information(self, (size[1] - size[0]/2, 0), text=text,
+                          family=family, fontsize=fontsize, weight=weight, slant=slant,
+                          underline=underline, overstrike=overstrike, justify=justify, anchor=anchor)
+        features.Button(self, command=command)
