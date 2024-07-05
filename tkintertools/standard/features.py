@@ -233,8 +233,8 @@ class Entry(Button):
             if self.widget.state == "active":  # Maybe widget is disabled
                 self.widget.master._trigger_focus.update(
                     True, self.widget._texts[0].items[0])
-                self.widget._texts[0].cursor_set(
-                    self.widget._texts[0].cursor_find(event.x))
+                self._start_index = self.widget._texts[0].cursor_find(event.x)
+                self.widget._texts[0].cursor_set(self._start_index)
                 self.widget.master.itemconfigure(
                     self.widget._texts[0].items[1], fill="")
         else:
@@ -246,26 +246,77 @@ class Entry(Button):
         self.widget._texts[0].select_clear()
         return flag
 
+    def _move_left(self, event: tkinter.Event) -> bool:
+        if self.widget.state == "active":
+            self.widget.master._trigger_config.update(cursor="xterm")
+            self._end_index = self.widget._texts[0].cursor_find(event.x)
+            self.widget._texts[0].cursor_set(self._end_index)
+            if self._start_index < self._end_index:
+                self.widget._texts[0].select_set(
+                    self._start_index, self._end_index-1)
+            elif self._start_index > self._end_index:
+                self.widget._texts[0].select_set(
+                    self._end_index, self._start_index-1)
+            else:
+                self.widget._texts[0].select_clear()
+            return True
+        return False
+
     def _release_left(self, event: tkinter.Event) -> bool:
         return False
 
     def _input(self, event: tkinter.Event) -> bool:
         if self.widget.state == "active":
+            select = self.widget._texts[0].select_get()
             match event.keysym:
-                case "Right": self.widget._texts[0].cursor_move(1)
-                case "Left": self.widget._texts[0].cursor_move(-1)
+                case "Right":
+                    if select is None:
+                        self.widget._texts[0].cursor_move(1)
+                    else:
+                        self.widget._texts[0].select_clear()
+                        self.widget._texts[0].cursor_move_to(select[1]+1)
+                case "Left":
+                    if select is None:
+                        self.widget._texts[0].cursor_move(-1)
+                    else:
+                        self.widget._texts[0].select_clear()
+                        self.widget._texts[0].cursor_move_to(select[0])
                 case "BackSpace":
-                    if self.widget._texts[0].text:
+                    if select is not None:
+                        self.widget._texts[0].select_clear()
+                        self.widget._texts[0].delete(*select)
+                    elif self.widget._texts[0].text:
                         self.widget._texts[0].pop(1)
                 case _:
-                    if event.char.isprintable():
+                    if len(event.char) and event.char.isprintable():
+                        if select is not None:
+                            self.widget._texts[0].select_clear()
+                            self.widget._texts[0].delete(*select)
                         self.widget._texts[0].append(event.char)
+                        return None
         return False
+
+    def _copy(self, event: tkinter.Event) -> bool:
+        if flag := self.widget.state == "active":
+            if (select := self.widget._texts[0].select_get()) is not None:
+                self.widget.master.clipboard_clear()
+                self.widget.master.clipboard_append(
+                    self.widget._texts[0]._text_get()[select[0]: select[1]+1])
+        return flag
 
     def _paste(self, event: tkinter.Event) -> bool:
         if flag := self.widget.state == "active":
+            if (select := self.widget._texts[0].select_get()) is not None:
+                self.widget._texts[0].select_clear()
+                self.widget._texts[0].delete(*select)
             if value := self.widget.master.clipboard_get():
                 self.widget._texts[0].append(value)
+        return flag
+
+    def _cut(self, event: tkinter.Event) -> bool:
+        if flag := self._copy(event):
+            self.widget._texts[0].delete(*self.widget._texts[0].select_get())
+            self.widget._texts[0].select_clear()
         return flag
 
     def _double_click(self, event: tkinter.Event) -> bool:

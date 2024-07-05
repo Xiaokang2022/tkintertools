@@ -1,7 +1,7 @@
 """All standard Dialogs"""
 
 import tkinter
-import tkinter.colorchooser as colorchooser
+import tkinter.colorchooser
 import typing
 
 __all__ = [
@@ -78,7 +78,7 @@ class TkColorChooser:
         * `master`: parent widget of the window
         * `command`: callback function
         """
-        color: tuple[tuple[int, int, int] | None, str | None] = colorchooser.askcolor(
+        color: tuple[tuple[int, int, int] | None, str | None] = tkinter.colorchooser.askcolor(
             parent=master, title=title, initialcolor=color)
         if command is not None and color[0] is not None:
             command(color[1])

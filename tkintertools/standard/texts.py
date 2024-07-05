@@ -1,6 +1,7 @@
 """All standard Texts"""
 
 import math
+import tkinter.font
 import typing
 
 from ..core import virtual
@@ -155,8 +156,10 @@ class SingleLineText(virtual.Text):
         self.widget.master.select_from(self.items[0], start)
         self.widget.master.select_to(self.items[0], end)
 
-    def select_get(self) -> tuple[int, int]:
+    def select_get(self) -> tuple[int, int] | None:
         """Get the index tuple of the selected text"""
+        if not self.widget.master.select_item():
+            return None
         start = self.widget.master.index(self.items[0], "sel.first")
         end = self.widget.master.index(self.items[0], "sel.last")
         return start, end
@@ -234,6 +237,23 @@ class SingleLineText(virtual.Text):
             index = self._text_length() + index + 1
         self.widget.master.icursor(self.items[0], index)
 
+    def cursor_find(self, x: int) -> int:
+        """Return the index of text with the x position of mouse"""
+        x1, y1, x2, y2 = self.widget.master.bbox(self.items[0])
+        if x <= x1 or self._text_length() == 0:
+            return 0
+        if x >= x2:
+            return self._text_length()
+        actual_text = self._text_get()
+        avg_half_width = (x2-x1)/self._text_length()/2
+        font = tkinter.font.Font(
+            font=self.widget.master.itemcget(self.items[0], "font"))
+        for i in range(len(actual_text)):
+            dx = font.measure(actual_text[:i])
+            if x1 + dx + avg_half_width > x:
+                return i
+        return self._text_length()  # Without this, some error will be thrown
+
     def cursor_move(self, count: int) -> None:
         """Move the index position of the text cursor"""
         index = self.cursor_get()
@@ -247,17 +267,6 @@ class SingleLineText(virtual.Text):
             if self._text_overflow():
                 print(2)
 
-    def cursor_find(self, x: int) -> int:
-        """Return the index of text with the x position of mouse"""
-        x1, y1, x2, y2 = self.widget.master.bbox(self.items[0])
-        if x <= x1:
-            return 0
-        if x >= x2:
-            return -1
-        actual_text = self._text_get()
-        avg_half_width = (x2-x1)/self._text_length()/2
-        for i in range(len(actual_text)):
-            dx = self.font.measure(actual_text[:i])
-            if x1 + dx + avg_half_width > x:
-                return i
-        return -1
+    def cursor_move_to(self, count: int) -> None:
+        """Move the index position of the text cursor to a certain index"""
+        return self.cursor_move(count - self.cursor_get())

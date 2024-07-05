@@ -13,7 +13,7 @@ import abc
 import copy
 import math
 import tkinter
-import tkinter.font as font
+import tkinter.font
 import typing
 
 from ..animation import animations
@@ -253,7 +253,7 @@ class Text(Component):
         self.limit = limit
         self.anchor = anchor
         self.justify = justify
-        self.font = font.Font(
+        self.font = tkinter.font.Font(
             family=family if family else constants.FONT,
             size=-abs(fontsize if fontsize else constants.SIZE),
             weight=weight, slant=slant,

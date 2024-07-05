@@ -4,7 +4,7 @@ import functools
 import math
 import platform
 import tkinter
-import tkinter.font as font
+import tkinter.font
 import typing
 
 from ..style import manager, parser
@@ -516,7 +516,7 @@ class Canvas(tkinter.Canvas):
     def _zoom_texts(self) -> None:
         """Scale the texts"""
         for item, fontsize in self._texts.items():
-            new_font = font.Font(font=self.itemcget(item, "font"))
+            new_font = tkinter.font.Font(font=self.itemcget(item, "font"))
             new_font.config(size=round(
                 fontsize*math.sqrt(self.ratios[0]*self.ratios[1])))
             self.itemconfigure(item, font=new_font, _syscall=True)
@@ -536,18 +536,20 @@ class Canvas(tkinter.Canvas):
     def create_text(self, x: float, y: float, /, **kwargs) -> int:
         # XXX: Need to be improved
         if not (font_ := kwargs.get("font")):
-            kwargs["font"] = font.Font(
+            kwargs["font"] = tkinter.font.Font(
                 family=constants.FONT, size=constants.SIZE)
         elif isinstance(font_, str):
-            kwargs["font"] = font.Font(family=font_, size=constants.SIZE)
+            kwargs["font"] = tkinter.font.Font(
+                family=font_, size=constants.SIZE)
         elif isinstance(font_, int):
-            kwargs["font"] = font.Font(family=constants.FONT, size=-abs(font_))
-        elif isinstance(font_, font.Font):
+            kwargs["font"] = tkinter.font.Font(
+                family=constants.FONT, size=-abs(font_))
+        elif isinstance(font_, tkinter.font.Font):
             kwargs["font"].config(size=-abs(font_.cget("size")))
         else:
             (font_ := list(font_))[1] = -abs(font_[1])
             length = len(font_)
-            kwargs["font"] = font.Font(
+            kwargs["font"] = tkinter.font.Font(
                 family=font_[0], size=font_[1],
                 weight=font_[2] if length > 2 else "normal",
                 slant=font_[3] if length > 3 else "roman")
@@ -574,7 +576,7 @@ class Canvas(tkinter.Canvas):
         result = tkinter.Canvas.itemconfigure(self, tagOrId, cnf, **kwargs)
         if not _syscall:
             if self.type(tagOrId) == "text" and kwargs.get("font") is not None:
-                self._texts[tagOrId] = font.Font(
+                self._texts[tagOrId] = tkinter.font.Font(
                     font=kwargs["font"]).cget("size")
             elif self.type(tagOrId) == "image":
                 self._images[tagOrId][0] = kwargs.get("image")
