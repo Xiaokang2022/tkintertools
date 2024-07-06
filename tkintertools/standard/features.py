@@ -286,7 +286,7 @@ class Entry(Button):
                         self.widget._texts[0].select_clear()
                         self.widget._texts[0].delete(*select)
                     elif self.widget._texts[0].text:
-                        self.widget._texts[0].pop(1)
+                        self.widget._texts[0].pop()
                 case _:
                     if len(event.char) and event.char.isprintable():
                         if select is not None:

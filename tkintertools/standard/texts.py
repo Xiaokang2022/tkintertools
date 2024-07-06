@@ -178,54 +178,92 @@ class SingleLineText(virtual.Text):
 
     def set(self, value: str) -> None:
         """Set text of the component"""
-        self.delete(0, "end")
+        self.delete(0, self._text_length())
         self.append(value)
 
     def insert(self, index: int, value: str) -> None:
-        """"""
+        """Insert text to the location of the specified index"""
         if index < 0:
             index = self._text_length() + index
         key_index = self.left+index
         self.text = self.text[:key_index] + value + self.text[key_index:]
         self._text_insert(index, value)
+        self.right += len(value)
 
-        while self._text_overflow():
-            length = self._text_length()
-            if self.cursor_get() == length:
+        if index + len(value) == self._text_length():
+            while self._text_overflow():
                 self._text_delete(0, 0)
-            else:
-                self._text_delete(length-1, "end")
-
-    def delete(self, start: int, end: int | typing.Literal["end"]) -> None:
-        """[start, end]"""
-        if end == "end":
-            self.text = self.text[:self.left+start]
+                self.left += 1
         else:
-            self.text = self.text[:self.left+start] + \
-                self.text[self.left+end+1:]
+            while self._text_overflow():
+                self._text_delete(self._text_length()-1, "end")
+                self.right -= 1
+
+    def delete(self, start: int, end: int) -> None:
+        """Delete text within the specified index range, [start, end]"""
+        self.text = self.text[:self.left+start] + self.text[self.left+end+1:]
         self._text_delete(start, end)
+        self.right -= end - start + 1
 
-        while self._text_overflow():
-            if self.cursor_get() == 0:
-                break
+        if self.right != len(self.text):
+            while not self._text_overflow():
+                if self.right == len(self.text):
+                    return
+                self._text_insert(self._text_length(), self.text[self.right])
+                self.right += 1
 
-    def pop(self, count: int) -> None:
-        """"""
+            self._text_delete(self._text_length()-1, "end")
+            self.right -= 1
+        elif self.left > 0:
+            while not self._text_overflow():
+                if self.left == 0:
+                    return
+                self._text_insert(0, self.text[self.left])
+                self.left -= 1
+
+            self._text_delete(0, 0)
+            self.left += 1
+
+    def pop(self) -> None:
+        """Delete a character at the text cursor"""
         if (index := self.cursor_get() - 1) >= 0:
             self.delete(index, index)
 
     def append(self, value: str) -> None:
-        """"""
+        """Add some characters to the text cursor"""
         if len(self.text) < self.limit:
             self.insert(self.cursor_get(), value)
-            self.right += len(value)
 
     def get_gap(self) -> float:
-        """"""
+        """Get the size of the spacing between the text and the border"""
         if self.items:  # XXX: Maybe need to be optimized?
             x1, y1, x2, y2 = self.widget.master.bbox(self.items[0])
-            return (self.size[1] - (y2-y1)) / 3
-        return (self.size[1] - abs(self.font.cget("size"))) / 3
+            return (self.size[1] - (y2-y1)) // 2
+        return (self.size[1] - abs(self.font.cget("size"))) // 2
+
+    def _move_left(self) -> None:
+        """Move the text to the left as a whole, i.e. press the right arrow"""
+        if self.right == len(self.text):
+            return
+        self._text_insert(length := self._text_length(), self.text[self.right])
+        self.right += 1
+        self.cursor_set(length+1)
+
+        while self._text_overflow():
+            self._text_delete(0, 0)
+            self.left += 1
+
+    def _move_right(self) -> None:
+        """Move the text to the right as a whole, i.e. press the left arrow"""
+        if self.left == 0:
+            return
+        self.left -= 1
+        self._text_insert(0, self.text[self.left])
+        self.cursor_set(0)
+
+        while self._text_overflow():
+            self._text_delete(self._text_length()-1, "end")
+            self.right -= 1
 
     def cursor_get(self) -> int:
         """Get the index position of the text cursor"""
@@ -262,10 +300,9 @@ class SingleLineText(virtual.Text):
         elif 0 < count and index < self._text_length():
             return self.cursor_set(index + count)
         elif count < 0 and index == 0:
-            print(1)
+            self._move_right()
         elif count > 0 and index == self._text_length():
-            if self._text_overflow():
-                print(2)
+            self._move_left()
 
     def cursor_move_to(self, count: int) -> None:
         """Move the index position of the text cursor to a certain index"""
