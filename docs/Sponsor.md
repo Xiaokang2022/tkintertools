@@ -29,7 +29,14 @@ Please include some information when sponsoring, in the following format:
 请在赞助时注明一些信息，格式如下：
 
 ```linenums="0"
-tkt [your nickname / 你的昵称]
+tkt [your nickname]
+```
+
+or  
+或者
+
+```linenums="0"
+tkt [你的昵称]
 ```
 
 I'll put `[your nickname]` and the time and amount of your sponsorship below! Of course, you can also be anonymous.  
@@ -43,5 +50,8 @@ This page is not updated automatically, but manually by me, so please understand
 
 | 🕓 Date / 日期 | 😀 Sponsor / 赞助者 | 💰 Amount / 金额 | ❤️ Sponsor Method / 赞赏方式 |
 | :-----------: | :----------------: | :-------------: | :-------------------------: |
-|  2024-06-03   |      rgzz666       |      1.00       |         微信赞赏码          |
-|  2024-06-23   |         -          |      6.66       |         微信赞赏码          |
+|  2024-07-11   |     Lau9/老九      |      ¥9.99      |         微信赞赏码          |
+|  2024-07-11   |    curios-city     |      ¥8.88      |         微信赞赏码          |
+|  2024-07-11   |   ShenNong/神农    |      ¥7.77      |         微信赞赏码          |
+|  2024-06-23   |                    |      ¥6.66      |         微信赞赏码          |
+|  2024-06-03   |      rgzz666       |      ¥1.00      |         微信赞赏码          |

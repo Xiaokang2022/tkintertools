@@ -223,6 +223,7 @@ plugins: # 插件
       enable_creation_date: true # 显示创建的日期
       type: datetime # 每页底下显示最后更新日期，类型是 datatime（日期+时间），或者 data（只有日期）等
       locale: zh # 换成中文显示
+      timezone: Etc/GMT-8 # 设置时区（默认值不是我们想要的）
   - git-authors: # 文章作者显示插件（pip install mkdocs-git-authors-plugin）注意：build 时此插件加载非常缓慢！
       show_contribution: true # 显示贡献比例
       show_line_count: true # 记录行数
@@ -257,14 +258,14 @@ plugins: # 插件
 
 nav: # 导航栏
   - Home / 主页:
-      - Profile - 简介: index.md
+      - Homepage - 主页: index.md
       - License - 项目许可: LICENSE.md
       - Todo - 待办事项: TODO.md
       - Changelog - 更新日志: CHANGELOG.md
-      - Contribution Guide - 贡献指南: CONTRIBUTING.md
+      - Contribution Guideline - 贡献指南: CONTRIBUTING.md
       - Security Policy - 安全策略: SECURITY.md
       - Code of Conduct - 行为准则: CODE_OF_CONDUCT.md
-      - Sponsor this project - 赞助项目: Sponsor.md
+      - Sponsor This Project - 赞助项目: Sponsor.md
 
   - Tutorials / 教程:
       - 前言: tutorials/0-1.md
@@ -337,3 +338,9 @@ nav: # 导航栏
 
   - Projects / 项目:
       - Overview - 项目概览: projects/index.md
+  
+  - Videos / 视频:
+      - Overview - 视频概览: videos/index.md
+      - 2024-06-18: videos/pages/2024-06-18.md
+      - 2024-05-19: videos/pages/2024-05-19.md
+      - 2024-04-06: videos/pages/2024-04-06.md

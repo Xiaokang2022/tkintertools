@@ -98,7 +98,7 @@ If you would like to join the project team, please contact the maintainers of th
 
 <small>
 
-This contribution guide is based on https://contributing.md/example/ .  
+This contribution guideline is based on https://contributing.md/example/ .  
 这个贡献指南是基于 https://contributing.md/example/ 改写的。
 
 </small>
