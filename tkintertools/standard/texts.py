@@ -17,9 +17,15 @@ class Information(virtual.Text):
 
     # @typing.override
     def display(self) -> None:
-        self.items.append(self.widget.master.create_text(
-            *self.center(), text=self.text, font=self.font, justify=self.justify,
-            anchor=self.anchor, tags=("fill", "fill")))
+        self.items = [self.widget.master.create_text(
+            0, 0, text=self.text, font=self.font, justify=self.justify,
+            anchor=self.anchor, tags=("fill", "fill"))]
+
+    # @typing.override
+    def coords(self, size: tuple[float, float] | None = None, position: tuple[float, float] | None = None) -> None:
+        super().coords(size, position)
+
+        self.widget.master.coords(self.items[0], *self.center())
 
     def get(self) -> str:
         """Get the value of `Text`"""
@@ -108,19 +114,26 @@ class SingleLineText(virtual.Text):
 
     # @typing.override
     def display(self) -> None:
+        self.items = [
+            self.widget.master.create_text(
+                0, 0, text=self.text, font=self.font, justify=self.justify,
+                anchor=self.anchor, tags=("fill", "fill")),
+            self.widget.master.create_text(
+                0, 0, text=self.placeholder, font=self.font, justify=self.justify,
+                anchor=self.anchor, fill="#787878")]
+
+    # @typing.override
+    def coords(self, size: tuple[float, float] | None = None, position: tuple[float, float] | None = None) -> None:
+        super().coords(size, position)
+
         x, y = self.center()
         if self.anchor == "w":
             x = self.position[0] + self.get_gap()
         elif self.anchor == "e":
             x = self.position[0] + self.size[0] - self.get_gap()
-        self.items.append(
-            self.widget.master.create_text(
-                x, y, text=self.text, font=self.font, justify=self.justify,
-                anchor=self.anchor, tags=("fill", "fill"))),
-        self.items.append(
-            self.widget.master.create_text(
-                x, y, text=self.placeholder, font=self.font, justify=self.justify,
-                anchor=self.anchor, fill="#787878"))
+
+        self.widget.master.coords(self.items[0], x, y)
+        self.widget.master.coords(self.items[1], x, y)
 
     def _text_get(self) -> str:
         """Get the actual text that appears on the component"""
@@ -201,6 +214,8 @@ class SingleLineText(virtual.Text):
 
     def delete(self, start: int, end: int) -> None:
         """Delete text within the specified index range, [start, end]"""
+        if self._text_length() == 0:
+            return None
         self.text = self.text[:self.left+start] + self.text[self.left+end+1:]
         self._text_delete(start, end)
         self.right -= end - start + 1

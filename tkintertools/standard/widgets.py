@@ -20,6 +20,7 @@ __all__ = [
     "UnderlineButton",
     "HighlightButton",
     "IconButton",
+    "Slider",
 ]
 
 
@@ -478,25 +479,15 @@ class ProgressBar(virtual.Widget):
             return self._shapes[1].disappear()
         elif not self._shapes[1].visible:
             self._shapes[1].appear()
+
         if isinstance(self._shapes[1], shapes.Rectangle):
-            x, y = self._shapes[1].position
-            w, h = (self.size[0] - self.size[1]*0.2) * \
-                self.value, self._shapes[1].size[1]
-            self.master.coords(self._shapes[1].items[0], x, y, x+w, y+h)
+            self._shapes[1].coords(
+                ((self.size[0]-self.size[1]*0.2) * self.value, self._shapes[1].size[1]))
         else:
-            w, h = self.size[0] - self.size[1]*0.3 - \
-                self._shapes[1].size[1], self._shapes[1].size[1]
-            x, y = self._shapes[1].position[0] + \
-                h/2, self._shapes[1].position[1]
-            w *= self.value
-            self.master.coords(self._shapes[1].items[2], x, y, x+w, y+h)
-            self.master.coords(self._shapes[1].items[5], x, y, x+w, y)
-            self.master.coords(self._shapes[1].items[6], x, y+h, x+w, y+h)
-            self.master.coords(
-                self._shapes[1].items[1], x+w-h/2, y, x+w+h/2, y+h)
-            self.master.coords(
-                self._shapes[1].items[4], x+w-h/2, y, x+w+h/2, y+h)
-        if value == 1 and self.command is not None:
+            self._shapes[1].coords(
+                (self.size[1]*0.7 + (self.size[0]-self.size[1]*0.3-self._shapes[1].size[1]) * self.value, self._shapes[1].size[1]))
+
+        if self.value == 1 and self.command is not None:
             self.command()
 
 
@@ -662,3 +653,65 @@ class IconButton(virtual.Widget):
                           family=family, fontsize=fontsize, weight=weight, slant=slant,
                           underline=underline, overstrike=overstrike, justify=justify, anchor=anchor)
         features.Button(self, command=command)
+
+
+class Slider(virtual.Widget):
+    """A slider for visually resizing values"""
+
+    def __init__(
+        self,
+        master: containers.Canvas,
+        position: tuple[int, int],
+        size: tuple[int, int] = (400, 30),
+        *,
+        command: typing.Callable | None = None,
+        name: str | None = None,
+        through: bool = False,
+        animation: bool = True,
+    ) -> None:
+        """
+        * `master`: parent canvas
+        * `position`: position of the widget
+        * `size`: size of the widget
+        * `command`: a function that is triggered when the button is pressed
+        * `name`: name of the widget
+        * `through`: wether detect another widget under the widget
+        * `animation`: wether enable animation
+        """
+        self.value: float = 0
+        self.command = command
+        virtual.Widget.__init__(self, master, position, size,
+                                name=name, through=through, animation=animation)
+        if constants.SYSTEM == "Windows10":
+            shapes.Rectangle(
+                self, (0, size[1]/3), (size[0], size[1]/3), name=".out")
+            shapes.Rectangle(
+                self, (0, size[1]/3), (size[0], size[1]/3), name=".in")
+            shapes.Rectangle(self, size=(size[1]/3, size[1]))
+        else:
+            shapes.SemicircularRectangle(
+                self, (0, size[1]*2/5), (size[0], size[1]/5), name=".out")
+            shapes.SemicircularRectangle(
+                self, (0, size[1]*2/5), (size[1]/2, size[1]/5), name=".in")
+            shapes.Oval(self, (0, 0), (size[1], size[1]), name=".out")
+            shapes.Oval(self, (size[1]/4, size[1]/4),
+                        (size[1]/2, size[1]/2), name=".in")
+        features.Slider(self)
+
+    def get(self) -> float:
+        """Get the value of the slider"""
+        return self.value
+
+    def set(self, value: float) -> typing.Any:
+        """Set the value of the slider"""
+        value = 1 if value > 1 else 0 if value < 0 else value
+        delta = (value-self.value) * (self.size[0]-self.size[1])
+        if value == self.value:
+            return
+        self.value = value
+        for shape in self._shapes[2:]:
+            shape.move(delta, 0)
+        self._shapes[1].coords(
+            (self.size[1]/2 + (self.size[0]-self.size[1]) * self.value, self._shapes[1].size[1]))
+        if self.command is not None:
+            return self.command(self.value)

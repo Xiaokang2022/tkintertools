@@ -15,12 +15,6 @@ Todo / 待办事项
 🔥 In Development / 开发中
 --------------------------
 
-- [ ] Improve the basics of text widgets  
-完善基础的文本类小部件
-
-- [ ] Add slider widget  
-增加滑动条小部件
-
 - [ ] Add Tooltip widget  
 增加提示框小部件
 
@@ -51,14 +45,8 @@ Todo / 待办事项
 - [ ] Add support for OpenGL  
 增加对 OpenGL 的支持
 
-- [ ] Add 2D engine (port and enhance `turtle` to `tkintertools`)  
-增加 2D 引擎（移植并强化 `turtle` 到 `tkintertools` 中）
-
 💡 In Consideration / 考虑中
 ----------------------------
-
-- [ ] Add game system  
-增加游戏系统
 
 - [ ] Introduce video-related third-party packages to enable video playback  
 引入视频相关第三方包，以实现视频的播放

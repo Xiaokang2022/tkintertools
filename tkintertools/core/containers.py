@@ -361,8 +361,6 @@ class Canvas(tkinter.Canvas):
         self.bind("<<Paste>>", self._paste)
         self.bind("<<Cut>>", self._cut)
 
-        self.bind("<Double-1>", self._double_click)
-
         self.bind("<Configure>", lambda _: self._zoom_self())
 
     @property
@@ -659,11 +657,4 @@ class Canvas(tkinter.Canvas):
         for widget in self._widgets[::-1]:
             if widget._feature is not None:
                 if getattr(widget._feature, "_cut")(event) and not widget.through:
-                    pass
-
-    def _double_click(self, event: tkinter.Event) -> None:
-        """Event for double pressing the left mouse button"""
-        for widget in self._widgets[::-1]:
-            if widget._feature is not None:
-                if getattr(widget._feature, "_double_click")(event) and not widget.through:
                     pass

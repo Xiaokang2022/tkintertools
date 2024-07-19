@@ -188,6 +188,14 @@ class Component(abc.ABC):
     def display(self) -> None:
         """Display the `Component` on a `Canvas`"""
 
+    @abc.abstractmethod
+    def coords(self, size: tuple[float, float] | None = None, position: tuple[float, float] | None = None) -> None:
+        """Resize the `Component`"""
+        if size is not None:
+            self.size = list(size)
+        if position is not None:
+            self.position = list(position)
+
 
 class Shape(Component):
     """The Shape of a `Widget`"""
@@ -444,6 +452,7 @@ class Widget:
         elif isinstance(component, Image):
             self._images.append(component)
         component.display()
+        component.coords()
         component.update(no_delay=True)
 
     def deregister(self, component: Component) -> None:

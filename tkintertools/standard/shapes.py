@@ -48,10 +48,17 @@ class Line(virtual.Shape):
 
     # @typing.override
     def display(self) -> None:
+        self.items = [self.widget.master.create_line(
+            0, 0, 0, 0, tags=("fill", "fill"), **self.kwargs)]
+
+    # @typing.override
+    def coords(self, size: tuple[float, float] | None = None, position: tuple[float, float] | None = None) -> None:
+        super().coords(size, position)
+
         points = [(x+self.position[0], y+self.position[1])
                   for x, y in self.points]
-        self.items = [self.widget.master.create_line(
-            *points, tags=("fill", "fill"), **self.kwargs)]
+
+        self.widget.master.coords(self.items[0], *points)
 
 
 class Rectangle(virtual.Shape):
@@ -60,7 +67,13 @@ class Rectangle(virtual.Shape):
     # @typing.override
     def display(self) -> None:
         self.items = [self.widget.master.create_rectangle(
-            *self.region(), tags=("fill", "fill", "outline", "outline"), **self.kwargs)]
+            0, 0, 0, 0, tags=("fill", "fill", "outline", "outline"), **self.kwargs)]
+
+    # @typing.override
+    def coords(self, size: tuple[float, float] | None = None, position: tuple[float, float] | None = None) -> None:
+        super().coords(size, position)
+
+        self.widget.master.coords(self.items[0], *self.region())
 
 
 class Oval(virtual.Shape):
@@ -69,7 +82,13 @@ class Oval(virtual.Shape):
     # @typing.override
     def display(self) -> None:
         self.items = [self.widget.master.create_oval(
-            *self.region(), tags=("fill", "fill", "outline", "outline"), **self.kwargs)]
+            0, 0, 0, 0, tags=("fill", "fill", "outline", "outline"), **self.kwargs)]
+
+    # @typing.override
+    def coords(self, size: tuple[float, float] | None = None, position: tuple[float, float] | None = None) -> None:
+        super().coords(size, position)
+
+        self.widget.master.coords(self.items[0], *self.region())
 
 
 class RegularPolygon(virtual.Shape):
@@ -106,6 +125,13 @@ class RegularPolygon(virtual.Shape):
 
     # @typing.override
     def display(self) -> None:
+        self.items = [self.widget.master.create_polygon(
+            0, 0, 0, 0, tags=("fill", "fill", "outline", "outline"), **self.kwargs)]
+
+    # @typing.override
+    def coords(self, size: tuple[float, float] | None = None, position: tuple[float, float] | None = None) -> None:
+        super().coords(size, position)
+
         r = min(self.size) / 2
         if self.side < 3:
             warnings.warn("Parameters are not suitable")
@@ -117,8 +143,7 @@ class RegularPolygon(virtual.Shape):
             points.append(math.sin(angle)*r +
                           self.position[1] + self.size[1]/2)
 
-        self.items = [self.widget.master.create_polygon(
-            *points, tags=("fill", "fill", "outline", "outline"), **self.kwargs)]
+        self.widget.master.coords(self.items[0], *points)
 
 
 class RoundedRectangle(virtual.Shape):
@@ -152,6 +177,41 @@ class RoundedRectangle(virtual.Shape):
 
     # @typing.override
     def display(self) -> None:
+        self.items = [
+            self.widget.master.create_arc(
+                0, 0, 0, 0, outline="", start=90, tags=("fill", "fill"), **self.kwargs),
+            self.widget.master.create_arc(
+                0, 0, 0, 0, outline="", start=0, tags=("fill", "fill"), **self.kwargs),
+            self.widget.master.create_arc(
+                0, 0, 0, 0, outline="", start=180, tags=("fill", "fill"), **self.kwargs),
+            self.widget.master.create_arc(
+                0, 0, 0, 0, outline="", start=-90, tags=("fill", "fill"), **self.kwargs),
+            self.widget.master.create_rectangle(
+                0, 0, 0, 0, outline="", tags=("fill", "fill"), **self.kwargs),
+            self.widget.master.create_rectangle(
+                0, 0, 0, 0, outline="", tags=("fill", "fill"), **self.kwargs),
+            self.widget.master.create_line(
+                0, 0, 0, 0, tags=("fill", "outline"), **self.kwargs),
+            self.widget.master.create_line(
+                0, 0, 0, 0, tags=("fill", "outline"), **self.kwargs),
+            self.widget.master.create_line(
+                0, 0, 0, 0, tags=("fill", "outline"), **self.kwargs),
+            self.widget.master.create_line(
+                0, 0, 0, 0, tags=("fill", "outline"), **self.kwargs),
+            self.widget.master.create_arc(
+                0, 0, 0, 0, style="arc", start=90, tags=("outline", "outline"), **self.kwargs),
+            self.widget.master.create_arc(
+                0, 0, 0, 0, style="arc", start=0, tags=("outline", "outline"), **self.kwargs),
+            self.widget.master.create_arc(
+                0, 0, 0, 0, style="arc", start=180, tags=("outline", "outline"), **self.kwargs),
+            self.widget.master.create_arc(
+                0, 0, 0, 0, style="arc", start=-90, tags=("outline", "outline"), **self.kwargs),
+        ]
+
+    # @typing.override
+    def coords(self, size: tuple[float, float] | None = None, position: tuple[float, float] | None = None) -> None:
+        super().coords(size, position)
+
         x, y, w, h = *self.position, *self.size
         x1, y1, x2, y2 = x, y, x + w, y + h
         r, d = self.radius, self.radius*2
@@ -163,36 +223,20 @@ class RoundedRectangle(virtual.Shape):
         elif w < d < h or w < d < h:
             warnings.warn("Parameters are not suitable")
 
-        self.items = [
-            self.widget.master.create_arc(
-                x1, y1, x1+d, y1+d, outline="", start=90, tags=("fill", "fill"), **self.kwargs),
-            self.widget.master.create_arc(
-                x2-d, y1, x2, y1+d, outline="", start=0, tags=("fill", "fill"), **self.kwargs),
-            self.widget.master.create_arc(
-                x1, y2-d, x1+d, y2, outline="", start=180, tags=("fill", "fill"), **self.kwargs),
-            self.widget.master.create_arc(
-                x2-d, y2-d, x2, y2, outline="", start=-90, tags=("fill", "fill"), **self.kwargs),
-            self.widget.master.create_rectangle(
-                x1+r, y1, x2-r+1, y2, outline="", tags=("fill", "fill"), **self.kwargs),
-            self.widget.master.create_rectangle(
-                x1, y1+r, x2, y2-r+1, outline="", tags=("fill", "fill"), **self.kwargs),
-            self.widget.master.create_line(
-                x1+r, y1, x2-r+1, y1, tags=("fill", "outline"), **self.kwargs),
-            self.widget.master.create_line(
-                x1+r, y2, x2-r+1, y2, tags=("fill", "outline"), **self.kwargs),
-            self.widget.master.create_line(
-                x1, y1+r, x1, y2-r+1, tags=("fill", "outline"), **self.kwargs),
-            self.widget.master.create_line(
-                x2, y1+r, x2, y2-r+1, tags=("fill", "outline"), **self.kwargs),
-            self.widget.master.create_arc(
-                x1, y1, x1+d, y1+d, style="arc", start=90, tags=("outline", "outline"), **self.kwargs),
-            self.widget.master.create_arc(
-                x2-d, y1, x2, y1+d, style="arc", start=0, tags=("outline", "outline"), **self.kwargs),
-            self.widget.master.create_arc(
-                x1, y2-d, x1+d, y2, style="arc", start=180, tags=("outline", "outline"), **self.kwargs),
-            self.widget.master.create_arc(
-                x2-d, y2-d, x2, y2, style="arc", start=-90, tags=("outline", "outline"), **self.kwargs),
-        ]
+        self.widget.master.coords(self.items[0], x1, y1, x1+d, y1+d)
+        self.widget.master.coords(self.items[1], x2-d, y1, x2, y1+d)
+        self.widget.master.coords(self.items[2], x1, y2-d, x1+d, y2)
+        self.widget.master.coords(self.items[3], x2-d, y2-d, x2, y2)
+        self.widget.master.coords(self.items[4], x1+r, y1, x2-r+1, y2)
+        self.widget.master.coords(self.items[5], x1, y1+r, x2, y2-r+1)
+        self.widget.master.coords(self.items[6], x1+r, y1, x2-r+1, y1)
+        self.widget.master.coords(self.items[7], x1+r, y2, x2-r+1, y2)
+        self.widget.master.coords(self.items[8], x1, y1+r, x1, y2-r+1)
+        self.widget.master.coords(self.items[9], x2, y1+r, x2, y2-r+1)
+        self.widget.master.coords(self.items[10], x1, y1, x1+d, y1+d)
+        self.widget.master.coords(self.items[11], x2-d, y1, x2, y1+d)
+        self.widget.master.coords(self.items[12], x1, y2-d, x1+d, y2)
+        self.widget.master.coords(self.items[13], x2-d, y2-d, x2, y2)
 
 
 class SemicircularRectangle(virtual.Shape):
@@ -200,6 +244,27 @@ class SemicircularRectangle(virtual.Shape):
 
     # @typing.override
     def display(self) -> None:
+        self.items = [
+            self.widget.master.create_arc(
+                0, 0, 0, 0, outline="", extent=180, start=90, tags=("fill", "fill"), **self.kwargs),
+            self.widget.master.create_arc(
+                0, 0, 0, 0, outline="", extent=180, start=-90, tags=("fill", "fill"), **self.kwargs),
+            self.widget.master.create_rectangle(
+                0, 0, 0, 0, outline="", tags=("fill", "fill"), **self.kwargs),
+            self.widget.master.create_arc(
+                0, 0, 0, 0, style="arc", extent=180, start=90, tags=("outline", "outline"), **self.kwargs),
+            self.widget.master.create_arc(
+                0, 0, 0, 0, style="arc", extent=180, start=-90, tags=("outline", "outline"), **self.kwargs),
+            self.widget.master.create_line(
+                0, 0, 0, 0, tags=("fill", "outline"), **self.kwargs),
+            self.widget.master.create_line(
+                0, 0, 0, 0, tags=("fill", "outline"), **self.kwargs),
+        ]
+
+    # @typing.override
+    def coords(self, size: tuple[float, float] | None = None, position: tuple[float, float] | None = None) -> None:
+        super().coords(size, position)
+
         x, y, w, h = *self.position, *self.size
         x1, y1, x2, y2 = x, y, x + w, y + h
         d = h
@@ -210,22 +275,13 @@ class SemicircularRectangle(virtual.Shape):
         elif d == 0:
             warnings.warn("Parameters are not suitable")
 
-        self.items = [
-            self.widget.master.create_arc(
-                x1, y1, x1+d, y1+d, outline="", extent=180, start=90, tags=("fill", "fill"), **self.kwargs),
-            self.widget.master.create_arc(
-                x2-d, y1, x2, y1+d, outline="", extent=180, start=-90, tags=("fill", "fill"), **self.kwargs),
-            self.widget.master.create_rectangle(
-                x1+r, y1, x2-r+1, y2, outline="", tags=("fill", "fill"), **self.kwargs),
-            self.widget.master.create_arc(
-                x1, y1, x1+d, y1+d, style="arc", extent=180, start=90, tags=("outline", "outline"), **self.kwargs),
-            self.widget.master.create_arc(
-                x2-d, y2-d, x2, y2, style="arc", extent=180, start=-90, tags=("outline", "outline"), **self.kwargs),
-            self.widget.master.create_line(
-                x1+r, y1, x2-r+1, y1, tags=("fill", "outline"), **self.kwargs),
-            self.widget.master.create_line(
-                x1+r, y2, x2-r+1, y2, tags=("fill", "outline"), **self.kwargs),
-        ]
+        self.widget.master.coords(self.items[0], x1, y1, x1+d, y1+d)
+        self.widget.master.coords(self.items[1], x2-d, y1, x2, y1+d)
+        self.widget.master.coords(self.items[2], x1+r, y1, x2-r+1, y2)
+        self.widget.master.coords(self.items[3], x1, y1, x1+d, y1+d)
+        self.widget.master.coords(self.items[4], x2-d, y2-d, x2, y2)
+        self.widget.master.coords(self.items[5], x1+r, y1, x2-r+1, y1)
+        self.widget.master.coords(self.items[6], x1+r, y2, x2-r+1, y2)
 
 
 class SharpRectangle(virtual.Shape):
@@ -266,6 +322,13 @@ class SharpRectangle(virtual.Shape):
 
     # @typing.override
     def display(self) -> None:
+        self.items = [self.widget.master.create_polygon(
+            0, 0, 0, 0, tags=("fill", "fill", "outline", "outline"), **self.kwargs)]
+
+    # @typing.override
+    def coords(self, size: tuple[float, float] | None = None, position: tuple[float, float] | None = None) -> None:
+        super().coords(size, position)
+
         x, y, w, h = *self.position, *self.size
 
         if w < h:
@@ -287,9 +350,7 @@ class SharpRectangle(virtual.Shape):
             x2-dx[1], y2,
             x1+dx[0], y2
         ]
-
-        self.items = [self.widget.master.create_polygon(
-            *points, tags=("fill", "fill", "outline", "outline"), **self.kwargs)]
+        self.widget.master.coords(self.items[0], *points)
 
 
 class Parallelogram(virtual.Shape):
@@ -325,6 +386,13 @@ class Parallelogram(virtual.Shape):
 
     # @typing.override
     def display(self) -> None:
+        self.items = [self.widget.master.create_polygon(
+            0, 0, 0, 0, tags=("fill", "fill", "outline", "outline"), **self.kwargs)]
+
+    # @typing.override
+    def coords(self, size: tuple[float, float] | None = None, position: tuple[float, float] | None = None) -> None:
+        super().coords(size, position)
+
         x, y, w, h = *self.position, *self.size
 
         if (dx := h*math.tan(self.theta)) >= w:
@@ -339,5 +407,4 @@ class Parallelogram(virtual.Shape):
             x1, y2
         ]
 
-        self.items = [self.widget.master.create_polygon(
-            *points, tags=("fill", "fill", "outline", "outline"), **self.kwargs)]
+        self.widget.master.coords(self.items[0], *points)

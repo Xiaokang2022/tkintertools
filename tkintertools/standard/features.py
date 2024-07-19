@@ -3,7 +3,7 @@
 import tkinter
 import typing
 
-from ..animation import animations
+from ..animation import animations, controllers
 from ..core import virtual
 
 __all__ = [
@@ -16,6 +16,7 @@ __all__ = [
     "RadioButton",
     "ProgressBar",
     "Entry",
+    "Slider",
 ]
 
 
@@ -217,6 +218,17 @@ class ProgressBar(Label):
 class Entry(Button):
     """Feature of Entry"""
 
+    def __init__(
+        self,
+        widget: virtual.Widget,
+        *,
+        command: typing.Callable[..., typing.Any] | None = None,
+        args: tuple = (),
+    ) -> None:
+        super().__init__(widget, command=command, args=args)
+        self._start_index: int | None = None
+        self._end_index: int | None = None
+
     def _move_none(self, event: tkinter.Event) -> bool:
         if flag := self.widget._shapes[0].detect(event.x, event.y):
             self.widget.master._trigger_config.update(cursor="xterm")
@@ -319,7 +331,52 @@ class Entry(Button):
             self.widget._texts[0].select_clear()
         return flag
 
-    def _double_click(self, event: tkinter.Event) -> bool:
-        if flag := self.widget.state == "active":
-            self.widget._texts[0].select_all()
+
+class Slider(virtual.Feature):
+    """Feature of Slider"""
+
+    def __init__(self, widget: virtual.Widget) -> None:
+        super().__init__(widget)
+        self._temp_position: tuple[float, float] | None = None
+
+    def _move_none(self, event: tkinter.Event) -> bool:
+        if flag := self.widget._shapes[2].detect(event.x, event.y):
+            if self.widget.state == "normal":
+                self.widget.update("hover")
+                x, y = self.widget._shapes[-1].position
+                w, h = self.widget._shapes[-1].size
+                delta = w / 2
+                animations.Animation(
+                    150, controllers.smooth, callback=lambda k: self.widget._shapes[-1].coords(
+                        (w + delta*k, h + delta*k), (x - delta*k/2, y - delta*k/2))).start()
+        else:
+            if self.widget.state == "hover":
+                self.widget.update("normal")
+                x, y = self.widget._shapes[-1].position
+                w, h = self.widget._shapes[-1].size
+                delta = w / 3
+                animations.Animation(
+                    150, controllers.smooth, callback=lambda k: self.widget._shapes[-1].coords(
+                        (w - delta*k, h - delta*k), (x + delta*k/2, y + delta*k/2))).start()
         return flag
+
+    def _click_left(self, event: tkinter.Event) -> bool:
+        if self.widget.state == "hover":
+            self._temp_position = event.x, event.y
+        elif self.widget._shapes[0].detect(event.x, event.y):
+            temp_value = self.widget.value
+            next_value = (event.x-self.widget.position[0]-self.widget.size[1]/2) / (
+                self.widget.size[0]-self.widget.size[1])
+            delta = next_value - temp_value
+            animations.Animation(150, controllers.smooth,
+                                 callback=lambda k: self.widget.set(temp_value + delta*k), fps=60).start()
+
+    def _move_left(self, event: tkinter.Event) -> bool:
+        if self._temp_position is not None:
+            delta = (event.x-self._temp_position[0]) / \
+                (self.widget.size[0]-self.widget.size[1])
+            self._temp_position = event.x, event.y
+            self.widget.set(self.widget.value + delta)
+
+    def _release_left(self, event: tkinter.Event) -> bool:
+        self._temp_position = None
