@@ -684,10 +684,10 @@ class Slider(virtual.Widget):
                                 name=name, through=through, animation=animation)
         if constants.SYSTEM == "Windows10":
             shapes.Rectangle(
-                self, (0, size[1]/3), (size[0], size[1]/3), name=".out")
+                self, (0, size[1]*5/11), (size[0], size[1]/11), name=".out")
             shapes.Rectangle(
-                self, (0, size[1]/3), (size[0], size[1]/3), name=".in")
-            shapes.Rectangle(self, size=(size[1]/3, size[1]))
+                self, (0, size[1]*5/11), (size[1]/5, size[1]/11), name=".in")
+            shapes.Rectangle(self, (0, 0), (size[1]*2/5, size[1]))
         else:
             shapes.SemicircularRectangle(
                 self, (0, size[1]*2/5), (size[0], size[1]/5), name=".out")
@@ -705,13 +705,20 @@ class Slider(virtual.Widget):
     def set(self, value: float) -> typing.Any:
         """Set the value of the slider"""
         value = 1 if value > 1 else 0 if value < 0 else value
-        delta = (value-self.value) * (self.size[0]-self.size[1])
         if value == self.value:
             return
+        if isinstance(self._shapes[-1], shapes.Oval):
+            delta = (value-self.value) * (self.size[0]-self.size[1])
+        else:
+            delta = (value-self.value) * (self.size[0]-self.size[1]*2/5)
         self.value = value
         for shape in self._shapes[2:]:
             shape.move(delta, 0)
-        self._shapes[1].coords(
-            (self.size[1]/2 + (self.size[0]-self.size[1]) * self.value, self._shapes[1].size[1]))
+        if isinstance(self._shapes[-1], shapes.Oval):
+            self._shapes[1].coords(
+                (self.size[1]/2 + (self.size[0]-self.size[1]) * self.value, self._shapes[1].size[1]))
+        else:
+            self._shapes[1].coords(
+                (self.size[1]/5 + (self.size[0]-self.size[1]*2/5) * self.value, self._shapes[1].size[1]))
         if self.command is not None:
             return self.command(self.value)

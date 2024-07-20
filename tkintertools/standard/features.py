@@ -5,6 +5,7 @@ import typing
 
 from ..animation import animations, controllers
 from ..core import virtual
+from ..standard import shapes
 
 __all__ = [
     "Label",
@@ -343,40 +344,55 @@ class Slider(virtual.Feature):
         if flag := self.widget._shapes[2].detect(event.x, event.y):
             if self.widget.state == "normal":
                 self.widget.update("hover")
-                x, y = self.widget._shapes[-1].position
-                w, h = self.widget._shapes[-1].size
-                delta = w / 2
-                animations.Animation(
-                    150, controllers.smooth, callback=lambda k: self.widget._shapes[-1].coords(
-                        (w + delta*k, h + delta*k), (x - delta*k/2, y - delta*k/2))).start()
+                if isinstance(self.widget._shapes[-1], shapes.Oval):
+                    x, y = self.widget._shapes[-1].position
+                    w, h = self.widget._shapes[-1].size
+                    delta = w / 2
+                    animations.Animation(
+                        150, controllers.smooth, callback=lambda k: self.widget._shapes[-1].coords(
+                            (w + delta*k, h + delta*k), (x - delta*k/2, y - delta*k/2))).start()
         else:
             if self.widget.state == "hover":
                 self.widget.update("normal")
-                x, y = self.widget._shapes[-1].position
-                w, h = self.widget._shapes[-1].size
-                delta = w / 3
-                animations.Animation(
-                    150, controllers.smooth, callback=lambda k: self.widget._shapes[-1].coords(
-                        (w - delta*k, h - delta*k), (x + delta*k/2, y + delta*k/2))).start()
+                if isinstance(self.widget._shapes[-1], shapes.Oval):
+                    x, y = self.widget._shapes[-1].position
+                    w, h = self.widget._shapes[-1].size
+                    delta = w / 3
+                    animations.Animation(
+                        150, controllers.smooth, callback=lambda k: self.widget._shapes[-1].coords(
+                            (w - delta*k, h - delta*k), (x + delta*k/2, y + delta*k/2))).start()
         return flag
 
     def _click_left(self, event: tkinter.Event) -> bool:
         if self.widget.state == "hover":
             self._temp_position = event.x, event.y
+            self.widget.update("active")
         elif self.widget._shapes[0].detect(event.x, event.y):
+            self._temp_position = event.x, event.y
+            self.widget.update("active")
             temp_value = self.widget.value
-            next_value = (event.x-self.widget.position[0]-self.widget.size[1]/2) / (
-                self.widget.size[0]-self.widget.size[1])
+            if isinstance(self.widget._shapes[-1], shapes.Oval):
+                next_value = (event.x-self.widget.position[0]-self.widget.size[1]/2) / (
+                    self.widget.size[0]-self.widget.size[1])
+            else:
+                next_value = (event.x-self.widget.position[0]-self.widget.size[1]/5) / (
+                    self.widget.size[0]-self.widget.size[1]*2/5)
             delta = next_value - temp_value
             animations.Animation(150, controllers.smooth,
                                  callback=lambda k: self.widget.set(temp_value + delta*k), fps=60).start()
 
     def _move_left(self, event: tkinter.Event) -> bool:
         if self._temp_position is not None:
-            delta = (event.x-self._temp_position[0]) / \
-                (self.widget.size[0]-self.widget.size[1])
+            if isinstance(self.widget._shapes[-1], shapes.Oval):
+                delta = (
+                    event.x-self._temp_position[0]) / (self.widget.size[0]-self.widget.size[1])
+            else:
+                delta = (
+                    event.x-self._temp_position[0]) / (self.widget.size[0]-self.widget.size[1]*2/5)
             self._temp_position = event.x, event.y
             self.widget.set(self.widget.value + delta)
 
     def _release_left(self, event: tkinter.Event) -> bool:
-        self._temp_position = None
+        if self.widget.state == "active":
+            self._temp_position = None
+            self.widget.update("hover")
