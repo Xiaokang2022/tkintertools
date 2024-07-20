@@ -6,11 +6,11 @@ comments: true
 
 ## Framework - 框架
 
-- 🔖 Version - 最新版本 : `3.0.0.beta3`
-- 🕓 Last Update - 上次更新 : 2024/06/17
+- 🔖 Version - 最新版本 : `3.0.0.beta4`
+- 🕓 Last Update - 上次更新 : 2024/07/20
 
 ```sh linenums="0"
-pip install tkintertools[suggest]==3.0.0b3
+pip install tkintertools[suggest]==3.0.0b4
 ```
 
 Updates can be found at: [Changelog](../../CHANGELOG.md)  

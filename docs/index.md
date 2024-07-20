@@ -64,12 +64,12 @@ pip install tkintertools
 
 ### 🔥 Development Version / 开发版本
 
-* 🔖 Version / 最新版本 : `3.0.0.beta3`
-* 🕓 Release / 发布日期 : 2024-06-17
-* ✨ Feature / 更新内容 : [News-3.0.0b3](./news/3.0.0/News.md)
+* 🔖 Version / 最新版本 : `3.0.0.beta4`
+* 🕓 Release / 发布日期 : 2024-07-20
+* ✨ Feature / 更新内容 : [News-3.0.0b4](./news/3.0.0/News.md)
 
 ```sh linenums="0"
-pip install tkintertools[suggest]==3.0.0b3
+pip install tkintertools[suggest]==3.0.0b4
 ```
 
 * Demos / 演示: https://github.com/Xiaokang2022/tkintertools-demos
@@ -116,22 +116,22 @@ Considering that too many packages will result in a large size of the project fi
 - [X] [darkdetect](https://github.com/albertosottile/darkdetect) - `0.8.0`
 - [X] [pywinstyles](https://github.com/Akascape/py-window-styles) - `1.8`
 - [X] [pillow](https://github.com/python-pillow/Pillow) - `>=10.0.0`
-- [ ] [hPyT](https://github.com/Zingzy/hPyT) - `1.3.1`
-- [ ] [win32material](https://github.com/littlewhitecloud/win32style) - `1.0.5`
+- [ ] [hPyT](https://github.com/Zingzy/hPyT) - `1.3.2`
+- [ ] [win32material](https://github.com/littlewhitecloud/win32style) - `1.0.6`
 - [ ] [matplotlib](https://github.com/matplotlib/matplotlib) - `>=3.9.0`
 
 The following command installs the recommended optional dependencies:  
 以下命令可以安装推荐的可选依赖包：
 
 ```bash linenums="0"
-pip install tkintertools[suggest]==3.0.0b3
+pip install tkintertools[suggest]==3.0.0b4
 ```
 
 The following command installs all optional dependencies:  
 以下命令可以安装全部可选依赖包：
 
 ```bash linenums="0"
-pip install tkintertools[full]==3.0.0b3
+pip install tkintertools[full]==3.0.0b4
 ```
 
 ## 👀 More / 更多
