@@ -3,7 +3,7 @@ Changelog / 更新日志
 
 > [!TIP]  
 > This changelog has the following 7 types of updates, each of which is represented by 7 different colors  
-> 此更新日志有以下 7 中类型的更新内容，分别用 7 中不同颜色来表示
+> 此更新日志有以下 7 种类型的更新内容，分别用 7 种不同颜色来表示
 > 
 > * 🟢 **Added / 新增**
 > * 🔴 **Removed / 移除**
@@ -12,6 +12,66 @@ Changelog / 更新日志
 > * 🟣 **Fixed / 修复**
 > * 🟠 **Deprecated / 弃用**
 > * 🟤 **Refactored / 重构**
+
+🔖 `3.0.0.beta4`
+----------------
+
+🕓 *Release Date / 发布日期 : 2024-07-20*
+
+🟢 **Added / 新增**
+
+- The widget `Entry` has a new parameter `placeholder` to display the prompt information  
+小部件 `Entry` 新增了参数 `placeholder` 来实现提示信息的显示
+
+- Added parameter `show` to the widget `Entry` to mask characters (e.g. password box)  
+小部件 `Entry` 新增了参数 `show` 来实现字符的掩盖（如密码框）
+
+- The new parameter `align` has been added to the widget `Entry` to achieve a similar effect to the `text-align` of tags in *HTML*, i.e. the left, right, and center layout of the text  
+小部件 `Entry` 新增了参数 `align` 来实现于 *HTML* 里的标签的 `text-align` 类似的效果，即文本的靠左、靠右和居中布局
+
+- The widget `Entry` has been added to move the text prompt by pressing the left and right keys on the keyboard  
+小部件 `Entry` 新增了通过按下键盘的左右键来移动文本提示符的功能
+
+- Added text selection to the widget `Entry`  
+小部件 `Entry` 新增了文本选中的功能
+
+- The widget `Entry` has added shortcuts to copy (<kbd>Ctrl</kbd>+<kbd>C</kbd>), paste (<kbd>Ctrl</kbd>+<kbd>V</kbd>) and cut (<kbd>Ctrl</kbd>+<kbd>X</kbd>)  
+小部件 `Entry` 新增了快捷键复制（<kbd>Ctrl</kbd>+<kbd>C</kbd>）、粘贴（<kbd>Ctrl</kbd>+<kbd>V</kbd>）和剪切（<kbd>Ctrl</kbd>+<kbd>X</kbd>）的功能
+
+- Added widget slider (`Slider`)  
+新增了小部件滑动条（`Slider`）
+
+- Added widget icon button (`IconButton`)  
+新增了小部件图标按钮（`IconButton`）
+
+- Added some missing docstrings  
+增加了部分缺失的文档字符串
+
+🟡 **Changed / 变更**
+
+- The color of the widget `Entry` has been changed slightly under Windows 10 to enhance the look  
+小部件 `Entry` 在 Windows 10 操作系统下的颜色略有改变，以提升观感
+
+- The position of the text of the widget `Entry` in the text box has been slightly corrected to improve the look  
+小部件 `Entry` 的文本在文本框中的位置被稍微修正了一下，以提升观感
+
+🟣 **Fixed / 修复**
+
+- Fixed a bug where deleting text from the widget `Entry` in some cases would cause the program to loop in an endless loop  
+修复了小部件 `Entry` 某些情况下删除文本会导致程序死循环的问题
+
+🔵 **Optimized / 优化**
+
+- Improved the readability of some codes  
+增强了部分代码的可读性
+
+🔴 **Removed / 移除**
+
+- Widget `Entry` removed the parameters `justify` and `anchor`  
+小部件 `Entry` 移除了参数 `justify` 和 `anchor`
+
+- Removed the 3D part of the code and related theme files  
+移除了 3D 部分代码以及相关主题文件
 
 🔖 `3.0.0.beta3`
 ----------------

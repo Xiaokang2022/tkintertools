@@ -21,8 +21,11 @@ Todo / 待办事项
 - [ ] Add highly customizable windows  
 增加可高度定制的窗口
 
-- [ ] Added support for GIFs  
-增加对动图的支持
+- [ ] Add list box widget  
+增加列表框小部件
+
+- [ ] Add support for menu bar  
+增加对菜单栏的支持
 
 📌 In Planning / 计划中
 -----------------------
@@ -30,14 +33,14 @@ Todo / 待办事项
 - [ ] Add text box widget  
 增加文本框小部件
 
-- [ ] Add list box widget  
-增加列表框小部件
-
 - [ ] Add simple support for Markdown  
 增加对 Markdown 的简单支持
 
-- [ ] Add support for menu bar  
-增加对菜单栏的支持
+- [ ] Add support for GIFs  
+增加对动图的支持
+
+- [ ] Add table widget  
+增加表格小部件
 
 - [ ] Add support for OpenCV  
 增加对 OpenCV 的支持

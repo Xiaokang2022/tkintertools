@@ -63,12 +63,12 @@ pip install tkintertools
 
 ### 🔥 Development Version / 开发版本
 
-* 🔖 Version / 最新版本 : `3.0.0.beta3`
-* 🕓 Release / 发布日期 : 2024-06-17
-* ✨ Feature / 更新内容 : [News-3.0.0b3](https://xiaokang2022.github.io/tkintertools/news/3.0.0/News/)
+* 🔖 Version / 最新版本 : `3.0.0.beta4`
+* 🕓 Release / 发布日期 : 2024-07-20
+* ✨ Feature / 更新内容 : [News-3.0.0b4](https://xiaokang2022.github.io/tkintertools/news/3.0.0/News/)
 
 ```bash
-pip install tkintertools[suggest]==3.0.0b3
+pip install tkintertools[suggest]==3.0.0b4
 ```
 
 * Demos / 演示: https://github.com/Xiaokang2022/tkintertools-demos
@@ -117,22 +117,22 @@ Considering that too many packages will result in a large size of the project fi
 - [X] [darkdetect](https://github.com/albertosottile/darkdetect) - `0.8.0`
 - [X] [pywinstyles](https://github.com/Akascape/py-window-styles) - `1.8`
 - [X] [pillow](https://github.com/python-pillow/Pillow) - `>=10.0.0`
-- [ ] [hPyT](https://github.com/Zingzy/hPyT) - `1.3.1`
-- [ ] [win32material](https://github.com/littlewhitecloud/win32style) - `1.0.5`
+- [ ] [hPyT](https://github.com/Zingzy/hPyT) - `1.3.2`
+- [ ] [win32material](https://github.com/littlewhitecloud/win32style) - `1.0.6`
 - [ ] [matplotlib](https://github.com/matplotlib/matplotlib) - `>=3.9.0`
 
 The following command installs the recommended optional dependencies:  
 以下命令可以安装推荐的可选依赖包：
 
 ```bash
-pip install tkintertools[suggest]==3.0.0b3
+pip install tkintertools[suggest]==3.0.0b4
 ```
 
 The following command installs all optional dependencies:  
 以下命令可以安装全部可选依赖包：
 
 ```bash
-pip install tkintertools[full]==3.0.0b3
+pip install tkintertools[full]==3.0.0b4
 ```
 
 👀 More / 更多
@@ -142,7 +142,7 @@ pip install tkintertools[full]==3.0.0b3
 * 📑 License / 项目许可: [*LICENSE.txt*](LICENSE.txt)
 * 📘 Changelog / 更新日志: [*CHANGELOG.md*](CHANGELOG.md)
 * 📕 Security Policy / 安全策略: [*SECURITY.md*](SECURITY.md)
-* 📗 Contribution Guide / 贡献指南: [*CONTRIBUTING.md*](CONTRIBUTING.md)
+* 📗 Contribution Guideline / 贡献指南: [*CONTRIBUTING.md*](CONTRIBUTING.md)
 * 📙 Code of Conduct / 行为准则: [*CODE_OF_CONDUCT.md*](CODE_OF_CONDUCT.md)
 * 📚 Tutorials and Documents / 教程和文档: [Tutorials & Documents](https://xiaokang2022.github.io/tkintertools/)
 * 🚀 Repository Mirrors / 存储库镜像源:
