@@ -359,7 +359,7 @@ class Slider(virtual.Feature):
         if self.widget.state == "hover":
             self._temp_position = event.x, event.y
             self.widget.update("active")
-        elif self.widget._shapes[0].detect(event.x, event.y):
+        elif self.widget.state != "disabled" and self.widget._shapes[0].detect(event.x, event.y):
             self._temp_position = event.x, event.y
             self.widget.update("active")
             temp_value = self.widget.value
