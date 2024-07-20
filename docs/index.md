@@ -159,7 +159,7 @@ pip install tkintertools[full]==3.0.0b4
     Changelog for all versions  
     所有版本的更新日志
 
--   [📗 **Contribution Guide / 贡献指南**](./CONTRIBUTING.md)
+-   [📗 **Contribution Guideline / 贡献指南**](./CONTRIBUTING.md)
 
     ***
 
