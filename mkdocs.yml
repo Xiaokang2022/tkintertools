@@ -262,7 +262,7 @@ nav: # 导航栏
       - License - 项目许可: LICENSE.md
       - Todo - 待办事项: TODO.md
       - Changelog - 更新日志: CHANGELOG.md
-      - Contribution Guideline - 贡献指南: CONTRIBUTING.md
+      - Contribution Guide - 贡献指南: CONTRIBUTING.md
       - Security Policy - 安全策略: SECURITY.md
       - Code of Conduct - 行为准则: CODE_OF_CONDUCT.md
       - Sponsor This Project - 赞助项目: Sponsor.md
