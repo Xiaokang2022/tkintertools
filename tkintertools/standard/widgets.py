@@ -33,7 +33,7 @@ class Information(virtual.Widget):
         position: tuple[int, int],
         size: tuple[int, int] = (0, 0),
         *,
-        text: str = "Information",
+        text: str = "",
         family: str | None = None,
         fontsize: int | None = None,
         weight: typing.Literal['normal', 'bold'] = "normal",
@@ -73,6 +73,14 @@ class Information(virtual.Widget):
         texts.Information(self, text=text, family=family, fontsize=fontsize, weight=weight, slant=slant,
                           underline=underline, overstrike=overstrike, justify=justify, anchor=anchor)
 
+    def get(self) -> str:
+        """Get the text of the widget"""
+        return self._texts[0].get()
+
+    def set(self, value: str) -> None:
+        """Set the text value of the widget"""
+        return self._texts[0].set(value)
+
 
 class Label(virtual.Widget):
     """Label widget, which is generally used to display key information"""
@@ -83,7 +91,7 @@ class Label(virtual.Widget):
         position: tuple[int, int],
         size: tuple[int, int] = (100, 40),
         *,
-        text: str = "Label",
+        text: str = "",
         family: str | None = None,
         fontsize: int | None = None,
         weight: typing.Literal['normal', 'bold'] = "normal",
@@ -138,7 +146,7 @@ class Button(virtual.Widget):
         position: tuple[int, int],
         size: tuple[int, int] = (100, 40),
         *,
-        text: str = "Button",
+        text: str = "",
         family: str | None = None,
         fontsize: int | None = None,
         weight: typing.Literal['normal', 'bold'] = "normal",
@@ -302,23 +310,23 @@ class Entry(virtual.Widget):
         features.Entry(self)
 
     def get(self) -> str:
-        """"""
+        """Get the value of the Entry"""
         return self._texts[0].get()
 
     def set(self, value: str) -> None:
-        """"""
+        """Set the text value of the Entry"""
         self._texts[0].set(value)
 
     def append(self, value: str) -> None:
-        """"""
+        """Append text to Entry"""
         self._texts[0].append(value)
 
     def delete(self, count: int) -> None:
-        """"""
+        """Delete a specified amount of text"""
         self._texts[0].pop(count)
 
     def clear(self) -> None:
-        """"""
+        """Clear the text value of the Entry"""
         self.set("")
 
 
@@ -500,7 +508,7 @@ class UnderlineButton(virtual.Widget):
         position: tuple[int, int],
         size: tuple[int, int] = (0, 0),
         *,
-        text: str = "UnderlineButton",
+        text: str = "",
         family: str | None = None,
         fontsize: int | None = None,
         weight: typing.Literal['normal', 'bold'] = "normal",
@@ -553,7 +561,7 @@ class HighlightButton(virtual.Widget):
         position: tuple[int, int],
         size: tuple[int, int] = (0, 0),
         *,
-        text: str = "HighlightButton",
+        text: str = "",
         family: str | None = None,
         fontsize: int | None = None,
         weight: typing.Literal['normal', 'bold'] = "normal",
@@ -606,7 +614,7 @@ class IconButton(virtual.Widget):
         position: tuple[int, int],
         size: tuple[int, int] = (120, 40),
         *,
-        text: str = "Button",
+        text: str = "",
         family: str | None = None,
         fontsize: int | None = None,
         weight: typing.Literal['normal', 'bold'] = "normal",
