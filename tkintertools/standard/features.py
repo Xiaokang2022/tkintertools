@@ -345,22 +345,14 @@ class Slider(virtual.Feature):
             if self.widget.state == "normal":
                 self.widget.update("hover")
                 if isinstance(self.widget._shapes[-1], shapes.Oval):
-                    x, y = self.widget._shapes[-1].position
-                    w, h = self.widget._shapes[-1].size
-                    delta = w / 2
-                    animations.Animation(
-                        150, controllers.smooth, callback=lambda k: self.widget._shapes[-1].coords(
-                            (w + delta*k, h + delta*k), (x - delta*k/2, y - delta*k/2))).start()
+                    self.widget._shapes[-1].coords((self.widget.size[1]*2/3, self.widget.size[1]*2/3), (
+                        self.widget._shapes[-2].position[0]+self.widget.size[1]/6, self.widget._shapes[-2].position[1]+self.widget.size[1]/6))
         else:
             if self.widget.state == "hover":
                 self.widget.update("normal")
                 if isinstance(self.widget._shapes[-1], shapes.Oval):
-                    x, y = self.widget._shapes[-1].position
-                    w, h = self.widget._shapes[-1].size
-                    delta = w / 3
-                    animations.Animation(
-                        150, controllers.smooth, callback=lambda k: self.widget._shapes[-1].coords(
-                            (w - delta*k, h - delta*k), (x + delta*k/2, y + delta*k/2))).start()
+                    self.widget._shapes[-1].coords((self.widget.size[1]/2, self.widget.size[1]/2), (
+                        self.widget._shapes[-2].position[0]+self.widget.size[1]/4, self.widget._shapes[-2].position[1]+self.widget.size[1]/4))
         return flag
 
     def _click_left(self, event: tkinter.Event) -> bool:
@@ -372,6 +364,8 @@ class Slider(virtual.Feature):
             self.widget.update("active")
             temp_value = self.widget.value
             if isinstance(self.widget._shapes[-1], shapes.Oval):
+                self.widget._shapes[-1].coords((self.widget.size[1]*2/3, self.widget.size[1]*2/3), (
+                    self.widget._shapes[-2].position[0]+self.widget.size[1]/6, self.widget._shapes[-2].position[1]+self.widget.size[1]/6))
                 next_value = (event.x-self.widget.position[0]-self.widget.size[1]/2) / (
                     self.widget.size[0]-self.widget.size[1])
             else:
