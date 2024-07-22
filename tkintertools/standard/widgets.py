@@ -9,11 +9,11 @@ from ..toolbox import enhanced
 from . import features, images, shapes, texts
 
 __all__ = [
-    "Information",
+    "Text",
     "Label",
     "Button",
     "Switch",
-    "Entry",
+    "Input",
     "CheckButton",
     "RadioButton",
     "ProgressBar",
@@ -24,8 +24,8 @@ __all__ = [
 ]
 
 
-class Information(virtual.Widget):
-    """Information widget, generally used to display plain text"""
+class Text(virtual.Widget):
+    """Text widget, generally used to display plain text"""
 
     def __init__(
         self,
@@ -251,7 +251,7 @@ class Switch(virtual.Widget):
             self._shapes[1], 250, (dx, 0), controller=controllers.smooth, fps=60).start()
 
 
-class Entry(virtual.Widget):
+class Input(virtual.Widget):
     """Input box widget, generally used to enter certain information on a single line"""
 
     def __init__(
