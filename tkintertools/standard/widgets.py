@@ -10,6 +10,7 @@ from . import features, images, shapes, texts
 
 __all__ = [
     "Text",
+    "Image",
     "Label",
     "Button",
     "Switch",
@@ -80,6 +81,39 @@ class Text(virtual.Widget):
     def set(self, value: str) -> None:
         """Set the text value of the widget"""
         return self._texts[0].set(value)
+
+
+class Image(virtual.Widget):
+    """Image widget, generally used to display normal still image"""
+
+    def __init__(
+        self,
+        master: "containers.Canvas",
+        position: tuple[int, int],
+        size: tuple[int, int] | None = None,
+        *,
+        image: enhanced.PhotoImage | None = None,
+        name: str | None = None,
+        through: bool = False,
+        animation: bool = True,
+    ) -> None:
+        """
+        * `master`: parent canvas
+        * `position`: position of the widget
+        * `size`: size of the widget
+        * `image`: image of the widget
+        * `name`: name of the widget
+        * `through`: wether detect another widget under the widget
+        * `animation`: wether enable animation
+        """
+        virtual.Widget.__init__(self, master, position, (0, 0),
+                                name=name, through=through, animation=animation)
+        if image is not None:
+            if size is None:
+                images.StillImage(self, image=image)
+            else:
+                images.StillImage(self, image=image.scale(
+                    size[0]/image.width(), size[1]/image.height()))
 
 
 class Label(virtual.Widget):
