@@ -312,7 +312,6 @@ class Canvas(tkinter.Canvas):
         self._canvases: list[Canvas] = []
         self._widgets: list[virtual.Widget] = []
         self._items: list[int] = []
-        self._texts: dict[int, int] = {}  # initial fontsize
         self._images: dict[int, list[enhanced.PhotoImage]] = {}
         # initial image, now image
 
@@ -377,11 +376,6 @@ class Canvas(tkinter.Canvas):
     def items(self) -> tuple[int, ...]:
         """Retrun all items of the `Canvas`"""
         return tuple(self._items)
-
-    @property
-    def texts(self) -> tuple[int, ...]:
-        """Retrun all texts of the `Canvas`"""
-        return tuple(self._texts)
 
     @property
     def images(self) -> tuple[int, ...]:
@@ -472,10 +466,8 @@ class Canvas(tkinter.Canvas):
         if self._zoom_item:
             relative_ratio = tuple(i/j for i, j in zip(self._size, last_size))
             self._zoom_children(relative_ratio)
-            self._zoom_widgets(relative_ratio)
-            self._zoom_items(relative_ratio)
-            self._zoom_texts()
-            self._zoom_images()
+            for widget in self._widgets:
+                widget.zoom(relative_ratio)
 
         for canvas in self._canvases:
             canvas._re_place()
@@ -491,39 +483,6 @@ class Canvas(tkinter.Canvas):
                 x = tk_widgets.winfo_x()*relative_ratio[0]
                 y = tk_widgets.winfo_y()*relative_ratio[1]
                 tk_widgets.place(width=width, height=height, x=x, y=y)
-
-    def _zoom_widgets(self, relative_ratio: tuple[float, float]) -> None:
-        """Modify data for the position and size of the widgets"""
-        for widget in self._widgets:  # XXX: Need to be improved
-            widget.size[0] *= relative_ratio[0]
-            widget.size[1] *= relative_ratio[1]
-            widget.position[0] *= relative_ratio[0]
-            widget.position[1] *= relative_ratio[1]
-
-            for component in widget._shapes + widget._texts + widget._images:
-                component.size[0] *= relative_ratio[0]
-                component.size[1] *= relative_ratio[1]
-                component.position[0] *= relative_ratio[0]
-                component.position[1] *= relative_ratio[1]
-
-    def _zoom_items(self, relative_ratio: tuple[float, float]) -> None:
-        """Scale the items"""
-        for item in self.find_all():
-            self.scale(item, 0, 0, *relative_ratio)
-
-    def _zoom_texts(self) -> None:
-        """Scale the texts"""
-        for item, fontsize in self._texts.items():
-            new_font = tkinter.font.Font(font=self.itemcget(item, "font"))
-            new_font.config(size=round(
-                fontsize*math.sqrt(self.ratios[0]*self.ratios[1])))
-            self.itemconfigure(item, font=new_font, _syscall=True)
-
-    def _zoom_images(self) -> None:
-        """Scale the images"""
-        for item, images in self._images.items():
-            images[1] = images[0].scale(*self.ratios)
-            self.itemconfigure(item, image=images[1], _syscall=True)
 
     # @typing.override
     def destroy(self) -> None:
@@ -552,33 +511,7 @@ class Canvas(tkinter.Canvas):
                 weight=font_[2] if length > 2 else "normal",
                 slant=font_[3] if length > 3 else "roman")
 
-        item = tkinter.Canvas.create_text(self, x, y, **kwargs)
-        self._texts[item] = kwargs["font"]["size"]
-        return item
-
-    # @typing.override
-    def create_image(self, *args, **kwargs) -> int:
-        item = tkinter.Canvas.create_image(self, *args, **kwargs)
-        self._images[item] = [kwargs.get("image"), None]
-        return item
-
-    # @typing.override
-    def itemconfigure(
-        self,
-        tagOrId: str | int,
-        cnf: dict[str, typing.Any] | None = None,
-        *,
-        _syscall: bool = False,
-        **kwargs
-    ) -> dict[str, tuple[str, str, str, str, str]] | None:
-        result = tkinter.Canvas.itemconfigure(self, tagOrId, cnf, **kwargs)
-        if not _syscall:
-            if self.type(tagOrId) == "text" and kwargs.get("font") is not None:
-                self._texts[tagOrId] = tkinter.font.Font(
-                    font=kwargs["font"]).cget("size")
-            elif self.type(tagOrId) == "image":
-                self._images[tagOrId][0] = kwargs.get("image")
-        return result
+        return tkinter.Canvas.create_text(self, x, y, **kwargs)
 
     def _move(
         self,

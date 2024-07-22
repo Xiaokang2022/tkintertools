@@ -180,9 +180,14 @@ class Component(abc.ABC):
         self.styles[key].update(value)
         self.update(no_delay=True)
 
-    @abc.abstractmethod
     def zoom(self, ratios: tuple[float, float]) -> None:
         """Zoom the `Component`"""
+        self.size[0] *= ratios[0]
+        self.size[1] *= ratios[1]
+        self.position[0] *= ratios[0]
+        self.position[1] *= ratios[1]
+        for item in self.items:
+            self.widget.master.scale(item, 0, 0, *ratios)
 
     @abc.abstractmethod
     def display(self) -> None:
@@ -199,12 +204,6 @@ class Component(abc.ABC):
 
 class Shape(Component):
     """The Shape of a `Widget`"""
-
-    # @typing.override
-    def zoom(self, ratios: tuple[float, float]) -> None:
-        """Scale the items"""
-        for item in self.items:
-            self.widget.master.scale(item, 0, 0, *ratios)
 
 
 class Text(Component):
@@ -266,6 +265,7 @@ class Text(Component):
             size=-abs(fontsize if fontsize else constants.SIZE),
             weight=weight, slant=slant,
             underline=underline, overstrike=overstrike)
+        self._initial_fontsize = self.font.cget("size")
         Component.__init__(self, widget, relative_position, size,
                            name=name, styles=styles, animation=animation, **kwargs)
 
@@ -276,12 +276,10 @@ class Text(Component):
     # @typing.override
     def zoom(self, ratios: tuple[float, float]) -> None:
         """Scale the text"""
-        for item in self.items:
-            value = self.widget.master._texts[item]
-            value[0] *= math.sqrt(ratios[0]*ratios[1])
-            value[1].config(size=round(value[0]))
-            self.widget.master.itemconfigure(item, font=value[1])
-            self.widget.master.scale(item, 0, 0, *ratios)
+        Component.zoom(self, ratios)
+        ratios = self.widget.master.ratios
+        self.font.config(size=round(
+            self._initial_fontsize*math.sqrt(ratios[0]*ratios[1])))
 
 
 class Image(Component):
@@ -310,14 +308,17 @@ class Image(Component):
         * `kwargs`: extra parameters for CanvasItem
         """
         self.image = image
+        self._initail_image = image
         Component.__init__(self, widget, relative_position, size,
                            name=name, animation=animation, styles=styles, **kwargs)
 
     # @typing.override
     def zoom(self, ratios: tuple[float, float]) -> None:
-        """"""
+        """Scale the image"""
+        Component.zoom(self, ratios)
+        self.image = self._initail_image.scale(*self.widget.master.ratios)
         for item in self.items:
-            self.widget.master.scale(item, 0, 0, *ratios)
+            self.widget.master.itemconfigure(item, image=self.image)
 
 
 class Feature(abc.ABC):
