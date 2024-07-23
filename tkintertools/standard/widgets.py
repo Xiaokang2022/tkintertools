@@ -32,7 +32,6 @@ class Text(virtual.Widget):
         self,
         master: containers.Canvas,
         position: tuple[int, int],
-        size: tuple[int, int] = (0, 0),
         *,
         text: str = "",
         family: str | None = None,
@@ -44,7 +43,6 @@ class Text(virtual.Widget):
         justify: typing.Literal["left", "center", "right"] = "left",
         anchor: typing.Literal["n", "e", "w", "s",
                                "nw", "ne", "sw", "se"] = "center",
-        image: enhanced.PhotoImage | None = None,
         name: str | None = None,
         through: bool = False,
         animation: bool = True,
@@ -52,7 +50,6 @@ class Text(virtual.Widget):
         """
         * `master`: parent canvas
         * `position`: position of the widget
-        * `size`: size of the widget
         * `text`: text of the widget
         * `family`: font family
         * `fontsize`: font size
@@ -62,15 +59,12 @@ class Text(virtual.Widget):
         * `overstrike`: whether the text is overstrike
         * `justify`: justify mode of the text
         * `anchor`: anchor of the text
-        * `image`: image of the widget
         * `name`: name of the widget
         * `through`: wether detect another widget under the widget
         * `animation`: wether enable animation
         """
-        virtual.Widget.__init__(self, master, position, size,
+        virtual.Widget.__init__(self, master, position, (0, 0),
                                 name=name, through=through, animation=animation)
-        if image is not None:
-            images.StillImage(self, image=image)
         texts.Information(self, text=text, family=family, fontsize=fontsize, weight=weight, slant=slant,
                           underline=underline, overstrike=overstrike, justify=justify, anchor=anchor)
 
@@ -78,9 +72,9 @@ class Text(virtual.Widget):
         """Get the text of the widget"""
         return self._texts[0].get()
 
-    def set(self, value: str) -> None:
-        """Set the text value of the widget"""
-        return self._texts[0].set(value)
+    def set(self, text: str) -> None:
+        """Set the text of the widget"""
+        return self._texts[0].set(text)
 
 
 class Image(virtual.Widget):
@@ -114,6 +108,20 @@ class Image(virtual.Widget):
             else:
                 images.StillImage(self, image=image.scale(
                     size[0]/image.width(), size[1]/image.height()))
+
+    def get(self) -> enhanced.PhotoImage:
+        """Get the image of the widget"""
+        if (image := self._images[0].image) is not None:
+            return image
+        return self._images[0]._initail_image
+
+    def set(self, image: enhanced.PhotoImage | None) -> None:
+        """Set the image of the widget"""
+        self._images[0]._initail_image = image
+        if image is not None:
+            image = image.scale(*self.master.ratios)
+        self._images[0].image = image
+        self.master.itemconfigure(self._images[0].items[0], image=image)
 
 
 class Label(virtual.Widget):
