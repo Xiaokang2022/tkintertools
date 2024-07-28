@@ -490,6 +490,16 @@ class Canvas(tkinter.Canvas):
         self.master._canvases.remove(self)
         return tkinter.Canvas.destroy(self)
 
+    def clear(self) -> None:
+        """Clear all things in the Canvas"""
+        self._canvases.clear()
+        self._widgets.clear()
+        self._items.clear()
+        self._images.clear()
+        for child in self.children.values():
+            child.destroy()
+        self.delete(*self.find_all())
+
     # @typing.override
     def create_text(self, x: float, y: float, /, **kwargs) -> int:
         # XXX: Need to be improved
