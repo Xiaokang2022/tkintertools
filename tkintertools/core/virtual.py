@@ -205,6 +205,15 @@ class Component(abc.ABC):
 class Shape(Component):
     """The Shape of a `Widget`"""
 
+    # @typing.override
+    def zoom(self, ratios: tuple[float, float]) -> None:
+        """Scale the shape"""
+        self.size[0] *= ratios[0]
+        self.size[1] *= ratios[1]
+        self.position[0] *= ratios[0]
+        self.position[1] *= ratios[1]
+        self.coords(self.size, self.position)
+
 
 class Text(Component):
     """The Text of a `Widget`"""

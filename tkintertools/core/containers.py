@@ -15,6 +15,7 @@ __all__ = [
     "Tk",
     "Toplevel",
     "Canvas",
+    "Frame",
 ]
 
 
@@ -591,3 +592,29 @@ class Canvas(tkinter.Canvas):
             if widget._feature is not None:
                 if getattr(widget._feature, "_cut")(event) and not widget.through:
                     pass
+
+
+class Frame(Canvas):
+    """A frame for auxiliary layouts"""
+
+    def __init__(
+        self,
+        master: "Tk | Canvas | Frame",
+        *,
+        expand: typing.Literal["", "x", "y", "xy"] = "xy",
+        zoom_item: bool = False,
+        keep_ratio: typing.Literal["min", "max"] | None = None,
+        free_anchor: bool = False,
+        name: str | None = None,
+        **kwargs,
+    ) -> None:
+        """
+        * `master`: parent widget
+        * `expand`: the mode of expand, `x` is horizontal, and `y` is vertical
+        * `zoom_item`: whether or not to scale its items
+        * `keep_ratio`: the mode of aspect ratio, `min` follows the minimum value, `max` follows the maximum value
+        * `free_anchor`: whether the anchor point is free-floating
+        * `kwargs`: compatible with other parameters of class `tkinter.Canvas`
+        """
+        Canvas.__init__(self, master, expand=expand, zoom_item=zoom_item,
+                        keep_ratio=keep_ratio, free_anchor=free_anchor, name=name, **kwargs)
