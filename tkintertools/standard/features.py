@@ -16,7 +16,7 @@ __all__ = [
     "CheckButton",
     "RadioButton",
     "ProgressBar",
-    "Entry",
+    "Input",
     "Slider",
 ]
 
@@ -162,10 +162,18 @@ class Switch(Button):
         if flag := self.widget._shapes[0].detect(event.x, event.y):
             self.widget.master._trigger_config.update(cursor="hand2")
             if self.widget.state.startswith("normal"):
+                if self.widget.state != "disabled":
+                    self.widget._shapes[-1].coords(
+                        (self.widget.size[0]/3, self.widget.size[0]/3),
+                        (self.widget._shapes[-1].position[0]-self.widget.size[0]/60, self.widget._shapes[-1].position[1]-self.widget.size[0]/60))
                 self.widget.update(
                     f"hover-{'on' if self.widget.get() else 'off'}")
         else:
             if not self.widget.state.startswith("normal"):
+                if self.widget.state != "disabled":
+                    self.widget._shapes[-1].coords(
+                        (self.widget.size[0]*3/10, self.widget.size[0]*3/10),
+                        (self.widget._shapes[-1].position[0]+self.widget.size[0]/60, self.widget._shapes[-1].position[1]+self.widget.size[0]/60))
                 self.widget.update(
                     f"normal-{'on' if self.widget.get() else 'off'}")
         return flag
@@ -216,8 +224,8 @@ class ProgressBar(Label):
     """Feature of ProgressBar"""
 
 
-class Entry(Button):
-    """Feature of Entry"""
+class Input(Button):
+    """Feature of input box"""
 
     def __init__(
         self,

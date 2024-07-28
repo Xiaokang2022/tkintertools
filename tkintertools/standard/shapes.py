@@ -90,6 +90,11 @@ class Oval(virtual.Shape):
 
         self.widget.master.coords(self.items[0], *self.region())
 
+    # @typing.override
+    def detect(self, x: int, y: int) -> bool:
+        x1, y1, w, h = *self.position, *self.size
+        return math.hypot(2*(x-x1)/w - 1, 2*(y-y1)/h - 1) <= 1
+
 
 class RegularPolygon(virtual.Shape):
     """Create a regular polygon for a widget"""
@@ -282,6 +287,16 @@ class SemicircularRectangle(virtual.Shape):
         self.widget.master.coords(self.items[4], x2-d, y2-d, x2, y2)
         self.widget.master.coords(self.items[5], x1+r, y1, x2-r+1, y1)
         self.widget.master.coords(self.items[6], x1+r, y2, x2-r+1, y2)
+
+    # @typing.override
+    def detect(self, x: int, y: int) -> bool:
+        x1, y1, w, h = *self.position, *self.size
+        r = h / 2
+        if x1+r <= x <= x1+w-r:
+            return y1 <= y <= y1+h
+        if x1 <= x <= x1 + r:
+            return math.hypot(x - (x1+r), y - (y1+r)) <= r
+        return math.hypot(x - (x1+w-r), y - (y1+r)) <= r
 
 
 class SharpRectangle(virtual.Shape):

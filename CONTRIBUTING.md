@@ -1,5 +1,5 @@
-Contribution Guideline / 贡献指南
-================================
+Contribution Guide / 贡献指南
+============================
 
 First off, thanks for taking the time to contribute! ❤️  
 首先，感谢您抽出宝贵时间做出贡献！❤️

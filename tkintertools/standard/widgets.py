@@ -269,11 +269,11 @@ class Switch(virtual.Widget):
         if constants.SYSTEM == "Windows10":
             shapes.Rectangle(self, name=".out")
             shapes.Rectangle(self, name=".in", relative_position=(
-                length/12, length/12), size=(length/3, length/3), animation=False)
+                length/10, length/10), size=(length*3/10, length*3/10), animation=False)
         else:
             shapes.SemicircularRectangle(self)
-            shapes.Oval(self, relative_position=(length/12, length/12),
-                        size=(length/3, length/3), animation=False)
+            shapes.Oval(self, relative_position=(length/10, length/10),
+                        size=(length*3/10, length*3/10), animation=False)
         if image is not None:
             images.StillImage(self, image=image)
         features.Switch(self, command=command)
@@ -349,7 +349,7 @@ class Input(virtual.Widget):
         texts.SingleLineText(self, family=family, fontsize=fontsize, weight=weight, slant=slant,
                              underline=underline, overstrike=overstrike, align=align, limit=limit,
                              show=show, placeholder=placeholder)
-        features.Entry(self)
+        features.Input(self)
 
     def get(self) -> str:
         """Get the value of the Entry"""
