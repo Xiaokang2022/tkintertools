@@ -409,14 +409,14 @@ class Widget:
     """
     Base Widget Class
 
-    `Widget` = `Shape` + `Text` + `Image` + `Feature`
+    `Widget` = `Shape` + `Text` + `Image` + `Feature` + `Widget`
     """
 
     def __init__(
         self,
-        master: "containers.Canvas",
-        position: tuple[int, int],
-        size: tuple[int, int],
+        master: "containers.Canvas | Widget",
+        position: tuple[int, int] = (0, 0),
+        size: tuple[int, int] | None = None,
         *,
         name: str | None = None,
         state: str = "normal",
@@ -432,21 +432,30 @@ class Widget:
         * `through`: wether detect another widget under the widget
         * `animation`: wether enable animation
         """
-        self.master = master
-        self.position = list(position)
-        self.size = list(size)
+        if isinstance(master, Widget):
+            self.master = master.master
+            master._widgets.append(self)
+            self.position = [master.position[0] + position[0],
+                             master.position[1] + position[1]]
+            self.size = master.size.copy() if size is None else list(size)
+        else:
+            self.master = master
+            self.position = list(position)
+            self.size = (0, 0) if size is None else list(size)
+
         self.name = name
         self.state = state
         self.through = through
         self.animation = animation
 
+        self._widgets: list[Widget] = []
         self._texts: list[Text] = []
         self._shapes: list[Shape] = []
         self._images: list[Image] = []
         self._feature: Feature = None
         self._state_before_disabled: str = ""
 
-        master._widgets.append(self)
+        self.master._widgets.append(self)
 
     @property
     def components(self) -> tuple[Component, ...]:
@@ -482,6 +491,8 @@ class Widget:
             self.state = state
         for component in self.components:
             component.update(state, no_delay=no_delay)
+        for widget in self._widgets:
+            widget.update(state, no_delay=no_delay)
 
     def disabled(self, value: bool = True) -> None:
         """Disable the widget"""
@@ -501,6 +512,8 @@ class Widget:
         self.position[1] += dy
         for component in self.components:
             component.move(dx, dy)
+        for widget in self._widgets:
+            widget.move(dx, dy)
 
     def moveto(self, x: int, y: int) -> None:
         """Move the Widget to a certain position"""
@@ -509,13 +522,21 @@ class Widget:
     def destroy(self) -> None:
         """Destroy the widget"""
         self.master._widgets.remove(self)
+        if isinstance(self.master, Widget):
+            self.master.master._widgets.remove(self)
+
         for component in self.components:
             component.destroy()
+        for widget in self._widgets:
+            widget.destroy()
 
     def zoom(self, ratios: tuple[float, float] | None = None) -> None:
         """Zoom self"""
         if ratios is None:
-            ratios = self.master.ratios
+            ratios = self.master.master.ratios if isinstance(
+                self.master, Widget) else self.master.ratios
+            for widget in self._widgets:
+                widget.zoom(ratios)
         self.size[0] *= ratios[0]
         self.size[1] *= ratios[1]
         self.position[0] *= ratios[0]
@@ -527,8 +548,12 @@ class Widget:
         """Let all components of the widget to disappear"""
         for component in self.components:
             component.disappear()
+        for widget in self._widgets:
+            widget.disappear()
 
     def appear(self) -> None:
         """Let all components of the widget to appear"""
         for component in self.components:
             component.appear()
+        for widget in self._widgets:
+            widget.appear()
