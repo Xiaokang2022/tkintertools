@@ -1,6 +1,9 @@
 > [!IMPORTANT]  
-> Due to the growing nature of the project, the original name `tkintertools` is no longer in line with its original intended, so the project is going to be renamed to "tkinter advanced canvas UI framework" (`tacUI`) in version `3.0.0.rc1`. If you have any other ideas or suggestions, you can put them in the [Discussions](https://github.com/Xiaokang2022/tkintertools/discussions).  
-> 由于本项目的不断壮大，原名称 `tkintertools` 已不符合其本意，故本项目准备在进入 `3.0.0.rc1` 版本时更名为 “tkinter advanced canvas UI framework”（`tacUI`）。如有其它想法或建议，可在[讨论区](https://github.com/Xiaokang2022/tkintertools/discussions)中提出。
+> ~~Due to the growing nature of the project, the original name `tkintertools` is no longer in line with its original intended, so the project is going to be renamed to "tkinter advanced canvas UI framework" (`tacUI`) in version `3.0.0.rc1`. If you have any other ideas or suggestions, you can put them in the [Discussions](https://github.com/Xiaokang2022/tkintertools/discussions).~~  
+> ~~由于本项目的不断壮大，原名称 `tkintertools` 已不符合其本意，故本项目准备在进入 `3.0.0.rc1` 版本时更名为 “tkinter advanced canvas UI framework”（`tacUI`）。如有其它想法或建议，可在[讨论区](https://github.com/Xiaokang2022/tkintertools/discussions)中提出。~~  
+>   
+> Originally, it was planned to change the name of the project when the version was *3.0.0.rc1*, but due to the inconvenience of some users to change the dependency, the name will not be changed for the time being, and may not be changed in the future.  
+> 原计划在版本为 *3.0.0.rc1* 时更改项目的名称，但鉴于部分使用者不方便更改依赖，故名称暂时不再更改，后续可能也不再更改。
 
 <h1 align="center">tkintertools</h1>
 
@@ -142,9 +145,10 @@ pip install tkintertools[full]==3.0.0b4
 * 📑 License / 项目许可: [*LICENSE.txt*](LICENSE.txt)
 * 📘 Changelog / 更新日志: [*CHANGELOG.md*](CHANGELOG.md)
 * 📕 Security Policy / 安全策略: [*SECURITY.md*](SECURITY.md)
-* 📗 Contribution Guideline / 贡献指南: [*CONTRIBUTING.md*](CONTRIBUTING.md)
+* 📗 Contribution Guide / 贡献指南: [*CONTRIBUTING.md*](CONTRIBUTING.md)
 * 📙 Code of Conduct / 行为准则: [*CODE_OF_CONDUCT.md*](CODE_OF_CONDUCT.md)
 * 📚 Tutorials and Documents / 教程和文档: [Tutorials & Documents](https://xiaokang2022.github.io/tkintertools/)
+* ❤️ Sponsor this Project / 赞助此项目: [Sponsor](https://xiaokang2022.github.io/tkintertools/Sponsor/)
 * 🚀 Repository Mirrors / 存储库镜像源:
 [GitHub](https://github.com/Xiaokang2022/tkintertools) |
 [Gitee](https://gitee.com/xiaokang-2022/tkintertools) |
