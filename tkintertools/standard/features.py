@@ -8,20 +8,20 @@ from ..core import virtual
 from ..standard import shapes
 
 __all__ = [
-    "Label",
-    "Button",
+    "LabelFeature",
+    "ButtonFeature",
     "Underline",
     "Highlight",
-    "Switch",
-    "CheckButton",
-    "RadioButton",
-    "ProgressBar",
-    "Input",
-    "Slider",
+    "SwitchFeature",
+    "CheckButtonFeature",
+    "RadioButtonFeature",
+    "ProgressBarFeature",
+    "InputBoxFeature",
+    "SliderFeature",
 ]
 
 
-class Label(virtual.Feature):
+class LabelFeature(virtual.Feature):
     """Feature of Label"""
 
     def _move_none(self, event: tkinter.Event) -> bool:
@@ -35,7 +35,7 @@ class Label(virtual.Feature):
         return flag
 
 
-class Button(virtual.Feature):
+class ButtonFeature(virtual.Feature):
     """Feature of Button"""
 
     def __init__(
@@ -88,7 +88,7 @@ class Button(virtual.Feature):
         return flag
 
 
-class Underline(Button):
+class Underline(ButtonFeature):
     """Feature of underline"""
 
     def _move_none(self, event: tkinter.Event) -> bool:
@@ -119,7 +119,7 @@ class Underline(Button):
         return flag
 
 
-class Highlight(Button):
+class Highlight(ButtonFeature):
     """Feature of highlight"""
 
     def _move_none(self, event: tkinter.Event) -> bool:
@@ -155,7 +155,7 @@ class Highlight(Button):
         return flag
 
 
-class Switch(Button):
+class SwitchFeature(ButtonFeature):
     """Feature of Switch"""
 
     def _move_none(self, event: tkinter.Event) -> bool:
@@ -197,7 +197,7 @@ class Switch(Button):
         return flag
 
 
-class CheckButton(Button):
+class CheckButtonFeature(ButtonFeature):
     """Feature of CheckButton"""
 
     def _click_left(self, _: tkinter.Event) -> bool:
@@ -216,15 +216,15 @@ class CheckButton(Button):
         return flag
 
 
-class RadioButton(CheckButton):
+class RadioButtonFeature(CheckButtonFeature):
     """Feature of RadioButton"""
 
 
-class ProgressBar(Label):
+class ProgressBarFeature(LabelFeature):
     """Feature of ProgressBar"""
 
 
-class Input(Button):
+class InputBoxFeature(ButtonFeature):
     """Feature of input box"""
 
     def __init__(
@@ -341,7 +341,7 @@ class Input(Button):
         return flag
 
 
-class Slider(virtual.Feature):
+class SliderFeature(virtual.Feature):
     """Feature of Slider"""
 
     def __init__(self, widget: virtual.Widget) -> None:

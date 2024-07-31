@@ -4,7 +4,10 @@ import ctypes
 import inspect
 import platform
 import tkinter
+import tkinter.font
 import typing
+
+from ..core import constants
 
 __all__ = [
     "get_hwnd",
@@ -12,6 +15,7 @@ __all__ = [
     "load_font",
     "screen_size",
     "set_mouse_position",
+    "get_text_size",
 ]
 
 
@@ -143,5 +147,41 @@ def screen_size() -> tuple[int, int]:
 
 
 def set_mouse_position(x: int, y: int) -> None:
-    """Set mouse cursor position"""
+    """
+    Set mouse cursor position
+
+    ATTENTION:
+
+    This function only works on Windows OS!
+    """
     ctypes.windll.user32.SetCursorPos(x, y)
+
+
+def get_text_size(
+    text: str,
+    fontsize: int | None = None,
+    family: str | None = None,
+    *,
+    padding: int = 0,
+) -> tuple[int, int]:
+    """
+    Get the size of a text with a special font family and font size
+
+    * `text`: the text
+    * `fontsize`: font size of the text
+    * `family`: font family of the text
+    * `padding`: extra padding of the size
+
+    ATTENTION:
+
+    This function only works when the fontsize is under zero!
+    And when there is a line break, the return value will be inaccurate!
+    """
+    if family is None:
+        family = constants.FONT
+    if fontsize is None:
+        fontsize = constants.SIZE
+    if fontsize > 0:
+        raise ValueError("The fontsize is required under zero.")
+    width = tkinter.font.Font(family=family, size=fontsize).measure(text)
+    return 2*padding + width, 2*padding - fontsize

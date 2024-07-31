@@ -491,8 +491,6 @@ class Widget:
             self.state = state
         for component in self.components:
             component.update(state, no_delay=no_delay)
-        for widget in self._widgets:
-            widget.update(state, no_delay=no_delay)
 
     def disabled(self, value: bool = True) -> None:
         """Disable the widget"""
@@ -505,6 +503,8 @@ class Widget:
         else:
             self._state_before_disabled, last_state = "", self._state_before_disabled
             self.update(last_state, no_delay=True)
+        for widget in self._widgets:
+            widget.disabled(value)
 
     def move(self, dx: int, dy: int) -> None:
         """Move the widget"""
