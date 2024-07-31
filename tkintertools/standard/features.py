@@ -340,6 +340,11 @@ class InputBoxFeature(ButtonFeature):
             self.widget._texts[0].select_clear()
         return flag
 
+    def _select_all(self, event: tkinter.Event) -> bool:
+        if flag := self.widget.state == "active":
+            self.widget._texts[0].select_all()
+        return flag
+
 
 class SliderFeature(virtual.Feature):
     """Feature of Slider"""

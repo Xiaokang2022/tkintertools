@@ -360,6 +360,7 @@ class Canvas(tkinter.Canvas):
         self.bind("<<Copy>>", self._copy)
         self.bind("<<Paste>>", self._paste)
         self.bind("<<Cut>>", self._cut)
+        self.bind("<<SelectAll>>", self._select_all)
 
         self.bind("<Configure>", lambda _: self._zoom_self())
 
@@ -601,6 +602,13 @@ class Canvas(tkinter.Canvas):
         for widget in self._widgets[::-1]:
             if widget._feature is not None:
                 if getattr(widget._feature, "_cut")(event) and not widget.through:
+                    pass
+
+    def _select_all(self, event: tkinter.Event) -> None:
+        """Event for operation of selecting all"""
+        for widget in self._widgets[::-1]:
+            if widget._feature is not None:
+                if getattr(widget._feature, "_select_all")(event) and not widget.through:
                     pass
 
 
