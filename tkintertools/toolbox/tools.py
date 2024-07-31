@@ -58,21 +58,6 @@ class _Trigger:
             self._command(*args, **kwargs)
 
 
-def _forward_methods(source_object: object | type, target_object: object) -> None:
-    """
-    Forward methods and attributes of one object to another object
-
-    * `source_object`: the source object, that is, the forwarded object
-    * `target_object`: the target object, that is, the object to be forwarded
-    """
-    if inspect.isclass(source_object):
-        source_object = source_object.__class__
-    for name, value in inspect.getmembers(source_object, inspect.ismethod):
-        setattr(target_object, name, value)
-    for name, value in inspect.getmembers(source_object, inspect.isfunction):
-        setattr(target_object, name, value)
-
-
 def get_hwnd(widget: tkinter.Widget) -> int:
     """Get the HWND of a widget"""
     return ctypes.windll.user32.GetParent(widget.winfo_id())
