@@ -1,2 +1,0 @@
-include tkintertools/theme/*/*.json
-include tkintertools/theme/*/*/*.json

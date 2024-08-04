@@ -66,8 +66,5 @@ version = { attr = "tkintertools.__version__" }
 include = ["tkintertools*"]
 namespaces = false
 
-# [tool.setuptools.package-data]
-# pypackage = ["tkintertools/*/*.json"]
-
 # python -m build
 # python -m twine upload dist/*

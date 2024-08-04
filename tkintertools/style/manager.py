@@ -11,13 +11,17 @@ All third packages which relative to style introduced by `tkintertools` are ther
 * hPyT
 """
 
+import pathlib
 import platform
 import threading
 import tkinter
+import types
 import typing
 import warnings
 
+from ..theme import dark, light
 from ..toolbox import tools
+from . import parser
 
 try:
     import darkdetect
@@ -43,12 +47,22 @@ __all__ = [
     "SYSTEM_DARK_MODE",
     "set_color_mode",
     "get_color_mode",
+    "set_theme_map",
+    "get_theme_map",
+    "reset_theme_map",
     "register_event",
     "remove_event",
     "customize_window",
 ]
 
 SYSTEM_DARK_MODE: bool = bool(darkdetect.isDark()) if darkdetect else False
+
+_theme_map: dict[typing.Literal["dark", "light"], pathlib.Path | str | types.ModuleType] = {
+    "dark": dark, "light": light}
+"""
+The mapping table between dark and light themes, when the program switches to a light color,
+it will use the theme of the light color in the map, and the same goes for dark colors
+"""
 
 _color_mode: typing.Literal["system", "light", "dark"] = "system"
 """
@@ -81,6 +95,35 @@ def get_color_mode() -> typing.Literal["dark", "light"]:
     if _color_mode == "system":
         return "dark" if SYSTEM_DARK_MODE else "light"
     return _color_mode
+
+
+def set_theme_map(
+    *,
+    light: str | types.ModuleType | None = None,
+    dark: str | types.ModuleType | None = None,
+) -> None:
+    """
+    Set the path to the theme file used by the current program
+
+    * `light`: the name of the theme of the light theme
+    * `dark`: the name of the theme of the dark theme
+    """
+    if dark is not None:
+        _theme_map["dark"] = dark
+    if light is not None:
+        _theme_map["light"] = light
+    if any((light, dark)):
+        parser._get_file.cache_clear()
+
+
+def get_theme_map() -> dict[typing.Literal["dark", "light"], str | pathlib.Path | types.ModuleType]:
+    """Get the theme map"""
+    return _theme_map.copy()
+
+
+def reset_theme_map() -> None:
+    """Reset the value of theme map"""
+    _theme_map.update(dark=dark, light=light)
 
 
 def register_event(func: typing.Callable[[bool, typing.Any], typing.Any], *args: typing.Any) -> None:
