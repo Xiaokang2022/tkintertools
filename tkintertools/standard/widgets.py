@@ -276,8 +276,7 @@ class Switch(virtual.Widget):
         * `animation`: wether enable animation
         """
         virtual.Widget.__init__(self, master, position, (length, length / 2),
-                                state=f"normal-{'on' if default else 'off'}",
-                                name=name, through=through, animation=animation)
+                                state="normal-off", name=name, through=through, animation=animation)
         if constants.SYSTEM == "Windows10":
             shapes.Rectangle(self, name=".out")
             shapes.Rectangle(self, name=".in", relative_position=(
@@ -298,6 +297,8 @@ class Switch(virtual.Widget):
 
     def set(self, value: bool) -> None:
         """Set the state of the switch"""
+        if self.get() == bool(value):
+            return
         self.update(
             f"{self.state.split('-')[0]}-{'on' if value else 'off'}", no_delay=True)
         dx = self._shapes[0].size[0]/2 if value else -self._shapes[0].size[0]/2
@@ -434,6 +435,8 @@ class CheckButton(virtual.Widget):
 
     def set(self, value: bool) -> None:
         """Set the state of the check button"""
+        if self.get() == bool(value):
+            return
         if value:
             return self._texts[0].appear()
         self._texts[0].disappear()
@@ -488,6 +491,8 @@ class RadioButton(virtual.Widget):
 
     def set(self, value: bool) -> None:
         """Set the state of the radio button"""
+        if self.get() == bool(value):
+            return
         if value:
             return self._shapes[1].appear()
         self._shapes[1].disappear()
@@ -775,7 +780,7 @@ class Slider(virtual.Widget):
     def set(self, value: float) -> typing.Any:
         """Set the value of the slider"""
         value = 1 if value > 1 else 0 if value < 0 else value
-        if value == self.value:
+        if self.get() == value:
             return
         if isinstance(self._shapes[-1], shapes.Oval):
             delta = (value-self.value) * (self.size[0]-self.size[1])
