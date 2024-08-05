@@ -3,7 +3,7 @@ The `tkintertools` is a UI framework based on the `Canvas` class of `tkinter`.
 
 * Homepage: https://xiaokang2022.github.io/tkintertools/
 * GitHub: https://github.com/Xiaokang2022/tkintertools
-* Gitee(Mirror): https://gitee.com/xiaokang-2022/tkintertools
+* Gitee(Mirror): https://gitee.com/Xiaokang2022/tkintertools
 * GitCode(Mirror): https://gitcode.com/Xiaokang2022/tkintertools
 
 If you ❤️ this package, leave your ⭐ to me, thanks!
@@ -48,5 +48,5 @@ if sys.platform == "win32":
     ctypes.windll.shcore.SetProcessDpiAwareness(1)  # Set Windows DPI awareness
 
 
-__version__ = "3.0.0.beta4"
+__version__ = "3.0.0.rc1"
 __author__ = "Xiaokang2022 <2951256653@qq.com>"

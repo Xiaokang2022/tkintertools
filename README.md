@@ -151,5 +151,5 @@ pip install tkintertools[full]==3.0.0b4
 * ❤️ Sponsor this Project / 赞助此项目: [Sponsor](https://xiaokang2022.github.io/tkintertools/Sponsor/)
 * 🚀 Repository Mirrors / 存储库镜像源:
 [GitHub](https://github.com/Xiaokang2022/tkintertools) |
-[Gitee](https://gitee.com/xiaokang-2022/tkintertools) |
+[Gitee](https://gitee.com/Xiaokang2022/tkintertools) |
 [GitCode](https://gitcode.com/Xiaokang2022/tkintertools/overview)
