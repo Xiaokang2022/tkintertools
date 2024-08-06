@@ -441,7 +441,7 @@ class Widget:
         else:
             self.master = master
             self.position = list(position)
-            self.size = (0, 0) if size is None else list(size)
+            self.size = [0, 0] if size is None else list(size)
 
         self.name = name
         self.state = state
