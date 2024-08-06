@@ -13,6 +13,7 @@ __all__ = [
     "Underline",
     "Highlight",
     "SwitchFeature",
+    "ToggleButtonFeature",
     "CheckButtonFeature",
     "RadioButtonFeature",
     "ProgressBarFeature",
@@ -211,6 +212,39 @@ class CheckButtonFeature(ButtonFeature):
             if self.widget.state == "active":
                 self.widget.set(boolean := not self.widget.get())
                 self.widget.update("hover", no_delay=True)
+                if self._command is not None:
+                    self._command(boolean)
+        return flag
+
+
+class ToggleButtonFeature(ButtonFeature):
+    """Feature of ToggleButton"""
+
+    def _move_none(self, event: tkinter.Event) -> bool:
+        if flag := self.widget._shapes[0].detect(event.x, event.y):
+            self.widget.master._trigger_config.update(cursor="hand2")
+            if self.widget.state.startswith("normal"):
+                self.widget.update(
+                    f"hover-{'on' if self.widget.get() else 'off'}")
+        else:
+            if not self.widget.state.startswith("normal"):
+                self.widget.update(
+                    f"normal-{'on' if self.widget.get() else 'off'}")
+        return flag
+
+    def _click_left(self, _: tkinter.Event) -> bool:
+        if flag := self.widget.state.startswith("hover"):
+            self.widget.update(
+                f"active-{'on' if self.widget.get() else 'off'}")
+        return flag
+
+    def _release_left(self, event: tkinter.Event) -> bool:
+        """"""
+        if flag := self.widget._shapes[0].detect(event.x, event.y):
+            if self.widget.state.startswith("active"):
+                boolean = not self.widget.get()
+                self.widget.set(boolean)
+                self.widget.update(f"hover-{'on' if boolean else 'off'}")
                 if self._command is not None:
                     self._command(boolean)
         return flag

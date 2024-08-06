@@ -1,5 +1,6 @@
 """All standard Widgets"""
 
+import itertools
 import math
 import typing
 
@@ -7,6 +8,7 @@ from ..animation import animations, controllers
 from ..core import constants, containers, virtual
 from ..toolbox import enhanced, tools
 from . import features, images, shapes, texts
+from ._auxiliary import _AuxiliaryButton, _AuxiliaryInputBox, _AuxiliaryLabel
 
 __all__ = [
     "Text",
@@ -15,6 +17,7 @@ __all__ = [
     "Button",
     "Switch",
     "InputBox",
+    "ToggleButton",
     "CheckButton",
     "RadioButton",
     "ProgressBar",
@@ -22,14 +25,12 @@ __all__ = [
     "HighlightButton",
     "IconButton",
     "Slider",
+    "SegmentedButton",
+    # "SpinBox",
     # "OptionButton",
     # "ScrollBar",
-    # "Tab",
-    # "Menu",
-    # "SpinBox",
     # "ToolTip",
     # "ComboBox",
-    # "SegmentButton",
 ]
 
 
@@ -442,6 +443,79 @@ class CheckButton(virtual.Widget):
         self._texts[0].disappear()
 
 
+class ToggleButton(virtual.Widget):
+    """A button that can display information and switch statuses"""
+
+    def __init__(
+        self,
+        master: containers.Canvas,
+        position: tuple[int, int],
+        size: tuple[int, int] | None = None,
+        *,
+        text: str = "",
+        family: str | None = None,
+        fontsize: int | None = None,
+        weight: typing.Literal['normal', 'bold'] = "normal",
+        slant: typing.Literal['roman', 'italic'] = "roman",
+        underline: bool = False,
+        overstrike: bool = False,
+        justify: typing.Literal["left", "center", "right"] = "left",
+        anchor: typing.Literal["n", "e", "w", "s",
+                               "nw", "ne", "sw", "se"] = "center",
+        default: bool | None = None,
+        command: typing.Callable[[bool], typing.Any] | None = None,
+        image: enhanced.PhotoImage | None = None,
+        name: str | None = None,
+        through: bool = False,
+        animation: bool = True,
+    ) -> None:
+        """
+        * `master`: parent canvas
+        * `position`: position of the widget
+        * `size`: size of the widget
+        * `text`: text of the widget
+        * `family`: font family
+        * `fontsize`: font size
+        * `weight`: weight of the text
+        * `slant`: slant of the text
+        * `underline`: whether the text is underline
+        * `overstrike`: whether the text is overstrike
+        * `justify`: justify mode of the text
+        * `anchor`: anchor of the text
+        * `default`: default state of the widget
+        * `command`: a function that is triggered when the state of check button is on
+        * `image`: image of the widget
+        * `name`: name of the widget
+        * `through`: wether detect another widget under the widget
+        * `animation`: wether enable animation
+        """
+        if size is None:
+            size = tools.get_text_size(text, family, fontsize, padding=10)
+        virtual.Widget.__init__(self, master, position, size, state="normal-off",
+                                name=name, through=through, animation=animation)
+        if constants.SYSTEM == "Windows10":
+            shapes.Rectangle(self)
+        else:
+            shapes.RoundedRectangle(self)
+        if image is not None:
+            images.StillImage(self, image=image)
+        texts.Information(self, text=text, family=family, fontsize=fontsize, weight=weight, slant=slant,
+                          underline=underline, overstrike=overstrike, justify=justify, anchor=anchor)
+        features.ToggleButtonFeature(self, command=command)
+        if default is not None:
+            self.set(default)
+
+    def get(self) -> bool:
+        """Get the state of the check button"""
+        return self.state.endswith("on")
+
+    def set(self, value: bool) -> None:
+        """Set the state of the switch"""
+        if self.get() == bool(value):
+            return
+        self.update(f"{self.state.split('-')[0]}-{'on' if value else 'off'}")
+
+
 class RadioButton(virtual.Widget):
     """Radio button widget, generally used to select one of several options"""
 
@@ -799,6 +873,151 @@ class Slider(virtual.Widget):
             return self.command(self.value)
 
 
+class SegmentedButton(virtual.Widget):
+    """A segmented button that can be used to toggle between multiple states"""
+
+    def __init__(
+        self,
+        master: containers.Canvas,
+        position: tuple[int, int],
+        sizes: tuple[tuple[int, int], ...] | None = None,
+        *,
+        texts: tuple[str, ...] = (),
+        family: str | None = None,
+        fontsize: int | None = None,
+        weight: typing.Literal['normal', 'bold'] = "normal",
+        slant: typing.Literal['roman', 'italic'] = "roman",
+        underline: bool = False,
+        overstrike: bool = False,
+        justify: typing.Literal["left", "center", "right"] = "left",
+        anchor: typing.Literal["n", "e", "w", "s",
+                               "nw", "ne", "sw", "se"] = "center",
+        default: int | None = None,
+        commands: tuple[typing.Callable | None, ...] = (),
+        images: tuple[enhanced.PhotoImage | None, ...] = (),
+        layout: typing.Literal["horizontal", "vertical"] = "horizontal",
+        name: str | None = None,
+        through: bool = False,
+        animation: bool = True,
+    ) -> None:
+        """
+        * `master`: parent canvas
+        * `position`: position of the widget
+        * `size`: size of the widget
+        * `text`: text of the widget
+        * `family`: font family
+        * `fontsize`: font size
+        * `weight`: weight of the text
+        * `slant`: slant of the text
+        * `underline`: whether the text is underline
+        * `overstrike`: whether the text is overstrike
+        * `justify`: justify mode of the text
+        * `anchor`: anchor of the text
+        * `default`: default value of the widget
+        * `commands`: a function that is triggered when the button is pressed
+        * `images`: image of the widget
+        * `layout`: layout mode of the widget
+        * `name`: name of the widget
+        * `through`: wether detect another widget under the widget
+        * `animation`: wether enable animation
+        """
+        self.value: int | None = None
+        if sizes is None:
+            sizes = tuple(tools.get_text_size(
+                text, family, fontsize, padding=10) for text in texts)
+        widths, heights, length = *zip(*sizes), len(sizes)
+        if layout == "horizontal":
+            total_size = sum(widths) + length*5 + 5, max(heights) + 10
+        else:
+            total_size = max(widths) + 10, sum(heights) + length*5 + 5
+        virtual.Widget.__init__(self, master, position, total_size,
+                                name=name, through=through, animation=animation)
+        if constants.SYSTEM == "Windows10":
+            shapes.Rectangle(self)
+        else:
+            shapes.RoundedRectangle(self)
+        total_side_length = 5
+        for i, pack in enumerate(itertools.zip_longest(sizes, texts, images, commands)):
+            size, text, image, command = pack
+            position = (total_side_length, 5) if layout == "horizontal" else (
+                5, total_side_length)
+            ToggleButton(self, position, size, text=text, family=family, fontsize=fontsize, weight=weight,
+                         slant=slant, underline=underline, overstrike=overstrike, justify=justify,
+                         anchor=anchor, animation=animation, image=image, through=True,
+                         command=lambda b, i=i: (self.set(i), command(b) if command else None))
+            total_side_length += size[layout == "vertical"] + 5
+        if default is not None:
+            self.set(default)
+
+    def get(self) -> int | None:
+        """
+        Get the index of the child toggle button with a value of True.
+        If not, None is returned.
+        """
+        return self.value
+
+    def set(self, value: int | None) -> None:
+        """Activate the child toggle button for the specified index"""
+        for i, widget in enumerate(self._widgets):
+            widget.set(i == value)
+        self.value = value
+
+
+class SpinBox(virtual.Widget):
+    """"""
+
+    def __init__(
+        self,
+        master: containers.Canvas,
+        position: tuple[int, int],
+        size: tuple[int, int] | None = None,
+        *,
+        family: str | None = None,
+        fontsize: int | None = None,
+        weight: typing.Literal['normal', 'bold'] = "normal",
+        slant: typing.Literal['roman', 'italic'] = "roman",
+        underline: bool = False,
+        overstrike: bool = False,
+        align: typing.Literal["left", "right", "center"] = "left",
+        placeholder: str = "",
+        show: str | None = None,
+        limit: int = math.inf,
+        image: enhanced.PhotoImage | None = None,
+        name: str | None = None,
+        through: bool = False,
+        animation: bool = True,
+    ) -> None:
+        """
+        * `master`: parent canvas
+        * `position`: position of the widget
+        * `size`: size of the widget
+        * `family`: font family
+        * `fontsize`: font size
+        * `weight`: weight of the text
+        * `slant`: slant of the text
+        * `underline`: whether the text is underline
+        * `overstrike`: whether the text is overstrike
+        * `align`: align mode of the text
+        * `show`: display a value that obscures the original content
+        * `placeholder`: a placeholder for the prompt
+        * `limit`: limit on the number of characters
+        * `image`: image of the widget
+        * `name`: name of the widget
+        * `through`: wether detect another widget under the widget
+        * `animation`: wether enable animation
+        """
+        if size is None:
+            size = 200, tools.get_text_size(
+                "", family, fontsize, padding=10)[1]
+        virtual.Widget.__init__(self, master, position, size,
+                                name=name, through=through, animation=animation)
+        InputBox(self, (0, 0), size)
+        Button(self, (size[0]-size[1]-5, 5),
+               (size[1], size[1]/2 - 5 - 1), text="▲", fontsize=16, through=True)
+        Button(self, (size[0]-size[1]-5, size[1]/2),
+               (size[1], size[1]/2 - 5 + 1), text="▼", fontsize=16, through=True)
+
+
 class OptionButton(virtual.Widget):
     """"""
 
@@ -838,11 +1057,10 @@ class OptionButton(virtual.Widget):
         """
         virtual.Widget.__init__(self, master, position, size,
                                 name=name, through=through, animation=animation)
-        shapes.RoundedRectangle(self)
-        shapes.Line(self, width=2, joinstyle="round", capstyle="round", relative_position=(self.size[0]-self.size[1]/2, self.size[1]/2),
-                    points=[(-10, -5), (0, 5), (10, -5)])
-        Button(self, (0, 45), self.size, text="Test").disappear()
-        features.ComboBox(self, command=self._widgets[0].appear)
+        _AuxiliaryLabel(
+            self, (0, 0), (size[0]-size[1], size[1]), ignore="right", text="Option")
+        _AuxiliaryButton(self, (size[0]-size[1], 0),
+                         (size[1], size[1]), ignore="left", text="▼")
         if default is not None:
             self.set(default)
 
@@ -905,18 +1123,6 @@ class ScrollBar(virtual.Widget):
         """"""
 
 
-class Tab(virtual.Widget):
-    """"""
-
-
-class Menu(virtual.Widget):
-    """"""
-
-
-class SpinBox(virtual.Widget):
-    """"""
-
-
 class ToolTip(virtual.Widget):
     """"""
 
@@ -924,29 +1130,20 @@ class ToolTip(virtual.Widget):
 class ComboBox(virtual.Widget):
     """"""
 
-
-class SegmentButton(virtual.Widget):
-    """"""
-
     def __init__(
         self,
         master: containers.Canvas,
         position: tuple[int, int],
-        sizes: tuple[tuple[int, int]] = ((100, 40),),
+        size: tuple[int, int] = (200, 40),
         *,
-        text: str = "",
         family: str | None = None,
         fontsize: int | None = None,
         weight: typing.Literal['normal', 'bold'] = "normal",
         slant: typing.Literal['roman', 'italic'] = "roman",
         underline: bool = False,
         overstrike: bool = False,
-        justify: typing.Literal["left", "center", "right"] = "left",
-        anchor: typing.Literal["n", "e", "w", "s",
-                               "nw", "ne", "sw", "se"] = "center",
-        commands: tuple[typing.Callable | None, ...] = (),
-        images: tuple[enhanced.PhotoImage | None, ...] = (),
-        layout: typing.Literal["horizontal", "vertical"] = "horizontal",
+        align: typing.Literal["left", "right", "center"] = "left",
+        default: str | None = None,
         name: str | None = None,
         through: bool = False,
         animation: bool = True,
@@ -955,29 +1152,23 @@ class SegmentButton(virtual.Widget):
         * `master`: parent canvas
         * `position`: position of the widget
         * `size`: size of the widget
-        * `text`: text of the widget
         * `family`: font family
         * `fontsize`: font size
         * `weight`: weight of the text
         * `slant`: slant of the text
         * `underline`: whether the text is underline
         * `overstrike`: whether the text is overstrike
-        * `justify`: justify mode of the text
-        * `anchor`: anchor of the text
-        * `commands`: a function that is triggered when the button is pressed
-        * `images`: image of the widget
-        * `layout`: layout mode of the widget
+        * `align`: align mode of the text
+        * `default`: default value of the widget
         * `name`: name of the widget
         * `through`: wether detect another widget under the widget
         * `animation`: wether enable animation
         """
-        virtual.Widget.__init__(self, master, position, sizes,
+        virtual.Widget.__init__(self, master, position, size,
                                 name=name, through=through, animation=animation)
-        if constants.SYSTEM == "Windows10":
-            shapes.Rectangle(self)
-        else:
-            shapes.RoundedRectangle(self)
-        # Button(self, position, )
-        texts.Information(self, text=text, family=family, fontsize=fontsize, weight=weight, slant=slant,
-                          underline=underline, overstrike=overstrike, justify=justify, anchor=anchor)
-        features.LabelFeature(self)
+        _AuxiliaryInputBox(
+            self, (0, 0), (size[0]-size[1], size[1]), ignore="right")
+        _AuxiliaryButton(self, (size[0]-size[1], 0),
+                         (size[1], size[1]), ignore="left", text="▼")
+        if default is not None:
+            self.set(default)

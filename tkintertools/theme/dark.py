@@ -1,5 +1,7 @@
 """Dark theme"""
 
+import copy
+
 Canvas = {
     "bg": "#202020",
     "insertbackground": "#FFFFFF",
@@ -45,6 +47,33 @@ CheckButton = {
         "normal": {"fill": "#373737", "outline": "#3D3D3D"},
         "hover": {"fill": "#3C3C3C", "outline": "#3D3D3D"},
         "active": {"fill": "#323232", "outline": "#3D3D3D"}
+    }
+}
+
+ToggleButton = {
+    "Information": {
+        "normal-off": {"fill": "#F1F1F1"},
+        "hover-off": {"fill": "#F1F1F1"},
+        "active-off": {"fill": "#F1F1F1"},
+        "normal-on": {"fill": "#F1F1F1"},
+        "hover-on": {"fill": "#F1F1F1"},
+        "active-on": {"fill": "#F1F1F1"},
+    },
+    "Rectangle": {
+        "normal-off": {"fill": "#333333", "outline": "#333333"},
+        "hover-off": {"fill": "#333333", "outline": "#858585"},
+        "active-off": {"fill": "#666666", "outline": "#666666"},
+        "normal-on": {"fill": "#0067C0", "outline": "#0078D7"},
+        "hover-on": {"fill": "#1975C5", "outline": "#1975C5"},
+        "active-on": {"fill": "#2D7FC6", "outline": "#2072B9"}
+    },
+    "RoundedRectangle": {
+        "normal-off": {"fill": "#373737", "outline": "#3D3D3D"},
+        "hover-off": {"fill": "#3C3C3C", "outline": "#3D3D3D"},
+        "active-off": {"fill": "#323232", "outline": "#3D3D3D"},
+        "normal-on": {"fill": "#0067C0", "outline": "#0078D7"},
+        "hover-on": {"fill": "#1975C5", "outline": "#1975C5"},
+        "active-on": {"fill": "#2D7FC6", "outline": "#2072B9"}
     }
 }
 
@@ -118,7 +147,7 @@ OptionButton = {
         "hover": {"fill": "#333333", "outline": "#858585"},
         "active": {"fill": "#666666", "outline": "#666666"}
     },
-    "RoundedRectangle": {
+    "HalfRoundedRectangle": {
         "normal": {"fill": "#373737", "outline": "#3D3D3D"},
         "hover": {"fill": "#3C3C3C", "outline": "#3D3D3D"},
         "active": {"fill": "#323232", "outline": "#3D3D3D"}
@@ -252,3 +281,17 @@ UnderlineButton = {
         "active": {"fill": "purple"}
     }
 }
+
+_AuxiliaryLabel = copy.deepcopy(Label)
+del _AuxiliaryLabel["RoundedRectangle"]
+_AuxiliaryLabel["HalfRoundedRectangle"] = Label["RoundedRectangle"]
+
+_AuxiliaryButton = copy.deepcopy(Button)
+del _AuxiliaryButton["RoundedRectangle"]
+_AuxiliaryButton["HalfRoundedRectangle"] = Button["RoundedRectangle"]
+
+_AuxiliaryInputBox = copy.deepcopy(InputBox)
+del _AuxiliaryInputBox["RoundedRectangle.in"]
+del _AuxiliaryInputBox["RoundedRectangle.out"]
+_AuxiliaryInputBox["HalfRoundedRectangle.in"] = InputBox["RoundedRectangle.in"]
+_AuxiliaryInputBox["HalfRoundedRectangle.out"] = InputBox["RoundedRectangle.out"]
