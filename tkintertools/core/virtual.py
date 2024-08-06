@@ -530,6 +530,12 @@ class Widget:
         for widget in self._widgets:
             widget.destroy()
 
+    def detect(self, x: int, y: int) -> bool:
+        """Detect whether the specified coordinates are within the `Widget`"""
+        x, y, w, h = *self.position, *self.size
+        x1, y1, x2, y2 = x, y, x + w, y + h
+        return x1 <= x <= x2 and y1 <= y <= y2
+
     def zoom(self, ratios: tuple[float, float] | None = None) -> None:
         """Zoom self"""
         if ratios is None:

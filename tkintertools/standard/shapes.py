@@ -1,6 +1,7 @@
 """All standard Shapes"""
 
 import math
+import typing
 import warnings
 
 from ..core import virtual
@@ -11,6 +12,7 @@ __all__ = [
     "Oval",
     "RegularPolygon",
     "RoundedRectangle",
+    "HalfRoundedRectangle",
     "SemicircularRectangle",
     "SharpRectangle",
     "Parallelogram",
@@ -183,33 +185,33 @@ class RoundedRectangle(virtual.Shape):
     # @typing.override
     def display(self) -> None:
         self.items = [
-            self.widget.master.create_arc(
+            self.widget.master.create_rectangle(
+                0, 0, 0, 0, outline="", tags=("fill", "fill"), **self.kwargs),
+            self.widget.master.create_rectangle(
+                0, 0, 0, 0, outline="", tags=("fill", "fill"), **self.kwargs),
+            self.widget.master.create_line(  # n
+                0, 0, 0, 0, tags=("fill", "outline"), **self.kwargs),
+            self.widget.master.create_line(  # s
+                0, 0, 0, 0, tags=("fill", "outline"), **self.kwargs),
+            self.widget.master.create_line(  # w
+                0, 0, 0, 0, tags=("fill", "outline"), **self.kwargs),
+            self.widget.master.create_line(  # e
+                0, 0, 0, 0, tags=("fill", "outline"), **self.kwargs),
+            self.widget.master.create_arc(  # nw
                 0, 0, 0, 0, outline="", start=90, tags=("fill", "fill"), **self.kwargs),
-            self.widget.master.create_arc(
-                0, 0, 0, 0, outline="", start=0, tags=("fill", "fill"), **self.kwargs),
-            self.widget.master.create_arc(
+            self.widget.master.create_arc(  # sw
                 0, 0, 0, 0, outline="", start=180, tags=("fill", "fill"), **self.kwargs),
-            self.widget.master.create_arc(
+            self.widget.master.create_arc(  # ne
+                0, 0, 0, 0, outline="", start=0, tags=("fill", "fill"), **self.kwargs),
+            self.widget.master.create_arc(  # se
                 0, 0, 0, 0, outline="", start=-90, tags=("fill", "fill"), **self.kwargs),
-            self.widget.master.create_rectangle(
-                0, 0, 0, 0, outline="", tags=("fill", "fill"), **self.kwargs),
-            self.widget.master.create_rectangle(
-                0, 0, 0, 0, outline="", tags=("fill", "fill"), **self.kwargs),
-            self.widget.master.create_line(
-                0, 0, 0, 0, tags=("fill", "outline"), **self.kwargs),
-            self.widget.master.create_line(
-                0, 0, 0, 0, tags=("fill", "outline"), **self.kwargs),
-            self.widget.master.create_line(
-                0, 0, 0, 0, tags=("fill", "outline"), **self.kwargs),
-            self.widget.master.create_line(
-                0, 0, 0, 0, tags=("fill", "outline"), **self.kwargs),
-            self.widget.master.create_arc(
+            self.widget.master.create_arc(  # nw
                 0, 0, 0, 0, style="arc", start=90, tags=("outline", "outline"), **self.kwargs),
-            self.widget.master.create_arc(
-                0, 0, 0, 0, style="arc", start=0, tags=("outline", "outline"), **self.kwargs),
-            self.widget.master.create_arc(
+            self.widget.master.create_arc(  # sw
                 0, 0, 0, 0, style="arc", start=180, tags=("outline", "outline"), **self.kwargs),
-            self.widget.master.create_arc(
+            self.widget.master.create_arc(  # ne
+                0, 0, 0, 0, style="arc", start=0, tags=("outline", "outline"), **self.kwargs),
+            self.widget.master.create_arc(  # se
                 0, 0, 0, 0, style="arc", start=-90, tags=("outline", "outline"), **self.kwargs),
         ]
 
@@ -228,20 +230,125 @@ class RoundedRectangle(virtual.Shape):
         elif w < d < h or w < d < h:
             warnings.warn("Parameters are not suitable")
 
-        self.widget.master.coords(self.items[0], x1, y1, x1+d, y1+d)
-        self.widget.master.coords(self.items[1], x2-d, y1, x2, y1+d)
-        self.widget.master.coords(self.items[2], x1, y2-d, x1+d, y2)
-        self.widget.master.coords(self.items[3], x2-d, y2-d, x2, y2)
-        self.widget.master.coords(self.items[4], x1+r, y1, x2-r+1, y2)
-        self.widget.master.coords(self.items[5], x1, y1+r, x2, y2-r+1)
-        self.widget.master.coords(self.items[6], x1+r, y1, x2-r+1, y1)
-        self.widget.master.coords(self.items[7], x1+r, y2, x2-r+1, y2)
-        self.widget.master.coords(self.items[8], x1, y1+r, x1, y2-r+1)
-        self.widget.master.coords(self.items[9], x2, y1+r, x2, y2-r+1)
-        self.widget.master.coords(self.items[10], x1, y1, x1+d, y1+d)
-        self.widget.master.coords(self.items[11], x2-d, y1, x2, y1+d)
-        self.widget.master.coords(self.items[12], x1, y2-d, x1+d, y2)
-        self.widget.master.coords(self.items[13], x2-d, y2-d, x2, y2)
+        self.widget.master.coords(self.items[0], x1, y1+r, x2, y2-r+1)
+        self.widget.master.coords(self.items[1], x1+r, y1, x2-r+1, y2)
+        self.widget.master.coords(self.items[2], x1+r, y1, x2-r+1, y1)  # n
+        self.widget.master.coords(self.items[3], x1+r, y2, x2-r+1, y2)  # s
+        self.widget.master.coords(self.items[4], x1, y1+r, x1, y2-r+1)  # w
+        self.widget.master.coords(self.items[5], x2, y1+r, x2, y2-r+1)  # e
+        self.widget.master.coords(self.items[6], x1, y1, x1+d, y1+d)  # nw
+        self.widget.master.coords(self.items[7], x1, y2-d, x1+d, y2)  # sw
+        self.widget.master.coords(self.items[8], x2-d, y1, x2, y1+d)  # ne
+        self.widget.master.coords(self.items[9], x2-d, y2-d, x2, y2)  # se
+        self.widget.master.coords(self.items[10], x1, y1, x1+d, y1+d)  # nw
+        self.widget.master.coords(self.items[11], x1, y2-d, x1+d, y2)  # sw
+        self.widget.master.coords(self.items[12], x2-d, y1, x2, y1+d)  # ne
+        self.widget.master.coords(self.items[13], x2-d, y2-d, x2, y2)  # se
+
+
+class HalfRoundedRectangle(virtual.Shape):
+    """Create a half rounded rectangle for a widget"""
+
+    def __init__(
+        self,
+        widget: virtual.Widget,
+        relative_position: tuple[int, int] = (0, 0),
+        size: tuple[int, int] | None = None,
+        *,
+        radius: int = 5,
+        ignore: typing.Literal["left", "right"] = "left",
+        name: str | None = None,
+        animation: bool = True,
+        styles: dict[str, dict[str, str]] | None = None,
+        **kwargs,
+    ) -> None:
+        """
+        * `widget`: parent widget
+        * `relative_position`: position relative to its widgets
+        * `size`: size of component
+        * `radius`: radius of the fillet
+        * `ignore`: edges to ignore
+        * `name`: name of component
+        * `animation`: Wether use animation to change color
+        * `styles`: style dict of component
+        * `kwargs`: extra parameters for CanvasItem
+        """
+        self.radius = radius
+        self.ignore = ignore
+        virtual.Shape.__init__(self, widget, relative_position, size,
+                               name=name, styles=styles, animation=animation, **kwargs)
+
+    # @typing.override
+    def display(self) -> None:
+        self.items = [
+            self.widget.master.create_rectangle(
+                0, 0, 0, 0, outline="", tags=("fill", "fill"), **self.kwargs),
+            self.widget.master.create_rectangle(
+                0, 0, 0, 0, outline="", tags=("fill", "fill"), **self.kwargs),
+            self.widget.master.create_line(  # n
+                0, 0, 0, 0, tags=("fill", "outline"), **self.kwargs),
+            self.widget.master.create_line(  # s
+                0, 0, 0, 0, tags=("fill", "outline"), **self.kwargs),
+            self.widget.master.create_line(  # w
+                0, 0, 0, 0, tags=("fill", "outline"), **self.kwargs),
+            self.widget.master.create_line(  # e
+                0, 0, 0, 0, tags=("fill", "outline"), **self.kwargs),
+        ]
+        self.items += [
+            self.widget.master.create_arc(  # ne
+                0, 0, 0, 0, outline="", start=0, tags=("fill", "fill"), **self.kwargs),
+            self.widget.master.create_arc(  # se
+                0, 0, 0, 0, outline="", start=-90, tags=("fill", "fill"), **self.kwargs),
+            self.widget.master.create_arc(  # ne
+                0, 0, 0, 0, style="arc", start=0, tags=("outline", "outline"), **self.kwargs),
+            self.widget.master.create_arc(  # se
+                0, 0, 0, 0, style="arc", start=-90, tags=("outline", "outline"), **self.kwargs),
+        ] if self.ignore == "left" else [
+            self.widget.master.create_arc(  # nw
+                0, 0, 0, 0, outline="", start=90, tags=("fill", "fill"), **self.kwargs),
+            self.widget.master.create_arc(  # sw
+                0, 0, 0, 0, outline="", start=180, tags=("fill", "fill"), **self.kwargs),
+            self.widget.master.create_arc(  # nw
+                0, 0, 0, 0, style="arc", start=90, tags=("outline", "outline"), **self.kwargs),
+            self.widget.master.create_arc(  # sw
+                0, 0, 0, 0, style="arc", start=180, tags=("outline", "outline"), **self.kwargs),
+        ]
+
+    # @typing.override
+    def coords(self, size: tuple[float, float] | None = None, position: tuple[float, float] | None = None) -> None:
+        super().coords(size, position)
+
+        x, y, w, h = *self.position, *self.size
+        x1, y1, x2, y2 = x, y, x + w, y + h
+        r, d = self.radius, self.radius*2
+
+        if d > w or d > h:
+            warnings.warn("Parameters are not suitable")
+        elif d == 0:
+            warnings.warn("Parameters are not suitable")
+        elif w < d < h or w < d < h:
+            warnings.warn("Parameters are not suitable")
+
+        a = self.ignore != "left"
+        b = not a
+
+        self.widget.master.coords(self.items[0], x1, y1+r, x2, y2-r+1)
+        self.widget.master.coords(self.items[1], x1+r*a, y1, x2-r*b+1, y2)
+        self.widget.master.coords(self.items[2], x1+r*a, y1, x2-r*b+1, y1)  # n
+        self.widget.master.coords(self.items[3], x1+r*a, y2, x2-r*b+1, y2)  # s
+        self.widget.master.coords(self.items[4], x1, y1+r*a, x1, y2-r*a+1)  # w
+        self.widget.master.coords(self.items[5], x2, y1+r*b, x2, y2-r*b+1)  # e
+
+        if self.ignore == "left":
+            self.widget.master.coords(self.items[6], x2-d, y1, x2, y1+d)  # ne
+            self.widget.master.coords(self.items[7], x2-d, y2-d, x2, y2)  # se
+            self.widget.master.coords(self.items[8], x2-d, y1, x2, y1+d)  # ne
+            self.widget.master.coords(self.items[9], x2-d, y2-d, x2, y2)  # se
+        else:
+            self.widget.master.coords(self.items[6], x1, y1, x1+d, y1+d)  # nw
+            self.widget.master.coords(self.items[7], x1, y2-d, x1+d, y2)  # sw
+            self.widget.master.coords(self.items[8], x1, y1, x1+d, y1+d)  # nw
+            self.widget.master.coords(self.items[9], x1, y2-d, x1+d, y2)  # sw
 
 
 class SemicircularRectangle(virtual.Shape):
