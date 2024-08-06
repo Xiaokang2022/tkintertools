@@ -1,10 +1,12 @@
 """All constants"""
 
+import math
 import platform
 
 FONT: str = None
 SIZE: int = None
 SYSTEM: str = None
+GOLDEN_RATIO: float = (math.sqrt(5)-1) / 2
 
 __all__ = [
     "FONT",

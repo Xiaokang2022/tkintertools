@@ -125,7 +125,7 @@ class Component(abc.ABC):
                 self.styles.get(refer_state, {}))
             for key, value in self.styles["disabled"].items():
                 self.styles["disabled"][key] = rgb.rgb_to_str(rgb.convert(
-                    rgb.str_to_rgb(value), rgb.str_to_rgb(self.widget.master["bg"]), 0.618))
+                    rgb.str_to_rgb(value), rgb.str_to_rgb(self.widget.master["bg"]), constants.GOLDEN_RATIO))
         return self.styles["disabled"]
 
     def configure(self, style: dict[str, str], *, no_delay: bool = False) -> None:

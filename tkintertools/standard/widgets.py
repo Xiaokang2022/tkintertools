@@ -26,7 +26,7 @@ __all__ = [
     "IconButton",
     "Slider",
     "SegmentedButton",
-    # "SpinBox",
+    "SpinBox",
     # "OptionButton",
     # "ScrollBar",
     # "ToolTip",
@@ -964,7 +964,7 @@ class SegmentedButton(virtual.Widget):
 
 
 class SpinBox(virtual.Widget):
-    """"""
+    """A widget that makes it easy to enter numeric type data"""
 
     def __init__(
         self,
@@ -982,6 +982,7 @@ class SpinBox(virtual.Widget):
         placeholder: str = "",
         show: str | None = None,
         limit: int = math.inf,
+        command: typing.Callable[[bool], typing.Any] | None = None,
         image: enhanced.PhotoImage | None = None,
         name: str | None = None,
         through: bool = False,
@@ -1001,6 +1002,7 @@ class SpinBox(virtual.Widget):
         * `show`: display a value that obscures the original content
         * `placeholder`: a placeholder for the prompt
         * `limit`: limit on the number of characters
+        * `command`: a function that is triggered when the button is pressed
         * `image`: image of the widget
         * `name`: name of the widget
         * `through`: wether detect another widget under the widget
@@ -1011,11 +1013,49 @@ class SpinBox(virtual.Widget):
                 "", family, fontsize, padding=10)[1]
         virtual.Widget.__init__(self, master, position, size,
                                 name=name, through=through, animation=animation)
-        InputBox(self, (0, 0), size)
-        Button(self, (size[0]-size[1]-5, 5),
-               (size[1], size[1]/2 - 5 - 1), text="▲", fontsize=16, through=True)
-        Button(self, (size[0]-size[1]-5, size[1]/2),
-               (size[1], size[1]/2 - 5 + 1), text="▼", fontsize=16, through=True)
+        InputBox(self, (0, 0), size, family=family, fontsize=fontsize, weight=weight,
+                 slant=slant, underline=underline, overstrike=overstrike, align=align,
+                 placeholder=placeholder, show=show, limit=limit, image=image,
+                 through=through, animation=animation)
+        h = size[1]/2 - 6
+        w = h/constants.GOLDEN_RATIO if constants.SYSTEM == "Windows10" else 2*h
+        Button(self, (size[0]-w-4, 4), (w, h), text="▲", fontsize=14, through=True,
+               command=lambda: command(True) if command is not None else self.change(True))
+        Button(self, (size[0]-w-4, size[1]/2 + 2), (w, h), text="▼", fontsize=14, through=True,
+               command=lambda: command(False) if command is not None else self.change(False))
+        features.SpinBoxFeature(self, command=command)
+
+    def change(self, up: bool) -> None:
+        """Try change the current value"""
+        if not (value := self._widgets[0].get()):
+            return self._widgets[0].set("0")
+        try:
+            value = float(value) + (1 if up else -1)
+            if math.isclose(value, int_value := int(value)):
+                value = int_value
+            self._widgets[0].set(value)
+        except ValueError:
+            pass
+
+    def get(self) -> str:
+        """Get the value of the Entry"""
+        return self._widgets[0].get()
+
+    def set(self, value: str) -> None:
+        """Set the text value of the Entry"""
+        self._widgets[0].set(value)
+
+    def append(self, value: str) -> None:
+        """Append text to Entry"""
+        self._widgets[0].append(value)
+
+    def delete(self, count: int) -> None:
+        """Delete a specified amount of text"""
+        self._widgets[0].delete(count)
+
+    def clear(self) -> None:
+        """Clear the text value of the Entry"""
+        self._widgets[0].clear()
 
 
 class OptionButton(virtual.Widget):

@@ -19,6 +19,7 @@ __all__ = [
     "ProgressBarFeature",
     "InputBoxFeature",
     "SliderFeature",
+    "SpinBoxFeature",
 ]
 
 
@@ -437,3 +438,27 @@ class SliderFeature(virtual.Feature):
         if self.widget.state == "active":
             self._temp_position = None
             self.widget.update("hover")
+
+
+class SpinBoxFeature(virtual.Feature):
+    """Feature of SpinBox"""
+
+    def __init__(
+        self,
+        widget: virtual.Widget,
+        *,
+        command: typing.Callable[[bool], typing.Any] | None = None,
+    ) -> None:
+        """
+        * `widget`: parent widget
+        * `command`: callback function
+        """
+        virtual.Feature.__init__(self, widget)
+        self._command: typing.Callable = command
+        if self._command is None:
+            self._command = self.widget.change
+
+    def _wheel(self, event: tkinter.Event) -> bool:
+        if flag := self.widget._widgets[0].state == "active":
+            self._command(event.delta > 0)
+        return flag
