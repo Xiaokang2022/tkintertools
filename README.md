@@ -71,7 +71,7 @@ pip install tkintertools
 * ✨ Feature / 更新内容 : [News-3.0.0](https://xiaokang2022.github.io/tkintertools/news/3.0.0/News/)
 
 ```bash
-pip install tkintertools[recommended]==3.0.0.rc1
+pip install tkintertools[recommended]==3.0.0rc1
 ```
 
 * Demos / 演示: https://github.com/Xiaokang2022/tkintertools-demos
@@ -127,17 +127,17 @@ The following command installs the recommended optional dependencies:
 以下命令可以安装推荐的可选依赖包：
 
 ```bash
-pip install tkintertools[recommended]==3.0.0.rc1
+pip install tkintertools[recommended]==3.0.0rc1
 ```
 
 The following command installs all optional dependencies:  
 以下命令可以安装全部可选依赖包：
 
 ```bash
-pip install tkintertools[all]==3.0.0.rc1
+pip install tkintertools[all]==3.0.0rc1
 ```
 
-📦 Extention / 扩展包
+📦 Extension / 扩展包
 ---------------------
 
 In addition to the basic functionality, `tkintertools` also offers some extension packages to implement certain functionality. The following official extensions are available:  
@@ -150,7 +150,7 @@ The following command can be used to install all the official extensions:
 以下命令可以安装全部的官方扩展包：
 
 ```bash
-pip install tkintertools[extention]==3.0.0.rc1
+pip install tkintertools[extension]==3.0.0rc1
 ```
 
 👀 More / 更多
