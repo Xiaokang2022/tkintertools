@@ -10,15 +10,7 @@ description = "tkintertools is a UI framework based on the Canvas class of tkint
 readme = "README.md"
 license = { text = "MIT License" }
 requires-python = ">=3.10"
-keywords = [
-    "tkinter",
-    "tkintertools",
-    "gui",
-    "ui",
-    "3d",
-    "cross-platform",
-    "themed",
-]
+keywords = ["tkinter", "tkintertools", "gui", "ui", "cross-platform", "themed"]
 classifiers = [
     "Programming Language :: Python :: 3",
     "License :: OSI Approved :: MIT License",
@@ -31,40 +23,39 @@ classifiers = [
     "Topic :: Software Development :: Libraries :: Python Modules",
     "Topic :: Software Development :: Widget Sets",
     "Typing :: Typed",
-    "Development Status :: 4 - Beta",
 ]
 dynamic = ["version"]
 
 [project.optional-dependencies]
-suggest = [
+recommended = [
     "darkdetect==0.8.0; platform_system != 'Darwin'",
     "darkdetect[macos-listener]==0.8.0; platform_system == 'Darwin'",
     "pywinstyles==1.8; platform_system == 'Windows'",
     "pillow>=10.0.0",
 ]
-full = [
+all = [
     "darkdetect==0.8.0; platform_system != 'Darwin'",
     "darkdetect[macos-listener]==0.8.0; platform_system == 'Darwin'",
     "pywinstyles==1.8; platform_system == 'Windows'",
     "hPyT==1.3.2; platform_system == 'Windows'",
     "win32material==1.0.6; platform_system == 'Windows'",
-    "matplotlib>=3.9.0",
     "pillow>=10.0.0",
 ]
+extension = ["tkintertools-mpl", "tkintertools-3d"]
 
 [project.urls]
-"Source code" = "https://github.com/Xiaokang2022/tkintertools"
-Homepage = "https://xiaokang2022.github.io/tkintertools/"
-Changelog = "https://xiaokang2022.github.io/tkintertools/CHANGELOG/"
-"Release notes" = "https://xiaokang2022.github.io/tkintertools/news/3.0.0/News/"
 "Bug tracker" = "https://github.com/Xiaokang2022/tkintertools/issues"
+"Changelog" = "https://xiaokang2022.github.io/tkintertools/CHANGELOG/"
+"Documentation" = "https://xiaokang2022.github.io/tkintertools/"
+"Donate" = "https://xiaokang2022.github.io/tkintertools/Sponsor/"
+"Homepage" = "https://xiaokang2022.github.io/tkintertools/"
+"Source code" = "https://github.com/Xiaokang2022/tkintertools"
 
 [tool.setuptools.dynamic]
 version = { attr = "tkintertools.__version__" }
 
 [tool.setuptools.packages.find]
 include = ["tkintertools*"]
-namespaces = false
 
 # python -m build
 # python -m twine upload dist/*
