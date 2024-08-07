@@ -1,8 +1,9 @@
 """Some useful utility classes or utility functions"""
 
 import ctypes
-import inspect
+import os
 import platform
+import shutil
 import tkinter
 import tkinter.font
 import typing
@@ -14,13 +15,17 @@ __all__ = [
     "embed_window",
     "load_font",
     "screen_size",
-    "set_mouse_position",
     "get_text_size",
 ]
 
 
 class _Trigger:
-    """Single trigger"""
+    """
+    Single trigger
+
+    It can only be triggered once before the reset, and multiple triggers are
+    invalid. When triggered, the callback function is called.
+    """
 
     def __init__(self, command: typing.Callable) -> None:
         """
@@ -59,7 +64,7 @@ class _Trigger:
 
 
 def get_hwnd(widget: tkinter.Widget) -> int:
-    """Get the HWND of a widget"""
+    """Get the HWND of `tkinter.Widget`"""
     return ctypes.windll.user32.GetParent(widget.winfo_id())
 
 
@@ -73,28 +78,36 @@ def embed_window(
     Embed a widget into another widget
 
     * `window`: Widget that will be embedded in
-    * `parent`: parent widget, None indicates the screen
+    * `parent`: parent widget, `None` indicates that the parent widget is the screen
     * `focus`: whether direct input focus to this window
     """
     ctypes.windll.user32.SetParent(
         get_hwnd(window), parent.winfo_id() if parent else None)
+
     if not focus:
         window.master.focus_set()
 
 
-def load_font(font_path: str | bytes, *, private: bool = True, enumerable: bool = False) -> bool:
+def load_font(
+    font_path: str | bytes,
+    *,
+    private: bool = True,
+    enumerable: bool = False,
+) -> bool:
     """
-    Makes fonts located in file `font_path` available to the font system
+    Make fonts located in file `font_path` available to the font system, and
+    return `True` if the operation succeeds, `False` otherwise
 
     * `font_path`: the font file path
-    * `private`: if True, other processes cannot see this font,
-    and this font will be unloaded when the process dies
+    * `private`: if True, other processes cannot see this font, and this font
+    will be unloaded when the process dies
     * `enumerable`: if True, this font will appear when enumerating fonts
 
-    TIPS:
+    ATTENTION:
 
-    This function is referenced from `customtkinter.FontManager.load_font`,
+    * This function is referenced from `customtkinter.FontManager.load_font`,
     CustomTkinter: https://github.com/TomSchimansky/CustomTkinter
+    * This function only works on Windows and Linux operating systems
     """
     if platform.system() == "Windows":
         if isinstance(font_path, str):
@@ -111,13 +124,17 @@ def load_font(font_path: str | bytes, *, private: bool = True, enumerable: bool 
         return bool(min(num_fonts_added, 1))
 
     elif platform.system() == "Linux":
-        pass
+        try:
+            shutil.copy(font_path, os.path.expanduser("~/.fonts/"))
+            return True
+        except Exception:
+            return False
 
     return False
 
 
 def screen_size() -> tuple[int, int]:
-    """Return the width and height of the screen"""
+    """Return the size of the screen"""
     if tkinter._default_root is None:
         temp_tk = tkinter.Tk()
         temp_tk.withdraw()
@@ -131,15 +148,19 @@ def screen_size() -> tuple[int, int]:
     return width, height
 
 
-def set_mouse_position(x: int, y: int) -> None:
-    """
-    Set mouse cursor position
+if platform.system() == "Windows":
 
-    ATTENTION:
+    __all__.append("set_mouse_position")
 
-    This function only works on Windows OS!
-    """
-    ctypes.windll.user32.SetCursorPos(x, y)
+    def set_mouse_position(x: int, y: int) -> None:
+        """
+        Set mouse cursor position
+
+        ATTENTION:
+
+        This function only works on Windows OS!
+        """
+        ctypes.windll.user32.SetCursorPos(x, y)
 
 
 def get_text_size(
@@ -159,8 +180,8 @@ def get_text_size(
 
     ATTENTION:
 
-    This function only works when the fontsize is under zero!
-    And when there is a line break, the return value will be inaccurate!
+    * This function only works when the fontsize is negative number!
+    * When there is a line break, the return value will be inaccurate!
     """
     if family is None:
         family = constants.FONT
@@ -168,5 +189,6 @@ def get_text_size(
         fontsize = constants.SIZE
     if fontsize > 0:
         raise ValueError("The fontsize is required under zero.")
+
     width = tkinter.font.Font(family=family, size=fontsize).measure(text)
     return 2*padding + width, 2*padding - fontsize
