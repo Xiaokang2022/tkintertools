@@ -131,19 +131,19 @@ class Highlight(ButtonFeature):
             if self.widget.state == "normal":
                 self.widget.update("hover")
                 animations.ScaleFontSize(
-                    self.widget._texts[0], 150, delta=28).start()
+                    self.widget._texts[0], 150, sizes=28).start()
         else:
             if self.widget.state != "normal":
                 self.widget.update("normal")
                 animations.ScaleFontSize(
-                    self.widget._texts[0], 150, delta=24).start()
+                    self.widget._texts[0], 150, sizes=24).start()
         return flag
 
     def _click_left(self, _: tkinter.Event) -> bool:
         if flag := self.widget.state == "hover":
             self.widget.update("active")
             animations.ScaleFontSize(
-                self.widget._texts[0], 150, delta=26).start()
+                self.widget._texts[0], 150, sizes=26).start()
         return flag
 
     def _release_left(self, event: tkinter.Event) -> bool:
@@ -152,7 +152,7 @@ class Highlight(ButtonFeature):
             if self.widget.state == "active":
                 self.widget.update("hover")
                 animations.ScaleFontSize(
-                    self.widget._texts[0], 150, delta=28).start()
+                    self.widget._texts[0], 150, sizes=28).start()
                 if self._command is not None:
                     self._command(*self._args)
         return flag

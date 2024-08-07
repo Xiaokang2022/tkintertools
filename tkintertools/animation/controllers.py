@@ -1,15 +1,16 @@
 """
-Standard controllers
+Standard control functions
 
 Definition of control function::
 
-    def f(t: float) -> float:
-        ...
+```python
+def f(t: float) -> float: ...
+```
 
 * t: 0% ~ 100%, indicates the percentage of time
 * return value: Any real number, represents a multiple of the cardinality of the animation
 
-The built-in controllers are:
+The built-in control functions are:
 
 * `flat`: speed remains the same
 * `smooth`: speed is slow first, then fast and then slow
@@ -106,7 +107,7 @@ def flat(t: float) -> float:
 
 def smooth(t: float) -> float:
     """Smooth animation: speed is slow first, then fast and then slow"""
-    return (1-math.cos(t*math.pi))/2
+    return (1 - math.cos(t*math.pi)) / 2
 
 
 def rebound(t: float) -> float:

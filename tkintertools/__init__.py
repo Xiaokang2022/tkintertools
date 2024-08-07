@@ -2,11 +2,12 @@
 The `tkintertools` is a UI framework based on the `Canvas` class of `tkinter`.
 
 * Homepage: https://xiaokang2022.github.io/tkintertools/
-* GitHub: https://github.com/Xiaokang2022/tkintertools
-* Gitee(Mirror): https://gitee.com/Xiaokang2022/tkintertools
-* GitCode(Mirror): https://gitcode.com/Xiaokang2022/tkintertools
+* PyPI: https://pypistats.org/packages/tkintertools
+* GitHub (Source): https://github.com/Xiaokang2022/tkintertools
+* Gitee (Mirror): https://gitee.com/Xiaokang2022/tkintertools
+* GitCode (Mirror): https://gitcode.com/Xiaokang2022/tkintertools
 
-If you ❤️ this package, leave your ⭐ to me, thanks!
+If you ❤️ this package, leave your ⭐ to me, thanks you so much! 🎉
 
 ![](https://img.shields.io/github/stars/Xiaokang2022/tkintertools?label=Stars&color=gold&logo=github&style=flat)
 """
@@ -40,8 +41,7 @@ from .standard import *
 from .toolbox.enhanced import *
 
 if sys.version_info < (3, 10):
-    raise ImportError(
-        "tkintertools requires a Python version of 3.10 or greater.")
+    raise ImportError("tkintertools requires Python version 3.10 or higher.")
 
 if sys.platform == "win32":
     import ctypes

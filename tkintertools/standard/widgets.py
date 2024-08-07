@@ -27,10 +27,8 @@ __all__ = [
     "Slider",
     "SegmentedButton",
     "SpinBox",
-
     "OptionButton",
     "ComboBox",
-    "ScrollBar",
 ]
 
 

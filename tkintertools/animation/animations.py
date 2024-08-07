@@ -1,4 +1,4 @@
-"""Standard animations"""
+"""Standard animation class"""
 
 import numbers
 import tkinter
@@ -6,7 +6,7 @@ import typing
 import warnings
 
 from ..color import rgb
-from ..core import containers, virtual
+from ..core import virtual
 from . import controllers
 
 __all__ = [
@@ -22,7 +22,7 @@ __all__ = [
 
 
 class Animation:
-    """Base Class for Animation"""
+    """Animation base class"""
 
     def __init__(
         self,
@@ -36,13 +36,14 @@ class Animation:
         derivation: bool = False,
     ) -> None:
         """
-        * `ms`: animation duration
-        * `controller`: control function
+        * `ms`: duration of the animation, in milliseconds
+        * `controller`: control functions that determine the course of the
+        entire animation movement
         * `callback`: callback function, which will be called once per frame,
-        and the parameter is the current animation percentage
-        * `end`: the function that is called at the end of the animation normally
-        * `repeat`: the number of times the entire animation is repeated
-        * `fps`: the frame rate of the animation
+        with the parameter being the percentage of the current animation progress
+        * `end`: ending function, which is called once at the end of the animation
+        * `repeat`: number of repetitions of the entire animation process
+        * `fps`: the FPS of the animation
         * `derivation`: whether the callback function is derivative
         """
         self.ms = ms
@@ -53,46 +54,57 @@ class Animation:
         self.fps = fps
         self.derivation = derivation
 
+        self._tasks: list[str] = []
         self._delay: int = 1000 // fps
+
         if self._delay <= self.ms:
             self._total, self._leave = divmod(self.ms, self._delay)
         else:
-            self._delay = self.ms
-            self._total, self._leave = 1, -1
-        self._tasks: list[str] = []
+            self._delay, self._total, self._leave = self.ms, 1, -1
 
-    def _wrapper(self, func: typing.Callable[[float], float]) -> typing.Callable[[float], float]:
-        """Internal Method: Make the end function call correctly"""
+    def _wrapper(
+        self,
+        func: typing.Callable[[float], float],
+    ) -> typing.Callable[[float], float]:
+        """
+        Make the ending function call correctly
+
+        * `func`: the callback function to be wrapped
+        """
         def wrapper(x: float) -> None:
             func(x)
+
             if self.end is not None:
                 self.end()
+
             if self.repeat != 0:
                 self.repeat -= 1
                 self.start()
+
         return wrapper
 
     def start(self, *, delay: int = 0) -> None:
         """
-        Play the animation
+        Start the animation
 
-        * `delay`: the delay before the animation starts
+        * `delay`: length of the delay before the animation starts, in milliseconds 
         """
         self._tasks.clear()
-        last_value: float = 0
+        last_percentage = 0
+
         for i in range(1, self._total+1):
             delay += self._delay + (i < self._leave)
             percentage = self.controller(i/self._total)
-            self._tasks.append(
-                tkinter.Misc.after(
-                    tkinter._default_root, delay,
-                    self._wrapper(
-                        self.callback) if i == self._total else self.callback,
-                    percentage - last_value
-                )
+            task = tkinter.Misc.after(
+                tkinter._default_root, delay,
+                self._wrapper(
+                    self.callback) if i == self._total else self.callback,
+                percentage - last_percentage
             )
+            self._tasks.append(task)
+
             if self.derivation:
-                last_value = percentage
+                last_percentage = percentage
 
     def stop(self) -> None:
         """Stop the animation"""
@@ -101,13 +113,13 @@ class Animation:
 
 
 class MoveTkWidget(Animation):
-    """Animation of moving a `tkinter.Widget`"""
+    """Animation of moving `tkinter.Widget`"""
 
     def __init__(
         self,
         widget: tkinter.Widget,
         ms: int,
-        delta: tuple[float, float],
+        offset: tuple[float, float],
         *,
         controller: typing.Callable[[float], float] = controllers.flat,
         end: typing.Callable[[], typing.Any] | None = None,
@@ -115,32 +127,36 @@ class MoveTkWidget(Animation):
         fps: int = 30,
     ) -> None:
         """
-        * `widget`: tkinter widget that is moved
-        * `ms`: animation duration
-        * `delta`: displacement, (dx, dy)
-        * `controller`: control function
-        * `end`: the function that is called at the end of the animation normally
-        * `repeat`: the number of times the entire animation is repeated
-        * `fps`: the frame rate of the animation
+        * `widget`: tkinter widget to be moved
+        * `ms`: duration of the animation, in milliseconds
+        * `offset`: relative offset of the coordinates
+        * `controller`: control functions that determine the course of the
+        entire animation movement
+        * `end`: ending function, which is called once at the end of the animation
+        * `repeat`: number of repetitions of the entire animation process
+        * `fps`: the FPS of the animation
         """
         if not widget.place_info():
-            warnings.warn("Canvas is not laid out by Place")
-        x0, y0, dx, dy = widget.winfo_x(), widget.winfo_y(), *delta
+            warnings.warn("tkinter widget is not laid out by Place.",
+                          RuntimeWarning, stacklevel=2)
+
+        x0, y0, dx, dy = widget.winfo_x(), widget.winfo_y(), *offset
+
         Animation.__init__(
             self, ms, controller,
-            callback=lambda k: widget.place(x=x0+dx*k, y=y0+dy*k),
+            callback=lambda p: widget.place(x=x0+dx*p, y=y0+dy*p),
             end=end, repeat=repeat, fps=fps,
         )
 
 
 class MoveWidget(Animation):
-    """Animation of moving a `Widget`"""
+    """Animation of moving `Widget`"""
 
     def __init__(
         self,
         widget: "virtual.Widget",
         ms: int,
-        delta: tuple[float, float],
+        offset: tuple[float, float],
         *,
         controller: typing.Callable[[float], float] = controllers.flat,
         end: typing.Callable[[], typing.Any] | None = None,
@@ -148,30 +164,32 @@ class MoveWidget(Animation):
         fps: int = 30,
     ) -> None:
         """
-        * `widget`: widget that is moved
-        * `ms`: animation duration
-        * `delta`: displacement, (dx, dy)
-        * `controller`: control function
-        * `end`: the function that is called at the end of the animation normally
-        * `repeat`: the number of times the entire animation is repeated
-        * `fps`: the frame rate of the animation
+        * `widget`: widget to be moved
+        * `ms`: duration of the animation, in milliseconds
+        * `offset`: relative offset of the coordinates
+        * `controller`: control functions that determine the course of the
+        entire animation movement
+        * `end`: ending function, which is called once at the end of the animation
+        * `repeat`: number of repetitions of the entire animation process
+        * `fps`: the FPS of the animation
         """
-        dx, dy = delta
+        dx, dy = offset
+
         Animation.__init__(
             self, ms, controller,
-            callback=lambda k: widget.move(dx*k, dy*k),
+            callback=lambda p: widget.move(dx*p, dy*p),
             end=end, repeat=repeat, fps=fps, derivation=True,
         )
 
 
 class MoveComponent(Animation):
-    """Animation of moving a `Component`"""
+    """Animation of moving `Component`"""
 
     def __init__(
         self,
         component: "virtual.Component",
         ms: int,
-        delta: tuple[float, float],
+        offset: tuple[float, float],
         *,
         controller: typing.Callable[[float], float] = controllers.flat,
         end: typing.Callable[[], typing.Any] | None = None,
@@ -179,18 +197,20 @@ class MoveComponent(Animation):
         fps: int = 30,
     ) -> None:
         """
-        * `component`: component that is moved
-        * `ms`: animation duration
-        * `delta`: displacement, (dx, dy)
-        * `controller`: control function
-        * `end`: the function that is called at the end of the animation normally
-        * `repeat`: the number of times the entire animation is repeated
-        * `fps`: the frame rate of the animation
+        * `component`: component to be moved
+        * `ms`: duration of the animation, in milliseconds
+        * `offset`: relative offset of the coordinates
+        * `controller`: control functions that determine the course of the
+        entire animation movement
+        * `end`: ending function, which is called once at the end of the animation
+        * `repeat`: number of repetitions of the entire animation process
+        * `fps`: the FPS of the animation
         """
-        dx, dy = delta
+        dx, dy = offset
+
         Animation.__init__(
             self, ms, controller,
-            callback=lambda k: component.move(dx*k, dy*k),
+            callback=lambda p: component.move(dx*p, dy*p),
             end=end, repeat=repeat, fps=fps, derivation=True,
         )
 
@@ -200,10 +220,10 @@ class MoveItem(Animation):
 
     def __init__(
         self,
-        canvas: "containers.Canvas",
+        canvas: tkinter.Canvas,
         item: int,
         ms: int,
-        delta: tuple[float, float],
+        offset: tuple[float, float],
         *,
         controller: typing.Callable[[float], float] = controllers.flat,
         end: typing.Callable[[], typing.Any] | None = None,
@@ -211,32 +231,34 @@ class MoveItem(Animation):
         fps: int = 30,
     ) -> None:
         """
-        * `canvas`: canvas object to which the item belongs
-        * `item`: item that need to be moved
-        * `ms`: animation duration
-        * `delta`: displacement, (dx, dy)
-        * `controller`: control function
-        * `end`: the function that is called at the end of the animation normally
-        * `repeat`: the number of times the entire animation is repeated
-        * `fps`: the frame rate of the animation
+        * `canvas`: an instance of `tkinter.Canvas` that contains the item
+        * `item`: the item to be moved
+        * `ms`: duration of the animation, in milliseconds
+        * `offset`: relative offset of the coordinates
+        * `controller`: control functions that determine the course of the
+        entire animation movement
+        * `end`: ending function, which is called once at the end of the animation
+        * `repeat`: number of repetitions of the entire animation process
+        * `fps`: the FPS of the animation
         """
-        dx, dy = delta
+        dx, dy = offset
+
         Animation.__init__(
             self, ms, controller,
-            callback=lambda k: canvas.move(item, dx*k, dy*k),
+            callback=lambda p: canvas.move(item, dx*p, dy*p),
             end=end, repeat=repeat, fps=fps, derivation=True,
         )
 
 
 class GradientTkWidget(Animation):
-    """Animation for color gradients"""
+    """Animation that makes color of `tkinter.Widget` gradient"""
 
     def __init__(
         self,
         widget: tkinter.Widget,
-        option: str,
+        parameter: str,
         ms: int,
-        delta: tuple[str, str],
+        colors: tuple[str, str],
         *,
         controller: typing.Callable[[float], float] = controllers.flat,
         end: typing.Callable[[], typing.Any] | None = None,
@@ -245,36 +267,41 @@ class GradientTkWidget(Animation):
         derivation: bool = False,
     ) -> None:
         """
-        * `widget`: tkinter widget
-        * `option`: parameter name of the part of the item that needs to be modified in color
-        * `ms`: animation duration
-        * `delta`: (start color, stop color)
-        * `controller`: control function
-        * `end`: the function that is called at the end of the animation normally
-        * `repeat`: the number of times the entire animation is repeated
-        * `fps`: the frame rate of the animation
+        * `widget`: tkinter widget whose color is to be gradient
+        * `parameter`: parameter name of the part of the item that needs to be
+        modified in color
+        * `ms`: duration of the animation, in milliseconds
+        * `colors`: a tuple of the initial and ending colors
+        * `controller`: control functions that determine the course of the
+        entire animation movement
+        * `end`: ending function, which is called once at the end of the animation
+        * `repeat`: number of repetitions of the entire animation process
+        * `fps`: the FPS of the animation
         * `derivation`: whether the callback function is derivative
         """
-        if not all(delta):
-            raise ValueError("Null characters cannot be parsed")
+        if not all(colors):
+            raise ValueError(f"Null characters ({colors}) cannot be parsed!")
+
+        rgb1, rgb2 = rgb.str_to_rgb(colors[0]), rgb.str_to_rgb(colors[1])
+
         Animation.__init__(
             self, ms, controller,
             callback=lambda p: widget.configure(
-                **{option: rgb.rgb_to_str(rgb.convert(rgb.str_to_rgb(delta[0]), rgb.str_to_rgb(delta[1]), p))}),
+                **{parameter: rgb.rgb_to_str(rgb.convert(rgb1, rgb2, p))}),
             end=end, repeat=repeat, fps=fps, derivation=derivation,
         )
 
 
 class GradientItem(Animation):
-    """Animation for color gradients"""
+    """Animation that makes color of canvas item gradient"""
 
     def __init__(
         self,
-        canvas: "containers.Canvas",
+        canvas: tkinter.Canvas,
         item: int,
-        option: str,
+        parameter: str,
         ms: int,
-        delta: tuple[str, str],
+        colors: tuple[str, str],
         *,
         controller: typing.Callable[[float], float] = controllers.flat,
         end: typing.Callable[[], typing.Any] | None = None,
@@ -283,36 +310,40 @@ class GradientItem(Animation):
         derivation: bool = False,
     ) -> None:
         """
-        * `canvas`: canvas object to which the item belongs
-        * `item`: item that need to be modified in color
-        * `option`: parameter name of the part of the item that needs to be modified in color
-        * `ms`: animation duration
-        * `delta`: (start color, stop color)
-        * `controller`: control function
-        * `end`: the function that is called at the end of the animation normally
-        * `repeat`: the number of times the entire animation is repeated
-        * `fps`: the frame rate of the animation
+        * `canvas`: an instance of `tkinter.Canvas` that contains the item
+        * `item`: item whose color is to be gradient
+        * `parameter`: parameter name of the part of the item that needs to be
+        modified in color
+        * `ms`: duration of the animation, in milliseconds
+        * `colors`: a tuple of the initial and ending colors
+        * `controller`: control functions that determine the course of the
+        entire animation movement
+        * `end`: ending function, which is called once at the end of the animation
+        * `repeat`: number of repetitions of the entire animation process
+        * `fps`: the FPS of the animation
         * `derivation`: whether the callback function is derivative
         """
-        if not all(delta):
-            raise ValueError("Null characters cannot be parsed")
+        if not all(colors):
+            raise ValueError(f"Null characters ({colors}) cannot be parsed!")
+
+        rgb1, rgb2 = rgb.str_to_rgb(colors[0]), rgb.str_to_rgb(colors[1])
+
         Animation.__init__(
             self, ms, controller,
             callback=lambda p: canvas.itemconfigure(
-                item, **{option: rgb.rgb_to_str(rgb.convert(
-                    rgb.str_to_rgb(delta[0]), rgb.str_to_rgb(delta[1]), p))}),
+                item, **{parameter: rgb.rgb_to_str(rgb.convert(rgb1, rgb2, p))}),
             end=end, repeat=repeat, fps=fps, derivation=derivation,
         )
 
 
 class ScaleFontSize(Animation):
-    """Animation for scaling the font size"""
+    """Animation of scaling the font size"""
 
     def __init__(
         self,
         text: "virtual.Text",
         ms: int,
-        delta: float | tuple[float, float],
+        sizes: tuple[float, float] | float,
         *,
         controller: typing.Callable[[float], float] = controllers.flat,
         end: typing.Callable[[], typing.Any] | None = None,
@@ -321,25 +352,28 @@ class ScaleFontSize(Animation):
         derivation: bool = False,
     ) -> None:
         """
-        * `text`: the text to which the font belongs
-        * `ms`: animation duration
-        * `delta`: target font size or (start size, end size)
-        * `controller`: control function
-        * `end`: the function that is called at the end of the animation normally
-        * `repeat`: the number of times the entire animation is repeated
-        * `fps`: the frame rate of the animation
+        * `text`: an instance of `virtual.Text` that needs to be scaled in font size
+        * `ms`: duration of the animation, in milliseconds
+        * `sizes`: a tuple of the initial and ending sizes or target font size
+        * `controller`: control functions that determine the course of the
+        entire animation movement
+        * `end`: ending function, which is called once at the end of the animation
+        * `repeat`: number of repetitions of the entire animation process
+        * `fps`: the FPS of the animation
         * `derivation`: whether the callback function is derivative
         """
         self._text = text
-        if isinstance(delta, numbers.Number):
-            delta = -abs(delta)
-            delta = text.font.cget("size"), delta-text.font.cget("size")
+
+        if isinstance(sizes, numbers.Number):
+            sizes = -abs(sizes)
+            sizes = text.font.cget("size"), sizes-text.font.cget("size")
         else:
-            delta = -abs(delta[0]), -abs(delta[1])
-            delta = delta[0], delta[1] - delta[0]
+            sizes = -abs(sizes[0]), -abs(sizes[1])
+            sizes = sizes[0], sizes[1] - sizes[0]
+
         Animation.__init__(
             self, ms, controller,
-            callback=lambda p: self._scale(round(delta[0] + delta[1]*p)),
+            callback=lambda p: self._scale(round(sizes[0] + sizes[1]*p)),
             end=end, repeat=repeat, fps=fps, derivation=derivation,
         )
 
