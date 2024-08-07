@@ -1,7 +1,7 @@
 """
-Default style file
+Default style data
 
-Structure for `theme_name.py`
+Base structure for `theme_name.py`
 
 ```python
 container_name01: dict[str, str | int] = {
@@ -22,8 +22,9 @@ widget_name01: dict[str, dict[str, dict[str, str]]] = {
 ...
 ```
 
+It is not mandatory for the variable to be a constant, it is enough to conform
+to the above format, and the missing style will be empty by default and will not
+affect the operation of the program.
 """
 
-from . import dark, light
-
-# Imports using "from ... import *" are not recommended here
+from . import *

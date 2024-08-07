@@ -7,6 +7,7 @@ import shutil
 import tkinter
 import tkinter.font
 import typing
+import warnings
 
 from ..core import constants
 
@@ -188,7 +189,7 @@ def get_text_size(
     if fontsize is None:
         fontsize = constants.SIZE
     if fontsize > 0:
-        raise ValueError("The fontsize is required under zero.")
+        warnings.warn("Font size requirement is negative.", RuntimeWarning, 2)
 
     width = tkinter.font.Font(family=family, size=fontsize).measure(text)
     return 2*padding + width, 2*padding - fontsize
