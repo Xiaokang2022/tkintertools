@@ -433,13 +433,13 @@ class Widget:
         * `animation`: wether enable animation
         """
         if isinstance(master, Widget):
-            self.master = master.master
-            master._widgets.append(self)
+            self.master, self.widget = master.master, master
+            self.widget._widgets.append(self)
             self.position = [master.position[0] + position[0],
                              master.position[1] + position[1]]
             self.size = master.size.copy() if size is None else list(size)
         else:
-            self.master = master
+            self.master, self.widget = master, None
             self.position = list(position)
             self.size = [0, 0] if size is None else list(size)
 
@@ -461,6 +461,11 @@ class Widget:
     def components(self) -> tuple[Component, ...]:
         """Return all components of the widget"""
         return tuple(self._shapes + self._texts + self._images)
+
+    @property
+    def widgets(self) -> tuple["Widget", ...]:
+        """Return all widgets of the widget"""
+        return tuple(self._widgets)
 
     def register(self, component: Component) -> None:
         """Register a component to the widget"""
@@ -503,7 +508,7 @@ class Widget:
         else:
             self._state_before_disabled, last_state = "", self._state_before_disabled
             self.update(last_state, no_delay=True)
-        for widget in self._widgets:
+        for widget in self.widgets:
             widget.disabled(value)
 
     def move(self, dx: int, dy: int) -> None:
@@ -512,7 +517,7 @@ class Widget:
         self.position[1] += dy
         for component in self.components:
             component.move(dx, dy)
-        for widget in self._widgets:
+        for widget in self.widgets:
             widget.move(dx, dy)
 
     def moveto(self, x: int, y: int) -> None:
@@ -522,26 +527,25 @@ class Widget:
     def destroy(self) -> None:
         """Destroy the widget"""
         self.master._widgets.remove(self)
-        if isinstance(self.master, Widget):
-            self.master.master._widgets.remove(self)
+        if self.widget is not None:
+            self.widget._widgets.remove(self)
 
         for component in self.components:
             component.destroy()
-        for widget in self._widgets:
+        for widget in self.widgets:
             widget.destroy()
 
     def detect(self, x: int, y: int) -> bool:
         """Detect whether the specified coordinates are within the `Widget`"""
-        x, y, w, h = *self.position, *self.size
-        x1, y1, x2, y2 = x, y, x + w, y + h
+        x1, y1, w, h = *self.position, *self.size
+        x2, y2 = x1 + w, y1 + h
         return x1 <= x <= x2 and y1 <= y <= y2
 
     def zoom(self, ratios: tuple[float, float] | None = None) -> None:
         """Zoom self"""
         if ratios is None:
-            ratios = self.master.master.ratios if isinstance(
-                self.master, Widget) else self.master.ratios
-            for widget in self._widgets:
+            ratios = self.master.ratios
+            for widget in self.widgets:
                 widget.zoom(ratios)
         self.size[0] *= ratios[0]
         self.size[1] *= ratios[1]
@@ -554,12 +558,12 @@ class Widget:
         """Let all components of the widget to disappear"""
         for component in self.components:
             component.disappear()
-        for widget in self._widgets:
+        for widget in self.widgets:
             widget.disappear()
 
     def appear(self) -> None:
         """Let all components of the widget to appear"""
         for component in self.components:
             component.appear()
-        for widget in self._widgets:
+        for widget in self.widgets:
             widget.appear()
