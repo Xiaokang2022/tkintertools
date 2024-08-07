@@ -189,7 +189,7 @@ def get_text_size(
     if fontsize is None:
         fontsize = constants.SIZE
     if fontsize > 0:
-        warnings.warn("Font size requirement is negative.", RuntimeWarning, 2)
+        warnings.warn("Font size requirement is negative.", UserWarning, 2)
 
     width = tkinter.font.Font(family=family, size=fontsize).measure(text)
     return 2*padding + width, 2*padding - fontsize

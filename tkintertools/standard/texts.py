@@ -22,7 +22,11 @@ class Information(virtual.Text):
             anchor=self.anchor, tags=("fill", "fill"))]
 
     # @typing.override
-    def coords(self, size: tuple[float, float] | None = None, position: tuple[float, float] | None = None) -> None:
+    def coords(
+        self,
+        size: tuple[float, float] | None = None,
+        position: tuple[float, float] | None = None,
+    ) -> None:
         super().coords(size, position)
 
         self.widget.master.coords(self.items[0], *self.center())
@@ -123,7 +127,11 @@ class SingleLineText(virtual.Text):
                 anchor=self.anchor, fill="#787878")]
 
     # @typing.override
-    def coords(self, size: tuple[float, float] | None = None, position: tuple[float, float] | None = None) -> None:
+    def coords(
+        self,
+        size: tuple[float, float] | None = None,
+        position: tuple[float, float] | None = None,
+    ) -> None:
         super().coords(size, position)
 
         x, y = self.center()

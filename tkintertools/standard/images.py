@@ -15,7 +15,11 @@ class StillImage(virtual.Image):
         self.items = [self.widget.master.create_image(0, 0, image=self.image)]
 
     # @typing.override
-    def coords(self, size: tuple[float, float] | None = None, position: tuple[float, float] | None = None) -> None:
+    def coords(
+        self,
+        size: tuple[float, float] | None = None,
+        position: tuple[float, float] | None = None,
+    ) -> None:
         super().coords(size, position)
 
         self.widget.master.coords(self.items[0], *self.center())

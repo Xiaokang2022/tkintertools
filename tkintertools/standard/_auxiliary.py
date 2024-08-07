@@ -48,8 +48,9 @@ class _AuxiliaryLabel(virtual.Widget):
             shapes.HalfRoundedRectangle(self, ignore=ignore)
         if image is not None:
             images.StillImage(self, image=image)
-        texts.Information(self, text=text, family=family, fontsize=fontsize, weight=weight, slant=slant,
-                          underline=underline, overstrike=overstrike, justify=justify, anchor=anchor)
+        texts.Information(self, text=text, family=family, fontsize=fontsize,
+                          weight=weight, slant=slant, underline=underline,
+                          overstrike=overstrike, justify=justify, anchor=anchor)
         features.LabelFeature(self)
 
 
@@ -89,8 +90,9 @@ class _AuxiliaryButton(virtual.Widget):
             shapes.HalfRoundedRectangle(self, ignore=ignore)
         if image is not None:
             images.StillImage(self, image=image)
-        texts.Information(self, text=text, family=family, fontsize=fontsize, weight=weight, slant=slant,
-                          underline=underline, overstrike=overstrike, justify=justify, anchor=anchor)
+        texts.Information(self, text=text, family=family, fontsize=fontsize,
+                          weight=weight, slant=slant, underline=underline,
+                          overstrike=overstrike, justify=justify, anchor=anchor)
         features.ButtonFeature(self, command=command)
 
 
@@ -132,9 +134,9 @@ class _AuxiliaryInputBox(virtual.Widget):
                 self, name=".in", size=(self.size[0], self.size[1]-3), ignore=ignore)
         if image is not None:
             images.StillImage(self, image=image)
-        texts.SingleLineText(self, family=family, fontsize=fontsize, weight=weight, slant=slant,
-                             underline=underline, overstrike=overstrike, align=align, limit=limit,
-                             show=show, placeholder=placeholder)
+        texts.SingleLineText(self, family=family, fontsize=fontsize, weight=weight,
+                             slant=slant, underline=underline, overstrike=overstrike,
+                             align=align, limit=limit, show=show, placeholder=placeholder)
         features.InputBoxFeature(self)
 
     def get(self) -> str:

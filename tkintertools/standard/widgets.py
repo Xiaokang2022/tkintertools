@@ -72,8 +72,9 @@ class Text(virtual.Widget):
         """
         virtual.Widget.__init__(self, master, position, (0, 0),
                                 name=name, through=through, animation=animation)
-        texts.Information(self, text=text, family=family, fontsize=fontsize, weight=weight, slant=slant,
-                          underline=underline, overstrike=overstrike, justify=justify, anchor=anchor)
+        texts.Information(self, text=text, family=family, fontsize=fontsize,
+                          weight=weight, slant=slant, underline=underline,
+                          overstrike=overstrike, justify=justify, anchor=anchor)
 
     def get(self) -> str:
         """Get the text of the widget"""
@@ -183,8 +184,9 @@ class Label(virtual.Widget):
             shapes.RoundedRectangle(self)
         if image is not None:
             images.StillImage(self, image=image)
-        texts.Information(self, text=text, family=family, fontsize=fontsize, weight=weight, slant=slant,
-                          underline=underline, overstrike=overstrike, justify=justify, anchor=anchor)
+        texts.Information(self, text=text, family=family, fontsize=fontsize,
+                          weight=weight, slant=slant, underline=underline,
+                          overstrike=overstrike, justify=justify, anchor=anchor)
         features.LabelFeature(self)
 
 
@@ -242,8 +244,9 @@ class Button(virtual.Widget):
             shapes.RoundedRectangle(self)
         if image is not None:
             images.StillImage(self, image=image)
-        texts.Information(self, text=text, family=family, fontsize=fontsize, weight=weight, slant=slant,
-                          underline=underline, overstrike=overstrike, justify=justify, anchor=anchor)
+        texts.Information(self, text=text, family=family, fontsize=fontsize,
+                          weight=weight, slant=slant, underline=underline,
+                          overstrike=overstrike, justify=justify, anchor=anchor)
         features.ButtonFeature(self, command=command)
 
 
@@ -275,7 +278,8 @@ class Switch(virtual.Widget):
         * `animation`: wether enable animation
         """
         virtual.Widget.__init__(self, master, position, (length, length / 2),
-                                state="normal-off", name=name, through=through, animation=animation)
+                                state="normal-off", name=name,
+                                through=through, animation=animation)
         if constants.SYSTEM == "Windows10":
             shapes.Rectangle(self, name=".out")
             shapes.Rectangle(self, name=".in", relative_position=(
@@ -361,8 +365,9 @@ class InputBox(virtual.Widget):
                 self, name=".in", size=(self.size[0], self.size[1]-3))
         if image is not None:
             images.StillImage(self, image=image)
-        texts.SingleLineText(self, family=family, fontsize=fontsize, weight=weight, slant=slant,
-                             underline=underline, overstrike=overstrike, align=align, limit=limit,
+        texts.SingleLineText(self, family=family, fontsize=fontsize,
+                             weight=weight, slant=slant, underline=underline,
+                             overstrike=overstrike, align=align, limit=limit,
                              show=show, placeholder=placeholder)
         features.InputBoxFeature(self)
 
@@ -497,8 +502,9 @@ class ToggleButton(virtual.Widget):
             shapes.RoundedRectangle(self)
         if image is not None:
             images.StillImage(self, image=image)
-        texts.Information(self, text=text, family=family, fontsize=fontsize, weight=weight, slant=slant,
-                          underline=underline, overstrike=overstrike, justify=justify, anchor=anchor)
+        texts.Information(self, text=text, family=family, fontsize=fontsize,
+                          weight=weight, slant=slant, underline=underline,
+                          overstrike=overstrike, justify=justify, anchor=anchor)
         features.ToggleButtonFeature(self, command=command)
         if default is not None:
             self.set(default)
@@ -604,8 +610,8 @@ class ProgressBar(virtual.Widget):
                 0, self.size[1]*0.8), relative_position=(self.size[1]*0.1, self.size[1]*0.1))
         else:
             shapes.SemicircularRectangle(self, name=".out")
-            shapes.SemicircularRectangle(self, name=".in", size=(
-                self.size[1]*0.7, self.size[1]*0.7), relative_position=(self.size[1]*0.15, self.size[1]*0.15))
+            shapes.SemicircularRectangle(self, name=".in", size=(self.size[1]*0.7, self.size[1]*0.7),
+                                         relative_position=(self.size[1]*0.15, self.size[1]*0.15))
         if image is not None:
             images.StillImage(self, image=image)
         features.ProgressBarFeature(self)
@@ -628,8 +634,8 @@ class ProgressBar(virtual.Widget):
             self._shapes[1].coords(
                 ((self.size[0]-self.size[1]*0.2) * self.value, self._shapes[1].size[1]))
         else:
-            self._shapes[1].coords(
-                (self.size[1]*0.7 + (self.size[0]-self.size[1]*0.3-self._shapes[1].size[1]) * self.value, self._shapes[1].size[1]))
+            self._shapes[1].coords((self.size[1]*0.7 + (self.size[0]-self.size[1]
+                                   * 0.3-self._shapes[1].size[1]) * self.value, self._shapes[1].size[1]))
 
         if self.value == 1 and self.command is not None:
             self.command()
@@ -681,8 +687,9 @@ class UnderlineButton(virtual.Widget):
                                 name=name, through=through, animation=animation)
         if image is not None:
             images.StillImage(self, image=image)
-        texts.Information(self, text=text, family=family, fontsize=fontsize, weight=weight, slant=slant,
-                          underline=underline, overstrike=overstrike, justify=justify, anchor=anchor)
+        texts.Information(self, text=text, family=family, fontsize=fontsize,
+                          weight=weight, slant=slant, underline=underline,
+                          overstrike=overstrike, justify=justify, anchor=anchor)
         features.Underline(self, command=command)
 
 
@@ -732,8 +739,9 @@ class HighlightButton(virtual.Widget):
                                 name=name, through=through, animation=animation)
         if image is not None:
             images.StillImage(self, image=image)
-        texts.Information(self, text=text, family=family, fontsize=fontsize, weight=weight, slant=slant,
-                          underline=underline, overstrike=overstrike, justify=justify, anchor=anchor)
+        texts.Information(self, text=text, family=family, fontsize=fontsize,
+                          weight=weight, slant=slant, underline=underline,
+                          overstrike=overstrike, justify=justify, anchor=anchor)
         features.Highlight(self, command=command)
 
 
@@ -793,8 +801,9 @@ class IconButton(virtual.Widget):
         if image is not None:
             images.StillImage(self, ((size[1]-size[0]) / 2, 0), image=image)
         texts.Information(self, (size[1] - size[0]/2, 0), text=text,
-                          family=family, fontsize=fontsize, weight=weight, slant=slant,
-                          underline=underline, overstrike=overstrike, justify=justify, anchor=anchor)
+                          family=family, fontsize=fontsize, weight=weight,
+                          slant=slant, underline=underline, overstrike=overstrike,
+                          justify=justify, anchor=anchor)
         features.ButtonFeature(self, command=command)
 
 
@@ -945,9 +954,11 @@ class SegmentedButton(virtual.Widget):
             size, text, image, command = pack
             position = (total_side_length, 5) if layout == "horizontal" else (
                 5, total_side_length)
-            ToggleButton(self, position, size, text=text, family=family, fontsize=fontsize, weight=weight,
-                         slant=slant, underline=underline, overstrike=overstrike, justify=justify,
-                         anchor=anchor, animation=animation, image=image, through=True,
+            ToggleButton(self, position, size, text=text, family=family,
+                         fontsize=fontsize, weight=weight, slant=slant,
+                         underline=underline, overstrike=overstrike,
+                         justify=justify, anchor=anchor, animation=animation,
+                         image=image, through=True,
                          command=lambda _, i=i: (self.set(i), command() if command else None))
             total_side_length += size[layout == "vertical"] + 5
         if default is not None:
@@ -1100,11 +1111,12 @@ class OptionButton(virtual.Widget):
         """
         virtual.Widget.__init__(self, master, position, size,
                                 name=name, through=through, animation=animation)
-        _AuxiliaryLabel(self, (0, 0), (size[0]-size[1]-1, size[1]), ignore="right", text="Option",
+        _AuxiliaryLabel(self, (0, 0), (size[0]-size[1]-1, size[1]), ignore="right",
                         family=family, fontsize=fontsize, weight=weight, slant=slant,
                         underline=underline, overstrike=overstrike)
         _AuxiliaryButton(self, (size[0]-size[1], 0),
-                         (size[1], size[1]), ignore="left", text="▼", through=True, command=self.pop_menu)
+                         (size[1], size[1]), ignore="left", text="▼",
+                         through=True, command=self.pop_menu)
         features.OptionButtonFeature(self)
         self.options = options
         if default is not None:

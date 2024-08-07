@@ -36,11 +36,13 @@ class Tk(tkinter.Tk):
     ) -> None:
         """
         * `size`: the size of the window, default value is 1280x720(px)
-        * `position`: the position of the window, default value indicates that the location is random
+        * `position`: the position of the window, default value indicates that
+        the location is random
         * `title`: the title of the window, default value is an empty string
         * `**kwargs`: compatible with other parameters of class `tkinter.Tk`
         """
-        if not isinstance(self, Toplevel):  # tkt.Toplevel and its subclasses do not inherit tk.Tk
+        if not isinstance(self, Toplevel):
+            # tkt.Toplevel and its subclasses do not inherit tk.Tk
             tkinter.Tk.__init__(self, **kwargs)
 
         self._size = self._initial_size = tuple(size)
@@ -60,14 +62,17 @@ class Tk(tkinter.Tk):
         position: tuple[int, int] | None = None
     ) -> tuple[int, int, int, int] | None:
         """
-        Change the size and position of the window and return the current size and position of the window
+        Change the size and position of the window and return the current size
+        and position of the window
 
         * `size`: the size of the window, if it is None, does not change anything
-        * `position`: the position of the window, if it is None, does not change anything
+        * `position`: the position of the window, if it is None, does not
+        change anything
 
         TIPS:
 
-        If you want to use `tkinter.Tk.geometry`, please use `tkinter.Tk.wm_geometry` instead
+        If you want to use `tkinter.Tk.geometry`, please use
+        `tkinter.Tk.wm_geometry` instead
 
         CAUTION:
 
@@ -181,7 +186,8 @@ class Tk(tkinter.Tk):
         or after some time after the program has started
         """
         if (result := self.attributes("-fullscreen", value)) is not None:
-            return self._theme(manager.get_color_mode() == "dark", include_canvases=False)
+            return self._theme(manager.get_color_mode() == "dark",
+                               include_canvases=False)
         return result
 
     def toolwindow(self, value: bool | None = True) -> bool | None:
@@ -191,7 +197,8 @@ class Tk(tkinter.Tk):
         * `value`: indicate whether the window is tool-window
         """
         if (result := self.attributes("-toolwindow", value)) is not None:
-            return self._theme(manager.get_color_mode() == "dark", include_children=False, include_canvases=False)
+            return self._theme(manager.get_color_mode() == "dark",
+                               include_children=False, include_canvases=False)
         return result
 
     def transparentcolor(self, value: str | None = None) -> str | None:
@@ -248,9 +255,11 @@ class Toplevel(tkinter.Toplevel, Tk):
         """
         * `master`: parent widget
         * `size`: the size of the window, default value is 960x540(px)
-        * `position`: the position of the window, default value indicates that the location is random
+        * `position`: the position of the window, default value indicates that
+        the location is random
         * `title`: title of window, default is the same as title of master
-        * `transient`: instruct the window manager that this window is transient with regard to its master
+        * `transient`: instruct the window manager that this window is transient
+        with regard to its master
         * `grab`: set grab for this window
         * `focus`: whether direct input focus to this window
         * `**kwargs`: compatible with other parameters of class `tkinter.Toplevel`
@@ -295,15 +304,17 @@ class Canvas(tkinter.Canvas):
         * `master`: parent widget
         * `expand`: the mode of expand, `x` is horizontal, and `y` is vertical
         * `zoom_item`: whether or not to scale its items
-        * `keep_ratio`: the mode of aspect ratio, `min` follows the minimum value, `max` follows the maximum value
+        * `keep_ratio`: the mode of aspect ratio, `min` follows the minimum
+        value, `max` follows the maximum value
         * `free_anchor`: whether the anchor point is free-floating
         * `kwargs`: compatible with other parameters of class `tkinter.Canvas`
         """
         tkinter.Canvas.__init__(self, master, **kwargs)
 
-        # The following four attributes are not initialized yet, only types are defined,
-        # and they are initialized when method `self._initialization` is called.
-        # Once the attribute self._initial_* is assigned, it should not be modified again
+        # The following four attributes are not initialized yet, only types are
+        # defined, and they are initialized when method `self._initialization`
+        # is called. Once the attribute self._initial_* is assigned, it should
+        # not be modified again
 
         self._initial_size: tuple[int, int]
         self._initial_position: tuple[int, int]
@@ -326,7 +337,8 @@ class Canvas(tkinter.Canvas):
         self._keep_ratio: typing.Literal["min", "max"] | None = keep_ratio
 
         self._trigger_config = tools._Trigger(
-            lambda **kwargs: self.configure(**{k: v for k, v in kwargs.items() if self[k] != v}))
+            lambda **kwargs: self.configure(
+                **{k: v for k, v in kwargs.items() if self[k] != v}))
         self._trigger_focus = tools._Trigger(self.focus)
 
         self._theme(manager.get_color_mode() == "dark")
@@ -630,9 +642,11 @@ class Frame(Canvas):
         * `master`: parent widget
         * `expand`: the mode of expand, `x` is horizontal, and `y` is vertical
         * `zoom_item`: whether or not to scale its items
-        * `keep_ratio`: the mode of aspect ratio, `min` follows the minimum value, `max` follows the maximum value
+        * `keep_ratio`: the mode of aspect ratio, `min` follows the minimum
+        value, `max` follows the maximum value
         * `free_anchor`: whether the anchor point is free-floating
         * `kwargs`: compatible with other parameters of class `tkinter.Canvas`
         """
         Canvas.__init__(self, master, expand=expand, zoom_item=zoom_item,
-                        keep_ratio=keep_ratio, free_anchor=free_anchor, name=name, **kwargs)
+                        keep_ratio=keep_ratio, free_anchor=free_anchor,
+                        name=name, **kwargs)

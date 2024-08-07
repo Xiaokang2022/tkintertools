@@ -54,7 +54,11 @@ class Line(virtual.Shape):
             0, 0, 0, 0, tags=("fill", "fill"), **self.kwargs)]
 
     # @typing.override
-    def coords(self, size: tuple[float, float] | None = None, position: tuple[float, float] | None = None) -> None:
+    def coords(
+        self,
+        size: tuple[float, float] | None = None,
+        position: tuple[float, float] | None = None,
+    ) -> None:
         super().coords(size, position)
 
         points = [(x+self.position[0], y+self.position[1])
@@ -72,7 +76,11 @@ class Rectangle(virtual.Shape):
             0, 0, 0, 0, tags=("fill", "fill", "outline", "outline"), **self.kwargs)]
 
     # @typing.override
-    def coords(self, size: tuple[float, float] | None = None, position: tuple[float, float] | None = None) -> None:
+    def coords(
+        self,
+        size: tuple[float, float] | None = None,
+        position: tuple[float, float] | None = None,
+    ) -> None:
         super().coords(size, position)
 
         self.widget.master.coords(self.items[0], *self.region())
@@ -87,7 +95,11 @@ class Oval(virtual.Shape):
             0, 0, 0, 0, tags=("fill", "fill", "outline", "outline"), **self.kwargs)]
 
     # @typing.override
-    def coords(self, size: tuple[float, float] | None = None, position: tuple[float, float] | None = None) -> None:
+    def coords(
+        self,
+        size: tuple[float, float] | None = None,
+        position: tuple[float, float] | None = None,
+    ) -> None:
         super().coords(size, position)
 
         self.widget.master.coords(self.items[0], *self.region())
@@ -136,12 +148,16 @@ class RegularPolygon(virtual.Shape):
             0, 0, 0, 0, tags=("fill", "fill", "outline", "outline"), **self.kwargs)]
 
     # @typing.override
-    def coords(self, size: tuple[float, float] | None = None, position: tuple[float, float] | None = None) -> None:
+    def coords(
+        self,
+        size: tuple[float, float] | None = None,
+        position: tuple[float, float] | None = None,
+    ) -> None:
         super().coords(size, position)
 
         r = min(self.size) / 2
         if self.side < 3:
-            warnings.warn("Parameters are not suitable")
+            warnings.warn("Parameters are not suitable", UserWarning, 5)
         points = []
         for i in range(self.side):
             angle = math.tau*i/self.side+self.angle
@@ -216,7 +232,11 @@ class RoundedRectangle(virtual.Shape):
         ]
 
     # @typing.override
-    def coords(self, size: tuple[float, float] | None = None, position: tuple[float, float] | None = None) -> None:
+    def coords(
+        self,
+        size: tuple[float, float] | None = None,
+        position: tuple[float, float] | None = None,
+    ) -> None:
         super().coords(size, position)
 
         x, y, w, h = *self.position, *self.size
@@ -224,11 +244,11 @@ class RoundedRectangle(virtual.Shape):
         r, d = self.radius, self.radius*2
 
         if d > w or d > h:
-            warnings.warn("Parameters are not suitable")
+            warnings.warn("Parameters are not suitable", UserWarning, 5)
         elif d == 0:
-            warnings.warn("Parameters are not suitable")
+            warnings.warn("Parameters are not suitable", UserWarning, 5)
         elif w < d < h or w < d < h:
-            warnings.warn("Parameters are not suitable")
+            warnings.warn("Parameters are not suitable", UserWarning, 5)
 
         self.widget.master.coords(self.items[0], x1, y1+r, x2, y2-r+1)
         self.widget.master.coords(self.items[1], x1+r, y1, x2-r+1, y2)
@@ -315,7 +335,11 @@ class HalfRoundedRectangle(virtual.Shape):
         ]
 
     # @typing.override
-    def coords(self, size: tuple[float, float] | None = None, position: tuple[float, float] | None = None) -> None:
+    def coords(
+        self,
+        size: tuple[float, float] | None = None,
+        position: tuple[float, float] | None = None,
+    ) -> None:
         super().coords(size, position)
 
         x, y, w, h = *self.position, *self.size
@@ -323,11 +347,11 @@ class HalfRoundedRectangle(virtual.Shape):
         r, d = self.radius, self.radius*2
 
         if d > w or d > h:
-            warnings.warn("Parameters are not suitable")
+            warnings.warn("Parameters are not suitable", UserWarning, 5)
         elif d == 0:
-            warnings.warn("Parameters are not suitable")
+            warnings.warn("Parameters are not suitable", UserWarning, 5)
         elif w < d < h or w < d < h:
-            warnings.warn("Parameters are not suitable")
+            warnings.warn("Parameters are not suitable", UserWarning, 5)
 
         a = self.ignore != "left"
         b = not a
@@ -374,7 +398,11 @@ class SemicircularRectangle(virtual.Shape):
         ]
 
     # @typing.override
-    def coords(self, size: tuple[float, float] | None = None, position: tuple[float, float] | None = None) -> None:
+    def coords(
+        self,
+        size: tuple[float, float] | None = None,
+        position: tuple[float, float] | None = None,
+    ) -> None:
         super().coords(size, position)
 
         x, y, w, h = *self.position, *self.size
@@ -383,9 +411,9 @@ class SemicircularRectangle(virtual.Shape):
         r = d/2
 
         if d < 0:
-            warnings.warn("Parameters are not suitable")
+            warnings.warn("Parameters are not suitable", UserWarning, 5)
         elif d == 0:
-            warnings.warn("Parameters are not suitable")
+            warnings.warn("Parameters are not suitable", UserWarning, 5)
 
         self.widget.master.coords(self.items[0], x1, y1, x1+d, y1+d)
         self.widget.master.coords(self.items[1], x2-d, y1, x2, y1+d)
@@ -436,9 +464,9 @@ class SharpRectangle(virtual.Shape):
         self.theta = theta
         self.ratio = ratio
         if not 0 <= theta <= math.pi/3:
-            warnings.warn("Parameters are not suitable")
+            warnings.warn("Parameters are not suitable", UserWarning, 5)
         if math.isclose(abs(self.ratio[0] - self.ratio[1]), 1):
-            warnings.warn("Parameters are not suitable")
+            warnings.warn("Parameters are not suitable", UserWarning, 5)
         virtual.Shape.__init__(self, widget, relative_position, size,
                                name=name, styles=styles, animation=animation, **kwargs)
 
@@ -448,19 +476,23 @@ class SharpRectangle(virtual.Shape):
             0, 0, 0, 0, tags=("fill", "fill", "outline", "outline"), **self.kwargs)]
 
     # @typing.override
-    def coords(self, size: tuple[float, float] | None = None, position: tuple[float, float] | None = None) -> None:
+    def coords(
+        self,
+        size: tuple[float, float] | None = None,
+        position: tuple[float, float] | None = None,
+    ) -> None:
         super().coords(size, position)
 
         x, y, w, h = *self.position, *self.size
 
         if w < h:
-            warnings.warn("Parameters are not suitable")
+            warnings.warn("Parameters are not suitable", UserWarning, 5)
 
         dy = [h*value for value in self.ratio]
         dx = [math.tan(self.theta)*y for y in dy]
 
         if sum(dx) > w:
-            warnings.warn("Parameters are not suitable")
+            warnings.warn("Parameters are not suitable", UserWarning, 5)
 
         x1, y1, x2, y2 = x, y, x + w, y + h
 
@@ -502,7 +534,7 @@ class Parallelogram(virtual.Shape):
         """
         self.theta = theta
         if not abs(theta) <= math.pi/3:
-            warnings.warn("Parameters are not suitable")
+            warnings.warn("Parameters are not suitable", UserWarning, 5)
         virtual.Shape.__init__(self, widget, relative_position, size,
                                name=name, styles=styles, animation=animation, **kwargs)
 
@@ -512,13 +544,17 @@ class Parallelogram(virtual.Shape):
             0, 0, 0, 0, tags=("fill", "fill", "outline", "outline"), **self.kwargs)]
 
     # @typing.override
-    def coords(self, size: tuple[float, float] | None = None, position: tuple[float, float] | None = None) -> None:
+    def coords(
+        self,
+        size: tuple[float, float] | None = None,
+        position: tuple[float, float] | None = None,
+    ) -> None:
         super().coords(size, position)
 
         x, y, w, h = *self.position, *self.size
 
         if (dx := h*math.tan(self.theta)) >= w:
-            warnings.warn("Parameters are not suitable")
+            warnings.warn("Parameters are not suitable", UserWarning, 5)
 
         x1, y1, x2, y2 = x, y, x + w, y + h
 

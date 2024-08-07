@@ -168,7 +168,8 @@ class SwitchFeature(ButtonFeature):
                 if self.widget.state != "disabled":
                     self.widget._shapes[-1].coords(
                         (self.widget.size[0]/3, self.widget.size[0]/3),
-                        (self.widget._shapes[-1].position[0]-self.widget.size[0]/60, self.widget._shapes[-1].position[1]-self.widget.size[0]/60))
+                        (self.widget._shapes[-1].position[0]-self.widget.size[0]/60,
+                         self.widget._shapes[-1].position[1]-self.widget.size[0]/60))
                 self.widget.update(
                     f"hover-{'on' if self.widget.get() else 'off'}")
         else:
@@ -176,7 +177,8 @@ class SwitchFeature(ButtonFeature):
                 if self.widget.state != "disabled":
                     self.widget._shapes[-1].coords(
                         (self.widget.size[0]*3/10, self.widget.size[0]*3/10),
-                        (self.widget._shapes[-1].position[0]+self.widget.size[0]/60, self.widget._shapes[-1].position[1]+self.widget.size[0]/60))
+                        (self.widget._shapes[-1].position[0]+self.widget.size[0]/60,
+                         self.widget._shapes[-1].position[1]+self.widget.size[0]/60))
                 self.widget.update(
                     f"normal-{'on' if self.widget.get() else 'off'}")
         return flag
@@ -394,14 +396,18 @@ class SliderFeature(virtual.Feature):
             if self.widget.state == "normal":
                 self.widget.update("hover")
                 if isinstance(self.widget._shapes[-1], shapes.Oval):
-                    self.widget._shapes[-1].coords((self.widget.size[1]*2/3, self.widget.size[1]*2/3), (
-                        self.widget._shapes[-2].position[0]+self.widget.size[1]/6, self.widget._shapes[-2].position[1]+self.widget.size[1]/6))
+                    self.widget._shapes[-1].coords(
+                        (self.widget.size[1]*2/3, self.widget.size[1]*2/3),
+                        (self.widget._shapes[-2].position[0]+self.widget.size[1]/6,
+                         self.widget._shapes[-2].position[1]+self.widget.size[1]/6))
         else:
             if self.widget.state == "hover":
                 self.widget.update("normal")
                 if isinstance(self.widget._shapes[-1], shapes.Oval):
-                    self.widget._shapes[-1].coords((self.widget.size[1]/2, self.widget.size[1]/2), (
-                        self.widget._shapes[-2].position[0]+self.widget.size[1]/4, self.widget._shapes[-2].position[1]+self.widget.size[1]/4))
+                    self.widget._shapes[-1].coords(
+                        (self.widget.size[1]/2, self.widget.size[1]/2),
+                        (self.widget._shapes[-2].position[0]+self.widget.size[1]/4,
+                         self.widget._shapes[-2].position[1]+self.widget.size[1]/4))
         return flag
 
     def _click_left(self, event: tkinter.Event) -> bool:
@@ -413,16 +419,19 @@ class SliderFeature(virtual.Feature):
             self.widget.update("active")
             temp_value = self.widget.value
             if isinstance(self.widget._shapes[-1], shapes.Oval):
-                self.widget._shapes[-1].coords((self.widget.size[1]*2/3, self.widget.size[1]*2/3), (
-                    self.widget._shapes[-2].position[0]+self.widget.size[1]/6, self.widget._shapes[-2].position[1]+self.widget.size[1]/6))
+                self.widget._shapes[-1].coords(
+                    (self.widget.size[1]*2/3, self.widget.size[1]*2/3),
+                    (self.widget._shapes[-2].position[0]+self.widget.size[1]/6,
+                     self.widget._shapes[-2].position[1]+self.widget.size[1]/6))
                 next_value = (event.x-self.widget.position[0]-self.widget.size[1]/2) / (
                     self.widget.size[0]-self.widget.size[1])
             else:
                 next_value = (event.x-self.widget.position[0]-self.widget.size[1]/5) / (
                     self.widget.size[0]-self.widget.size[1]*2/5)
             delta = next_value - temp_value
-            animations.Animation(150, controllers.smooth,
-                                 callback=lambda k: self.widget.set(temp_value + delta*k), fps=60).start()
+            animations.Animation(
+                150, controllers.smooth,
+                callback=lambda k: self.widget.set(temp_value + delta*k), fps=60).start()
 
     def _move_left(self, event: tkinter.Event) -> bool:
         if self._temp_position is not None:

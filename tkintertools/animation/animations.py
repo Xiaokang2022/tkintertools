@@ -137,8 +137,8 @@ class MoveTkWidget(Animation):
         * `fps`: the FPS of the animation
         """
         if not widget.place_info():
-            warnings.warn("tkinter widget is not laid out by Place.",
-                          RuntimeWarning, stacklevel=2)
+            warnings.warn(
+                "tkinter widget is not laid out by Place.", UserWarning, 2)
 
         x0, y0, dx, dy = widget.winfo_x(), widget.winfo_y(), *offset
 

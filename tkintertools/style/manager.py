@@ -243,8 +243,8 @@ def _process_event(dark: bool) -> None:
     for func, args in _callback_events.items():
         try:  # Prevent detection thread from crashing
             func(dark, *args)
-        except Exception as exc:
-            warnings.warn(exc, RuntimeWarning, stacklevel=2)
+        except Exception as e:
+            warnings.warn(f"Thread Warning: {e}", RuntimeWarning, 3)
 
 
 def _callback(theme: str) -> None:

@@ -1,12 +1,15 @@
 """
 Various virtual classes
 
-The virtual `Widget` consists of 4 parts, which are `Shape`, `Text`, `Image`, and `Feature`
+The virtual `Widget` consists of 5 parts, which are `Widget`, `Shape`, `Text`,
+`Image`, and `Feature`.
 
-where `Feature` is the function of widgets, and each widget can be bound to up to one,
-but in terms of appearance, there is no limit to the number of `Shape`, `Text`, and `Image`
+Where `Feature` is the function of widgets, and each widget can be bound to up
+to one, but in terms of appearance, there is no limit to the number of `Shape`,
+`Text`, and `Image`.
 
-`Shape`, `Text`, and `Image` are all appearance components that inherit from abstract base class `Components`
+`Shape`, `Text`, and `Image` are all appearance components that inherit from
+abstract base class `Components`.
 """
 
 import abc
@@ -93,7 +96,8 @@ class Component(abc.ABC):
 
     def region(self) -> tuple[int, int, int, int]:
         """Return the decision region of the `Component`"""
-        return self.position[0], self.position[1], self.position[0]+self.size[0], self.position[1]+self.size[1]
+        return self.position[0], self.position[1], self.position[0]+self.size[0], \
+            self.position[1]+self.size[1]
 
     def detect(self, x: int, y: int) -> bool:
         """Detect whether the specified coordinates are within the `Component`"""
@@ -125,7 +129,8 @@ class Component(abc.ABC):
                 self.styles.get(refer_state, {}))
             for key, value in self.styles["disabled"].items():
                 self.styles["disabled"][key] = rgb.rgb_to_str(rgb.convert(
-                    rgb.str_to_rgb(value), rgb.str_to_rgb(self.widget.master["bg"]), constants.GOLDEN_RATIO))
+                    rgb.str_to_rgb(value), rgb.str_to_rgb(
+                        self.widget.master["bg"]), constants.GOLDEN_RATIO))
         return self.styles["disabled"]
 
     def configure(self, style: dict[str, str], *, no_delay: bool = False) -> None:
@@ -194,7 +199,11 @@ class Component(abc.ABC):
         """Display the `Component` on a `Canvas`"""
 
     @abc.abstractmethod
-    def coords(self, size: tuple[float, float] | None = None, position: tuple[float, float] | None = None) -> None:
+    def coords(
+        self,
+        size: tuple[float, float] | None = None,
+        position: tuple[float, float] | None = None,
+    ) -> None:
         """Resize the `Component`"""
         if size is not None:
             self.size = list(size)
@@ -275,8 +284,8 @@ class Text(Component):
             weight=weight, slant=slant,
             underline=underline, overstrike=overstrike)
         self._initial_fontsize = self.font.cget("size")
-        Component.__init__(self, widget, relative_position, size,
-                           name=name, styles=styles, animation=animation, **kwargs)
+        Component.__init__(self, widget, relative_position, size, name=name,
+                           styles=styles, animation=animation, **kwargs)
 
     def region(self) -> tuple[int, int, int, int]:
         """Return the decision region of the `Text`"""
@@ -318,8 +327,8 @@ class Image(Component):
         """
         self.image = image
         self._initail_image = image
-        Component.__init__(self, widget, relative_position, size,
-                           name=name, animation=animation, styles=styles, **kwargs)
+        Component.__init__(self, widget, relative_position, size, name=name,
+                           animation=animation, styles=styles, **kwargs)
 
     # @typing.override
     def zoom(self, ratios: tuple[float, float]) -> None:
