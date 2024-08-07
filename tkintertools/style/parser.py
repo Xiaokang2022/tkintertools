@@ -1,7 +1,7 @@
 """
 Parse the style file path and get it
 
-### Structure of theme folder
+Structure of theme folder:
 
 * format of ".py": see tkintertools/theme/__init__.py
 * format of ".json":
@@ -19,7 +19,7 @@ theme/
   └─ ...
 ```
 
-### Structure of `container_name.json`
+* Structure of `container_name.json`:
 
 ```json
 {
@@ -29,7 +29,7 @@ theme/
 }
 ```
 
-### Structure of `widget_name.extra.json`
+* Structure of `widget_name.extra.json`:
 
 ```json
 {
@@ -50,6 +50,9 @@ theme/
     ...
 }
 ```
+
+Style files in JSON format must strictly follow the above format, and the
+missing parts are empty by default.
 """
 
 import functools
@@ -67,7 +70,9 @@ __all__ = [
 ]
 
 
-def _get_name(obj: "str | virtual.Widget | virtual.Component | None") -> str | None:
+def _get_name(
+    obj: "str | virtual.Widget | virtual.Component | None",
+) -> str | None:
     """Get the name of the object"""
     if obj is None:
         return None
@@ -91,8 +96,9 @@ def _get_file(
     """
     Get the style file based on the parameters
 
-    The return value of this function is cached, and when the same style file is fetched,
-    the data is fetched directly from the cache, unless `clear_cache` is called
+    The return value of this function is cached, and when the same style file is
+    fetched, the data is fetched directly from the cache, unless `clear_cache`
+    is called
 
     * `theme`: a specified theme
     * `widget`: widget that need to get styles

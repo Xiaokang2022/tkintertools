@@ -28,7 +28,7 @@ MAX = 255, 255, 255
 
 def contrast(
     rgb: RGB,
-    /,
+    *,
     channels: tuple[bool, bool, bool] = (True, True, True),
 ) -> RGB:
     """
@@ -55,7 +55,8 @@ def convert(
     * `rate`: conversion rate
     * `channels`: three color channels
     """
-    return tuple(first[i] + round((second[i]-first[i])*rate*v) for i, v in enumerate(channels))
+    return tuple(first[i] + round((second[i]-first[i])*rate*v)
+                 for i, v in enumerate(channels))
 
 
 def blend(
@@ -70,11 +71,15 @@ def blend(
     * `weights`: weight list
     """
     colors = zip(*colors)
+
     if weights is None:  # Same weights
         return tuple(map(lambda x: round(statistics.mean(x)), colors))
+
     _total = sum(weights)
     weights = tuple(map(lambda x: x/_total, weights))  # Different weights
-    return tuple(round(sum(map(lambda x: x[0]*x[1], zip(c, weights)))) for c in colors)
+
+    return tuple(round(sum(map(lambda x: x[0]*x[1], zip(c, weights))))
+                 for c in colors)
 
 
 def gradient(
@@ -98,29 +103,32 @@ def gradient(
     """
     rgb_list: list[RGB] = []
     delta = tuple(rate * (j-i) * k for i, j, k in zip(first, second, channels))
+
     for x in (contoller(i/count) for i in range(count)):
         rgb_list.append(tuple(c + round(x*r) for c, r in zip(first, delta)))
+
     return rgb_list
 
 
-def _str_to_rgba(__c: str, *, reference: str) -> RGB:
-    """Experimental: Convert color strings(RGBA) to RGB codes"""
-    hex, a = divmod(int(__c[1:], 16), 256)
-    hex, b = divmod(hex, 256)
-    r, g = divmod(hex, 256)
-    refer_rgb = str_to_rgb(reference)
-    return convert((r, g, b), refer_rgb, 1 - a/255)
-
-
-def str_to_rgb(__c: str, /) -> RGB:
+def str_to_rgb(color: str) -> RGB:
     """Convert color strings to RGB codes"""
-    if __c.startswith("#"):  # HEX
-        hex, b = divmod(int(__c[1:], 16), 256)
+    if color.startswith("#"):  # HEX
+        hex, b = divmod(int(color[1:], 16), 256)
         r, g = divmod(hex, 256)
         return r, g, b
-    return colormap.name_to_rgb(__c)
+
+    return colormap.name_to_rgb(color)
 
 
 def rgb_to_str(rgb: RGB) -> str:
     """Convert RGB codes to color strings"""
     return f"#{rgb[0]:02X}{rgb[1]:02X}{rgb[2]:02X}"
+
+
+def _str_to_rgba(color: str, *, reference: str) -> RGB:
+    """Experimental: Convert color strings(RGBA) to RGB codes"""
+    hex, a = divmod(int(color[1:], 16), 256)
+    hex, b = divmod(hex, 256)
+    r, g = divmod(hex, 256)
+    refer_rgb = str_to_rgb(reference)
+    return convert((r, g, b), refer_rgb, 1 - a/255)

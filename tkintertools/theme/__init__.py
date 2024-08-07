@@ -1,7 +1,7 @@
 """
 Default style data
 
-Base structure for `theme_name.py`
+Base structure for `theme_name.py`:
 
 ```python
 container_name01: dict[str, str | int] = {

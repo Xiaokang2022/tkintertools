@@ -57,8 +57,8 @@ __all__ = [
 
 SYSTEM_DARK_MODE: bool = bool(darkdetect.isDark()) if darkdetect else False
 
-_theme_map: dict[typing.Literal["dark", "light"], pathlib.Path | str | types.ModuleType] = {
-    "dark": dark, "light": light}
+_theme_map: dict[typing.Literal["dark", "light"], pathlib.Path |
+                 str | types.ModuleType] = {"dark": dark, "light": light}
 """
 The mapping table between dark and light themes, when the program switches to a light color,
 it will use the theme of the light color in the map, and the same goes for dark colors
@@ -75,7 +75,9 @@ _callback_events: dict[typing.Callable[[bool, typing.Any],
 """Events that are responded to when the system theme changes"""
 
 
-def set_color_mode(mode: typing.Literal["system", "dark", "light"] = "system") -> None:
+def set_color_mode(
+    mode: typing.Literal["system", "dark", "light"] = "system",
+) -> None:
     """
     Set the color mode of the program
 
@@ -126,7 +128,10 @@ def reset_theme_map() -> None:
     _theme_map.update(dark=dark, light=light)
 
 
-def register_event(func: typing.Callable[[bool, typing.Any], typing.Any], *args: typing.Any) -> None:
+def register_event(
+    func: typing.Callable[[bool, typing.Any], typing.Any],
+    *args: typing.Any,
+) -> None:
     """
     When the system accent color changes, the registered function will be called,
     and the parameter is a boolean value indicating whether it is currently a dark theme
@@ -150,8 +155,9 @@ def remove_event(func: typing.Callable[[bool, typing.Any], typing.Any]) -> None:
 def customize_window(
     window: tkinter.Tk,
     *,
-    style: typing.Literal["mica", "acrylic", "aero", "transparent", "optimised",
-                          "win7", "inverse", "native", "popup", "dark", "normal"] | None = None,
+    style: typing.Literal["mica", "acrylic", "aero", "transparent",
+                          "optimised", "win7", "inverse", "native",
+                          "popup", "dark", "normal"] | None = None,
     border_color: str | None = None,
     header_color: str | None = None,
     title_color: str | None = None,
@@ -237,8 +243,8 @@ def _process_event(dark: bool) -> None:
     for func, args in _callback_events.items():
         try:  # Prevent detection thread from crashing
             func(dark, *args)
-        except Exception as e:
-            warnings.warn(e)
+        except Exception as exc:
+            warnings.warn(exc, RuntimeWarning, stacklevel=2)
 
 
 def _callback(theme: str) -> None:

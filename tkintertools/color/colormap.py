@@ -1,4 +1,4 @@
-"""Color mapping table"""
+"""The mapping of the color name to its RGB code"""
 
 import tkinter
 
@@ -771,9 +771,11 @@ COLOR_MAP: dict[str, tuple[int, int, int]] = {
 }
 
 
-def name_to_rgb(__color_name: str, /) -> tuple[int, int, int]:
+def name_to_rgb(color_name: str) -> tuple[int, int, int]:
     """Convert a color name to RGB code"""
-    rgb = COLOR_MAP.get(__color_name.lower())
+    rgb = COLOR_MAP.get(color_name.lower())
+
     if rgb is None:
-        return tkinter.Misc.winfo_rgb(tkinter._default_root, __color_name)
+        return tkinter.Misc.winfo_rgb(tkinter._default_root, color_name)
+
     return rgb

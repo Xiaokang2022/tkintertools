@@ -30,7 +30,7 @@ MAX = math.tau, 1, 1
 
 def contrast(
     hsl: HSL,
-    /,
+    *,
     channels: tuple[bool, bool, bool] = (True, True, True),
 ) -> HSL:
     """
@@ -57,7 +57,8 @@ def convert(
     * `rate`: conversion rate
     * `channels`: three color channels
     """
-    return tuple(first[i] + (second[i]-first[i])*rate*v for i, v in enumerate(channels))
+    return tuple(first[i] + (second[i]-first[i])*rate*v
+                 for i, v in enumerate(channels))
 
 
 def blend(
@@ -72,10 +73,13 @@ def blend(
     * `weights`: weight list
     """
     colors = zip(*colors)
+
     if weights is None:  # Same weights
         return tuple(map(lambda x: statistics.mean(x), colors))
+
     _total = sum(weights)
     weights = tuple(map(lambda x: x/_total, weights))  # Different weights
+
     return tuple(sum(map(lambda x: x[0]*x[1], zip(c, weights))) for c in colors)
 
 
@@ -100,8 +104,10 @@ def gradient(
     """
     rgb_list: list[HSL] = []
     delta = tuple(rate * (j-i) * k for i, j, k in zip(first, second, channels))
+
     for x in (contoller(i/count) for i in range(count)):
         rgb_list.append(tuple(c + x*r for c, r in zip(first, delta)))
+
     return rgb_list
 
 
