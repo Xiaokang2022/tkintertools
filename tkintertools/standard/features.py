@@ -20,6 +20,7 @@ __all__ = [
     "InputBoxFeature",
     "SliderFeature",
     "SpinBoxFeature",
+    "OptionButtonFeature",
 ]
 
 
@@ -461,4 +462,15 @@ class SpinBoxFeature(virtual.Feature):
     def _wheel(self, event: tkinter.Event) -> bool:
         if flag := self.widget._widgets[0].state == "active":
             self._command(event.delta > 0)
+        return flag
+
+
+class OptionButtonFeature(virtual.Feature):
+    """Feature of OptionButton"""
+
+    def _click_left(self, event: tkinter.Event) -> bool:
+        if not (flag := self.widget.detect(event.x, event.y)):
+            if len(self.widget._widgets) == 3:
+                if not self.widget._widgets[-1].detect(event.x, event.y):
+                    self.widget._widgets[-1].destroy()
         return flag

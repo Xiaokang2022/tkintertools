@@ -27,10 +27,10 @@ __all__ = [
     "Slider",
     "SegmentedButton",
     "SpinBox",
-    # "OptionButton",
-    # "ScrollBar",
-    # "ToolTip",
-    # "ComboBox",
+
+    "OptionButton",
+    "ComboBox",
+    "ScrollBar",
 ]
 
 
@@ -880,7 +880,7 @@ class SegmentedButton(virtual.Widget):
         self,
         master: containers.Canvas,
         position: tuple[int, int],
-        sizes: tuple[tuple[int, int], ...] | None = None,
+        sizes: tuple[tuple[int, int], ...] = (),
         *,
         texts: tuple[str, ...] = (),
         family: str | None = None,
@@ -893,7 +893,7 @@ class SegmentedButton(virtual.Widget):
         anchor: typing.Literal["n", "e", "w", "s",
                                "nw", "ne", "sw", "se"] = "center",
         default: int | None = None,
-        commands: tuple[typing.Callable | None, ...] = (),
+        commands: tuple[typing.Callable[[], typing.Any] | None, ...] = (),
         images: tuple[enhanced.PhotoImage | None, ...] = (),
         layout: typing.Literal["horizontal", "vertical"] = "horizontal",
         name: str | None = None,
@@ -922,10 +922,16 @@ class SegmentedButton(virtual.Widget):
         * `animation`: wether enable animation
         """
         self.value: int | None = None
-        if sizes is None:
-            sizes = tuple(tools.get_text_size(
-                text, family, fontsize, padding=10) for text in texts)
+        if not sizes:
+            if texts:
+                sizes = tuple(tools.get_text_size(
+                    text, family, fontsize, padding=10) for text in texts)
+            else:
+                sizes = (tools.get_text_size(
+                    "", family, fontsize, padding=5),)
         widths, heights, length = *zip(*sizes), len(sizes)
+        if not texts:
+            sizes, length = (), 0
         if layout == "horizontal":
             total_size = sum(widths) + length*5 + 5, max(heights) + 10
         else:
@@ -944,7 +950,7 @@ class SegmentedButton(virtual.Widget):
             ToggleButton(self, position, size, text=text, family=family, fontsize=fontsize, weight=weight,
                          slant=slant, underline=underline, overstrike=overstrike, justify=justify,
                          anchor=anchor, animation=animation, image=image, through=True,
-                         command=lambda b, i=i: (self.set(i), command(b) if command else None))
+                         command=lambda _, i=i: (self.set(i), command() if command else None))
             total_side_length += size[layout == "vertical"] + 5
         if default is not None:
             self.set(default)
@@ -1059,7 +1065,7 @@ class SpinBox(virtual.Widget):
 
 
 class OptionButton(virtual.Widget):
-    """"""
+    """A Button with multiple options"""
 
     def __init__(
         self,
@@ -1073,8 +1079,8 @@ class OptionButton(virtual.Widget):
         slant: typing.Literal['roman', 'italic'] = "roman",
         underline: bool = False,
         overstrike: bool = False,
-        align: typing.Literal["left", "right", "center"] = "left",
         default: str | None = None,
+        options: tuple[tuple[str, typing.Callable | None], ...] | None = None,
         name: str | None = None,
         through: bool = False,
         animation: bool = True,
@@ -1089,7 +1095,6 @@ class OptionButton(virtual.Widget):
         * `slant`: slant of the text
         * `underline`: whether the text is underline
         * `overstrike`: whether the text is overstrike
-        * `align`: align mode of the text
         * `default`: default value of the widget
         * `name`: name of the widget
         * `through`: wether detect another widget under the widget
@@ -1097,12 +1102,28 @@ class OptionButton(virtual.Widget):
         """
         virtual.Widget.__init__(self, master, position, size,
                                 name=name, through=through, animation=animation)
-        _AuxiliaryLabel(
-            self, (0, 0), (size[0]-size[1], size[1]), ignore="right", text="Option")
+        _AuxiliaryLabel(self, (0, 0), (size[0]-size[1]-1, size[1]), ignore="right", text="Option",
+                        family=family, fontsize=fontsize, weight=weight, slant=slant,
+                        underline=underline, overstrike=overstrike)
         _AuxiliaryButton(self, (size[0]-size[1], 0),
-                         (size[1], size[1]), ignore="left", text="▼")
+                         (size[1], size[1]), ignore="left", text="▼", through=True, command=self.pop_menu)
+        features.OptionButtonFeature(self)
+        self.options = options
         if default is not None:
             self.set(default)
+
+    def pop_menu(self) -> None:
+        """"""
+        if isinstance(self._widgets[-1], SegmentedButton):
+            return self._widgets[-1].destroy()
+        if self.options is None:
+            return
+        sizes = ((self.size[0]-10, self.size[1]),)*len(self.options)
+        texts, commands = zip(*self.options)
+        commands = tuple((lambda i=i, command=command: (self._widgets[0]._texts[0].set(texts[i]), command(
+        ) if command is not None else None, print(i), self.pop_menu())) for i, command in enumerate(commands))
+        SegmentedButton(
+            self, (0, self.size[1]+5), sizes, texts=texts, commands=commands, layout="vertical")
 
     def get(self) -> str:
         """"""
@@ -1115,56 +1136,6 @@ class OptionButton(virtual.Widget):
 
     def remove(self, *values: str) -> None:
         """"""
-
-
-class ScrollBar(virtual.Widget):
-    """"""
-
-    def __init__(
-        self,
-        master: containers.Canvas,
-        position: tuple[int, int],
-        length: int = 400,
-        *,
-        default: float | None = None,
-        command: typing.Callable | None = None,
-        layout: typing.Literal["horizontal", "vertical"] = "vertical",
-        name: str | None = None,
-        through: bool = False,
-        animation: bool = True,
-    ) -> None:
-        """
-        * `master`: parent canvas
-        * `position`: position of the widget
-        * `length`: length of the widget
-        * `default`: default value of the widget
-        * `command`: a function that is triggered when the button is pressed
-        * `layout`: layout mode of the widget
-        * `name`: name of the widget
-        * `through`: wether detect another widget under the widget
-        * `animation`: wether enable animation
-        """
-        virtual.Widget.__init__(self, master, position, (length, 20) if layout == "horizontal" else (20, length),
-                                name=name, through=through, animation=animation)
-        if constants.SYSTEM == "Windows10":
-            shapes.Rectangle(self, name=".out")
-            shapes.Rectangle(self, name=".in")
-        else:
-            size_in = (length, 10) if layout == "horizontal" else (10, length)
-            position_in = (0, 5) if layout == "horizontal" else (5, 0)
-            shapes.RoundedRectangle(self, position_in, size_in)
-        if default is not None:
-            self.set(default)
-
-    def get(self) -> float:
-        """"""
-
-    def set(self, value: float) -> None:
-        """"""
-
-
-class ToolTip(virtual.Widget):
-    """"""
 
 
 class ComboBox(virtual.Widget):
@@ -1207,7 +1178,7 @@ class ComboBox(virtual.Widget):
         virtual.Widget.__init__(self, master, position, size,
                                 name=name, through=through, animation=animation)
         _AuxiliaryInputBox(
-            self, (0, 0), (size[0]-size[1], size[1]), ignore="right")
+            self, (0, 0), (size[0]-size[1]-1, size[1]), ignore="right")
         _AuxiliaryButton(self, (size[0]-size[1], 0),
                          (size[1], size[1]), ignore="left", text="▼")
         if default is not None:
