@@ -3,6 +3,7 @@
 import itertools
 import math
 import typing
+import warnings
 
 from ..animation import animations, controllers
 from ..core import constants, containers, virtual
@@ -27,8 +28,6 @@ __all__ = [
     "Slider",
     "SegmentedButton",
     "SpinBox",
-    "OptionButton",
-    "ComboBox",
 ]
 
 
@@ -1109,6 +1108,8 @@ class OptionButton(virtual.Widget):
         * `through`: wether detect another widget under the widget
         * `animation`: wether enable animation
         """
+        warnings.warn("The class is not fully implemented yet!",
+                      FutureWarning, stacklevel=2)
         virtual.Widget.__init__(self, master, position, size,
                                 name=name, through=through, animation=animation)
         _AuxiliaryLabel(self, (0, 0), (size[0]-size[1]-1, size[1]), ignore="right",
@@ -1185,6 +1186,8 @@ class ComboBox(virtual.Widget):
         * `through`: wether detect another widget under the widget
         * `animation`: wether enable animation
         """
+        warnings.warn("The class is not fully implemented yet!",
+                      FutureWarning, stacklevel=2)
         virtual.Widget.__init__(self, master, position, size,
                                 name=name, through=through, animation=animation)
         _AuxiliaryInputBox(
