@@ -66,12 +66,12 @@ pip install tkintertools
 
 ### 🔥 Development Version / 开发版本
 
-* 🔖 Version / 最新版本 : `3.0.0.beta4`
-* 🕓 Release / 发布日期 : 2024-07-20
-* ✨ Feature / 更新内容 : [News-3.0.0b4](https://xiaokang2022.github.io/tkintertools/news/3.0.0/News/)
+* 🔖 Version / 最新版本 : `3.0.0.rc1`
+* 🕓 Release / 发布日期 : 2024-08-08
+* ✨ Feature / 更新内容 : [News-3.0.0](https://xiaokang2022.github.io/tkintertools/news/3.0.0/News/)
 
 ```bash
-pip install tkintertools[suggest]==3.0.0b4
+pip install tkintertools[recommended]==3.0.0.rc1
 ```
 
 * Demos / 演示: https://github.com/Xiaokang2022/tkintertools-demos
@@ -122,20 +122,35 @@ Considering that too many packages will result in a large size of the project fi
 - [X] [pillow](https://github.com/python-pillow/Pillow) - `>=10.0.0`
 - [ ] [hPyT](https://github.com/Zingzy/hPyT) - `1.3.2`
 - [ ] [win32material](https://github.com/littlewhitecloud/win32style) - `1.0.6`
-- [ ] [matplotlib](https://github.com/matplotlib/matplotlib) - `>=3.9.0`
 
 The following command installs the recommended optional dependencies:  
 以下命令可以安装推荐的可选依赖包：
 
 ```bash
-pip install tkintertools[suggest]==3.0.0b4
+pip install tkintertools[recommended]==3.0.0.rc1
 ```
 
 The following command installs all optional dependencies:  
 以下命令可以安装全部可选依赖包：
 
 ```bash
-pip install tkintertools[full]==3.0.0b4
+pip install tkintertools[all]==3.0.0.rc1
+```
+
+📦 Extention / 扩展包
+---------------------
+
+In addition to the basic functionality, `tkintertools` also offers some extension packages to implement certain functionality. The following official extensions are available:  
+除了基础功能之外，`tkintertools` 还提供一些扩展包来实现某些特定的功能。目前已有的官方扩展包如下：
+
+- [X] [tkintertools-mpl](https://github.com/Xiaokang2022/tkintertools-mpl) - `1.0.0`
+- [X] [tkintertools-3d](https://github.com/Xiaokang2022/tkintertools-3d) - `1.0.0`
+
+The following command can be used to install all the official extensions:  
+以下命令可以安装全部的官方扩展包：
+
+```bash
+pip install tkintertools[extention]==3.0.0.rc1
 ```
 
 👀 More / 更多
