@@ -180,7 +180,6 @@ extra: # 额外设定
   version:
     provider: mike
     alias: true
-    default: stable
   homepage: . # 左上角徽标链接的地址（此处为一个点，也就是主页）
   annotate: # 允许代码块非注释内的提示，我也不太懂什么意思，貌似是可以在代码里面加悬浮提示框，而不只是在注释中（感觉这样不好，虽然我不用，但不能没有）
     json: [.s2]
