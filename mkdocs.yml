@@ -276,8 +276,8 @@ nav: # 导航栏
       - Code of Conduct - 行为准则: CODE_OF_CONDUCT.md
       - Sponsor this Project - 赞助项目: Sponsor.md
 
-  # - Tutorials / 教程:
-      # - 前言: tutorials/3.0.0/0-1.md
+  - Tutorials / 教程:
+      - 第零章：前言: tutorials/3.0.0/0-0.md
 
   # - Tutorials / 教程:
   #     - 第零章：前言: tutorials/2.6.21/0-1.md
