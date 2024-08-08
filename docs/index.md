@@ -46,8 +46,8 @@ comments: true
 
 !!! tip
 
-    Most of the preview content of the following two versions can be found in the official template repository: https://github.com/Xiaokang2022/tkintertools-demos  
-    下面两个版本的预览内容大多可以在官方模板仓库中找到：https://github.com/Xiaokang2022/tkintertools-demos
+    Most of the preview content of the following two versions can be found in the official [demo repository](https://github.com/Xiaokang2022/tkintertools-demos)  
+    下面两个版本的预览内容大多可以在官方[演示仓库](https://github.com/Xiaokang2022/tkintertools-demos)中找到
 
 ### ✅ Stable Version / 稳定版本
 

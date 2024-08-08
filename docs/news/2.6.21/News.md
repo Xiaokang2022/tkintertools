@@ -3,7 +3,7 @@
 -   Version - 最新版本 : `2.6.21`
 -   Release - 发布日期 : 2024/01/01
 
-```sh linenums="0"
+```bash linenums="0"
 pip install tkintertools
 ```
 
