@@ -5,7 +5,7 @@ comments: true
 
 <h1 align="center">tkintertools</h1>
 
-<p align="center"><img alt="logo" src="https://raw.githubusercontent.com/Xiaokang2022/tkintertools-demos/main/assets/logo.png" title="Logo" /></p>
+<p align="center"><img alt="logo" src="./logo.png" title="Logo" /></p>
 
 <p align="center">
 <code>tkintertools</code> 是一个基于 <code>tkinter</code> 的 <code>Canvas</code> 类的 UI 框架
@@ -44,21 +44,26 @@ comments: true
 📦 Installation / 安装
 -----------------------
 
+!!! tip
+
+    Most of the preview content of the following two versions can be found in the official template repository: https://github.com/Xiaokang2022/tkintertools-demos  
+    下面两个版本的预览内容大多可以在官方模板仓库中找到：https://github.com/Xiaokang2022/tkintertools-demos
+
 ### ✅ Stable Version / 稳定版本
 
 * 🔖 Version / 最新版本 : `2.6.21`
 * 🕓 Release / 发布日期 : 2024-01-01
 * ✨ Feature / 更新内容 : [News-2.6.21](./news/2.6.21/News.md)
 
-```sh linenums="0"
+```bash linenums="0"
 pip install tkintertools
 ```
 
 ???+ "Preview / 预览"
 
-    [![Preview UI](./tutorials/images/1.2-2.1-2.png)](https://xiaokang2022.github.io/tkintertools/tutorials/1-2/#21-%E9%AB%98%E5%BA%A6%E5%8F%AF%E9%85%8D%E7%BD%AE%E7%9A%84%E6%8E%A7%E4%BB%B6)
+    [![Preview UI](./tutorials/2.6.21/images/1.2-2.1-2.png)](https://xiaokang2022.github.io/tkintertools/tutorials/1-2/#21-%E9%AB%98%E5%BA%A6%E5%8F%AF%E9%85%8D%E7%BD%AE%E7%9A%84%E6%8E%A7%E4%BB%B6)
 
-    [![Preview 3D](./tutorials/images/7.3-3.1-2.png)](https://xiaokang2022.github.io/tkintertools/tutorials/7-3/#%E4%B8%89%E9%80%9A%E8%BF%87-after-%E6%96%B9%E6%B3%95%E5%AE%9E%E7%8E%B0%E7%AE%80%E5%8D%95%E5%8A%A8%E7%94%BB)
+    [![Preview 3D](./tutorials/2.6.21/images/7.3-3.1-2.png)](https://xiaokang2022.github.io/tkintertools/tutorials/7-3/#%E4%B8%89%E9%80%9A%E8%BF%87-after-%E6%96%B9%E6%B3%95%E5%AE%9E%E7%8E%B0%E7%AE%80%E5%8D%95%E5%8A%A8%E7%94%BB)
 
 </details>
 
@@ -68,11 +73,9 @@ pip install tkintertools
 * 🕓 Release / 发布日期 : 2024-08-08
 * ✨ Feature / 更新内容 : [News-3.0.0](./news/3.0.0/News.md)
 
-```sh linenums="0"
+```bash linenums="0"
 pip install tkintertools[recommended]==3.0.0rc1
 ```
-
-* Demos / 演示: https://github.com/Xiaokang2022/tkintertools-demos
 
 ???+ "Preview / 预览"
 
@@ -220,7 +223,7 @@ pip install tkintertools[extension]==3.0.0rc1
     - 总访问量：<span id="busuanzi_value_site_pv"><i class="fa fa-spinner fa-spin"></i></span>
 
 <div align="center" markdown>
-[⚡快速开始](./tutorials/1-2.md){ .md-button .md-button--primary title="从认识 tkintertools 开始！" }
-[<big>:star:{ .heart } 支持本项目</big>](https://github.com/Xiaokang2022/tkintertools/){ .md-button .md-button--primary title="给项目点个 Star 吧，球球了！" }
 [✨最新内容](./news/3.0.0/News.md){ .md-button .md-button--primary title="点我了解最近更新的内容！" }
+[<big>:star:{ .heart } 支持本项目</big>](https://github.com/Xiaokang2022/tkintertools/){ .md-button .md-button--primary title="给项目点个 Star 吧，球球了！" }
+[❤️赞助一下](./Sponsor.md){ .md-button .md-button--primary title="赞助我一下下吧！独自开发不易呢！" }
 </div>
