@@ -64,17 +64,25 @@ pip install tkintertools
 
 ### 🔥 Development Version / 开发版本
 
-* 🔖 Version / 最新版本 : `3.0.0.beta4`
-* 🕓 Release / 发布日期 : 2024-07-20
-* ✨ Feature / 更新内容 : [News-3.0.0b4](./news/3.0.0/News.md)
+* 🔖 Version / 最新版本 : `3.0.0.rc1`
+* 🕓 Release / 发布日期 : 2024-08-08
+* ✨ Feature / 更新内容 : [News-3.0.0](./news/3.0.0/News.md)
 
 ```sh linenums="0"
-pip install tkintertools[suggest]==3.0.0b4
+pip install tkintertools[recommended]==3.0.0rc1
 ```
 
 * Demos / 演示: https://github.com/Xiaokang2022/tkintertools-demos
 
 ???+ "Preview / 预览"
+
+    ![](https://github.com/Xiaokang2022/tkintertools-demos/blob/main/preview/demo9-1.png?raw=true)
+
+    ![](https://github.com/Xiaokang2022/tkintertools-demos/blob/main/preview/demo9-2.png?raw=true)
+
+    ![](https://github.com/Xiaokang2022/tkintertools-demos/blob/main/preview/demo9-3.png?raw=true)
+
+    ![](https://github.com/Xiaokang2022/tkintertools-demos/blob/main/preview/demo9-4.png?raw=true)
 
     ![](https://github.com/Xiaokang2022/tkintertools-demos/blob/main/preview/demo0-1.png?raw=true)
 
@@ -95,6 +103,14 @@ pip install tkintertools[suggest]==3.0.0b4
     ![](https://github.com/Xiaokang2022/tkintertools-demos/blob/main/preview/demo5-1.png?raw=true)
 
     ![](https://github.com/Xiaokang2022/tkintertools-demos/blob/main/preview/demo5-2.png?raw=true)
+
+    ![](https://github.com/Xiaokang2022/tkintertools-demos/blob/main/preview/demo6-1.png?raw=true)
+
+    ![](https://github.com/Xiaokang2022/tkintertools-demos/blob/main/preview/demo7-1.png?raw=true)
+
+    ![](https://github.com/Xiaokang2022/tkintertools-demos/blob/main/preview/demo7-2.png?raw=true)
+
+    ![](https://github.com/Xiaokang2022/tkintertools-demos/blob/main/preview/demo8-1.png?raw=true)
 
 ## 📦 Dependency / 依赖包
 
@@ -118,20 +134,34 @@ Considering that too many packages will result in a large size of the project fi
 - [X] [pillow](https://github.com/python-pillow/Pillow) - `>=10.0.0`
 - [ ] [hPyT](https://github.com/Zingzy/hPyT) - `1.3.2`
 - [ ] [win32material](https://github.com/littlewhitecloud/win32style) - `1.0.6`
-- [ ] [matplotlib](https://github.com/matplotlib/matplotlib) - `>=3.9.0`
 
 The following command installs the recommended optional dependencies:  
 以下命令可以安装推荐的可选依赖包：
 
 ```bash linenums="0"
-pip install tkintertools[suggest]==3.0.0b4
+pip install tkintertools[recommended]==3.0.0rc1
 ```
 
 The following command installs all optional dependencies:  
 以下命令可以安装全部可选依赖包：
 
 ```bash linenums="0"
-pip install tkintertools[full]==3.0.0b4
+pip install tkintertools[all]==3.0.0rc1
+```
+
+## 📦 Extension / 扩展包
+
+In addition to the basic functionality, `tkintertools` also offers some extension packages to implement certain functionality. The following official extensions are available:  
+除了基础功能之外，`tkintertools` 还提供一些扩展包来实现某些特定的功能。目前已有的官方扩展包如下：
+
+- [X] [tkintertools-mpl](https://github.com/Xiaokang2022/tkintertools-mpl) - `1.0.0`
+- [X] [tkintertools-3d](https://github.com/Xiaokang2022/tkintertools-3d) - `1.0.0`
+
+The following command can be used to install all the official extensions:  
+以下命令可以安装全部的官方扩展包：
+
+```bash linenums="0"
+pip install tkintertools[extension]==3.0.0rc1
 ```
 
 ## 👀 More / 更多

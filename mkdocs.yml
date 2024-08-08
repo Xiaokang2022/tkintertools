@@ -232,7 +232,7 @@ plugins: # 插件
       enable_creation_date: true # 显示创建的日期
       type: datetime # 每页底下显示最后更新日期，类型是 datatime（日期+时间），或者 data（只有日期）等
       locale: zh # 换成中文显示
-      timezone: Etc/GMT-8 # 设置时区（默认值不是我们想要的）
+      timezone: Etc/GMT+8 # 设置时区（默认值不是我们想要的）
   - git-authors: # 文章作者显示插件（pip install mkdocs-git-authors-plugin）注意：build 时此插件加载非常缓慢！
       show_contribution: true # 显示贡献比例
       show_line_count: true # 记录行数
@@ -275,54 +275,6 @@ nav: # 导航栏
       - Security Policy - 安全策略: SECURITY.md
       - Code of Conduct - 行为准则: CODE_OF_CONDUCT.md
       - Sponsor This Project - 赞助项目: Sponsor.md
-
-  - Tutorials / 教程:
-      - 前言: tutorials/0-1.md
-      - 第一章：安装与初识:
-          - 1.1 安装 tkintertools: tutorials/1-1.md
-          - 1.2 认识 tkintertools: tutorials/1-2.md
-          - 1.3 tkintertools 初体验: tutorials/1-3.md
-      - 第二章：容器控件: tutorials/2-1.md
-        # - Tk
-        # - Toplevel
-        # - Canvas
-      - 第三章：功能控件: tutorials/3-1.md
-        # - Label
-        # - Button
-        # - CheckButton
-        # - Entry
-        # - Text
-        # - ProgressBar
-        # - Switch
-        # - ToolTip
-      - 第四章：界面布局: tutorials/4-1.md
-        # - Place
-        # - Slide
-      - 第五章：图片:
-          - 5.1 静态图片: tutorials/5-1.md
-          - 5.2 动态图片: tutorials/5-2.md
-          - 5.3 图片进阶: tutorials/5-3.md
-      - 第六章：动画以及颜色效果:
-          - 6.1 颜色效果: tutorials/6-1.md
-          - 6.2 动画制作: tutorials/6-2.md
-      - 第七章：3D 子模块:
-          - 7.1 3D 对象: tutorials/7-1.md
-          - 7.2 3D 文本: tutorials/7-2.md
-          - 7.3 3D 动画: tutorials/7-3.md
-          - 7.4 3D 进阶: tutorials/7-4.md
-      - 第八章：杂项: tutorials/8-1.md
-        # - 学会一些实用的小技巧
-        # - 混合使用 tkinter
-      - 第九章：实战: tutorials/9-1.md
-        # - 手把手实战教学
-        # - 引导式实战教学
-        # - 实战项目推荐
-
-  - Documents / 文档:
-      - main.py: documents/main.md
-      - tools_3d.py: documents/tools_3d.md
-      - exceptions.py: documents/exceptions.md
-      - constants.py: documents/constants.md
 
   - News / 新闻:
       - Series 3 - 系列 3:
