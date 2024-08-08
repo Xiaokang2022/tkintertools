@@ -11,6 +11,122 @@
     * 🟠 **Deprecated / 弃用**
     * 🟤 **Refactored / 重构**
 
+🔖 `3.0.0.rc1`
+--------------
+
+🕓 *Release Date / 发布日期 : 2024-08-08*
+
+🟢 **Added / 新增**
+
+- The widget `Text` added methods `get` and `set` to get and modify its text content  
+小部件 `Text` 添加了 `get` 和 `set` 方法，用于获取和修改其文本内容
+
+- Added widget `Image`  
+添加了小部件：`Image`
+
+- Added container widget `Frame` to assist with layout  
+添加了容器小部件 `Frame` 以协助布局
+
+- The container widget `Canvas` has added the method `clear` to clear everything drawn inside it  
+容器小部件 `Canvas` 添加了 `clear` 方法，以清除其中绘制的所有内容
+
+- Widgets can now be nested within widgets  
+小部件现在可以嵌套在小部件中了
+
+- The submodule `tools` added a function `get_text_size` to get the size of the text  
+子模块 `tools` 添加了一个函数 `get_text_size` 用于获取文本的大小
+
+- Added the incomplete Select All function, which can select all, but due to the imperfection of the function of selecting the text with the mouse, the Select All function cannot select the undisplayed text  
+新增了不完整的全选功能，可以全选，但由于鼠标选择文本的功能不完善，导致全选功能无法选择未显示的文本
+
+- `virtual.Widget` has a new method called `detect` to determine the range based on the data of the widget itself  
+`virtual.Widget` 新增了一个名为 `detect` 的方法，其根据小部件本身的数据确定的范围来进行检测
+
+- Added `HalfRoundedRectangular` shape class  
+添加了形状类 `HalfRoundedRectangular`
+
+- Added widget: `ToggleButton`  
+添加了小部件：`ToggleButton`
+
+- Added widget: `SegmentedButton`  
+添加了小部件：`SegmentedButton`
+
+- Added widget: `SpinBox`  
+添加了小部件：`SpinBox`
+
+- The subpackage `standard` added an internal submodule `_auxiliary` to define some auxiliary widgets  
+子包 `standard` 添加了一个内部子模块 `_auxiliary` 来定义一些辅助小部件
+
+- The `GOLDEN_RATIO` constant has been added  
+增加了常量 `GOLDEN_RATIO`
+
+- Added experimental implementations of widgets `OptionButton` and `ComboBox`  
+添加了小部件 `OptionButton` 和 `ComboBox` 的实验性实现
+
+🔴 **Removed / 移除**
+
+- The code for the `matplotlib` related interface part is separated  
+将 `matplotlib` 相关接口部分的代码分离了
+
+- Due to some conflicts, the binding and handling of the mouse double-click event has been removed  
+由于存在一些冲突，删除了鼠标双击事件的绑定和处理
+
+🟡 **Changed / 变更**
+
+- Re-change the text defaults of the widget to an empty string  
+将小部件的文本默认值重新更改为空字符串
+
+- Rename the widgets `Entry` and `Information` to `InputBox` and `Text`, respectively  
+将小部件 `Entry` 和 `Information` 分别重命名为 `InputBox` 和 `Text`
+
+- The "Feature" suffix has been added to the class names of several `Feature` classes to prevent them from being indistinguishable from the `Widget` class in the error message  
+“Feature” 后缀已添加到多个 `Feature` 类的类名中，以防止它们与错误消息中的 `Widget` 类无法区分
+
+🔵 **Optimized / 优化**
+
+- Optimized decision detection for `Oval` and `SemicircularRectangle`  
+优化了 `Oval` 和 `SemicircularRectangle` 的检测判定方法
+
+- The `Switch` widget added more animations  
+`Switch` 添加了更多动画
+
+- `Shape` scaling has been improved: the scale has been changed from direct scaling to calculating the position to prevent the proportions of some parts from being broken  
+改进了 `Shape` 的缩放：缩放已从直接缩放更改为计算位置后缩放，以防止某些部分的比例被破坏
+
+- All widgets that involve text now do not need to be forced to specify the size at initialization, and it automatically calculates the size of text without line breaks  
+现在，所有涉及文本的小部件都不需要在初始化时强制指定大小，它会自动计算没有换行符的文本的大小
+
+- Optimized the `RoundedRectangle` subclass of the `Shape` class  
+优化了 `Shape` 的子类 `RoundedRectangle`
+
+- Improved the docstrings, error messages, and warning messages  
+改善了文档字符串、错误消息和警告消息
+
+🟣 **Fixed / 修复**
+
+- Fixed a bug where `IconButton` was missing style files  
+修复了 `IconButton` 缺少样式文件的 bug
+
+- Fixed a bug where the `Slider` could be activated unexpectedly when disabled  
+修复了 `Slider` 在禁用时可能会意外激活的 bug
+
+- Fixed a bug where text had no effect on modifying its properties after scaling  
+修复了文本在缩放后修改其属性不起作用的 bug
+
+- Fixed a bug where some widgets with default values could repeatedly call the method `set`, causing the widget appearance to be misaligned  
+修复了某些具有默认值的小部件可能会重复调用方法 `set` 从而导致小部件外观错位的 bug
+
+- Fixed a bug where some highly custom widgets would report an error when zooming  
+修复了某些高度自定义的小部件在缩放时会报错的 bug
+
+🟤 **Refactored / 重构**
+
+- Refactored the `style` subpackage, reformatted the style file, and now supports two ways to import themes. That is, import as a JSON file, or directly import using a Python file  
+重构了 `style` 子包，重新格式化了样式文件，现在支持两种导入主题的方式。即使用 JSON 文件导入，或直接使用 Python 文件导入
+
+- Removed the original JSON format style file, and added `theme` subpackage to store the style data as a Python file, so as to solve the bug that the default style file is lost in project packaging  
+移除了原有的 JSON 格式样式文件，并添加了 `theme` 子包，将样式数据存储为 Python 件，从而解决了项目打包时默认样式文件丢失的 bug
+
 🔖 `3.0.0.beta4`
 ----------------
 
