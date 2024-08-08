@@ -1,13 +1,6 @@
-> [!IMPORTANT]  
-> ~~Due to the growing nature of the project, the original name `tkintertools` is no longer in line with its original intended, so the project is going to be renamed to "tkinter advanced canvas UI framework" (`tacUI`) in version `3.0.0.rc1`. If you have any other ideas or suggestions, you can put them in the [Discussions](https://github.com/Xiaokang2022/tkintertools/discussions).~~  
-> ~~由于本项目的不断壮大，原名称 `tkintertools` 已不符合其本意，故本项目准备在进入 `3.0.0.rc1` 版本时更名为 “tkinter advanced canvas UI framework”（`tacUI`）。如有其它想法或建议，可在[讨论区](https://github.com/Xiaokang2022/tkintertools/discussions)中提出。~~  
->   
-> Originally, it was planned to change the name of the project when the version was *3.0.0.rc1*, but due to the inconvenience of some users to change the dependency, the name will not be changed for the time being, and may not be changed in the future.  
-> 原计划在版本为 *3.0.0.rc1* 时更改项目的名称，但鉴于部分使用者不方便更改依赖，故名称暂时不再更改，后续可能也不再更改。
-
 <h1 align="center">tkintertools</h1>
 
-<p align="center"><img alt="logo" src="./LOGO.png" title="Logo" /></p>
+<p align="center"><img alt="logo" src="https://github.com/Xiaokang2022/tkintertools/blob/docs/docs/logo.png?raw=true" title="Logo" /></p>
 
 <p align="center">
 <code>tkintertools</code> 是一个基于 <code>tkinter</code> 的 <code>Canvas</code> 类的 UI 框架
@@ -46,11 +39,15 @@
 📦 Installation / 安装
 ----------------------
 
+> [!TIP]  
+> Most of the preview content of the following two versions can be found in the official [demo repository](https://github.com/Xiaokang2022/tkintertools-demos)  
+> 下面两个版本的预览内容大多可以在官方[演示仓库](https://github.com/Xiaokang2022/tkintertools-demos)中找到
+
 ### ✅ Stable Version / 稳定版本
 
 * 🔖 Version / 最新版本 : `2.6.21`
 * 🕓 Release / 发布日期 : 2024-01-01
-* ✨ Feature / 更新内容 : [News-2.6.21](https://xiaokang2022.github.io/tkintertools/news/2.6.21/News/)
+* ✨ Feature / 更新内容 : [News-2.6.21](https://xiaokang2022.github.io/tkintertools/2.6/news/2.6.21/News/)
 
 ```bash
 pip install tkintertools
@@ -58,9 +55,9 @@ pip install tkintertools
 
 <details open><summary>👁️ Preview / 预览</summary>
 
-[![Preview UI](https://xiaokang2022.github.io/tkintertools/tutorials/images/1.2-2.1-2.png)](https://xiaokang2022.github.io/tkintertools/tutorials/1-2/#21-%E9%AB%98%E5%BA%A6%E5%8F%AF%E9%85%8D%E7%BD%AE%E7%9A%84%E6%8E%A7%E4%BB%B6)
+![](https://xiaokang2022.github.io/tkintertools/2.6/tutorials/2.6.21/images/1.2-2.1-2.png)
 
-[![Preview 3D](https://xiaokang2022.github.io/tkintertools/tutorials/images/7.3-3.1-2.png)](https://xiaokang2022.github.io/tkintertools/tutorials/7-3/#%E4%B8%89%E9%80%9A%E8%BF%87-after-%E6%96%B9%E6%B3%95%E5%AE%9E%E7%8E%B0%E7%AE%80%E5%8D%95%E5%8A%A8%E7%94%BB)
+![](https://xiaokang2022.github.io/tkintertools/2.6/tutorials/2.6.21/images/7.3-3.1-2.png)
 
 </details>
 
@@ -68,13 +65,11 @@ pip install tkintertools
 
 * 🔖 Version / 最新版本 : `3.0.0.rc1`
 * 🕓 Release / 发布日期 : 2024-08-08
-* ✨ Feature / 更新内容 : [News-3.0.0](https://xiaokang2022.github.io/tkintertools/news/3.0.0/News/)
+* ✨ Feature / 更新内容 : [News-3.0.0](https://xiaokang2022.github.io/tkintertools/3.0/news/3.0.0/News/)
 
 ```bash
 pip install tkintertools[recommended]==3.0.0rc1
 ```
-
-* Demos / 演示: https://github.com/Xiaokang2022/tkintertools-demos
 
 <details open><summary>👁️ Preview / 预览</summary>
 
