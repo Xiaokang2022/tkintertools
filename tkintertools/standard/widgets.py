@@ -958,7 +958,7 @@ class SegmentedButton(virtual.Widget):
                          underline=underline, overstrike=overstrike,
                          justify=justify, anchor=anchor, animation=animation,
                          image=image, through=True,
-                         command=lambda _, i=i: (self.set(i), command() if command else None))
+                         command=lambda _, i=i, command=command: (self.set(i), command() if command else None))
             total_side_length += size[layout == "vertical"] + 5
         if default is not None:
             self.set(default)
