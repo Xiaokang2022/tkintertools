@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+<!-- 类别详细见 https://squidfunk.github.io/mkdocs-material/customization/ -->
+
+<!-- 页面顶部公告 -->
+{% block announce %}
+{{ super() }}
+<p>欢迎来到 tkintertools 的官方网站，在这里您可以了解和学习有关 tkintertools 的一切，希望对您有一定的帮助！❤️</p>
+{% endblock %}
+
+{% block outdated %}
+You're not viewing the latest version.
+<a href="{{ '../' ~ base_url }}">
+    <strong>Click here to go to latest.</strong>
+</a>
+{% endblock %}
