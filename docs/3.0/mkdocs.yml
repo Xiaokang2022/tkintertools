@@ -2,13 +2,13 @@ site_name: tkintertools # 站点名称
 site_url: https://Xiaokang2022.github.io/tkintertools/ # 站点链接
 repo_url: https://github.com/Xiaokang2022/tkintertools # 仓库地址
 repo_name: Xiaokang2022/tkintertools # 仓库名称
-edit_uri: edit/docs/docs/ # 编辑地址（页面会出现编辑按钮）
+edit_uri: edit/docs/docs/3.0/ # 编辑地址（页面会出现编辑按钮）
 site_description: Official Website of tkintertools  # 站点描述
 site_author: Xiaokang2022 # 站点作者
 copyright: Copyright &copy; 2022 Xiaokang2022 # 版权信息（会出现在左下角）
 remote_branch: gh-pages # GitHub Pages 分支名称（此处为默认值）
 remote_name: origin # 远程分支的名称（默认值）
-docs_dir: docs # 文档目录（默认值）
+docs_dir: docs/3.0/ # 文档目录（默认值）
 site_dir: site # 网站目录（默认值）
 strict: false # 严格模式，不太懂（默认值）
 dev_addr: 127.0.0.1:8000 # 开发模式下的 IP 地址（默认值）
@@ -112,7 +112,7 @@ markdown_extensions:
 
 theme: # 主题设置
   name: material # 第三方主题名称
-  custom_dir: docs/overrides # 覆盖部分原来的主题（重载目录）
+  custom_dir: docs/3.0/overrides # 覆盖部分原来的主题（重载目录）
   language: zh # material 语言
   features:
     # - header.autohide # 顶栏自动隐藏
@@ -276,12 +276,12 @@ nav: # 导航栏
       - Code of Conduct - 行为准则: CODE_OF_CONDUCT.md
       - Sponsor this Project - 赞助项目: Sponsor.md
 
-  # - Tutorials / 教程:
-  #     - 第零章：前言: tutorials/0-0.md
-  #     - 第一章：简单体验:
-  #         - 1.1 安装 tkintertools: tutorials/1-1.md
-  #         - 1.2 实现一个简单的界面: tutorials/1-2.md
-  #         - 1.2 框架概述: tutorials/1-3.md
+  - Tutorials / 教程:
+      - 第零章：前言: tutorials/0-0.md
+      - 第一章：简单体验:
+          - 1.1 安装 tkintertools: tutorials/1-1.md
+          - 1.2 实现一个简单的界面: tutorials/1-2.md
+          - 1.2 框架概述: tutorials/1-3.md
     
       # - 第二章：容器部件:
       #     - 2.1 窗口容器部件: tutorials/1-1.md
@@ -316,55 +316,6 @@ nav: # 导航栏
       #     - 9.2 matplotlib 扩展包: tutorials/1-1.md
       #     - 9.3 3D 扩展包: tutorials/1-1.md
       #     - 9.4 Demos & Projects: tutorials/1-1.md
-      
-
-  - Tutorials / 教程:
-      - 第零章：前言: tutorials/0-0.md
-      - 第一章：安装与初识:
-          - 1.1 安装 tkintertools: tutorials/1-1.md
-          - 1.2 认识 tkintertools: tutorials/1-2.md
-          - 1.3 tkintertools 初体验: tutorials/1-3.md
-      - 第二章：容器控件: tutorials/2-1.md
-        # - Tk
-        # - Toplevel
-        # - Canvas
-      - 第三章：功能控件: tutorials/3-1.md
-        # - Label
-        # - Button
-        # - CheckButton
-        # - Entry
-        # - Text
-        # - ProgressBar
-        # - Switch
-        # - ToolTip
-      - 第四章：界面布局: tutorials/4-1.md
-        # - Place
-        # - Slide
-      - 第五章：图片:
-          - 5.1 静态图片: tutorials/5-1.md
-          - 5.2 动态图片: tutorials/5-2.md
-          - 5.3 图片进阶: tutorials/5-3.md
-      - 第六章：动画以及颜色效果:
-          - 6.1 颜色效果: tutorials/6-1.md
-          - 6.2 动画制作: tutorials/6-2.md
-      - 第七章：3D 子模块:
-          - 7.1 3D 对象: tutorials/7-1.md
-          - 7.2 3D 文本: tutorials/7-2.md
-          - 7.3 3D 动画: tutorials/7-3.md
-          - 7.4 3D 进阶: tutorials/7-4.md
-      - 第八章：杂项: tutorials/8-1.md
-        # - 学会一些实用的小技巧
-        # - 混合使用 tkinter
-      - 第九章：实战: tutorials/9-1.md
-        # - 手把手实战教学
-        # - 引导式实战教学
-        # - 实战项目推荐
-
-  - Documents / 文档:
-      - main.py: documents/main.md
-      - tools_3d.py: documents/tools_3d.md
-      - exceptions.py: documents/exceptions.md
-      - constants.py: documents/constants.md
 
   - News / 新闻:
       - Series 3 - 系列 3:
