@@ -1,6 +1,6 @@
 <h1 align="center">tkintertools</h1>
 
-<p align="center"><img alt="logo" src="https://github.com/Xiaokang2022/tkintertools/blob/docs/docs/logo.png?raw=true" title="Logo" /></p>
+<p align="center"><img alt="logo" src="https://xiaokang2022.github.io/tkintertools/logo.png" title="Logo" /></p>
 
 <p align="center">
 <code>tkintertools</code> 是一个基于 <code>tkinter</code> 的 <code>Canvas</code> 类的 UI 框架
@@ -55,9 +55,9 @@ pip install tkintertools
 
 <details open><summary>👁️ Preview / 预览</summary>
 
-![](https://xiaokang2022.github.io/tkintertools/2.6/tutorials/2.6.21/images/1.2-2.1-2.png)
+![](https://xiaokang2022.github.io/tkintertools-docs/2.6/tutorials/images/1.2-2.1-2.png)
 
-![](https://xiaokang2022.github.io/tkintertools/2.6/tutorials/2.6.21/images/7.3-3.1-2.png)
+![](https://xiaokang2022.github.io/tkintertools-docs/2.6/tutorials/images/7.3-3.1-2.png)
 
 </details>
 
