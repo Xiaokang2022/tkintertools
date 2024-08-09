@@ -65,7 +65,7 @@ pip install tkintertools
 
     ![](https://xiaokang2022.github.io/tkintertools-docs/2.6/tutorials/images/7.3-3.1-2.png)
 
-### 🔥 Development Version / 开发版本
+### 🔥 Dev Version / 开发版本
 
 * 🔖 Version / 最新版本 : `3.0.0.rc1`
 * 🕓 Release / 发布日期 : 2024-08-08
@@ -120,12 +120,12 @@ pip install tkintertools[recommended]==3.0.0rc1
     All dependencies are listed in [*requirements.txt*](https://github.com/Xiaokang2022/tkintertools/blob/master/requirements.txt), but optional packages don't have to be installed  
     所有的依赖包均会在 [*requirements.txt*](https://github.com/Xiaokang2022/tkintertools/blob/master/requirements.txt) 中列出，但可选包并不一定要安装
 
-### 📌 Required Packages / 必需包
+### 📌 Requirements / 必需包
 
 Not yet  
 暂无
 
-### 🎨 Optional Packages / 可选包
+### 🎨 Options / 可选包
 
 Considering that too many packages will result in a large size of the project file when packing, the optional packages selected below are recommended to be installed  
 考虑到调用的包过多将导致打包时项目文件的大小过大，因此下面被选中的可选包是推荐安装的
@@ -218,7 +218,6 @@ pip install tkintertools[extension]==3.0.0rc1
     - 总页面：{{ pages }}
     - 总字（词）数：{{ words }}
     - 总代码行数：{{ codes }}
-    - 总访问量：<span id="busuanzi_value_site_pv"><i class="fa fa-spinner fa-spin"></i></span>
 
 <div align="center" markdown>
 [✨最新内容](./news/3.0.0/News.md){ .md-button .md-button--primary title="点我了解最近更新的内容！" }

@@ -6,6 +6,9 @@ First of all, thank you for your idea of supporting this project! ❤️
     If you like the project but don't have the means to give financial support, that's okay too. There are other easy ways to support the project and show your gratitude, and we are also very happy, such as star the project! ⭐  
     如果你喜欢这个项目，但是没有办法给出金钱上的支持，那也没关系。还有其他简单的方法可以支持该项目并表达您的感激之情，我们也非常高兴，例如给这个项目加星标！⭐
 
+Here are all the ways to sponsor:  
+以下是所有的赞助方式：
+
 === "🟢 WeChat Appreciation Code / 微信赞赏码"
 
     <p align="center">
