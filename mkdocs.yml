@@ -285,14 +285,14 @@ nav: # 导航栏
 
   - Projects / 项目:
       - Overview - 项目概览: projects/index.md
-      - 1. Intelligent Magic Cube: projects/1.md
-      - 2. Chinese Chess: projects/2.md
-      - 3. Super Gobang: projects/3.md
-      - 4. Todo List: projects/4.md
-      - 5. Login2.0: projects/5.md
+      - 1. Intelligent Magic Cube: projects/pages/1.md
+      - 2. Chinese Chess: projects/pages/2.md
+      - 3. Super Gobang: projects/pages/3.md
+      - 4. Todo List: projects/pages/4.md
+      - 5. Login2.0: projects/pages/5.md
 
   - Videos / 视频:
       - Overview - 视频概览: videos/index.md
-      - 2024-06-18: videos/pages/2024-06-18.md
-      - 2024-05-19: videos/pages/2024-05-19.md
-      - 2024-04-06: videos/pages/2024-04-06.md
+      - tkintertools 又更新啦！: videos/pages/3.md
+      - 碾压 tkinter 的 UI 框架：tkintertools 3.0.0 正式进入 beta 公测阶段: videos/pages/2.md
+      - 这还是你记忆中的 tkinter 的程序吗？？？: videos/pages/1.md
