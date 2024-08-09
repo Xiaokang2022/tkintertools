@@ -105,3 +105,8 @@ F E D C B A 9 8 7 6 5 4 3 2 1 0
 .changelog-type-Deprecated::before {
     content: "Deprecated / 弃用";
 }
+
+/*去除音乐播放器背景颜色*/
+audio::-webkit-media-controls-enclosure {
+    background-color: rgba(0, 0, 0, 0.0);
+}
