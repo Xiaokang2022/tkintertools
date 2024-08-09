@@ -319,7 +319,7 @@ nav: # 导航栏
       
 
   - Tutorials / 教程:
-      - 第零章：前言: tutorials/0-1.md
+      - 第零章：前言: tutorials/0-0.md
       - 第一章：安装与初识:
           - 1.1 安装 tkintertools: tutorials/1-1.md
           - 1.2 认识 tkintertools: tutorials/1-2.md
