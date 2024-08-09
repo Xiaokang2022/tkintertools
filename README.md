@@ -61,7 +61,7 @@ pip install tkintertools
 
 </details>
 
-### 🔥 Development Version / 开发版本
+### 🔥 Dev Version / 开发版本
 
 * 🔖 Version / 最新版本 : `3.0.0.rc1`
 * 🕓 Release / 发布日期 : 2024-08-08
@@ -118,12 +118,12 @@ pip install tkintertools[recommended]==3.0.0rc1
 > All dependencies are listed in [*requirements.txt*](./requirements.txt), but optional packages don't have to be installed  
 > 所有的依赖包均会在 [*requirements.txt*](./requirements.txt) 中列出，但可选包并不一定要安装
 
-### 📌 Required Packages / 必需包
+### 📌 Requirements / 必需包
 
 Not yet  
 暂无
 
-### 🎨 Optional Packages / 可选包
+### 🎨 Options / 可选包
 
 Considering that too many packages will result in a large size of the project file when packing, the optional packages selected below are recommended to be installed  
 考虑到调用的包过多将导致打包时项目文件的大小过大，因此下面被选中的可选包是推荐安装的
