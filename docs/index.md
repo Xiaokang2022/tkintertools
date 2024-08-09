@@ -61,10 +61,9 @@ pip install tkintertools
 
 ???+ "Preview / 预览"
 
-    [![Preview UI](./tutorials/2.6.21/images/1.2-2.1-2.png)](https://xiaokang2022.github.io/tkintertools/tutorials/1-2/#21-%E9%AB%98%E5%BA%A6%E5%8F%AF%E9%85%8D%E7%BD%AE%E7%9A%84%E6%8E%A7%E4%BB%B6)
+    ![](../2.6/tutorials/images/1.2-2.1-2.png)
 
-    [![Preview 3D](./tutorials/2.6.21/images/7.3-3.1-2.png)](https://xiaokang2022.github.io/tkintertools/tutorials/7-3/#%E4%B8%89%E9%80%9A%E8%BF%87-after-%E6%96%B9%E6%B3%95%E5%AE%9E%E7%8E%B0%E7%AE%80%E5%8D%95%E5%8A%A8%E7%94%BB)
-
+    ![](../2.6/tutorials/images/7.3-3.1-2.png)
 </details>
 
 ### 🔥 Development Version / 开发版本
