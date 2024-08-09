@@ -205,7 +205,6 @@ extra_javascript: # 额外 JS
 
 extra_css: # 额外 CSS
   - extra/css/extra.css # 加载自定义的样式
-  - https://cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css # 访问统计转圈加载样式
   - https://cdn.jsdelivr.net/npm/lxgw-wenkai-screen-webfont@1.1.0/style.css # 自定义字体（霞鹜文楷）
 
 plugins: # 插件
