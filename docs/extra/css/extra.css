@@ -72,9 +72,42 @@ audio::-webkit-media-controls-enclosure {
     height: 100%;
 }
 
+/*打字机文本*/
+.text {
+    display: inline-block;
+    position: relative;
+    font-size: 15px;
+}
+
+/*打字机光标*/
+.text::after {
+    content: '';
+    position: absolute;
+    right: -3px;
+    top: 4px;
+    height: 17px;
+    width: 1px;
+    background-color: #fff;
+    animation: san 0.5s steps(1) infinite;
+}
+
+/*光标动画*/
+@keyframes san {
+
+    0%,
+    100% {
+        background-color: var(--md-default-fg-color);
+    }
+
+    50% {
+        background-color: transparent;
+    }
+
+}
+
+/*心脏跳动的样式表，抄官网的代码*/
 @keyframes heart {
 
-    /*心脏跳动的样式表，抄官网的代码*/
     0%,
     40%,
     80%,

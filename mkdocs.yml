@@ -199,6 +199,7 @@ extra: # 额外设定
 extra_javascript: # 额外 JS
   - extra/js/shortcuts.js # 绑定左右键换页的键盘快捷键（这是我小康2022原创滴！）
   - extra/js/tongji.baidu.js # 百度统计脚本
+  - extra/js/typing.js # 打字机效果
   - extra/js/mathjax.js # 保证数学表达式能正确显示的运行时环境（下面两个也是）
   - https://polyfill.io/v3/polyfill.min.js?features=es6
   - https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js
