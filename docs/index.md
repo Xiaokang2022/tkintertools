@@ -44,7 +44,7 @@ comments: true
 📦 Installation / 安装
 -----------------------
 
-!!! tip
+!!! tip "Tip / 提示"
 
     Most of the preview content of the following two versions can be found in the official [demo repository](https://github.com/Xiaokang2022/tkintertools-demos)  
     下面两个版本的预览内容大多可以在官方[演示仓库](https://github.com/Xiaokang2022/tkintertools-demos)中找到
@@ -115,7 +115,7 @@ pip install tkintertools[recommended]==3.0.0rc1
 
 ## 📦 Dependency / 依赖包
 
-!!! tip
+!!! tip "Tip / 提示"
 
     All dependencies are listed in [*requirements.txt*](https://github.com/Xiaokang2022/tkintertools/blob/master/requirements.txt), but optional packages don't have to be installed  
     所有的依赖包均会在 [*requirements.txt*](https://github.com/Xiaokang2022/tkintertools/blob/master/requirements.txt) 中列出，但可选包并不一定要安装

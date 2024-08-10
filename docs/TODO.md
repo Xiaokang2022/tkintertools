@@ -1,4 +1,4 @@
-!!! tip
+!!! tip "Tip / 提示"
 
     Entries for this to-do item have the following 3 statuses:  
     此待办事项的条目有以下 3 种状态：
