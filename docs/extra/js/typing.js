@@ -1,37 +1,34 @@
-const text = document.querySelector('.text');
 const txt = [
-    "欢迎来到 tkintertools 的官方网站 (●'◡'●)，希望本网站能对您有一定的帮助！❤️",
-    "Welcome to the official website of tkintertools (●'◡'●), I hope this website can be of some help to you! ❤️"
-]; 
+    "欢迎来到 tkintertools 的官方网站，希望本网站能对您有一定的帮助！",
+    "Welcome to the official website of tkintertools, I hope this website can be of some help to you!"
+];
 
-var index=0;
-var xiaBiao= 0;
-var huan = true;
+var index = 0;
+var i = 0;
+var switch_flag = true;
 
 setInterval(function(){
     
-    if(huan){      
-        text.innerHTML = txt[xiaBiao].slice(0,++index);
-        console.log(index);
+    if(switch_flag){      
+        document.querySelector('.text').innerHTML = txt[i].slice(0,++index);
     }
     else{
-        text.innerHTML = txt[xiaBiao].slice(0,index--);
-        console.log(index);
+        document.querySelector('.text').innerHTML = txt[i].slice(0,index--);
     }
 
-    if(index==txt[xiaBiao].length+20) /*20*50 停顿时间*/
+    if(index==txt[i].length+25) /*25*40 停顿时间*/
     {
-        huan = false;
+        switch_flag = false;
     }
-    else if(index<0)
+    else if(index==0)
     {
         index = 0;
-        huan = true;
-        xiaBiao++;
-        if(xiaBiao>=txt.length)
+        switch_flag = true;
+        i++;
+        if(i>=txt.length)
         {
-            xiaBiao=0; 
+            i=0; 
         }
     }
 
-},50) /*50间隔时间*/
+}, 40) /*50间隔时间*/

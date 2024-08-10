@@ -50,6 +50,16 @@
     background-color: var(--md-header-bg-color);
 }
 
+/*给图片加圆角*/
+img {
+    border-radius: 5px;
+}
+
+/*Markdown mermaid 图标居中*/
+.mermaid {
+    text-align: center;
+}
+
 /*去除音乐播放器背景颜色*/
 audio::-webkit-media-controls-enclosure {
     background-color: rgba(0, 0, 0, 0.0);
