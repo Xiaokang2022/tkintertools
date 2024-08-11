@@ -3,15 +3,14 @@ site_url: https://Xiaokang2022.github.io/tkintertools/ # 站点链接
 repo_url: https://github.com/Xiaokang2022/tkintertools # 仓库地址
 repo_name: Xiaokang2022/tkintertools # 仓库名称
 edit_uri: edit/docs/docs # 编辑地址（页面会出现编辑按钮）
-site_description: Official website of tkintertools  # 站点描述
+site_description: Official website of tkintertools # 站点描述
 site_author: Xiaokang2022 # 站点作者
-copyright: Copyright &copy; 2022 Xiaokang2022 # 版权信息（会出现在左下角）
 remote_branch: gh-pages # GitHub Pages 分支名称（此处为默认值）
 remote_name: origin # 远程分支的名称（默认值）
 docs_dir: docs # 文档目录（默认值）
 site_dir: site # 网站目录（默认值）
-strict: false # 严格模式，不太懂（默认值）
 dev_addr: 127.0.0.1:8000 # 开发模式下的 IP 地址（默认值）
+copyright: Copyright &copy; 2022 Xiaokang2022
 
 markdown_extensions:
   # === 从这里开始到下面，是 pymdown-extensions 库的 markdown_extensions 配置 ===
@@ -69,6 +68,7 @@ markdown_extensions:
           format:
             !!python/name:pymdownx.superfences.fence_code_format # 不清楚干啥的
 
+
   - pymdownx.tabbed: # 允许块（如代码块）添加标签，实现多语言等效果
       alternate_style: true # 唯一支持的样式，不打开等于用不了
       combine_header_slug: true # 后面的不知道干啥的
@@ -109,7 +109,7 @@ markdown_extensions:
         kwds:
           case: lower
 
-theme: # 主题设置
+theme:
   name: material # 第三方主题名称
   custom_dir: docs/overrides # 覆盖部分原来的主题（重载目录）
   language: zh # material 语言
@@ -174,83 +174,75 @@ extra: # 额外设定
       link: /
       lang: zh
     - name: English
-      link: /en/
+      link: /
       lang: en
-  homepage: . # 左上角徽标链接的地址（此处为一个点，也就是主页）
+  homepage: . # 左上角徽标链接的地址
   annotate: # 允许代码块非注释内的提示，我也不太懂什么意思，貌似是可以在代码里面加悬浮提示框，而不只是在注释中（感觉这样不好，虽然我不用，但不能没有）
     json: [.s2]
   social: # 社交联系方式（页面右下角内容）
-    - icon: fontawesome/brands/github # GitHub 仓库链接
+    - icon: fontawesome/brands/github
       link: https://github.com/Xiaokang2022/tkintertools/
-      name: GitHub 仓库
-    - icon: fontawesome/brands/python # PyPI 页面链接
+      name: Repository
+    - icon: fontawesome/brands/python
       link: https://pypi.org/project/tkintertools/
       name: PyPI
-    - icon: fontawesome/brands/bilibili # 哔哩哔哩
+    - icon: fontawesome/brands/bilibili
       link: https://space.bilibili.com/498105668
       name: 哔哩哔哩
-    - icon: fontawesome/solid/house
-      link: https://xiaokang2022.github.io/tkintertools/
-      name: 主页
     - icon: fontawesome/solid/paper-plane
       link: mailto:2951256653@qq.com
       name: 联系作者
+  consent:
+    actions:
+      - accept
+      - reject
+      - manage
+    title: Cookie Consent / Cookie 许可
+    description: >-
+      We use cookies to recognize your repeated visits and preferences, as well
+      as to measure the effectiveness of our documentation and whether users
+      find what they're searching for. With your consent, you're helping us to
+      make our documentation better.
+      <br/>
+      我们使用 cookie 来识别您的重复访问和偏好，以及衡量我们文档的有效性和用户是否找到他们正在搜索的内容。在您的同意下，您将帮助我们改进我们的文档。
 
-extra_javascript: # 额外 JS
-  - extra/js/shortcuts.js # 绑定左右键换页的键盘快捷键（这是我小康2022原创滴！）
+extra_javascript:
+  - extra/js/shortcuts.js # 绑定左右键换页的键盘快捷键
   - extra/js/tongji.baidu.js # 百度统计脚本
   - extra/js/typing.js # 打字机效果
-  - extra/js/mathjax.js # 保证数学表达式能正确显示的运行时环境（下面两个也是）
-  - https://polyfill.io/v3/polyfill.min.js?features=es6
+  - extra/js/mathjax.js # 保证数学表达式能正确显示的运行时环境（下面的也是）
   - https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js
 
-extra_css: # 额外 CSS
+extra_css:
   - extra/css/extra.css # 加载自定义的样式
-  - https://cdn.jsdelivr.net/npm/lxgw-wenkai-screen-webfont@1.1.0/style.css # 自定义字体（霞鹜文楷）
+  - https://cdn.jsdelivr.net/npm/lxgw-wenkai-screen-webfont@1.1.0/style.css # 设置字体（霞鹜文楷）
 
-plugins: # 插件
-  - search: # 搜索插件（内置）
-      separator: '[\s\u200b\-_,:!=\[\]()"`/]+|\.(?!\d)|&[lg]t;|(?!\b)(?=[A-Z][a-z])' # 分隔符，我也不懂，我从官方那里找来的
-      lang: # 支持的语言
-        - zh # 中文
-  - git-revision-date-localized: # 文章日期显示插件（pip install mkdocs-git-revision-date-localized-plugin）注意：build 时此插件加载非常缓慢！
-      enable_creation_date: true # 显示创建的日期
-      type: datetime # 每页底下显示最后更新日期，类型是 datatime（日期+时间），或者 data（只有日期）等
-      locale: zh # 换成中文显示
-      timezone: Etc/GMT-8 # 设置时区（默认值不是我们想要的）
-  - git-authors: # 文章作者显示插件（pip install mkdocs-git-authors-plugin）注意：build 时此插件加载非常缓慢！
-      show_contribution: true # 显示贡献比例
-      show_line_count: true # 记录行数
-      show_email_address: true # 显示邮箱
-      count_empty_lines: false # 记录空行的贡献
-      fallback_to_empty: false # 不懂
-      sort_authors_by: contribution # 贡献者名单排序方式 (name, contribution)
-      authorship_threshold_percent: 0 # 筛选掉贡献比例低于该百分比的贡献者
-  - glightbox: # 图像缩放插件（pip install mkdocs-glightbox）
-      touchNavigation: true # 启用或禁用触摸导航（轻扫），应该是便于手机用户吧
-      loop: false # 换图时循环
-      effect: zoom # 打开图时的效果(zoom, fade, none)
-      slide_effect: slide # 切换图片时的效果(slide, zoom, fade, none)
-      width: auto # 内联元素和 iframe 的宽度。您可以使用任何单位或者 auto
-      height: auto # 同上
-      zoomable: false # 启用或禁用可缩放图像，不懂干啥的
-      draggable: true # 启用或禁用鼠标拖动以转到上一张和下一张图片
-      auto_caption: false # 自动启用或禁用使用图像的替代文本作为标题
-      caption_position: bottom # 标题位置 (bottom, top, left, right)
-      background: none # 背景颜色
-      shadow: true # 启用或禁用图像阴影
-  - statistics: # 数据统计插件（pip install mkdocs-statistics-plugin）
-      codelines_per_minute: 15 # 每分钟可看的代码行数
-      words_per_minute: 150 # 每分钟可看的文本数
-  - minify: # 压缩文件的插件（pip install mkdocs-minify-plugin）
+plugins:
+  - search: # built-in
+      lang:
+        - zh
+        - en
+  - git-revision-date-localized:
+      enable_creation_date: true
+      type: iso_datetime
+      locale: zh
+      timezone: Asia/Shanghai
+  # - git-authors: # 当配置不好下方的 git-committers 时可采用这个
+  - git-committers:
+      repository: Xiaokang2022/tkintertools
+      branch: docs
+      token: !ENV ["GH_TOKEN"] # 需要自行在终端中设置临时环境变量，强烈不建议显式地在此处设置 token
+  - glightbox:
+      background: none
+  - statistics:
+      codelines_per_minute: 10
+      words_per_minute: 300
+  - minify:
       minify_html: true
-      minify_js: true
-      minify_css: true
       htmlmin_opts:
         remove_comments: true
-      cache_safe: true
 
-nav: # 导航栏
+nav:
   - Home / 主页:
       - Homepage / 主页: index.md
       - License / 项目许可: LICENSE.md
