@@ -134,4 +134,4 @@ def get(
         theme = manager._theme_map[manager.get_color_mode()]
     widget_name = _get_name(widget)
     component_name = _get_name(component)
-    return _get_file(theme, widget_name, component_name)
+    return _get_file(theme, widget_name, component_name).copy()
