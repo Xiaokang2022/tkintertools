@@ -1,5 +1,6 @@
 """
 The `tkintertools` is a UI framework based on the `Canvas` class of `tkinter`.
+`tkintertools` 是一个基于 `tkinter` 的 `Canvas` 类的用户界面框架。
 
 * Homepage: https://xiaokang2022.github.io/tkintertools/
 * PyPI: https://pypistats.org/packages/tkintertools
@@ -8,6 +9,7 @@ The `tkintertools` is a UI framework based on the `Canvas` class of `tkinter`.
 * GitCode (Mirror): https://gitcode.com/Xiaokang2022/tkintertools
 
 If you ❤️ this package, leave your ⭐ to me, thanks you so much! 🎉
+如果你 ❤️ 这个包，请给我留个 ⭐，非常感谢！🎉
 
 ![](https://img.shields.io/github/stars/Xiaokang2022/tkintertools?label=Stars&color=gold&logo=github&style=flat)
 """
