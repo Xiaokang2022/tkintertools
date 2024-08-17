@@ -209,11 +209,18 @@ class Tk(tkinter.Tk):
         """
         return self.attributes("-transparentcolor", value)
 
-    def shutdown(self, command: typing.Callable | None, *args, **kwargs) -> None:
+    def shutdown(
+        self,
+        command: typing.Callable | None,
+        ensure_destroy: bool = False,
+        *args,
+        **kwargs,
+    ) -> None:
         """
         Set a function that will be called when the window is closed
 
         * `command`: the function that was called
+        * `ensure_destroy`: whether the window is guaranteed to be closed
         * `args`: the variable-length argument of the called function
         * `kwargs`: the keyword argument of the function being called
 
@@ -227,7 +234,8 @@ class Tk(tkinter.Tk):
             try:
                 command(*args, **kwargs)
             finally:
-                self.destroy()
+                if ensure_destroy:
+                    self.destroy()
 
         self.protocol("WM_DELETE_WINDOW", _wrapper)
 
