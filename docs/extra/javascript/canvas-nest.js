@@ -403,11 +403,11 @@
     document.body,
     ((w = document.getElementsByTagName("script")),
     {
-      zIndex: (b = w[w.length - 1]).getAttribute("zIndex"),
+      zIndex: -9,
       opacity: 0.7,
       color: "127,127,127",
       pointColor: "127,127,127",
-      count: 255,
+      count: 99,
     })
   );
 })();
