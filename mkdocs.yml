@@ -207,10 +207,12 @@ extra: # 额外设定
       我们使用 cookie 来识别您的重复访问和偏好，以及衡量我们文档的有效性和用户是否找到他们正在搜索的内容。在您的同意下，您将帮助我们改进我们的文档。
 
 extra_javascript:
-  - extra/js/shortcuts.js # 绑定左右键换页的键盘快捷键
-  - extra/js/tongji.baidu.js # 百度统计脚本
-  - extra/js/typing.js # 打字机效果
-  - extra/js/mathjax.js # 保证数学表达式能正确显示的运行时环境（下面的也是）
+  - extra/javascript/shortcuts.js # 绑定左右键换页的键盘快捷键
+  - extra/javascript/mouse.js # 鼠标点击烟花效果
+  - extra/javascript/typing.js # 打字机效果
+  - extra/javascript/background.js # 背景效果
+  - extra/javascript/tongji.baidu.js # 百度统计脚本
+  - extra/javascript/mathjax.js # 保证数学表达式能正确显示的运行时环境（下面的也是）
   - https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js
 
 extra_css:
