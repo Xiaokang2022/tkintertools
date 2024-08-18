@@ -55,7 +55,13 @@ img {
     border-radius: 5px;
 }
 
-/*Markdown mermaid 图标居中*/
+/*给按键（kbd）加阴影*/
+kbd:hover {
+    box-shadow: #787878 0px 1px 1px;
+    cursor: pointer;
+}
+
+/*居中 mermaid 绘制的图*/
 .mermaid {
     text-align: center;
 }

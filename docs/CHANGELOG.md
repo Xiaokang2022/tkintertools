@@ -149,8 +149,8 @@
 - Added text selection to the widget `Entry`  
 小部件 `Entry` 新增了文本选中的功能
 
-- The widget `Entry` has added shortcuts to copy (<kbd>Ctrl</kbd>+<kbd>C</kbd>), paste (<kbd>Ctrl</kbd>+<kbd>V</kbd>) and cut (<kbd>Ctrl</kbd>+<kbd>X</kbd>)  
-小部件 `Entry` 新增了快捷键复制（<kbd>Ctrl</kbd>+<kbd>C</kbd>）、粘贴（<kbd>Ctrl</kbd>+<kbd>V</kbd>）和剪切（<kbd>Ctrl</kbd>+<kbd>X</kbd>）的功能
+- The widget `Entry` has added shortcuts to copy (++ctrl+++<kbd>C</kbd>), paste (++ctrl+++<kbd>V</kbd>) and cut (++ctrl+++<kbd>X</kbd>)  
+小部件 `Entry` 新增了快捷键复制（++ctrl+++<kbd>C</kbd>）、粘贴（++ctrl+++<kbd>V</kbd>）和剪切（++ctrl+++<kbd>X</kbd>）的功能
 
 - Added widget slider (`Slider`)  
 新增了小部件滑动条（`Slider`）

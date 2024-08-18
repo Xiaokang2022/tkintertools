@@ -13,19 +13,42 @@ dev_addr: 127.0.0.1:8000 # 开发模式下的 IP 地址（默认值）
 copyright: Copyright &copy; 2022 Xiaokang2022
 
 markdown_extensions:
-  # === 从这里开始到下面，是 pymdown-extensions 库的 markdown_extensions 配置 ===
-  # 需求：pip install pymdown-extensions （不过一般应该都装了）
+  ###### Python Markdown 配置（markdown 基础语法）
 
-  - pymdownx.keys # 按键高亮，类似于行内代码那种，如 <kbd>Ctrl</kbd>，或者带图标的格式（强制小写）++ctrl++，也可组合 ++ctrl+s++（推荐第二种方式，第二种自带图标）
-  - pymdownx.mark # 允许文本下划线，即 ^^Text^^
-  - pymdownx.caret # 允许文本高亮，即 ==Text==
-  - pymdownx.tilde # 允许文本删除线，即 ~~Text~~
-  - pymdownx.details # 允许提示框与文本左右布局，而非原来的上下布局，如 !!! note inline "Hint"（左），!!! note inline end（右）
-  - pymdownx.snippets # 允许外联任何内容
+  # 被 Pymdownx.superfences 完全替代【冲突】
+  # - fenced_code
+
+  # 被 Pymdownx.extra 完全替代【冲突】
+  # - abbr # 文本悬浮提示
+  # - attr_list # 允许给 md 元素增加 HTML 和 CSS 属性，如一个按钮 [Subscribe to our mailing list](#){: .md-button }，甚至图标，详细见 https://mkdoc-material.llango.com/reference/buttons/
+  # - def_list # 允许“定义列表”的语法
+  # - footnotes # 脚注
+  # - md_in_html # md 内嵌在 HTML 中
+  # - tables # 表格
+
+  - admonition # 允许各种各样的提示框，或代码框
+  # - codehilite # 被 pymdownx 相关扩展取代了，不建议使用这个
+  - meta # 允许元标记，页面源代码顶上那几行被横线保住的内容就是元标记，为了支持某些功能使用
+  # - nl2br # 换行符硬断裂，即文本不像旧版 md 那样，可以直接换行
+  - sane_lists # 理智列表，避免旧版 md 抽风（强烈推荐开启）
+  - smarty # 貌似是为了提高兼容性的，不太清楚
+  - wikilinks # 支持快捷链接语法，例如 [[a link]]，会变成 ./a_link/
+
+  - toc: # 目录设置
+      title: 目录 # 在右侧导航侧边栏中设置目录的标题
+      permalink_title: 点击定位到锚点 # 设置锚点链接的提示词
+      permalink: "#" # 启用目录锚点，并设置符号为 “#”
+      toc_depth: 3
+      slugify:
+        !!python/object/apply:pymdownx.slugs.slugify # 这啥玩意儿，不懂，抄官网的
+        kwds:
+          case: lower
+
+  ###### PyMdown Extensions 配置（markdown 扩展语法）
+
+  - pymdownx.extra # 见上面说明
+
   - pymdownx.striphtml # 去除 HTML 中不需要的注释和 / 或标记属性，可减小 HTML 大小
-  - pymdownx.smartsymbols # 允许上下标，如 x^2^（x²）
-  - pymdownx.inlinehilite # 支持行内代码块高亮，如 `#!python range()`
-  - pymdownx.smartsymbols # 智能符号，如 (c) 就是 ©️
 
   - pymdownx.b64 # 允许使用 base64 编码嵌入本地 PNG、JPEG 和 GIF 图像引用（pymdownx 支持，mkdocs 暂时不支持）
   - pymdownx.escapeall # 允许使用反斜杠（pymdownx 支持，mkdocs 貌似部分支持，不完全支持）
@@ -39,75 +62,109 @@ markdown_extensions:
   - pymdownx.blocks.admonition # 支持更高级提示框语法（危：可能与 admonition 冲突）
   - pymdownx.blocks.definition # 支持更高级的定义块语法（危：可能与 def_list）
 
-  - pymdownx.arithmatex: # 允许数学表达式，即 $$y=x+1$$，或行内的 $x=1$
+  # 外部片段插入
+  # 单行：--8<-- "filename.ext"
+  # 多行：类似代码块，允许插入多个文件，每行一个，无需引号
+  # 暂时隐藏片段：; filename.ext
+  # 指定行（可缺省）：filename.ext:start:end
+  - pymdownx.snippets
+
+  # 智能符号优化，支持更多
+  # 举例：(c) 就是 ©️
+  - pymdownx.smartsymbols
+
+  # 行内代码高亮
+  # 格式一：`#!lang code`
+  # 格式二：`:::lang code`
+  - pymdownx.inlinehilite
+
+  # 按键高亮优化，增加图标
+  # 格式（key 要小写）：++key++
+  # 连写格式：++key1+key2++
+  # 特殊内容：++"My Special Key"++
+  - pymdownx.keys
+
+  # 支持提示框的折叠
+  # 不可折叠：!!!
+  # 可折叠：???
+  # 可折叠（默认打开）：???+
+  - pymdownx.details
+
+  # 文本高亮
+  # 高亮：==Text==
+  - pymdownx.mark
+
+  # 文本下划线及上标
+  # 下划线：^^Text^^
+  # 上标：x^2^
+  - pymdownx.caret
+
+  # 文本删除线及下标
+  # 删除线：~~Text~~
+  # 下标：H~2~O
+  - pymdownx.tilde
+
+  # 数学表达式
+  # 行内：$math$
+  # 单独：$$math$$
+  - pymdownx.arithmatex:
       generic: true
 
-  - pymdownx.betterem: # 允许斜体和加粗
-      smart_enable: all
+  # 斜体与粗体优化，更好的嵌套使用
+  - pymdownx.betterem:
+      smart_enable: all # 对斜体和粗体都生效
 
-  - pymdownx.critic: # 允许批注，批注详情见 https://mkdoc-material.llango.com/reference/formatting/
-      mode: view # 批注模式，可为 view，accept 和 reject，不懂干啥的
+  # 文本评论
+  # 增加：{++Text++}
+  # 删除：{--Text--}
+  # 高亮：{==Text==}
+  # 注释：{>>Text<<}
+  # 替换（用 2 替换 1）：{~~Text1~>Text2~~}
+  - pymdownx.critic:
+      mode: view # view 显示差异，accept 显示修改后，reject 显示修改前
 
-  - pymdownx.highlight: # 允许代码块语法高亮
-      use_pygments: true # 使用 pygments 而不是 javascript，啥意思不懂
-      linenums: true # 全部显示行号，若为 false，也可指定起始行号，如 ```python linenums="2"，也可指定高亮行，如 hl_lines="2-3"
-      linenums_style: pymdownx-inline # 行号样式 pymdownx-inline 或者 inline 和 table（最好不要使用其它的值，会有 bug，如代码复制按钮错位）
+  # 任务列表
+  # 已勾选：- [X]
+  # 未勾选：- [ ]
+  - pymdownx.tasklist:
+      custom_checkbox: true # 允许修改复选框样式（默认已修改）
+      clickable_checkbox: true # 允许点击复选框
+
+  # 代码高亮
+  # 指定标题：```lang title="Text"
+  # 不显行号：```lang linenums="0"
+  # 指定起始行号：```lang linenums="2"
+  # 指定高亮行号：```lang hl_lines="2-4"
+  - pymdownx.highlight:
+      use_pygments: true # 使用 Pygments 而不是 JavaScript 来渲染高亮
+      linenums: true # 默认显示行号
+      linenums_style: pymdownx-inline # 行号样式 pymdownx-inline 或者 inline 和 table
       anchor_linenums: true # 用锚链接包装代码行号，便于超链接和共享（就是行号可以像锚点一样被点击）
-      line_spans: __span # 这对于行突出显示等功能正常工作至关重要，不懂
-      pygments_lang_class: true # 对于自定义注释标记的功能至关重要，不懂
+      line_spans: __span # 这对于高亮功能正常工作至关重要
+      pygments_lang_class: true # 对于自定义注释标记的运行至关重要
       # auto_title: true # 自动为所有代码块添加一个标题
 
-  - pymdownx.emoji: # 允许 Emoji 表情
+  - pymdownx.emoji: # Emoji 表情
       emoji_index: !!python/name:material.extensions.emoji.twemoji
       emoji_generator: !!python/name:material.extensions.emoji.to_svg
 
-  - pymdownx.superfences: # 允许各种嵌套
+  - pymdownx.superfences: # 各种嵌套
       custom_fences:
         - name: mermaid # 允许 mermaid 图表语法
           class: mermaid
-          format:
-            !!python/name:pymdownx.superfences.fence_code_format # 不清楚干啥的
+          format: !!python/name:pymdownx.superfences.fence_code_format
 
-
-  - pymdownx.tabbed: # 允许块（如代码块）添加标签，实现多语言等效果
-      alternate_style: true # 唯一支持的样式，不打开等于用不了
-      combine_header_slug: true # 后面的不知道干啥的
+  - pymdownx.tabbed: # 标签块
+      alternate_style: true
+      combine_header_slug: true
       slugify: !!python/object/apply:pymdownx.slugs.slugify
         kwds:
           case: lower
-
-  - pymdownx.tasklist: # 允许 Todo 列表清单
-      custom_checkbox: true # 允许修改其样式，不然用默认样式就很丑
-      clickable_checkbox: true # 是否可通过点击切换状态（但无实际更改，只有视觉效果）
-
-  # === 从这里开始到下面，是 Python-Markdown（MkDocs 默认的） 的 markdown_extensions 配置 ===
-
-  - meta # 允许元标记，页面源代码顶上那几行被横线保住的内容就是元标记，为了支持某些功能使用
-  - abbr # 允许文本悬浮提示，就是 ToolTip，例如：*[Text]: 啊吧啊吧
-  - tables # 允许用简单语法创建表格
-  - smarty # 貌似是为了提高兼容性的，不太清楚
-  - def_list # 允许“定义列表”的语法，详细见 https://mkdoc-material.llango.com/reference/lists/
-  - attr_list # 允许给 md 元素增加 HTML 和 CSS 属性，如一个按钮 [Subscribe to our mailing list](#){: .md-button }，甚至图标，详细见 https://mkdoc-material.llango.com/reference/buttons/
-  - wikilinks # 支持快捷链接语法，例如 [[a link]]，会变成 ./a_link/
-  - admonition # 允许各种各样的提示框，或代码框，样式见 https://mkdoc-material.llango.com/reference/admonitions/
-  - md_in_html # 允许 md 内嵌在 HTML 中
-  - sane_lists # 理智列表，避免旧版 md 抽风（强烈推荐开启）
-  # - nl2br # 换行符硬断裂，即文本不像旧版 md 那样，可以直接换行
-  # - codehilite # 被 pymdownx 相关扩展取代了，不建议使用这个
-  # - fenced_code # 被 pymdownx 相关扩展取代了，不建议使用这个
-
-  - footnotes: # 允许脚注
-      BACKLINK_TITLE: 返回脚注 {} # 底部脚注的提示词，建议改一下，默认是英文的
-      # SUPERSCRIPT_TEXT: {} # 脚注名称，默认就是 {}，表示标号
-
-  - toc: # 目录设置
-      title: 目录 # 在右侧导航侧边栏中设置目录的标题
-      permalink_title: 点击定位到锚点 # 设置锚点链接的提示词
-      permalink: "#" # 启用目录锚点，并设置符号为 “#”
-      slugify:
-        !!python/object/apply:pymdownx.slugs.slugify # 这啥玩意儿，不懂，抄官网的
-        kwds:
-          case: lower
+  # 格式：
+  # === "Tab 1"
+  #     something
+  # === "Tab 2"
+  #     something
 
 theme:
   name: material # 第三方主题名称
