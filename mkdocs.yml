@@ -139,38 +139,38 @@ theme: # 此项各个设定因主题而异
   language: zh # 主题语言
   features:
     # - header.autohide # 顶栏自动隐藏
+    - announce.dismiss # 公告栏可以被关闭
+    - search.share # 搜索栏分享按钮
+    - search.suggest # 搜索栏内容建议
+    - search.highlight # 搜索栏内容高亮
+    - content.action.edit # 允许页面被编辑（会出现编辑按钮）
+    - content.action.view # 允许查看页面的源代码（会出现查看源代码按钮）
     - content.tooltips # 提示框（以前有的样式变好看了，此外还支持更高级的提示框语法）
     - content.code.copy # 例如：``` python { .yaml .copy } 默认开启，{ .yaml .no-copy } 关闭
     - content.code.annotate # 允许内联代码注释
     - content.tabs.link # 同样的标签，整个网站的同步切换，如 C -> C++，则其它类似的全部标签都同步切换
-    - content.action.edit # 允许页面被编辑（会出现编辑按钮）
-    - content.action.view # 允许查看页面的源代码（会出现查看源代码按钮）
-    - announce.dismiss # 公告栏可以被关闭
-    # - navigation.expand # 左侧边栏节点默认全部展开（与 navigation.prune 不兼容）
-    # - navigation.prune # 左侧栏节点至多展开一个，以此来减小站点的构建大小（对于页数100+的网站很有用，但是！与 navigation.expand 不兼容）
-    - navigation.tabs # 页面顶部导航栏
-    - navigation.footer # 页面底下换页的支持
-    - navigation.indexes # 左侧边栏大节点是否可以被导向到 index.md
-    - navigation.instant # 页面不会重复加载（已加载页面不会再次加载）
-    - navigation.instant.progress # 加载速度慢时，在页面顶部显示加载进度（400ms 以上加载时间才会显示它）
-    # - navigation.tabs.sticky # 导航栏标题栏位置固定
-    # - navigation.sections # 左侧边栏节点是否保持展开
     - navigation.top # 回到顶部的按钮
     - navigation.tracking # 锚点跟踪
-    - search.share # 搜索栏分享按钮
-    - search.suggest # 搜索栏内容建议
-    - search.highlight # 搜索栏内容高亮
+    - navigation.footer # 页面底下换页的支持
+    - navigation.indexes # 左侧边栏大节点是否可以被导向到 index.md，可以不写，但不能没有
+    - navigation.instant # 页面不会重复加载（已加载页面不会再次加载）
+    - navigation.instant.progress # 加载速度慢时，在页面顶部显示加载进度（400ms 以上加载时间才会显示它）
+    - navigation.tabs # 页面顶部导航栏
+    # - navigation.tabs.sticky # 导航栏标题栏位置固定
+    # - navigation.sections # 左侧边栏节点是否保持展开
+    # - navigation.expand # 左侧边栏节点默认全部展开（与 navigation.prune 不兼容）
+    # - navigation.prune # 左侧栏节点至多展开一个，以此来减小站点的构建大小（对于页数100+的网站很有用，与 navigation.expand 不兼容）
+    # - toc.integrate # 右边侧栏是否集成到左侧边栏（与 navigation.indexes 不兼容）
     - toc.follow # 锚点关注，侧边栏自动滚动，使锚点总是可见
-    # - toc.integrate # 右边侧栏是否集成到左侧边栏
   palette: # 界面整体样式
     - media: "(prefers-color-scheme)" # 系统主题
-      toggle: # 切换按钮
-        icon: material/theme-light-dark # 图标
-        name: 切换至明亮主题 # 提示词
+      toggle:
+        icon: material/theme-light-dark
+        name: 切换至明亮主题
     - media: "(prefers-color-scheme: light)" # 亮色主题
       scheme: default
-      # primary: grey # 标题栏颜色（建议自定义 CSS 调整，因为 footer 不会被此参数影响！）
-      accent: purple # 链接高亮颜色
+      # primary: grey
+      accent: purple
       toggle:
         icon: material/weather-sunny
         name: 切换至暗黑主题
@@ -190,7 +190,6 @@ theme: # 此项各个设定因主题而异
     repo: fontawesome/brands/github # 右上角仓库图标
     edit: material/pencil # 页面编辑的图标
     view: material/eye # 页面查看源代码的图标
-    # annotation: material/arrow-right-circle # 提示按钮的图标，详细操作见 https://squidfunk.github.io/mkdocs-material/reference/annotations/#in-content-tabs-tab-1
 
 extra: # 额外设定
   alternate:
@@ -206,7 +205,7 @@ extra: # 额外设定
   social: # 社交联系方式（页面右下角内容）
     - icon: fontawesome/brands/github
       link: https://github.com/Xiaokang2022/tkintertools/
-      name: Repository
+      name: GitHub Repository
     - icon: fontawesome/brands/python
       link: https://pypi.org/project/tkintertools/
       name: PyPI
@@ -215,7 +214,7 @@ extra: # 额外设定
       name: 哔哩哔哩
     - icon: fontawesome/solid/paper-plane
       link: mailto:2951256653@qq.com
-      name: 联系作者
+      name: Contact the author
   consent:
     actions:
       - accept
@@ -236,15 +235,22 @@ extra_javascript:
   - extra/javascript/typing.js # 打字机效果
   # - extra/javascript/canvas-nest.js # 背景效果
   - extra/javascript/tongji.baidu.js # 百度统计脚本
-  - extra/javascript/mathjax.js # 保证数学表达式能正确显示的运行时环境（下面的也是）
-  - https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js
+  - extra/javascript/mathjax.js # 数学表达式
+  - extra/javascript/tablesort.js # 表格排序功能
+  - https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js # 数学表达式运行环境
+  - https://unpkg.com/tablesort@5.3.0/dist/tablesort.min.js # 表格排序功能运行环境（默认文本类型）
+  - https://unpkg.com/tablesort@5.3.0/dist/sorts/tablesort.date.min.js # 表格排序功能（日期类型）
+  - https://unpkg.com/tablesort@5.3.0/dist/sorts/tablesort.dotsep.min.js # 表格排序功能（点分割类型）
+  - https://unpkg.com/tablesort@5.3.0/dist/sorts/tablesort.filesize.min.js # 表格排序功能（文件大小类型）
+  - https://unpkg.com/tablesort@5.3.0/dist/sorts/tablesort.monthname.min.js # 表格排序功能（月份名称类型）
+  - https://unpkg.com/tablesort@5.3.0/dist/sorts/tablesort.number.min.js # 表格排序功能（数字类型）
 
 extra_css:
   - extra/css/extra.css # 加载自定义的样式
   - https://cdn.jsdelivr.net/npm/lxgw-wenkai-screen-webfont@1.1.0/style.css # 设置字体（霞鹜文楷）
 
 plugins:
-  - search: # 内置插件
+  - search: # 搜索栏（内置插件）
       separator: '[\s\-\.]+' # 分隔符（默认值）
       lang:
         - zh
