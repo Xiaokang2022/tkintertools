@@ -130,11 +130,11 @@ Not yet
 Considering that too many packages will result in a large size of the project file when packing, the optional packages selected below are recommended to be installed  
 考虑到调用的包过多将导致打包时项目文件的大小过大，因此下面被选中的可选包是推荐安装的
 
-- [X] [darkdetect](https://github.com/albertosottile/darkdetect) - `0.8.0`
-- [X] [pywinstyles](https://github.com/Akascape/py-window-styles) - `1.8`
-- [X] [pillow](https://github.com/python-pillow/Pillow) - `>=10.0.0`
-- [ ] [hPyT](https://github.com/Zingzy/hPyT) - `1.3.2`
-- [ ] [win32material](https://github.com/littlewhitecloud/win32style) - `1.0.6`
+- [X] https://github.com/albertosottile/darkdetect - `0.8.0`
+- [X] https://github.com/Akascape/py-window-styles - `1.8`
+- [X] https://github.com/python-pillow/Pillow - `>=10.0.0`
+- [ ] https://github.com/Zingzy/hPyT - `1.3.2`
+- [ ] https://github.com/littlewhitecloud/win32style - `1.0.6`
 
 The following command installs the recommended optional dependencies:  
 以下命令可以安装推荐的可选依赖包：
@@ -155,8 +155,8 @@ pip install tkintertools[all]==3.0.0rc1
 In addition to the basic functionality, `tkintertools` also offers some extension packages to implement certain functionality. The following official extensions are available:  
 除了基础功能之外，`tkintertools` 还提供一些扩展包来实现某些特定的功能。目前已有的官方扩展包如下：
 
-- [X] [tkintertools-mpl](https://github.com/Xiaokang2022/tkintertools-mpl) - `1.0.0`
-- [X] [tkintertools-3d](https://github.com/Xiaokang2022/tkintertools-3d) - `1.0.0`
+- [X] https://github.com/Xiaokang2022/tkintertools-mpl - `1.0.0`
+- [X] https://github.com/Xiaokang2022/tkintertools-3d - `1.0.0`
 
 The following command can be used to install all the official extensions:  
 以下命令可以安装全部的官方扩展包：

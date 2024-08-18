@@ -91,7 +91,7 @@ For other content, such as issues, we don't make any stylistic requirements.
 If you would like to join the project team, please contact the maintainers of the project team, here is some information about the authors of this project:   
 如果你想加入项目团队，请联系项目团队的维护人员，下面是本项目作者的一些信息：
 
-* 🧑‍💻 Author: [Xiaokang2022](https://github.com/Xiaokang2022)
+* 🧑‍💻 Author: https://github.com/Xiaokang2022
 * ✉️ Email: 2951256653@qq.com
 
 ---

@@ -2,9 +2,9 @@
 comments: true
 ---
 
-# Release Notes - 版本发布说明
+# Release Notes / 版本发布说明
 
-## Framework - 框架
+## Framework / 框架
 
 - 🔖 Version - 最新版本 : `3.0.0.rc1`
 - 🕓 Last Update - 上次更新 : 2024/08/08

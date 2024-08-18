@@ -2,142 +2,113 @@ site_name: tkintertools # 站点名称
 site_url: https://Xiaokang2022.github.io/tkintertools/ # 站点链接
 repo_url: https://github.com/Xiaokang2022/tkintertools # 仓库地址
 repo_name: Xiaokang2022/tkintertools # 仓库名称
-edit_uri: edit/docs/docs # 编辑地址（页面会出现编辑按钮）
+edit_uri: edit/docs/docs # 编辑地址
+edit_uri_template: null # 编辑地址模板（默认值）
 site_description: Official website of tkintertools # 站点描述
 site_author: Xiaokang2022 # 站点作者
-remote_branch: gh-pages # GitHub Pages 分支名称（此处为默认值）
-remote_name: origin # 远程分支的名称（默认值）
+copyright: Copyright &copy; 2022 Xiaokang2022 # 版权信息
+remote_branch: gh-pages # GitHub Pages 远程分支名称（默认值）
+remote_name: origin # 远程名称（默认值）
 docs_dir: docs # 文档目录（默认值）
 site_dir: site # 网站目录（默认值）
-dev_addr: 127.0.0.1:8000 # 开发模式下的 IP 地址（默认值）
-copyright: Copyright &copy; 2022 Xiaokang2022
+dev_addr: 127.0.0.1:8000 # 预览模式地址（默认值）
+use_directory_urls: true # URL 使用目录名还是文件名（默认值）
+strict: false # 警告级别（默认值），出现警告就终止程序
 
 markdown_extensions:
   ###### Python Markdown 配置（markdown 基础语法）
 
-  # 被 Pymdownx.superfences 完全替代【冲突】
-  # - fenced_code
-
-  # 被 Pymdownx.extra 完全替代【冲突】
-  # - abbr # 文本悬浮提示
-  # - attr_list # 允许给 md 元素增加 HTML 和 CSS 属性，如一个按钮 [Subscribe to our mailing list](#){: .md-button }，甚至图标，详细见 https://mkdoc-material.llango.com/reference/buttons/
-  # - def_list # 允许“定义列表”的语法
+  # 被 pymdownx.extra 完全替代且【冲突】
+  # - abbr # 定义缩写
+  # - attr_list # Markdown 元素可添加 HTML 和 CSS 属性
+  # - def_list # 定义列表
   # - footnotes # 脚注
-  # - md_in_html # md 内嵌在 HTML 中
+  # - md_in_html # Markdown 元素可内嵌在 HTML 中
   # - tables # 表格
 
-  - admonition # 允许各种各样的提示框，或代码框
-  # - codehilite # 被 pymdownx 相关扩展取代了，不建议使用这个
-  - meta # 允许元标记，页面源代码顶上那几行被横线保住的内容就是元标记，为了支持某些功能使用
-  # - nl2br # 换行符硬断裂，即文本不像旧版 md 那样，可以直接换行
-  - sane_lists # 理智列表，避免旧版 md 抽风（强烈推荐开启）
-  - smarty # 貌似是为了提高兼容性的，不太清楚
-  - wikilinks # 支持快捷链接语法，例如 [[a link]]，会变成 ./a_link/
+  # - fenced_code # 代码块，被 pymdownx.superfences 完全替代且【冲突】
+  # - codehilite # 代码高亮，被 pymdownx.highlight 完全替代且优化
 
-  - toc: # 目录设置
-      title: 目录 # 在右侧导航侧边栏中设置目录的标题
-      permalink_title: 点击定位到锚点 # 设置锚点链接的提示词
-      permalink: "#" # 启用目录锚点，并设置符号为 “#”
-      toc_depth: 3
-      slugify:
-        !!python/object/apply:pymdownx.slugs.slugify # 这啥玩意儿，不懂，抄官网的
-        kwds:
-          case: lower
+  # - nl2br # 换行符会直接换行
+
+  - admonition # 提示框
+  - meta # 元数据
+  - sane_lists # 理智列表，避免原版 Markdown 列表错误渲染
+  - smarty # 优化部分字符串为特殊符号
+  - wikilinks # 快捷链接
+
+  - toc: # 目录
+      marker: "" # 目录替换文本，空字符串则不替换，缺省为 [TOC]
+      title: Contents / 目录 # 目录标题，material 主题会自动根据语言计算
+      anchorlink: false # 锚点链接（默认值），给标题自身锚定链接
+      permalink: "&para;" # 锚点符号
+      permalink_title: ⚓ # 锚点链接提示词
+      permalink_leading: false # 前置锚点链接（默认值），将锚点放到标题前面
+      baselevel: 1 # 最高级别（默认值），往下顺延
+      separator: "-" # 分隔符（默认值），替换空格字符
+      toc_depth: 3 # 目录显示级别（默认值）
+      slugify: !!python/object/apply:pymdownx.slugs.slugify {} # 锚点链接 URL 格式
 
   ###### PyMdown Extensions 配置（markdown 扩展语法）
 
-  - pymdownx.extra # 见上面说明
+  # - pymdownx.pathconverter # 相对链接转绝对链接【?】
+  # - pymdownx.b64 # 允许使用 base64 编码【?】
 
-  - pymdownx.striphtml # 去除 HTML 中不需要的注释和 / 或标记属性，可减小 HTML 大小
+  # - pymdownx.striphtml # 去除 HTML 中不需要的注释和 / 或标记属性，被插件 minify 替代
+  # - pymdownx.progressbar # 进度条（暂不支持）
 
-  - pymdownx.b64 # 允许使用 base64 编码嵌入本地 PNG、JPEG 和 GIF 图像引用（pymdownx 支持，mkdocs 暂时不支持）
-  - pymdownx.escapeall # 允许使用反斜杠（pymdownx 支持，mkdocs 貌似部分支持，不完全支持）
-  - pymdownx.magiclink # 自动识别超链接（pymdownx 支持，mkdocs 暂时不支持）
-  - pymdownx.progressbar # 允许进度条语法（pymdownx 支持，mkdocs 暂时不支持）
-  - pymdownx.saneheaders # “#title” 也是标题，虽然中间没有空格（pymdownx 支持，mkdocs 暂时不支持）
+  - pymdownx.extra # 见上面 Python Markdown 配置说明
 
-  - pymdownx.blocks.tab # 支持更高级的标签块写法（危：可能与 pymdownx.tabbed 冲突）
-  - pymdownx.blocks.html # 支持一些更高级的 md 内嵌 HTML 语法（pymdownx.blocks 默认开启）
-  - pymdownx.blocks.details # 支持更高级的提示框布局（危：可能与 pymdownx.details 冲突）
-  - pymdownx.blocks.admonition # 支持更高级提示框语法（危：可能与 admonition 冲突）
-  - pymdownx.blocks.definition # 支持更高级的定义块语法（危：可能与 def_list）
+  - pymdownx.blocks.tab # 支持更高级的标签块写法（可能与 pymdownx.tabbed 混淆）
+  - pymdownx.blocks.html # 支持一些更高级的 Markdown 内嵌 HTML 语法（pymdownx.blocks 默认开启）
+  - pymdownx.blocks.details # 支持更高级的提示框布局（可能与 pymdownx.details 混淆）
+  - pymdownx.blocks.definition # 支持更高级的定义块语法（可能与 def_list 混淆）
+  - pymdownx.blocks.admonition # 支持更高级提示框语法（可能与 admonition 混淆）
 
-  # 外部片段插入
-  # 单行：--8<-- "filename.ext"
-  # 多行：类似代码块，允许插入多个文件，每行一个，无需引号
-  # 暂时隐藏片段：; filename.ext
-  # 指定行（可缺省）：filename.ext:start:end
-  - pymdownx.snippets
+  - pymdownx.saneheaders # 理智标题，“#”和标题间必须有空格
+  - pymdownx.smartsymbols # 智能符号优化，比上面的 smarty 支持更多
+  - pymdownx.inlinehilite # 行内代码高亮
+  - pymdownx.keys # 按键高亮优化，增加图标
+  - pymdownx.details # 支持提示框的折叠
+  - pymdownx.mark # 文本高亮
+  - pymdownx.caret # 文本下划线及上标
+  - pymdownx.tilde # 文本删除线及下标
 
-  # 智能符号优化，支持更多
-  # 举例：(c) 就是 ©️
-  - pymdownx.smartsymbols
-
-  # 行内代码高亮
-  # 格式一：`#!lang code`
-  # 格式二：`:::lang code`
-  - pymdownx.inlinehilite
-
-  # 按键高亮优化，增加图标
-  # 格式（key 要小写）：++key++
-  # 连写格式：++key1+key2++
-  # 特殊内容：++"My Special Key"++
-  - pymdownx.keys
-
-  # 支持提示框的折叠
-  # 不可折叠：!!!
-  # 可折叠：???
-  # 可折叠（默认打开）：???+
-  - pymdownx.details
-
-  # 文本高亮
-  # 高亮：==Text==
-  - pymdownx.mark
-
-  # 文本下划线及上标
-  # 下划线：^^Text^^
-  # 上标：x^2^
-  - pymdownx.caret
-
-  # 文本删除线及下标
-  # 删除线：~~Text~~
-  # 下标：H~2~O
-  - pymdownx.tilde
-
-  # 数学表达式
-  # 行内：$math$
-  # 单独：$$math$$
-  - pymdownx.arithmatex:
+  - pymdownx.arithmatex: # 数学表达式
       generic: true
 
-  # 斜体与粗体优化，更好的嵌套使用
-  - pymdownx.betterem:
+  - pymdownx.snippets: # 外部片段插入
+      url_download: true # 远程文件下载
+      url_timeout: 10.0 # 超时时长（默认值）
+      url_max_size: 33554432 # 文件大小限制（默认值），32MiB
+
+  - pymdownx.escapeall: # 转义一切
+      hardbreak: true # 转义换行符会变成间断 <br>
+      nbsp: true # 空格转义会变成无间隔空格 &nbsp;
+
+  - pymdownx.magiclink: # 魔术链接，自动识别链接
+      user: "" # 可缺省的用户名（默认值）
+      repo: "" # 可缺省的仓库名（默认值）
+      hide_protocol: false # 隐藏链接协议头（默认值）
+      repo_url_shorthand: true # 识别仓库提交等链接
+      repo_url_shortener: true # 仓库提交等链接简短显示
+      social_url_shorthand: true # 识别社交账号等链接
+      social_url_shortener: true # 社交账号等链接简短显示
+      normalize_issue_symbols: true # 规范化 Issue、PR 等链接的表示为 #
+
+  - pymdownx.betterem: # 斜体与粗体优化，更好的嵌套使用
       smart_enable: all # 对斜体和粗体都生效
 
-  # 文本评论
-  # 增加：{++Text++}
-  # 删除：{--Text--}
-  # 高亮：{==Text==}
-  # 注释：{>>Text<<}
-  # 替换（用 2 替换 1）：{~~Text1~>Text2~~}
-  - pymdownx.critic:
+  - pymdownx.critic: # 文本评论
       mode: view # view 显示差异，accept 显示修改后，reject 显示修改前
 
-  # 任务列表
-  # 已勾选：- [X]
-  # 未勾选：- [ ]
-  - pymdownx.tasklist:
+  - pymdownx.tasklist: # 任务列表
       custom_checkbox: true # 允许修改复选框样式（默认已修改）
       clickable_checkbox: true # 允许点击复选框
 
-  # 代码高亮
-  # 指定标题：```lang title="Text"
-  # 不显行号：```lang linenums="0"
-  # 指定起始行号：```lang linenums="2"
-  # 指定高亮行号：```lang hl_lines="2-4"
-  - pymdownx.highlight:
+  - pymdownx.highlight: # 代码高亮
       use_pygments: true # 使用 Pygments 而不是 JavaScript 来渲染高亮
-      linenums: true # 默认显示行号
+      linenums: true # 显示行号（默认值）
       linenums_style: pymdownx-inline # 行号样式 pymdownx-inline 或者 inline 和 table
       anchor_linenums: true # 用锚链接包装代码行号，便于超链接和共享（就是行号可以像锚点一样被点击）
       line_spans: __span # 这对于高亮功能正常工作至关重要
@@ -149,27 +120,23 @@ markdown_extensions:
       emoji_generator: !!python/name:material.extensions.emoji.to_svg
 
   - pymdownx.superfences: # 各种嵌套
+      disable_indented_code_blocks: false # 禁用缩进代码块（默认值）
+      preserve_tabs: true # 嵌套块格式化表格（实验性）
       custom_fences:
         - name: mermaid # 允许 mermaid 图表语法
           class: mermaid
           format: !!python/name:pymdownx.superfences.fence_code_format
 
-  - pymdownx.tabbed: # 标签块
-      alternate_style: true
-      combine_header_slug: true
-      slugify: !!python/object/apply:pymdownx.slugs.slugify
-        kwds:
-          case: lower
-  # 格式：
-  # === "Tab 1"
-  #     something
-  # === "Tab 2"
-  #     something
+  - pymdownx.tabbed: # 选项卡
+      alternate_style: true # 实验性样式
+      combine_header_slug: true # 将父标题 slug 与选项卡内容 slug 合并【?】
+      separator: "-" # 分隔符（默认值），替换空格字符
+      slugify: !!python/object/apply:pymdownx.slugs.slugify {}
 
-theme:
-  name: material # 第三方主题名称
-  custom_dir: docs/overrides # 覆盖部分原来的主题（重载目录）
-  language: zh # material 语言
+theme: # 此项各个设定因主题而异
+  name: material # 主题名称
+  custom_dir: docs/overrides # 覆盖目录
+  language: zh # 主题语言
   features:
     # - header.autohide # 顶栏自动隐藏
     - content.tooltips # 提示框（以前有的样式变好看了，此外还支持更高级的提示框语法）
@@ -277,7 +244,8 @@ extra_css:
   - https://cdn.jsdelivr.net/npm/lxgw-wenkai-screen-webfont@1.1.0/style.css # 设置字体（霞鹜文楷）
 
 plugins:
-  - search: # built-in
+  - search: # 内置插件
+      separator: '[\s\-\.]+' # 分隔符（默认值）
       lang:
         - zh
         - en
@@ -315,7 +283,7 @@ nav:
   - Tutorials & Documents / 教程和文档: https://xiaokang2022.github.io/tkintertools-docs/
 
   - Projects / 项目:
-      - Overview - 项目概览: projects/index.md
+      - Overview / 项目概览: projects/index.md
       - 1. Intelligent Magic Cube: projects/pages/1.md
       - 2. Chinese Chess: projects/pages/2.md
       - 3. Super Gobang: projects/pages/3.md
@@ -323,7 +291,7 @@ nav:
       - 5. Login2.0: projects/pages/5.md
 
   - Videos / 视频:
-      - Overview - 视频概览: videos/index.md
+      - Overview / 视频概览: videos/index.md
       - 干掉 tkinter！tkintertools 大更新啦！: videos/pages/4.md
       - tkintertools 又更新啦！: videos/pages/3.md
       - 碾压 tkinter 的 UI 框架：tkintertools 3.0.0 正式进入 beta 公测阶段: videos/pages/2.md
