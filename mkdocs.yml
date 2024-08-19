@@ -167,7 +167,7 @@ theme: # 此项各个设定因主题而异
         name: 切换至明亮主题
     - media: "(prefers-color-scheme: light)" # 亮色主题
       scheme: default
-      # primary: grey
+      primary: white
       accent: purple
       toggle:
         icon: material/weather-sunny
@@ -175,7 +175,7 @@ theme: # 此项各个设定因主题而异
     - media: "(prefers-color-scheme: dark)" # 暗色主题
       scheme: slate
       primary: black
-      # accent: yellow
+      accent: yellow
       toggle:
         icon: material/weather-night
         name: 切换至系统主题

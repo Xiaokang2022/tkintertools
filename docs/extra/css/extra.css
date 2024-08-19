@@ -1,38 +1,30 @@
+/*文本字体和代码字体*/
 :root {
-    /*文本字体*/
     --md-text-font: "LXGW WenKai Screen";
-    /*代码字体*/
     --md-code-font: "Consolas";
 }
 
+/*亮色样式*/
 [data-md-color-scheme="default"] {
-    /*亮色样式*/
-    --md-default-fg-color: #333;
-    --md-default-fg-color--light: #333;
-    --md-primary-fg-color: #efefef;
-    --md-primary-bg-color: #1f1f1f;
-    --md-typeset-a-color: #007800;
-    --md-footer-fg-color: #222;
+    --md-primary-fg-color: rgba(232, 232, 232, 0.7);
+    --md-header-bg-color: rgba(232, 232, 232, 0.7);
+    --md-typeset-a-color: #008800;
     --md-footer-bg-color: #f6f6f6;
     --md-footer-bg-color--dark: #f6f6f6;
-    --md-footer-fg-color--light: #222;
-    --md-footer-fg-color--lighter: #222;
-    --md-code-hl-comment-color: #999;
-    --md-header-bg-color: rgba(232, 232, 232, 0.7);
+    --md-footer-fg-color: #222;
+    --md-footer-fg-color--light: #505050;
+    --md-footer-fg-color--lighter: #777777;
+    --md-code-hl-comment-color: #999999;
 }
 
+/*暗色样式*/
 [data-md-color-scheme="slate"] {
-    /*暗色样式*/
-    --md-default-fg-color: #bbb;
-    --md-default-fg-color--light: #bbb;
-    --md-accent-fg-color: #cccc00;
-    --md-footer-fg-color: #ccc;
-    --md-footer-bg-color: #0d0d0d;
-    --md-footer-bg-color--dark: #0d0d0d;
-    --md-footer-fg-color--light: #ccc;
-    --md-footer-fg-color--lighter: #ccc;
-    --md-code-hl-comment-color: #777;
+    --md-primary-fg-color: rgba(17, 16, 17, 0.7);
     --md-header-bg-color: rgba(17, 16, 17, 0.7);
+    --md-typeset-a-color: royalblue;
+    --md-footer-bg-color: #101010;
+    --md-footer-bg-color--dark: #101010;
+    --md-code-hl-comment-color: #777777;
 }
 
 /*顶栏磨砂玻璃效果*/
