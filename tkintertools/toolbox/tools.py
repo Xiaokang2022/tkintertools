@@ -1,5 +1,6 @@
 """Some useful utility classes or utility functions"""
 
+import atexit
 import ctypes
 import os
 import platform
@@ -18,6 +19,8 @@ __all__ = [
     "screen_size",
     "get_text_size",
 ]
+
+_LINUX_FONTS_DIR = os.path.expanduser("~/.fonts/")
 
 
 class _Trigger:
@@ -100,16 +103,16 @@ def load_font(
     return `True` if the operation succeeds, `False` otherwise
 
     * `font_path`: the font file path
-    * `private`: if True, other processes cannot see this font, and this font
-    will be unloaded when the process dies
-    * `enumerable`: if True, this font will appear when enumerating fonts
+    * `private`: if True, other processes cannot see this font(Only Windows OS),
+    and this font will be unloaded when the process dies
+    * `enumerable`: if True, this font will appear when enumerating fonts(Only
+    Windows OS)
 
     ATTENTION:
 
     * This function is referenced from `customtkinter.FontManager.load_font`,
     CustomTkinter: https://github.com/TomSchimansky/CustomTkinter
     * This function only works on Windows and Linux OS
-    * Parameters `private` and `enumerable` only work on Windows OS
     """
     if platform.system() == "Windows":
         if isinstance(font_path, str):
@@ -127,8 +130,13 @@ def load_font(
 
     elif platform.system() == "Linux":
         try:
-            os.makedirs(os.path.expanduser("~/.fonts/"), exist_ok=True)
-            shutil.copy(font_path, os.path.expanduser("~/.fonts/"))
+            os.makedirs(_LINUX_FONTS_DIR, exist_ok=True)
+            shutil.copy(font_path, _LINUX_FONTS_DIR)
+
+            if private:
+                atexit.register(
+                    os.remove, _LINUX_FONTS_DIR + font_path.rsplit("/", 1)[-1])
+
             return True
         except:
             return False
