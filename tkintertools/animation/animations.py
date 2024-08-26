@@ -140,6 +140,7 @@ class MoveTkWidget(Animation):
             warnings.warn(
                 "tkinter widget is not laid out by Place.", UserWarning, 2)
 
+        widget.update_idletasks()
         x0, y0, dx, dy = widget.winfo_x(), widget.winfo_y(), *offset
 
         Animation.__init__(
