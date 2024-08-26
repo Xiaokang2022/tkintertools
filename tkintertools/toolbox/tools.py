@@ -108,7 +108,8 @@ def load_font(
 
     * This function is referenced from `customtkinter.FontManager.load_font`,
     CustomTkinter: https://github.com/TomSchimansky/CustomTkinter
-    * This function only works on Windows and Linux operating systems
+    * This function only works on Windows and Linux OS
+    * Parameters `private` and `enumerable` only work on Windows OS
     """
     if platform.system() == "Windows":
         if isinstance(font_path, str):
@@ -126,9 +127,10 @@ def load_font(
 
     elif platform.system() == "Linux":
         try:
+            os.makedirs(os.path.expanduser("~/.fonts/"), exist_ok=True)
             shutil.copy(font_path, os.path.expanduser("~/.fonts/"))
             return True
-        except Exception:
+        except:
             return False
 
     return False
