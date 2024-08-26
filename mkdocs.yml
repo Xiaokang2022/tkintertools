@@ -127,7 +127,7 @@ markdown_extensions:
 
   - pymdownx.tabbed: # 选项卡
       alternate_style: true # 实验性样式
-      combine_header_slug: true # 将父标题 slug 与选项卡内容 slug 合并【?】
+      combine_header_slug: true # 选项卡 URL 带上父标题的前缀
       separator: "-" # 分隔符（默认值），替换空格字符
       slugify: !!python/object/apply:pymdownx.slugs.slugify {}
 
@@ -160,7 +160,7 @@ theme: # 此项各个设定因主题而异
     # - navigation.prune # 左侧栏节点至多展开一个，以此来减小站点的构建大小（对于页数100+的网站很有用，与 navigation.expand 不兼容）
     # - toc.integrate # 右边侧栏是否集成到左侧边栏（与 navigation.indexes 不兼容）
     - toc.follow # 锚点关注，侧边栏自动滚动，使锚点总是可见
-  palette: # 界面整体样式
+  palette:
     - media: "(prefers-color-scheme)" # 系统主题
       toggle:
         icon: material/theme-light-dark
@@ -182,7 +182,7 @@ theme: # 此项各个设定因主题而异
   font: false # 避免从谷歌加载字体导致网页加载变慢（具体参数可以在自定义 CSS 中指定）
   logo: logo.png # 页面左上角徽标
   favicon: logo.png # 网页的图标
-  icon: # 图标重载，替换掉默认的图标
+  icon: # 替换掉默认的图标
     previous: fontawesome/solid/angle-left # 左下角向前翻页的图标
     next: fontawesome/solid/angle-right # 右下角向后翻页的图标
     repo: fontawesome/brands/github # 右上角仓库图标
@@ -198,7 +198,7 @@ extra: # 额外设定
       link: /
       lang: en
   homepage: . # 左上角徽标链接的地址
-  annotate: # 允许代码块非注释内的提示，我也不太懂什么意思，貌似是可以在代码里面加悬浮提示框，而不只是在注释中（感觉这样不好，虽然我不用，但不能没有）
+  annotate: # 允许代码块非注释内的提示，貌似是可以在代码里面加悬浮提示框，而不只是在注释中（感觉这样不好，虽然我不用，但不能没有）
     json: [.s2]
   social: # 社交联系方式（页面右下角内容）
     - icon: fontawesome/brands/github
