@@ -255,7 +255,8 @@ plugins:
         - en
   - git-revision-date-localized:
       enable_creation_date: true
-      type: iso_datetime
+      type: custom
+      custom_format: "%Y-%m-%d %H:%M:%S +08"
       locale: zh
       timezone: Asia/Shanghai
   # - git-authors: # 当配置不好下方的 git-committers 时可采用这个
