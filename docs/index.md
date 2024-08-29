@@ -5,7 +5,7 @@ comments: true
 
 <h1 align="center">tkintertools</h1>
 
-<p align="center"><img alt="logo" src="./logo.png" title="Logo" /></p>
+<p align="center"><img alt="logo" src="./logo.png" /></p>
 
 <p align="center">
 <code>tkintertools</code> 是一个基于 <code>tkinter</code> 的 <code>Canvas</code> 类的 UI 框架
@@ -53,7 +53,7 @@ comments: true
 
 * 🔖 Version / 最新版本 : `2.6.21`
 * 🕓 Release / 发布日期 : 2024-01-01
-* ✨ Feature / 更新内容 : [News-2.6.21](./news/2.6.21/News.md)
+* ✨ Feature / 更新内容 : [Changelog-2.6.21](./CHANGELOG.md#-2621)
 
 ```bash linenums="0"
 pip install tkintertools
@@ -69,7 +69,7 @@ pip install tkintertools
 
 * 🔖 Version / 最新版本 : `3.0.0.rc1`
 * 🕓 Release / 发布日期 : 2024-08-08
-* ✨ Feature / 更新内容 : [News-3.0.0](./news/3.0.0/News.md)
+* ✨ Feature / 更新内容 : [Changelog-3.0.0.rc1](./CHANGELOG.md#-300rc1)
 
 ```bash linenums="0"
 pip install tkintertools[recommended]==3.0.0rc1
@@ -220,7 +220,7 @@ pip install tkintertools[extension]==3.0.0rc1
     - 总代码行数：{{ codes }}
 
 <div align="center" markdown>
-[✨最新内容](./news/3.0.0/News.md){ .md-button .md-button--primary title="点我了解最近更新的内容！" }
+[✨最新内容](./CHANGELOG.md#-300rc1){ .md-button .md-button--primary title="点我了解最近更新的内容！" }
 [<big>:star:{ .heart } 支持本项目</big>](https://github.com/Xiaokang2022/tkintertools/){ .md-button .md-button--primary title="给项目点个 Star 吧，球球了！" }
 [❤️赞助一下](./Sponsor.md){ .md-button .md-button--primary title="赞助我一下下吧！独自开发不易呢！" }
 </div>

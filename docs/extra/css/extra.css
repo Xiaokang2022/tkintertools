@@ -42,11 +42,6 @@
     background-color: var(--md-header-bg-color);
 }
 
-/*给图片加圆角*/
-img {
-    border-radius: 4px;
-}
-
 /*给按键（kbd）加阴影*/
 kbd:hover {
     box-shadow: #787878 0px 1px 1px;
