@@ -215,9 +215,7 @@ pip install tkintertools[extension]==3.0.0rc1
 
 !!! info "Site statistics / 本站统计"
 
-    - 总页面：{{ pages }}
-    - 总字（词）数：{{ words }}
-    - 总代码行数：{{ codes }}
+    本站己运行 <span id="timeDate"></span><span id="times"></span>，共有 `#!py {{ pages }}` 个页面，约 `#!py {{ words }}` 个字/词，`#!py {{ codes }}` 行代码
 
 <div align="center" markdown>
 [✨最新内容](./CHANGELOG.md#-300rc1){ .md-button .md-button--primary title="点我了解最近更新的内容！" }
