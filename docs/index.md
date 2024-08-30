@@ -31,15 +31,8 @@ comments: true
 <a href="https://github.com/Xiaokang2022/tkintertools/pulse"><img alt="Insights" src="https://repobeats.axiom.co/api/embed/ab8fae686a5a96f91fa71c40c53c189310924f5e.svg" /></a>
 </p>
 
-<p align="center">
-    <a href="https://star-history.com/#Xiaokang2022/tkintertools&Date">
-        <picture>
-            <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/svg?repos=Xiaokang2022/tkintertools&type=Date&theme=dark" />
-            <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/svg?repos=Xiaokang2022/tkintertools&type=Date" />
-            <img alt="Star History Chart" src="https://api.star-history.com/svg?repos=Xiaokang2022/tkintertools&type=Date" />
-        </picture>
-    </a>
-</p>
+![light](https://api.star-history.com/svg?repos=Xiaokang2022/tkintertools&type=Date&theme=light#only-light)
+![dark](https://api.star-history.com/svg?repos=Xiaokang2022/tkintertools&type=Date&theme=dark#only-dark)
 
 📦 Installation / 安装
 -----------------------
