@@ -112,7 +112,7 @@ markdown_extensions:
   - pymdownx.highlight: # 代码高亮
       use_pygments: true # 使用 Pygments 而不是 JavaScript 来渲染高亮
       linenums: true # 显示行号（默认值）
-      linenums_style: pymdownx-inline # 行号样式 pymdownx-inline 或者 inline 和 table
+      linenums_style: table # 行号样式 pymdownx-inline 或者 inline 和 table
       anchor_linenums: true # 用锚链接包装代码行号，便于超链接和共享（就是行号可以像锚点一样被点击）
       line_spans: __span # 这对于高亮功能正常工作至关重要
       pygments_lang_class: true # 对于自定义注释标记的运行至关重要
