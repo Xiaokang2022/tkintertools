@@ -49,7 +49,10 @@ markdown_extensions:
       baselevel: 1 # 最高级别（默认值），往下顺延
       separator: "-" # 分隔符（默认值），替换空格字符
       toc_depth: 4 # 目录显示级别
-      slugify: !!python/object/apply:pymdownx.slugs.slugify {} # 锚点链接 URL 格式
+      slugify:
+        !!python/object/apply:pymdownx.slugs.slugify # 锚点链接 URL 格式（小写）
+        kwds:
+          case: lower
 
   ###### PyMdown Extensions 配置（markdown 扩展语法）
 
@@ -257,6 +260,7 @@ extra_javascript:
   - extra/javascript/time.js # 网站运行时间
   - extra/javascript/mathjax.js # 数学表达式
   - extra/javascript/tablesort.js # 表格排序功能
+  - extra/javascript/tablesort.isodate.js # 表格排序功能（自定义 ISO Date 类型）
   - https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js # 数学表达式运行环境
   - https://unpkg.com/tablesort@5.3.0/dist/tablesort.min.js # 表格排序功能运行环境（默认文本类型）
   - https://unpkg.com/tablesort@5.3.0/dist/sorts/tablesort.date.min.js # 表格排序功能（日期类型）
@@ -311,11 +315,13 @@ nav:
 
   - Projects / 项目:
       - Overview / 项目概览: projects/index.md
-      - 1. Intelligent Magic Cube: projects/pages/1.md
-      - 2. Chinese Chess: projects/pages/2.md
-      - 3. Super Gobang: projects/pages/3.md
-      - 4. Todo List: projects/pages/4.md
-      - 5. Login2.0: projects/pages/5.md
+      - Official Projects / 官方项目:
+          - 1. Intelligent Magic Cube: projects/official/1.md
+          - 2. Chinese Chess: projects/official/2.md
+          - 3. Super Gobang: projects/official/3.md
+          - 4. Todo List: projects/official/4.md
+      - Users Projects / 用户项目:
+          - 1. Login2.0: projects/users/1.md
 
   - Videos / 视频:
       - Overview / 视频概览: videos/index.md
