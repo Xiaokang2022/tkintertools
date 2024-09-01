@@ -169,21 +169,21 @@ theme: # 此项各个设定因主题而异
     - media: "(prefers-color-scheme)" # 系统主题
       toggle:
         icon: material/theme-light-dark
-        name: 切换至明亮主题
+        name: 系统主题
     - media: "(prefers-color-scheme: light)" # 亮色主题
       scheme: default
       primary: white
       accent: purple
       toggle:
         icon: material/weather-sunny
-        name: 切换至暗黑主题
+        name: 明亮主题
     - media: "(prefers-color-scheme: dark)" # 暗色主题
       scheme: slate
       primary: black
       accent: yellow
       toggle:
         icon: material/weather-night
-        name: 切换至系统主题
+        name: 暗黑主题
   font: false # 避免从谷歌加载字体导致网页加载变慢（具体参数可以在自定义 CSS 中指定）
   logo: logo.png # 页面左上角徽标
   favicon: logo.png # 网页的图标
@@ -200,9 +200,12 @@ extra: # 额外设定
       link: /
       lang: zh
     - name: English
-      link: /
+      link: ./Translate/
       lang: en
   generator: false # 页面底部不显示生成信息
+  status: # 元信息状态标识
+    new: 最近添加
+    deprecated: 已弃用
   homepage: . # 左上角徽标链接的地址
   annotate: # 允许代码块非注释内的提示，貌似是可以在代码里面加悬浮提示框，而不只是在注释中（感觉这样不好，虽然我不用，但不能没有）
     json: [.s2]
@@ -243,7 +246,7 @@ extra: # 额外设定
           data: 1
           note: Thanks for your feedback!<br/>感谢您的反馈！
         - icon: material/emoticon-neutral-outline
-          name: Just so-so / 还行吧
+          name: Just so-so / 一般般
           data: 0
           note: Thanks for your feedback!<br/>感谢您的反馈！
         - icon: material/emoticon-sad-outline
@@ -256,11 +259,9 @@ extra_javascript:
   - extra/javascript/mouse.js # 鼠标点击烟花效果
   - extra/javascript/typing.js # 打字机效果
   # - extra/javascript/canvas-nest.js # 背景效果
-  - extra/javascript/tongji.baidu.js # 百度统计脚本
   - extra/javascript/time.js # 网站运行时间
   - extra/javascript/mathjax.js # 数学表达式
   - extra/javascript/tablesort.js # 表格排序功能
-  - extra/javascript/tablesort.isodate.js # 表格排序功能（自定义 ISO Date 类型）
   - https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js # 数学表达式运行环境
   - https://unpkg.com/tablesort@5.3.0/dist/tablesort.min.js # 表格排序功能运行环境（默认文本类型）
   - https://unpkg.com/tablesort@5.3.0/dist/sorts/tablesort.date.min.js # 表格排序功能（日期类型）
@@ -274,16 +275,11 @@ extra_css:
   - https://cdn.jsdelivr.net/npm/lxgw-wenkai-screen-webfont@1.1.0/style.css # 设置字体（霞鹜文楷）
 
 plugins:
-  - search: # 搜索栏（内置插件）
-      separator: '[\s\-\.]+' # 分隔符（默认值）
-      lang:
-        - zh
-        - en
+  - search
   - git-revision-date-localized:
       enable_creation_date: true
       type: custom
       custom_format: "%Y-%m-%d %H:%M:%S +08"
-      locale: zh
       timezone: Asia/Shanghai
   # - git-authors: # 当配置不好下方的 git-committers 时可采用这个
   - git-committers:
@@ -292,9 +288,7 @@ plugins:
       token: !ENV ["GH_TOKEN"] # 需要自行在终端中设置临时环境变量，强烈不建议显式地在此处设置 token
   - glightbox:
       background: none
-  - statistics:
-      codelines_per_minute: 10
-      words_per_minute: 300
+  - statistics
   - minify:
       minify_html: true
       htmlmin_opts:
