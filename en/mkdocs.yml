@@ -1,19 +1,11 @@
-site_name: tkintertools # 站点名称
-site_url: https://Xiaokang2022.github.io/tkintertools/ # 站点链接
-repo_url: https://github.com/Xiaokang2022/tkintertools # 仓库地址
-repo_name: Xiaokang2022/tkintertools # 仓库名称
-edit_uri: edit/docs/docs # 编辑地址
-edit_uri_template: null # 编辑地址模板（默认值）
-site_description: tkintertools 的官方网站 # 站点描述
-site_author: Xiaokang2022 # 站点作者
-copyright: <a href="#__consent">修改 Cookie 设置</a><br/>Copyright &copy; 2022 Xiaokang2022 # 版权信息和 Cookie 设置
-remote_branch: gh-pages # GitHub Pages 远程分支名称（默认值）
-remote_name: origin # 远程名称（默认值）
+INHERIT: ../mkdocs.yml
+
+site_url: https://Xiaokang2022.github.io/tkintertools/en/ # 站点链接
+edit_uri: edit/docs/en/docs # 编辑地址
+site_description: Official website of tkintertools # 站点描述
+copyright: <a href="#__consent">Change Cookie Settings</a><br/>Copyright &copy; 2022 Xiaokang2022 # 版权信息和 Cookie 设置
 docs_dir: docs # 文档目录（默认值）
-site_dir: site # 网站目录（默认值）
-dev_addr: 127.0.0.1:8000 # 预览模式地址（默认值）
-use_directory_urls: true # URL 使用目录名还是文件名（默认值）
-strict: false # 警告级别（默认值），出现警告就终止程序
+site_dir: ../site/en/ # 网站目录（默认值）
 
 markdown_extensions:
   ###### Python Markdown 配置（markdown 基础语法）
@@ -39,10 +31,10 @@ markdown_extensions:
 
   - toc: # 目录
       marker: "" # 目录替换文本，空字符串则不替换，缺省为 [TOC]
-      title: 目录 # 目录标题，material 主题会自动根据语言计算
+      title: Contents # 目录标题，material 主题会自动根据语言计算
       anchorlink: false # 锚点链接（默认值），给标题自身锚定链接
       permalink: "&para;" # 锚点符号
-      permalink_title: "永久链接" # 锚点链接提示词，空字符表示没有
+      permalink_title: "Permanent Link" # 锚点链接提示词，空字符表示没有
       permalink_leading: false # 前置锚点链接（默认值），将锚点放到标题前面
       baselevel: 1 # 最高级别（默认值），往下顺延
       separator: "-" # 分隔符（默认值），替换空格字符
@@ -135,125 +127,90 @@ markdown_extensions:
       slugify: !!python/object/apply:pymdownx.slugs.slugify {}
 
 theme: # 此项各个设定因主题而异
-  name: material # 主题名称
-  custom_dir: docs/overrides # 覆盖目录
-  language: zh # 主题语言
-  features:
-    # - header.autohide # 顶栏自动隐藏
-    - announce.dismiss # 公告栏可以被关闭
-    - search.share # 搜索栏分享按钮
-    - search.suggest # 搜索栏内容建议
-    - search.highlight # 搜索栏内容高亮
-    - content.action.edit # 允许页面被编辑（会出现编辑按钮）
-    - content.action.view # 允许查看页面的源代码（会出现查看源代码按钮）
-    - content.tooltips # 提示框（以前有的样式变好看了，此外还支持更高级的提示框语法）
-    - content.code.copy # 例如：``` python { .yaml .copy } 默认开启，{ .yaml .no-copy } 关闭
-    - content.code.annotate # 允许内联代码注释
-    - content.tabs.link # 同样的标签，整个网站的同步切换，如 C -> C++，则其它类似的全部标签都同步切换
-    - navigation.top # 回到顶部的按钮
-    - navigation.tracking # 锚点跟踪
-    - navigation.footer # 页面底下换页的支持
-    - navigation.indexes # 左侧边栏大节点是否可以被导向到 index.md，可以不写，但不能没有
-    - navigation.instant # 页面不会重复加载（已加载页面不会再次加载）
-    - navigation.instant.progress # 加载速度慢时，在页面顶部显示加载进度（400ms 以上加载时间才会显示它）
-    - navigation.tabs # 页面顶部导航栏
-    # - navigation.tabs.sticky # 导航栏标题栏位置固定
-    # - navigation.sections # 左侧边栏节点是否保持展开
-    # - navigation.expand # 左侧边栏节点默认全部展开（与 navigation.prune 不兼容）
-    # - navigation.prune # 左侧栏节点至多展开一个，以此来减小站点的构建大小（对于页数100+的网站很有用，与 navigation.expand 不兼容）
-    # - toc.integrate # 右边侧栏是否集成到左侧边栏（与 navigation.indexes 不兼容）
-    - toc.follow # 锚点关注，侧边栏自动滚动，使锚点总是可见
+  custom_dir: ../docs/overrides # 覆盖目录
+  language: en # 主题语言
   palette:
     - media: "(prefers-color-scheme)" # 系统主题
       toggle:
         icon: material/theme-light-dark
-        name: 系统主题
+        name: System Mode
     - media: "(prefers-color-scheme: light)" # 亮色主题
       scheme: default
       primary: white
       accent: purple
       toggle:
         icon: material/weather-sunny
-        name: 明亮主题
+        name: Light Mode
     - media: "(prefers-color-scheme: dark)" # 暗色主题
       scheme: slate
       primary: black
       accent: yellow
       toggle:
         icon: material/weather-night
-        name: 暗黑主题
-  font: false # 避免从谷歌加载字体导致网页加载变慢（具体参数可以在自定义 CSS 中指定）
-  logo: logo.png # 页面左上角徽标
-  favicon: logo.png # 网页的图标
-  icon: # 替换掉默认的图标
-    previous: fontawesome/solid/angle-left # 左下角向前翻页的图标
-    next: fontawesome/solid/angle-right # 右下角向后翻页的图标
-    repo: fontawesome/brands/github # 右上角仓库图标
-    edit: material/pencil # 页面编辑的图标
-    view: material/eye # 页面查看源代码的图标
+        name: Dark Mode
 
 extra: # 额外设定
   alternate:
     - name: 简体中文
-      link: /
+      link: ../
       lang: zh
     - name: English
-      link: ./en/
+      link: /
       lang: en
-  generator: false # 页面底部不显示生成信息
   status: # 元信息状态标识
-    new: 最近添加
-    deprecated: 不久将被移除
-  homepage: . # 左上角徽标链接的地址
-  annotate: # 允许代码块非注释内的提示，貌似是可以在代码里面加悬浮提示框，而不只是在注释中（感觉这样不好，虽然我不用，但不能没有）
-    json: [.s2]
+    new: Recently added
+    deprecated: Will be removed soon
   social: # 社交联系方式（页面右下角内容）
     - icon: fontawesome/brands/github
       link: https://github.com/Xiaokang2022/tkintertools/
-      name: GitHub 存储库
+      name: GitHub Repository
     - icon: fontawesome/brands/python
       link: https://pypi.org/project/tkintertools/
       name: PyPI
     - icon: fontawesome/brands/bilibili
       link: https://space.bilibili.com/498105668
-      name: 哔哩哔哩
+      name: Bilibili
     - icon: fontawesome/solid/paper-plane
       link: mailto:2951256653@qq.com
-      name: 联系作者
+      name: Contact the author
   consent:
     actions:
       - accept
       - reject
       - manage
-    title: Cookie 设置
-    description: 我们使用 cookie 来识别您的重复访问和偏好，以及衡量我们文档的有效性和用户是否找到他们正在搜索的内容。<br/>在您的同意下，您将帮助我们改进我们的文档。
+    title: Cookie Consent
+    description: >-
+      We use cookies to recognize your repeated visits and preferences, as well
+      as to measure the effectiveness of our documentation and whether users
+      find what they're searching for. With your consent, you're helping us to
+      make our documentation better.
   analytics: # 谷歌统计
     provider: google
     property: G-9YC5SN4ZFD
     feedback:
-      title: 该页面对你有帮助吗？
+      title: Was this page helpful?
       ratings:
         - icon: material/emoticon-happy-outline
-          name: 有帮助
+          name: Helpful
           data: 1
-          note: 感谢您的反馈！
+          note: Thanks for your feedback!
         - icon: material/emoticon-neutral-outline
-          name: 一般般
+          name: Just so-so
           data: 0
-          note: 感谢您的反馈！
+          note: Thanks for your feedback!
         - icon: material/emoticon-sad-outline
-          name: 有待改进
+          name: Could be improved
           data: -1
-          note: 感谢您的反馈！
+          note: Thanks for your feedback!
 
 extra_javascript:
-  - extra/javascript/shortcuts.js # 绑定左右键换页的键盘快捷键
-  - extra/javascript/mouse.js # 鼠标点击烟花效果
-  - extra/javascript/typing.js # 打字机效果
-  # - extra/javascript/canvas-nest.js # 背景效果
-  - extra/javascript/time.js # 网站运行时间
-  - extra/javascript/mathjax.js # 数学表达式
-  - extra/javascript/tablesort.js # 表格排序功能
+  - ../docs/extra/javascript/shortcuts.js # 绑定左右键换页的键盘快捷键
+  - ../docs/extra/javascript/mouse.js # 鼠标点击烟花效果
+  - ../docs/extra/javascript/typing-en.js # 打字机效果
+  # - ../docs/extra/javascript/canvas-nest.js # 背景效果
+  - ../docs/extra/javascript/time.js # 网站运行时间
+  - ../docs/extra/javascript/mathjax.js # 数学表达式
+  - ../docs/extra/javascript/tablesort.js # 表格排序功能
   - https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js # 数学表达式运行环境
   - https://unpkg.com/tablesort@5.3.0/dist/tablesort.min.js # 表格排序功能运行环境（默认文本类型）
   - https://unpkg.com/tablesort@5.3.0/dist/sorts/tablesort.date.min.js # 表格排序功能（日期类型）
@@ -263,54 +220,34 @@ extra_javascript:
   - https://unpkg.com/tablesort@5.3.0/dist/sorts/tablesort.number.min.js # 表格排序功能（数字类型）
 
 extra_css:
-  - extra/css/extra.css # 加载自定义的样式
+  - ../docs/extra/css/extra.css # 加载自定义的样式
   - https://cdn.jsdelivr.net/npm/lxgw-wenkai-screen-webfont@1.1.0/style.css # 设置字体（霞鹜文楷）
 
-plugins:
-  - search
-  - git-revision-date-localized:
-      enable_creation_date: true
-      type: custom
-      custom_format: "%Y-%m-%d %H:%M:%S +08"
-      timezone: Asia/Shanghai
-  # - git-authors: # 当配置不好下方的 git-committers 时可采用这个
-  - git-committers:
-      repository: Xiaokang2022/tkintertools
-      branch: docs
-      token: !ENV ["GH_TOKEN"] # 需要自行在终端中设置临时环境变量，强烈不建议显式地在此处设置 token
-  - glightbox:
-      background: none
-  - statistics
-  - minify:
-      minify_html: true
-      htmlmin_opts:
-        remove_comments: true
-
 nav:
-  - 主页:
-      - 主页: index.md
-      - 项目许可: LICENSE.md
-      - 更新日志: CHANGELOG.md
-      - 待办事项: TODO.md
-      - 贡献指南: CONTRIBUTING.md
-      - 安全策略: SECURITY.md
-      - 行为准则: CODE_OF_CONDUCT.md
-      - 赞助项目: Sponsor.md
+  - Home:
+      - Homepage: index.md
+      - License: LICENSE.md
+      - Changelog: CHANGELOG.md
+      - Todo: TODO.md
+      - Contribution Guide: CONTRIBUTING.md
+      - Security Policy: SECURITY.md
+      - Code of Conduct: CODE_OF_CONDUCT.md
+      - Sponsor this Project: Sponsor.md
 
-  - 教程和文档: https://xiaokang2022.github.io/tkintertools-docs/
+  - Tutorials & Documents: https://xiaokang2022.github.io/tkintertools-docs/
 
-  - 项目:
-      - 项目概览: projects/index.md
-      - 官方项目:
+  - Projects:
+      - Overview: projects/index.md
+      - Official Projects:
           - 1. Intelligent Magic Cube: projects/official/1.md
           - 2. Chinese Chess: projects/official/2.md
           - 3. Super Gobang: projects/official/3.md
           - 4. Todo List: projects/official/4.md
-      - 用户项目:
+      - Users Projects:
           - 1. Login2.0: projects/users/1.md
 
-  - 视频:
-      - 视频概览: videos/index.md
+  - Videos:
+      - Overview: videos/index.md
       - 干掉 tkinter！tkintertools 大更新啦！: videos/pages/4.md
       - tkintertools 又更新啦！: videos/pages/3.md
       - 碾压 tkinter 的 UI 框架：tkintertools 3.0.0 正式进入 beta 公测阶段: videos/pages/2.md

@@ -1,5 +1,5 @@
 const txt = [
-  "欢迎来到 tkintertools 的官方网站，希望本网站能对您有一定的帮助！",
+  "Welcome to the official website of tkintertools, I hope this website can be of some help to you!",
 ];
 
 var index = 0;
