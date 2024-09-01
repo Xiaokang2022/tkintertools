@@ -39,10 +39,10 @@ markdown_extensions:
 
   - toc: # 目录
       marker: "" # 目录替换文本，空字符串则不替换，缺省为 [TOC]
-      title: 目录 # 目录标题，material 主题会自动根据语言计算
+      # title: "" # 目录标题，material 主题会自动根据语言计算
       anchorlink: false # 锚点链接（默认值），给标题自身锚定链接
       permalink: "&para;" # 锚点符号
-      permalink_title: "永久链接" # 锚点链接提示词，空字符表示没有
+      permalink_title: "" # 锚点链接提示词，空字符表示没有
       permalink_leading: false # 前置锚点链接（默认值），将锚点放到标题前面
       baselevel: 1 # 最高级别（默认值），往下顺延
       separator: "-" # 分隔符（默认值），替换空格字符
