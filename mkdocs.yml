@@ -195,7 +195,7 @@ theme: # 此项各个设定因主题而异
 extra: # 额外设定
   alternate:
     - name: 简体中文
-      link: /
+      link: .
       lang: zh
     - name: English
       link: ./en/
@@ -287,19 +287,19 @@ plugins:
         remove_comments: true
 
 nav:
-  - 主页:
+  - 项目主页:
       - 主页: index.md
-      - 项目许可: LICENSE.md
+      - 开源许可: LICENSE.md
       - 更新日志: CHANGELOG.md
       - 待办事项: TODO.md
       - 贡献指南: CONTRIBUTING.md
       - 安全策略: SECURITY.md
       - 行为准则: CODE_OF_CONDUCT.md
-      - 赞助项目: Sponsor.md
+      - 赞助此项目: Sponsor.md
 
-  - 教程和文档: https://xiaokang2022.github.io/tkintertools-docs/
+  - 各版本的官方教程和文档: https://xiaokang2022.github.io/tkintertools-docs/
 
-  - 项目:
+  - 示例项目:
       - 项目概览: projects/index.md
       - 官方项目:
           - 1. Intelligent Magic Cube: projects/official/1.md
@@ -309,7 +309,7 @@ nav:
       - 用户项目:
           - 1. Login2.0: projects/users/1.md
 
-  - 视频:
+  - 官方视频:
       - 视频概览: videos/index.md
       - 干掉 tkinter！tkintertools 大更新啦！: videos/pages/4.md
       - tkintertools 又更新啦！: videos/pages/3.md

@@ -4,6 +4,10 @@
 {% block announce %}
 {{ super() }}
 
+{% if config.theme.language=='zh' %}
 <p><span class="text"></span></p>
+{% elif config.theme.language=='en' %}
+<p><span class="text_en"></span></p>
+{% endif %}
 
 {% endblock %}

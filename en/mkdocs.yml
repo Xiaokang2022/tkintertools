@@ -155,7 +155,7 @@ extra: # 额外设定
       link: ../
       lang: zh
     - name: English
-      link: /
+      link: .
       lang: en
   status: # 元信息状态标识
     new: Recently added
