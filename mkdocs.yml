@@ -270,10 +270,8 @@ plugins:
   - search
   - git-revision-date-localized:
       enable_creation_date: true
-      type: custom
-      custom_format: "%Y-%m-%d %H:%M:%S +08"
-      timezone: Asia/Shanghai
-  # - git-authors: # 当配置不好下方的 git-committers 时可采用这个
+      type: timeago
+      locale: zh
   - git-committers:
       repository: Xiaokang2022/tkintertools
       branch: docs
