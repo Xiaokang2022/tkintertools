@@ -18,7 +18,7 @@ comments: true
 <a href="https://github.com/Xiaokang2022/tkintertools"><img alt="代码大小" src="https://img.shields.io/github/languages/code-size/Xiaokang2022/tkintertools?label=Size&logo=github" title="代码大小"/></a>
 <br/>
 <a href="https://github.com/Xiaokang2022/tkintertools/watchers"><img alt="关注" src="https://img.shields.io/github/watchers/Xiaokang2022/tkintertools?label=Watchers&logo=github&style=flat" title="关注" /></a>
-<a href="https://github.com/Xiaokang2022/tkintertools/forks"><img alt="分支" src="https://img.shields.io/github/forks/Xiaokang2022/tkintertools?label=Forks&logo=github&style=flat" title="分支" /></a>
+<a href="https://github.com/Xiaokang2022/tkintertools/forks"><img alt="复刻" src="https://img.shields.io/github/forks/Xiaokang2022/tkintertools?label=Forks&logo=github&style=flat" title="复刻" /></a>
 <a href="https://github.com/Xiaokang2022/tkintertools/stargazers"><img alt="星标" src="https://img.shields.io/github/stars/Xiaokang2022/tkintertools?label=Stars&color=gold&logo=github&style=flat" title="星标" /></a>
 <a href="https://github.com/Xiaokang2022/tkintertools/issues"><img alt="议题" src="https://img.shields.io/github/issues/Xiaokang2022/tkintertools?label=Issues&logo=github" title="议题" /></a>
 <a href="https://github.com/Xiaokang2022/tkintertools/pulls"><img alt="拉取请求" src="https://img.shields.io/github/issues-pr/Xiaokang2022/tkintertools?label=Pull%20Requests&logo=github" title="拉取请求" /></a>
