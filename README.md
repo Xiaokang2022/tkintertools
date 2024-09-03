@@ -173,7 +173,8 @@ pip install tkintertools[extension]==3.0.0rc1
 * 📕 Security Policy / 安全策略: [*SECURITY.md*](SECURITY.md)
 * 📗 Contribution Guide / 贡献指南: [*CONTRIBUTING.md*](CONTRIBUTING.md)
 * 📙 Code of Conduct / 行为准则: [*CODE_OF_CONDUCT.md*](CODE_OF_CONDUCT.md)
-* 📚 Tutorials and Documents / 教程和文档: [Tutorials & Documents](https://xiaokang2022.github.io/tkintertools/)
+* 📚 Tutorials and Documents / 教程和文档: [Tutorials & Documents](https://xiaokang2022.github.io/tkintertools-docs/)
+* 🎉 Official Website / 官方网站: [Official Website](https://xiaokang2022.github.io/tkintertools/)
 * ❤️ Sponsor this Project / 赞助此项目: [Sponsor](https://xiaokang2022.github.io/tkintertools/Sponsor/)
 * 🚀 Repository Mirrors / 存储库镜像源:
 [GitHub](https://github.com/Xiaokang2022/tkintertools) |
