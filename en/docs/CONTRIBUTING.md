@@ -1,3 +1,7 @@
+---
+icon: material/clipboard-text
+---
+
 First off, thanks for taking the time to contribute! ❤️
 
 All types of contributions are encouraged and valued.Please see the table of contents below for details on the different ways to contribute and how to handle them. Be sure to read the relevant section before contributing, this will make it easier for our maintainers and make the experience smoother for everyone involved. We look forward to your contributions!

@@ -57,10 +57,10 @@ markdown_extensions:
   # - pymdownx.pathconverter # 相对链接转绝对链接【?】
   # - pymdownx.b64 # 允许使用 base64 编码【?】
 
-  # - pymdownx.striphtml # 去除 HTML 中不需要的注释和 / 或标记属性，被插件 minify 替代
   # - pymdownx.progressbar # 进度条（暂不支持）
 
   - pymdownx.extra # 见上面 Python Markdown 配置说明
+  - pymdownx.striphtml # 去除 HTML 中不需要的注释和 / 或标记属性，与插件 minify 有交叉但没有完全覆盖
 
   - pymdownx.blocks.tab # 支持更高级的标签块写法（可能与 pymdownx.tabbed 混淆）
   - pymdownx.blocks.html # 支持一些更高级的 Markdown 内嵌 HTML 语法（pymdownx.blocks 默认开启）
@@ -268,6 +268,8 @@ extra_css:
 
 plugins:
   - search
+  - statistics
+  - glightbox
   - git-revision-date-localized:
       enable_creation_date: true
       type: timeago
@@ -276,29 +278,30 @@ plugins:
       repository: Xiaokang2022/tkintertools
       branch: docs
       token: !ENV ["GH_TOKEN"] # 需要自行在终端中设置临时环境变量，强烈不建议显式地在此处设置 token
-  - glightbox:
-      background: none
-  - statistics
   - minify:
       minify_html: true
       htmlmin_opts:
         remove_comments: true
+  - redirects:
+      redirect_maps:
+        "t&d/index.md": "https://xiaokang2022.github.io/tkintertools-docs/"
 
 nav:
   - 项目主页:
-      - 主页: index.md
+      - 项目主页: index.md
       - 开源许可: LICENSE.md
       - 更新日志: CHANGELOG.md
       - 待办事项: TODO.md
       - 贡献指南: CONTRIBUTING.md
       - 安全策略: SECURITY.md
       - 行为准则: CODE_OF_CONDUCT.md
-      - 赞助此项目: Sponsor.md
+      - 赞助我们: Sponsor.md
 
-  - 各版本的官方教程和文档: https://xiaokang2022.github.io/tkintertools-docs/
+  - 教程和文档:
+      - t&d/index.md
 
   - 示例项目:
-      - 项目概览: projects/index.md
+      - projects/index.md
       - 官方项目:
           - 1. Intelligent Magic Cube: projects/official/1.md
           - 2. Chinese Chess: projects/official/2.md
@@ -308,7 +311,7 @@ nav:
           - 1. Login2.0: projects/users/1.md
 
   - 官方视频:
-      - 视频概览: videos/index.md
+      - videos/index.md
       - 干掉 tkinter！tkintertools 大更新啦！: videos/pages/4.md
       - tkintertools 又更新啦！: videos/pages/3.md
       - 碾压 tkinter 的 UI 框架：tkintertools 3.0.0 正式进入 beta 公测阶段: videos/pages/2.md

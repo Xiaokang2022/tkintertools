@@ -1,3 +1,7 @@
+---
+icon: octicons/code-of-conduct-24
+---
+
 ## Our Pledge
 
 We as members, contributors, and leaders pledge to make participation in our

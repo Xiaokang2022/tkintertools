@@ -1,3 +1,7 @@
+---
+icon: material/history
+---
+
 !!! tip "Tip / 提示"
 
     This changelog has the following 7 types of updates, each of which is represented by 7 different colors  

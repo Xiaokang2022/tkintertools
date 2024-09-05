@@ -1,6 +1,9 @@
 ---
 comments: true
+icon: material/folder-open
 ---
+
+# Projects
 
 Here are some examples of projects developed with `tkintertools`.
 

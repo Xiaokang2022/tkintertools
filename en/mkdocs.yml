@@ -86,6 +86,8 @@ extra: # 额外设定
 
 plugins:
   - search
+  - statistics
+  - glightbox
   - git-revision-date-localized:
       enable_creation_date: true
       type: timeago
@@ -94,16 +96,17 @@ plugins:
       repository: Xiaokang2022/tkintertools
       branch: docs
       token: !ENV ["GH_TOKEN"] # 需要自行在终端中设置临时环境变量，强烈不建议显式地在此处设置 token
-  - glightbox:
-      background: none
   - minify:
       minify_html: true
       htmlmin_opts:
         remove_comments: true
+  - redirects:
+      redirect_maps:
+        "t&d/index.md": "https://xiaokang2022.github.io/tkintertools-docs/"
 
 nav:
   - Home:
-      - Homepage: index.md
+      - Home: index.md
       - License: LICENSE.md
       - Changelog: CHANGELOG.md
       - Todo: TODO.md
@@ -112,10 +115,11 @@ nav:
       - Code of Conduct: CODE_OF_CONDUCT.md
       - Sponsor this Project: Sponsor.md
 
-  - Tutorials & Documents: https://xiaokang2022.github.io/tkintertools-docs/
+  - Tutorials & Documents:
+      - t&d/index.md
 
   - Projects:
-      - Overview: projects/index.md
+      - projects/index.md
       - Official Projects:
           - 1. Intelligent Magic Cube: projects/official/1.md
           - 2. Chinese Chess: projects/official/2.md
@@ -125,7 +129,7 @@ nav:
           - 1. Login2.0: projects/users/1.md
 
   - Videos:
-      - Overview: videos/index.md
+      - videos/index.md
       - 干掉 tkinter！tkintertools 大更新啦！: videos/pages/4.md
       - tkintertools 又更新啦！: videos/pages/3.md
       - 碾压 tkinter 的 UI 框架：tkintertools 3.0.0 正式进入 beta 公测阶段: videos/pages/2.md

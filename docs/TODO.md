@@ -1,3 +1,7 @@
+---
+icon: material/check-circle-outline
+---
+
 !!! tip "提示"
 
     此待办事项的条目有以下 3 种状态：

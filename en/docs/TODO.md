@@ -1,3 +1,7 @@
+---
+icon: material/check-circle-outline
+---
+
 !!! tip "Tip"
 
     Entries for this to-do item have the following 3 statuses:

@@ -1,3 +1,7 @@
+---
+icon: octicons/sponsor-tiers-24
+---
+
 首先，感谢您有想支持本项目的想法！❤️
 
 !!! tip "提示"

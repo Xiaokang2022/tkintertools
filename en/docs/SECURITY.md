@@ -1,3 +1,7 @@
+---
+icon: material/lock
+---
+
 ✅ Supported Versions
 ---------------------
 

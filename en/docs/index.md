@@ -1,6 +1,7 @@
 ---
 statistics: True
 comments: true
+icon: material/home
 ---
 
 <h1 align="center">tkintertools</h1>

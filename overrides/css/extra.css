@@ -75,6 +75,11 @@ audio::-webkit-media-controls-enclosure {
     height: 100%;
 }
 
+/*图片标题小字号*/
+figcaption {
+    font-size: small;
+}
+
 /*打字机文本*/
 .text {
     display: inline-block;
