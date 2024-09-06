@@ -282,9 +282,6 @@ plugins:
       minify_html: true
       htmlmin_opts:
         remove_comments: true
-  - redirects:
-      redirect_maps:
-        "t&d/index.md": "https://xiaokang2022.github.io/tkintertools-docs/"
 
 nav:
   - 项目主页:

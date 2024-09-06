@@ -140,8 +140,8 @@ pip install tkintertools[all]==3.0.0rc1
 
 除了基础功能之外，`tkintertools` 还提供一些扩展包来实现某些特定的功能。目前已有的官方扩展包如下：
 
-- [X] https://github.com/Xiaokang2022/tkintertools-mpl - `1.0.0`
-- [X] https://github.com/Xiaokang2022/tkintertools-3d - `1.0.0`
+- [X] https://github.com/Xiaokang2022/tkintertools-mpl
+- [X] https://github.com/Xiaokang2022/tkintertools-3d
 
 以下命令可以安装全部的官方扩展包：
 
