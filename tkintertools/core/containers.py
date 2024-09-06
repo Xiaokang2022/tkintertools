@@ -53,39 +53,9 @@ class Tk(tkinter.Tk):
         self._theme(manager.get_color_mode() == "dark",
                     include_children=False, include_canvases=False)
         manager.register_event(self._theme)
+        for name in "transient", "resizable", "overrideredirect":
+            self._wrap_method(name)
         self.bind("<Configure>", lambda _: self._zoom())
-
-    def geometry(
-        self,
-        *,
-        size: tuple[int, int] | None = None,
-        position: tuple[int, int] | None = None
-    ) -> tuple[int, int, int, int] | None:
-        """
-        Change the size and position of the window and return the current size
-        and position of the window
-
-        * `size`: the size of the window, if it is None, does not change anything
-        * `position`: the position of the window, if it is None, does not
-        change anything
-
-        TIPS:
-
-        If you want to use `tkinter.Tk.geometry`, please use
-        `tkinter.Tk.wm_geometry` instead
-
-        CAUTION:
-
-        This method causes the event `<configure>` to be triggered
-        """
-        if size is not None and position is not None:
-            self.wm_geometry(
-                f"{size[0]}x{size[1]}+{position[0]}+{position[1]}")
-        elif size is not None:
-            self.wm_geometry(f"{size[0]}x{size[1]}")
-        elif position is not None:
-            self.wm_geometry(f"+{position[0]}+{position[1]}")
-        return *self._size, self.winfo_x(), self.winfo_y()
 
     @property
     def canvases(self) -> tuple["Canvas", ...]:
@@ -96,6 +66,36 @@ class Tk(tkinter.Tk):
     def ratios(self) -> tuple[float, float]:
         """Return the aspect zoom ratio of the widget"""
         return tuple(i/j for i, j in zip(self._size, self._initial_size))
+
+    @staticmethod
+    def _fixed_theme(method):
+        """
+        This is a decorator that to fix a problem that some methods cause the
+        window to lose its theme
+
+        * `method`: the method of being decorated
+        """
+        @functools.wraps(method)
+        def wrapper(self: "Tk", *args, **kwargs) -> typing.Any:
+            result = method(self, *args, **kwargs)
+            if result is None:
+                self._theme(manager.get_color_mode() == "dark",
+                            include_children=False, include_canvases=False)
+            return result
+        return wrapper
+
+    def _wrap_method(self, method_name: str) -> None:
+        """Some problems can be fixed by decorating the original method"""
+        method = getattr(tkinter.Wm, method_name)
+
+        @Tk._fixed_theme
+        @functools.wraps(method)
+        def wrapper(*args, **kwargs) -> typing.Any:
+            result = method(*args, **kwargs)
+            return None if result == "" else result
+
+        setattr(self, method_name, lambda *args, **
+                kwargs: wrapper(self, *args, **kwargs))
 
     def _zoom(self) -> None:
         """Zoom contents of the window"""
@@ -134,6 +134,38 @@ class Tk(tkinter.Tk):
             for canvas in self._canvases:
                 canvas._theme(dark)
 
+    def geometry(
+        self,
+        *,
+        size: tuple[int, int] | None = None,
+        position: tuple[int, int] | None = None
+    ) -> tuple[int, int, int, int] | None:
+        """
+        Change the size and position of the window and return the current size
+        and position of the window
+
+        * `size`: the size of the window, if it is None, does not change anything
+        * `position`: the position of the window, if it is None, does not
+        change anything
+
+        TIPS:
+
+        If you want to use `tkinter.Tk.geometry`, please use
+        `tkinter.Tk.wm_geometry` instead
+
+        CAUTION:
+
+        This method causes the event `<configure>` to be triggered
+        """
+        if size is not None and position is not None:
+            self.wm_geometry(
+                f"{size[0]}x{size[1]}+{position[0]}+{position[1]}")
+        elif size is not None:
+            self.wm_geometry(f"{size[0]}x{size[1]}")
+        elif position is not None:
+            self.wm_geometry(f"+{position[0]}+{position[1]}")
+        return *self._size, self.winfo_x(), self.winfo_y()
+
     def center(self, master: tkinter.Misc | None = None) -> None:
         """
         Center the widget
@@ -160,9 +192,8 @@ class Tk(tkinter.Tk):
 
         * `value`: the transparency of the window, range is 0~1
         """
-        if (result := self.attributes("-alpha", value)) is None:
-            return result
-        return bool(result)
+        result = self.attributes("-alpha", value)
+        return None if result == "" else result
 
     def topmost(self, value: bool | None = True) -> bool | None:
         """
@@ -170,10 +201,10 @@ class Tk(tkinter.Tk):
 
         * `value`: indicate whether the window is topmost
         """
-        if (result := self.attributes("-topmost", value)) is None:
-            return result
-        return bool(result)
+        result = self.attributes("-topmost", value)
+        return None if result == "" else bool(result)
 
+    @_fixed_theme
     def fullscreen(self, value: bool | None = True) -> bool | None:
         """
         Set or get whether the window is full-screen
@@ -185,21 +216,18 @@ class Tk(tkinter.Tk):
         The method should be called at the end of the code,
         or after some time after the program has started
         """
-        if (result := self.attributes("-fullscreen", value)) is not None:
-            return self._theme(manager.get_color_mode() == "dark",
-                               include_canvases=False)
-        return result
+        result = self.attributes("-fullscreen", value)
+        return None if result == "" else bool(result)
 
+    @_fixed_theme
     def toolwindow(self, value: bool | None = True) -> bool | None:
         """
         Set or get whether the window is tool-window
 
         * `value`: indicate whether the window is tool-window
         """
-        if (result := self.attributes("-toolwindow", value)) is not None:
-            return self._theme(manager.get_color_mode() == "dark",
-                               include_children=False, include_canvases=False)
-        return result
+        result = self.attributes("-toolwindow", value)
+        return None if result == "" else bool(result)
 
     def transparentcolor(self, value: str | None = None) -> str | None:
         """
@@ -207,7 +235,8 @@ class Tk(tkinter.Tk):
 
         * `value`: the penetration color of the window
         """
-        return self.attributes("-transparentcolor", value)
+        result = self.attributes("-transparentcolor", value)
+        return None if result == "" else result
 
     def shutdown(
         self,
@@ -255,7 +284,6 @@ class Toplevel(tkinter.Toplevel, Tk):
         position: tuple[int, int] | None = None,
         *,
         title: str | None = None,
-        transient: bool = False,
         grab: bool = False,
         focus: bool = True,
         **kwargs,
@@ -266,17 +294,11 @@ class Toplevel(tkinter.Toplevel, Tk):
         * `position`: the position of the window, default value indicates that
         the location is random
         * `title`: title of window, default is the same as title of master
-        * `transient`: instruct the window manager that this window is transient
-        with regard to its master
         * `grab`: set grab for this window
         * `focus`: whether direct input focus to this window
         * `**kwargs`: compatible with other parameters of class `tkinter.Toplevel`
         """
         tkinter.Toplevel.__init__(self, master, **kwargs)
-
-        if transient:
-            self.transient(self.master)
-
         Tk.__init__(self, size, position, title=title)  # window style is set
 
         if grab:
