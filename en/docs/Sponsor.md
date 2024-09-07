@@ -42,8 +42,9 @@ This page is not updated automatically, but manually by me, so please understand
 
 | 🕓 Date { data-sort-method=min } |           😀 Sponsors            |    💰 Amount { data-sort-method=number }    |        ❤️ Methods         |
 | :-----------------------------: | :-----------------------------: | :----------------------------------------: | :----------------------: |
-|       2024-08-14 10:19:15       |  https://github.com/shu-shu-1   | ¥60.00 :crown:{ title="Sponsor the Most" } | WeChat Appreciation Code |
+|       2024-09-07 10:55:47       |   https://github.com/Spra0125   |                   ¥10.00                   | WeChat Appreciation Code |
 |       2024-08-14 10:19:56       |             junfeng             |                   ¥5.00                    | WeChat Appreciation Code |
+|       2024-08-14 10:19:15       |  https://github.com/shu-shu-1   | ¥60.00 :crown:{ title="Sponsor the Most" } | WeChat Appreciation Code |
 |       2024-08-14 09:41:03       |            ssrr2329             |                   ¥50.00                   | WeChat Appreciation Code |
 |       2024-08-13 19:03:52       |  https://github.com/shu-shu-1   |                   ¥21.00                   | WeChat Appreciation Code |
 |       2024-07-11 23:01:34       |              Lau9               |                   ¥9.99                    | WeChat Appreciation Code |

@@ -140,8 +140,8 @@ pip install tkintertools[all]==3.0.0rc1
 
 In addition to the basic functionality, `tkintertools` also offers some extension packages to implement certain functionality. The following official extensions are available:
 
-- [X] https://github.com/Xiaokang2022/tkintertools-mpl - `1.0.0`
-- [X] https://github.com/Xiaokang2022/tkintertools-3d - `1.0.0`
+- [X] https://github.com/Xiaokang2022/tkintertools-mpl
+- [X] https://github.com/Xiaokang2022/tkintertools-3d
 
 The following command can be used to install all the official extensions:
 
