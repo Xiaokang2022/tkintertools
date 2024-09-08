@@ -193,7 +193,7 @@ pip install tkintertools[extension]==3.0.0rc1
 
 !!! info "Site statistics"
 
-    This site has been running for <span id="timeDate-en"></span><span id="times-en"></span>, and there are `#!py {{ pages }}` page, `#!py {{ words }}` words, `#!py {{ codes }}` lines of code, `#!py {{ images }}` images
+    This site has been running for <span id="timeDate-en"></span><span id="times-en"></span>, and there are `#!py {{ pages }}` page, `#!py {{ words }}` words, `#!py {{ codes }}` lines of code, `#!py {{ images }}` images, <span id="busuanzi_value_site_pv"><i class="fa fa-spinner fa-spin"></i></span> views
 
 <div align="center" markdown>
 [✨What's new](./CHANGELOG.md#-300rc1){ .md-button .md-button--primary title="Click here to find out what's new!" }

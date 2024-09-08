@@ -193,7 +193,7 @@ pip install tkintertools[extension]==3.0.0rc1
 
 !!! info "本站统计"
 
-    本站己运行 <span id="timeDate"></span><span id="times"></span>，共有 `#!py {{ pages }}` 个页面，约 `#!py {{ words }}` 个字，`#!py {{ codes }}` 行代码，`#!py {{ images }}` 幅图片
+    本站己运行 <span id="timeDate"></span><span id="times"></span>，共有 `#!py {{ pages }}` 个页面，约 `#!py {{ words }}` 个字，`#!py {{ codes }}` 行代码，`#!py {{ images }}` 幅图片，访问量 <span id="busuanzi_value_site_pv"><i class="fa fa-spinner fa-spin"></i></span>
 
 <div align="center" markdown>
 [✨最新内容](./CHANGELOG.md#-300rc1){ .md-button .md-button--primary title="点我了解最近更新的内容！" }

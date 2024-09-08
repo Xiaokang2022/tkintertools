@@ -154,8 +154,8 @@ theme: # 此项各个设定因主题而异
     - navigation.tracking # 锚点跟踪
     - navigation.footer # 页面底下换页的支持
     - navigation.indexes # 左侧边栏大节点是否可以被导向到 index.md，可以不写，但不能没有
-    - navigation.instant # 页面不会重复加载（已加载页面不会再次加载）
-    - navigation.instant.progress # 加载速度慢时，在页面顶部显示加载进度（400ms 以上加载时间才会显示它）
+    # - navigation.instant # 页面不会重复加载（已加载页面不会再次加载）
+    # - navigation.instant.progress # 加载速度慢时，在页面顶部显示加载进度（400ms 以上加载时间才会显示它）
     - navigation.tabs # 页面顶部导航栏
     # - navigation.tabs.sticky # 导航栏标题栏位置固定
     # - navigation.sections # 左侧边栏节点是否保持展开
@@ -186,11 +186,9 @@ theme: # 此项各个设定因主题而异
   logo: logo.png # 页面左上角徽标
   favicon: logo.png # 网页的图标
   icon: # 替换掉默认的图标
-    previous: fontawesome/solid/angle-left # 左下角向前翻页的图标
-    next: fontawesome/solid/angle-right # 右下角向后翻页的图标
     repo: fontawesome/brands/github # 右上角仓库图标
-    edit: material/pencil # 页面编辑的图标
-    view: material/eye # 页面查看源代码的图标
+    edit: material/file-edit # 页面编辑的图标
+    view: material/file-eye # 页面查看源代码的图标
 
 extra: # 额外设定
   alternate:
@@ -261,10 +259,13 @@ extra_javascript:
   - https://unpkg.com/tablesort@5.3.0/dist/sorts/tablesort.filesize.min.js # 表格排序功能（文件大小类型）
   - https://unpkg.com/tablesort@5.3.0/dist/sorts/tablesort.monthname.min.js # 表格排序功能（月份名称类型）
   - https://unpkg.com/tablesort@5.3.0/dist/sorts/tablesort.number.min.js # 表格排序功能（数字类型）
+  - path: https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js # 不蒜子统计
+    async: true
 
 extra_css:
   - css/extra.css # 加载自定义的样式
   - https://cdn.jsdelivr.net/npm/lxgw-wenkai-screen-webfont@1.1.0/style.css # 设置字体（霞鹜文楷）
+  - https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css # 图标字体库
 
 plugins:
   - search
