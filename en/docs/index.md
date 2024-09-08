@@ -1,5 +1,5 @@
 ---
-statistics: True
+statistics: true
 comments: true
 icon: material/home
 ---

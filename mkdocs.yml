@@ -273,7 +273,6 @@ plugins:
   - git-revision-date-localized:
       enable_creation_date: true
       type: timeago
-      locale: zh
   - git-committers:
       repository: Xiaokang2022/tkintertools
       branch: docs
