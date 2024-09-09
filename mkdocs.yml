@@ -246,13 +246,11 @@ extra: # 额外设定
 
 extra_javascript:
   - javascript/shortcuts.js # 绑定左右键换页的键盘快捷键
-  - javascript/mouse.js # 鼠标点击烟花效果
-  - javascript/typing.js # 打字机效果
   # - javascript/canvas-nest.js # 背景效果
-  - javascript/time.js # 网站运行时间
+  - javascript/click-colorful.js # 鼠标点击效果
   - javascript/mathjax.js # 数学表达式
   - javascript/tablesort.js # 表格排序功能
-  - https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js # 数学表达式运行环境
+  - https://unpkg.com/mathjax@3/es5/tex-mml-chtml.js # 数学表达式运行环境
   - https://unpkg.com/tablesort@5.3.0/dist/tablesort.min.js # 表格排序功能运行环境（默认文本类型）
   - https://unpkg.com/tablesort@5.3.0/dist/sorts/tablesort.date.min.js # 表格排序功能（日期类型）
   - https://unpkg.com/tablesort@5.3.0/dist/sorts/tablesort.dotsep.min.js # 表格排序功能（点分割类型）

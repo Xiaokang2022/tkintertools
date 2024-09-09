@@ -191,12 +191,14 @@ pip install tkintertools[extension]==3.0.0rc1
 
 </div>
 
-!!! info "本站统计"
+!!! quote ""
 
-    本站己运行 <span id="timeDate"></span><span id="times"></span>，共有 `#!py {{ pages }}` 个页面，约 `#!py {{ words }}` 个字，`#!py {{ codes }}` 行代码，`#!py {{ images }}` 幅图片，访问量 <span id="busuanzi_value_site_pv"><i class="fa fa-spinner fa-spin"></i></span>
+    <div markdown align="center">
+    本站共有 {{ pages }} 个页面，{{ words }} 个字，{{ codes }} 行代码，{{ images }} 张图片，您是第 <span id="busuanzi_value_site_uv"><i class="fa fa-spinner fa-spin"></i></span> 位访客！
+    </div>
 
 <div align="center" markdown>
 [✨最新内容](./CHANGELOG.md#-300rc1){ .md-button .md-button--primary title="点我了解最近更新的内容！" }
-[<big>:star:{ .heart } 支持本项目</big>](https://github.com/Xiaokang2022/tkintertools/){ .md-button .md-button--primary title="给项目点个 Star 吧，球球了！" }
+[<big>⭐支持本项目</big>](https://github.com/Xiaokang2022/tkintertools/){ .md-button .md-button--primary title="给项目点个 Star 吧，球球了！" }
 [❤️赞助一下](./Sponsor.md){ .md-button .md-button--primary title="赞助我一下下吧！独自开发不易呢！" }
 </div>

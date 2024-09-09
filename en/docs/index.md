@@ -191,12 +191,14 @@ pip install tkintertools[extension]==3.0.0rc1
 
 </div>
 
-!!! info "Site statistics"
+!!! quote ""
 
-    This site has been running for <span id="timeDate-en"></span><span id="times-en"></span>, and there are `#!py {{ pages }}` page, `#!py {{ words }}` words, `#!py {{ codes }}` lines of code, `#!py {{ images }}` images, <span id="busuanzi_value_site_pv"><i class="fa fa-spinner fa-spin"></i></span> views
+    <div markdown align="center">
+    This site has {{ pages }} pages, {{ words }} words, {{ codes }} lines of code, {{ images }} images, and you are the <span id="busuanzi_value_site_uv"><i class="fa fa-spinner fa-spin"></i></span> visitor!
+    </div>
 
 <div align="center" markdown>
 [✨What's new](./CHANGELOG.md#-300rc1){ .md-button .md-button--primary title="Click here to find out what's new!" }
-[<big>:star:{ .heart } Support this project</big>](https://github.com/Xiaokang2022/tkintertools/){ .md-button .md-button--primary title="Give the project a Star!" }
+[<big>⭐Support this project</big>](https://github.com/Xiaokang2022/tkintertools/){ .md-button .md-button--primary title="Give the project a Star!" }
 [❤️Sponsor me](./Sponsor.md){ .md-button .md-button--primary title="It's not easy for me to develop it alone!" }
 </div>

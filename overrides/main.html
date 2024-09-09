@@ -1,13 +1,12 @@
 {% extends "base.html" %}
 
-<!-- 页面顶部公告（打字机效果） -->
 {% block announce %}
 {{ super() }}
 
-{% if config.theme.language=='zh' %}
-<p><span class="text"></span></p>
-{% elif config.theme.language=='en' %}
-<p><span class="text_en"></span></p>
+{% if config.theme.language == "zh" %}
+欢迎来到 tkintertools 的官方网站，希望本网站能对您有一定的帮助！
+{% else %}
+Welcome to the official website of tkintertools, I hope this website can be of some help to you!
 {% endif %}
 
 {% endblock %}
