@@ -266,7 +266,9 @@ extra_css:
 plugins:
   - search
   - statistics
-  - glightbox
+  - glightbox:
+      background: none
+      auto_themed: true
   - git-revision-date-localized:
       enable_creation_date: true
       type: timeago
