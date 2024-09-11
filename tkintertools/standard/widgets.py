@@ -48,7 +48,7 @@ class Text(virtual.Widget):
         overstrike: bool = False,
         justify: typing.Literal["left", "center", "right"] = "left",
         anchor: typing.Literal["n", "e", "w", "s",
-                               "nw", "ne", "sw", "se", "center"] = "center",
+                               "nw", "ne", "sw", "se", "center"] = "nw",
         name: str | None = None,
         through: bool = False,
         animation: bool = True,
