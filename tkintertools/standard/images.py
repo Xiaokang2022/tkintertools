@@ -12,7 +12,8 @@ class StillImage(virtual.Image):
 
     # @typing.override
     def display(self) -> None:
-        self.items = [self.widget.master.create_image(0, 0, image=self.image)]
+        self.items = [self.widget.master.create_image(
+            0, 0, image=self.image, **self.kwargs)]
 
     # @typing.override
     def coords(

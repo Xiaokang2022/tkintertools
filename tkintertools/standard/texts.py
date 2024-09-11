@@ -19,7 +19,7 @@ class Information(virtual.Text):
     def display(self) -> None:
         self.items = [self.widget.master.create_text(
             0, 0, text=self.text, font=self.font, justify=self.justify,
-            anchor=self.anchor, tags=("fill", "fill"))]
+            anchor=self.anchor, tags=("fill", "fill"), **self.kwargs)]
 
     # @typing.override
     def coords(
@@ -121,10 +121,10 @@ class SingleLineText(virtual.Text):
         self.items = [
             self.widget.master.create_text(
                 0, 0, text=self.text, font=self.font, justify=self.justify,
-                anchor=self.anchor, tags=("fill", "fill")),
+                anchor=self.anchor, tags=("fill", "fill"), **self.kwargs),
             self.widget.master.create_text(
                 0, 0, text=self.placeholder, font=self.font, justify=self.justify,
-                anchor=self.anchor, fill="#787878")]
+                anchor=self.anchor, fill="#787878", **self.kwargs)]
 
     # @typing.override
     def coords(

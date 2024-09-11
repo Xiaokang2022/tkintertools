@@ -238,7 +238,7 @@ class Text(Component):
         show: str | None = None,
         placeholder: str = "",
         anchor: typing.Literal["n", "e", "w", "s",
-                               "nw", "ne", "sw", "se"] = "center",
+                               "nw", "ne", "sw", "se", "center"] = "center",
         justify: typing.Literal["left", "center", "right"] = "left",
         family: str | None = None,
         fontsize: int | None = None,
