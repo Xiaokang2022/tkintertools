@@ -94,6 +94,8 @@ class Image(virtual.Widget):
         size: tuple[int, int] | None = None,
         *,
         image: enhanced.PhotoImage | None = None,
+        anchor: typing.Literal["n", "e", "w", "s",
+                               "nw", "ne", "sw", "se", "center"] = "nw",
         name: str | None = None,
         through: bool = False,
         animation: bool = True,
@@ -103,6 +105,7 @@ class Image(virtual.Widget):
         * `position`: position of the widget
         * `size`: size of the widget
         * `image`: image of the widget
+        * `anchor`: anchor of the widget
         * `name`: name of the widget
         * `through`: wether detect another widget under the widget
         * `animation`: wether enable animation
@@ -111,10 +114,10 @@ class Image(virtual.Widget):
                                 name=name, through=through, animation=animation)
         if image is not None:
             if size is None:
-                images.StillImage(self, image=image)
+                images.StillImage(self, image=image, anchor=anchor)
             else:
                 images.StillImage(self, image=image.scale(
-                    size[0]/image.width(), size[1]/image.height()))
+                    size[0]/image.width(), size[1]/image.height()), anchor=anchor)
 
     def get(self) -> enhanced.PhotoImage:
         """Get the image of the widget"""
