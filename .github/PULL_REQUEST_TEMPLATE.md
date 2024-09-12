@@ -3,8 +3,8 @@ Thank you so much for your PR!❤️
 非常感谢您的PR！❤️
 -->
 
-📑 PR Summary
---------------
+PR Summary
+----------
 
 <!--
 Please provide at least 1-2 sentences describing the pull request in detail
@@ -17,16 +17,16 @@ Also please summarize the changes in the title, and avoid non-descriptive titles
 还请在标题中概括一下更改的内容，并避免非描述性的标题，比如 “解决问题 #6666”。
 -->
 
-✏️ Extra Information
----------------------
+Extra Information
+-----------------
 
 <!--
 If there is any additional information that needs to be written, please put it here.
 如果有其它额外信息需要写，请放在这里
 -->
 
-☑️ PR Checklist
-----------------
+PR Checklist
+------------
 
 <!--
 Please check that your PR has completed the contents of the following checkboxes

@@ -14,7 +14,7 @@ body:
   - type: dropdown
     id: version
     attributes:
-      label: 🔖 Version
+      label: Version
       description: |
         Which version of the project are you using?  
         您使用的是本项目的哪个版本？
@@ -28,7 +28,7 @@ body:
   - type: dropdown
     id: platform
     attributes:
-      label: 🔥 Platform
+      label: Platform
       description: |
         Which platform are you using?  
         您使用的是哪个平台？
@@ -44,17 +44,17 @@ body:
   - type: textarea
     id: what-happened
     attributes:
-      label: ❓What Happened
+      label: What Happened
       description: |
         What bugs did you find?  
         您发现了什么错误？
-      placeholder: Tell us what you see!  
+      placeholder: Tell us what you see!
     validations:
       required: true
   - type: textarea
     id: logs
     attributes:
-      label: 📑 Relevant Log Output
+      label: Relevant Log Output
       description: |
         Please copy and paste any relevant log output. This will be automatically formatted into code, so no need for backticks.  
         请复制并粘贴任何相关的日志输出。这将自动格式化为代码，因此无需反引号。
@@ -62,7 +62,7 @@ body:
   - type: textarea
     id: extra
     attributes:
-      label: ✏️ Extra Information
+      label: Extra Information
       description: |
         You can add some extra information here.  
         您可以在这里添加一些额外的信息。
@@ -71,7 +71,7 @@ body:
   - type: input
     id: contact
     attributes:
-      label: ✉️ Contact Details
+      label: Contact Details
       description: |
         How can we get in touch with you if we need more info?  
         如果需要更多信息，我们如何与您取得联系？
@@ -81,7 +81,7 @@ body:
   - type: checkboxes
     id: terms
     attributes:
-      label: ⚠️ Code of Conduct
+      label: Code of Conduct
       description: |
         By submitting this issue, you agree to follow our [Code of Conduct](../blob/master/CODE_OF_CONDUCT.md).  
         提交此问题，即表示您同意遵守我们的[行为准则](../blob/master/CODE_OF_CONDUCT.md)。

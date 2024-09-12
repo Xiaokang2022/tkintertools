@@ -11,7 +11,7 @@ body:
   - type: input
     id: link
     attributes:
-      label: 🔗 Documentation Link
+      label: Documentation Link
       description: |
         Link to any documentation or examples that you are referencing.  
         链接到您正在引用的任何文档或示例。
@@ -21,24 +21,24 @@ body:
   - type: textarea
     id: problem
     attributes:
-      label: ⚡Problem
+      label: Problem
       description: |
         What is missing, unclear, or wrong in the documentation?  
         文档中缺少、不清楚或错误的内容是什么？
-      placeholder: Tell us what find!  
+      placeholder: Tell us what find!
     validations:
       required: true
   - type: textarea
     id: suggest
     attributes:
-      label: 🚀 Suggested improvement
+      label: Suggested improvement
       description: |
         If you have an improvement plan, you can briefly write your ideas here.  
         如果你有改进的方案，可以在这里简单写一下你的想法。
   - type: input
     id: contact
     attributes:
-      label: ✉️ Contact Details
+      label: Contact Details
       description: |
         How can we get in touch with you if we need more info?  
         如果需要更多信息，我们如何与您取得联系？
@@ -48,7 +48,7 @@ body:
   - type: checkboxes
     id: terms
     attributes:
-      label: ⚠️ Code of Conduct
+      label: Code of Conduct
       description: |
         By submitting this issue, you agree to follow our [Code of Conduct](../blob/master/CODE_OF_CONDUCT.md).  
         提交此问题，即表示您同意遵守我们的[行为准则](../blob/master/CODE_OF_CONDUCT.md)。
