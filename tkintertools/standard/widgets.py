@@ -112,12 +112,11 @@ class Image(virtual.Widget):
         """
         virtual.Widget.__init__(self, master, position, (0, 0),
                                 name=name, through=through, animation=animation)
-        if image is not None:
-            if size is None:
-                images.StillImage(self, image=image, anchor=anchor)
-            else:
-                images.StillImage(self, image=image.scale(
-                    size[0]/image.width(), size[1]/image.height()), anchor=anchor)
+        if image is not None and size is not None:
+            images.StillImage(self, image=image.scale(
+                size[0]/image.width(), size[1]/image.height()), anchor=anchor)
+        else:
+            images.StillImage(self, image=image, anchor=anchor)
 
     def get(self) -> enhanced.PhotoImage:
         """Get the image of the widget"""
