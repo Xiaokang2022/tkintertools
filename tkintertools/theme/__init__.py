@@ -26,5 +26,3 @@ It is not mandatory for the variable to be a constant, it is enough to conform
 to the above format, and the missing style will be empty by default and will not
 affect the operation of the program.
 """
-
-from . import *

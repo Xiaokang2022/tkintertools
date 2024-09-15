@@ -14,7 +14,9 @@ __all__ = [
     "blend",
     "gradient",
     "hsl_to_rgb",
+    "hsl2rgb",
     "rgb_to_hsl",
+    "rgb2hsl",
 ]
 
 HSL = tuple[float, float, float]
@@ -75,7 +77,7 @@ def blend(
     colors = zip(*colors)
 
     if weights is None:  # Same weights
-        return tuple(map(lambda x: statistics.mean(x), colors))
+        return tuple(map(statistics.mean, colors))
 
     _total = sum(weights)
     weights = tuple(map(lambda x: x/_total, weights))  # Different weights
@@ -117,7 +119,13 @@ def hsl_to_rgb(hsl: HSL) -> rgb.RGB:
     return tuple(round(i*255) for i in c)
 
 
+hsl2rgb = hsl_to_rgb  # Alias
+
+
 def rgb_to_hsl(rgb: rgb.RGB) -> HSL:
     """Convert RGB to HSL codes"""
     c = colorsys.rgb_to_hls(*tuple(i/255 for i in rgb))
     return c[0]*math.tau, c[1], c[2]
+
+
+rgb2hsl = rgb_to_hsl  # Alias

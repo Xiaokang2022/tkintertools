@@ -92,19 +92,25 @@ class Component(abc.ABC):
 
     def center(self) -> tuple[int, int]:
         """Return the geometric center of the `Component`"""
-        return self.position[0] + self.size[0]/2, self.position[1] + self.size[1]/2
+        return self.position[0] + self.size[0]/2, \
+            self.position[1] + self.size[1]/2
 
     def region(self) -> tuple[int, int, int, int]:
         """Return the decision region of the `Component`"""
-        return self.position[0], self.position[1], self.position[0]+self.size[0], \
-            self.position[1]+self.size[1]
+        return self.position[0], self.position[1], \
+            self.position[0]+self.size[0], self.position[1]+self.size[1]
 
     def detect(self, x: int, y: int) -> bool:
-        """Detect whether the specified coordinates are within the `Component`"""
+        """Detect whether the specified coordinates are within `Component`"""
         x1, y1, x2, y2 = self.region()
         return x1 <= x <= x2 and y1 <= y <= y2
 
-    def update(self, state: str | None = None, *, no_delay: bool = False) -> None:
+    def update(
+        self,
+        state: str | None = None,
+        *,
+        no_delay: bool = False,
+    ) -> None:
         """
         Update the style of the `Component` to the corresponding state
 
@@ -120,7 +126,10 @@ class Component(abc.ABC):
         if self.styles.get(state) is not None:
             self.configure(self.styles[state], no_delay=no_delay)
 
-    def _get_disabled_style(self, refer_state: str | None = None) -> dict[str, str]:
+    def _get_disabled_style(
+        self,
+        refer_state: str | None = None,
+    ) -> dict[str, str]:
         """Get the style data of disabled state"""
         if refer_state is None:
             refer_state = self.widget.state
@@ -133,12 +142,18 @@ class Component(abc.ABC):
                         self.widget.master["bg"]), constants.GOLDEN_RATIO))
         return self.styles["disabled"]
 
-    def configure(self, style: dict[str, str], *, no_delay: bool = False) -> None:
-        """Configure properties of the `Component` and update them immediately"""
+    def configure(
+        self,
+        style: dict[str, str],
+        *,
+        no_delay: bool = False,
+    ) -> None:
+        """Configure properties of `Component` and update them immediately"""
         for item in self.items:
             tags = self.widget.master.itemcget(item, "tags").split()
-            kwargs = {key: value for key, param in zip(
-                tags[0:-1:2], tags[1:len(tags):2]) if (value := style.get(param)) is not None}
+            kwargs = {key: value for key, param
+                      in zip(tags[0:-1:2], tags[1:len(tags):2])
+                      if (value := style.get(param)) is not None}
             if self.widget.animation and self.animation and not no_delay:
                 for key, value in kwargs.items():
                     start_color: str = self.widget.master.itemcget(item, key)
@@ -148,11 +163,13 @@ class Component(abc.ABC):
                     if value.startswith("#") and len(value) == 9:
                         value = rgb.rgb_to_str(rgb._str_to_rgba(
                             value, reference=self.widget.master["bg"]))
-                    if value == "" or start_color == "":  # Null characters cannot be parsed
+                    if value == "" or start_color == "":
+                        # Null characters cannot be parsed
                         self.widget.master.itemconfigure(item, **{key: value})
                     else:
                         self.gradient = animations.GradientItem(
-                            self.widget.master, item, key, 150, (start_color, value))
+                            self.widget.master, item, key, 150,
+                            (start_color, value))
                         self.gradient.start()
             else:
                 for key, value in kwargs.items():
@@ -497,7 +514,11 @@ class Widget:
         elif isinstance(component, Image):
             self._images.remove(component)
 
-    def update(self, state: str | None = None, *, no_delay: bool = False) -> None:
+    def update(
+        self,
+        state: str | None = None,
+        *, no_delay: bool = False,
+    ) -> None:
         """Update the widget"""
         if state != "disabled" and self._state_before_disabled:
             return  # It is currently disabled
@@ -515,7 +536,8 @@ class Widget:
                 component._get_disabled_style(self._state_before_disabled)
             self.update("disabled", no_delay=True)
         else:
-            self._state_before_disabled, last_state = "", self._state_before_disabled
+            self._state_before_disabled, last_state \
+                = "", self._state_before_disabled
             self.update(last_state, no_delay=True)
         for widget in self.widgets:
             widget.disabled(value)

@@ -144,7 +144,8 @@ class Tk(tkinter.Tk):
         Change the size and position of the window and return the current size
         and position of the window
 
-        * `size`: the size of the window, if it is None, does not change anything
+        * `size`: the size of the window, if it is None, does not change
+        anything
         * `position`: the position of the window, if it is None, does not
         change anything
 
@@ -296,7 +297,8 @@ class Toplevel(tkinter.Toplevel, Tk):
         * `title`: title of window, default is the same as title of master
         * `grab`: set grab for this window
         * `focus`: whether direct input focus to this window
-        * `**kwargs`: compatible with other parameters of class `tkinter.Toplevel`
+        * `**kwargs`: compatible with other parameters of class
+        `tkinter.Toplevel`
         """
         tkinter.Toplevel.__init__(self, master, **kwargs)
         Tk.__init__(self, size, position, title=title)  # window style is set
@@ -452,7 +454,8 @@ class Canvas(tkinter.Canvas):
 
     def _initialization(self) -> None:
         """Initialization of size data"""
-        self._size = self._initial_size = self.winfo_width(), self.winfo_height()
+        self._size = self._initial_size \
+            = self.winfo_width(), self.winfo_height()
 
         match self.place_info().get("anchor"):
             case "nw" | None: dx, dy = 0, 0
@@ -463,10 +466,12 @@ class Canvas(tkinter.Canvas):
             case "e": dx, dy = self._initial_size[0], self._initial_size[1]//2
             case "s": dx, dy = self._initial_size[0], self._initial_size[1]//2
             case "se": dx, dy = self._initial_size[0], self._initial_size[1]
-            case "center": dx, dy = self._initial_size[0]//2, self._initial_size[1]//2
+            case "center": dx, dy \
+                = self._initial_size[0]//2, self._initial_size[1]//2
             # The above is already all the case
 
-        self._position = self._initial_position = self.winfo_x()+dx, self.winfo_y()+dy
+        self._position = self._initial_position \
+            = self.winfo_x() + dx, self.winfo_y() + dy
 
     def _re_place(self) -> None:
         """
@@ -576,7 +581,8 @@ class Canvas(tkinter.Canvas):
         self._trigger_config.reset()
         for widget in self._widgets[::-1]:
             if widget._feature is not None:
-                if getattr(widget._feature, f"_move_{type_}")(event) and not widget.through:
+                if getattr(widget._feature, f"_move_{type_}")(event) \
+                        and not widget.through:
                     event.x = math.nan
         self._trigger_config.update(cursor="arrow")
 
@@ -590,7 +596,8 @@ class Canvas(tkinter.Canvas):
         self._trigger_focus.reset()
         for widget in self._widgets[::-1]:
             if widget._feature is not None:
-                if getattr(widget._feature, f"_click_{type_}")(event) and not widget.through:
+                if getattr(widget._feature, f"_click_{type_}")(event) \
+                        and not widget.through:
                     event.x = math.nan
         self._trigger_focus.update(True, "")
 
@@ -602,7 +609,8 @@ class Canvas(tkinter.Canvas):
         """Events to release the mouse"""
         for widget in self._widgets[::-1]:
             if widget._feature is not None:
-                if getattr(widget._feature, f"_release_{type_}")(event) and not widget.through:
+                if getattr(widget._feature, f"_release_{type_}")(event) \
+                        and not widget.through:
                     event.x = math.nan
 
     def _wheel(
@@ -615,42 +623,48 @@ class Canvas(tkinter.Canvas):
             event.delta = 120 if type_ == "up" else -120
         for widget in self._widgets[::-1]:
             if widget._feature is not None:
-                if getattr(widget._feature, "_wheel")(event) and not widget.through:
+                if getattr(widget._feature, "_wheel")(event) \
+                        and not widget.through:
                     event.x = math.nan
 
     def _input(self, event: tkinter.Event) -> None:
         """Event for typing"""
         for widget in self._widgets[::-1]:
             if widget._feature is not None:
-                if getattr(widget._feature, "_input")(event) and not widget.through:
+                if getattr(widget._feature, "_input")(event) \
+                        and not widget.through:
                     event.x = math.nan
 
     def _copy(self, event: tkinter.Event) -> None:
         """Event for copy operation"""
         for widget in self._widgets[::-1]:
             if widget._feature is not None:
-                if getattr(widget._feature, "_copy")(event) and not widget.through:
+                if getattr(widget._feature, "_copy")(event) \
+                        and not widget.through:
                     pass
 
     def _paste(self, event: tkinter.Event) -> None:
         """Event for paste operation"""
         for widget in self._widgets[::-1]:
             if widget._feature is not None:
-                if getattr(widget._feature, "_paste")(event) and not widget.through:
+                if getattr(widget._feature, "_paste")(event) \
+                        and not widget.through:
                     pass
 
     def _cut(self, event: tkinter.Event) -> None:
         """Event for cut operation"""
         for widget in self._widgets[::-1]:
             if widget._feature is not None:
-                if getattr(widget._feature, "_cut")(event) and not widget.through:
+                if getattr(widget._feature, "_cut")(event) \
+                        and not widget.through:
                     pass
 
     def _select_all(self, event: tkinter.Event) -> None:
         """Event for operation of selecting all"""
         for widget in self._widgets[::-1]:
             if widget._feature is not None:
-                if getattr(widget._feature, "_select_all")(event) and not widget.through:
+                if getattr(widget._feature, "_select_all")(event) \
+                        and not widget.through:
                     pass
 
 

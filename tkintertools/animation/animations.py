@@ -40,8 +40,10 @@ class Animation:
         * `controller`: control functions that determine the course of the
         entire animation movement
         * `callback`: callback function, which will be called once per frame,
-        with the parameter being the percentage of the current animation progress
-        * `end`: ending function, which is called once at the end of the animation
+        with the parameter being the percentage of the current animation
+        progress
+        * `end`: ending function, which is called once at the end of the
+        animation
         * `repeat`: number of repetitions of the entire animation process
         * `fps`: the FPS of the animation
         * `derivation`: whether the callback function is derivative
@@ -87,7 +89,8 @@ class Animation:
         """
         Start the animation
 
-        * `delay`: length of the delay before the animation starts, in milliseconds 
+        * `delay`: length of the delay before the animation starts, in
+        milliseconds 
         """
         self._tasks.clear()
         last_percentage = 0
@@ -132,7 +135,8 @@ class MoveTkWidget(Animation):
         * `offset`: relative offset of the coordinates
         * `controller`: control functions that determine the course of the
         entire animation movement
-        * `end`: ending function, which is called once at the end of the animation
+        * `end`: ending function, which is called once at the end of the
+        animation
         * `repeat`: number of repetitions of the entire animation process
         * `fps`: the FPS of the animation
         """
@@ -170,7 +174,8 @@ class MoveWidget(Animation):
         * `offset`: relative offset of the coordinates
         * `controller`: control functions that determine the course of the
         entire animation movement
-        * `end`: ending function, which is called once at the end of the animation
+        * `end`: ending function, which is called once at the end of the
+        animation
         * `repeat`: number of repetitions of the entire animation process
         * `fps`: the FPS of the animation
         """
@@ -203,7 +208,8 @@ class MoveComponent(Animation):
         * `offset`: relative offset of the coordinates
         * `controller`: control functions that determine the course of the
         entire animation movement
-        * `end`: ending function, which is called once at the end of the animation
+        * `end`: ending function, which is called once at the end of the
+        animation
         * `repeat`: number of repetitions of the entire animation process
         * `fps`: the FPS of the animation
         """
@@ -238,7 +244,8 @@ class MoveItem(Animation):
         * `offset`: relative offset of the coordinates
         * `controller`: control functions that determine the course of the
         entire animation movement
-        * `end`: ending function, which is called once at the end of the animation
+        * `end`: ending function, which is called once at the end of the
+        animation
         * `repeat`: number of repetitions of the entire animation process
         * `fps`: the FPS of the animation
         """
@@ -275,7 +282,8 @@ class GradientTkWidget(Animation):
         * `colors`: a tuple of the initial and ending colors
         * `controller`: control functions that determine the course of the
         entire animation movement
-        * `end`: ending function, which is called once at the end of the animation
+        * `end`: ending function, which is called once at the end of the
+        animation
         * `repeat`: number of repetitions of the entire animation process
         * `fps`: the FPS of the animation
         * `derivation`: whether the callback function is derivative
@@ -319,7 +327,8 @@ class GradientItem(Animation):
         * `colors`: a tuple of the initial and ending colors
         * `controller`: control functions that determine the course of the
         entire animation movement
-        * `end`: ending function, which is called once at the end of the animation
+        * `end`: ending function, which is called once at the end of the
+        animation
         * `repeat`: number of repetitions of the entire animation process
         * `fps`: the FPS of the animation
         * `derivation`: whether the callback function is derivative
@@ -331,8 +340,8 @@ class GradientItem(Animation):
 
         Animation.__init__(
             self, ms, controller,
-            callback=lambda p: canvas.itemconfigure(
-                item, **{parameter: rgb.rgb_to_str(rgb.convert(rgb1, rgb2, p))}),
+            callback=lambda p: canvas.itemconfigure(item, **{
+                parameter: rgb.rgb_to_str(rgb.convert(rgb1, rgb2, p))}),
             end=end, repeat=repeat, fps=fps, derivation=derivation,
         )
 
@@ -353,12 +362,14 @@ class ScaleFontSize(Animation):
         derivation: bool = False,
     ) -> None:
         """
-        * `text`: an instance of `virtual.Text` that needs to be scaled in font size
+        * `text`: an instance of `virtual.Text` that needs to be scaled in font
+        size
         * `ms`: duration of the animation, in milliseconds
         * `sizes`: a tuple of the initial and ending sizes or target font size
         * `controller`: control functions that determine the course of the
         entire animation movement
-        * `end`: ending function, which is called once at the end of the animation
+        * `end`: ending function, which is called once at the end of the
+        animation
         * `repeat`: number of repetitions of the entire animation process
         * `fps`: the FPS of the animation
         * `derivation`: whether the callback function is derivative

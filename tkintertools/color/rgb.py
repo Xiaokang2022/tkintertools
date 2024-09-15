@@ -12,7 +12,9 @@ __all__ = [
     "blend",
     "gradient",
     "str_to_rgb",
+    "str2rgb",
     "rgb_to_str",
+    "rgb2str",
 ]
 
 RGB = tuple[int, int, int]
@@ -120,9 +122,15 @@ def str_to_rgb(color: str) -> RGB:
     return colormap.name_to_rgb(color)
 
 
+str2rgb = str_to_rgb  # Alias
+
+
 def rgb_to_str(rgb: RGB) -> str:
     """Convert RGB codes to color strings"""
     return f"#{rgb[0]:02X}{rgb[1]:02X}{rgb[2]:02X}"
+
+
+rgb2str = rgb_to_str  # Alias
 
 
 def _str_to_rgba(color: str, *, reference: str) -> RGB:
@@ -132,3 +140,6 @@ def _str_to_rgba(color: str, *, reference: str) -> RGB:
     r, g = divmod(hex, 256)
     refer_rgb = str_to_rgb(reference)
     return convert((r, g, b), refer_rgb, 1 - a/255)
+
+
+_str2rgba = _str_to_rgba  # Alias

@@ -82,7 +82,8 @@ def embed_window(
     Embed a widget into another widget
 
     * `window`: Widget that will be embedded in
-    * `parent`: parent widget, `None` indicates that the parent widget is the screen
+    * `parent`: parent widget, `None` indicates that the parent widget is the
+    screen
     * `focus`: whether direct input focus to this window
     """
     ctypes.windll.user32.SetParent(

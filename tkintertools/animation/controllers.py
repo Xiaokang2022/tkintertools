@@ -1,14 +1,15 @@
 """
 Standard control functions
 
-Definition of control function::
+Definition of control function:
 
 ```python
 def f(t: float) -> float: ...
 ```
 
 * t: 0% ~ 100%, indicates the percentage of time
-* return value: Any real number, represents a multiple of the cardinality of the animation
+* return value: Any real number, represents a multiple of the cardinality of
+the animation
 
 The built-in control functions are:
 
@@ -31,7 +32,7 @@ __all__ = [
 
 def _map_t(
     start: float,
-    end: float
+    end: float,
 ) -> typing.Callable[[float], float]:
     """
     Map parameters in any range between 0 and 1
@@ -49,7 +50,7 @@ def _map_t(
 
 def _map_y(
     base_function: typing.Callable[[float], float],
-    end: float
+    end: float,
 ) -> typing.Callable[[float], float]:
     """
     Map the final return value to 1
@@ -71,7 +72,7 @@ def controller_generator(
     start: float,
     end: float,
     *,
-    map_y: bool = True
+    map_y: bool = True,
 ) -> typing.Callable[[float], float]:
     """
     Generator of control functions
@@ -112,4 +113,4 @@ def smooth(t: float) -> float:
 
 def rebound(t: float) -> float:
     """Rebound animation: before the end, displacement will bounce off a bit"""
-    return controller_generator(math.sin, 0, math.pi/2 + 0.5)(t)
+    return controller_generator(math.sin, 0, (math.pi+1) / 2)(t)

@@ -3,7 +3,8 @@ Support for theme
 
 ATTENTION:
 
-All third packages which relative to style introduced by `tkintertools` are there:
+All third packages which relative to style introduced by `tkintertools` are
+there:
 
 * darkdetect
 * pywinstyles
@@ -60,8 +61,9 @@ SYSTEM_DARK_MODE: bool = bool(darkdetect.isDark()) if darkdetect else False
 _theme_map: dict[typing.Literal["dark", "light"], pathlib.Path |
                  str | types.ModuleType] = {"dark": dark, "light": light}
 """
-The mapping table between dark and light themes, when the program switches to a light color,
-it will use the theme of the light color in the map, and the same goes for dark colors
+The mapping table between dark and light themes, when the program switches to a
+light color, it will use the theme of the light color in the map, and the same
+goes for dark colors
 """
 
 _color_mode: typing.Literal["system", "light", "dark"] = "system"
@@ -70,8 +72,8 @@ The color mode of the current program, `"system"` is the following system,
 `"light"` is the light color, and `"dark"` is the dark color
 """
 
-_callback_events: dict[typing.Callable[[bool, typing.Any],
-                                       typing.Any], tuple[typing.Any, ...]] = {}
+_callback_events: dict[typing.Callable[[bool, typing.Any], typing.Any],
+                       tuple[typing.Any, ...]] = {}
 """Events that are responded to when the system theme changes"""
 
 
@@ -118,7 +120,8 @@ def set_theme_map(
         parser._get_file.cache_clear()
 
 
-def get_theme_map() -> dict[typing.Literal["dark", "light"], str | pathlib.Path | types.ModuleType]:
+def get_theme_map() -> dict[typing.Literal["dark", "light"],
+                            str | pathlib.Path | types.ModuleType]:
     """Get the theme map"""
     return _theme_map.copy()
 
@@ -133,8 +136,9 @@ def register_event(
     *args: typing.Any,
 ) -> None:
     """
-    When the system accent color changes, the registered function will be called,
-    and the parameter is a boolean value indicating whether it is currently a dark theme
+    When the system accent color changes, the registered function will be
+    called, and the parameter is a boolean value indicating whether it is
+    currently a dark theme
 
     * `func`: callback function
     * `args`: extra arguments
@@ -219,18 +223,23 @@ def customize_window(
                 hPyT.maximize_minimize_button.unhide(window)
                 hPyT.all_stuffs.unhide(window)
         if disable_maximize_button is not None:
-            hPyT.maximize_button.disable(
-                window) if disable_maximize_button else hPyT.maximize_button.enable(window)
+            hPyT.maximize_button.disable(window) \
+                if disable_maximize_button \
+                else hPyT.maximize_button.enable(window)
         if disable_minimize_button is not None:
-            hPyT.minimize_button.disable(
-                window) if disable_minimize_button else hPyT.minimize_button.enable(window)
+            hPyT.minimize_button.disable(window) \
+                if disable_minimize_button \
+                else hPyT.minimize_button.enable(window)
 
     if win32material:
         if boarder_type is not None:
             match boarder_type:
-                case "rectangular": boarder_type = win32material.BORDERTYPE.RECTANGULAR
-                case "smallround": boarder_type = win32material.BORDERTYPE.SMALLROUND
-                case "round": boarder_type = win32material.BORDERTYPE.ROUND
+                case "rectangular": boarder_type \
+                    = win32material.BORDERTYPE.RECTANGULAR
+                case "smallround": boarder_type \
+                    = win32material.BORDERTYPE.SMALLROUND
+                case "round": boarder_type \
+                    = win32material.BORDERTYPE.ROUND
             win32material.SetWindowBorder(tools.get_hwnd(window), boarder_type)
 
 
