@@ -13,18 +13,7 @@ __all__ = [
 ]
 
 
-if ImageTk:
-
-    class PhotoImage(ImageTk.PhotoImage, tkinter.PhotoImage):
-        """Pillow version of `tkinter.PhotoImage`"""
-
-        def scale(self, x: float, y: float) -> "PhotoImage":
-            """Scale the PhotoImage"""
-            width = round(x*self.width())
-            height = round(y*self.height())
-            return PhotoImage(ImageTk.getimage(self).resize((width, height)))
-
-else:
+if not ImageTk:
 
     class PhotoImage(tkinter.PhotoImage):
         """Enhanced version of `tkinter.PhotoImage`"""
@@ -47,6 +36,12 @@ else:
             """Scale the PhotoImage"""
             width = round(x*self.width())
             height = round(y*self.height())
+            return self.resize(width, height)
+
+        def resize(self, width: int, height: int) -> "PhotoImage":
+            """Resize the PhotoImage"""
+            x = width / self.width()
+            y = height / self.height()
             new_image = PhotoImage(width=width, height=height)
             new_image.put([[self._data[int(j/y)][int(i/x)]
                             for i in range(width)] for j in range(height)])
@@ -57,3 +52,18 @@ else:
                         new_image.transparency_set(i, j, True)
 
             return new_image
+
+else:
+
+    class PhotoImage(ImageTk.PhotoImage, tkinter.PhotoImage):
+        """Pillow version of `tkinter.PhotoImage`"""
+
+        def scale(self, x: float, y: float) -> "PhotoImage":
+            """Scale the PhotoImage"""
+            width = round(x*self.width())
+            height = round(y*self.height())
+            return self.resize(width, height)
+
+        def resize(self, width: int, height: int) -> "PhotoImage":
+            """Resize the PhotoImage"""
+            return PhotoImage(ImageTk.getimage(self).resize((width, height)))
