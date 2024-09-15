@@ -5,6 +5,7 @@ import tkinter
 __all__ = [
     "COLOR_MAP",
     "name_to_rgb",
+    "name2rgb",
 ]
 
 COLOR_MAP: dict[str, tuple[int, int, int]] = {
@@ -779,3 +780,6 @@ def name_to_rgb(color_name: str) -> tuple[int, int, int]:
         return tkinter.Misc.winfo_rgb(tkinter._default_root, color_name)
 
     return rgb
+
+
+name2rgb = name_to_rgb  # Alias

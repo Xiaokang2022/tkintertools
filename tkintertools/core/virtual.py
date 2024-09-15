@@ -2,7 +2,7 @@
 Various virtual classes
 
 The virtual `Widget` consists of 5 parts, which are `Widget`, `Shape`, `Text`,
-`Image`, and `Feature`.
+`Image` and `Feature`.
 
 Where `Feature` is the function of widgets, and each widget can be bound to up
 to one, but in terms of appearance, there is no limit to the number of `Shape`,

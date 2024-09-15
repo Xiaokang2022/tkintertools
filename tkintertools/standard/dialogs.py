@@ -1,4 +1,4 @@
-"""All standard Dialogs"""
+"""All standard dialog classes"""
 
 import tkinter
 import tkinter.colorchooser

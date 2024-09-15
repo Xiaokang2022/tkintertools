@@ -86,8 +86,8 @@ def controller_generator(
 
     For example:
 
-    * Before modifying: `y = 2*sin(t)`, `0 <= t <= π/2`
-    * After modifying: `y = sin(t*π/2)`, `0 <= t <= 1`
+    * Before modifying: $y = 2\\sint, 0 <= t <= \\pi/2$
+    * After modifying: $y = \\sin\\frac{\\pi}{2}t, 0 <= t <= 1$
     """
     if map_y:
         @functools.wraps(base_function)

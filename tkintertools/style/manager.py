@@ -1,15 +1,13 @@
 """
 Support for theme
 
-ATTENTION:
-
 All third packages which relative to style introduced by `tkintertools` are
 there:
 
-* darkdetect
-* pywinstyles
-* win32material
-* hPyT
+* darkdetect: https://github.com/albertosottile/darkdetect
+* pywinstyles: https://github.com/Akascape/py-window-styles
+* win32material: https://github.com/littlewhitecloud/win32material
+* hPyT: https://github.com/Zingzy/hPyT
 """
 
 import pathlib

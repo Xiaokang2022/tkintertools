@@ -1,4 +1,4 @@
-"""All standard Widgets"""
+"""All standard `Widget` classes"""
 
 import itertools
 import math

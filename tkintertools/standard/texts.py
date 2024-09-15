@@ -1,4 +1,4 @@
-"""All standard Texts"""
+"""All standard `Text` classes"""
 
 import math
 import tkinter.font

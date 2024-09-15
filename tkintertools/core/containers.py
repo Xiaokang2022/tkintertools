@@ -1,4 +1,14 @@
-"""All containers"""
+"""
+All container widgets
+
+There are two container widgets at the window level: `Tk` and `Toplevel`. `Tk`
+is generally used for the main window, while `Toplevel` is a pop-up window.
+
+There are two container widgets at the canvas level: `Canvas` and `Frame`.
+`Canvas` is the main widget carrier in tkintertools, and `Frame` is similar to
+`Canvas`, but with a different default color. `Frame` is generally used for
+layout.
+"""
 
 import functools
 import math

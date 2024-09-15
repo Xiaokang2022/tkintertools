@@ -1,4 +1,4 @@
-"""All standard Images"""
+"""All standard `Image` classes"""
 
 from ..core import virtual
 

@@ -1,4 +1,9 @@
-"""All constants"""
+"""
+All constants
+
+In general, they should not be modified, and if you need to modify them, it is
+best before the window is established.
+"""
 
 import math
 import platform
@@ -6,6 +11,7 @@ import platform
 FONT: str = None
 SIZE: int = None
 SYSTEM: str = None
+
 GOLDEN_RATIO: float = (math.sqrt(5)-1) / 2
 
 __all__ = [

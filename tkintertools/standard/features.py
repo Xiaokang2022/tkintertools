@@ -1,4 +1,4 @@
-"""All standard Features"""
+"""All standard `Feature` classes"""
 
 import tkinter
 import typing

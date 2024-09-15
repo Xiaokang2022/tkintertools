@@ -80,9 +80,9 @@ def _get_name(
         if obj.name.startswith("."):  # Special rule
             return obj.__class__.__name__ + obj.name
         return obj.name
-    elif inspect.isclass(obj):
+    if inspect.isclass(obj):
         return obj.__name__
-    elif not isinstance(obj, str):
+    if not isinstance(obj, str):
         return obj.__class__.__name__
     return obj
 

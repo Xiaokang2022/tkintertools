@@ -1,4 +1,4 @@
-"""All standard Shapes"""
+"""All standard `Shape` classes"""
 
 import math
 import typing

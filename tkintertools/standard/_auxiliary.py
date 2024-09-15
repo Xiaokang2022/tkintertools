@@ -1,4 +1,4 @@
-"""Some auxiliary class"""
+"""Some auxiliary classes"""
 
 import math
 import typing
