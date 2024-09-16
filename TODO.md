@@ -48,9 +48,6 @@ Todo / 待办事项
 💡 In Consideration / 考虑中
 ----------------------------
 
-- [ ] Introduce video-related third-party packages to enable video playback  
-引入视频相关第三方包，以实现视频的播放
-
 - [ ] Introduce third-party web frameworks to enable web browsing  
 引入第三方 Web 框架，以实现网页的浏览
 
