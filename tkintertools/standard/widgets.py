@@ -912,7 +912,7 @@ class SegmentedButton(virtual.Widget):
         anchor: typing.Literal["n", "e", "w", "s", "nw",
                                "ne", "sw", "se", "center"] = "center",
         default: int | None = None,
-        commands: tuple[typing.Callable[[], typing.Any] | None, ...] = (),
+        command: typing.Callable[[int | None], typing.Any] | None = None,
         images: tuple[enhanced.PhotoImage | None, ...] = (),
         layout: typing.Literal["horizontal", "vertical"] = "horizontal",
         name: str | None = None,
@@ -933,7 +933,7 @@ class SegmentedButton(virtual.Widget):
         * `justify`: justify mode of the text
         * `anchor`: anchor of the text
         * `default`: default value of the widget
-        * `commands`: a function that is triggered when the button is pressed
+        * `command`: a function that is triggered when the button is pressed
         * `images`: image of the widget
         * `layout`: layout mode of the widget
         * `name`: name of the widget
@@ -962,8 +962,8 @@ class SegmentedButton(virtual.Widget):
         else:
             shapes.RoundedRectangle(self)
         total_side_length = 5
-        for i, pack in enumerate(itertools.zip_longest(sizes, texts, images, commands)):
-            size, text, image, command = pack
+        for i, pack in enumerate(itertools.zip_longest(sizes, texts, images)):
+            size, text, image = pack
             position = (total_side_length, 5) if layout == "horizontal" else (
                 5, total_side_length)
             ToggleButton(self, position, size, text=text, family=family,
@@ -971,8 +971,9 @@ class SegmentedButton(virtual.Widget):
                          underline=underline, overstrike=overstrike,
                          justify=justify, anchor=anchor, animation=animation,
                          image=image, through=True,
-                         command=lambda _, i=i, command=command: (self.set(i), command() if command else None))
+                         command=lambda _, i=i: (self.set(i), command(i) if command else None))
             total_side_length += size[layout == "vertical"] + 5
+        self.command = command
         if default is not None:
             self.set(default)
 
@@ -983,8 +984,10 @@ class SegmentedButton(virtual.Widget):
         """
         return self.value
 
-    def set(self, value: int | None) -> None:
+    def set(self, value: int | None, *, callback: bool = False) -> None:
         """Activate the child toggle button for the specified index"""
+        if callback and self.command:
+            self.command(value)
         for i, widget in enumerate(self._widgets):
             widget.set(i == value)
         self.value = value
