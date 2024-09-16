@@ -13,8 +13,80 @@ Changelog / 更新日志
 > * 🟠 **Deprecated / 弃用**
 > * 🟤 **Refactored / 重构**
 
-🔖 `3.0.0.rc1`
---------------
+🔖 `3.0.0rc2`
+-------------
+
+🕓 *Release Date / 发布日期 : 2024-09-16*
+
+🟢 **Added / 新增**
+
+- Implemented the ability to play videos, see https://github.com/Xiaokang2022/tkintertools-media  
+实现了播放视频的功能，见：https://github.com/Xiaokang2022/tkintertools-media
+
+- Added a parameter called `anchor` to `Image`  
+`Image` 增加了一个名为 `anchor` 的参数
+
+- Added some aliases  
+增加了一些别名
+
+- Added method `resize` to class `PhotoImage`  
+类 `PhotoImage` 增加了方法 `resize`
+
+- Added a `callback` parameter to the `set` method of the relevant widget to control whether the callback function is also called when the method is called  
+相关小部件的 `set` 方法增加了参数 `callback` 来控制当该方法被调用时回调函数是否被调用
+
+🟡 **Changed / 变更**
+
+- Changed default value of parameter `anchor` of `Text`  
+修改了 `Text` 的参数 `anchor` 的默认值
+
+- Changed the API of `SegmentedButton`  
+修改了 `SegmentedButton` 的 API
+
+🟣 **Fixed / 修复**
+
+- Fixed a bug where widget `SegmentedButton` had incorrect function bindings  
+修复了 `SegmentedButton` 的函数绑定不正确的 bug
+
+- Fixed a bug where disabling styles would not recalculate  
+修复了禁用样式不会重复计算的 bug
+
+- Fixed a bug where fonts could not be loaded on Linux OS  
+修复了字体加载函数在 Linux 操作系统上不生效的 bug
+
+- Fixed a bug where the return value of method `alpha` of class `Tk` was incorrect  
+修复了 `Tk` 的方法 `alpha` 的返回值不正确的 bug
+
+- Fixed a bug where some methods of class `Tk` were called and the window style was lost  
+修复了类 `Tk` 的某些方法被调用时会导致窗口丢失样式的 bug
+
+- Fixed some incorrect type hints and missing parameters  
+修复了一些不正确的类型提示和丢失的参数
+
+- Fixed a bug where the widget `Image` must be forced to initialize the image parameter, otherwise an error may be reported  
+修复了小部件 `Image` 必须强制指定图片，否则会报错的 bug
+
+🔵 **Optimized / 优化**
+
+- Optimized method `shutdown` of class `Tk`  
+优化了类 `Tk` 的方法 `shutdown`
+
+- The font loading function has been optimized so that parameter `private` has a certain effect on Linux systems  
+字体加载函数被优化使得其 `private` 参数能在 Linux 操作系统上产生一定的作用
+
+- Class `MoveTkWidget` has been optimized to prevent it from getting widget data that is not up to date  
+类 `MoveTkWidget` 被优化以防止其获取到的小部件数据不是最新的
+
+- Improved doc string  
+改善了文档字符串
+
+🔴 **Removed / 移除**
+
+- Removed initialization parameter `transient` of class `Toplevel`  
+移除了类 `Toplevel` 的初始化参数 `transient`
+
+🔖 `3.0.0rc1`
+-------------
 
 🕓 *Release Date / 发布日期 : 2024-08-08*
 

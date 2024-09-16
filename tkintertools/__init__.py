@@ -48,5 +48,5 @@ if sys.platform == "win32":
     ctypes.windll.shcore.SetProcessDpiAwareness(1)  # Set Windows DPI awareness
 
 
-__version__ = "3.0.0.rc1"
+__version__ = "3.0.0rc2"
 __author__ = "Xiaokang2022 <2951256653@qq.com>"

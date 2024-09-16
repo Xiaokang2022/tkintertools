@@ -53,7 +53,7 @@
 
 * 🔖 Version / 最新版本 : `2.6.21`
 * 🕓 Release / 发布日期 : 2024-01-01
-* ✨ Feature / 更新内容 : [News-2.6.21](https://xiaokang2022.github.io/tkintertools/2.6/news/2.6.21/News/)
+* ✨ Feature / 更新内容 : [News-2.6.21](./CHANGELOG.md#-2621)
 
 ```bash
 pip install tkintertools
@@ -69,12 +69,12 @@ pip install tkintertools
 
 ### 🔥 Dev Version / 开发版本
 
-* 🔖 Version / 最新版本 : `3.0.0.rc1`
-* 🕓 Release / 发布日期 : 2024-08-08
-* ✨ Feature / 更新内容 : [News-3.0.0](https://xiaokang2022.github.io/tkintertools/3.0/news/3.0.0/News/)
+* 🔖 Version / 最新版本 : `3.0.0rc2`
+* 🕓 Release / 发布日期 : 2024-09-16
+* ✨ Feature / 更新内容 : [News-3.0.0](./CHANGELOG.md#-300rc2)
 
 ```bash
-pip install tkintertools[recommended]==3.0.0rc1
+pip install tkintertools[recommended]==3.0.0rc2
 ```
 
 <details open><summary>👁️ Preview / 预览</summary>
@@ -137,21 +137,21 @@ Considering that too many packages will result in a large size of the project fi
 - [X] [darkdetect](https://github.com/albertosottile/darkdetect) - `0.8.0`
 - [X] [pywinstyles](https://github.com/Akascape/py-window-styles) - `1.8`
 - [X] [pillow](https://github.com/python-pillow/Pillow) - `>=10.0.0`
-- [ ] [hPyT](https://github.com/Zingzy/hPyT) - `1.3.2`
+- [ ] [hPyT](https://github.com/Zingzy/hPyT) - `1.3.4`
 - [ ] [win32material](https://github.com/littlewhitecloud/win32style) - `1.0.6`
 
 The following command installs the recommended optional dependencies:  
 以下命令可以安装推荐的可选依赖包：
 
 ```bash
-pip install tkintertools[recommended]==3.0.0rc1
+pip install tkintertools[recommended]==3.0.0rc2
 ```
 
 The following command installs all optional dependencies:  
 以下命令可以安装全部可选依赖包：
 
 ```bash
-pip install tkintertools[all]==3.0.0rc1
+pip install tkintertools[all]==3.0.0rc2
 ```
 
 📦 Extension / 扩展包
@@ -161,13 +161,14 @@ In addition to the basic functionality, `tkintertools` also offers some extensio
 除了基础功能之外，`tkintertools` 还提供一些扩展包来实现某些特定的功能。目前已有的官方扩展包如下：
 
 - [X] [tkintertools-mpl](https://github.com/Xiaokang2022/tkintertools-mpl)
+- [X] [tkintertools-media](https://github.com/Xiaokang2022/tkintertools-media)
 - [X] [tkintertools-3d](https://github.com/Xiaokang2022/tkintertools-3d)
 
 The following command can be used to install all the official extensions:  
 以下命令可以安装全部的官方扩展包：
 
 ```bash
-pip install tkintertools[extension]==3.0.0rc1
+pip install tkintertools[extension]==3.0.0rc2
 ```
 
 👀 More / 更多
