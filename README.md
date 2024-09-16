@@ -115,6 +115,8 @@ pip install tkintertools[recommended]==3.0.0rc2
 
 ![](https://github.com/Xiaokang2022/tkintertools-demos/blob/main/preview/demo8-1.png?raw=true)
 
+![](https://github.com/Xiaokang2022/tkintertools-demos/blob/main/preview/demo10-1.png?raw=true)
+
 </details>
 
 📦 Dependency / 依赖包
