@@ -431,7 +431,7 @@ class SliderFeature(virtual.Feature):
             delta = next_value - temp_value
             animations.Animation(
                 150, controllers.smooth,
-                callback=lambda k: self.widget.set(temp_value + delta*k), fps=60).start()
+                callback=lambda k: self.widget.set(temp_value + delta*k, callback=True), fps=60).start()
 
     def _move_left(self, event: tkinter.Event) -> bool:
         if self._temp_position is not None:
@@ -442,7 +442,7 @@ class SliderFeature(virtual.Feature):
                 delta = (
                     event.x-self._temp_position[0]) / (self.widget.size[0]-self.widget.size[1]*2/5)
             self._temp_position = event.x, event.y
-            self.widget.set(self.widget.value + delta)
+            self.widget.set(self.widget.value + delta, callback=True)
 
     def _release_left(self, event: tkinter.Event) -> bool:
         if self.widget.state == "active":

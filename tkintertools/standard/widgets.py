@@ -299,8 +299,10 @@ class Switch(virtual.Widget):
         """Get the state of the switch"""
         return self.state.endswith("on")
 
-    def set(self, value: bool) -> None:
+    def set(self, value: bool, *, callback: bool = False) -> None:
         """Set the state of the switch"""
+        if callback and self._feature._command is not None:
+            self._feature._command(value)
         if self.get() == bool(value):
             return
         self.update(
@@ -438,8 +440,10 @@ class CheckButton(virtual.Widget):
         """Get the state of the check button"""
         return self._texts[0].visible
 
-    def set(self, value: bool) -> None:
+    def set(self, value: bool, *, callback: bool = False) -> None:
         """Set the state of the check button"""
+        if callback and self._feature._command is not None:
+            self._feature._command(value)
         if self.get() == bool(value):
             return
         if value:
@@ -514,8 +518,10 @@ class ToggleButton(virtual.Widget):
         """Get the state of the check button"""
         return self.state.endswith("on")
 
-    def set(self, value: bool) -> None:
+    def set(self, value: bool, *, callback: bool = False) -> None:
         """Set the state of the switch"""
+        if callback and self._feature._command is not None:
+            self._feature._command(value)
         if self.get() == bool(value):
             return
         self.update(f"{self.state.split('-')[0]}-{'on' if value else 'off'}")
@@ -568,8 +574,10 @@ class RadioButton(virtual.Widget):
         """Get the state of the radio button"""
         return self._shapes[1].visible
 
-    def set(self, value: bool) -> None:
+    def set(self, value: bool, *, callback: bool = False) -> None:
         """Set the state of the radio button"""
+        if callback and self._feature._command is not None:
+            self._feature._command(value)
         if self.get() == bool(value):
             return
         if value:
@@ -586,7 +594,8 @@ class ProgressBar(virtual.Widget):
         position: tuple[int, int],
         size: tuple[int, int] = (400, 20),
         *,
-        command: typing.Callable[[], typing.Any] | None = None,
+        default: float | None = None,
+        command: typing.Callable[[float], typing.Any] | None = None,
         image: enhanced.PhotoImage | None = None,
         name: str | None = None,
         through: bool = False,
@@ -596,6 +605,7 @@ class ProgressBar(virtual.Widget):
         * `master`: parent canvas
         * `position`: position of the widget
         * `size`: size of the widget
+        * `default`: default value of the widget
         * `command`: a function that is triggered when the progress of progress bar is 100%
         * `image`: image of the widget
         * `name`: name of the widget
@@ -618,14 +628,18 @@ class ProgressBar(virtual.Widget):
         features.ProgressBarFeature(self)
         self._shapes[1].disappear()
         self.command = command
+        if default is not None:
+            self.set(default)
 
     def get(self) -> float:
         """Get the progress of the progress bar"""
         return self.value
 
-    def set(self, value: float) -> None:
+    def set(self, value: float, *, callback: bool = False) -> None:
         """Set the progress of the progress bar"""
         self.value = 0 if value < 0 else 1 if value > 1 else value
+        if callback and self.command is not None:
+            self.command(value)
         if self.value == 0:
             return self._shapes[1].disappear()
         elif not self._shapes[1].visible:
@@ -637,9 +651,6 @@ class ProgressBar(virtual.Widget):
         else:
             self._shapes[1].coords((self.size[1]*0.7 + (self.size[0]-self.size[1]
                                    * 0.3-self._shapes[1].size[1]) * self.value, self._shapes[1].size[1]))
-
-        if self.value == 1 and self.command is not None:
-            self.command()
 
 
 class UnderlineButton(virtual.Widget):
@@ -818,7 +829,7 @@ class Slider(virtual.Widget):
         size: tuple[int, int] = (400, 30),
         *,
         default: float | None = None,
-        command: typing.Callable | None = None,
+        command: typing.Callable[[float], typing.Any] | None = None,
         name: str | None = None,
         through: bool = False,
         animation: bool = True,
@@ -859,9 +870,11 @@ class Slider(virtual.Widget):
         """Get the value of the slider"""
         return self.value
 
-    def set(self, value: float) -> typing.Any:
+    def set(self, value: float, *, callback: bool = False) -> None:
         """Set the value of the slider"""
         value = 1 if value > 1 else 0 if value < 0 else value
+        if callback and self.command is not None:
+            self.command(value)
         if self.get() == value:
             return
         if isinstance(self._shapes[-1], shapes.Oval):
@@ -877,8 +890,6 @@ class Slider(virtual.Widget):
         else:
             self._shapes[1].coords(
                 (self.size[1]/5 + (self.size[0]-self.size[1]*2/5) * self.value, self._shapes[1].size[1]))
-        if self.command is not None:
-            return self.command(self.value)
 
 
 class SegmentedButton(virtual.Widget):
