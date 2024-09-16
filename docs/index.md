@@ -58,12 +58,12 @@ pip install tkintertools
 
 ### 🔥 开发版本
 
-* 🔖 最新版本 : `3.0.0.rc1`
-* 🕓 发布日期 : 2024-08-08
-* ✨ 更新内容 : [Changelog-3.0.0.rc1](./CHANGELOG.md#-300rc1)
+* 🔖 最新版本 : `3.0.0rc2`
+* 🕓 发布日期 : 2024-09-16
+* ✨ 更新内容 : [Changelog-3.0.0rc2](./CHANGELOG.md#-300rc2)
 
 ```bash linenums="0"
-pip install tkintertools[recommended]==3.0.0rc1
+pip install tkintertools[recommended]==3.0.0rc2
 ```
 
 ???+ "预览图"
@@ -104,6 +104,8 @@ pip install tkintertools[recommended]==3.0.0rc1
 
     ![](https://github.com/Xiaokang2022/tkintertools-demos/blob/main/preview/demo8-1.png?raw=true)
 
+    ![](https://github.com/Xiaokang2022/tkintertools-demos/blob/main/preview/demo10-1.png?raw=true)
+
 ## 📦 相关依赖包
 
 !!! tip "提示"
@@ -121,19 +123,19 @@ pip install tkintertools[recommended]==3.0.0rc1
 - [X] https://github.com/albertosottile/darkdetect - `0.8.0`
 - [X] https://github.com/Akascape/py-window-styles - `1.8`
 - [X] https://github.com/python-pillow/Pillow - `>=10.0.0`
-- [ ] https://github.com/Zingzy/hPyT - `1.3.2`
+- [ ] https://github.com/Zingzy/hPyT - `1.3.4`
 - [ ] https://github.com/littlewhitecloud/win32style - `1.0.6`
 
 以下命令可以安装推荐的可选依赖包：
 
 ```bash linenums="0"
-pip install tkintertools[recommended]==3.0.0rc1
+pip install tkintertools[recommended]==3.0.0rc2
 ```
 
 以下命令可以安装全部可选依赖包：
 
 ```bash linenums="0"
-pip install tkintertools[all]==3.0.0rc1
+pip install tkintertools[all]==3.0.0rc2
 ```
 
 ## 📦 官方扩展包
@@ -141,12 +143,13 @@ pip install tkintertools[all]==3.0.0rc1
 除了基础功能之外，`tkintertools` 还提供一些扩展包来实现某些特定的功能。目前已有的官方扩展包如下：
 
 - [X] https://github.com/Xiaokang2022/tkintertools-mpl
+- [X] https://github.com/Xiaokang2022/tkintertools-media
 - [X] https://github.com/Xiaokang2022/tkintertools-3d
 
 以下命令可以安装全部的官方扩展包：
 
 ```bash linenums="0"
-pip install tkintertools[extension]==3.0.0rc1
+pip install tkintertools[extension]==3.0.0rc2
 ```
 
 ## 👀 更多
@@ -159,11 +162,11 @@ pip install tkintertools[extension]==3.0.0rc1
 
     MIT，最宽松的开源许可之一
 
--   [📋 **待办事项**](./TODO.md)
+-   [📋 **赞助列表**](./Sponsor.md)
 
     ***
 
-    看看作者都有些什么计划
+    看看都有哪些朋友赞助了
 
 -   [📘 **更新日志**](./CHANGELOG.md)
 
@@ -198,7 +201,7 @@ pip install tkintertools[extension]==3.0.0rc1
     </div>
 
 <div align="center" markdown>
-[✨最新内容](./CHANGELOG.md#-300rc1){ .md-button .md-button--primary title="点我了解最近更新的内容！" }
+[✨最新内容](./CHANGELOG.md#-300rc2){ .md-button .md-button--primary title="点我了解最近更新的内容！" }
 [<big>⭐支持本项目</big>](https://github.com/Xiaokang2022/tkintertools/){ .md-button .md-button--primary title="给项目点个 Star 吧，球球了！" }
 [❤️赞助一下](./Sponsor.md){ .md-button .md-button--primary title="赞助我一下下吧！独自开发不易呢！" }
 </div>

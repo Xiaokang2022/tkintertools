@@ -58,12 +58,12 @@ pip install tkintertools
 
 ### 🔥 Dev Version
 
-* 🔖 Version: `3.0.0.rc1`
-* 🕓 Release: 2024-08-08
-* ✨ Feature: [Changelog-3.0.0.rc1](./CHANGELOG.md#-300rc1)
+* 🔖 Version: `3.0.0rc2`
+* 🕓 Release: 2024-09-16
+* ✨ Feature: [Changelog-3.0.0rc2](./CHANGELOG.md#-300rc2)
 
 ```bash linenums="0"
-pip install tkintertools[recommended]==3.0.0rc1
+pip install tkintertools[recommended]==3.0.0rc2
 ```
 
 ???+ "Preview"
@@ -104,6 +104,8 @@ pip install tkintertools[recommended]==3.0.0rc1
 
     ![](https://github.com/Xiaokang2022/tkintertools-demos/blob/main/preview/demo8-1.png?raw=true)
 
+    ![](https://github.com/Xiaokang2022/tkintertools-demos/blob/main/preview/demo10-1.png?raw=true)
+
 ## 📦 Dependency
 
 !!! tip "Tip"
@@ -121,19 +123,19 @@ Considering that too many packages will result in a large size of the project fi
 - [X] https://github.com/albertosottile/darkdetect - `0.8.0`
 - [X] https://github.com/Akascape/py-window-styles - `1.8`
 - [X] https://github.com/python-pillow/Pillow - `>=10.0.0`
-- [ ] https://github.com/Zingzy/hPyT - `1.3.2`
+- [ ] https://github.com/Zingzy/hPyT - `1.3.4`
 - [ ] https://github.com/littlewhitecloud/win32style - `1.0.6`
 
 The following command installs the recommended optional dependencies:
 
 ```bash linenums="0"
-pip install tkintertools[recommended]==3.0.0rc1
+pip install tkintertools[recommended]==3.0.0rc2
 ```
 
 The following command installs all optional dependencies:
 
 ```bash linenums="0"
-pip install tkintertools[all]==3.0.0rc1
+pip install tkintertools[all]==3.0.0rc2
 ```
 
 ## 📦 Extension
@@ -141,12 +143,13 @@ pip install tkintertools[all]==3.0.0rc1
 In addition to the basic functionality, `tkintertools` also offers some extension packages to implement certain functionality. The following official extensions are available:
 
 - [X] https://github.com/Xiaokang2022/tkintertools-mpl
+- [X] https://github.com/Xiaokang2022/tkintertools-media
 - [X] https://github.com/Xiaokang2022/tkintertools-3d
 
 The following command can be used to install all the official extensions:
 
 ```bash linenums="0"
-pip install tkintertools[extension]==3.0.0rc1
+pip install tkintertools[extension]==3.0.0rc2
 ```
 
 ## 👀 More
@@ -159,11 +162,11 @@ pip install tkintertools[extension]==3.0.0rc1
 
     MIT, one of the most permissive open source licenses
 
--   [📋 **Todo**](./TODO.md)
+-   [📋 **Sponsor**](./Sponsor.md)
 
     ***
 
-    Let's see what the authors have planned
+    Let's see who sponsors
 
 -   [📘 **Changelog**](./CHANGELOG.md)
 

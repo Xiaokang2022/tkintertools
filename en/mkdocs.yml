@@ -89,7 +89,6 @@ nav:
       - Home: index.md
       - License: LICENSE.md
       - Changelog: CHANGELOG.md
-      - Todo: TODO.md
       - Contribution Guide: CONTRIBUTING.md
       - Security Policy: SECURITY.md
       - Code of Conduct: CODE_OF_CONDUCT.md
