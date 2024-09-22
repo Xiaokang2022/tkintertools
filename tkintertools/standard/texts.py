@@ -4,6 +4,8 @@ import math
 import tkinter.font
 import typing
 
+import typing_extensions
+
 from ..core import virtual
 
 __all__ = [
@@ -15,13 +17,13 @@ __all__ = [
 class Information(virtual.Text):
     """General information text"""
 
-    # @typing.override
+    @typing_extensions.override
     def display(self) -> None:
         self.items = [self.widget.master.create_text(
             0, 0, text=self.text, font=self.font, justify=self.justify,
             anchor=self.anchor, tags=("fill", "fill"), **self.kwargs)]
 
-    # @typing.override
+    @typing_extensions.override
     def coords(
         self,
         size: tuple[float, float] | None = None,
@@ -116,7 +118,7 @@ class SingleLineText(virtual.Text):
                               slant=slant, underline=underline, overstrike=overstrike,
                               name=name, styles=styles, animation=animation, **kwargs)
 
-    # @typing.override
+    @typing_extensions.override
     def display(self) -> None:
         self.items = [
             self.widget.master.create_text(
@@ -126,7 +128,7 @@ class SingleLineText(virtual.Text):
                 0, 0, text=self.placeholder, font=self.font, justify=self.justify,
                 anchor=self.anchor, fill="#787878", **self.kwargs)]
 
-    # @typing.override
+    @typing_extensions.override
     def coords(
         self,
         size: tuple[float, float] | None = None,

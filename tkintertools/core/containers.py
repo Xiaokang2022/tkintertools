@@ -17,6 +17,8 @@ import tkinter
 import tkinter.font
 import typing
 
+import typing_extensions
+
 from ..style import manager, parser
 from ..toolbox import enhanced, tools
 from . import constants, virtual
@@ -318,7 +320,7 @@ class Toplevel(tkinter.Toplevel, Tk):
         if focus:
             self.focus_set()
 
-    # @typing.override
+    @typing_extensions.override
     def destroy(self) -> None:
         manager.remove_event(self._theme)
         return tkinter.Toplevel.destroy(self)
@@ -543,7 +545,7 @@ class Canvas(tkinter.Canvas):
                 y = tk_widgets.winfo_y()*relative_ratio[1]
                 tk_widgets.place(width=width, height=height, x=x, y=y)
 
-    # @typing.override
+    @typing_extensions.override
     def destroy(self) -> None:
         self.master._canvases.remove(self)
         return tkinter.Canvas.destroy(self)
@@ -558,7 +560,7 @@ class Canvas(tkinter.Canvas):
             child.destroy()
         self.delete(*self.find_all())
 
-    # @typing.override
+    @typing_extensions.override
     def create_text(self, x: float, y: float, /, **kwargs) -> int:
         # XXX: Need to be improved
         if not (font_ := kwargs.get("font")):

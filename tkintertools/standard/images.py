@@ -1,5 +1,7 @@
 """All standard `Image` classes"""
 
+import typing_extensions
+
 from ..core import virtual
 
 __all__ = [
@@ -10,12 +12,12 @@ __all__ = [
 class StillImage(virtual.Image):
     """A simple still image"""
 
-    # @typing.override
+    @typing_extensions.override
     def display(self) -> None:
         self.items = [self.widget.master.create_image(
             0, 0, image=self.image, **self.kwargs)]
 
-    # @typing.override
+    @typing_extensions.override
     def coords(
         self,
         size: tuple[float, float] | None = None,

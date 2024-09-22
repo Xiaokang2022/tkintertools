@@ -19,6 +19,8 @@ import tkinter
 import tkinter.font
 import typing
 
+import typing_extensions
+
 from ..animation import animations
 from ..color import rgb
 from ..style import parser
@@ -231,7 +233,7 @@ class Component(abc.ABC):
 class Shape(Component):
     """The Shape of a `Widget`"""
 
-    # @typing.override
+    @typing_extensions.override
     def zoom(self, ratios: tuple[float, float]) -> None:
         """Scale the shape"""
         self.size[0] *= ratios[0]
@@ -308,7 +310,7 @@ class Text(Component):
         """Return the decision region of the `Text`"""
         return self.widget.master.bbox(self.items[0])
 
-    # @typing.override
+    @typing_extensions.override
     def zoom(self, ratios: tuple[float, float]) -> None:
         """Scale the text"""
         Component.zoom(self, ratios)
@@ -347,7 +349,7 @@ class Image(Component):
         Component.__init__(self, widget, relative_position, size, name=name,
                            animation=animation, styles=styles, **kwargs)
 
-    # @typing.override
+    @typing_extensions.override
     def zoom(self, ratios: tuple[float, float]) -> None:
         """Scale the image"""
         Component.zoom(self, ratios)

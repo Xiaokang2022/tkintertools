@@ -25,6 +25,7 @@ classifiers = [
     "Typing :: Typed",
 ]
 dynamic = ["version"]
+dependencies = ["typing-extensions"]
 
 [project.optional-dependencies]
 recommended = [

@@ -4,6 +4,8 @@ import math
 import typing
 import warnings
 
+import typing_extensions
+
 from ..core import virtual
 
 __all__ = [
@@ -48,12 +50,12 @@ class Line(virtual.Shape):
         virtual.Shape.__init__(self, widget, relative_position, size,
                                name=name, styles=styles, animation=animation, **kwargs)
 
-    # @typing.override
+    @typing_extensions.override
     def display(self) -> None:
         self.items = [self.widget.master.create_line(
             0, 0, 0, 0, tags=("fill", "fill"), **self.kwargs)]
 
-    # @typing.override
+    @typing_extensions.override
     def coords(
         self,
         size: tuple[float, float] | None = None,
@@ -70,12 +72,12 @@ class Line(virtual.Shape):
 class Rectangle(virtual.Shape):
     """Create a rectangle for a widget"""
 
-    # @typing.override
+    @typing_extensions.override
     def display(self) -> None:
         self.items = [self.widget.master.create_rectangle(
             0, 0, 0, 0, tags=("fill", "fill", "outline", "outline"), **self.kwargs)]
 
-    # @typing.override
+    @typing_extensions.override
     def coords(
         self,
         size: tuple[float, float] | None = None,
@@ -89,12 +91,12 @@ class Rectangle(virtual.Shape):
 class Oval(virtual.Shape):
     """Create a oval for a widget"""
 
-    # @typing.override
+    @typing_extensions.override
     def display(self) -> None:
         self.items = [self.widget.master.create_oval(
             0, 0, 0, 0, tags=("fill", "fill", "outline", "outline"), **self.kwargs)]
 
-    # @typing.override
+    @typing_extensions.override
     def coords(
         self,
         size: tuple[float, float] | None = None,
@@ -104,7 +106,7 @@ class Oval(virtual.Shape):
 
         self.widget.master.coords(self.items[0], *self.region())
 
-    # @typing.override
+    @typing_extensions.override
     def detect(self, x: int, y: int) -> bool:
         x1, y1, w, h = *self.position, *self.size
         return math.hypot(2*(x-x1)/w - 1, 2*(y-y1)/h - 1) <= 1
@@ -142,12 +144,12 @@ class RegularPolygon(virtual.Shape):
         virtual.Shape.__init__(self, widget, relative_position, size,
                                name=name, styles=styles, animation=animation, **kwargs)
 
-    # @typing.override
+    @typing_extensions.override
     def display(self) -> None:
         self.items = [self.widget.master.create_polygon(
             0, 0, 0, 0, tags=("fill", "fill", "outline", "outline"), **self.kwargs)]
 
-    # @typing.override
+    @typing_extensions.override
     def coords(
         self,
         size: tuple[float, float] | None = None,
@@ -198,7 +200,7 @@ class RoundedRectangle(virtual.Shape):
         virtual.Shape.__init__(self, widget, relative_position, size,
                                name=name, styles=styles, animation=animation, **kwargs)
 
-    # @typing.override
+    @typing_extensions.override
     def display(self) -> None:
         self.items = [
             self.widget.master.create_rectangle(
@@ -231,7 +233,7 @@ class RoundedRectangle(virtual.Shape):
                 0, 0, 0, 0, style="arc", start=-90, tags=("outline", "outline"), **self.kwargs),
         ]
 
-    # @typing.override
+    @typing_extensions.override
     def coords(
         self,
         size: tuple[float, float] | None = None,
@@ -298,7 +300,7 @@ class HalfRoundedRectangle(virtual.Shape):
         virtual.Shape.__init__(self, widget, relative_position, size,
                                name=name, styles=styles, animation=animation, **kwargs)
 
-    # @typing.override
+    @typing_extensions.override
     def display(self) -> None:
         self.items = [
             self.widget.master.create_rectangle(
@@ -334,7 +336,7 @@ class HalfRoundedRectangle(virtual.Shape):
                 0, 0, 0, 0, style="arc", start=180, tags=("outline", "outline"), **self.kwargs),
         ]
 
-    # @typing.override
+    @typing_extensions.override
     def coords(
         self,
         size: tuple[float, float] | None = None,
@@ -378,7 +380,7 @@ class HalfRoundedRectangle(virtual.Shape):
 class SemicircularRectangle(virtual.Shape):
     """Create a semicircular rectangle for a widget"""
 
-    # @typing.override
+    @typing_extensions.override
     def display(self) -> None:
         self.items = [
             self.widget.master.create_arc(
@@ -397,7 +399,7 @@ class SemicircularRectangle(virtual.Shape):
                 0, 0, 0, 0, tags=("fill", "outline"), **self.kwargs),
         ]
 
-    # @typing.override
+    @typing_extensions.override
     def coords(
         self,
         size: tuple[float, float] | None = None,
@@ -423,7 +425,7 @@ class SemicircularRectangle(virtual.Shape):
         self.widget.master.coords(self.items[5], x1+r, y1, x2-r+1, y1)
         self.widget.master.coords(self.items[6], x1+r, y2, x2-r+1, y2)
 
-    # @typing.override
+    @typing_extensions.override
     def detect(self, x: int, y: int) -> bool:
         x1, y1, w, h = *self.position, *self.size
         r = h / 2
@@ -470,12 +472,12 @@ class SharpRectangle(virtual.Shape):
         virtual.Shape.__init__(self, widget, relative_position, size,
                                name=name, styles=styles, animation=animation, **kwargs)
 
-    # @typing.override
+    @typing_extensions.override
     def display(self) -> None:
         self.items = [self.widget.master.create_polygon(
             0, 0, 0, 0, tags=("fill", "fill", "outline", "outline"), **self.kwargs)]
 
-    # @typing.override
+    @typing_extensions.override
     def coords(
         self,
         size: tuple[float, float] | None = None,
@@ -538,12 +540,12 @@ class Parallelogram(virtual.Shape):
         virtual.Shape.__init__(self, widget, relative_position, size,
                                name=name, styles=styles, animation=animation, **kwargs)
 
-    # @typing.override
+    @typing_extensions.override
     def display(self) -> None:
         self.items = [self.widget.master.create_polygon(
             0, 0, 0, 0, tags=("fill", "fill", "outline", "outline"), **self.kwargs)]
 
-    # @typing.override
+    @typing_extensions.override
     def coords(
         self,
         size: tuple[float, float] | None = None,
