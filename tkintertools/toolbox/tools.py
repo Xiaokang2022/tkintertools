@@ -8,7 +8,6 @@ import shutil
 import tkinter
 import tkinter.font
 import typing
-import warnings
 
 from ..core import constants
 
@@ -181,6 +180,7 @@ def get_text_size(
     family: str | None = None,
     *,
     padding: int = 0,
+    **kwargs,
 ) -> tuple[int, int]:
     """
     Get the size of a text with a special font family and font size
@@ -189,18 +189,21 @@ def get_text_size(
     * `fontsize`: font size of the text
     * `family`: font family of the text
     * `padding`: extra padding of the size
+    * `kwargs`: kwargs of `tkinter.font.Font`
 
     ATTENTION:
 
     * This function only works when the fontsize is negative number!
-    * When there is a line break, the return value will be inaccurate!
     """
     if family is None:
         family = constants.FONT
     if fontsize is None:
         fontsize = constants.SIZE
-    if fontsize > 0:
-        warnings.warn("Font size requirement is negative.", UserWarning, 2)
 
-    width = tkinter.font.Font(family=family, size=fontsize).measure(text)
-    return 2*padding + width, 2*padding - fontsize
+    fontsize = -abs(fontsize)
+    __temp_cv = tkinter.Canvas(tkinter._default_root)
+    __font = tkinter.font.Font(family=family, size=fontsize, **kwargs)
+    x1, y1, x2, y2 = __temp_cv.bbox(
+        __temp_cv.create_text(0, 0, text=text, font=__font))
+    __temp_cv.destroy()
+    return 2*padding + x2 - x1, 2*padding + y2 - y1
