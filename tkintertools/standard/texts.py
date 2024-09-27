@@ -20,8 +20,8 @@ class Information(virtual.Text):
     @typing_extensions.override
     def display(self) -> None:
         self.items = [self.widget.master.create_text(
-            0, 0, text=self.text, font=self.font, justify=self.justify,
-            anchor=self.anchor, tags=("fill", "fill"), **self.kwargs)]
+            0, 0, text=self.text, font=self.font,
+            tags=("fill", "fill"), **self.kwargs)]
 
     @typing_extensions.override
     def coords(
@@ -111,10 +111,10 @@ class SingleLineText(virtual.Text):
         """
         self.left: int = 0
         self.right: int = 0
-        anchor = "w" if align == "left" else "e" if align == "right" else "center"
+        self.anchor = "w" if align == "left" else "e" if align == "right" else "center"
         virtual.Text.__init__(self, widget, relative_position, size,
                               text=text, limit=limit, show=show, placeholder=placeholder,
-                              anchor=anchor, family=family, fontsize=fontsize, weight=weight,
+                              family=family, fontsize=fontsize, weight=weight,
                               slant=slant, underline=underline, overstrike=overstrike,
                               name=name, styles=styles, animation=animation, **kwargs)
 
@@ -122,10 +122,10 @@ class SingleLineText(virtual.Text):
     def display(self) -> None:
         self.items = [
             self.widget.master.create_text(
-                0, 0, text=self.text, font=self.font, justify=self.justify,
+                0, 0, text=self.text, font=self.font,
                 anchor=self.anchor, tags=("fill", "fill"), **self.kwargs),
             self.widget.master.create_text(
-                0, 0, text=self.placeholder, font=self.font, justify=self.justify,
+                0, 0, text=self.placeholder, font=self.font,
                 anchor=self.anchor, fill="#787878", **self.kwargs)]
 
     @typing_extensions.override
