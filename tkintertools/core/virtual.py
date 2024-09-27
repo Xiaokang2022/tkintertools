@@ -61,8 +61,9 @@ class Component(abc.ABC):
         * `kwargs`: extra parameters for CanvasItem
         """
         self.widget = widget
-        self.position = [widget.position[0] + relative_position[0],
-                         widget.position[1] + relative_position[1]]
+        offset = widget.offset
+        self.position = [widget.position[0] + relative_position[0] - offset[0],
+                         widget.position[1] + relative_position[1] - offset[1]]
         self.size = widget.size.copy() if size is None else list(size)
         self.name = name
         self.animation = animation
@@ -256,9 +257,6 @@ class Text(Component):
         limit: int = math.inf,
         show: str | None = None,
         placeholder: str = "",
-        anchor: typing.Literal["n", "e", "w", "s",
-                               "nw", "ne", "sw", "se", "center"] = "center",
-        justify: typing.Literal["left", "center", "right"] = "left",
         family: str | None = None,
         fontsize: int | None = None,
         weight: typing.Literal["normal", "bold"] = "normal",
@@ -281,8 +279,6 @@ class Text(Component):
         * `slant`: slant of the font
         * `underline`: wether text is underline
         * `overstrike`: wether text is overstrike
-        * `justify`: justify of the text
-        * `anchor`: anchor of the text
         * `limit`: limit on the number of characters
         * `show`: display a value that obscures the original content
         * `placeholder`: a placeholder for the prompt
@@ -295,8 +291,6 @@ class Text(Component):
         self.show = show
         self.placeholder = placeholder
         self.limit = limit
-        self.anchor = anchor
-        self.justify = justify
         self.font = tkinter.font.Font(
             family=family if family else constants.FONT,
             size=-abs(fontsize if fontsize else constants.SIZE),
@@ -448,6 +442,8 @@ class Widget:
         *,
         name: str | None = None,
         state: str = "normal",
+        anchor: typing.Literal["n", "s", "w", "e",
+                               "nw", "ne", "sw", "se", "center"] = "nw",
         through: bool = False,
         animation: bool = True,
     ) -> None:
@@ -457,6 +453,7 @@ class Widget:
         * `size`: size of the widget
         * `name`: name of the widget
         * `state`: default state of the widget
+        * `anchor`: layout anchor of the widget
         * `through`: wether detect another widget under the widget
         * `animation`: wether enable animation
         """
@@ -473,6 +470,7 @@ class Widget:
 
         self.name = name
         self.state = state
+        self.anchor = anchor
         self.through = through
         self.animation = animation
 
@@ -494,6 +492,20 @@ class Widget:
     def widgets(self) -> tuple["Widget", ...]:
         """Return all widgets of the widget"""
         return tuple(self._widgets)
+
+    @property
+    def offset(self) -> tuple[float, float]:
+        """Return the offset of the anchor relative to nw"""
+        match self.anchor:
+            case "n": return self.size[0]/2, 0
+            case "w": return 0, self.size[1]/2
+            case "s": return self.size[0]/2, self.size[1]
+            case "e": return self.size[0], self.size[1]/2
+            case "ne": return self.size[0], 0
+            case "sw": return 0, self.size[1]
+            case "nw": return 0, 0
+            case "se": return self.size[0], self.size[1]
+            case _: return self.size[0]/2, self.size[1]/2
 
     def register(self, component: Component) -> None:
         """Register a component to the widget"""

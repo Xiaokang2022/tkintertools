@@ -47,9 +47,9 @@ class Text(virtual.Widget):
         underline: bool = False,
         overstrike: bool = False,
         justify: typing.Literal["left", "center", "right"] = "left",
+        name: str | None = None,
         anchor: typing.Literal["n", "e", "w", "s",
                                "nw", "ne", "sw", "se", "center"] = "nw",
-        name: str | None = None,
         through: bool = False,
         animation: bool = True,
     ) -> None:
@@ -64,16 +64,17 @@ class Text(virtual.Widget):
         * `underline`: whether the text is underline
         * `overstrike`: whether the text is overstrike
         * `justify`: justify mode of the text
-        * `anchor`: anchor of the text
         * `name`: name of the widget
+        * `anchor`: anchor of the widget
         * `through`: wether detect another widget under the widget
         * `animation`: wether enable animation
         """
-        virtual.Widget.__init__(self, master, position, (0, 0),
-                                name=name, through=through, animation=animation)
+        virtual.Widget.__init__(
+            self, master, position, tools.get_text_size(text, fontsize, family),
+            name=name, anchor=anchor, through=through, animation=animation)
         texts.Information(self, text=text, family=family, fontsize=fontsize,
                           weight=weight, slant=slant, underline=underline,
-                          overstrike=overstrike, justify=justify, anchor=anchor)
+                          overstrike=overstrike, justify=justify)
 
     def get(self) -> str:
         """Get the text of the widget"""
@@ -94,9 +95,9 @@ class Image(virtual.Widget):
         size: tuple[int, int] | None = None,
         *,
         image: enhanced.PhotoImage | None = None,
+        name: str | None = None,
         anchor: typing.Literal["n", "e", "w", "s",
                                "nw", "ne", "sw", "se", "center"] = "nw",
-        name: str | None = None,
         through: bool = False,
         animation: bool = True,
     ) -> None:
@@ -105,18 +106,19 @@ class Image(virtual.Widget):
         * `position`: position of the widget
         * `size`: size of the widget
         * `image`: image of the widget
-        * `anchor`: anchor of the widget
         * `name`: name of the widget
+        * `anchor`: anchor of the widget
         * `through`: wether detect another widget under the widget
         * `animation`: wether enable animation
         """
-        virtual.Widget.__init__(self, master, position, (0, 0),
-                                name=name, through=through, animation=animation)
+        virtual.Widget.__init__(
+            self, master, position, (image.width(), image.height()), name=name,
+            anchor=anchor, through=through, animation=animation)
         if image is not None and size is not None:
             images.StillImage(self, image=image.scale(
-                size[0]/image.width(), size[1]/image.height()), anchor=anchor)
+                size[0]/image.width(), size[1]/image.height()))
         else:
-            images.StillImage(self, image=image, anchor=anchor)
+            images.StillImage(self, image=image)
 
     def get(self) -> enhanced.PhotoImage:
         """Get the image of the widget"""
@@ -150,10 +152,10 @@ class Label(virtual.Widget):
         underline: bool = False,
         overstrike: bool = False,
         justify: typing.Literal["left", "center", "right"] = "left",
-        anchor: typing.Literal["n", "e", "w", "s", "nw",
-                               "ne", "sw", "se", "center"] = "center",
         image: enhanced.PhotoImage | None = None,
         name: str | None = None,
+        anchor: typing.Literal["n", "e", "w", "s",
+                               "nw", "ne", "sw", "se", "center"] = "nw",
         through: bool = False,
         animation: bool = True,
     ) -> None:
@@ -169,16 +171,17 @@ class Label(virtual.Widget):
         * `underline`: whether the text is underline
         * `overstrike`: whether the text is overstrike
         * `justify`: justify mode of the text
-        * `anchor`: anchor of the text
         * `image`: image of the widget
         * `name`: name of the widget
+        * `anchor`: anchor of the widget
         * `through`: wether detect another widget under the widget
         * `animation`: wether enable animation
         """
         if size is None:
-            size = tools.get_text_size(text, family, fontsize, padding=10)
-        virtual.Widget.__init__(self, master, position, size,
-                                name=name, through=through, animation=animation)
+            size = tools.get_text_size(text, family, fontsize, padding=6)
+        virtual.Widget.__init__(
+            self, master, position, size, name=name, anchor=anchor,
+            through=through, animation=animation)
         if constants.SYSTEM == "Windows10":
             shapes.Rectangle(self)
         else:
@@ -187,7 +190,7 @@ class Label(virtual.Widget):
             images.StillImage(self, image=image)
         texts.Information(self, text=text, family=family, fontsize=fontsize,
                           weight=weight, slant=slant, underline=underline,
-                          overstrike=overstrike, justify=justify, anchor=anchor)
+                          overstrike=overstrike, justify=justify)
         features.LabelFeature(self)
 
 
@@ -208,11 +211,11 @@ class Button(virtual.Widget):
         underline: bool = False,
         overstrike: bool = False,
         justify: typing.Literal["left", "center", "right"] = "left",
-        anchor: typing.Literal["n", "e", "w", "s", "nw",
-                               "ne", "sw", "se", "center"] = "center",
         command: typing.Callable | None = None,
         image: enhanced.PhotoImage | None = None,
         name: str | None = None,
+        anchor: typing.Literal["n", "e", "w", "s",
+                               "nw", "ne", "sw", "se", "center"] = "nw",
         through: bool = False,
         animation: bool = True,
     ) -> None:
@@ -228,17 +231,18 @@ class Button(virtual.Widget):
         * `underline`: whether the text is underline
         * `overstrike`: whether the text is overstrike
         * `justify`: justify mode of the text
-        * `anchor`: anchor of the text
         * `command`: a function that is triggered when the button is pressed
         * `image`: image of the widget
         * `name`: name of the widget
+        * `anchor`: anchor of the widget
         * `through`: wether detect another widget under the widget
         * `animation`: wether enable animation
         """
         if size is None:
-            size = tools.get_text_size(text, family, fontsize, padding=10)
-        virtual.Widget.__init__(self, master, position, size,
-                                name=name, through=through, animation=animation)
+            size = tools.get_text_size(text, family, fontsize, padding=6)
+        virtual.Widget.__init__(
+            self, master, position, size, anchor=anchor, name=name,
+            through=through, animation=animation)
         if constants.SYSTEM == "Windows10":
             shapes.Rectangle(self)
         else:
@@ -247,7 +251,7 @@ class Button(virtual.Widget):
             images.StillImage(self, image=image)
         texts.Information(self, text=text, family=family, fontsize=fontsize,
                           weight=weight, slant=slant, underline=underline,
-                          overstrike=overstrike, justify=justify, anchor=anchor)
+                          overstrike=overstrike, justify=justify)
         features.ButtonFeature(self, command=command)
 
 
@@ -264,6 +268,8 @@ class Switch(virtual.Widget):
         command: typing.Callable[[bool], typing.Any] | None = None,
         image: enhanced.PhotoImage | None = None,
         name: str | None = None,
+        anchor: typing.Literal["n", "e", "w", "s",
+                               "nw", "ne", "sw", "se", "center"] = "nw",
         through: bool = False,
         animation: bool = True,
     ) -> None:
@@ -275,12 +281,13 @@ class Switch(virtual.Widget):
         * `command`: a function that is triggered when the switch is changed
         * `image`: image of the widget
         * `name`: name of the widget
+        * `anchor`: anchor of the widget
         * `through`: wether detect another widget under the widget
         * `animation`: wether enable animation
         """
-        virtual.Widget.__init__(self, master, position, (length, length / 2),
-                                state="normal-off", name=name,
-                                through=through, animation=animation)
+        virtual.Widget.__init__(
+            self, master, position, (length, length / 2), state="normal-off",
+            name=name, anchor=anchor, through=through, animation=animation)
         if constants.SYSTEM == "Windows10":
             shapes.Rectangle(self, name=".out")
             shapes.Rectangle(self, name=".in", relative_position=(
@@ -333,6 +340,8 @@ class InputBox(virtual.Widget):
         limit: int = math.inf,
         image: enhanced.PhotoImage | None = None,
         name: str | None = None,
+        anchor: typing.Literal["n", "e", "w", "s",
+                               "nw", "ne", "sw", "se", "center"] = "nw",
         through: bool = False,
         animation: bool = True,
     ) -> None:
@@ -352,14 +361,16 @@ class InputBox(virtual.Widget):
         * `limit`: limit on the number of characters
         * `image`: image of the widget
         * `name`: name of the widget
+        * `anchor`: anchor of the widget
         * `through`: wether detect another widget under the widget
         * `animation`: wether enable animation
         """
         if size is None:
             size = 200, tools.get_text_size(
-                "", family, fontsize, padding=10)[1]
-        virtual.Widget.__init__(self, master, position, size,
-                                name=name, through=through, animation=animation)
+                "", family, fontsize, padding=6)[1]
+        virtual.Widget.__init__(
+            self, master, position, size, name=name, anchor=anchor,
+            through=through, animation=animation)
         if constants.SYSTEM == "Windows10":
             shapes.Rectangle(self)
         else:
@@ -408,6 +419,8 @@ class CheckButton(virtual.Widget):
         command: typing.Callable[[bool], typing.Any] | None = None,
         image: enhanced.PhotoImage | None = None,
         name: str | None = None,
+        anchor: typing.Literal["n", "e", "w", "s",
+                               "nw", "ne", "sw", "se", "center"] = "nw",
         through: bool = False,
         animation: bool = True,
     ) -> None:
@@ -419,11 +432,13 @@ class CheckButton(virtual.Widget):
         * `command`: a function that is triggered when the state of check button is on
         * `image`: image of the widget
         * `name`: name of the widget
+        * `anchor`: anchor of the widget
         * `through`: wether detect another widget under the widget
         * `animation`: wether enable animation
         """
-        virtual.Widget.__init__(self, master, position, (length, length),
-                                name=name, through=through, animation=animation)
+        virtual.Widget.__init__(
+            self, master, position, (length, length), name=name, anchor=anchor,
+            through=through, animation=animation)
         if constants.SYSTEM == "Windows10":
             shapes.Rectangle(self)
         else:
@@ -468,12 +483,12 @@ class ToggleButton(virtual.Widget):
         underline: bool = False,
         overstrike: bool = False,
         justify: typing.Literal["left", "center", "right"] = "left",
-        anchor: typing.Literal["n", "e", "w", "s", "nw",
-                               "ne", "sw", "se", "center"] = "center",
         default: bool | None = None,
         command: typing.Callable[[bool], typing.Any] | None = None,
         image: enhanced.PhotoImage | None = None,
         name: str | None = None,
+        anchor: typing.Literal["n", "e", "w", "s",
+                               "nw", "ne", "sw", "se", "center"] = "nw",
         through: bool = False,
         animation: bool = True,
     ) -> None:
@@ -489,18 +504,19 @@ class ToggleButton(virtual.Widget):
         * `underline`: whether the text is underline
         * `overstrike`: whether the text is overstrike
         * `justify`: justify mode of the text
-        * `anchor`: anchor of the text
         * `default`: default state of the widget
         * `command`: a function that is triggered when the state of check button is on
         * `image`: image of the widget
         * `name`: name of the widget
+        * `anchor`: anchor of the widget
         * `through`: wether detect another widget under the widget
         * `animation`: wether enable animation
         """
         if size is None:
-            size = tools.get_text_size(text, family, fontsize, padding=10)
-        virtual.Widget.__init__(self, master, position, size, state="normal-off",
-                                name=name, through=through, animation=animation)
+            size = tools.get_text_size(text, family, fontsize, padding=6)
+        virtual.Widget.__init__(
+            self, master, position, size, state="normal-off", name=name,
+            anchor=anchor, through=through, animation=animation)
         if constants.SYSTEM == "Windows10":
             shapes.Rectangle(self)
         else:
@@ -509,7 +525,7 @@ class ToggleButton(virtual.Widget):
             images.StillImage(self, image=image)
         texts.Information(self, text=text, family=family, fontsize=fontsize,
                           weight=weight, slant=slant, underline=underline,
-                          overstrike=overstrike, justify=justify, anchor=anchor)
+                          overstrike=overstrike, justify=justify)
         features.ToggleButtonFeature(self, command=command)
         if default is not None:
             self.set(default)
@@ -540,6 +556,8 @@ class RadioButton(virtual.Widget):
         command: typing.Callable[[int], typing.Any] | None = None,
         image: enhanced.PhotoImage | None = None,
         name: str | None = None,
+        anchor: typing.Literal["n", "e", "w", "s",
+                               "nw", "ne", "sw", "se", "center"] = "nw",
         through: bool = False,
         animation: bool = True,
     ) -> None:
@@ -551,11 +569,13 @@ class RadioButton(virtual.Widget):
         * `command`: a function that is triggered when the state of radio button is on
         * `image`: image of the widget
         * `name`: name of the widget
+        * `anchor`: anchor of the widget
         * `through`: wether detect another widget under the widget
         * `animation`: wether enable animation
         """
-        virtual.Widget.__init__(self, master, position, (length, length),
-                                name=name, through=through, animation=animation)
+        virtual.Widget.__init__(
+            self, master, position, (length, length), name=name, anchor=anchor,
+            through=through, animation=animation)
         if constants.SYSTEM == "Windows10":
             shapes.Rectangle(self, name=".out")
             shapes.Rectangle(self, name=".in", relative_position=(
@@ -598,6 +618,8 @@ class ProgressBar(virtual.Widget):
         command: typing.Callable[[float], typing.Any] | None = None,
         image: enhanced.PhotoImage | None = None,
         name: str | None = None,
+        anchor: typing.Literal["n", "e", "w", "s",
+                               "nw", "ne", "sw", "se", "center"] = "nw",
         through: bool = False,
         animation: bool = True,
     ) -> None:
@@ -609,12 +631,14 @@ class ProgressBar(virtual.Widget):
         * `command`: a function that is triggered when the progress of progress bar is 100%
         * `image`: image of the widget
         * `name`: name of the widget
+        * `anchor`: anchor of the widget
         * `through`: wether detect another widget under the widget
         * `animation`: wether enable animation
         """
         self.value: float = 0
-        virtual.Widget.__init__(self, master, position, size,
-                                name=name, through=through, animation=animation)
+        virtual.Widget.__init__(
+            self, master, position, size, name=name, anchor=anchor,
+            through=through, animation=animation)
         if constants.SYSTEM == "Windows10":
             shapes.Rectangle(self, name=".out")
             shapes.Rectangle(self, name=".in", size=(
@@ -669,11 +693,11 @@ class UnderlineButton(virtual.Widget):
         underline: bool = False,
         overstrike: bool = False,
         justify: typing.Literal["left", "center", "right"] = "left",
-        anchor: typing.Literal["n", "e", "w", "s", "nw",
-                               "ne", "sw", "se", "center"] = "center",
         command: typing.Callable | None = None,
         image: enhanced.PhotoImage | None = None,
         name: str | None = None,
+        anchor: typing.Literal["n", "e", "w", "s",
+                               "nw", "ne", "sw", "se", "center"] = "nw",
         through: bool = False,
         animation: bool = False,
     ) -> None:
@@ -688,20 +712,21 @@ class UnderlineButton(virtual.Widget):
         * `underline`: whether the text is underline
         * `overstrike`: whether the text is overstrike
         * `justify`: justify mode of the text
-        * `anchor`: anchor of the text
         * `command`: a function that is triggered when the underline button is pressed
         * `image`: image of the widget
         * `name`: name of the widget
+        * `anchor`: anchor of the widget
         * `through`: wether detect another widget under the widget
         * `animation`: wether enable animation
         """
-        virtual.Widget.__init__(self, master, position, (0, 0),
-                                name=name, through=through, animation=animation)
+        virtual.Widget.__init__(
+            self, master, position, tools.get_text_size(text, fontsize, family),
+            name=name, anchor=anchor, through=through, animation=animation)
         if image is not None:
             images.StillImage(self, image=image)
         texts.Information(self, text=text, family=family, fontsize=fontsize,
                           weight=weight, slant=slant, underline=underline,
-                          overstrike=overstrike, justify=justify, anchor=anchor)
+                          overstrike=overstrike, justify=justify)
         features.Underline(self, command=command)
 
 
@@ -721,11 +746,11 @@ class HighlightButton(virtual.Widget):
         underline: bool = False,
         overstrike: bool = False,
         justify: typing.Literal["left", "center", "right"] = "left",
-        anchor: typing.Literal["n", "e", "w", "s", "nw",
-                               "ne", "sw", "se", "center"] = "center",
         command: typing.Callable | None = None,
         image: enhanced.PhotoImage | None = None,
         name: str | None = None,
+        anchor: typing.Literal["n", "e", "w", "s",
+                               "nw", "ne", "sw", "se", "center"] = "nw",
         through: bool = False,
         animation: bool = True,
     ) -> None:
@@ -740,20 +765,21 @@ class HighlightButton(virtual.Widget):
         * `underline`: whether the text is underline
         * `overstrike`: whether the text is overstrike
         * `justify`: justify mode of the text
-        * `anchor`: anchor of the text
         * `command`: a function that is triggered when the hightlight button is pressed
         * `image`: image of the widget
         * `name`: name of the widget
+        * `anchor`: anchor of the widget
         * `through`: wether detect another widget under the widget
         * `animation`: wether enable animation
         """
-        virtual.Widget.__init__(self, master, position, (0, 0),
-                                name=name, through=through, animation=animation)
+        virtual.Widget.__init__(
+            self, master, position, tools.get_text_size(text, fontsize, family),
+            name=name, anchor=anchor, through=through, animation=animation)
         if image is not None:
             images.StillImage(self, image=image)
         texts.Information(self, text=text, family=family, fontsize=fontsize,
                           weight=weight, slant=slant, underline=underline,
-                          overstrike=overstrike, justify=justify, anchor=anchor)
+                          overstrike=overstrike, justify=justify)
         features.Highlight(self, command=command)
 
 
@@ -774,11 +800,11 @@ class IconButton(virtual.Widget):
         underline: bool = False,
         overstrike: bool = False,
         justify: typing.Literal["left", "center", "right"] = "left",
-        anchor: typing.Literal["n", "e", "w", "s", "nw",
-                               "ne", "sw", "se", "center"] = "w",
         command: typing.Callable | None = None,
         image: enhanced.PhotoImage | None = None,
         name: str | None = None,
+        anchor: typing.Literal["n", "e", "w", "s",
+                               "nw", "ne", "sw", "se", "center"] = "nw",
         through: bool = False,
         animation: bool = True,
     ) -> None:
@@ -794,18 +820,19 @@ class IconButton(virtual.Widget):
         * `underline`: whether the text is underline
         * `overstrike`: whether the text is overstrike
         * `justify`: justify mode of the text
-        * `anchor`: anchor of the text
         * `command`: a function that is triggered when the button is pressed
         * `image`: image of the widget
         * `name`: name of the widget
+        * `anchor`: anchor of the widget
         * `through`: wether detect another widget under the widget
         * `animation`: wether enable animation
         """
         if size is None:
-            size = tools.get_text_size(text, family, fontsize, padding=10)
-            size = size[0] + size[1] - 10, size[1]
-        virtual.Widget.__init__(self, master, position, size,
-                                name=name, through=through, animation=animation)
+            size = tools.get_text_size(text, family, fontsize, padding=6)
+            size = size[0] + size[1] - 6, size[1]
+        virtual.Widget.__init__(
+            self, master, position, size, name=name, anchor=anchor,
+            through=through, animation=animation)
         if constants.SYSTEM == "Windows10":
             shapes.Rectangle(self)
         else:
@@ -814,8 +841,8 @@ class IconButton(virtual.Widget):
             images.StillImage(self, ((size[1]-size[0]) / 2, 0), image=image)
         texts.Information(self, (size[1] - size[0]/2, 0), text=text,
                           family=family, fontsize=fontsize, weight=weight,
-                          slant=slant, underline=underline, overstrike=overstrike,
-                          justify=justify, anchor=anchor)
+                          slant=slant, underline=underline,
+                          overstrike=overstrike, justify=justify, anchor="w")
         features.ButtonFeature(self, command=command)
 
 
@@ -831,6 +858,8 @@ class Slider(virtual.Widget):
         default: float | None = None,
         command: typing.Callable[[float], typing.Any] | None = None,
         name: str | None = None,
+        anchor: typing.Literal["n", "e", "w", "s",
+                               "nw", "ne", "sw", "se", "center"] = "nw",
         through: bool = False,
         animation: bool = True,
     ) -> None:
@@ -841,25 +870,27 @@ class Slider(virtual.Widget):
         * `default`: default value of the widget
         * `command`: a function that is triggered when the button is pressed
         * `name`: name of the widget
+        * `anchor`: anchor of the widget
         * `through`: wether detect another widget under the widget
         * `animation`: wether enable animation
         """
         self.value: float = 0
         self.command = command
-        virtual.Widget.__init__(self, master, position, size,
-                                name=name, through=through, animation=animation)
+        virtual.Widget.__init__(
+            self, master, position, size, name=name, anchor=anchor,
+            through=through, animation=animation)
         if constants.SYSTEM == "Windows10":
             shapes.Rectangle(
                 self, (0, size[1]*5/11), (size[0], size[1]/11), name=".out")
             shapes.Rectangle(
                 self, (0, size[1]*5/11), (size[1]/5, size[1]/11), name=".in")
-            shapes.Rectangle(self, (0, 0), (size[1]*2/5, size[1]))
+            shapes.Rectangle(self, size=(size[1]*2/5, size[1]))
         else:
             shapes.SemicircularRectangle(
                 self, (0, size[1]*2/5), (size[0], size[1]/5), name=".out")
             shapes.SemicircularRectangle(
                 self, (0, size[1]*2/5), (size[1]/2, size[1]/5), name=".in")
-            shapes.Oval(self, (0, 0), (size[1], size[1]), name=".out")
+            shapes.Oval(self, size=(size[1], size[1]), name=".out")
             shapes.Oval(self, (size[1]/4, size[1]/4),
                         (size[1]/2, size[1]/2), name=".in")
         features.SliderFeature(self)
@@ -909,13 +940,13 @@ class SegmentedButton(virtual.Widget):
         underline: bool = False,
         overstrike: bool = False,
         justify: typing.Literal["left", "center", "right"] = "left",
-        anchor: typing.Literal["n", "e", "w", "s", "nw",
-                               "ne", "sw", "se", "center"] = "center",
         default: int | None = None,
         command: typing.Callable[[int | None], typing.Any] | None = None,
         images: tuple[enhanced.PhotoImage | None, ...] = (),
         layout: typing.Literal["horizontal", "vertical"] = "horizontal",
         name: str | None = None,
+        anchor: typing.Literal["n", "e", "w", "s",
+                               "nw", "ne", "sw", "se", "center"] = "nw",
         through: bool = False,
         animation: bool = True,
     ) -> None:
@@ -931,12 +962,12 @@ class SegmentedButton(virtual.Widget):
         * `underline`: whether the text is underline
         * `overstrike`: whether the text is overstrike
         * `justify`: justify mode of the text
-        * `anchor`: anchor of the text
         * `default`: default value of the widget
         * `command`: a function that is triggered when the button is pressed
         * `images`: image of the widget
         * `layout`: layout mode of the widget
         * `name`: name of the widget
+        * `anchor`: anchor of the widget
         * `through`: wether detect another widget under the widget
         * `animation`: wether enable animation
         """
@@ -944,10 +975,10 @@ class SegmentedButton(virtual.Widget):
         if not sizes:
             if texts:
                 sizes = tuple(tools.get_text_size(
-                    text, family, fontsize, padding=10) for text in texts)
+                    text, family, fontsize, padding=6) for text in texts)
             else:
                 sizes = (tools.get_text_size(
-                    "", family, fontsize, padding=5),)
+                    "", family, fontsize, padding=6),)
         widths, heights, length = *zip(*sizes), len(sizes)
         if not texts:
             sizes, length = (), 0
@@ -955,8 +986,9 @@ class SegmentedButton(virtual.Widget):
             total_size = sum(widths) + length*5 + 5, max(heights) + 10
         else:
             total_size = max(widths) + 10, sum(heights) + length*5 + 5
-        virtual.Widget.__init__(self, master, position, total_size,
-                                name=name, through=through, animation=animation)
+        virtual.Widget.__init__(
+            self, master, position, total_size, name=name, anchor=anchor,
+            through=through, animation=animation)
         if constants.SYSTEM == "Windows10":
             shapes.Rectangle(self)
         else:
@@ -969,7 +1001,7 @@ class SegmentedButton(virtual.Widget):
             ToggleButton(self, position, size, text=text, family=family,
                          fontsize=fontsize, weight=weight, slant=slant,
                          underline=underline, overstrike=overstrike,
-                         justify=justify, anchor=anchor, animation=animation,
+                         justify=justify, animation=animation,
                          image=image, through=True,
                          command=lambda _, i=i: (self.set(i), command(i) if command else None))
             total_side_length += size[layout == "vertical"] + 5
@@ -1015,6 +1047,8 @@ class SpinBox(virtual.Widget):
         command: typing.Callable[[bool], typing.Any] | None = None,
         image: enhanced.PhotoImage | None = None,
         name: str | None = None,
+        anchor: typing.Literal["n", "e", "w", "s",
+                               "nw", "ne", "sw", "se", "center"] = "nw",
         through: bool = False,
         animation: bool = True,
     ) -> None:
@@ -1035,14 +1069,16 @@ class SpinBox(virtual.Widget):
         * `command`: a function that is triggered when the button is pressed
         * `image`: image of the widget
         * `name`: name of the widget
+        * `anchor`: anchor of the widget
         * `through`: wether detect another widget under the widget
         * `animation`: wether enable animation
         """
         if size is None:
             size = 200, tools.get_text_size(
-                "", family, fontsize, padding=10)[1]
-        virtual.Widget.__init__(self, master, position, size,
-                                name=name, through=through, animation=animation)
+                "", family, fontsize, padding=6)[1]
+        virtual.Widget.__init__(
+            self, master, position, size, name=name, anchor=anchor,
+            through=through, animation=animation)
         InputBox(self, (0, 0), size, family=family, fontsize=fontsize, weight=weight,
                  slant=slant, underline=underline, overstrike=overstrike, align=align,
                  placeholder=placeholder, show=show, limit=limit, image=image,
