@@ -122,10 +122,6 @@ pip install tkintertools[recommended]==3.0.0rc2
 📦 Dependency / 依赖包
 ----------------------
 
-> [!NOTE]  
-> All dependencies are listed in [*requirements.txt*](./requirements.txt), but optional packages don't have to be installed  
-> 所有的依赖包均会在 [*requirements.txt*](./requirements.txt) 中列出，但可选包并不一定要安装
-
 ### 📌 Requirements / 必需包
 
 Not yet  
