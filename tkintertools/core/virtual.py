@@ -17,6 +17,7 @@ import copy
 import math
 import tkinter
 import tkinter.font
+import traceback
 import typing
 
 import typing_extensions
@@ -480,6 +481,7 @@ class Widget:
         self._images: list[Image] = []
         self._feature: Feature = None
         self._state_before_disabled: str = ""
+        self._update_hooks: list[typing.Callable[[str, bool], typing.Any]] = []
 
         self.master._widgets.append(self)
 
@@ -540,6 +542,11 @@ class Widget:
             self.state = state
         for component in self.components:
             component.update(state, no_delay=no_delay)
+        for command in self._update_hooks:
+            try:
+                command(state, no_delay)
+            except Exception as exc:
+                traceback.print_exception(exc)
 
     def disabled(self, value: bool = True) -> None:
         """Disable the widget"""
