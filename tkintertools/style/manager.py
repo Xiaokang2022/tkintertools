@@ -194,7 +194,7 @@ def customize_window(
     if pywinstyles:
         if style is not None:
             pywinstyles.apply_style(window, style)
-            # NOTE: This is a flaw in `pywinstyles`, which is fixed here
+            # This is a flaw in `pywinstyles`, which is fixed here
             if platform.win32_ver()[0] == "10":
                 window.withdraw()
                 window.deiconify()

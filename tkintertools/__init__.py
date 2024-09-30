@@ -1,5 +1,6 @@
 """
 The `tkintertools` is a UI framework based on the `Canvas` class of `tkinter`.
+In other words, all the UI is drawn in Canvas!
 
 * Homepage: https://xiaokang2022.github.io/tkintertools/
 * PyPI: https://pypistats.org/packages/tkintertools

@@ -720,7 +720,8 @@ class UnderlineButton(virtual.Widget):
         * `animation`: wether enable animation
         """
         virtual.Widget.__init__(
-            self, master, position, tools.get_text_size(text, fontsize, family),
+            self, master, position, tools.get_text_size(
+                text, fontsize, family),
             name=name, anchor=anchor, through=through, animation=animation)
         if image is not None:
             images.StillImage(self, image=image)
@@ -773,7 +774,8 @@ class HighlightButton(virtual.Widget):
         * `animation`: wether enable animation
         """
         virtual.Widget.__init__(
-            self, master, position, tools.get_text_size(text, fontsize, family),
+            self, master, position, tools.get_text_size(
+                text, fontsize, family),
             name=name, anchor=anchor, through=through, animation=animation)
         if image is not None:
             images.StillImage(self, image=image)
