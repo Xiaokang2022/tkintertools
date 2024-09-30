@@ -28,6 +28,7 @@ __all__ = [
     "Slider",
     "SegmentedButton",
     "SpinBox",
+    "Tooltip",
 ]
 
 
@@ -1129,6 +1130,78 @@ class SpinBox(virtual.Widget):
     def clear(self) -> None:
         """Clear the text value of the Entry"""
         self._widgets[0].clear()
+
+
+class Tooltip(virtual.Widget):
+    """A tooltip that can display additional information"""
+
+    def __init__(
+        self,
+        widget: virtual.Widget,
+        size: tuple[int, int] | None = None,
+        *,
+        text: str = "",
+        align: typing.Literal["up", "down",
+                              "right", "left", "center"] = "down",
+        padding: int = 3,
+        family: str | None = None,
+        fontsize: int | None = None,
+        weight: typing.Literal['normal', 'bold'] = "normal",
+        slant: typing.Literal['roman', 'italic'] = "roman",
+        underline: bool = False,
+        overstrike: bool = False,
+        justify: typing.Literal["left", "center", "right"] = "left",
+        name: str | None = None,
+        through: bool = True,
+        animation: bool = True,
+    ) -> None:
+        """
+        * `widget`: the associated widget
+        * `size`: size of the widget
+        * `text`: text of the widget
+        * `align`: align mode of the tooltip
+        * `padding`: extra padding between tooltip and the associated widget
+        * `family`: font family
+        * `fontsize`: font size
+        * `weight`: weight of the text
+        * `slant`: slant of the text
+        * `underline`: whether the text is underline
+        * `overstrike`: whether the text is overstrike
+        * `justify`: justify mode of the text
+        * `name`: name of the widget
+        * `through`: wether detect another widget under the widget
+        * `animation`: wether enable animation
+        """
+        if size is None:
+            size = tools.get_text_size(text, family, fontsize, padding=6)
+        position = [widget.position[0] + widget.size[0]/2 - widget.offset[0],
+                    widget.position[1] + widget.size[1]/2 - widget.offset[1]]
+        match align:
+            case "up":    position[1] -= widget.size[1]/2 + size[1]/2 + padding
+            case "down":  position[1] += widget.size[1]/2 + size[1]/2 + padding
+            case "right": position[0] += widget.size[0]/2 + size[0]/2 + padding
+            case "left":  position[0] -= widget.size[0]/2 + size[0]/2 + padding
+        virtual.Widget.__init__(
+            self, widget.master, position, size, name=name,
+            through=through, animation=animation, anchor="center")
+        if constants.SYSTEM == "Windows10":
+            shapes.Rectangle(self)
+        else:
+            shapes.RoundedRectangle(self)
+        texts.Information(self, text=text, family=family, fontsize=fontsize,
+                          weight=weight, slant=slant, underline=underline,
+                          overstrike=overstrike, justify=justify)
+        widget._update_hooks.append(self._display)
+        self.disappear()
+
+    def _display(self, state: str | None, _: bool) -> None:
+        """Show or hide the tooltip"""
+        if state is None:
+            return
+        if state.startswith("hover"):
+            self.appear()
+        elif state.startswith("normal"):
+            self.disappear()
 
 
 class OptionButton(virtual.Widget):

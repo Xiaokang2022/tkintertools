@@ -15,9 +15,6 @@ Todo / 待办事项
 🔥 In Development / 开发中
 --------------------------
 
-- [ ] Add Tooltip widget  
-增加提示框小部件
-
 - [ ] Add highly customizable windows  
 增加可高度定制的窗口
 

@@ -274,6 +274,18 @@ Text = {
     }
 }
 
+Tooltip = {
+    "Information": {
+        "normal": {"fill": "#F1F1F1"},
+    },
+    "Rectangle": {
+        "normal": {"fill": "#2B2B2B", "outline": "#3D3D3D"},
+    },
+    "RoundedRectangle": {
+        "normal": {"fill": "#2B2B2B", "outline": "#3D3D3D"},
+    }
+}
+
 UnderlineButton = {
     "Information": {
         "normal": {"fill": "#F1F1F1"},
