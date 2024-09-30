@@ -77,6 +77,8 @@ def _get_name(
     if obj is None:
         return None
     if getattr(obj, "name", None) is not None:
+        if inspect.isclass(obj.name):
+            return obj.name.__name__
         if obj.name.startswith("."):  # Special rule
             return obj.__class__.__name__ + obj.name
         return obj.name
