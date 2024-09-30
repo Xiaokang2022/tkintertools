@@ -14,9 +14,9 @@ import pathlib
 import platform
 import threading
 import tkinter
+import traceback
 import types
 import typing
-import warnings
 
 from ..theme import dark, light
 from ..toolbox import tools
@@ -250,8 +250,8 @@ def _process_event(dark: bool) -> None:
     for func, args in _callback_events.items():
         try:  # Prevent detection thread from crashing
             func(dark, *args)
-        except Exception as e:
-            warnings.warn(f"Thread Warning: {e}", RuntimeWarning, 3)
+        except Exception as exc:
+            traceback.print_exception(exc)
 
 
 def _callback(theme: str) -> None:

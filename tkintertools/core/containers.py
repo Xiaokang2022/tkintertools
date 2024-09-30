@@ -15,6 +15,7 @@ import math
 import platform
 import tkinter
 import tkinter.font
+import traceback
 import typing
 
 import typing_extensions
@@ -275,6 +276,8 @@ class Tk(tkinter.Tk):
             """Ensure that the window closes gracefully"""
             try:
                 command(*args, **kwargs)
+            except Exception as exc:
+                traceback.print_exception(exc)
             finally:
                 if ensure_destroy:
                     self.destroy()

@@ -7,6 +7,7 @@ import platform
 import shutil
 import tkinter
 import tkinter.font
+import traceback
 import typing
 
 from ..core import constants
@@ -138,7 +139,8 @@ def load_font(
                     os.remove, _LINUX_FONTS_DIR + font_path.rsplit("/", 1)[-1])
 
             return True
-        except:
+        except Exception as exc:
+            traceback.print_exception(exc)
             return False
 
     return False
