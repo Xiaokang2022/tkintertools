@@ -70,11 +70,13 @@ class Text(virtual.Widget):
         * `animation`: wether enable animation
         """
         virtual.Widget.__init__(
-            self, master, position, tools.get_text_size(text, fontsize, family),
+            self, master, position, (0, 0),
             name=name, anchor=anchor, through=through, animation=animation)
+        # The above parameter `anchor` has no practical effect and is only used
+        # to query the data of the widget.
         texts.Information(self, text=text, family=family, fontsize=fontsize,
                           weight=weight, slant=slant, underline=underline,
-                          overstrike=overstrike, justify=justify)
+                          overstrike=overstrike, justify=justify, anchor=anchor)
 
     def get(self) -> str:
         """Get the text of the widget"""
@@ -112,13 +114,15 @@ class Image(virtual.Widget):
         * `animation`: wether enable animation
         """
         virtual.Widget.__init__(
-            self, master, position, (image.width(), image.height()), name=name,
-            anchor=anchor, through=through, animation=animation)
+            self, master, position, (0, 0),
+            name=name, anchor=anchor, through=through, animation=animation)
+        # The above parameter `anchor` has no practical effect and is only used
+        # to query the data of the widget.
         if image is not None and size is not None:
-            images.StillImage(self, image=image.scale(
+            images.StillImage(self, anchor=anchor, image=image.scale(
                 size[0]/image.width(), size[1]/image.height()))
         else:
-            images.StillImage(self, image=image)
+            images.StillImage(self, anchor=anchor, image=image)
 
     def get(self) -> enhanced.PhotoImage:
         """Get the image of the widget"""
@@ -130,6 +134,7 @@ class Image(virtual.Widget):
         """Set the image of the widget"""
         self._images[0]._initail_image = image
         if image is not None:
+            self.master.update()
             image = image.scale(*self.master.ratios)
         self._images[0].image = image
         self.master.itemconfigure(self._images[0].items[0], image=image)
