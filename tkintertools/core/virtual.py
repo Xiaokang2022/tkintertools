@@ -548,6 +548,27 @@ class Widget:
             except Exception as exc:
                 traceback.print_exception(exc)
 
+    def bind(self, command: typing.Callable[[str, bool], typing.Any]) -> None:
+        """
+        Bind an extra function to the widget
+        
+        This extra function has two positional arguments, both of which are
+        arguments to the method `update`. And this extra function will be
+        called when the widget is updated (whether it's automatically updated
+        or manually updated).
+
+        * `command`: the extra function that is bound
+        """
+        self._update_hooks.append(command)
+
+    def unbind(self, command: typing.Callable[[str, bool], typing.Any]) -> None:
+        """
+        Unbind an extra function to the widget
+        
+        * `command`: the extra function that is bound
+        """
+        self._update_hooks.remove(command)
+
     def disabled(self, value: bool = True) -> None:
         """Disable the widget"""
         if value:
