@@ -305,7 +305,7 @@ module.exports = LatinRules;
 
 },{}],4:[function(require,module,exports){
 var _ = require("underscore")
-  , WordcutCore = require("./wordcut_core.js");
+  , WordcutCore = require("./wordcut_core");
 var PathInfoBuilder = {
 
   /*
@@ -487,13 +487,13 @@ module.exports = ThaiRules;
 
 },{}],7:[function(require,module,exports){
 var sys = require("sys")
-  , WordcutDict = require("./dict.js")
-  , WordcutCore = require("./wordcut_core.js")
-  , PathInfoBuilder = require("./path_info_builder.js")
-  , PathSelector = require("./path_selector.js")
-  , Acceptors = require("./acceptors.js")
-  , latinRules = require("./latin_rules.js")
-  , thaiRules = require("./thai_rules.js")
+  , WordcutDict = require("./dict")
+  , WordcutCore = require("./wordcut_core")
+  , PathInfoBuilder = require("./path_info_builder")
+  , PathSelector = require("./path_selector")
+  , Acceptors = require("./acceptors")
+  , latinRules = require("./latin_rules")
+  , thaiRules = require("./thai_rules")
   , _ = require("underscore");
 
 
@@ -6606,7 +6606,7 @@ function isPrimitive(arg) {
 }
 exports.isPrimitive = isPrimitive;
 
-exports.isBuffer = require('./support/isBuffer.js');
+exports.isBuffer = require('./support/isBuffer');
 
 function objectToString(o) {
   return Object.prototype.toString.call(o);
