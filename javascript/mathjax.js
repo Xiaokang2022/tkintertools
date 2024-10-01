@@ -1,3 +1,5 @@
+// https://squidfunk.github.io/mkdocs-material/reference/math/
+
 window.MathJax = {
   tex: {
     inlineMath: [["\\(", "\\)"]],
@@ -11,7 +13,7 @@ window.MathJax = {
   }
 };
 
-document$.subscribe(() => { 
+document$.subscribe(() => {
   MathJax.startup.output.clearCache()
   MathJax.typesetClear()
   MathJax.texReset()
