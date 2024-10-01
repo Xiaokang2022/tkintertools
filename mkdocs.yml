@@ -263,7 +263,7 @@ extra_javascript:
 
 extra_css:
   - css/extra.css # 加载自定义的样式
-  - https://cdnjs.cloudflare.com/ajax/libs/lxgw-wenkai-screen-webfont/1.7.0/style.css # 设置字体（霞鹜文楷）
+  - https://cdnjs.cloudflare.com/ajax/libs/lxgw-wenkai-screen-webfont/1.5.0/style.css # 设置字体（霞鹜文楷）【版本不能再更高了，会导致公式字体变小】
   - https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css # 图标字体库
 
 plugins:
