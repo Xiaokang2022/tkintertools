@@ -171,7 +171,7 @@ theme: # 此项各个设定因主题而异
     - media: "(prefers-color-scheme: light)" # 亮色主题
       scheme: default
       primary: white
-      accent: purple
+      accent: orange
       toggle:
         icon: material/weather-sunny
         name: 明亮主题
@@ -224,7 +224,11 @@ extra: # 额外设定
       - reject
       - manage
     title: Cookie 设置
-    description: 我们使用 cookie 来识别您的重复访问和偏好，以及衡量我们文档的有效性和用户是否找到他们正在搜索的内容。<br/>在您的同意下，您将帮助我们改进我们的文档。
+    description: >-
+      我们使用 cookies 来识别您的重复访问和偏好，以及衡量我们文档的有效性和用户是否找
+      到他们正在搜索的内容。<br/>
+      在您的同意下，您将帮助我们改进我们的文档。<br/>
+      （您稍后仍可以在网页左下角重新修改 cookies 设置）
   analytics: # 谷歌统计
     provider: google
     property: G-9YC5SN4ZFD
@@ -246,7 +250,6 @@ extra: # 额外设定
 
 extra_javascript:
   - javascript/shortcuts.js # 绑定左右键换页的键盘快捷键
-  # - javascript/canvas-nest.js # 背景效果
   - javascript/click-colorful.js # 鼠标点击效果
   - javascript/mathjax.js # 数学表达式
   - javascript/tablesort.js # 表格排序功能
@@ -260,7 +263,7 @@ extra_javascript:
 
 extra_css:
   - css/extra.css # 加载自定义的样式
-  - https://cdn.jsdelivr.net/npm/lxgw-wenkai-screen-webfont@1.1.0/style.css # 设置字体（霞鹜文楷）
+  - https://cdnjs.cloudflare.com/ajax/libs/lxgw-wenkai-screen-webfont/1.7.0/style.css # 设置字体（霞鹜文楷）
   - https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css # 图标字体库
 
 plugins:

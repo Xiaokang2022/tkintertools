@@ -4,6 +4,8 @@ comments: true
 icon: material/home
 ---
 
+<br/>
+
 <h1 align="center">tkintertools</h1>
 
 <p align="center"><img alt="logo" src="./logo.png" /></p>
@@ -107,10 +109,6 @@ pip install tkintertools[recommended]==3.0.0rc2
     ![](https://github.com/Xiaokang2022/tkintertools-demos/blob/main/preview/demo10-1.png?raw=true)
 
 ## 📦 相关依赖包
-
-!!! tip "提示"
-
-    所有的依赖包均会在 [*requirements.txt*](https://github.com/Xiaokang2022/tkintertools/blob/master/requirements.txt) 中列出，但可选包并不一定要安装
 
 ### 📌 必需包
 

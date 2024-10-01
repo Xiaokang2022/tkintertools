@@ -18,7 +18,7 @@ theme: # 此项各个设定因主题而异
     - media: "(prefers-color-scheme: light)" # 亮色主题
       scheme: default
       primary: white
-      accent: purple
+      accent: orange
       toggle:
         icon: material/weather-sunny
         name: Light Mode
@@ -64,7 +64,9 @@ extra: # 额外设定
       We use cookies to recognize your repeated visits and preferences, as well
       as to measure the effectiveness of our documentation and whether users
       find what they're searching for. With your consent, you're helping us to
-      make our documentation better.
+      make our documentation better.<br/>
+      (You can still modify your cookies settings later in the bottom left
+      corner of the page)
   analytics: # 谷歌统计
     provider: google
     property: G-9YC5SN4ZFD

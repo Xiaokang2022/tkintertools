@@ -8,7 +8,7 @@
 [data-md-color-scheme="default"] {
     --md-primary-fg-color: rgba(232, 232, 232, 0.7);
     --md-header-bg-color: rgba(232, 232, 232, 0.7);
-    --md-typeset-a-color: #008800;
+    --md-typeset-a-color: forestgreen;
     --md-footer-bg-color: #f6f6f6;
     --md-footer-bg-color--dark: #f6f6f6;
     --md-footer-fg-color: #222;
@@ -72,4 +72,9 @@ audio::-webkit-media-controls-enclosure {
 /*图片标题小字号*/
 figcaption {
     font-size: small;
+}
+
+/*表格居中*/
+.md-typeset__scrollwrap {
+    text-align: center;
 }
