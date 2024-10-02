@@ -10,7 +10,7 @@ import tkinter.font
 import traceback
 import typing
 
-from ..core import constants
+from ..core import constants, virtual
 
 __all__ = [
     "get_hwnd",
@@ -182,6 +182,7 @@ def get_text_size(
     family: str | None = None,
     *,
     padding: int = 0,
+    master: tkinter.Canvas | virtual.Widget | None = None,
     **kwargs,
 ) -> tuple[int, int]:
     """
@@ -191,6 +192,7 @@ def get_text_size(
     * `fontsize`: font size of the text
     * `family`: font family of the text
     * `padding`: extra padding of the size
+    * `master`: default canvas or widget provided
     * `kwargs`: kwargs of `tkinter.font.Font`
 
     ATTENTION:
@@ -203,9 +205,13 @@ def get_text_size(
         fontsize = constants.SIZE
 
     fontsize = -abs(fontsize)
-    __temp_cv = tkinter.Canvas(tkinter._default_root)
-    __font = tkinter.font.Font(family=family, size=fontsize, **kwargs)
-    x1, y1, x2, y2 = __temp_cv.bbox(
-        __temp_cv.create_text(0, 0, text=text, font=__font))
-    __temp_cv.destroy()
+    temp_cv = master if master else tkinter.Canvas(tkinter._default_root)
+    while isinstance(temp_cv, virtual.Widget):
+        temp_cv = temp_cv.master
+    font = tkinter.font.Font(family=family, size=fontsize, **kwargs)
+    item = temp_cv.create_text(-9999, -9999, text=text, font=font)
+    x1, y1, x2, y2 = temp_cv.bbox(item)
+    temp_cv.delete(item)
+    if master is None:
+        temp_cv.destroy()
     return 2*padding + x2 - x1, 2*padding + y2 - y1

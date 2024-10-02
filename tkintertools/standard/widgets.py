@@ -185,7 +185,8 @@ class Label(virtual.Widget):
         """
         if size is None:
             size = tools.get_text_size(
-                text, family, fontsize, weight=weight, slant=slant, padding=6)
+                text, family, fontsize, weight=weight, slant=slant, padding=6,
+                master=master)
         virtual.Widget.__init__(
             self, master, position, size, name=name, anchor=anchor,
             through=through, animation=animation)
@@ -247,7 +248,8 @@ class Button(virtual.Widget):
         """
         if size is None:
             size = tools.get_text_size(
-                text, family, fontsize, weight=weight, slant=slant, padding=6)
+                text, family, fontsize, weight=weight, slant=slant, padding=6,
+                master=master)
         virtual.Widget.__init__(
             self, master, position, size, anchor=anchor, name=name,
             through=through, animation=animation)
@@ -375,7 +377,8 @@ class InputBox(virtual.Widget):
         """
         if size is None:
             size = 200, tools.get_text_size(
-                "", family, fontsize, weight=weight, slant=slant, padding=6)[1]
+                "", family, fontsize, weight=weight, slant=slant, padding=6,
+                master=master)[1]
         virtual.Widget.__init__(
             self, master, position, size, name=name, anchor=anchor,
             through=through, animation=animation)
@@ -522,7 +525,8 @@ class ToggleButton(virtual.Widget):
         """
         if size is None:
             size = tools.get_text_size(
-                text, family, fontsize, weight=weight, slant=slant, padding=6)
+                text, family, fontsize, weight=weight, slant=slant, padding=6,
+                master=master)
         virtual.Widget.__init__(
             self, master, position, size, state="normal-off", name=name,
             anchor=anchor, through=through, animation=animation)
@@ -730,7 +734,8 @@ class UnderlineButton(virtual.Widget):
         """
         virtual.Widget.__init__(
             self, master, position, tools.get_text_size(
-                text, fontsize, family, weight=weight, slant=slant),
+                text, fontsize, family, weight=weight, slant=slant,
+                master=master),
             name=name, anchor=anchor, through=through, animation=animation)
         if image is not None:
             images.StillImage(self, image=image)
@@ -784,7 +789,8 @@ class HighlightButton(virtual.Widget):
         """
         virtual.Widget.__init__(
             self, master, position, tools.get_text_size(
-                text, fontsize, family, weight=weight, slant=slant),
+                text, fontsize, family, weight=weight, slant=slant,
+                master=master),
             name=name, anchor=anchor, through=through, animation=animation)
         if image is not None:
             images.StillImage(self, image=image)
@@ -840,7 +846,8 @@ class IconButton(virtual.Widget):
         """
         if size is None:
             size = tools.get_text_size(
-                text, family, fontsize, weight=weight, slant=slant, padding=6)
+                text, family, fontsize, weight=weight, slant=slant, padding=6,
+                master=master)
             size = size[0] + size[1] - 6, size[1]
         virtual.Widget.__init__(
             self, master, position, size, name=name, anchor=anchor,
@@ -987,11 +994,13 @@ class SegmentedButton(virtual.Widget):
         if not sizes:
             if texts:
                 sizes = tuple(tools.get_text_size(
-                    text, family, fontsize, weight=weight, slant=slant, padding=6
+                    text, family, fontsize, weight=weight, slant=slant,
+                    padding=6, master=master
                 ) for text in texts)
             else:
                 sizes = tools.get_text_size(
-                    "", family, fontsize, weight=weight, slant=slant, padding=6),
+                    "", family, fontsize, weight=weight, slant=slant,
+                    padding=6, master=master),
         widths, heights, length = *zip(*sizes), len(sizes)
         if not texts:
             sizes, length = (), 0
@@ -1088,7 +1097,8 @@ class SpinBox(virtual.Widget):
         """
         if size is None:
             size = 200, tools.get_text_size(
-                "", family, fontsize, weight=weight, slant=slant, padding=6)[1]
+                "", family, fontsize, weight=weight, slant=slant, padding=6,
+                master=master)[1]
         virtual.Widget.__init__(
             self, master, position, size, name=name, anchor=anchor,
             through=through, animation=animation)
@@ -1179,7 +1189,8 @@ class Tooltip(virtual.Widget):
         """
         if size is None:
             size = tools.get_text_size(
-                text, family, fontsize, weight=weight, slant=slant, padding=6)
+                text, family, fontsize, weight=weight, slant=slant, padding=6,
+                master=widget.master)
         position = [widget.position[0] + widget.size[0]/2 - widget.offset[0],
                     widget.position[1] + widget.size[1]/2 - widget.offset[1]]
         match align:
