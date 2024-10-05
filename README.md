@@ -183,5 +183,4 @@ pip install tkintertools[extension]==3.0.0rc2
 * ❤️ Sponsor this Project / 赞助此项目: [Sponsor](https://xiaokang2022.github.io/tkintertools/Sponsor/)
 * 🚀 Repository Mirrors / 存储库镜像源:
 [GitHub](https://github.com/Xiaokang2022/tkintertools) |
-[Gitee](https://gitee.com/Xiaokang2022/tkintertools) |
-[GitCode](https://gitcode.com/Xiaokang2022/tkintertools/overview)
+[Gitee](https://gitee.com/Xiaokang2022/tkintertools)
