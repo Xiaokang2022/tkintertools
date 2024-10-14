@@ -39,7 +39,7 @@ class _AuxiliaryLabel(virtual.Widget):
         animation: bool = True,
     ) -> None:
         if size is None:
-            size = tools.get_text_size(text, family, fontsize, padding=10)
+            size = tools.get_text_size(text, fontsize, family, padding=10)
         virtual.Widget.__init__(self, master, position, size,
                                 name=name, through=through, animation=animation)
         if constants.SYSTEM == "Windows10":
@@ -81,7 +81,7 @@ class _AuxiliaryButton(virtual.Widget):
         animation: bool = True,
     ) -> None:
         if size is None:
-            size = tools.get_text_size(text, family, fontsize, padding=10)
+            size = tools.get_text_size(text, fontsize, family, padding=10)
         virtual.Widget.__init__(self, master, position, size,
                                 name=name, through=through, animation=animation)
         if constants.SYSTEM == "Windows10":
@@ -123,7 +123,7 @@ class _AuxiliaryInputBox(virtual.Widget):
     ) -> None:
         if size is None:
             size = 200, tools.get_text_size(
-                "", family, fontsize, padding=10)[1]
+                "", fontsize, family, padding=10)[1]
         virtual.Widget.__init__(self, master, position, size,
                                 name=name, through=through, animation=animation)
         if constants.SYSTEM == "Windows10":
