@@ -40,7 +40,7 @@ extra: # 额外设定
       lang: en
   status: # 元信息状态标识
     new: Recently added
-    deprecated: Will be removed soon
+    deprecated: Deprecated
   social: # 社交联系方式（页面右下角内容）
     - icon: fontawesome/brands/github
       link: https://github.com/Xiaokang2022/tkintertools/

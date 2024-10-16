@@ -201,7 +201,7 @@ extra: # 额外设定
   generator: false # 页面底部不显示生成信息
   status: # 元信息状态标识
     new: 最近添加
-    deprecated: 不久将被移除
+    deprecated: 已废弃
   homepage: . # 左上角徽标链接的地址
   annotate: # 允许代码块非注释内的提示，貌似是可以在代码里面加悬浮提示框，而不只是在注释中（感觉这样不好，虽然我不用，但不能没有）
     json: [.s2]
@@ -253,18 +253,18 @@ extra_javascript:
   - javascript/click-colorful.js # 鼠标点击效果
   - javascript/mathjax.js # 数学表达式
   - javascript/tablesort.js # 表格排序功能
-  - https://unpkg.com/mathjax@3/es5/tex-mml-chtml.js # 数学表达式运行环境
-  - https://unpkg.com/tablesort@5.3.0/dist/tablesort.min.js # 表格排序功能运行环境（默认文本类型）
-  - https://unpkg.com/tablesort@5.3.0/dist/sorts/tablesort.date.min.js # 表格排序功能（日期类型）
-  - https://unpkg.com/tablesort@5.3.0/dist/sorts/tablesort.dotsep.min.js # 表格排序功能（点分割类型）
-  - https://unpkg.com/tablesort@5.3.0/dist/sorts/tablesort.filesize.min.js # 表格排序功能（文件大小类型）
-  - https://unpkg.com/tablesort@5.3.0/dist/sorts/tablesort.monthname.min.js # 表格排序功能（月份名称类型）
-  - https://unpkg.com/tablesort@5.3.0/dist/sorts/tablesort.number.min.js # 表格排序功能（数字类型）
+  - https://unpkg.com/mathjax@latest/es5/tex-mml-chtml.js # 数学表达式运行环境
+  - https://unpkg.com/tablesort@latest/dist/tablesort.min.js # 表格排序功能运行环境（默认文本类型）
+  - https://unpkg.com/tablesort@latest/dist/sorts/tablesort.date.min.js # 表格排序功能（日期类型）
+  - https://unpkg.com/tablesort@latest/dist/sorts/tablesort.dotsep.min.js # 表格排序功能（点分割类型）
+  - https://unpkg.com/tablesort@latest/dist/sorts/tablesort.filesize.min.js # 表格排序功能（文件大小类型）
+  - https://unpkg.com/tablesort@latest/dist/sorts/tablesort.monthname.min.js # 表格排序功能（月份名称类型）
+  - https://unpkg.com/tablesort@latest/dist/sorts/tablesort.number.min.js # 表格排序功能（数字类型）
 
 extra_css:
   - css/extra.css # 加载自定义的样式
-  - https://cdnjs.cloudflare.com/ajax/libs/lxgw-wenkai-screen-webfont/1.5.0/style.css # 设置字体（霞鹜文楷）【版本不能再更高了，会导致公式字体变小】
-  - https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css # 图标字体库
+  - https://cdnjs.cloudflare.com/ajax/libs/lxgw-wenkai-screen-webfont/1.5.0/style.min.css # 设置字体（霞鹜文楷）【版本不能再更高了，会导致公式字体变小】
+  - https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css # 图标字体库
 
 plugins:
   - search
