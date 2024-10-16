@@ -78,3 +78,17 @@ figcaption {
 .md-typeset__scrollwrap {
     text-align: center;
 }
+
+/*打印时隐藏部分元素*/
+@media print {
+    .md-tooltip2 {
+        display: none;
+    }
+}
+
+/*屏幕过窄时隐藏音乐播放器*/
+@media screen and not (min-width: 32em) {
+    audio.md-header__option {
+        display: none;
+    }
+}
