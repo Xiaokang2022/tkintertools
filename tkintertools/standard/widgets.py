@@ -1272,16 +1272,16 @@ class OptionButton(virtual.Widget):
 
     def pop_menu(self) -> None:
         """"""
-        if isinstance(self._widgets[-1], SegmentedButton):
-            return self._widgets[-1].destroy()
-        if self.options is None:
-            return
-        sizes = ((self.size[0]-10, self.size[1]),)*len(self.options)
-        texts, commands = zip(*self.options)
-        commands = tuple((lambda i=i, command=command: (self._widgets[0]._texts[0].set(texts[i]), command(
-        ) if command is not None else None, print(i), self.pop_menu())) for i, command in enumerate(commands))
-        SegmentedButton(
-            self, (0, self.size[1]+5), sizes, texts=texts, commands=commands, layout="vertical")
+        # if isinstance(self._widgets[-1], SegmentedButton):
+        #     return self._widgets[-1].destroy()
+        # if self.options is None:
+        #     return
+        # sizes = ((self.size[0]-10, self.size[1]),)*len(self.options)
+        # texts, commands = zip(*self.options)
+        # commands = tuple((lambda i=i, command=command: (self._widgets[0]._texts[0].set(texts[i]), command(
+        # ) if command is not None else None, print(i), self.pop_menu())) for i, command in enumerate(commands))
+        # SegmentedButton(
+        #     self, (0, self.size[1]+5), sizes, texts=texts, commands=commands, layout="vertical")
 
     def get(self) -> str:
         """"""
