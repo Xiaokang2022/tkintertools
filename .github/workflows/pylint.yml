@@ -18,8 +18,10 @@ jobs:
     - name: Install dependencies
       run: |
         pip3 install --upgrade pip
+        pip3 install --upgrade setuptools
+        pip3 install --upgrade wheel
         pip3 install pylint
         pip3 install .
     - name: Analysing the code with pylint
       run: |
-        pylint $(git ls-files '*.py') --output-format=colorized --disable=I,R,C,W
+        pylint $(git ls-files '*.py') --output-format=colorized --fail-on=E,F --fail-under=7.5 --max-line-length=79
