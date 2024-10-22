@@ -40,17 +40,19 @@ class _AuxiliaryLabel(virtual.Widget):
     ) -> None:
         if size is None:
             size = tools.get_text_size(text, fontsize, family, padding=10)
-        virtual.Widget.__init__(self, master, position, size,
-                                name=name, through=through, animation=animation)
+        virtual.Widget.__init__(
+            self, master, position, size,
+            name=name, through=through, animation=animation)
         if constants.SYSTEM == "Windows10":
             shapes.Rectangle(self)
         else:
             shapes.HalfRoundedRectangle(self, ignore=ignore)
         if image is not None:
             images.StillImage(self, image=image)
-        texts.Information(self, text=text, family=family, fontsize=fontsize,
-                          weight=weight, slant=slant, underline=underline,
-                          overstrike=overstrike, justify=justify, anchor=anchor)
+        texts.Information(
+            self, text=text, family=family, fontsize=fontsize,
+            weight=weight, slant=slant, underline=underline,
+            overstrike=overstrike, justify=justify, anchor=anchor)
         features.LabelFeature(self)
 
 
@@ -82,17 +84,19 @@ class _AuxiliaryButton(virtual.Widget):
     ) -> None:
         if size is None:
             size = tools.get_text_size(text, fontsize, family, padding=10)
-        virtual.Widget.__init__(self, master, position, size,
-                                name=name, through=through, animation=animation)
+        virtual.Widget.__init__(
+            self, master, position, size,
+            name=name, through=through, animation=animation)
         if constants.SYSTEM == "Windows10":
             shapes.Rectangle(self)
         else:
             shapes.HalfRoundedRectangle(self, ignore=ignore)
         if image is not None:
             images.StillImage(self, image=image)
-        texts.Information(self, text=text, family=family, fontsize=fontsize,
-                          weight=weight, slant=slant, underline=underline,
-                          overstrike=overstrike, justify=justify, anchor=anchor)
+        texts.Information(
+            self, text=text, family=family, fontsize=fontsize,
+            weight=weight, slant=slant, underline=underline,
+            overstrike=overstrike, justify=justify, anchor=anchor)
         features.ButtonFeature(self, command=command)
 
 
@@ -124,8 +128,9 @@ class _AuxiliaryInputBox(virtual.Widget):
         if size is None:
             size = 200, tools.get_text_size(
                 "", fontsize, family, padding=10)[1]
-        virtual.Widget.__init__(self, master, position, size,
-                                name=name, through=through, animation=animation)
+        virtual.Widget.__init__(
+            self, master, position, size,
+            name=name, through=through, animation=animation)
         if constants.SYSTEM == "Windows10":
             shapes.Rectangle(self)
         else:

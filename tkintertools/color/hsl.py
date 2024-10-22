@@ -80,7 +80,8 @@ def blend(
     _total = sum(weights)
     weights = tuple(map(lambda x: x/_total, weights))  # Different weights
 
-    return tuple(sum(map(lambda x: x[0]*x[1], zip(c, weights))) for c in colors)
+    return tuple(sum(map(
+        lambda x: x[0]*x[1], zip(c, weights))) for c in colors)
 
 
 def gradient(

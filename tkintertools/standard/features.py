@@ -191,7 +191,8 @@ class SwitchFeature(ButtonFeature):
     def _click_left(self, _: tkinter.Event) -> bool:
         if flag := self.widget.state.startswith("hover"):
             self.widget.update(
-                f"active-{'on' if self.widget.get() else 'off'}", no_delay=True)
+                f"active-{'on' if self.widget.get() else 'off'}",
+                no_delay=True)
         return flag
 
     def _release_left(self, event: tkinter.Event) -> bool:
@@ -431,8 +432,10 @@ class SliderFeature(virtual.Feature):
             if isinstance(self.widget._shapes[-1], shapes.Oval):
                 self.widget._shapes[-1].coords(
                     (self.widget.size[1]*2/3, self.widget.size[1]*2/3),
-                    (self.widget._shapes[-2].position[0]+self.widget.size[1]/6,
-                     self.widget._shapes[-2].position[1]+self.widget.size[1]/6))
+                    (self.widget._shapes[-2].position[0]
+                     + self.widget.size[1]/6,
+                     self.widget._shapes[-2].position[1]
+                     + self.widget.size[1]/6))
                 next_value = (
                     (event.x-self.widget.position[0]-self.widget.size[1]/2)
                     / (self.widget.size[0]-self.widget.size[1]))

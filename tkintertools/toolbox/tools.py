@@ -103,10 +103,10 @@ def load_font(
     return `True` if the operation succeeds, `False` otherwise
 
     * `font_path`: the font file path
-    * `private`: if True, other processes cannot see this font(Only Windows OS),
-    and this font will be unloaded when the process dies
-    * `enumerable`: if True, this font will appear when enumerating fonts(Only
-    Windows OS)
+    * `private`: if True, other processes cannot see this
+    font(Only Windows OS), and this font will be unloaded when the process dies
+    * `enumerable`: if True, this font will appear when enumerating
+    fonts(Only Windows OS)
 
     ATTENTION:
 

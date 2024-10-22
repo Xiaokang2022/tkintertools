@@ -75,9 +75,10 @@ class Text(virtual.Widget):
             name=name, anchor=anchor, through=through, animation=animation)
         # The above parameter `anchor` has no practical effect and is only used
         # to query the data of the widget.
-        texts.Information(self, text=text, family=family, fontsize=fontsize,
-                          weight=weight, slant=slant, underline=underline,
-                          overstrike=overstrike, justify=justify, anchor=anchor)
+        texts.Information(
+            self, text=text, family=family, fontsize=fontsize,
+            weight=weight, slant=slant, underline=underline,
+            overstrike=overstrike, justify=justify, anchor=anchor)
 
     def get(self) -> str:
         """Get the text of the widget"""
@@ -1124,12 +1125,16 @@ class SpinBox(virtual.Widget):
             self, master, position, size, name=name, anchor=anchor,
             through=through, animation=animation)
         InputBox(
-            self, (0, 0), size, family=family, fontsize=fontsize, weight=weight,
-            slant=slant, underline=underline, overstrike=overstrike,
-            align=align, placeholder=placeholder, show=show, limit=limit,
-            image=image, through=through, animation=animation)
+            self, (0, 0), size, family=family, fontsize=fontsize,
+            weight=weight, slant=slant, underline=underline,
+            overstrike=overstrike, align=align, placeholder=placeholder,
+            show=show, limit=limit, image=image, through=through,
+            animation=animation)
         h = size[1]/2 - 6
-        w = h/constants.GOLDEN_RATIO if constants.SYSTEM == "Windows10" else 2*h
+        if constants.SYSTEM == "Windows10":
+            w = h / constants.GOLDEN_RATIO
+        else:
+            w = 2 * h
         Button(self, (size[0]-w-4, 4), (w, h), text="▲", fontsize=14,
                through=True, command=lambda:
                command(True) if command is not None else self.change(True))

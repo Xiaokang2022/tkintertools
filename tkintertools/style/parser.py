@@ -98,9 +98,9 @@ def get_file(
 ) -> dict[str, dict[str, str]]:
     """Get the style file based on the parameters
 
-    The return value of this function is cached, and when the same style file is
-    fetched, the data is fetched directly from the cache, unless `clear_cache`
-    is called
+    The return value of this function is cached, and when the same style file
+    is fetched, the data is fetched directly from the cache, unless
+    `clear_cache` is called
 
     * `theme`: a specified theme
     * `widget`: widget that need to get styles

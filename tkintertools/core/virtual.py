@@ -559,7 +559,10 @@ class Widget:
         """
         self._update_hooks.append(command)
 
-    def unbind(self, command: typing.Callable[[str, bool], typing.Any]) -> None:
+    def unbind(
+        self,
+        command: typing.Callable[[str, bool], typing.Any],
+    ) -> None:
         """Unbind an extra function to the widget
 
         * `command`: the extra function that is bound

@@ -1,7 +1,8 @@
 """Standard animation classes
 
-The built-in basic animation classes are: `MoveTkWidget`, `MoveWidget`,
-`MoveComponent`, `MoveItem`, `GradientTkWidget`, `GradientItem`, `ScaleFontSize`
+The built-in basic animation classes are:
+`MoveTkWidget`, `MoveWidget`, `MoveComponent`, `MoveItem`, `GradientTkWidget`,
+`GradientItem`, `ScaleFontSize`
 """
 
 # pylint: disable=protected-access

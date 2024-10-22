@@ -142,7 +142,9 @@ def register_event(
     _callback_events[func] = args
 
 
-def remove_event(func: typing.Callable[[bool, typing.Any], typing.Any]) -> None:
+def remove_event(
+    func: typing.Callable[[bool, typing.Any], typing.Any],
+) -> None:
     """Remove a registered function
 
     * `func`: callback function
