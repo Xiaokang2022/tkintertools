@@ -1,4 +1,4 @@
-<h1 align="center">tkintertools v2</h1>
+<h1 align="center">tkintertools 2.6</h1>
 
 <p align="center"><img alt="logo" src="logo.png"/></p>
 
@@ -17,7 +17,6 @@
 <a href="https://github.com/Xiaokang2022/tkintertools/watchers"><img alt="Watchs" src="https://img.shields.io/github/watchers/Xiaokang2022/tkintertools?label=Watchs&logo=github&style=flat" /></a>
 <a href="https://github.com/Xiaokang2022/tkintertools/forks"><img alt="Forks" src="https://img.shields.io/github/forks/Xiaokang2022/tkintertools?label=Forks&logo=github&style=flat" /></a>
 <a href="https://github.com/Xiaokang2022/tkintertools/stargazers"><img alt="Stars" src="https://img.shields.io/github/stars/Xiaokang2022/tkintertools?label=Stars&color=gold&logo=github&style=flat" /></a>
-<a href="https://github.com/Xiaokang2022/tkintertools/graphs/contributors"><img alt="Contributors" src="https://img.shields.io/github/contributors/Xiaokang2022/tkintertools?label=Contributors&logo=github" /></a>
 <a href="https://github.com/Xiaokang2022/tkintertools/issues"><img alt="Issues" src="https://img.shields.io/github/issues/Xiaokang2022/tkintertools?label=Issues&logo=github" /></a>
 <a href="https://github.com/Xiaokang2022/tkintertools/pulls"><img alt="PRs" src="https://img.shields.io/github/issues-pr/Xiaokang2022/tkintertools?label=PRs&logo=github" /></a>
 <a href="https://github.com/Xiaokang2022/tkintertools"><img alt="Size" src="https://img.shields.io/github/languages/code-size/Xiaokang2022/tkintertools?label=Size&logo=github" /></a>
@@ -48,7 +47,7 @@ Install - 模块安装
 pip install tkintertools==2.6.21.1
 ```
 
-> [!Note]  
+> [!NOTE]  
 > This version is older and has some issues that cannot be resolved, so it is recommended to use a newer version of tkintertools as soon as possible.  
 > 此版本已比较老旧，存在一些无法解决的问题，建议尽快使用较新版本的 tkintertools。
 
@@ -59,4 +58,4 @@ More - 更多
 * License - 项目许可证: [LICENSE.txt](LICENSE.txt)
 * ChangeLog - 更新日志: [CHANGELOG.md](CHANGELOG.md)
 * Contribution Guide - 贡献指南: [CONTRIBUTING.md](CONTRIBUTING.md)
-* Mirrors - 镜像源: [GitHub](https://github.com/Xiaokang2022/tkintertools) | [Gitee](https://gitee.com/xiaokang-2022/tkintertools) | [GitCode](https://gitcode.com/Xiaokang2022/tkintertools/overview)
+* Mirrors - 镜像源: [GitHub](https://github.com/Xiaokang2022/tkintertools) | [Gitee](https://gitee.com/xiaokang-2022/tkintertools)
