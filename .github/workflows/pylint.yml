@@ -24,4 +24,4 @@ jobs:
         pip3 install .
     - name: Analysing the code with pylint
       run: |
-        pylint $(git ls-files '*.py') --output-format=colorized --fail-on=E,F --fail-under=8 --max-line-length=80
+        pylint $(git ls-files '*.py') --output-format=colorized --fail-on=E,F --fail-under=9 --max-line-length=80
