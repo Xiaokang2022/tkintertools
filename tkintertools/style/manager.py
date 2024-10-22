@@ -55,8 +55,8 @@ except ImportError:
 
 SYSTEM_DARK_MODE: bool = bool(darkdetect.isDark()) if darkdetect else False
 
-_theme_map: dict[typing.Literal["dark", "light"], pathlib.Path |
-                 str | types.ModuleType] = {"dark": dark, "light": light}
+theme_map: dict[typing.Literal["dark", "light"], pathlib.Path |
+                str | types.ModuleType] = {"dark": dark, "light": light}
 """
 The mapping table between dark and light themes, when the program switches to a
 light color, it will use the theme of the light color in the map, and the same
@@ -99,31 +99,31 @@ def get_color_mode() -> typing.Literal["dark", "light"]:
 
 def set_theme_map(
     *,
-    light: str | types.ModuleType | None = None,
-    dark: str | types.ModuleType | None = None,
+    light_theme: str | types.ModuleType | None = None,
+    dark_theme: str | types.ModuleType | None = None,
 ) -> None:
     """Set the path to the theme file used by the current program
 
-    * `light`: the name of the theme of the light theme
-    * `dark`: the name of the theme of the dark theme
+    * `light_theme`: the name of the theme of the light theme
+    * `dark_theme`: the name of the theme of the dark theme
     """
-    if dark is not None:
-        _theme_map["dark"] = dark
-    if light is not None:
-        _theme_map["light"] = light
-    if any((light, dark)):
-        parser._get_file.cache_clear()
+    if dark_theme is not None:
+        theme_map["dark"] = dark_theme
+    if light_theme is not None:
+        theme_map["light"] = light_theme
+    if any((light_theme, dark_theme)):
+        parser.get_file.cache_clear()
 
 
 def get_theme_map() -> dict[typing.Literal["dark", "light"],
                             str | pathlib.Path | types.ModuleType]:
     """Get the theme map"""
-    return _theme_map.copy()
+    return theme_map.copy()
 
 
 def reset_theme_map() -> None:
     """Reset the value of theme map"""
-    _theme_map.update(dark=dark, light=light)
+    theme_map.update(dark=dark, light=light)
 
 
 def register_event(
@@ -235,14 +235,14 @@ def customize_window(
             win32material.SetWindowBorder(tools.get_hwnd(window), boarder_type)
 
 
-def _process_event(dark: bool) -> None:
+def _process_event(dark_mode: bool) -> None:
     """Handle registered callback functions
 
-    * `dark`: Wether it is dark mode
+    * `dark_mode`: Wether it is dark mode
     """
     for func, args in _callback_events.items():
         try:  # Prevent detection thread from crashing
-            func(dark, *args)
+            func(dark_mode, *args)
         except Exception as exc:
             traceback.print_exception(exc)
 

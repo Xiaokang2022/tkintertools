@@ -112,8 +112,8 @@ def gradient(
 def str_to_rgb(color: str) -> RGB:
     """Convert color strings to RGB codes"""
     if color.startswith("#"):  # HEX
-        hex, b = divmod(int(color[1:], 16), 256)
-        r, g = divmod(hex, 256)
+        _, b = divmod(int(color[1:], 16), 256)
+        r, g = divmod(_, 256)
         return r, g, b
 
     return colormap.name_to_rgb(color)
@@ -122,9 +122,9 @@ def str_to_rgb(color: str) -> RGB:
 str2rgb = str_to_rgb  # Alias
 
 
-def rgb_to_str(rgb: RGB) -> str:
+def rgb_to_str(color: RGB) -> str:
     """Convert RGB codes to color strings"""
-    return f"#{rgb[0]:02X}{rgb[1]:02X}{rgb[2]:02X}"
+    return f"#{color[0]:02X}{color[1]:02X}{color[2]:02X}"
 
 
 rgb2str = rgb_to_str  # Alias
@@ -132,9 +132,9 @@ rgb2str = rgb_to_str  # Alias
 
 def _str_to_rgba(color: str, *, reference: str) -> RGB:
     """Experimental: Convert color strings(RGBA) to RGB codes"""
-    hex, a = divmod(int(color[1:], 16), 256)
-    hex, b = divmod(hex, 256)
-    r, g = divmod(hex, 256)
+    _, a = divmod(int(color[1:], 16), 256)
+    _, b = divmod(_, 256)
+    r, g = divmod(_, 256)
     refer_rgb = str_to_rgb(reference)
     return convert((r, g, b), refer_rgb, 1 - a/255)
 

@@ -89,7 +89,7 @@ def _get_name(
 
 
 @functools.cache
-def _get_file(
+def get_file(
     theme: str | pathlib.Path | types.ModuleType,
     widget: str,
     component: str | None = None,
@@ -130,7 +130,7 @@ def get(
     * `theme`: path to the style folder
     """
     if theme is None:
-        theme = manager._theme_map[manager.get_color_mode()]
+        theme = manager.theme_map[manager.get_color_mode()]
     widget_name = _get_name(widget)
     component_name = _get_name(component)
-    return _get_file(theme, widget_name, component_name).copy()
+    return get_file(theme, widget_name, component_name).copy()

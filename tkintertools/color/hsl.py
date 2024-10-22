@@ -110,18 +110,18 @@ def gradient(
     return rgb_list
 
 
-def hsl_to_rgb(hsl: HSL) -> rgb.RGB:
+def hsl_to_rgb(color: HSL) -> rgb.RGB:
     """Convert HSL to RGB codes"""
-    c = colorsys.hls_to_rgb(hsl[0]/math.tau, hsl[1], hsl[2])
+    c = colorsys.hls_to_rgb(color[0]/math.tau, color[1], color[2])
     return tuple(round(i*255) for i in c)
 
 
 hsl2rgb = hsl_to_rgb  # Alias
 
 
-def rgb_to_hsl(rgb: rgb.RGB) -> HSL:
+def rgb_to_hsl(color: rgb.RGB) -> HSL:
     """Convert RGB to HSL codes"""
-    c = colorsys.rgb_to_hls(*tuple(i/255 for i in rgb))
+    c = colorsys.rgb_to_hls(*tuple(i/255 for i in color))
     return c[0]*math.tau, c[1], c[2]
 
 
