@@ -1,12 +1,12 @@
 """The mapping of the color name to its RGB code"""
 
-import tkinter
-
 __all__ = [
     "COLOR_MAP",
     "name_to_rgb",
     "name2rgb",
 ]
+
+import tkinter
 
 COLOR_MAP: dict[str, tuple[int, int, int]] = {
     'alice blue': (240, 248, 255),

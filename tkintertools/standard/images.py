@@ -1,12 +1,12 @@
 """All standard `Image` classes"""
 
-import typing_extensions
-
-from ..core import virtual
-
 __all__ = [
     "StillImage",
 ]
+
+import typing_extensions
+
+from ..core import virtual
 
 
 class StillImage(virtual.Image):

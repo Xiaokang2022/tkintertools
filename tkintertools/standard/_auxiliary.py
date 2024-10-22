@@ -1,16 +1,16 @@
 """Some auxiliary classes"""
 
+__all__ = [
+    "_AuxiliaryButton",
+    "_AuxiliaryLabel",
+]
+
 import math
 import typing
 
 from ..core import constants, containers, virtual
 from ..toolbox import enhanced, tools
 from . import features, images, shapes, texts
-
-__all__ = [
-    "_AuxiliaryButton",
-    "_AuxiliaryLabel",
-]
 
 
 class _AuxiliaryLabel(virtual.Widget):

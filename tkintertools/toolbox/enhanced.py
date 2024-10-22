@@ -1,5 +1,9 @@
 """Enhanced versions of some tkinter classes and functions"""
 
+__all__ = [
+    "PhotoImage",
+]
+
 import functools
 import tkinter
 
@@ -7,10 +11,6 @@ try:
     from PIL import ImageTk
 except ImportError:
     ImageTk = None
-
-__all__ = [
-    "PhotoImage",
-]
 
 
 if not ImageTk:

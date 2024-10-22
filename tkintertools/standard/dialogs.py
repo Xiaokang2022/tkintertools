@@ -1,14 +1,14 @@
 """All standard dialog classes"""
 
-import tkinter
-import tkinter.colorchooser
-import typing
-
 __all__ = [
     "TkMessage",
     "TkColorChooser",
     "TkFontChooser",
 ]
+
+import tkinter
+import tkinter.colorchooser
+import typing
 
 
 class TkMessage:

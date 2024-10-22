@@ -1,12 +1,5 @@
 """All standard `Feature` classes"""
 
-import tkinter
-import typing
-
-from ..animation import animations, controllers
-from ..core import virtual
-from ..standard import shapes
-
 __all__ = [
     "LabelFeature",
     "ButtonFeature",
@@ -22,6 +15,13 @@ __all__ = [
     "SpinBoxFeature",
     "OptionButtonFeature",
 ]
+
+import tkinter
+import typing
+
+from ..animation import animations, controllers
+from ..core import virtual
+from ..standard import shapes
 
 
 class LabelFeature(virtual.Feature):

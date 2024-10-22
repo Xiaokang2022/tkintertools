@@ -4,6 +4,13 @@ In general, they should not be modified, and if you need to modify them, it is
 best before the window is established.
 """
 
+__all__ = [
+    "FONT",
+    "SIZE",
+    "SYSTEM",
+    "reset",
+]
+
 import math
 import platform
 
@@ -12,13 +19,6 @@ SIZE: int = None
 SYSTEM: str = None
 
 GOLDEN_RATIO: float = (math.sqrt(5)-1) / 2
-
-__all__ = [
-    "FONT",
-    "SIZE",
-    "SYSTEM",
-    "reset",
-]
 
 
 def reset() -> None:

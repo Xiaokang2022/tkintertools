@@ -1,13 +1,5 @@
 """All standard `Shape` classes"""
 
-import math
-import typing
-import warnings
-
-import typing_extensions
-
-from ..core import virtual
-
 __all__ = [
     "Line",
     "Rectangle",
@@ -19,6 +11,14 @@ __all__ = [
     "SharpRectangle",
     "Parallelogram",
 ]
+
+import math
+import typing
+import warnings
+
+import typing_extensions
+
+from ..core import virtual
 
 
 class Line(virtual.Shape):

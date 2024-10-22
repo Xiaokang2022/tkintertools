@@ -11,6 +11,15 @@ to one, but in terms of appearance, there is no limit to the number of `Shape`,
 abstract base class `Components`.
 """
 
+__all__ = [
+    "Component",
+    "Shape",
+    "Text",
+    "Image",
+    "Feature",
+    "Widget",
+]
+
 import abc
 import copy
 import math
@@ -26,15 +35,6 @@ from ..color import rgb
 from ..style import parser
 from ..toolbox import enhanced
 from . import constants, containers
-
-__all__ = [
-    "Component",
-    "Shape",
-    "Text",
-    "Image",
-    "Feature",
-    "Widget",
-]
 
 
 class Component(abc.ABC):
@@ -114,8 +114,7 @@ class Component(abc.ABC):
         *,
         no_delay: bool = False,
     ) -> None:
-        """
-        Update the style of the `Component` to the corresponding state
+        """Update the style of the `Component` to the corresponding state
 
         * `state`: the state of the `Component`
         """
@@ -428,8 +427,7 @@ class Feature(abc.ABC):
 
 
 class Widget:
-    """
-    Base Widget Class
+    """Base Widget Class
 
     `Widget` = `Shape` + `Text` + `Image` + `Feature` + `Widget`
     """
@@ -548,9 +546,8 @@ class Widget:
                 traceback.print_exception(exc)
 
     def bind(self, command: typing.Callable[[str, bool], typing.Any]) -> None:
-        """
-        Bind an extra function to the widget
-        
+        """Bind an extra function to the widget
+
         This extra function has two positional arguments, both of which are
         arguments to the method `update`. And this extra function will be
         called when the widget is updated (whether it's automatically updated
@@ -561,9 +558,8 @@ class Widget:
         self._update_hooks.append(command)
 
     def unbind(self, command: typing.Callable[[str, bool], typing.Any]) -> None:
-        """
-        Unbind an extra function to the widget
-        
+        """Unbind an extra function to the widget
+
         * `command`: the extra function that is bound
         """
         self._update_hooks.remove(command)

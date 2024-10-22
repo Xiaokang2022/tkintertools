@@ -33,6 +33,9 @@ If you ❤️ this package, leave your ⭐ to me, thanks you so much! 🎉
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
+__version__ = "3.0.0rc2"
+__author__ = "Xiaokang2022 <2951256653@qq.com>"
+
 import sys
 
 from .core import *
@@ -45,7 +48,3 @@ if sys.version_info < (3, 10):
 if sys.platform == "win32":
     import ctypes
     ctypes.windll.shcore.SetProcessDpiAwareness(1)  # Set Windows DPI awareness
-
-
-__version__ = "3.0.0rc2"
-__author__ = "Xiaokang2022 <2951256653@qq.com>"

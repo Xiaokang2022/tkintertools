@@ -1,16 +1,5 @@
 """All standard `Widget` classes"""
 
-import itertools
-import math
-import typing
-import warnings
-
-from ..animation import animations, controllers
-from ..core import constants, containers, virtual
-from ..toolbox import enhanced, tools
-from . import features, images, shapes, texts
-from ._auxiliary import _AuxiliaryButton, _AuxiliaryInputBox, _AuxiliaryLabel
-
 __all__ = [
     "Text",
     "Image",
@@ -30,6 +19,17 @@ __all__ = [
     "SpinBox",
     "Tooltip",
 ]
+
+import itertools
+import math
+import typing
+import warnings
+
+from ..animation import animations, controllers
+from ..core import constants, containers, virtual
+from ..toolbox import enhanced, tools
+from . import features, images, shapes, texts
+from ._auxiliary import _AuxiliaryButton, _AuxiliaryInputBox, _AuxiliaryLabel
 
 
 class Text(virtual.Widget):
@@ -1032,10 +1032,8 @@ class SegmentedButton(virtual.Widget):
             self.set(default)
 
     def get(self) -> int | None:
-        """
-        Get the index of the child toggle button with a value of True.
-        If not, None is returned.
-        """
+        """Get the index of the child toggle button with a value of True. If
+        not, None is returned."""
         return self.value
 
     def set(self, value: int | None, *, callback: bool = False) -> None:

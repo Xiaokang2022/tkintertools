@@ -1,5 +1,10 @@
 """All standard `Text` classes"""
 
+__all__ = [
+    "Information",
+    "SingleLineText",
+]
+
 import math
 import tkinter.font
 import typing
@@ -7,11 +12,6 @@ import typing
 import typing_extensions
 
 from ..core import virtual
-
-__all__ = [
-    "Information",
-    "SingleLineText",
-]
 
 
 class Information(virtual.Text):

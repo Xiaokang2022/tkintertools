@@ -4,15 +4,6 @@ The built-in basic animation classes are: `MoveTkWidget`, `MoveWidget`,
 `MoveComponent`, `MoveItem`, `GradientTkWidget`, `GradientItem`, `ScaleFontSize`
 """
 
-import numbers
-import tkinter
-import typing
-import warnings
-
-from ..color import rgb
-from ..core import virtual
-from . import controllers
-
 __all__ = [
     "Animation",
     "MoveTkWidget",
@@ -23,6 +14,15 @@ __all__ = [
     "GradientItem",
     "ScaleFontSize",
 ]
+
+import numbers
+import tkinter
+import typing
+import warnings
+
+from ..color import rgb
+from ..core import virtual
+from . import controllers
 
 
 class Animation:
@@ -72,8 +72,7 @@ class Animation:
         self,
         func: typing.Callable[[float], float],
     ) -> typing.Callable[[float], float]:
-        """
-        Make the ending function call correctly
+        """Make the ending function call correctly
 
         * `func`: the callback function to be wrapped
         """
@@ -90,8 +89,7 @@ class Animation:
         return wrapper
 
     def start(self, *, delay: int = 0) -> None:
-        """
-        Start the animation
+        """Start the animation
 
         * `delay`: length of the delay before the animation starts, in
         milliseconds 

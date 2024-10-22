@@ -17,10 +17,6 @@ The built-in control functions are:
 * `rebound`: before the end, displacement will bounce off a bit
 """
 
-import functools
-import math
-import typing
-
 __all__ = [
     "controller_generator",
     "flat",
@@ -28,13 +24,16 @@ __all__ = [
     "rebound",
 ]
 
+import functools
+import math
+import typing
+
 
 def _map_t(
     start: float,
     end: float,
 ) -> typing.Callable[[float], float]:
-    """
-    Map parameters in any range between 0 and 1
+    """Map parameters in any range between 0 and 1
 
     * `start`: the first value of the parameter of control function
     * `end`: the last value of the parameter of control function
@@ -51,8 +50,7 @@ def _map_y(
     base_function: typing.Callable[[float], float],
     end: float,
 ) -> typing.Callable[[float], float]:
-    """
-    Map the final return value to 1
+    """Map the final return value to 1
 
     * `base_function`: base function
     * `end`: the last value of the parameter of control function
@@ -73,8 +71,7 @@ def controller_generator(
     *,
     map_y: bool = True,
 ) -> typing.Callable[[float], float]:
-    """
-    Generator of control functions
+    """Generator of control functions
 
     Modify the generic function to a control function suitable for animation
 

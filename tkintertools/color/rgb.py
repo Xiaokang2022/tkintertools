@@ -1,11 +1,5 @@
 """Support for RGB"""
 
-import statistics
-import typing
-
-from ..animation import controllers
-from . import colormap
-
 __all__ = [
     "contrast",
     "convert",
@@ -16,6 +10,13 @@ __all__ = [
     "rgb_to_str",
     "rgb2str",
 ]
+
+import statistics
+import typing
+
+from ..animation import controllers
+from . import colormap
+
 
 RGB = tuple[int, int, int]
 """
@@ -33,8 +34,7 @@ def contrast(
     *,
     channels: tuple[bool, bool, bool] = (True, True, True),
 ) -> RGB:
-    """
-    Get a contrasting color of a color
+    """Get a contrasting color of a color
 
     * `rgb`: a tuple, RGB codes
     * `channels`: three color channels
@@ -49,8 +49,7 @@ def convert(
     *,
     channels: tuple[bool, bool, bool] = (True, True, True),
 ) -> RGB:
-    """
-    Convert one color to another proportionally
+    """Convert one color to another proportionally
 
     * `first`: first color
     * `second`: second color
@@ -66,8 +65,7 @@ def blend(
     *,
     weights: list[tuple] | None = None
 ) -> RGB:
-    """
-    Mix colors by weight
+    """Mix colors by weight
 
     * `colors`: color list
     * `weights`: weight list
@@ -93,8 +91,7 @@ def gradient(
     channels: tuple[bool, bool, bool] = (True, True, True),
     contoller: typing.Callable[[float], float] = controllers.flat,
 ) -> list[RGB]:
-    """
-    Get a list of color gradients from one color to another proportionally
+    """Get a list of color gradients from one color to another proportionally
 
     * `first`: first color
     * `second`: second color

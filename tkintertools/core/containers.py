@@ -9,6 +9,13 @@ There are two container widgets at the canvas level: `Canvas` and `Frame`.
 layout.
 """
 
+__all__ = [
+    "Tk",
+    "Toplevel",
+    "Canvas",
+    "Frame",
+]
+
 import functools
 import math
 import platform
@@ -23,17 +30,9 @@ from ..style import manager, parser
 from ..toolbox import enhanced, tools
 from . import constants, virtual
 
-__all__ = [
-    "Tk",
-    "Toplevel",
-    "Canvas",
-    "Frame",
-]
-
 
 class Tk(tkinter.Tk):
-    """
-    Main window
+    """Main window
 
     In general, there is only one main window
     """
@@ -81,9 +80,8 @@ class Tk(tkinter.Tk):
 
     @staticmethod
     def _fixed_theme(method):
-        """
-        This is a decorator that to fix a problem that some methods cause the
-        window to lose its theme
+        """This is a decorator that to fix a problem that some methods cause
+        the window to lose its theme
 
         * `method`: the method of being decorated
         """
@@ -128,8 +126,7 @@ class Tk(tkinter.Tk):
         include_children: bool = True,
         include_canvases: bool = True,
     ) -> None:
-        """
-        Change the color theme of the window
+        """Change the color theme of the window
 
         * `dark`: whether it is in dark mode
         * `include_children`: wether include its children, like Toplevel
@@ -152,16 +149,15 @@ class Tk(tkinter.Tk):
         size: tuple[int, int] | None = None,
         position: tuple[int, int] | None = None
     ) -> tuple[int, int, int, int] | None:
-        """
-        Change the size and position of the window and return the current size
-        and position of the window
+        """Change the size and position of the window and return the current
+        size and position of the window
 
         * `size`: the size of the window, if it is None, does not change
         anything
         * `position`: the position of the window, if it is None, does not
         change anything
 
-        TIPS:
+        TIP:
 
         If you want to use `tkinter.Tk.geometry`, please use
         `tkinter.Tk.wm_geometry` instead
@@ -180,8 +176,7 @@ class Tk(tkinter.Tk):
         return *self._size, self.winfo_x(), self.winfo_y()
 
     def center(self, master: tkinter.Misc | None = None) -> None:
-        """
-        Center the widget
+        """Center the widget
 
         `master`: The area of the reference widget, if it is None,
         means that the reference area is the entire screen
@@ -200,8 +195,7 @@ class Tk(tkinter.Tk):
         self.geometry(position=(x + dx, y + dy))
 
     def alpha(self, value: float | None = None) -> float | None:
-        """
-        Set or get the transparency of the window
+        """Set or get the transparency of the window
 
         * `value`: the transparency of the window, range is 0~1
         """
@@ -209,8 +203,7 @@ class Tk(tkinter.Tk):
         return None if result == "" else result
 
     def topmost(self, value: bool | None = True) -> bool | None:
-        """
-        Set or get whether the window is pinned or not
+        """Set or get whether the window is pinned or not
 
         * `value`: indicate whether the window is topmost
         """
@@ -219,12 +212,11 @@ class Tk(tkinter.Tk):
 
     @_fixed_theme
     def fullscreen(self, value: bool | None = True) -> bool | None:
-        """
-        Set or get whether the window is full-screen
+        """Set or get whether the window is full-screen
 
         * `value`: indicate whether the window is full-screen
 
-        TIPS:
+        TIP:
 
         The method should be called at the end of the code,
         or after some time after the program has started
@@ -234,8 +226,7 @@ class Tk(tkinter.Tk):
 
     @_fixed_theme
     def toolwindow(self, value: bool | None = True) -> bool | None:
-        """
-        Set or get whether the window is tool-window
+        """Set or get whether the window is tool-window
 
         * `value`: indicate whether the window is tool-window
         """
@@ -243,8 +234,7 @@ class Tk(tkinter.Tk):
         return None if result == "" else bool(result)
 
     def transparentcolor(self, value: str | None = None) -> str | None:
-        """
-        Set or get the penetration color of the window
+        """Set or get the penetration color of the window
 
         * `value`: the penetration color of the window
         """
@@ -258,15 +248,14 @@ class Tk(tkinter.Tk):
         *args,
         **kwargs,
     ) -> None:
-        """
-        Set a function that will be called when the window is closed
+        """Set a function that will be called when the window is closed
 
         * `command`: the function that was called
         * `ensure_destroy`: whether the window is guaranteed to be closed
         * `args`: the variable-length argument of the called function
         * `kwargs`: the keyword argument of the function being called
 
-        TIPS:
+        TIP:
 
         Regardless of whether the function is successfully called or not,
         the window will still close gracefully
@@ -285,8 +274,7 @@ class Tk(tkinter.Tk):
 
 
 class Toplevel(tkinter.Toplevel, Tk):
-    """
-    Toplevel window
+    """Toplevel window
 
     It can be used as a pop-up window,
     or it can be customized to put anything you want to show in it
@@ -329,8 +317,7 @@ class Toplevel(tkinter.Toplevel, Tk):
 
 
 class Canvas(tkinter.Canvas):
-    """
-    Scalable Canvas
+    """Scalable Canvas
 
     The parent widget of all virtual widgets of tkintertools is `Canvas`
     """
@@ -448,8 +435,7 @@ class Canvas(tkinter.Canvas):
         return tuple(i/j for i, j in zip(self._size, self._initial_size))
 
     def _theme(self, dark: bool) -> None:
-        """
-        Change the color theme of the Canvas and its items
+        """Change the color theme of the Canvas and its items
 
         * `dark`: whether it is in dark mode
         """
@@ -488,8 +474,7 @@ class Canvas(tkinter.Canvas):
             = self.winfo_x() + dx, self.winfo_y() + dy
 
     def _re_place(self) -> None:
-        """
-        Resize and position the `Canvas` based on the relevant parameters
+        """Resize and position the `Canvas` based on the relevant parameters
 
         WARNING:
 

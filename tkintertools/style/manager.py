@@ -9,6 +9,18 @@ there:
 * hPyT: https://github.com/Zingzy/hPyT
 """
 
+__all__ = [
+    "SYSTEM_DARK_MODE",
+    "set_color_mode",
+    "get_color_mode",
+    "set_theme_map",
+    "get_theme_map",
+    "reset_theme_map",
+    "register_event",
+    "remove_event",
+    "customize_window",
+]
+
 import pathlib
 import platform
 import threading
@@ -41,18 +53,6 @@ try:
 except ImportError:
     win32material = None
 
-__all__ = [
-    "SYSTEM_DARK_MODE",
-    "set_color_mode",
-    "get_color_mode",
-    "set_theme_map",
-    "get_theme_map",
-    "reset_theme_map",
-    "register_event",
-    "remove_event",
-    "customize_window",
-]
-
 SYSTEM_DARK_MODE: bool = bool(darkdetect.isDark()) if darkdetect else False
 
 _theme_map: dict[typing.Literal["dark", "light"], pathlib.Path |
@@ -77,12 +77,11 @@ _callback_events: dict[typing.Callable[[bool, typing.Any], typing.Any],
 def set_color_mode(
     mode: typing.Literal["system", "dark", "light"] = "system",
 ) -> None:
-    """
-    Set the color mode of the program
+    """Set the color mode of the program
 
     * `mode`: it can be `"light"`, `"dark"`, and `"system"`
 
-    TIPS:
+    TIP:
 
     `"system"` is the following system
     """
@@ -103,8 +102,7 @@ def set_theme_map(
     light: str | types.ModuleType | None = None,
     dark: str | types.ModuleType | None = None,
 ) -> None:
-    """
-    Set the path to the theme file used by the current program
+    """Set the path to the theme file used by the current program
 
     * `light`: the name of the theme of the light theme
     * `dark`: the name of the theme of the dark theme
@@ -132,8 +130,7 @@ def register_event(
     func: typing.Callable[[bool, typing.Any], typing.Any],
     *args: typing.Any,
 ) -> None:
-    """
-    When the system accent color changes, the registered function will be
+    """When the system accent color changes, the registered function will be
     called, and the parameter is a boolean value indicating whether it is
     currently a dark theme
 
@@ -144,8 +141,7 @@ def register_event(
 
 
 def remove_event(func: typing.Callable[[bool, typing.Any], typing.Any]) -> None:
-    """
-    Remove a registered function
+    """Remove a registered function
 
     * `func`: callback function
     """
@@ -170,8 +166,7 @@ def customize_window(
     boarder_type: typing.Literal["rectangular",
                                  "smallround", "round"] | None = None,
 ) -> None:
-    """
-    Customize the relevant properties of the window
+    """Customize the relevant properties of the window
 
     * `window`: the window which being customized
     * `style`: different styles for windows
@@ -241,8 +236,7 @@ def customize_window(
 
 
 def _process_event(dark: bool) -> None:
-    """
-    Handle registered callback functions
+    """Handle registered callback functions
 
     * `dark`: Wether it is dark mode
     """
@@ -254,8 +248,7 @@ def _process_event(dark: bool) -> None:
 
 
 def _callback(theme: str) -> None:
-    """
-    callback function that is triggered when a system theme is switched.
+    """Callback function that is triggered when a system theme is switched.
     Valid only if the theme mode is set to Follow System
 
     * `theme`: theme name

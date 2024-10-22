@@ -1,5 +1,13 @@
 """Some useful utility classes or utility functions"""
 
+__all__ = [
+    "get_hwnd",
+    "embed_window",
+    "load_font",
+    "screen_size",
+    "get_text_size",
+]
+
 import atexit
 import ctypes
 import os
@@ -12,20 +20,12 @@ import typing
 
 from ..core import constants, virtual
 
-__all__ = [
-    "get_hwnd",
-    "embed_window",
-    "load_font",
-    "screen_size",
-    "get_text_size",
-]
 
 _LINUX_FONTS_DIR = os.path.expanduser("~/.fonts/")
 
 
 class _Trigger:
-    """
-    Single trigger
+    """Single trigger
 
     It can only be triggered once before the reset, and multiple triggers are
     invalid. When triggered, the callback function is called.
@@ -57,8 +57,7 @@ class _Trigger:
         self._lock = False
 
     def update(self, value: bool = True, *args, **kwargs) -> None:
-        """
-        Update the status of the trigger
+        """Update the status of the trigger
 
         `value`: updated value
         """
@@ -78,8 +77,7 @@ def embed_window(
     *,
     focus: bool = False,
 ) -> None:
-    """
-    Embed a widget into another widget
+    """Embed a widget into another widget
 
     * `window`: Widget that will be embedded in
     * `parent`: parent widget, `None` indicates that the parent widget is the
@@ -99,8 +97,7 @@ def load_font(
     private: bool = True,
     enumerable: bool = False,
 ) -> bool:
-    """
-    Make fonts located in file `font_path` available to the font system, and
+    """Make fonts located in file `font_path` available to the font system, and
     return `True` if the operation succeeds, `False` otherwise
 
     * `font_path`: the font file path
@@ -166,8 +163,7 @@ if platform.system() == "Windows":
     __all__.append("set_mouse_position")
 
     def set_mouse_position(x: int, y: int) -> None:
-        """
-        Set mouse cursor position
+        """Set mouse cursor position
 
         ATTENTION:
 
@@ -185,8 +181,7 @@ def get_text_size(
     master: tkinter.Canvas | virtual.Widget | None = None,
     **kwargs,
 ) -> tuple[int, int]:
-    """
-    Get the size of a text with a special font family and font size
+    """Get the size of a text with a special font family and font size
 
     * `text`: the text
     * `fontsize`: font size of the text

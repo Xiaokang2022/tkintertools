@@ -1,13 +1,5 @@
 """Support for HSL"""
 
-import colorsys
-import math
-import statistics
-import typing
-
-from ..animation import controllers
-from . import rgb
-
 __all__ = [
     "contrast",
     "convert",
@@ -18,6 +10,15 @@ __all__ = [
     "rgb_to_hsl",
     "rgb2hsl",
 ]
+
+import colorsys
+import math
+import statistics
+import typing
+
+from ..animation import controllers
+from . import rgb
+
 
 HSL = tuple[float, float, float]
 """
@@ -35,8 +36,7 @@ def contrast(
     *,
     channels: tuple[bool, bool, bool] = (True, True, True),
 ) -> HSL:
-    """
-    Get a contrasting color of a color
+    """Get a contrasting color of a color
 
     * `hsl`: a tuple, HSL codes
     * `channels`: three color channels
@@ -51,8 +51,7 @@ def convert(
     *,
     channels: tuple[bool, bool, bool] = (True, True, True),
 ) -> HSL:
-    """
-    Convert one color to another proportionally
+    """Convert one color to another proportionally
 
     * `first`: first color
     * `second`: second color
@@ -68,8 +67,7 @@ def blend(
     *,
     weights: list[tuple] | None = None
 ) -> HSL:
-    """
-    Mix colors by weight
+    """Mix colors by weight
 
     * `colors`: color list
     * `weights`: weight list
@@ -94,8 +92,7 @@ def gradient(
     channels: tuple[bool, bool, bool] = (True, True, True),
     contoller: typing.Callable[[float], float] = controllers.flat,
 ) -> list[HSL]:
-    """
-    Get a list of color gradients from one color to another proportionally
+    """Get a list of color gradients from one color to another proportionally
 
     * `first`: first color
     * `second`: second color

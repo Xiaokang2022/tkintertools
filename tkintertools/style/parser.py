@@ -54,6 +54,10 @@ Style files in JSON format must strictly follow the above format, and the
 missing parts are empty by default.
 """
 
+__all__ = [
+    "get",
+]
+
 import functools
 import inspect
 import json
@@ -63,10 +67,6 @@ import typing
 
 from ..core import containers, virtual
 from . import manager
-
-__all__ = [
-    "get",
-]
 
 
 def _get_name(
@@ -94,8 +94,7 @@ def _get_file(
     widget: str,
     component: str | None = None,
 ) -> dict[str, dict[str, str]]:
-    """
-    Get the style file based on the parameters
+    """Get the style file based on the parameters
 
     The return value of this function is cached, and when the same style file is
     fetched, the data is fetched directly from the cache, unless `clear_cache`
@@ -124,8 +123,7 @@ def get(
     *,
     theme: str | pathlib.Path | types.ModuleType | None = None,
 ) -> dict[str, dict[str, str]] | dict[str, typing.Any]:
-    """
-    Get style data based on parameters
+    """Get style data based on parameters
 
     * `widget`: widget that need to get styles
     * `component`: component that need to get styles
