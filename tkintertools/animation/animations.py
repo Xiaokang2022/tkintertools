@@ -1,5 +1,4 @@
-"""
-Standard animation classes
+"""Standard animation classes
 
 The built-in basic animation classes are: `MoveTkWidget`, `MoveWidget`,
 `MoveComponent`, `MoveItem`, `GradientTkWidget`, `GradientItem`, `ScaleFontSize`

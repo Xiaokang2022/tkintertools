@@ -1,5 +1,4 @@
-"""
-Support for theme
+"""Support for theme
 
 All third packages which relative to style introduced by `tkintertools` are
 there:

@@ -1,5 +1,4 @@
-"""
-Subpackage of tkintertools
+"""Subpackage of tkintertools
 
 Animations are supported, and the behavior of animations can be controlled
 through control functions, which can be highly customized. In addition, the

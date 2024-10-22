@@ -1,5 +1,4 @@
-"""
-All constants
+"""All constants
 
 In general, they should not be modified, and if you need to modify them, it is
 best before the window is established.

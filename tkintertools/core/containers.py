@@ -1,5 +1,4 @@
-"""
-All container widgets
+"""All container widgets
 
 There are two container widgets at the window level: `Tk` and `Toplevel`. `Tk`
 is generally used for the main window, while `Toplevel` is a pop-up window.

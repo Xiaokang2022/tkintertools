@@ -1,5 +1,4 @@
-"""
-Various virtual classes
+"""Various virtual classes
 
 The virtual `Widget` consists of 5 parts, which are `Widget`, `Shape`, `Text`,
 `Image` and `Feature`.

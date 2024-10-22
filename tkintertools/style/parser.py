@@ -1,5 +1,4 @@
-"""
-Parse the style file path and get it
+"""Parse the style file path and get it
 
 Structure of theme folder:
 

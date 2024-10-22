@@ -1,5 +1,4 @@
-"""
-Core code of tkintertools
+"""Core code of tkintertools
 
 Most of the abstract and base classes are defined here.
 """

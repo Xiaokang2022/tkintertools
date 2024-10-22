@@ -1,5 +1,4 @@
-"""
-Default style data
+"""Default style data
 
 Base structure for `theme_name.py`:
 

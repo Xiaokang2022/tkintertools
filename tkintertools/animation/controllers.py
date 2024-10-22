@@ -1,5 +1,4 @@
-"""
-Standard control functions
+"""Standard control functions
 
 Definition of control function:
 
