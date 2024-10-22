@@ -19,6 +19,7 @@ jobs:
       run: |
         pip3 install --upgrade pip
         pip3 install pylint
+        pip3 install .
     - name: Analysing the code with pylint
       run: |
         pylint $(git ls-files '*.py') --output-format=colorized --disable=I,R,C,W
