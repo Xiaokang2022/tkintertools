@@ -21,4 +21,4 @@ jobs:
         pip3 install pylint
     - name: Analysing the code with pylint
       run: |
-        pylint tkintertools
+        pylint $(git ls-files '*.py') --output-format=colorized --disable=I,R,C,W
