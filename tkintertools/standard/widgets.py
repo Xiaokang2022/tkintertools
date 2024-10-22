@@ -1,5 +1,7 @@
 """All standard `Widget` classes"""
 
+# pylint: disable=protected-access
+
 __all__ = [
     "Text",
     "Image",
@@ -971,7 +973,7 @@ class SegmentedButton(virtual.Widget):
         position: tuple[int, int],
         sizes: tuple[tuple[int, int], ...] = (),
         *,
-        texts: tuple[str, ...] = (),
+        text: tuple[str, ...] = (),
         family: str | None = None,
         fontsize: int | None = None,
         weight: typing.Literal['normal', 'bold'] = "normal",
@@ -981,7 +983,7 @@ class SegmentedButton(virtual.Widget):
         justify: typing.Literal["left", "center", "right"] = "left",
         default: int | None = None,
         command: typing.Callable[[int | None], typing.Any] | None = None,
-        images: tuple[enhanced.PhotoImage | None, ...] = (),
+        image: tuple[enhanced.PhotoImage | None, ...] = (),
         layout: typing.Literal["horizontal", "vertical"] = "horizontal",
         name: str | None = None,
         anchor: typing.Literal["n", "e", "w", "s",
@@ -993,7 +995,7 @@ class SegmentedButton(virtual.Widget):
         * `master`: parent canvas
         * `position`: position of the widget
         * `size`: size of the widget
-        * `texts`: text of the widget
+        * `text`: text of the widget
         * `family`: font family
         * `fontsize`: font size
         * `weight`: weight of the text
@@ -1003,7 +1005,7 @@ class SegmentedButton(virtual.Widget):
         * `justify`: justify mode of the text
         * `default`: default value of the widget
         * `command`: a function that is triggered when the button is pressed
-        * `images`: image of the widget
+        * `image`: image of the widget
         * `layout`: layout mode of the widget
         * `name`: name of the widget
         * `anchor`: anchor of the widget
@@ -1012,17 +1014,17 @@ class SegmentedButton(virtual.Widget):
         """
         self.value: int | None = None
         if not sizes:
-            if texts:
+            if text:
                 sizes = tuple(tools.get_text_size(
                     text, fontsize, family, weight=weight, slant=slant,
                     padding=6, master=master
-                ) for text in texts)
+                ) for text in text)
             else:
                 sizes = tools.get_text_size(
                     "", fontsize, family, weight=weight, slant=slant,
                     padding=6, master=master),
         widths, heights, length = *zip(*sizes), len(sizes)
-        if not texts:
+        if not text:
             sizes, length = (), 0
         if layout == "horizontal":
             total_size = sum(widths) + length*5 + 5, max(heights) + 10
@@ -1036,7 +1038,7 @@ class SegmentedButton(virtual.Widget):
         else:
             shapes.RoundedRectangle(self)
         total_side_length = 5
-        for i, pack in enumerate(itertools.zip_longest(sizes, texts, images)):
+        for i, pack in enumerate(itertools.zip_longest(sizes, text, image)):
             size, text, image = pack
             position = (total_side_length, 5) if layout == "horizontal" else (
                 5, total_side_length)

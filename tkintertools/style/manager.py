@@ -9,6 +9,8 @@ there:
 * hPyT: https://github.com/Zingzy/hPyT
 """
 
+# pylint: disable=global-statement
+
 __all__ = [
     "SYSTEM_DARK_MODE",
     "set_color_mode",
@@ -204,8 +206,10 @@ def customize_window(
 
     if hPyT:
         if hide_title_bar is not None:
-            hPyT.title_bar.hide(
-                window) if hide_title_bar else hPyT.title_bar.unhide(window)
+            if hide_title_bar:
+                hPyT.title_bar.hide(window)
+            else:
+                hPyT.title_bar.unhide(window)
         if hide_button is not None:
             if hide_button == "maxmin":
                 hPyT.maximize_minimize_button.hide(window)
@@ -215,13 +219,15 @@ def customize_window(
                 hPyT.maximize_minimize_button.unhide(window)
                 hPyT.all_stuffs.unhide(window)
         if disable_maximize_button is not None:
-            hPyT.maximize_button.disable(window) \
-                if disable_maximize_button \
-                else hPyT.maximize_button.enable(window)
+            if disable_maximize_button:
+                hPyT.maximize_button.disable(window)
+            else:
+                hPyT.maximize_button.enable(window)
         if disable_minimize_button is not None:
-            hPyT.minimize_button.disable(window) \
-                if disable_minimize_button \
-                else hPyT.minimize_button.enable(window)
+            if disable_minimize_button:
+                hPyT.minimize_button.disable(window)
+            else:
+                hPyT.minimize_button.enable(window)
 
     if win32material:
         if boarder_type is not None:

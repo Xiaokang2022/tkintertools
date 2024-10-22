@@ -21,7 +21,7 @@ class TkMessage:
         *,
         title: str | None = None,
         icon: typing.Literal["error", "info", "question", "warning"] = "info",
-        type: typing.Literal["abortretryignore", "ok", "okcancel",
+        option: typing.Literal["abortretryignore", "ok", "okcancel",
                              "retrycancel", "yesno", "yesnocancel"] = "ok",
         default: typing.Literal["abort", "retry", "ignore",
                                 "ok", "cancel", "yes", "no"] | None = None,
@@ -35,7 +35,7 @@ class TkMessage:
         * `detail`: detail message
         * `title`: title of the window
         * `icon`: icon
-        * `type`: type of the message pop-up
+        * `option`: type of the message pop-up
         * `default`: button where the focus is, default is the leftmost one
         * `master`: parent widget of the window
         * `command`: callback function
@@ -53,8 +53,8 @@ class TkMessage:
             args += ["-message", message]
         if detail is not None:
             args += ["-detail", detail]
-        if type is not None:
-            args += ["-type", type]
+        if option is not None:
+            args += ["-type", option]
         if default is not None:
             args += ["-default", default]
         value = master.call("tk_messageBox", "-parent", master, *args)

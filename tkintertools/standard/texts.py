@@ -1,5 +1,7 @@
 """All standard `Text` classes"""
 
+# pylint: disable=attribute-defined-outside-init
+
 __all__ = [
     "Information",
     "SingleLineText",
@@ -181,7 +183,7 @@ class SingleLineText(virtual.Text):
 
     def _text_overflow(self) -> bool:
         """Whether the text content extends beyond the text box"""
-        x1, y1, x2, y2 = self.widget.master.bbox(self.items[0])
+        x1, _, x2, _ = self.widget.master.bbox(self.items[0])
         return (x2-x1) + self.get_gap()*2 >= self.size[0]
 
     def select_set(self, start: int, end: int) -> None:
@@ -272,7 +274,7 @@ class SingleLineText(virtual.Text):
     def get_gap(self) -> float:
         """Get the size of the spacing between the text and the border"""
         if self.items:  # XXX: Maybe need to be optimized?
-            x1, y1, x2, y2 = self.widget.master.bbox(self.items[0])
+            _, y1, _, y2 = self.widget.master.bbox(self.items[0])
             return (self.size[1] - (y2-y1)) // 2
         return (self.size[1] - abs(self.font.cget("size"))) // 2
 
@@ -312,7 +314,7 @@ class SingleLineText(virtual.Text):
 
     def cursor_find(self, x: int) -> int:
         """Return the index of text with the x position of mouse"""
-        x1, y1, x2, y2 = self.widget.master.bbox(self.items[0])
+        x1, _, x2, _ = self.widget.master.bbox(self.items[0])
         if x <= x1 or self._text_length() == 0:
             return 0
         if x >= x2:

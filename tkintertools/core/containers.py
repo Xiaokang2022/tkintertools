@@ -9,6 +9,8 @@ There are two container widgets at the canvas level: `Canvas` and `Frame`.
 layout.
 """
 
+# pylint: disable=protected-access
+
 __all__ = [
     "Tk",
     "Toplevel",
@@ -245,6 +247,7 @@ class Tk(tkinter.Tk):
         self,
         command: typing.Callable | None,
         ensure_destroy: bool = False,
+        /,
         *args,
         **kwargs,
     ) -> None:
@@ -548,7 +551,7 @@ class Canvas(tkinter.Canvas):
         self.delete(*self.find_all())
 
     @typing_extensions.override
-    def create_text(self, x: float, y: float, /, **kwargs) -> int:
+    def create_text(self, x: float, y: float, /, *args, **kwargs) -> int:
         # XXX: Need to be improved
         if not (font_ := kwargs.get("font")):
             kwargs["font"] = tkinter.font.Font(
@@ -569,7 +572,7 @@ class Canvas(tkinter.Canvas):
                 weight=font_[2] if length > 2 else "normal",
                 slant=font_[3] if length > 3 else "roman")
 
-        return tkinter.Canvas.create_text(self, x, y, **kwargs)
+        return tkinter.Canvas.create_text(self, x, y, *args, **kwargs)
 
     def _move(
         self,

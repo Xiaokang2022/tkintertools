@@ -1,5 +1,7 @@
 """All standard `Feature` classes"""
 
+# pylint: disable=protected-access, unused-argument
+
 __all__ = [
     "LabelFeature",
     "ButtonFeature",

@@ -54,6 +54,8 @@ Style files in JSON format must strictly follow the above format, and the
 missing parts are empty by default.
 """
 
+# pylint: disable=unused-import
+
 __all__ = [
     "get",
 ]

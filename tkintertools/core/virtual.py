@@ -11,6 +11,8 @@ to one, but in terms of appearance, there is no limit to the number of `Shape`,
 abstract base class `Components`.
 """
 
+# pylint: disable=protected-access, unused-argument, unused-import
+
 __all__ = [
     "Component",
     "Shape",
