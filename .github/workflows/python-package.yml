@@ -5,6 +5,9 @@ name: Python package
 
 on: [push, pull_request, workflow_dispatch]
 
+permissions:
+  contents: read
+
 jobs:
   build:
 
