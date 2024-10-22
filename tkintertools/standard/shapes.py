@@ -30,7 +30,7 @@ class Line(virtual.Shape):
         relative_position: tuple[int, int] = (0, 0),
         size: tuple[int, int] | None = None,
         *,
-        points: list[tuple[float, float]] = [],
+        points: list[tuple[float, float]] | None = None,
         name: str | None = None,
         animation: bool = True,
         styles: dict[str | int, dict[str | int, dict[str, str]]] | None = None,
@@ -46,9 +46,10 @@ class Line(virtual.Shape):
         * `styles`: style dict of component
         * `kwargs`: extra parameters for CanvasItem
         """
-        self.points = points
-        virtual.Shape.__init__(self, widget, relative_position, size,
-                               name=name, styles=styles, animation=animation, **kwargs)
+        self.points = [] if points is None else points
+        virtual.Shape.__init__(
+            self, widget, relative_position, size,
+            name=name, styles=styles, animation=animation, **kwargs)
 
     @typing_extensions.override
     def display(self) -> None:
@@ -75,7 +76,8 @@ class Rectangle(virtual.Shape):
     @typing_extensions.override
     def display(self) -> None:
         self.items = [self.widget.master.create_rectangle(
-            0, 0, 0, 0, tags=("fill", "fill", "outline", "outline"), **self.kwargs)]
+            0, 0, 0, 0, tags=("fill", "fill", "outline", "outline"),
+            **self.kwargs)]
 
     @typing_extensions.override
     def coords(
@@ -94,7 +96,8 @@ class Oval(virtual.Shape):
     @typing_extensions.override
     def display(self) -> None:
         self.items = [self.widget.master.create_oval(
-            0, 0, 0, 0, tags=("fill", "fill", "outline", "outline"), **self.kwargs)]
+            0, 0, 0, 0, tags=("fill", "fill", "outline", "outline"),
+            **self.kwargs)]
 
     @typing_extensions.override
     def coords(
@@ -141,13 +144,15 @@ class RegularPolygon(virtual.Shape):
         """
         self.side = side
         self.angle = angle
-        virtual.Shape.__init__(self, widget, relative_position, size,
-                               name=name, styles=styles, animation=animation, **kwargs)
+        virtual.Shape.__init__(
+            self, widget, relative_position, size,
+            name=name, styles=styles, animation=animation, **kwargs)
 
     @typing_extensions.override
     def display(self) -> None:
         self.items = [self.widget.master.create_polygon(
-            0, 0, 0, 0, tags=("fill", "fill", "outline", "outline"), **self.kwargs)]
+            0, 0, 0, 0, tags=("fill", "fill", "outline", "outline"),
+            **self.kwargs)]
 
     @typing_extensions.override
     def coords(
@@ -197,8 +202,9 @@ class RoundedRectangle(virtual.Shape):
         * `kwargs`: extra parameters for CanvasItem
         """
         self.radius = radius
-        virtual.Shape.__init__(self, widget, relative_position, size,
-                               name=name, styles=styles, animation=animation, **kwargs)
+        virtual.Shape.__init__(
+            self, widget, relative_position, size,
+            name=name, styles=styles, animation=animation, **kwargs)
 
     @typing_extensions.override
     def display(self) -> None:
@@ -216,21 +222,29 @@ class RoundedRectangle(virtual.Shape):
             self.widget.master.create_line(  # e
                 0, 0, 0, 0, tags=("fill", "outline"), **self.kwargs),
             self.widget.master.create_arc(  # nw
-                0, 0, 0, 0, outline="", start=90, tags=("fill", "fill"), **self.kwargs),
+                0, 0, 0, 0, outline="", start=90,
+                tags=("fill", "fill"), **self.kwargs),
             self.widget.master.create_arc(  # sw
-                0, 0, 0, 0, outline="", start=180, tags=("fill", "fill"), **self.kwargs),
+                0, 0, 0, 0, outline="", start=180,
+                tags=("fill", "fill"), **self.kwargs),
             self.widget.master.create_arc(  # ne
-                0, 0, 0, 0, outline="", start=0, tags=("fill", "fill"), **self.kwargs),
+                0, 0, 0, 0, outline="", start=0,
+                tags=("fill", "fill"), **self.kwargs),
             self.widget.master.create_arc(  # se
-                0, 0, 0, 0, outline="", start=-90, tags=("fill", "fill"), **self.kwargs),
+                0, 0, 0, 0, outline="", start=-90,
+                tags=("fill", "fill"), **self.kwargs),
             self.widget.master.create_arc(  # nw
-                0, 0, 0, 0, style="arc", start=90, tags=("outline", "outline"), **self.kwargs),
+                0, 0, 0, 0, style="arc", start=90,
+                tags=("outline", "outline"), **self.kwargs),
             self.widget.master.create_arc(  # sw
-                0, 0, 0, 0, style="arc", start=180, tags=("outline", "outline"), **self.kwargs),
+                0, 0, 0, 0, style="arc", start=180,
+                tags=("outline", "outline"), **self.kwargs),
             self.widget.master.create_arc(  # ne
-                0, 0, 0, 0, style="arc", start=0, tags=("outline", "outline"), **self.kwargs),
+                0, 0, 0, 0, style="arc", start=0,
+                tags=("outline", "outline"), **self.kwargs),
             self.widget.master.create_arc(  # se
-                0, 0, 0, 0, style="arc", start=-90, tags=("outline", "outline"), **self.kwargs),
+                0, 0, 0, 0, style="arc", start=-90,
+                tags=("outline", "outline"), **self.kwargs),
         ]
 
     @typing_extensions.override
@@ -297,8 +311,9 @@ class HalfRoundedRectangle(virtual.Shape):
         """
         self.radius = radius
         self.ignore = ignore
-        virtual.Shape.__init__(self, widget, relative_position, size,
-                               name=name, styles=styles, animation=animation, **kwargs)
+        virtual.Shape.__init__(
+            self, widget, relative_position, size,
+            name=name, styles=styles, animation=animation, **kwargs)
 
     @typing_extensions.override
     def display(self) -> None:
@@ -318,22 +333,30 @@ class HalfRoundedRectangle(virtual.Shape):
         ]
         self.items += [
             self.widget.master.create_arc(  # ne
-                0, 0, 0, 0, outline="", start=0, tags=("fill", "fill"), **self.kwargs),
+                0, 0, 0, 0, outline="", start=0,
+                tags=("fill", "fill"), **self.kwargs),
             self.widget.master.create_arc(  # se
-                0, 0, 0, 0, outline="", start=-90, tags=("fill", "fill"), **self.kwargs),
+                0, 0, 0, 0, outline="", start=-90,
+                tags=("fill", "fill"), **self.kwargs),
             self.widget.master.create_arc(  # ne
-                0, 0, 0, 0, style="arc", start=0, tags=("outline", "outline"), **self.kwargs),
+                0, 0, 0, 0, style="arc", start=0,
+                tags=("outline", "outline"), **self.kwargs),
             self.widget.master.create_arc(  # se
-                0, 0, 0, 0, style="arc", start=-90, tags=("outline", "outline"), **self.kwargs),
+                0, 0, 0, 0, style="arc", start=-90,
+                tags=("outline", "outline"), **self.kwargs),
         ] if self.ignore == "left" else [
             self.widget.master.create_arc(  # nw
-                0, 0, 0, 0, outline="", start=90, tags=("fill", "fill"), **self.kwargs),
+                0, 0, 0, 0, outline="", start=90,
+                tags=("fill", "fill"), **self.kwargs),
             self.widget.master.create_arc(  # sw
-                0, 0, 0, 0, outline="", start=180, tags=("fill", "fill"), **self.kwargs),
+                0, 0, 0, 0, outline="", start=180,
+                tags=("fill", "fill"), **self.kwargs),
             self.widget.master.create_arc(  # nw
-                0, 0, 0, 0, style="arc", start=90, tags=("outline", "outline"), **self.kwargs),
+                0, 0, 0, 0, style="arc", start=90,
+                tags=("outline", "outline"), **self.kwargs),
             self.widget.master.create_arc(  # sw
-                0, 0, 0, 0, style="arc", start=180, tags=("outline", "outline"), **self.kwargs),
+                0, 0, 0, 0, style="arc", start=180,
+                tags=("outline", "outline"), **self.kwargs),
         ]
 
     @typing_extensions.override
@@ -384,15 +407,19 @@ class SemicircularRectangle(virtual.Shape):
     def display(self) -> None:
         self.items = [
             self.widget.master.create_arc(
-                0, 0, 0, 0, outline="", extent=180, start=90, tags=("fill", "fill"), **self.kwargs),
+                0, 0, 0, 0, outline="", extent=180, start=90,
+                tags=("fill", "fill"), **self.kwargs),
             self.widget.master.create_arc(
-                0, 0, 0, 0, outline="", extent=180, start=-90, tags=("fill", "fill"), **self.kwargs),
+                0, 0, 0, 0, outline="", extent=180, start=-90,
+                tags=("fill", "fill"), **self.kwargs),
             self.widget.master.create_rectangle(
                 0, 0, 0, 0, outline="", tags=("fill", "fill"), **self.kwargs),
             self.widget.master.create_arc(
-                0, 0, 0, 0, style="arc", extent=180, start=90, tags=("outline", "outline"), **self.kwargs),
+                0, 0, 0, 0, style="arc", extent=180, start=90,
+                tags=("outline", "outline"), **self.kwargs),
             self.widget.master.create_arc(
-                0, 0, 0, 0, style="arc", extent=180, start=-90, tags=("outline", "outline"), **self.kwargs),
+                0, 0, 0, 0, style="arc", extent=180, start=-90,
+                tags=("outline", "outline"), **self.kwargs),
             self.widget.master.create_line(
                 0, 0, 0, 0, tags=("fill", "outline"), **self.kwargs),
             self.widget.master.create_line(
@@ -469,13 +496,15 @@ class SharpRectangle(virtual.Shape):
             warnings.warn("Parameters are not suitable", UserWarning, 5)
         if math.isclose(abs(self.ratio[0] - self.ratio[1]), 1):
             warnings.warn("Parameters are not suitable", UserWarning, 5)
-        virtual.Shape.__init__(self, widget, relative_position, size,
-                               name=name, styles=styles, animation=animation, **kwargs)
+        virtual.Shape.__init__(
+            self, widget, relative_position, size,
+            name=name, styles=styles, animation=animation, **kwargs)
 
     @typing_extensions.override
     def display(self) -> None:
         self.items = [self.widget.master.create_polygon(
-            0, 0, 0, 0, tags=("fill", "fill", "outline", "outline"), **self.kwargs)]
+            0, 0, 0, 0, tags=("fill", "fill", "outline", "outline"),
+            **self.kwargs)]
 
     @typing_extensions.override
     def coords(
@@ -537,13 +566,15 @@ class Parallelogram(virtual.Shape):
         self.theta = theta
         if not abs(theta) <= math.pi/3:
             warnings.warn("Parameters are not suitable", UserWarning, 5)
-        virtual.Shape.__init__(self, widget, relative_position, size,
-                               name=name, styles=styles, animation=animation, **kwargs)
+        virtual.Shape.__init__(
+            self, widget, relative_position, size,
+            name=name, styles=styles, animation=animation, **kwargs)
 
     @typing_extensions.override
     def display(self) -> None:
         self.items = [self.widget.master.create_polygon(
-            0, 0, 0, 0, tags=("fill", "fill", "outline", "outline"), **self.kwargs)]
+            0, 0, 0, 0, tags=("fill", "fill", "outline", "outline"),
+            **self.kwargs)]
 
     @typing_extensions.override
     def coords(

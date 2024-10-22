@@ -56,7 +56,7 @@ class _Trigger:
         """Unlock this trigger so that it can be updated again"""
         self._lock = False
 
-    def update(self, value: bool = True, *args, **kwargs) -> None:
+    def update(self, value: bool = True, /, *args, **kwargs) -> None:
         """Update the status of the trigger
 
         `value`: updated value

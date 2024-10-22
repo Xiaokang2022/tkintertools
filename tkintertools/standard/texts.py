@@ -111,12 +111,18 @@ class SingleLineText(virtual.Text):
         """
         self.left: int = 0
         self.right: int = 0
-        self.anchor = "w" if align == "left" else "e" if align == "right" else "center"
-        virtual.Text.__init__(self, widget, relative_position, size,
-                              text=text, limit=limit, show=show, placeholder=placeholder,
-                              family=family, fontsize=fontsize, weight=weight,
-                              slant=slant, underline=underline, overstrike=overstrike,
-                              name=name, styles=styles, animation=animation, **kwargs)
+        if align == "left":
+            self.anchor = "w"
+        elif align == "right":
+            self.anchor = "e"
+        else:
+            self.anchor = "center"
+        virtual.Text.__init__(
+            self, widget, relative_position, size, text=text, limit=limit,
+            show=show, placeholder=placeholder, family=family,
+            fontsize=fontsize, weight=weight, slant=slant, underline=underline,
+            overstrike=overstrike, name=name, styles=styles,
+            animation=animation, **kwargs)
 
     @typing_extensions.override
     def display(self) -> None:
@@ -161,7 +167,11 @@ class SingleLineText(virtual.Text):
             value = self.show * len(value)
         self.widget.master.insert(self.items[0], index, value)
 
-    def _text_delete(self, start: int, end: int | typing.Literal["end"]) -> None:
+    def _text_delete(
+        self,
+        start: int,
+        end: int | typing.Literal["end"],
+    ) -> None:
         """Delete the actual text that appears on the component"""
         self.widget.master.dchars(self.items[0], start, end)
 

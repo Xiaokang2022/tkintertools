@@ -13,7 +13,6 @@ __all__ = [
     "InputBoxFeature",
     "SliderFeature",
     "SpinBoxFeature",
-    "OptionButtonFeature",
 ]
 
 import tkinter
@@ -168,8 +167,10 @@ class SwitchFeature(ButtonFeature):
                 if self.widget.state != "disabled":
                     self.widget._shapes[-1].coords(
                         (self.widget.size[0]/3, self.widget.size[0]/3),
-                        (self.widget._shapes[-1].position[0]-self.widget.size[0]/60,
-                         self.widget._shapes[-1].position[1]-self.widget.size[0]/60))
+                        (self.widget._shapes[-1].position[0]
+                         - self.widget.size[0]/60,
+                         self.widget._shapes[-1].position[1]
+                         - self.widget.size[0]/60))
                 self.widget.update(
                     f"hover-{'on' if self.widget.get() else 'off'}")
         else:
@@ -177,8 +178,10 @@ class SwitchFeature(ButtonFeature):
                 if self.widget.state != "disabled":
                     self.widget._shapes[-1].coords(
                         (self.widget.size[0]*3/10, self.widget.size[0]*3/10),
-                        (self.widget._shapes[-1].position[0]+self.widget.size[0]/60,
-                         self.widget._shapes[-1].position[1]+self.widget.size[0]/60))
+                        (self.widget._shapes[-1].position[0]
+                         + self.widget.size[0]/60,
+                         self.widget._shapes[-1].position[1]
+                         + self.widget.size[0]/60))
                 self.widget.update(
                     f"normal-{'on' if self.widget.get() else 'off'}")
         return flag
@@ -398,23 +401,28 @@ class SliderFeature(virtual.Feature):
                 if isinstance(self.widget._shapes[-1], shapes.Oval):
                     self.widget._shapes[-1].coords(
                         (self.widget.size[1]*2/3, self.widget.size[1]*2/3),
-                        (self.widget._shapes[-2].position[0]+self.widget.size[1]/6,
-                         self.widget._shapes[-2].position[1]+self.widget.size[1]/6))
+                        (self.widget._shapes[-2].position[0]
+                         + self.widget.size[1]/6,
+                         self.widget._shapes[-2].position[1]
+                         + self.widget.size[1]/6))
         else:
             if self.widget.state == "hover":
                 self.widget.update("normal")
                 if isinstance(self.widget._shapes[-1], shapes.Oval):
                     self.widget._shapes[-1].coords(
                         (self.widget.size[1]/2, self.widget.size[1]/2),
-                        (self.widget._shapes[-2].position[0]+self.widget.size[1]/4,
-                         self.widget._shapes[-2].position[1]+self.widget.size[1]/4))
+                        (self.widget._shapes[-2].position[0]
+                         + self.widget.size[1]/4,
+                         self.widget._shapes[-2].position[1]
+                         + self.widget.size[1]/4))
         return flag
 
     def _click_left(self, event: tkinter.Event) -> bool:
         if self.widget.state == "hover":
             self._temp_position = event.x, event.y
             self.widget.update("active")
-        elif self.widget.state != "disabled" and self.widget._shapes[0].detect(event.x, event.y):
+        elif (self.widget.state != "disabled" and
+              self.widget._shapes[0].detect(event.x, event.y)):
             self._temp_position = event.x, event.y
             self.widget.update("active")
             temp_value = self.widget.value
@@ -423,24 +431,27 @@ class SliderFeature(virtual.Feature):
                     (self.widget.size[1]*2/3, self.widget.size[1]*2/3),
                     (self.widget._shapes[-2].position[0]+self.widget.size[1]/6,
                      self.widget._shapes[-2].position[1]+self.widget.size[1]/6))
-                next_value = (event.x-self.widget.position[0]-self.widget.size[1]/2) / (
-                    self.widget.size[0]-self.widget.size[1])
+                next_value = (
+                    (event.x-self.widget.position[0]-self.widget.size[1]/2)
+                    / (self.widget.size[0]-self.widget.size[1]))
             else:
-                next_value = (event.x-self.widget.position[0]-self.widget.size[1]/5) / (
-                    self.widget.size[0]-self.widget.size[1]*2/5)
+                next_value = (
+                    (event.x-self.widget.position[0]-self.widget.size[1]/5)
+                    / (self.widget.size[0]-self.widget.size[1]*2/5))
             delta = next_value - temp_value
             animations.Animation(
                 150, controllers.smooth,
-                callback=lambda k: self.widget.set(temp_value + delta*k, callback=True), fps=60).start()
+                callback=lambda k: self.widget.set(
+                    temp_value + delta*k, callback=True), fps=60).start()
 
     def _move_left(self, event: tkinter.Event) -> bool:
         if self._temp_position is not None:
             if isinstance(self.widget._shapes[-1], shapes.Oval):
-                delta = (
-                    event.x-self._temp_position[0]) / (self.widget.size[0]-self.widget.size[1])
+                delta = ((event.x-self._temp_position[0])
+                         / (self.widget.size[0]-self.widget.size[1]))
             else:
-                delta = (
-                    event.x-self._temp_position[0]) / (self.widget.size[0]-self.widget.size[1]*2/5)
+                delta = ((event.x-self._temp_position[0])
+                         / (self.widget.size[0]-self.widget.size[1]*2/5))
             self._temp_position = event.x, event.y
             self.widget.set(self.widget.value + delta, callback=True)
 
@@ -471,15 +482,4 @@ class SpinBoxFeature(virtual.Feature):
     def _wheel(self, event: tkinter.Event) -> bool:
         if flag := self.widget._widgets[0].state == "active":
             self._command(event.delta > 0)
-        return flag
-
-
-class OptionButtonFeature(virtual.Feature):
-    """Feature of OptionButton"""
-
-    def _click_left(self, event: tkinter.Event) -> bool:
-        if not (flag := self.widget.detect(event.x, event.y)):
-            if len(self.widget._widgets) == 3:
-                if not self.widget._widgets[-1].detect(event.x, event.y):
-                    self.widget._widgets[-1].destroy()
         return flag

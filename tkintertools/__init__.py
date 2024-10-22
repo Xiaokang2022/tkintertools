@@ -8,7 +8,7 @@
 
 If you ❤️ this package, leave your ⭐ to me, thanks you so much! 🎉
 
-![](https://img.shields.io/github/stars/Xiaokang2022/tkintertools?label=Stars&color=gold&logo=github&style=flat)
+![](https://img.shields.io/github/stars/Xiaokang2022/tkintertools)
 """
 
 # MIT License

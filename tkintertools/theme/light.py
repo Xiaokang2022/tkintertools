@@ -306,4 +306,5 @@ _AuxiliaryInputBox = copy.deepcopy(InputBox)
 del _AuxiliaryInputBox["RoundedRectangle.in"]
 del _AuxiliaryInputBox["RoundedRectangle.out"]
 _AuxiliaryInputBox["HalfRoundedRectangle.in"] = InputBox["RoundedRectangle.in"]
-_AuxiliaryInputBox["HalfRoundedRectangle.out"] = InputBox["RoundedRectangle.out"]
+_AuxiliaryInputBox["HalfRoundedRectangle.out"] \
+    = InputBox["RoundedRectangle.out"]

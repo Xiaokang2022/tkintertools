@@ -23,13 +23,11 @@ __all__ = [
 import itertools
 import math
 import typing
-import warnings
 
 from ..animation import animations, controllers
 from ..core import constants, containers, virtual
 from ..toolbox import enhanced, tools
 from . import features, images, shapes, texts
-from ._auxiliary import _AuxiliaryButton, _AuxiliaryInputBox, _AuxiliaryLabel
 
 
 class Text(virtual.Widget):
@@ -266,7 +264,8 @@ class Button(virtual.Widget):
 
 
 class Switch(virtual.Widget):
-    """Switch widget, typically used to control the turning of a function on and off"""
+    """Switch widget, typically used to control the turning of a function on
+    and off"""
 
     def __init__(
         self,
@@ -300,8 +299,9 @@ class Switch(virtual.Widget):
             name=name, anchor=anchor, through=through, animation=animation)
         if constants.SYSTEM == "Windows10":
             shapes.Rectangle(self, name=".out")
-            shapes.Rectangle(self, name=".in", relative_position=(
-                length/10, length/10), size=(length*3/10, length*3/10), animation=False)
+            shapes.Rectangle(
+                self, name=".in", relative_position=(length/10, length/10),
+                size=(length*3/10, length*3/10), animation=False)
         else:
             shapes.SemicircularRectangle(self)
             shapes.Oval(self, relative_position=(length/10, length/10),
@@ -323,14 +323,17 @@ class Switch(virtual.Widget):
         if self.get() == bool(value):
             return
         self.update(
-            f"{self.state.split('-')[0]}-{'on' if value else 'off'}", no_delay=True)
+            f"{self.state.split('-')[0]}-{'on' if value else 'off'}",
+            no_delay=True)
         dx = self._shapes[0].size[0]/2 if value else -self._shapes[0].size[0]/2
         animations.MoveComponent(
-            self._shapes[1], 250, (dx, 0), controller=controllers.smooth, fps=60).start()
+            self._shapes[1], 250, (dx, 0),
+            controller=controllers.smooth, fps=60).start()
 
 
 class InputBox(virtual.Widget):
-    """Input box widget, generally used to enter certain information on a single line"""
+    """Input box widget, generally used to enter certain information on a
+    single line"""
 
     def __init__(
         self,
@@ -440,7 +443,8 @@ class CheckButton(virtual.Widget):
         * `position`: position of the widget
         * `length`: length of the widget
         * `default`: default state of the widget
-        * `command`: a function that is triggered when the state of check button is on
+        * `command`: a function that is triggered when the state of check
+        button is on
         * `image`: image of the widget
         * `name`: name of the widget
         * `anchor`: anchor of the widget
@@ -516,7 +520,8 @@ class ToggleButton(virtual.Widget):
         * `overstrike`: whether the text is overstrike
         * `justify`: justify mode of the text
         * `default`: default state of the widget
-        * `command`: a function that is triggered when the state of check button is on
+        * `command`: a function that is triggered when the state of check
+        button is on
         * `image`: image of the widget
         * `name`: name of the widget
         * `anchor`: anchor of the widget
@@ -579,7 +584,8 @@ class RadioButton(virtual.Widget):
         * `position`: position of the widget
         * `length`: length of the widget
         * `default`: default state of the widget
-        * `command`: a function that is triggered when the state of radio button is on
+        * `command`: a function that is triggered when the state of radio
+        button is on
         * `image`: image of the widget
         * `name`: name of the widget
         * `anchor`: anchor of the widget
@@ -591,12 +597,16 @@ class RadioButton(virtual.Widget):
             through=through, animation=animation)
         if constants.SYSTEM == "Windows10":
             shapes.Rectangle(self, name=".out")
-            shapes.Rectangle(self, name=".in", relative_position=(
-                self.size[0]/4, self.size[1]/4), size=(self.size[0]/2, self.size[1]/2)).disappear()
+            shapes.Rectangle(
+                self, name=".in",
+                relative_position=(self.size[0]/4, self.size[1]/4),
+                size=(self.size[0]/2, self.size[1]/2)).disappear()
         else:
             shapes.Oval(self, name=".out")
-            shapes.Oval(self, name=".in", relative_position=(
-                self.size[0]/4, self.size[1]/4), size=(self.size[0]/2, self.size[1]/2)).disappear()
+            shapes.Oval(
+                self, name=".in",
+                relative_position=(self.size[0]/4, self.size[1]/4),
+                size=(self.size[0]/2, self.size[1]/2)).disappear()
         if image is not None:
             images.StillImage(self, image=image)
         features.RadioButtonFeature(self, command=command)
@@ -641,7 +651,8 @@ class ProgressBar(virtual.Widget):
         * `position`: position of the widget
         * `size`: size of the widget
         * `default`: default value of the widget
-        * `command`: a function that is triggered when the progress of progress bar is 100%
+        * `command`: a function that is triggered when the progress of progress
+        bar is 100%
         * `image`: image of the widget
         * `name`: name of the widget
         * `anchor`: anchor of the widget
@@ -654,12 +665,14 @@ class ProgressBar(virtual.Widget):
             through=through, animation=animation)
         if constants.SYSTEM == "Windows10":
             shapes.Rectangle(self, name=".out")
-            shapes.Rectangle(self, name=".in", size=(
-                0, self.size[1]*0.8), relative_position=(self.size[1]*0.1, self.size[1]*0.1))
+            shapes.Rectangle(
+                self, name=".in", size=(0, self.size[1]*0.8),
+                relative_position=(self.size[1]*0.1, self.size[1]*0.1))
         else:
             shapes.SemicircularRectangle(self, name=".out")
-            shapes.SemicircularRectangle(self, name=".in", size=(self.size[1]*0.7, self.size[1]*0.7),
-                                         relative_position=(self.size[1]*0.15, self.size[1]*0.15))
+            shapes.SemicircularRectangle(
+                self, name=".in", size=(self.size[1]*0.7, self.size[1]*0.7),
+                relative_position=(self.size[1]*0.15, self.size[1]*0.15))
         if image is not None:
             images.StillImage(self, image=image)
         features.ProgressBarFeature(self)
@@ -684,10 +697,13 @@ class ProgressBar(virtual.Widget):
 
         if isinstance(self._shapes[1], shapes.Rectangle):
             self._shapes[1].coords(
-                ((self.size[0]-self.size[1]*0.2) * self.value, self._shapes[1].size[1]))
+                ((self.size[0]-self.size[1]*0.2)
+                 * self.value, self._shapes[1].size[1]))
         else:
-            self._shapes[1].coords((self.size[1]*0.7 + (self.size[0]-self.size[1]
-                                   * 0.3-self._shapes[1].size[1]) * self.value, self._shapes[1].size[1]))
+            self._shapes[1].coords(
+                (self.size[1]*0.7
+                 + (self.size[0]-self.size[1] * 0.3-self._shapes[1].size[1])
+                 * self.value, self._shapes[1].size[1]))
 
 
 class UnderlineButton(virtual.Widget):
@@ -725,7 +741,8 @@ class UnderlineButton(virtual.Widget):
         * `underline`: whether the text is underline
         * `overstrike`: whether the text is overstrike
         * `justify`: justify mode of the text
-        * `command`: a function that is triggered when the underline button is pressed
+        * `command`: a function that is triggered when the underline button
+        is pressed
         * `image`: image of the widget
         * `name`: name of the widget
         * `anchor`: anchor of the widget
@@ -780,7 +797,8 @@ class HighlightButton(virtual.Widget):
         * `underline`: whether the text is underline
         * `overstrike`: whether the text is overstrike
         * `justify`: justify mode of the text
-        * `command`: a function that is triggered when the hightlight button is pressed
+        * `command`: a function that is triggered when the hightlight button
+        is pressed
         * `image`: image of the widget
         * `name`: name of the widget
         * `anchor`: anchor of the widget
@@ -936,10 +954,12 @@ class Slider(virtual.Widget):
             shape.move(delta, 0)
         if isinstance(self._shapes[-1], shapes.Oval):
             self._shapes[1].coords(
-                (self.size[1]/2 + (self.size[0]-self.size[1]) * self.value, self._shapes[1].size[1]))
+                (self.size[1]/2 + (self.size[0]-self.size[1])
+                 * self.value, self._shapes[1].size[1]))
         else:
             self._shapes[1].coords(
-                (self.size[1]/5 + (self.size[0]-self.size[1]*2/5) * self.value, self._shapes[1].size[1]))
+                (self.size[1]/5 + (self.size[0]-self.size[1]*2/5)
+                 * self.value, self._shapes[1].size[1]))
 
 
 class SegmentedButton(virtual.Widget):
@@ -1025,7 +1045,8 @@ class SegmentedButton(virtual.Widget):
                          underline=underline, overstrike=overstrike,
                          justify=justify, animation=animation,
                          image=image, through=True,
-                         command=lambda _, i=i: (self.set(i), command(i) if command else None))
+                         command=lambda _, i=i: (
+                             self.set(i), command(i) if command else None))
             total_side_length += size[layout == "vertical"] + 5
         self.command = command
         if default is not None:
@@ -1100,16 +1121,19 @@ class SpinBox(virtual.Widget):
         virtual.Widget.__init__(
             self, master, position, size, name=name, anchor=anchor,
             through=through, animation=animation)
-        InputBox(self, (0, 0), size, family=family, fontsize=fontsize, weight=weight,
-                 slant=slant, underline=underline, overstrike=overstrike, align=align,
-                 placeholder=placeholder, show=show, limit=limit, image=image,
-                 through=through, animation=animation)
+        InputBox(
+            self, (0, 0), size, family=family, fontsize=fontsize, weight=weight,
+            slant=slant, underline=underline, overstrike=overstrike,
+            align=align, placeholder=placeholder, show=show, limit=limit,
+            image=image, through=through, animation=animation)
         h = size[1]/2 - 6
         w = h/constants.GOLDEN_RATIO if constants.SYSTEM == "Windows10" else 2*h
-        Button(self, (size[0]-w-4, 4), (w, h), text="▲", fontsize=14, through=True,
-               command=lambda: command(True) if command is not None else self.change(True))
-        Button(self, (size[0]-w-4, size[1]/2 + 2), (w, h), text="▼", fontsize=14, through=True,
-               command=lambda: command(False) if command is not None else self.change(False))
+        Button(self, (size[0]-w-4, 4), (w, h), text="▲", fontsize=14,
+               through=True, command=lambda:
+               command(True) if command is not None else self.change(True))
+        Button(self, (size[0]-w-4, size[1]/2 + 2), (w, h), text="▼",
+               fontsize=14, through=True, command=lambda:
+               command(False) if command is not None else self.change(False))
         features.SpinBoxFeature(self, command=command)
 
     def change(self, up: bool) -> None:
@@ -1217,129 +1241,3 @@ class Tooltip(virtual.Widget):
             self.appear()
         elif state.startswith("normal"):
             self.disappear()
-
-
-class OptionButton(virtual.Widget):
-    """A Button with multiple options"""
-
-    def __init__(
-        self,
-        master: containers.Canvas,
-        position: tuple[int, int],
-        size: tuple[int, int] = (200, 40),
-        *,
-        family: str | None = None,
-        fontsize: int | None = None,
-        weight: typing.Literal['normal', 'bold'] = "normal",
-        slant: typing.Literal['roman', 'italic'] = "roman",
-        underline: bool = False,
-        overstrike: bool = False,
-        default: str | None = None,
-        options: tuple[tuple[str, typing.Callable | None], ...] | None = None,
-        name: str | None = None,
-        through: bool = False,
-        animation: bool = True,
-    ) -> None:
-        """
-        * `master`: parent canvas
-        * `position`: position of the widget
-        * `size`: size of the widget
-        * `family`: font family
-        * `fontsize`: font size
-        * `weight`: weight of the text
-        * `slant`: slant of the text
-        * `underline`: whether the text is underline
-        * `overstrike`: whether the text is overstrike
-        * `default`: default value of the widget
-        * `name`: name of the widget
-        * `through`: wether detect another widget under the widget
-        * `animation`: wether enable animation
-        """
-        warnings.warn("The class is not fully implemented yet!",
-                      FutureWarning, stacklevel=2)
-        virtual.Widget.__init__(self, master, position, size,
-                                name=name, through=through, animation=animation)
-        _AuxiliaryLabel(self, (0, 0), (size[0]-size[1]-1, size[1]), ignore="right",
-                        family=family, fontsize=fontsize, weight=weight, slant=slant,
-                        underline=underline, overstrike=overstrike)
-        _AuxiliaryButton(self, (size[0]-size[1], 0),
-                         (size[1], size[1]), ignore="left", text="▼",
-                         through=True, command=self.pop_menu)
-        features.OptionButtonFeature(self)
-        self.options = options
-        if default is not None:
-            self.set(default)
-
-    def pop_menu(self) -> None:
-        """"""
-        # if isinstance(self._widgets[-1], SegmentedButton):
-        #     return self._widgets[-1].destroy()
-        # if self.options is None:
-        #     return
-        # sizes = ((self.size[0]-10, self.size[1]),)*len(self.options)
-        # texts, commands = zip(*self.options)
-        # commands = tuple((lambda i=i, command=command: (self._widgets[0]._texts[0].set(texts[i]), command(
-        # ) if command is not None else None, print(i), self.pop_menu())) for i, command in enumerate(commands))
-        # SegmentedButton(
-        #     self, (0, self.size[1]+5), sizes, texts=texts, commands=commands, layout="vertical")
-
-    def get(self) -> str:
-        """"""
-
-    def set(self, value: str) -> None:
-        """"""
-
-    def append(self, *values: str) -> None:
-        """"""
-
-    def remove(self, *values: str) -> None:
-        """"""
-
-
-class ComboBox(virtual.Widget):
-    """"""
-
-    def __init__(
-        self,
-        master: containers.Canvas,
-        position: tuple[int, int],
-        size: tuple[int, int] = (200, 40),
-        *,
-        family: str | None = None,
-        fontsize: int | None = None,
-        weight: typing.Literal['normal', 'bold'] = "normal",
-        slant: typing.Literal['roman', 'italic'] = "roman",
-        underline: bool = False,
-        overstrike: bool = False,
-        align: typing.Literal["left", "right", "center"] = "left",
-        default: str | None = None,
-        name: str | None = None,
-        through: bool = False,
-        animation: bool = True,
-    ) -> None:
-        """
-        * `master`: parent canvas
-        * `position`: position of the widget
-        * `size`: size of the widget
-        * `family`: font family
-        * `fontsize`: font size
-        * `weight`: weight of the text
-        * `slant`: slant of the text
-        * `underline`: whether the text is underline
-        * `overstrike`: whether the text is overstrike
-        * `align`: align mode of the text
-        * `default`: default value of the widget
-        * `name`: name of the widget
-        * `through`: wether detect another widget under the widget
-        * `animation`: wether enable animation
-        """
-        warnings.warn("The class is not fully implemented yet!",
-                      FutureWarning, stacklevel=2)
-        virtual.Widget.__init__(self, master, position, size,
-                                name=name, through=through, animation=animation)
-        _AuxiliaryInputBox(
-            self, (0, 0), (size[0]-size[1]-1, size[1]), ignore="right")
-        _AuxiliaryButton(self, (size[0]-size[1], 0),
-                         (size[1], size[1]), ignore="left", text="▼")
-        if default is not None:
-            self.set(default)

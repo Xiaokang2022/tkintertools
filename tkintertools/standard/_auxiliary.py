@@ -131,12 +131,14 @@ class _AuxiliaryInputBox(virtual.Widget):
         else:
             shapes.HalfRoundedRectangle(self, name=".out", ignore=ignore)
             shapes.HalfRoundedRectangle(
-                self, name=".in", size=(self.size[0], self.size[1]-3), ignore=ignore)
+                self, name=".in", size=(self.size[0], self.size[1]-3),
+                ignore=ignore)
         if image is not None:
             images.StillImage(self, image=image)
-        texts.SingleLineText(self, family=family, fontsize=fontsize, weight=weight,
-                             slant=slant, underline=underline, overstrike=overstrike,
-                             align=align, limit=limit, show=show, placeholder=placeholder)
+        texts.SingleLineText(
+            self, family=family, fontsize=fontsize, weight=weight, slant=slant,
+            underline=underline, overstrike=overstrike, align=align,
+            limit=limit, show=show, placeholder=placeholder)
         features.InputBoxFeature(self)
 
     def get(self) -> str:
