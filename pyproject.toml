@@ -64,7 +64,6 @@ reports = "y"
 fail-on = "E,F"
 fail-under = 9
 max-line-length = 79
-source-roots = "."
 
 [tool.pytest.ini_options]
 addopts = ["--color=yes"]
