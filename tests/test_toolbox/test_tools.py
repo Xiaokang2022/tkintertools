@@ -38,6 +38,7 @@ class TestTrigger(unittest.TestCase):
 
 class Test(unittest.TestCase):
 
+    @unittest.skipIf(platform.system() == "Linux", "No display name.")
     def setUp(self) -> None:
         self.tk = tkinter.Tk()
 
@@ -75,12 +76,12 @@ class Test(unittest.TestCase):
         platform.system() == "Windows", "This test only work on Windows.")
     def test_get_text_size(self) -> None:
         path = pathlib.Path(__file__).parent.parent/"assets/fonts/FiraCode.ttf"
-        tools.load_font(str(path))
-        self.assertEqual(tools.get_text_size("", -20, "FiraCode"), (2, 20))
-        self.assertEqual(tools.get_text_size(":)", -20, "FiraCode"), (22, 20))
-        self.assertEqual(tools.get_text_size("\n", -20, "FiraCode"), (2, 40))
+        self.assertTrue(tools.load_font(str(path)))
+        self.assertEqual(tools.get_text_size("", 20, "Fira Code"), (2, 24))
+        self.assertEqual(tools.get_text_size(":)", 20, "Fira Code"), (26, 24))
+        self.assertEqual(tools.get_text_size("\n", 20, "Fira Code"), (2, 48))
         self.assertEqual(tools.get_text_size(
-            "", -20, "FiraCode", padding=5), (12, 30))
+            "", 20, "Fira Code", padding=5), (12, 34))
 
 
 if __name__ == "__main__":
