@@ -41,7 +41,8 @@ def contrast(
     * `hsl`: a tuple, HSL codes
     * `channels`: three color channels
     """
-    return tuple(map(lambda x: x[0] * (x[1]-x[2]), zip(channels, MAX, hsl)))
+    return tuple(map(
+        lambda x: (x[1]-x[2]) if x[0] else x[2], zip(channels, MAX, hsl)))
 
 
 def convert(
