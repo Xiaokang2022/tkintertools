@@ -28,6 +28,7 @@ import math
 import tkinter
 import tkinter.font
 import traceback
+import types
 import typing
 
 import typing_extensions
@@ -353,7 +354,7 @@ class Image(Component):
             self.widget.master.itemconfigure(item, image=self.image)
 
 
-class Feature(abc.ABC):
+class Feature:
     """The features of a `Widget`"""
 
     def __init__(self, widget: "Widget") -> None:
@@ -361,6 +362,7 @@ class Feature(abc.ABC):
         * `widget`: parent widget
         """
         self.widget = widget
+        self._extras: dict[str, list[typing.Callable] | typing.Callable] = {}
         widget._feature = self
 
     def _move_none(self, event: tkinter.Event) -> bool:
@@ -478,7 +480,7 @@ class Widget:
         self._texts: list[Text] = []
         self._shapes: list[Shape] = []
         self._images: list[Image] = []
-        self._feature: Feature = None
+        self._feature: Feature = Feature(self)
         self._state_before_disabled: str = ""
         self._update_hooks: list[typing.Callable[[str, bool], typing.Any]] = []
 
@@ -547,8 +549,11 @@ class Widget:
             except Exception as exc:
                 traceback.print_exception(exc)
 
-    def bind(self, command: typing.Callable[[str, bool], typing.Any]) -> None:
-        """Bind an extra function to the widget
+    def bind_on_update(
+        self,
+        command: typing.Callable[[str, bool], typing.Any],
+    ) -> None:
+        """Bind an extra function to the widget on update
 
         This extra function has two positional arguments, both of which are
         arguments to the method `update`. And this extra function will be
@@ -559,15 +564,55 @@ class Widget:
         """
         self._update_hooks.append(command)
 
-    def unbind(
+    def unbind_on_update(
         self,
         command: typing.Callable[[str, bool], typing.Any],
     ) -> None:
-        """Unbind an extra function to the widget
+        """Unbind an extra function to the widget on update
 
         * `command`: the extra function that is bound
         """
         self._update_hooks.remove(command)
+
+    def bind(
+        self,
+        event_name: str,
+        command: typing.Callable[[tkinter.Event], bool],
+        *,
+        add: bool = False,
+    ) -> None:
+        """Bind a function to widget on event processing
+
+        * `event_name`: event name of `virtual.Feature`
+        * `command`: callback function
+        * `add`: if True, original callback function will not be overwritten
+        """
+        if hasattr(self._feature, method := f"_{event_name}"):
+            if not add:
+                self._feature._extras[method] = command
+            else:
+                if method not in self._feature._extras:
+                    self._feature._extras[method] = [command]
+                else:
+                    self._feature._extras[method].append(command)
+
+    def unbind(
+        self,
+        event_name: str,
+        command: typing.Callable[[tkinter.Event], bool],
+    ) -> None:
+        """Unbind a function to widget on event processing
+
+        * `event_name`: event name of `virtual.Feature`
+        * `command`: callback function
+        """
+        if hasattr(self._feature, method := f"_{event_name}"):
+            if isinstance(self._feature._extras[method], list):
+                self._feature._extras[method].remove(command)
+                if not self._feature._extras[method]:
+                    del self._feature._extras[method]
+            elif self._feature._extras[method] == command:
+                del self._feature._extras[method]
 
     def disabled(self, value: bool = True) -> None:
         """Disable the widget"""

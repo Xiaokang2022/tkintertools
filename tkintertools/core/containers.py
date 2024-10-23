@@ -574,17 +574,37 @@ class Canvas(tkinter.Canvas):
 
         return tkinter.Canvas.create_text(self, x, y, *args, **kwargs)
 
+    def _get_command(
+        self,
+        feature: virtual.Feature,
+        method: str,
+    ) -> typing.Callable:
+        """Get command from virtual.Feature"""
+        if (extra_commands := feature._extras.get(method)) is not None:
+            if not isinstance(extra_commands, list):
+                return extra_commands
+
+            def wrapper(*args, **kwargs) -> typing.Any:
+                return_value = getattr(feature, method)(*args, **kwargs)
+                for command in extra_commands:
+                    return_value = command(*args, **kwargs)
+                return return_value
+
+            return wrapper
+
+        return getattr(feature, method)
+
     def _move(
         self,
         event: tkinter.Event,
         type_: typing.Literal["left", "center", "right", "none"]
     ) -> None:
-        """Internal Method: Events to move the mouse"""
+        """Events to move the mouse"""
         self._trigger_config.reset()
         for widget in self._widgets[::-1]:
             if widget._feature is not None:
-                if getattr(widget._feature, f"_move_{type_}")(event) \
-                        and not widget.through:
+                if (self._get_command(widget._feature, f"_move_{type_}")(event)
+                        and not widget.through):
                     event.x = math.nan
         self._trigger_config.update(cursor="arrow")
 
@@ -598,8 +618,9 @@ class Canvas(tkinter.Canvas):
         self._trigger_focus.reset()
         for widget in self._widgets[::-1]:
             if widget._feature is not None:
-                if getattr(widget._feature, f"_click_{type_}")(event) \
-                        and not widget.through:
+                if (self._get_command(
+                        widget._feature, f"_click_{type_}")(event)
+                        and not widget.through):
                     event.x = math.nan
         self._trigger_focus.update(True, "")
 
@@ -611,8 +632,9 @@ class Canvas(tkinter.Canvas):
         """Events to release the mouse"""
         for widget in self._widgets[::-1]:
             if widget._feature is not None:
-                if getattr(widget._feature, f"_release_{type_}")(event) \
-                        and not widget.through:
+                if (self._get_command(
+                    widget._feature, f"_release_{type_}")(event)
+                        and not widget.through):
                     event.x = math.nan
 
     def _wheel(
@@ -625,48 +647,48 @@ class Canvas(tkinter.Canvas):
             event.delta = 120 if type_ == "up" else -120
         for widget in self._widgets[::-1]:
             if widget._feature is not None:
-                if getattr(widget._feature, "_wheel")(event) \
-                        and not widget.through:
+                if (self._get_command(widget._feature, "_wheel")(event)
+                        and not widget.through):
                     event.x = math.nan
 
     def _input(self, event: tkinter.Event) -> None:
-        """Event for typing"""
+        """Events for typing"""
         for widget in self._widgets[::-1]:
             if widget._feature is not None:
-                if getattr(widget._feature, "_input")(event) \
-                        and not widget.through:
+                if (self._get_command(widget._feature, "_input")(event)
+                        and not widget.through):
                     event.x = math.nan
 
     def _copy(self, event: tkinter.Event) -> None:
-        """Event for copy operation"""
+        """Events for copy operation"""
         for widget in self._widgets[::-1]:
             if widget._feature is not None:
-                if getattr(widget._feature, "_copy")(event) \
-                        and not widget.through:
+                if (self._get_command(widget._feature, "_copy")(event)
+                        and not widget.through):
                     pass
 
     def _paste(self, event: tkinter.Event) -> None:
-        """Event for paste operation"""
+        """Events for paste operation"""
         for widget in self._widgets[::-1]:
             if widget._feature is not None:
-                if getattr(widget._feature, "_paste")(event) \
-                        and not widget.through:
+                if (self._get_command(widget._feature, "_paste")(event)
+                        and not widget.through):
                     pass
 
     def _cut(self, event: tkinter.Event) -> None:
-        """Event for cut operation"""
+        """Events for cut operation"""
         for widget in self._widgets[::-1]:
             if widget._feature is not None:
-                if getattr(widget._feature, "_cut")(event) \
-                        and not widget.through:
+                if (self._get_command(widget._feature, "_cut")(event)
+                        and not widget.through):
                     pass
 
     def _select_all(self, event: tkinter.Event) -> None:
-        """Event for operation of selecting all"""
+        """Events for operation of selecting all"""
         for widget in self._widgets[::-1]:
             if widget._feature is not None:
-                if getattr(widget._feature, "_select_all")(event) \
-                        and not widget.through:
+                if (self._get_command(widget._feature, "_select_all")(event)
+                        and not widget.through):
                     pass
 
 
