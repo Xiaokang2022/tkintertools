@@ -33,7 +33,7 @@ If you ❤️ this package, leave your ⭐ to me, thanks you so much! 🎉
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-__version__ = "3.0.0rc2"
+__version__ = "3.0.0rc3"
 __author__ = "Xiaokang2022 <2951256653@qq.com>"
 
 import sys

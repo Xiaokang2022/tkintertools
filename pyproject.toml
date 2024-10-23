@@ -47,7 +47,7 @@ extension = ["tkintertools-mpl", "tkintertools-3d", "tkintertools-media"]
 [project.urls]
 "Bug tracker" = "https://github.com/Xiaokang2022/tkintertools/issues"
 "Changelog" = "https://xiaokang2022.github.io/tkintertools/CHANGELOG/"
-"Documentation" = "https://xiaokang2022.github.io/tkintertools/"
+"Documentation" = "https://xiaokang2022.github.io/tkintertools-docs/"
 "Donate" = "https://xiaokang2022.github.io/tkintertools/Sponsor/"
 "Homepage" = "https://xiaokang2022.github.io/tkintertools/"
 "Source code" = "https://github.com/Xiaokang2022/tkintertools"

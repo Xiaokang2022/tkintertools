@@ -13,6 +13,60 @@ Changelog / 更新日志
 > * 🟠 **Deprecated / 弃用**
 > * 🟤 **Refactored / 重构**
 
+🔖 `3.0.0rc3`
+-------------
+
+🕓 *Release Date / 发布日期 : 2024-10-24*
+
+🟢 **Added / 新增**
+
+- New widget, tooltip (`Tooltip`)  
+新增控件，工具提示框（`Tooltip`）
+
+- All widgets have a new initialization parameter, `anchor`, to specify the anchor location  
+所有控件都新增了初始化参数 `anchor` 来指定锚点位置
+
+- New methods `bind`, `unbind`, `bind_on_update` and `unbind_on_update` for all widgets  
+所有控件新增方法 `bind`、`unbind`、`bind_on_update` 和 `unbind_on_update`
+
+🔵 **Optimized / 优化**
+
+- The function `get_text_size` now can calculate multiple lines of text correctly  
+函数 `get_text_size` 可以正确计算多行文本了
+
+- The function `get_text_size` added the parameter `master`, which can improve performance when used  
+函数 `get_text_size` 增加了参数 `master`，当使用该参数时可以提升性能
+
+- Some code outputs an error message in stderr when it causes a problem, rather than no output at all (e.g., when a function in a theme switching thread throws an error)  
+部分代码产生问题时会在标准错误输出中输出错信息，而不是不产生任何输出（如主题切换线程中的函数引发错误时）
+
+🟣 **Fixed / 修复**
+
+- Fixed a bug where setting the style identity to a class would cause an error  
+修复了样式标识设置为类会导致错误的 bug
+
+- Fixed a bug where the size would not be calculated correctly when the font was italicized or bold, causing the widget to display incorrectly  
+修复了字体为斜体或者粗体时，大小不会被正确计算，导致控件显示不正确的 bug
+
+- Fixed a bug that font loading may fail in some cases under Windows  
+修复了 Windows 系统下，部分情况下字体加载可能失败的 bug
+
+- Fixed a bug where the results of the functions `rgb.contrast` and `hsl.contrast` were incorrect  
+修复了函数 `rgb.contrast` 和 `hsl.contrast` 的结果不正确的 bug
+
+🟡 **Changed / 变更**
+
+- Parameter names for some functions have been changed (the original name violates lint)  
+部分函数的参数名称发生的改变（原名称违背了 lint）
+
+🔴 **Removed / 移除**
+
+- Removed some of the redundant parameters of the class `Text`  
+移除了类 `Text` 的部分冗余参数
+
+- Removed unused classes and functions  
+移除了未使用的类和函数
+
 🔖 `3.0.0rc2`
 -------------
 
@@ -33,7 +87,7 @@ Changelog / 更新日志
 类 `PhotoImage` 增加了方法 `resize`
 
 - Added a `callback` parameter to the `set` method of the relevant widget to control whether the callback function is also called when the method is called  
-相关小部件的 `set` 方法增加了参数 `callback` 来控制当该方法被调用时回调函数是否被调用
+相关控件的 `set` 方法增加了参数 `callback` 来控制当该方法被调用时回调函数是否被调用
 
 🟡 **Changed / 变更**
 
@@ -64,7 +118,7 @@ Changelog / 更新日志
 修复了一些不正确的类型提示和丢失的参数
 
 - Fixed a bug where the widget `Image` must be forced to initialize the image parameter, otherwise an error may be reported  
-修复了小部件 `Image` 必须强制指定图片，否则会报错的 bug
+修复了控件 `Image` 必须强制指定图片，否则会报错的 bug
 
 🔵 **Optimized / 优化**
 
@@ -75,7 +129,7 @@ Changelog / 更新日志
 字体加载函数被优化使得其 `private` 参数能在 Linux 操作系统上产生一定的作用
 
 - Class `MoveTkWidget` has been optimized to prevent it from getting widget data that is not up to date  
-类 `MoveTkWidget` 被优化以防止其获取到的小部件数据不是最新的
+类 `MoveTkWidget` 被优化以防止其获取到的控件数据不是最新的
 
 - Improved doc string  
 改善了文档字符串
@@ -93,19 +147,19 @@ Changelog / 更新日志
 🟢 **Added / 新增**
 
 - The widget `Text` added methods `get` and `set` to get and modify its text content  
-小部件 `Text` 添加了 `get` 和 `set` 方法，用于获取和修改其文本内容
+控件 `Text` 添加了 `get` 和 `set` 方法，用于获取和修改其文本内容
 
 - Added widget `Image`  
-添加了小部件：`Image`
+添加了控件：`Image`
 
 - Added container widget `Frame` to assist with layout  
-添加了容器小部件 `Frame` 以协助布局
+添加了容器控件 `Frame` 以协助布局
 
 - The container widget `Canvas` has added the method `clear` to clear everything drawn inside it  
-容器小部件 `Canvas` 添加了 `clear` 方法，以清除其中绘制的所有内容
+容器控件 `Canvas` 添加了 `clear` 方法，以清除其中绘制的所有内容
 
 - Widgets can now be nested within widgets  
-小部件现在可以嵌套在小部件中了
+控件现在可以嵌套在控件中了
 
 - The submodule `tools` added a function `get_text_size` to get the size of the text  
 子模块 `tools` 添加了一个函数 `get_text_size` 用于获取文本的大小
@@ -114,28 +168,28 @@ Changelog / 更新日志
 新增了不完整的全选功能，可以全选，但由于鼠标选择文本的功能不完善，导致全选功能无法选择未显示的文本
 
 - `virtual.Widget` has a new method called `detect` to determine the range based on the data of the widget itself  
-`virtual.Widget` 新增了一个名为 `detect` 的方法，其根据小部件本身的数据确定的范围来进行检测
+`virtual.Widget` 新增了一个名为 `detect` 的方法，其根据控件本身的数据确定的范围来进行检测
 
 - Added `HalfRoundedRectangular` shape class  
 添加了形状类 `HalfRoundedRectangular`
 
 - Added widget: `ToggleButton`  
-添加了小部件：`ToggleButton`
+添加了控件：`ToggleButton`
 
 - Added widget: `SegmentedButton`  
-添加了小部件：`SegmentedButton`
+添加了控件：`SegmentedButton`
 
 - Added widget: `SpinBox`  
-添加了小部件：`SpinBox`
+添加了控件：`SpinBox`
 
 - The subpackage `standard` added an internal submodule `_auxiliary` to define some auxiliary widgets  
-子包 `standard` 添加了一个内部子模块 `_auxiliary` 来定义一些辅助小部件
+子包 `standard` 添加了一个内部子模块 `_auxiliary` 来定义一些辅助控件
 
 - The `GOLDEN_RATIO` constant has been added  
 增加了常量 `GOLDEN_RATIO`
 
 - Added experimental implementations of widgets `OptionButton` and `ComboBox`  
-添加了小部件 `OptionButton` 和 `ComboBox` 的实验性实现
+添加了控件 `OptionButton` 和 `ComboBox` 的实验性实现
 
 🔴 **Removed / 移除**
 
@@ -148,10 +202,10 @@ Changelog / 更新日志
 🟡 **Changed / 变更**
 
 - Re-change the text defaults of the widget to an empty string  
-将小部件的文本默认值重新更改为空字符串
+将控件的文本默认值重新更改为空字符串
 
 - Rename the widgets `Entry` and `Information` to `InputBox` and `Text`, respectively  
-将小部件 `Entry` 和 `Information` 分别重命名为 `InputBox` 和 `Text`
+将控件 `Entry` 和 `Information` 分别重命名为 `InputBox` 和 `Text`
 
 - The "Feature" suffix has been added to the class names of several `Feature` classes to prevent them from being indistinguishable from the `Widget` class in the error message  
 “Feature” 后缀已添加到多个 `Feature` 类的类名中，以防止它们与错误消息中的 `Widget` 类无法区分
@@ -168,7 +222,7 @@ Changelog / 更新日志
 改进了 `Shape` 的缩放：缩放已从直接缩放更改为计算位置后缩放，以防止某些部分的比例被破坏
 
 - All widgets that involve text now do not need to be forced to specify the size at initialization, and it automatically calculates the size of text without line breaks  
-现在，所有涉及文本的小部件都不需要在初始化时强制指定大小，它会自动计算没有换行符的文本的大小
+现在，所有涉及文本的控件都不需要在初始化时强制指定大小，它会自动计算没有换行符的文本的大小
 
 - Optimized the `RoundedRectangle` subclass of the `Shape` class  
 优化了 `Shape` 的子类 `RoundedRectangle`
@@ -188,10 +242,10 @@ Changelog / 更新日志
 修复了文本在缩放后修改其属性不起作用的 bug
 
 - Fixed a bug where some widgets with default values could repeatedly call the method `set`, causing the widget appearance to be misaligned  
-修复了某些具有默认值的小部件可能会重复调用方法 `set` 从而导致小部件外观错位的 bug
+修复了某些具有默认值的控件可能会重复调用方法 `set` 从而导致控件外观错位的 bug
 
 - Fixed a bug where some highly custom widgets would report an error when zooming  
-修复了某些高度自定义的小部件在缩放时会报错的 bug
+修复了某些高度自定义的控件在缩放时会报错的 bug
 
 🟤 **Refactored / 重构**
 
@@ -209,28 +263,28 @@ Changelog / 更新日志
 🟢 **Added / 新增**
 
 - The widget `Entry` has a new parameter `placeholder` to display the prompt information  
-小部件 `Entry` 新增了参数 `placeholder` 来实现提示信息的显示
+控件 `Entry` 新增了参数 `placeholder` 来实现提示信息的显示
 
 - Added parameter `show` to the widget `Entry` to mask characters (e.g. password box)  
-小部件 `Entry` 新增了参数 `show` 来实现字符的掩盖（如密码框）
+控件 `Entry` 新增了参数 `show` 来实现字符的掩盖（如密码框）
 
 - The new parameter `align` has been added to the widget `Entry` to achieve a similar effect to the `text-align` of tags in *HTML*, i.e. the left, right, and center layout of the text  
-小部件 `Entry` 新增了参数 `align` 来实现于 *HTML* 里的标签的 `text-align` 类似的效果，即文本的靠左、靠右和居中布局
+控件 `Entry` 新增了参数 `align` 来实现于 *HTML* 里的标签的 `text-align` 类似的效果，即文本的靠左、靠右和居中布局
 
 - The widget `Entry` has been added to move the text prompt by pressing the left and right keys on the keyboard  
-小部件 `Entry` 新增了通过按下键盘的左右键来移动文本提示符的功能
+控件 `Entry` 新增了通过按下键盘的左右键来移动文本提示符的功能
 
 - Added text selection to the widget `Entry`  
-小部件 `Entry` 新增了文本选中的功能
+控件 `Entry` 新增了文本选中的功能
 
 - The widget `Entry` has added shortcuts to copy (<kbd>Ctrl</kbd>+<kbd>C</kbd>), paste (<kbd>Ctrl</kbd>+<kbd>V</kbd>) and cut (<kbd>Ctrl</kbd>+<kbd>X</kbd>)  
-小部件 `Entry` 新增了快捷键复制（<kbd>Ctrl</kbd>+<kbd>C</kbd>）、粘贴（<kbd>Ctrl</kbd>+<kbd>V</kbd>）和剪切（<kbd>Ctrl</kbd>+<kbd>X</kbd>）的功能
+控件 `Entry` 新增了快捷键复制（<kbd>Ctrl</kbd>+<kbd>C</kbd>）、粘贴（<kbd>Ctrl</kbd>+<kbd>V</kbd>）和剪切（<kbd>Ctrl</kbd>+<kbd>X</kbd>）的功能
 
 - Added widget slider (`Slider`)  
-新增了小部件滑动条（`Slider`）
+新增了控件滑动条（`Slider`）
 
 - Added widget icon button (`IconButton`)  
-新增了小部件图标按钮（`IconButton`）
+新增了控件图标按钮（`IconButton`）
 
 - Added some missing docstrings  
 增加了部分缺失的文档字符串
@@ -238,15 +292,15 @@ Changelog / 更新日志
 🟡 **Changed / 变更**
 
 - The color of the widget `Entry` has been changed slightly under Windows 10 to enhance the look  
-小部件 `Entry` 在 Windows 10 操作系统下的颜色略有改变，以提升观感
+控件 `Entry` 在 Windows 10 操作系统下的颜色略有改变，以提升观感
 
 - The position of the text of the widget `Entry` in the text box has been slightly corrected to improve the look  
-小部件 `Entry` 的文本在文本框中的位置被稍微修正了一下，以提升观感
+控件 `Entry` 的文本在文本框中的位置被稍微修正了一下，以提升观感
 
 🟣 **Fixed / 修复**
 
 - Fixed a bug where deleting text from the widget `Entry` in some cases would cause the program to loop in an endless loop  
-修复了小部件 `Entry` 某些情况下删除文本会导致程序死循环的问题
+修复了控件 `Entry` 某些情况下删除文本会导致程序死循环的问题
 
 🔵 **Optimized / 优化**
 
@@ -256,7 +310,7 @@ Changelog / 更新日志
 🔴 **Removed / 移除**
 
 - Widget `Entry` removed the parameters `justify` and `anchor`  
-小部件 `Entry` 移除了参数 `justify` 和 `anchor`
+控件 `Entry` 移除了参数 `justify` 和 `anchor`
 
 - Removed the 3D part of the code and related theme files  
 移除了 3D 部分代码以及相关主题文件
@@ -272,13 +326,13 @@ Changelog / 更新日志
 添加了一部分代码的文本字符串
 
 - `animation.animations` has added class `MoveTkWidget` to move a tkinter widget  
-`animation.animations` 新增类 `MoveTkWidget` 来移动一个 tkinter 小部件
+`animation.animations` 新增类 `MoveTkWidget` 来移动一个 tkinter 控件
 
 - `core.containers.Canvas` added the parameter `name` to bind the theme  
 `core.containers.Canvas` 新增参数 `name` 来绑定主题
 
 - `core.containers.Canvas` added method `_zoom_children` to scale the tkinter widget of the Place layout  
-`core.containers.Canvas` 新增方法 `_zoom_children` 来实现对 Place 布局的 tkinter 小部件的缩放
+`core.containers.Canvas` 新增方法 `_zoom_children` 来实现对 Place 布局的 tkinter 控件的缩放
 
 - Introduce the optional third-party package `pillow` and add a new class `PhotoImage` in `toolbox.enhanced` to improve image scaling performance  
 引入可选的第三方包 `pillow` 并在 `toolbox.enhanced` 新增类 `PhotoImage` 以提高图片缩放的性能
@@ -287,10 +341,10 @@ Changelog / 更新日志
 引入可选的第三方包 `matplotlib` 并在 `toolbox` 中新增模块 `mpl` 来实现对 `matplotlib` 相关接口的兼容
 
 - `toolbox.tools` adds the function `get_hwnd` to fetch the HWND of the widget  
-`toolbox.tools` 新增函数 `get_hwnd` 来实现小部件的 HWND 的获取
+`toolbox.tools` 新增函数 `get_hwnd` 来实现控件的 HWND 的获取
 
 - `toolbox.tools` adds a new function `embed_window` to embed a widget into another widget, which only works on Windows  
-`toolbox.tools` 新增函数 `embed_window` 来将一个小部件嵌入到另外一个小部件中，仅在 Windows 系统中有效
+`toolbox.tools` 新增函数 `embed_window` 来将一个控件嵌入到另外一个控件中，仅在 Windows 系统中有效
 
 - `toolbox.tools` adds a new function `screen_size` to get the width and height of the screen  
 `toolbox.tools` 新增函数 `screen_size` 来获取屏幕的宽度和高度
@@ -327,7 +381,7 @@ Changelog / 更新日志
 `core.constants.SIZE` 的值从 -24 更改为 -20（与系统文本大小接近的值）
 
 - The default size of most widgets has been reduced to accommodate the font size change  
-大部分小部件的默认大小缩小了，以配合字体大小的变更
+大部分控件的默认大小缩小了，以配合字体大小的变更
 
 - `style.theme` is renamed to `manager` to avoid having the same name as the theme folder  
 `style.theme` 更名为 `manager`，避免跟主题文件夹 theme 重名
@@ -355,7 +409,7 @@ Changelog / 更新日志
 修复了窗口关闭时未删去主题响应事件的问题
 
 - Fixed an issue where the widget style did not change completely in some cases when the widget was disabled  
-修复了小部件禁用时，部分情况下小部件样式未完全更改的问题
+修复了控件禁用时，部分情况下控件样式未完全更改的问题
 
 🟤 **Refactored / 重构**
 
@@ -403,7 +457,7 @@ Changelog / 更新日志
 虚拟图片基类 `virtual.Image` 实现了相关方法
 
 - The virtual widget base class `virtual.Widget` added new methods `appear` and `disappear` to hide and reproduce the widget as a whole  
-虚拟小部件基类 `virtual.Widget` 新增了方法 `appear` 和 `disappear` 来实现小部件整体的隐藏和再现
+虚拟控件基类 `virtual.Widget` 新增了方法 `appear` 和 `disappear` 来实现控件整体的隐藏和再现
 
 🟡 **Changed / 变更**
 
@@ -422,10 +476,10 @@ Changelog / 更新日志
 优化了子模块 `theme` 的函数 `custom_window` 的实现方式，防止某些情况下无法生效
 
 - All container widgets have been optimized to prevent the functionality from working under certain conditions  
-所有容器小部件都得到了优化，防止某些条件下会出现相关功能未生效的情况
+所有容器控件都得到了优化，防止某些条件下会出现相关功能未生效的情况
 
 - All virtual widgets are perfected with initialization parameters  
-所有虚拟小部件都完善了初始化参数
+所有虚拟控件都完善了初始化参数
 
 🟤 **Refactored / 重构**
 
@@ -461,10 +515,10 @@ Changelog / 更新日志
 子包 `style` 新增模块 `theme` 来控制应用程序整体的主题
 
 - Added method `disabled` to the widget class to disable it. If a style with a disabled state is defined in the stylesheet, the defined style is used, otherwise the style in the disabled state is automatically generated based on the current style (color to background color conversion by a factor of 0.618)  
-小部件类新增方法 `disabled` 来使其处于禁用状态。若在样式表中定义了禁用状态的样式，则会使用定义的样式，否则根据当前样式自动生成禁用状态的样式（色彩向背景色转换 0.618 倍）
+控件类新增方法 `disabled` 来使其处于禁用状态。若在样式表中定义了禁用状态的样式，则会使用定义的样式，否则根据当前样式自动生成禁用状态的样式（色彩向背景色转换 0.618 倍）
 
 - The widget `RadioButton` has a new initialization parameter `default` to control its default state  
-小部件 `RadioButton` 新增初始化参数 `default` 来控制其默认的状态
+控件 `RadioButton` 新增初始化参数 `default` 来控制其默认的状态
 
 - Experimental support for color strings in RGBA format has been added to the Color subpackage  
 颜色子包新增对 RGBA 格式的颜色字符串的实验性支持
@@ -478,7 +532,7 @@ Changelog / 更新日志
 修复了动画类 `ScaleFontSize` 无法正确缩放字体大小的问题
 
 - Fixed and enhanced a bug with the centering function of container widgets such as `Toplevel`  
-修复并增强了容器小部件 `Toplevel` 等在居中功能上的问题
+修复并增强了容器控件 `Toplevel` 等在居中功能上的问题
 
 🔵 **Optimized / 优化**
 
@@ -489,7 +543,7 @@ Changelog / 更新日志
 主题机制优化，样式文件中不再需要写出 tag，可在 `Shape` 的定义中写明 Item 的颜色参数与样式文件关键字的映射关系，以此缩减样式文件中的冗余内容，提高各样式文件之间的兼容性
 
 - Optimized the appearance of some widgets  
-优化部分小部件外观
+优化部分控件外观
 
 - Improved cross-platform compatibility  
 提高了跨平台的兼容性
@@ -535,7 +589,7 @@ Changelog / 更新日志
 引入纯 Python 实现的第三方模块 `darkdetect`，以实现主题动态跟随系统以及多操作系统暗黑主题的支持 
 
 - Added text class widget  
-新增文本类小部件
+新增文本类控件
 
 - Fixed a few bugs and added a lot of content to the framework  
 修复些许 bug，框架内增加大量内容
@@ -551,7 +605,7 @@ Changelog / 更新日志
 🟤 **Refactored / 重构**
 
 - The framework has been further upgraded to allow you to build widgets for complex elements  
-框架进一步升级，可以构建复杂元素的小部件了
+框架进一步升级，可以构建复杂元素的控件了
 
 - A lot of bugs have been fixed, and a lot of content has been improved within the framework  
 修复大量 bug，框架内完善大量内容
@@ -560,10 +614,10 @@ Changelog / 更新日志
 新增动画子模块，可以构建高精度复杂动画了
 
 - Color gradient animations are added to widgets, and special animations are added to some widgets, such as switch switches  
-小部件增加颜色渐变动画，部分小部件增加特殊动画，如开关切换等
+控件增加颜色渐变动画，部分控件增加特殊动画，如开关切换等
 
 - Some widgets have been improved  
-完善部分小部件
+完善部分控件
 
 🔖 `3.0.0.alpha5`
 -----------------
@@ -573,7 +627,7 @@ Changelog / 更新日志
 🟤 **Refactored / 重构**
 
 - The framework has been upgraded to allow you to build multi-element widgets  
-框架升级，可以构建多元素的小部件了
+框架升级，可以构建多元素的控件了
 
 - A lot of bugs have been fixed, and a lot of content has been improved within the framework  
 修复大量 bug，框架内完善大量内容
@@ -585,7 +639,7 @@ Changelog / 更新日志
 UI 进化，减小锯齿感，提升清晰度
 
 - Some standard widgets have been added  
-增加部分标准小部件
+增加部分标准控件
 
 🔖 `3.0.0.alpha4`
 -----------------
@@ -607,7 +661,7 @@ UI 进化，减小锯齿感，提升清晰度
 UI 更新，提供 Windows 10 和 Windows 11 风格的暗黑与明亮两套主题
 
 - Highly customizable widgets are now available  
-可高度定制化小部件了
+可高度定制化控件了
 
 🔖 `3.0.0.alpha3`
 -----------------
@@ -633,10 +687,10 @@ UI 更新，提供 Windows 10 和 Windows 11 风格的暗黑与明亮两套主�
 修复些许 bug，框架内增加大量内容
 
 - Added some widgets  
-新增一些小部件
+新增一些控件
 
 - The background color of the container widget automatically follows the parent widget  
-容器小部件的背景色自动跟随父小部件
+容器控件的背景色自动跟随父控件
 
 🔖 `3.0.0.alpha1`
 -----------------
@@ -646,10 +700,10 @@ UI 更新，提供 Windows 10 和 Windows 11 风格的暗黑与明亮两套主�
 🟤 **Refactored / 重构**
 
 - The widget framework has been built, the details are not yet completed, and some widgets have been built for testing  
-小部件框架搭建完成，细节部分还未完成，已构建部分小部件用于测试
+控件框架搭建完成，细节部分还未完成，已构建部分控件用于测试
 
 - Customizable widgets are now available  
-可定制化小部件了
+可定制化控件了
 
 - Fixed a few bugs and added a lot of content to the framework  
 修复些许 bug，框架内增加大量内容
@@ -658,7 +712,7 @@ UI 更新，提供 Windows 10 和 Windows 11 风格的暗黑与明亮两套主�
 完善了 `Canvas` 的缩放机制
 
 - Added some widgets  
-新增一些小部件
+新增一些控件
 
 🔖 `3.0.0.dev9`
 ---------------
@@ -668,7 +722,7 @@ UI 更新，提供 Windows 10 和 Windows 11 风格的暗黑与明亮两套主�
 🟤 **Refactored / 重构**
 
 - The widget framework is almost complete, and the details are not yet complete  
-小部件框架基本完成，细节部分还未完成
+控件框架基本完成，细节部分还未完成
 
 🔖 `3.0.0.dev8`
 ---------------
@@ -678,7 +732,7 @@ UI 更新，提供 Windows 10 和 Windows 11 风格的暗黑与明亮两套主�
 🟤 **Refactored / 重构**
 
 - Container widget `tkintertools.Canvas` has completed support for `tkinter._CanvasItemId`, as well as a host of other improvements  
-容器小部件 `tkintertools.Canvas` 已完成对 `tkinter._CanvasItemId` 的支持，以及其它大量改进
+容器控件 `tkintertools.Canvas` 已完成对 `tkinter._CanvasItemId` 的支持，以及其它大量改进
 
 🔖 `3.0.0.dev7`
 ---------------
@@ -688,7 +742,7 @@ UI 更新，提供 Windows 10 和 Windows 11 风格的暗黑与明亮两套主�
 🟤 **Refactored / 重构**
 
 - Container widget `tkintertools.Canvas` has been adapted to three layouts: `Pack`, `Place`, and `Grid`, with `Place` being strengthened  
-容器小部件 `tkintertools.Canvas` 已完成对三种布局方式 `Pack`、`Place` 和 `Grid` 的适配，其中 `Place` 被加强
+容器控件 `tkintertools.Canvas` 已完成对三种布局方式 `Pack`、`Place` 和 `Grid` 的适配，其中 `Place` 被加强
 
 🔖 `3.0.0.dev6`
 ---------------
@@ -874,18 +928,18 @@ Windows 平台下新增对窗口边框颜色、标题栏背景色和标题栏前
 字体单位由磅更改为像素
 
 - Reduced the display position offset of tooltip widgets  
-减小了提示框小部件的显示位置偏移
+减小了提示框控件的显示位置偏移
 
 🟣 **Fixed / 修复**
 
 - Fixed a bug where tooltip widgets could appear in very wrong places  
-修复了提示框小部件有可能显示在非常错误的位置的问题
+修复了提示框控件有可能显示在非常错误的位置的问题
 
 - Fixed a bug where the widget class `Entry` was in a non-centered state and the canvas was shrunk, entering an endless loop when entering text, causing the window to not respond  
-修复了小部件类 `Entry` 在非居中状态，且画布缩小之后，输入文本时进入死循环，导致窗口未响应的问题
+修复了控件类 `Entry` 在非居中状态，且画布缩小之后，输入文本时进入死循环，导致窗口未响应的问题
 
 - Fixed a bug where widget color properties were sometimes unchangeable  
-修复了小部件颜色属性某些时候不可更改的问题
+修复了控件颜色属性某些时候不可更改的问题
 
 🔖 `2.6.16`
 -----------
@@ -900,7 +954,7 @@ Windows 平台下新增对窗口边框颜色、标题栏背景色和标题栏前
 🔵 **Optimized / 优化**
 
 - The function `askfont` has been optimized so that the font selection dialog can now be opened without the need for a parent container widget  
-对函数 `askfont` 进行了优化，现在无需父容器小部件也可以打开字体选择对话框
+对函数 `askfont` 进行了优化，现在无需父容器控件也可以打开字体选择对话框
 
 🟡 **Changed / 变更**
 
@@ -945,7 +999,7 @@ Windows 平台下新增对窗口边框颜色、标题栏背景色和标题栏前
 函数 `color` 的参数支持的范围扩大，可以支持诸如 red、skyblue 和 cyan2 等颜色名称
 
 - Some functions can be called without the need for a parent widget  
-部分函数无需父小部件即可调用
+部分函数无需父控件即可调用
 
 🟣 **Fixed / 修复**
 
@@ -960,7 +1014,7 @@ Windows 平台下新增对窗口边框颜色、标题栏背景色和标题栏前
 🟢 **Added / 新增**
 
 - The `CheckButton` widget class adds a `font` parameter to modify its font  
-小部件类 `CheckButton` 新增参数 `font` 来修改其字体
+控件类 `CheckButton` 新增参数 `font` 来修改其字体
 
 🟡 **Changed / 变更**
 
@@ -968,18 +1022,18 @@ Windows 平台下新增对窗口边框颜色、标题栏背景色和标题栏前
 修改部分颜色常量的名称和部分颜色相关的参数
 
 - The widget class `Progressbar` is renamed to `ProgressBar`  
-小部件类 `Progressbar` 更名为 `ProgressBar`
+控件类 `Progressbar` 更名为 `ProgressBar`
 
 🟣 **Fixed / 修复**
 
 - Fixed the bug that the color of the `Switch` of the widget class was displayed incorrectly  
-修复小部件类 `Switch` 颜色显示错误的问题
+修复控件类 `Switch` 颜色显示错误的问题
 
 - Fixed a bug where the initial color of the `CheckButton` of the widget class would not be displayed immediately  
-修复小部件类 `CheckButton` 初始颜色不会立刻显示的问题
+修复控件类 `CheckButton` 初始颜色不会立刻显示的问题
 
 - Fixed the bug that the text style of the widget class `Entry` was not updated after calling the method `set`  
-修复小部件类 `Entry` 在调用方法 `set` 之后文本样式没有更新的问题
+修复控件类 `Entry` 在调用方法 `set` 之后文本样式没有更新的问题
 
 🔖 `2.6.13`
 -----------
@@ -1015,10 +1069,10 @@ Windows 平台下新增对窗口边框颜色、标题栏背景色和标题栏前
 🟢 **Added / 新增**
 
 - Widget class `CheckButton` adds parameter `tick` to change its markup symbol  
-小部件类 `CheckButton` 新增参数 `tick` 来改变其标记符号
+控件类 `CheckButton` 新增参数 `tick` 来改变其标记符号
 
 - The `Switch` widget class adds parameters `color_fill_slider` and `color_outline_slider` to change the appearance of its internal sliders  
-小部件类 `Switch` 新增参数 `color_fill_slider` 和 `color_outline_slider` 来更改其内部滑块的外观
+控件类 `Switch` 新增参数 `color_fill_slider` 和 `color_outline_slider` 来更改其内部滑块的外观
 
 🔵 **Optimized / 优化**
 
@@ -1034,16 +1088,16 @@ Windows 平台下新增对窗口边框颜色、标题栏背景色和标题栏前
 🟣 **Fixed / 修复**
 
 - Fixed a bug where when clicking on a widget, the widget behind it would also be triggered  
-修复了点击小部件时，其后面的小部件也会被触发的问题
+修复了点击控件时，其后面的控件也会被触发的问题
 
 - Missing symbol '#' for function `color` return value  
 函数 `color` 返回值缺少符号 “#”
 
 - Fixed a bug where the canvas of the `tools_3d` submodule could not use widgets such as buttons  
-修复了 `tools_3d` 子模块的画布无法使用按钮等小部件的问题
+修复了 `tools_3d` 子模块的画布无法使用按钮等控件的问题
 
 - Fixed a bug where the `Switch` of the Widget class could not control the `Switch` by clicking on the inner slider  
-修复了小部件类 `Switch` 点击内部滑块无法操控 `Switch` 的问题
+修复了控件类 `Switch` 点击内部滑块无法操控 `Switch` 的问题
 
 🔖 `2.6.11`
 -----------
@@ -1071,7 +1125,7 @@ Windows 平台下新增对窗口边框颜色、标题栏背景色和标题栏前
 新增文件 exceptions.py 及异常类 `ScaleArgsValueError`、`ColorArgsValueError` 和 `WidgetStateModeError` 以提供部分异常的描述
 
 - The widget `Progressbar` adds a indeterminate mode  
-小部件 `Progressbar` 新增不定模式
+控件 `Progressbar` 新增不定模式
 
 🟡 **Changed / 变更**
 
@@ -1102,10 +1156,10 @@ Windows 平台下新增对窗口边框颜色、标题栏背景色和标题栏前
 🟢 **Added / 新增**
 
 - Added new widget switch (`Switch`)  
-新增小部件开关（`Switch`）
+新增控件开关（`Switch`）
 
 - Added widget Tip (`ToolTip`) and all virtual widgets added the parameter `tooltip`  
-新增小部件提示框（`ToolTip`），且所有虚拟小部件新增参数 `tooltip`
+新增控件提示框（`ToolTip`），且所有虚拟控件新增参数 `tooltip`
 
 - Added constants `DURATION`、`TOOLTIP_FG`、`TOOLTIP_BG`、`TOOLTIP_HIGHLIGHT_THICKNESS`、`TOOLTIP_HIGHLIGHT_BACKGROUND`、`COLOR_SWITCH_ON`、`COLOR_SWITCH_OFF`、`SWITCH_WIDTH`、`SWITCH_HEIGHT`、`SWITCH_RADIUS` and `SWITCH_ANIMATION_MS`  
 新增常量 `DURATION`、`TOOLTIP_FG`、`TOOLTIP_BG`、`TOOLTIP_HIGHLIGHT_THICKNESS`、`TOOLTIP_HIGHLIGHT_BACKGROUND`、`COLOR_SWITCH_ON`、`COLOR_SWITCH_OFF`、`SWITCH_WIDTH`、`SWITCH_HEIGHT`、`SWITCH_RADIUS` 和 `SWITCH_ANIMATION_MS`
@@ -1113,10 +1167,10 @@ Windows 平台下新增对窗口边框颜色、标题栏背景色和标题栏前
 🟣 **Fixed / 修复**
 
 - Fixed an issue where the text class widget called method `clear` was invalid  
-修复了文本类小部件调用方法 `clear` 无效的问题
+修复了文本类控件调用方法 `clear` 无效的问题
 
 - Fixed an issue where the class `Animation` automatically determined the parent widget of the widget to be moved  
-修复了类 `Animation` 自动确定待移动小部件的父小部件时出现错误的问题
+修复了类 `Animation` 自动确定待移动控件的父控件时出现错误的问题
 
 🟡 **Changed / 变更**
 
@@ -1152,7 +1206,7 @@ Windows 平台下新增对窗口边框颜色、标题栏背景色和标题栏前
 🟣 **Fixed / 修复**
 
 - Fixed the bug that widgets `Entry` and `Text` would report an error when pasting text  
-修复小部件 `Entry` 和 `Text` 粘贴文本时会报错的 bug  
+修复控件 `Entry` 和 `Text` 粘贴文本时会报错的 bug  
 💡 *This bug was discovered by [一梦千年](mailto:1076336488@qq.com)*
 
 🟡 **Changed / 变更**
@@ -1241,7 +1295,7 @@ Windows 平台下新增对窗口边框颜色、标题栏背景色和标题栏前
 3D 子模块中原来用函数 `hypot` 计算两点间距离，现在直接用函数 `dist` 计算两点间欧几里得距离，提高性能
 
 - The position display of widgets of class `Point` has been optimized in the 3D submodule so that it is always at the forefront  
-3D 子模块中优化了类 `Point` 的小部件位置显示，让其始终保持在最前
+3D 子模块中优化了类 `Point` 的控件位置显示，让其始终保持在最前
 
 - The calculation formula for the camera distance in the 3D submodule has been optimized to improve the performance by a bit  
 3D 子模块中相机距离的计算公式优化，提高了一点性能
@@ -1370,7 +1424,7 @@ Windows 平台下新增对窗口边框颜色、标题栏背景色和标题栏前
 优化了测试文件，兼容不同操作系统，修复少量 bug
 
 - Optimize the methods of the widget checkbox `CheckButton`  
-优化小部件复选框 `CheckButton` 的各项功能
+优化控件复选框 `CheckButton` 的各项功能
 
 - The class `Canvas` adds parameters `x` and `y` to reduce redundant code  
 类 `Canvas` 新增参数 `x` 和 `y` 以减少多余代码
@@ -1378,7 +1432,7 @@ Windows 平台下新增对窗口边框颜色、标题栏背景色和标题栏前
 🟣 **Fixed / 修复**
 
 - Fixed a bug where widgets would misalign after calling the method `moveto`  
-修复了小部件在调用了方法 `moveto` 后会发生错位的 bug
+修复了控件在调用了方法 `moveto` 后会发生错位的 bug
 
 🔴 **Removed / 移除**
 
@@ -1393,7 +1447,7 @@ Windows 平台下新增对窗口边框颜色、标题栏背景色和标题栏前
 🟢 **Added / 新增**
 
 - New virtual canvas widget check box: `CheckButton`  
-新增虚拟画布小部件复选框：`CheckButton`
+新增虚拟画布控件复选框：`CheckButton`
 
 🟣 **Fixed / 修复**
 
@@ -1413,7 +1467,7 @@ Windows 平台下新增对窗口边框颜色、标题栏背景色和标题栏前
 🟢 **Added / 新增**
 
 - Add a `image` parameter to all widgets to add a background image  
-所有小部件新增参数 `image` 来添加背景图片
+所有控件新增参数 `image` 来添加背景图片
 
 🟣 **Fixed / 修复**
 
@@ -1456,7 +1510,7 @@ Windows 平台下新增对窗口边框颜色、标题栏背景色和标题栏前
 修复了 Python 版本要求不准确的问题，模块最低运行要求应为 Python3.11
 
 - Fixed the problem that the `configure` method of `_BaseWidget` cannot get the normal effect when modifying the parameter `text` to an empty string  
-修复了小部件基类 `_BaseWidget` 的方法 `configure` 在将参数 `text` 修改为空字符串时无法得到正常效果的问题
+修复了控件基类 `_BaseWidget` 的方法 `configure` 在将参数 `text` 修改为空字符串时无法得到正常效果的问题
 
 🔵 **Optimized / 优化**
 
@@ -1467,7 +1521,7 @@ Windows 平台下新增对窗口边框颜色、标题栏背景色和标题栏前
 优化了字体大小适配 DPI 的方式
 
 - The canvas widget will be scaled according to the scale of the canvas when it is placed, rather than after it is placed  
-画布小部件在放置时就会根据画布的缩放而缩放，而不是在放置后才进行缩放
+画布控件在放置时就会根据画布的缩放而缩放，而不是在放置后才进行缩放
 
 🔖 `2.5.10`
 -----------
@@ -1477,13 +1531,13 @@ Windows 平台下新增对窗口边框颜色、标题栏背景色和标题栏前
 🟢 **Added / 新增**
 
 - Canvas virtual widget base class `_BaseWidget` Add instance attribute `command_ex` to extend functions  
-画布虚拟小部件基类 `_BaseWidget` 新增实例属性 `command_ex` 以扩展功能
+画布虚拟控件基类 `_BaseWidget` 新增实例属性 `command_ex` 以扩展功能
 
 - Function `move` adds parameter `end` to enhance function  
 函数 `move` 新增参数 `end` 以增强功能
 
 - New method of canvas virtual widget base class `moveto`  
-画布虚拟小部件基类新增方法 `moveto`
+画布虚拟控件基类新增方法 `moveto`
 
 🟣 **Fixed / 修复**
 
@@ -1491,7 +1545,7 @@ Windows 平台下新增对窗口边框颜色、标题栏背景色和标题栏前
 修复了类 `Tk` 无法使窗口与屏幕距离为 0 的 bug
 
 - Fixed the bug that the parameter `borderwidth` of the widget is invalid when it has rounded corners  
-修复了小部件在有圆角状态下参数 `borderwidth` 失效的 bug
+修复了控件在有圆角状态下参数 `borderwidth` 失效的 bug
 
 🟡 **Changed / 变更**
 
@@ -1501,7 +1555,7 @@ Windows 平台下新增对窗口边框颜色、标题栏背景色和标题栏前
 🔵 **Optimized / 优化**
 
 - The state change of the canvas virtual widget adds a previous state detection, greatly improving performance  
-画布虚拟小部件的状态改变加了个先前状态检测，大幅提高性能
+画布虚拟控件的状态改变加了个先前状态检测，大幅提高性能
 
 - The performance of function `move` has been optimized  
 函数 `move` 的性能得到了优化
@@ -1522,7 +1576,7 @@ Windows 平台下新增对窗口边框颜色、标题栏背景色和标题栏前
 修复了 `Canvas` 类的方法 `moveto` 在参数上不完备的 bug
 
 - Fixed a bug that sometimes causes multiple widgets to touch at the same time  
-修复了有时候会产生多个小部件同时触碰的 bug
+修复了有时候会产生多个控件同时触碰的 bug
 
 - Fixed parameter error of class `PhotoImage`  
 修复了类 `PhotoImage` 的参数错误
@@ -1548,7 +1602,7 @@ Windows 平台下新增对窗口边框颜色、标题栏背景色和标题栏前
 修复了函数 `move` 无法进行默认的移动模式 `flat` 的 bug
 
 - Solve the bug that the cursor will flash faster and faster after pasting text for text widget  
-解决文本类小部件在粘贴文本后光标会越闪越快的 bug
+解决文本类控件在粘贴文本后光标会越闪越快的 bug
 
 🔵 **Optimized / 优化**
 
@@ -1669,7 +1723,7 @@ Windows 平台下新增对窗口边框颜色、标题栏背景色和标题栏前
 🟢 **Added / 新增**
 
 - A new widget has been added: progress bar(`Progressbar`)  
-增加了一个新的小部件：进度条（`Progressbar`）
+增加了一个新的控件：进度条（`Progressbar`）
 
 🟣 **Fixed / 修复**
 
@@ -1711,7 +1765,7 @@ Windows 平台下新增对窗口边框颜色、标题栏背景色和标题栏前
 🟣 **Fixed / 修复**
 
 - Solved the bug that the `destroy` method of the widget can only delete half of the widgets when traversing  
-解决了小部件的 `destroy` 方法在遍历使用时只能删除一半小部件的 bug  
+解决了控件的 `destroy` 方法在遍历使用时只能删除一半控件的 bug  
 💡 *This bug was discovered by [-ShuiGuang-](https://blog.csdn.net/atlantis618)*
 
 🔵 **Optimized / 优化**
@@ -1723,7 +1777,7 @@ Windows 平台下新增对窗口边框颜色、标题栏背景色和标题栏前
 `Toplevel` 类重写 `destroy` 方法以兼容原 `destroy` 方法
 
 - Some codes of `Tk` and `Toplevel` are optimized, and the code amount of `Toplevel` widgets is greatly reduced  
-优化了 `Tk`、`Toplevel` 的部分代码，`Toplevel` 小部件的代码量大大缩减
+优化了 `Tk`、`Toplevel` 的部分代码，`Toplevel` 控件的代码量大大缩减
 
 🔴 **Removed / 移除**
 
@@ -1738,18 +1792,18 @@ Windows 平台下新增对窗口边框颜色、标题栏背景色和标题栏前
 🟢 **Added / 新增**
 
 - Added mouse style for text type virtual widget  
-添加了对文本类虚拟小部件的鼠标样式
+添加了对文本类虚拟控件的鼠标样式
 
 🟣 **Fixed / 修复**
 
 - Solved the bug that the `set` and `append` methods of text virtual widgets may fail in some cases  
-解决了文本类虚拟小部件 `set`、`append` 方法某些时候会失效的 bug
+解决了文本类虚拟控件 `set`、`append` 方法某些时候会失效的 bug
 
 - Solved the bug that the mouse style flickers when the mouse cursor moves over the button  
 解决了鼠标光标移动到按钮上时的鼠标样式会闪烁的 bug
 
 - Fixed the bug that the `read` parameter of the text box widget failed  
-修复了文本框小部件 `read` 参数失效的 bug
+修复了文本框控件 `read` 参数失效的 bug
 
 🔵 **Optimized / 优化**
 
@@ -1764,7 +1818,7 @@ Windows 平台下新增对窗口边框颜色、标题栏背景色和标题栏前
 🟢 **Added / 新增**
 
 - Added mouse style for button virtual widgets  
-添加了对按钮虚拟小部件的鼠标样式
+添加了对按钮虚拟控件的鼠标样式
 
 🟣 **Fixed / 修复**
 
@@ -1772,7 +1826,7 @@ Windows 平台下新增对窗口边框颜色、标题栏背景色和标题栏前
 解决了输入框放大后输入提示符位置没对齐的 bug
 
 - Solved the bug that text virtual widgets will lose focus after being pasted once  
-解决了文本类虚拟小部件粘贴一次后会失去焦点的 bug
+解决了文本类虚拟控件粘贴一次后会失去焦点的 bug
 
 - Fix a few errors in the module documentation  
 修复模块文档中的少许错误
