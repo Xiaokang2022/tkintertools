@@ -18,7 +18,7 @@ icon: material/home
 <a href="https://github.com/Xiaokang2022/tkintertools/releases"><img alt="Version" src="https://img.shields.io/github/v/release/Xiaokang2022/tkintertools?include_prereleases&logo=github&label=Version" title="Latest Version" /></a>
 <a href="https://pypistats.org/packages/tkintertools"><img alt="Downloads" src="https://img.shields.io/pypi/dm/tkintertools?label=Downloads&logo=pypi&logoColor=skyblue" title="Downloads" /></a>
 <a href="https://pepy.tech/project/tkintertools"><img alt="Total Downloads" src="https://img.shields.io/pepy/dt/tkintertools?logo=pypi&logoColor=gold&label=Total%20Downloads" title="Total Downloads" /></a>
-<a href="https://github.com/Xiaokang2022/tkintertools"><img alt="Size" src="https://img.shields.io/github/languages/code-size/Xiaokang2022/tkintertools?label=Size&logo=github" title="Code Size"/></a>
+<a href="https://github.com/Xiaokang2022/tkintertools/actions"><img alt="Lint&Test" src="https://img.shields.io/github/actions/workflow/status/Xiaokang2022/tkintertools/python-package.yml?logo=github&label=Lint%26Test" title="Lint&Test"/></a>
 <br/>
 <a href="https://github.com/Xiaokang2022/tkintertools/watchers"><img alt="Watchers" src="https://img.shields.io/github/watchers/Xiaokang2022/tkintertools?label=Watchers&logo=github&style=flat" title="Watchers" /></a>
 <a href="https://github.com/Xiaokang2022/tkintertools/forks"><img alt="Forks" src="https://img.shields.io/github/forks/Xiaokang2022/tkintertools?label=Forks&logo=github&style=flat" title="Forks" /></a>
@@ -60,12 +60,12 @@ pip install tkintertools
 
 ### 🔥 Dev Version
 
-* 🔖 Version: `3.0.0rc2`
-* 🕓 Release: 2024-09-16
-* ✨ Feature: [Changelog-3.0.0rc2](./CHANGELOG.md#-300rc2)
+* 🔖 Version: `3.0.0rc3`
+* 🕓 Release: 2024-10-24
+* ✨ Feature: [Changelog-3.0.0rc3](./CHANGELOG.md#-300rc3)
 
 ```bash linenums="0"
-pip install tkintertools[recommended]==3.0.0rc2
+pip install tkintertools[recommended]==3.0.0rc3
 ```
 
 ???+ "Preview"
@@ -112,7 +112,7 @@ pip install tkintertools[recommended]==3.0.0rc2
 
 ### 📌 Requirements
 
-Not yet  
+- [X] https://github.com/python/typing
 
 ### 🎨 Options
 
@@ -127,13 +127,13 @@ Considering that too many packages will result in a large size of the project fi
 The following command installs the recommended optional dependencies:
 
 ```bash linenums="0"
-pip install tkintertools[recommended]==3.0.0rc2
+pip install tkintertools[recommended]==3.0.0rc3
 ```
 
 The following command installs all optional dependencies:
 
 ```bash linenums="0"
-pip install tkintertools[all]==3.0.0rc2
+pip install tkintertools[all]==3.0.0rc3
 ```
 
 ## 📦 Extension
@@ -147,7 +147,7 @@ In addition to the basic functionality, `tkintertools` also offers some extensio
 The following command can be used to install all the official extensions:
 
 ```bash linenums="0"
-pip install tkintertools[extension]==3.0.0rc2
+pip install tkintertools[extension]==3.0.0rc3
 ```
 
 ## 👀 More

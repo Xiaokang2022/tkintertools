@@ -2,18 +2,18 @@
 icon: material/lock
 ---
 
-✅ 支持的版本
--------------
+# Security Policy
 
-仅支持最新稳定版和正在开发的版本。
+## Supported Versions
 
-|     版本     | 支持情况 |
-| :----------: | :------: |
-| 最新稳定版本 |    ✔️     |
-|   开发版本   |    ✔️     |
-|   其它版本   |    ❌     |
+Only the latest stable version and the version under development are supported.
 
-⚡ 报告漏洞
------------
+|        Version        |   Supported   |
+| :-------------------: | :-----------: |
+|  Development version  |      OK       |
+| Latest Stable version |      OK       |
+|    Other versions     | Not supported |
 
-一般来说嘞，本项目是没得安全漏洞以及相关的问题的……😅 但如果有哈，请以非公开的方式联系本项目的维护者，谢谢啦！
+## Reporting a Vulnerability
+
+In general, there are no security vulnerabilities and other related issues in this project. But if so, please also contact the maintainers of this project in a private way or just [report a security vulnerability](https://github.com/Xiaokang2022/tkintertools/security/advisories/new), thank you!

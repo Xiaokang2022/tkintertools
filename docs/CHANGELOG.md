@@ -15,6 +15,60 @@ icon: material/history
     * 🟠 **Deprecated / 弃用**
     * 🟤 **Refactored / 重构**
 
+🔖 `3.0.0rc3`
+-------------
+
+🕓 *Release Date / 发布日期 : 2024-10-24*
+
+🟢 **Added / 新增**
+
+- New widget, tooltip (`Tooltip`)  
+新增控件，工具提示框（`Tooltip`）
+
+- All widgets have a new initialization parameter, `anchor`, to specify the anchor location  
+所有控件都新增了初始化参数 `anchor` 来指定锚点位置
+
+- New methods `bind`, `unbind`, `bind_on_update` and `unbind_on_update` for all widgets  
+所有控件新增方法 `bind`、`unbind`、`bind_on_update` 和 `unbind_on_update`
+
+🔵 **Optimized / 优化**
+
+- The function `get_text_size` now can calculate multiple lines of text correctly  
+函数 `get_text_size` 可以正确计算多行文本了
+
+- The function `get_text_size` added the parameter `master`, which can improve performance when used  
+函数 `get_text_size` 增加了参数 `master`，当使用该参数时可以提升性能
+
+- Some code outputs an error message in stderr when it causes a problem, rather than no output at all (e.g., when a function in a theme switching thread throws an error)  
+部分代码产生问题时会在标准错误输出中输出错信息，而不是不产生任何输出（如主题切换线程中的函数引发错误时）
+
+🟣 **Fixed / 修复**
+
+- Fixed a bug where setting the style identity to a class would cause an error  
+修复了样式标识设置为类会导致错误的 bug
+
+- Fixed a bug where the size would not be calculated correctly when the font was italicized or bold, causing the widget to display incorrectly  
+修复了字体为斜体或者粗体时，大小不会被正确计算，导致控件显示不正确的 bug
+
+- Fixed a bug that font loading may fail in some cases under Windows  
+修复了 Windows 系统下，部分情况下字体加载可能失败的 bug
+
+- Fixed a bug where the results of the functions `rgb.contrast` and `hsl.contrast` were incorrect  
+修复了函数 `rgb.contrast` 和 `hsl.contrast` 的结果不正确的 bug
+
+🟡 **Changed / 变更**
+
+- Parameter names for some functions have been changed (the original name violates lint)  
+部分函数的参数名称发生的改变（原名称违背了 lint）
+
+🔴 **Removed / 移除**
+
+- Removed some of the redundant parameters of the class `Text`  
+移除了类 `Text` 的部分冗余参数
+
+- Removed unused classes and functions  
+移除了未使用的类和函数
+
 🔖 `3.0.0rc2`
 -------------
 

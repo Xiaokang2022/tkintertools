@@ -18,7 +18,7 @@ icon: material/home
 <a href="https://github.com/Xiaokang2022/tkintertools/releases"><img alt="最新版本" src="https://img.shields.io/github/v/release/Xiaokang2022/tkintertools?include_prereleases&logo=github&label=Version" title="最新版本" /></a>
 <a href="https://pypistats.org/packages/tkintertools"><img alt="下载量" src="https://img.shields.io/pypi/dm/tkintertools?label=Downloads&logo=pypi&logoColor=skyblue" title="下载量" /></a>
 <a href="https://pepy.tech/project/tkintertools"><img alt="总下载量" src="https://img.shields.io/pepy/dt/tkintertools?logo=pypi&logoColor=gold&label=Total%20Downloads" title="总下载量" /></a>
-<a href="https://github.com/Xiaokang2022/tkintertools"><img alt="代码大小" src="https://img.shields.io/github/languages/code-size/Xiaokang2022/tkintertools?label=Size&logo=github" title="代码大小"/></a>
+<a href="https://github.com/Xiaokang2022/tkintertools/actions"><img alt="检查和测试" src="https://img.shields.io/github/actions/workflow/status/Xiaokang2022/tkintertools/python-package.yml?logo=github&label=Lint%26Test" title="检查和测试"/></a>
 <br/>
 <a href="https://github.com/Xiaokang2022/tkintertools/watchers"><img alt="关注" src="https://img.shields.io/github/watchers/Xiaokang2022/tkintertools?label=Watchers&logo=github&style=flat" title="关注" /></a>
 <a href="https://github.com/Xiaokang2022/tkintertools/forks"><img alt="复刻" src="https://img.shields.io/github/forks/Xiaokang2022/tkintertools?label=Forks&logo=github&style=flat" title="复刻" /></a>
@@ -60,12 +60,12 @@ pip install tkintertools
 
 ### 🔥 开发版本
 
-* 🔖 最新版本 : `3.0.0rc2`
-* 🕓 发布日期 : 2024-09-16
-* ✨ 更新内容 : [Changelog-3.0.0rc2](./CHANGELOG.md#-300rc2)
+* 🔖 最新版本 : `3.0.0rc3`
+* 🕓 发布日期 : 2024-10-24
+* ✨ 更新内容 : [Changelog-3.0.0rc3](./CHANGELOG.md#-300rc3)
 
 ```bash linenums="0"
-pip install tkintertools[recommended]==3.0.0rc2
+pip install tkintertools[recommended]==3.0.0rc3
 ```
 
 ???+ "预览图"
@@ -112,7 +112,7 @@ pip install tkintertools[recommended]==3.0.0rc2
 
 ### 📌 必需包
 
-暂无
+- [X] https://github.com/python/typing
 
 ### 🎨 可选包
 
@@ -127,13 +127,13 @@ pip install tkintertools[recommended]==3.0.0rc2
 以下命令可以安装推荐的可选依赖包：
 
 ```bash linenums="0"
-pip install tkintertools[recommended]==3.0.0rc2
+pip install tkintertools[recommended]==3.0.0rc3
 ```
 
 以下命令可以安装全部可选依赖包：
 
 ```bash linenums="0"
-pip install tkintertools[all]==3.0.0rc2
+pip install tkintertools[all]==3.0.0rc3
 ```
 
 ## 📦 官方扩展包
@@ -147,7 +147,7 @@ pip install tkintertools[all]==3.0.0rc2
 以下命令可以安装全部的官方扩展包：
 
 ```bash linenums="0"
-pip install tkintertools[extension]==3.0.0rc2
+pip install tkintertools[extension]==3.0.0rc3
 ```
 
 ## 👀 更多
@@ -199,7 +199,7 @@ pip install tkintertools[extension]==3.0.0rc2
     </div>
 
 <div align="center" markdown>
-[✨最新内容](./CHANGELOG.md#-300rc2){ .md-button .md-button--primary title="点我了解最近更新的内容！" }
+[✨最新内容](./CHANGELOG.md#-300rc3){ .md-button .md-button--primary title="点我了解最近更新的内容！" }
 [<big>⭐支持本项目</big>](https://github.com/Xiaokang2022/tkintertools/){ .md-button .md-button--primary title="给项目点个 Star 吧，球球了！" }
 [❤️赞助一下](./Sponsor.md){ .md-button .md-button--primary title="赞助我一下下吧！独自开发不易呢！" }
 </div>
