@@ -67,6 +67,3 @@ max-line-length = 79
 
 [tool.pytest.ini_options]
 addopts = ["--color=yes"]
-
-# python -m build
-# python -m twine upload dist/*

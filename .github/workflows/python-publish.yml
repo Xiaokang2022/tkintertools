@@ -20,6 +20,7 @@ jobs:
   deploy:
 
     runs-on: ubuntu-latest
+    environment: release-package
 
     steps:
     - uses: actions/checkout@v4
