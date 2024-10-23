@@ -4,7 +4,7 @@
 
 import unittest
 import tkinter
-import sys
+import platform
 
 from tkintertools.toolbox import tools
 
@@ -17,7 +17,8 @@ class Test(unittest.TestCase):
     def tearDown(self) -> None:
         self.tk.destroy()
 
-    @unittest.skipUnless(sys.platform == "win32", "This only work on Windows.")
+    @unittest.skipUnless(
+        platform.system() == "Windows", "This only work on Windows.")
     def test_func_get_hwnd(self) -> None:
         self.assertIsInstance(tools.get_hwnd(self.tk), int)
 
