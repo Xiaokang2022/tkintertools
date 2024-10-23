@@ -14,8 +14,8 @@ class Test(unittest.TestCase):
     def test_function_contrast(self) -> None:
         self.assertEqual(rgb.contrast((0, 0, 0)), (255, 255, 255))
         self.assertEqual(rgb.contrast((0, 127, 255)), (255, 128, 0))
-        self.assertEqual(rgb.contrast((0, 0, 0), channels=(False, True, True)),
-                         (0, 255, 255))
+        self.assertEqual(rgb.contrast((1, 0, 0), channels=(False, True, True)),
+                         (1, 255, 255))
 
     def test_function_convert(self) -> None:
         self.assertEqual(
