@@ -31,6 +31,6 @@ jobs:
         pip3 install pytest
         pip3 install .
     - name: Lint with pylint
-      run: pylint $(git ls-files '*.py') --output-format=colorized --fail-on=E,F --fail-under=9 --max-line-length=79
+      run: pylint .
     - name: Test with pytest
-      run: pytest . --color=yes
+      run: pytest .

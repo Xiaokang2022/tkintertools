@@ -58,5 +58,16 @@ version = { attr = "tkintertools.__version__" }
 [tool.setuptools.packages.find]
 include = ["tkintertools*"]
 
+[tool.pylint]
+output-format = "colorized"
+reports = "y"
+fail-on = "E,F"
+fail-under = 9
+max-line-length = 79
+source-roots = "."
+
+[tool.pytest.ini_options]
+addopts = ["--color=yes"]
+
 # python -m build
 # python -m twine upload dist/*
