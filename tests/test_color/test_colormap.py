@@ -11,7 +11,7 @@ from tkintertools.color import colormap
 
 class Test(unittest.TestCase):
 
-    def test_function_name_to_rgb(self) -> None:
+    def test_name_to_rgb(self) -> None:
         self.assertIs(colormap.name_to_rgb, colormap.name2rgb)
         self.assertEqual(colormap.name_to_rgb("blue"), (0, 0, 255))
         self.assertEqual(colormap.name_to_rgb("BLUE"), (0, 0, 255))
