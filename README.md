@@ -1,8 +1,8 @@
 > [!IMPORTANT]  
 > Due to my studies, I lack the time and energy to consistently update this project **until the end of this year**, but I will slowly and consistently update the documentation, so please understand.  
 > 由于学业原因，**直到今年年底**，我缺少时间和精力来持续更新本项目，但我还是会慢慢地持续更新文档的，请理解。  
-> Project Homepage / 项目主页: https://xiaokang2022.github.io/tkintertools/  
-> Tutorials and Documents / 教程和文档: https://xiaokang2022.github.io/tkintertools-docs/3.0/  
+> Project Homepage / 项目主页: <https://xiaokang2022.github.io/tkintertools/>  
+> Tutorials and Documents / 教程和文档: <https://xiaokang2022.github.io/tkintertools-docs/3.0/>  
 > (**Currently only support Chinese / 目前仅支持中文**)
 
 <h1 align="center">tkintertools</h1>
@@ -43,8 +43,7 @@
     </a>
 </p>
 
-📦 Installation / 安装
-----------------------
+## 📦 Installation / 安装
 
 > [!TIP]  
 > Most of the preview content of the following two versions can be found in the official [demo repository](https://github.com/Xiaokang2022/tkintertools-demos)  
@@ -62,9 +61,9 @@ pip install tkintertools
 
 <details open><summary>👁️ Preview / 预览</summary>
 
-![](https://xiaokang2022.github.io/tkintertools-docs/2.6/tutorials/images/1.2-2.1-2.png)
+![preview_1](https://xiaokang2022.github.io/tkintertools-docs/2.6/tutorials/images/1.2-2.1-2.png)
 
-![](https://xiaokang2022.github.io/tkintertools-docs/2.6/tutorials/images/7.3-3.1-2.png)
+![preview_2](https://xiaokang2022.github.io/tkintertools-docs/2.6/tutorials/images/7.3-3.1-2.png)
 
 </details>
 
@@ -80,63 +79,62 @@ pip install tkintertools[recommended]==3.0.0rc3
 
 <details open><summary>👁️ Preview / 预览</summary>
 
-![](https://github.com/Xiaokang2022/tkintertools-demos/blob/main/preview/demo9-1.png?raw=true)
+![preview_1](https://github.com/Xiaokang2022/tkintertools-demos/blob/main/preview/demo9-1.png?raw=true)
 
-![](https://github.com/Xiaokang2022/tkintertools-demos/blob/main/preview/demo9-2.png?raw=true)
+![preview_2](https://github.com/Xiaokang2022/tkintertools-demos/blob/main/preview/demo9-2.png?raw=true)
 
-![](https://github.com/Xiaokang2022/tkintertools-demos/blob/main/preview/demo9-3.png?raw=true)
+![preview_3](https://github.com/Xiaokang2022/tkintertools-demos/blob/main/preview/demo9-3.png?raw=true)
 
-![](https://github.com/Xiaokang2022/tkintertools-demos/blob/main/preview/demo9-4.png?raw=true)
+![preview_4](https://github.com/Xiaokang2022/tkintertools-demos/blob/main/preview/demo9-4.png?raw=true)
 
-![](https://github.com/Xiaokang2022/tkintertools-demos/blob/main/preview/demo0-1.png?raw=true)
+![preview_5](https://github.com/Xiaokang2022/tkintertools-demos/blob/main/preview/demo0-1.png?raw=true)
 
-![](https://github.com/Xiaokang2022/tkintertools-demos/blob/main/preview/demo0-2.png?raw=true)
+![preview_6](https://github.com/Xiaokang2022/tkintertools-demos/blob/main/preview/demo0-2.png?raw=true)
 
-![](https://github.com/Xiaokang2022/tkintertools-demos/blob/main/preview/demo1-1.png?raw=true)
+![preview_7](https://github.com/Xiaokang2022/tkintertools-demos/blob/main/preview/demo1-1.png?raw=true)
 
-![](https://github.com/Xiaokang2022/tkintertools-demos/blob/main/preview/demo1-2.png?raw=true)
+![preview_8](https://github.com/Xiaokang2022/tkintertools-demos/blob/main/preview/demo1-2.png?raw=true)
 
-![](https://github.com/Xiaokang2022/tkintertools-demos/blob/main/preview/demo2.png?raw=true)
+![preview_9](https://github.com/Xiaokang2022/tkintertools-demos/blob/main/preview/demo2.png?raw=true)
 
-![](https://github.com/Xiaokang2022/tkintertools-demos/blob/main/preview/demo3.png?raw=true)
+![preview_10](https://github.com/Xiaokang2022/tkintertools-demos/blob/main/preview/demo3.png?raw=true)
 
-![](https://github.com/Xiaokang2022/tkintertools-demos/blob/main/preview/demo4-1.png?raw=true)
+![preview_11](https://github.com/Xiaokang2022/tkintertools-demos/blob/main/preview/demo4-1.png?raw=true)
 
-![](https://github.com/Xiaokang2022/tkintertools-demos/blob/main/preview/demo4-2.png?raw=true)
+![preview_12](https://github.com/Xiaokang2022/tkintertools-demos/blob/main/preview/demo4-2.png?raw=true)
 
-![](https://github.com/Xiaokang2022/tkintertools-demos/blob/main/preview/demo5-1.png?raw=true)
+![preview_13](https://github.com/Xiaokang2022/tkintertools-demos/blob/main/preview/demo5-1.png?raw=true)
 
-![](https://github.com/Xiaokang2022/tkintertools-demos/blob/main/preview/demo5-2.png?raw=true)
+![preview_14](https://github.com/Xiaokang2022/tkintertools-demos/blob/main/preview/demo5-2.png?raw=true)
 
-![](https://github.com/Xiaokang2022/tkintertools-demos/blob/main/preview/demo6-1.png?raw=true)
+![preview_15](https://github.com/Xiaokang2022/tkintertools-demos/blob/main/preview/demo6-1.png?raw=true)
 
-![](https://github.com/Xiaokang2022/tkintertools-demos/blob/main/preview/demo7-1.png?raw=true)
+![preview_16](https://github.com/Xiaokang2022/tkintertools-demos/blob/main/preview/demo7-1.png?raw=true)
 
-![](https://github.com/Xiaokang2022/tkintertools-demos/blob/main/preview/demo7-2.png?raw=true)
+![preview_17](https://github.com/Xiaokang2022/tkintertools-demos/blob/main/preview/demo7-2.png?raw=true)
 
-![](https://github.com/Xiaokang2022/tkintertools-demos/blob/main/preview/demo8-1.png?raw=true)
+![preview_18](https://github.com/Xiaokang2022/tkintertools-demos/blob/main/preview/demo8-1.png?raw=true)
 
-![](https://github.com/Xiaokang2022/tkintertools-demos/blob/main/preview/demo10-1.png?raw=true)
+![preview_19](https://github.com/Xiaokang2022/tkintertools-demos/blob/main/preview/demo10-1.png?raw=true)
 
 </details>
 
-📦 Dependency / 依赖包
-----------------------
+## 📦 Dependency / 依赖包
 
 ### 📌 Requirements / 必需包
 
-- [X] [typing-extensions](https://github.com/python/typing)
+* [X] [typing-extensions](https://github.com/python/typing)
 
 ### 🎨 Options / 可选包
 
 Considering that too many packages will result in a large size of the project file when packing, the optional packages selected below are recommended to be installed  
 考虑到调用的包过多将导致打包时项目文件的大小过大，因此下面被选中的可选包是推荐安装的
 
-- [X] [darkdetect](https://github.com/albertosottile/darkdetect) - `0.8.0`
-- [X] [pywinstyles](https://github.com/Akascape/py-window-styles) - `1.8`
-- [X] [pillow](https://github.com/python-pillow/Pillow) - `>=10.0.0`
-- [ ] [hPyT](https://github.com/Zingzy/hPyT) - `1.3.4`
-- [ ] [win32material](https://github.com/littlewhitecloud/win32style) - `1.0.6`
+* [X] [darkdetect](https://github.com/albertosottile/darkdetect) * `0.8.0`
+* [X] [pywinstyles](https://github.com/Akascape/py-window-styles) * `1.8`
+* [X] [pillow](https://github.com/python-pillow/Pillow) * `>=10.0.0`
+* [ ] [hPyT](https://github.com/Zingzy/hPyT) * `1.3.4`
+* [ ] [win32material](https://github.com/littlewhitecloud/win32style) * `1.0.6`
 
 The following command installs the recommended optional dependencies:  
 以下命令可以安装推荐的可选依赖包：
@@ -152,15 +150,14 @@ The following command installs all optional dependencies:
 pip install tkintertools[all]==3.0.0rc3
 ```
 
-📦 Extension / 扩展包
----------------------
+## 📦 Extension / 扩展包
 
 In addition to the basic functionality, `tkintertools` also offers some extension packages to implement certain functionality. The following official extensions are available:  
 除了基础功能之外，`tkintertools` 还提供一些扩展包来实现某些特定的功能。目前已有的官方扩展包如下：
 
-- [X] [tkintertools-mpl](https://github.com/Xiaokang2022/tkintertools-mpl)
-- [X] [tkintertools-media](https://github.com/Xiaokang2022/tkintertools-media)
-- [X] [tkintertools-3d](https://github.com/Xiaokang2022/tkintertools-3d)
+* [X] [tkintertools-mpl](https://github.com/Xiaokang2022/tkintertools-mpl)
+* [X] [tkintertools-media](https://github.com/Xiaokang2022/tkintertools-media)
+* [X] [tkintertools-3d](https://github.com/Xiaokang2022/tkintertools-3d)
 
 The following command can be used to install all the official extensions:  
 以下命令可以安装全部的官方扩展包：
@@ -169,8 +166,7 @@ The following command can be used to install all the official extensions:
 pip install tkintertools[extension]==3.0.0rc3
 ```
 
-👀 More / 更多
---------------
+## 👀 More / 更多
 
 * 📋 Todo / 待办事项: [*TODO.md*](TODO.md)
 * 📑 License / 项目许可: [*LICENSE.txt*](LICENSE.txt)

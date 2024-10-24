@@ -1,5 +1,4 @@
-Contribution Guide / 贡献指南
-============================
+# Contribution Guide / 贡献指南
 
 First off, thanks for taking the time to contribute! ❤️  
 首先，感谢您抽出宝贵时间做出贡献！❤️
@@ -11,8 +10,7 @@ All types of contributions are encouraged and valued.Please see the table of con
 > If you like the project, but just don't have time to contribute, that's fine. There are other easy ways to support the project and show your gratitude, and we are also very happy, such as star the project!⭐  
 > 如果你喜欢这个项目，但只是没有时间做出贡献，那也没关系。还有其他简单的方法可以支持该项目并表达您的感激之情，我们也非常高兴，例如给这个项目加星标！⭐
 
-❓ I Have a Question / 有个问题
--------------------------------
+## ❓ I Have a Question / 有个问题
 
 ### 💡 Issue / 问题
 
@@ -24,8 +22,7 @@ If you want to ask a question, we assume that you have read the available Docume
 If you have any suggestions, etc., you can start a discussion in the discussion board. For example, you can start a discussion about a feature, discuss it with someone else or a project maintainer, and we will make improvements to the project based on the results of the discussion, or we may not take the suggestion.  
 如果你有什么建议等，你可以在讨论区发起一个讨论。比如你可以发起关于某项功能的讨论，与别人或者项目维护者进行相关的讨论，我们会根据讨论结果对项目进行相关改进，当然，也可能不会采纳相关建议。
 
-✏️ I Want To Contribute / 想要贡献
-----------------------------------
+## ✏️ I Want To Contribute / 想要贡献
 
 > [!IMPORTANT]  
 > When contributing to this project, you must agree that you have authored **100%** of the content, that you have the necessary rights to the content and that the content you contribute may be provided under the project license.  
@@ -73,8 +70,7 @@ If you have any suggestions, etc., you can start a discussion in the discussion 
 * Compliance with certain specifications is sufficient, depending on the circumstances;  
 符合某些规范即可，具体视情况而定；
 
-✨ What is the Style / 风格指南
--------------------------------
+## ✨ What is the Style / 风格指南
 
 ### 1️⃣ Code Style / 代码风格
 
@@ -86,16 +82,15 @@ If you want your PR to be merged, we want your code style to be as official as p
 For other content, such as issues, we don't make any stylistic requirements.  
 其它内容，如 issues 等，我们不对风格做任何要求。
 
-🤝 Join The Project Team / 加入团队
------------------------------------
+## 🤝 Join The Project Team / 加入团队
 
-If you would like to join the project team, please contact the maintainers of the project team, here is some information about the authors of this project:   
+If you would like to join the project team, please contact the maintainers of the project team, here is some information about the authors of this project:  
 如果你想加入项目团队，请联系项目团队的维护人员，下面是本项目作者的一些信息：
 
 * 🧑‍💻 Author: [Xiaokang2022](https://github.com/Xiaokang2022)
-* ✉️ Email: 2951256653@qq.com
+* ✉️ Email: <2951256653@qq.com>
 
 ---
 
-This contribution guide is based on https://contributing.md/example/ .  
-这个贡献指南是基于 https://contributing.md/example/ 改写的。
+This contribution guide is based on <https://contributing.md/example/> .  
+这个贡献指南是基于 <https://contributing.md/example/> 改写的。
