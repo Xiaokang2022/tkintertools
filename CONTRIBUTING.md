@@ -4,7 +4,7 @@ First off, thanks for taking the time to contribute! ❤️
 首先，感谢您抽出宝贵时间做出贡献！❤️
 
 All types of contributions are encouraged and valued.Please see the table of contents below for details on the different ways to contribute and how to handle them. Be sure to read the relevant section before contributing, this will make it easier for our maintainers and make the experience smoother for everyone involved. We look forward to your contributions!  
-所有类型的贡献都是值得鼓励和重视的。请参阅下面的目录，了解不同的贡献方式及如何处理它们的详细信息。请务必在贡献前阅读相关部分，这将使我们的维护人员更容易，并使所有相关人员的体验更加顺畅。我们期待您的贡献！
+所有类型的贡献都是值得鼓励和重视的。请参阅下面的内容，了解不同的贡献方式及如何处理它们的详细信息。请务必在贡献前阅读相关部分，这将使我们的维护人员更容易，并使所有相关人员的体验更加顺畅。我们期待您的贡献！
 
 > [!TIP]  
 > If you like the project, but just don't have time to contribute, that's fine. There are other easy ways to support the project and show your gratitude, and we are also very happy, such as star the project!⭐  
@@ -12,7 +12,7 @@ All types of contributions are encouraged and valued.Please see the table of con
 
 ## ❓ I Have a Question / 有个问题
 
-### 💡 Issue / 问题
+### 💡 Issue / 议题
 
 If you want to ask a question, we assume that you have read the available Documentation.If you still don't find an answer you're happy with, you can start an issue and we'll get back to you as quickly as possible. However, before initiating an issue, please search for existing issues related to your issue to avoid initiating duplicate issues.  
 如果您想提出问题，我们假设您已经阅读了可用的文档。如果仍然没有找到您满意的答案，您可以发起一个 issue，我们将尽可能快地给出答复。但在发起 issue 之前，请先搜索是否存在已有 issue 与你的问题相关，以避免发起内容重复的 issue。
@@ -72,12 +72,20 @@ If you have any suggestions, etc., you can start a discussion in the discussion 
 
 ## ✨ What is the Style / 风格指南
 
-### 1️⃣ Code Style / 代码风格
+### 1️⃣ Lint & Test / 检查和测试
+
+We set up Lint and Test for all submissions. Lint require that your code must have no major errors (such as syntax errors) and that your code must be rated greater than 9.0. Test require your code to pass without too many errors.  
+我们对所有的提交都设置了检查和测试。检查要求你的代码不能存在重大错误（如语法错误等），且代码的评分必须大于 9.0 分。测试要求你的代码能通过，不会产生过多的错误。
+
+* Lint: [pylint](https://github.com/pylint-dev/pylint)
+* Test: [pytest](https://github.com/pytest-dev/pytest)
+
+### 2️⃣ Code Style / 代码风格
 
 If you want your PR to be merged, we want your code style to be as official as possible, and if you can, we prefer your code to be in line with the project's code style.  
 如果你想要你的 PR 被合并，我们希望你的代码风格尽量符合官方的风格，如果可以，我们更希望你的代码可以符合本项目的代码风格。
 
-### 2️⃣ Other Style / 其它风格
+### 3️⃣ Other Style / 其它风格
 
 For other content, such as issues, we don't make any stylistic requirements.  
 其它内容，如 issues 等，我们不对风格做任何要求。
@@ -87,7 +95,7 @@ For other content, such as issues, we don't make any stylistic requirements.
 If you would like to join the project team, please contact the maintainers of the project team, here is some information about the authors of this project:  
 如果你想加入项目团队，请联系项目团队的维护人员，下面是本项目作者的一些信息：
 
-* 🧑‍💻 Author: [Xiaokang2022](https://github.com/Xiaokang2022)
+* 😆 Author: [Xiaokang2022](https://github.com/Xiaokang2022)
 * ✉️ Email: <2951256653@qq.com>
 
 ---
