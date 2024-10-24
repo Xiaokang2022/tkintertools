@@ -2,8 +2,6 @@
 icon: material/lock
 ---
 
-# Security Policy
-
 ## Supported Versions
 
 Only the latest stable version and the version under development are supported.

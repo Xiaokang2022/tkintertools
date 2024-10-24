@@ -35,8 +35,7 @@ icon: material/home
 ![light](https://api.star-history.com/svg?repos=Xiaokang2022/tkintertools&type=Date&theme=light#only-light)
 ![dark](https://api.star-history.com/svg?repos=Xiaokang2022/tkintertools&type=Date&theme=dark#only-dark)
 
-📦 Installation
-----------------
+## 📦 Installation
 
 !!! tip "Tip"
 
@@ -112,17 +111,17 @@ pip install tkintertools[recommended]==3.0.0rc3
 
 ### 📌 Requirements
 
-- [X] https://github.com/python/typing
+* [X] <https://github.com/python/typing>
 
 ### 🎨 Options
 
 Considering that too many packages will result in a large size of the project file when packing, the optional packages selected below are recommended to be installed
 
-- [X] https://github.com/albertosottile/darkdetect - `0.8.0`
-- [X] https://github.com/Akascape/py-window-styles - `1.8`
-- [X] https://github.com/python-pillow/Pillow - `>=10.0.0`
-- [ ] https://github.com/Zingzy/hPyT - `1.3.4`
-- [ ] https://github.com/littlewhitecloud/win32style - `1.0.6`
+* [X] <https://github.com/albertosottile/darkdetect> - `0.8.0`
+* [X] <https://github.com/Akascape/py-window-styles> - `1.8`
+* [X] <https://github.com/python-pillow/Pillow> - `>=10.0.0`
+* [ ] <https://github.com/Zingzy/hPyT> - `1.3.4`
+* [ ] <https://github.com/littlewhitecloud/win32style> - `1.0.6`
 
 The following command installs the recommended optional dependencies:
 
@@ -140,9 +139,9 @@ pip install tkintertools[all]==3.0.0rc3
 
 In addition to the basic functionality, `tkintertools` also offers some extension packages to implement certain functionality. The following official extensions are available:
 
-- [X] https://github.com/Xiaokang2022/tkintertools-mpl
-- [X] https://github.com/Xiaokang2022/tkintertools-media
-- [X] https://github.com/Xiaokang2022/tkintertools-3d
+* [X] <https://github.com/Xiaokang2022/tkintertools-mpl>
+* [X] <https://github.com/Xiaokang2022/tkintertools-media>
+* [X] <https://github.com/Xiaokang2022/tkintertools-3d>
 
 The following command can be used to install all the official extensions:
 
@@ -154,37 +153,37 @@ pip install tkintertools[extension]==3.0.0rc3
 
 <div class="grid cards" markdown>
 
--   [📑 **License**](./LICENSE.md)
+* [📑 **License**](./LICENSE.md)
 
     ***
 
     MIT, one of the most permissive open source licenses
 
--   [📋 **Sponsor**](./Sponsor.md)
+* [📋 **Sponsor**](./Sponsor.md)
 
     ***
 
     Let's see who sponsors
 
--   [📘 **Changelog**](./CHANGELOG.md)
+* [📘 **Changelog**](./CHANGELOG.md)
 
     ***
 
     Changelog for all versions
 
--   [📗 **Contribution Guide**](./CONTRIBUTING.md)
+* [📗 **Contribution Guide**](./CONTRIBUTING.md)
 
     ***
 
     Take a look at this before you contribute
 
--   [📕 **Security Policy**](./SECURITY.md)
+* [📕 **Security Policy**](./SECURITY.md)
 
     ***
 
     How to deal with security vulnerabilities
 
--   [📙 **Code of Conduct**](./CODE_OF_CONDUCT.md)
+* [📙 **Code of Conduct**](./CODE_OF_CONDUCT.md)
 
     ***
 

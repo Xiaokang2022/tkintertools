@@ -10,8 +10,7 @@ All types of contributions are encouraged and valued.Please see the table of con
 
     If you like the project, but just don't have time to contribute, that's fine. There are other easy ways to support the project and show your gratitude, and we are also very happy, such as star the project!⭐
 
-❓ I Have a Question
----------------------
+## ❓ I Have a Question
 
 ### 💡 Issue
 
@@ -21,8 +20,7 @@ If you want to ask a question, we assume that you have read the available Docume
 
 If you have any suggestions, etc., you can start a discussion in the discussion board. For example, you can start a discussion about a feature, discuss it with someone else or a project maintainer, and we will make improvements to the project based on the results of the discussion, or we may not take the suggestion.
 
-✏️ I Want To Contribute
-------------------------
+## ✏️ I Want To Contribute
 
 !!! warning "Warning"
 
@@ -55,24 +53,29 @@ If you have any suggestions, etc., you can start a discussion in the discussion 
 
 * Compliance with certain specifications is sufficient, depending on the circumstances;
 
-✨ What is the Style
----------------------
+## ✨ What is the Style
 
-### 1️⃣ Code Style
+### 1️⃣ Lint & Test
+
+We set up Lint and Test for all submissions. Lint require that your code must have no major errors (such as syntax errors) and that your code must be rated greater than 9.0. Test require your code to pass without too many errors.
+
+* Lint: [pylint](https://github.com/pylint-dev/pylint)
+* Test: [pytest](https://github.com/pytest-dev/pytest)
+
+### 2️⃣ Code Style
 
 If you want your PR to be merged, we want your code style to be as official as possible, and if you can, we prefer your code to be in line with the project's code style.
 
-### 2️⃣ Other Style
+### 3️⃣ Other Style
 
 For other content, such as issues, we don't make any stylistic requirements.
 
-🤝 Join The Project Team
--------------------------
+## 🤝 Join The Project Team
 
 If you would like to join the project team, please contact the maintainers of the project team, here is some information about the authors of this project:
 
-* 🧑‍💻 Author: https://github.com/Xiaokang2022
-* ✉️ Email: 2951256653@qq.com
+* 😆 Author: <https://github.com/Xiaokang2022>
+* ✉️ Email: <2951256653@qq.com>
 
 ---
 

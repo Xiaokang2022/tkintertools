@@ -8,7 +8,7 @@ icon: material/folder-open
 此处会给出一些用 `tkintertools` 开发的项目的实例。
 
 !!! tip "温馨提示"
- 
+
     如果你想把你用 tkt 写的项目也加入到这里来，没问题！只要满足以下要求，我就会考虑把你的项目加入到这里！
 
     - [X] 在 *requirements.txt* 中添加 `tkintertools`，并注明使用的版本，这样我才能找到你的项目；

@@ -35,8 +35,7 @@ icon: material/home
 ![light](https://api.star-history.com/svg?repos=Xiaokang2022/tkintertools&type=Date&theme=light#only-light)
 ![dark](https://api.star-history.com/svg?repos=Xiaokang2022/tkintertools&type=Date&theme=dark#only-dark)
 
-📦 安装
--------
+## 📦 安装
 
 !!! tip "提示"
 
@@ -112,17 +111,17 @@ pip install tkintertools[recommended]==3.0.0rc3
 
 ### 📌 必需包
 
-- [X] https://github.com/python/typing
+* [X] <https://github.com/python/typing>
 
 ### 🎨 可选包
 
 考虑到调用的包过多将导致打包时项目文件的大小过大，因此下面被选中的可选包是推荐安装的
 
-- [X] https://github.com/albertosottile/darkdetect - `0.8.0`
-- [X] https://github.com/Akascape/py-window-styles - `1.8`
-- [X] https://github.com/python-pillow/Pillow - `>=10.0.0`
-- [ ] https://github.com/Zingzy/hPyT - `1.3.4`
-- [ ] https://github.com/littlewhitecloud/win32style - `1.0.6`
+* [X] <https://github.com/albertosottile/darkdetect> - `0.8.0`
+* [X] <https://github.com/Akascape/py-window-styles> - `1.8`
+* [X] <https://github.com/python-pillow/Pillow> - `>=10.0.0`
+* [ ] <https://github.com/Zingzy/hPyT> - `1.3.4`
+* [ ] <https://github.com/littlewhitecloud/win32style> - `1.0.6`
 
 以下命令可以安装推荐的可选依赖包：
 
@@ -140,9 +139,9 @@ pip install tkintertools[all]==3.0.0rc3
 
 除了基础功能之外，`tkintertools` 还提供一些扩展包来实现某些特定的功能。目前已有的官方扩展包如下：
 
-- [X] https://github.com/Xiaokang2022/tkintertools-mpl
-- [X] https://github.com/Xiaokang2022/tkintertools-media
-- [X] https://github.com/Xiaokang2022/tkintertools-3d
+* [X] <https://github.com/Xiaokang2022/tkintertools-mpl>
+* [X] <https://github.com/Xiaokang2022/tkintertools-media>
+* [X] <https://github.com/Xiaokang2022/tkintertools-3d>
 
 以下命令可以安装全部的官方扩展包：
 
@@ -154,37 +153,37 @@ pip install tkintertools[extension]==3.0.0rc3
 
 <div class="grid cards" markdown>
 
--   [📑 **开源许可**](./LICENSE.md)
+* [📑 **开源许可**](./LICENSE.md)
 
     ***
 
     MIT，最宽松的开源许可之一
 
--   [📋 **赞助列表**](./Sponsor.md)
+* [📋 **赞助列表**](./Sponsor.md)
 
     ***
 
     看看都有哪些朋友赞助了
 
--   [📘 **更新日志**](./CHANGELOG.md)
+* [📘 **更新日志**](./CHANGELOG.md)
 
     ***
 
     所有版本的更新日志
 
--   [📗 **贡献指南**](./CONTRIBUTING.md)
+* [📗 **贡献指南**](./CONTRIBUTING.md)
 
     ***
 
     在贡献之前先瞄一下这个
 
--   [📕 **安全策略**](./SECURITY.md)
+* [📕 **安全策略**](./SECURITY.md)
 
     ***
 
     安全漏洞的处理方法
 
--   [📙 **行为准则**](./CODE_OF_CONDUCT.md)
+* [📙 **行为准则**](./CODE_OF_CONDUCT.md)
 
     ***
 
