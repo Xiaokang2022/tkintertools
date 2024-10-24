@@ -16,12 +16,6 @@ icon: octicons/sponsor-tiers-24
     <img width="512" alt="weChat" src="../wechat.png"/>
     </p>
 
-=== "🟣 爱发电"
-
-    <p align="center">
-    <img width="512" alt="afdian" src="../afdian.jpg"/>
-    </p>
-
 === "🔵 其它方式"
 
     !!! failure "暂不支持"

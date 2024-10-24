@@ -16,12 +16,6 @@ Here are all the ways to sponsor:
     <img width="512" alt="weChat" src="../wechat.png"/>
     </p>
 
-=== "🟣 afdian"
-
-    <p align="center">
-    <img width="512" alt="afdian" src="../afdian.jpg"/>
-    </p>
-
 === "🔵 Others"
 
     !!! failure "Not supported"

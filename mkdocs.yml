@@ -249,10 +249,10 @@ extra: # 额外设定
           note: 感谢您的反馈！
 
 extra_javascript:
-  - javascript/shortcuts.js # 绑定左右键换页的键盘快捷键
-  - javascript/click-colorful.js # 鼠标点击效果
-  - javascript/mathjax.js # 数学表达式
-  - javascript/tablesort.js # 表格排序功能
+  - js/click-colorful.js # 鼠标点击效果
+  - js/shortcuts.js # 绑定左右键换页的键盘快捷键
+  - js/mathjax.js # 数学表达式
+  - js/tablesort.js # 表格排序功能
   - https://unpkg.com/mathjax@latest/es5/tex-mml-chtml.js # 数学表达式运行环境
   - https://unpkg.com/tablesort@latest/dist/tablesort.min.js # 表格排序功能运行环境（默认文本类型）
   - https://unpkg.com/tablesort@latest/dist/sorts/tablesort.date.min.js # 表格排序功能（日期类型）
@@ -278,7 +278,7 @@ plugins:
   - git-committers:
       repository: Xiaokang2022/tkintertools
       branch: docs
-      token: !ENV ["GH_TOKEN"] # 需要自行在终端中设置临时环境变量，强烈不建议显式地在此处设置 token
+      token: !ENV GH_TOKEN # 需要自行在终端中设置临时环境变量，强烈不建议显式地在此处设置 token
   - minify:
       minify_html: true
       htmlmin_opts:
