@@ -1,10 +1,9 @@
 # pylint: disable=missing-module-docstring
 # pylint: disable=missing-class-docstring
 # pylint: disable=missing-function-docstring
-# pylint: disable=protected-access
 
-import unittest
 import platform
+import unittest
 
 from tkintertools.color import rgb
 
@@ -55,12 +54,12 @@ class Test(unittest.TestCase):
         self.assertEqual(rgb.rgb_to_str((0, 0, 0)), "#000000")
 
     def test__str_to_rgba(self) -> None:
-        self.assertIs(rgb._str_to_rgba, rgb._str2rgba)
+        self.assertIs(rgb.str_to_rgba, rgb.str2rgba)
         self.assertEqual(
-            rgb._str_to_rgba("#00000000", reference="#FFFFFF"),
+            rgb.str_to_rgba("#00000000", reference="#FFFFFF"),
             (255, 255, 255))
         self.assertEqual(
-            rgb._str_to_rgba("#12345678", reference="#000000"),
+            rgb.str_to_rgba("#12345678", reference="#000000"),
             (8, 24, 40))
 
     def test_MAX(self) -> None:

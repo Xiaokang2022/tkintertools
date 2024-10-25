@@ -1,12 +1,11 @@
 # pylint: disable=missing-module-docstring
 # pylint: disable=missing-class-docstring
 # pylint: disable=missing-function-docstring
-# pylint: disable=protected-access
 
-import unittest
-import tkinter
-import platform
 import pathlib
+import platform
+import tkinter
+import unittest
 
 from tkintertools.toolbox import tools
 
@@ -14,7 +13,7 @@ from tkintertools.toolbox import tools
 class TestTrigger(unittest.TestCase):
 
     def setUp(self) -> None:
-        self.t = tools._Trigger(lambda: None)
+        self.t = tools.Trigger(lambda: None)
 
     def test_update(self) -> None:
         self.t.reset()
