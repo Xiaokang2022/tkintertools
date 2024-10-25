@@ -54,6 +54,8 @@ Style files in JSON format must strictly follow the above format, and the
 missing parts are empty by default.
 """
 
+from __future__ import annotations
+
 # pylint: disable=unused-import
 
 __all__ = [
@@ -72,7 +74,7 @@ from . import manager
 
 
 def _get_name(
-    obj: "str | virtual.Widget | virtual.Component | None",
+    obj: str | virtual.Widget | virtual.Component | None,
 ) -> str | None:
     """Get the name of the object"""
     if obj is None:
@@ -120,8 +122,8 @@ def get_file(
 
 
 def get(
-    widget: "str | virtual.Widget | containers.Canvas",
-    component: "str | virtual.Component | None" = None,
+    widget: str | virtual.Widget | containers.Canvas,
+    component: str | virtual.Component | None = None,
     *,
     theme: str | pathlib.Path | types.ModuleType | None = None,
 ) -> dict[str, dict[str, str]] | dict[str, typing.Any]:

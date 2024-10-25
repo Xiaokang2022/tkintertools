@@ -1,5 +1,7 @@
 """Enhanced versions of some tkinter classes and functions"""
 
+from __future__ import annotations
+
 __all__ = [
     "PhotoImage",
 ]
@@ -32,13 +34,13 @@ if not ImageTk:
                     for x in range(self.width())]
                     for y in range(self.height())]
 
-        def scale(self, x: float, y: float) -> "PhotoImage":
+        def scale(self, x: float, y: float) -> PhotoImage:
             """Scale the PhotoImage"""
             width = round(x*self.width())
             height = round(y*self.height())
             return self.resize(width, height)
 
-        def resize(self, width: int, height: int) -> "PhotoImage":
+        def resize(self, width: int, height: int) -> PhotoImage:
             """Resize the PhotoImage"""
             x = width / self.width()
             y = height / self.height()
@@ -58,12 +60,12 @@ else:
     class PhotoImage(ImageTk.PhotoImage, tkinter.PhotoImage):
         """Pillow version of `tkinter.PhotoImage`"""
 
-        def scale(self, x: float, y: float) -> "PhotoImage":
+        def scale(self, x: float, y: float) -> PhotoImage:
             """Scale the PhotoImage"""
             width = round(x*self.width())
             height = round(y*self.height())
             return self.resize(width, height)
 
-        def resize(self, width: int, height: int) -> "PhotoImage":
+        def resize(self, width: int, height: int) -> PhotoImage:
             """Resize the PhotoImage"""
             return PhotoImage(ImageTk.getimage(self).resize((width, height)))

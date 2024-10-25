@@ -9,6 +9,8 @@ There are two container widgets at the canvas level: `Canvas` and `Frame`.
 layout.
 """
 
+from __future__ import annotations
+
 # pylint: disable=protected-access
 
 __all__ = [
@@ -71,7 +73,7 @@ class Tk(tkinter.Tk):
         self.bind("<Configure>", lambda _: self._zoom())
 
     @property
-    def canvases(self) -> tuple["Canvas", ...]:
+    def canvases(self) -> tuple[Canvas, ...]:
         """Retrun all instances of `Canvas` of the widget"""
         return tuple(self._canvases)
 
@@ -88,7 +90,7 @@ class Tk(tkinter.Tk):
         * `method`: the method of being decorated
         """
         @functools.wraps(method)
-        def wrapper(self: "Tk", *args, **kwargs) -> typing.Any:
+        def wrapper(self: Tk, *args, **kwargs) -> typing.Any:
             result = method(self, *args, **kwargs)
             if result is None:
                 self._theme(manager.get_color_mode() == "dark",
@@ -327,7 +329,7 @@ class Canvas(tkinter.Canvas):
 
     def __init__(
         self,
-        master: "Tk | Canvas",
+        master: Tk | Canvas,
         *,
         expand: typing.Literal["", "x", "y", "xy"] = "xy",
         zoom_item: bool = False,
@@ -364,8 +366,6 @@ class Canvas(tkinter.Canvas):
         # initial image, now image
 
         self.name = name
-
-        self.master: Tk | Canvas  # Coverred original type hint
 
         self._expand: typing.Literal["", "x", "y", "xy"] = expand
         self._zoom_item = zoom_item
@@ -413,7 +413,7 @@ class Canvas(tkinter.Canvas):
         self.bind("<Configure>", lambda _: self._zoom_self())
 
     @property
-    def canvases(self) -> tuple["Canvas", ...]:
+    def canvases(self) -> tuple[Canvas, ...]:
         """Retrun all child `Canvas` of the `Canvas`"""
         return tuple(self._canvases)
 
@@ -697,7 +697,7 @@ class Frame(Canvas):
 
     def __init__(
         self,
-        master: "Tk | Canvas | Frame",
+        master: Tk | Canvas | Frame,
         *,
         expand: typing.Literal["", "x", "y", "xy"] = "xy",
         zoom_item: bool = False,

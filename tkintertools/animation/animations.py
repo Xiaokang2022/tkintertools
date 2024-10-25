@@ -5,6 +5,8 @@ The built-in basic animation classes are:
 `GradientItem`, `ScaleFontSize`
 """
 
+from __future__ import annotations
+
 # pylint: disable=protected-access
 
 __all__ = [
@@ -164,7 +166,7 @@ class MoveWidget(Animation):
 
     def __init__(
         self,
-        widget: "virtual.Widget",
+        widget: virtual.Widget,
         ms: int,
         offset: tuple[float, float],
         *,
@@ -198,7 +200,7 @@ class MoveComponent(Animation):
 
     def __init__(
         self,
-        component: "virtual.Component",
+        component: virtual.Component,
         ms: int,
         offset: tuple[float, float],
         *,
@@ -356,7 +358,7 @@ class ScaleFontSize(Animation):
 
     def __init__(
         self,
-        text: "virtual.Text",
+        text: virtual.Text,
         ms: int,
         sizes: tuple[float, float] | float,
         *,

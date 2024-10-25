@@ -1,5 +1,7 @@
 """All standard `Widget` classes"""
 
+from __future__ import annotations
+
 # pylint: disable=protected-access
 
 __all__ = [
@@ -94,7 +96,7 @@ class Image(virtual.Widget):
 
     def __init__(
         self,
-        master: "containers.Canvas",
+        master: containers.Canvas,
         position: tuple[int, int],
         size: tuple[int, int] | None = None,
         *,

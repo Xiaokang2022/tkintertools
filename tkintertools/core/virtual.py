@@ -11,6 +11,8 @@ to one, but in terms of appearance, there is no limit to the number of `Shape`,
 abstract base class `Components`.
 """
 
+from __future__ import annotations
+
 # pylint: disable=protected-access, unused-argument, unused-import
 
 __all__ = [
@@ -28,7 +30,6 @@ import math
 import tkinter
 import tkinter.font
 import traceback
-import types
 import typing
 
 import typing_extensions
@@ -45,7 +46,7 @@ class Component(abc.ABC):
 
     def __init__(
         self,
-        widget: "Widget",
+        widget: Widget,
         relative_position: tuple[int, int] = (0, 0),
         size: tuple[int, int] | None = None,
         *,
@@ -251,7 +252,7 @@ class Text(Component):
 
     def __init__(
         self,
-        widget: "Widget",
+        widget: Widget,
         relative_position: tuple[int, int] = (0, 0),
         size: tuple[int, int] | None = None,
         *,
@@ -320,7 +321,7 @@ class Image(Component):
 
     def __init__(
         self,
-        widget: "Widget",
+        widget: Widget,
         relative_position: tuple[int, int] = (0, 0),
         size: tuple[int, int] | None = None,
         *,
@@ -357,7 +358,7 @@ class Image(Component):
 class Feature:
     """The features of a `Widget`"""
 
-    def __init__(self, widget: "Widget") -> None:
+    def __init__(self, widget: Widget) -> None:
         """
         * `widget`: parent widget
         """
@@ -438,7 +439,7 @@ class Widget:
 
     def __init__(
         self,
-        master: "containers.Canvas | Widget",
+        master: containers.Canvas | Widget,
         position: tuple[int, int] = (0, 0),
         size: tuple[int, int] | None = None,
         *,
@@ -492,7 +493,7 @@ class Widget:
         return tuple(self._shapes + self._texts + self._images)
 
     @property
-    def widgets(self) -> tuple["Widget", ...]:
+    def widgets(self) -> tuple[Widget, ...]:
         """Return all widgets of the widget"""
         return tuple(self._widgets)
 
