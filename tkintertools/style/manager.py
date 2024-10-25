@@ -9,8 +9,6 @@ there:
 * hPyT: https://github.com/Zingzy/hPyT
 """
 
-# pylint: disable=global-statement
-
 __all__ = [
     "SYSTEM_DARK_MODE",
     "set_color_mode",

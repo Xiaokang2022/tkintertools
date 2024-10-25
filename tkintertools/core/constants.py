@@ -4,8 +4,6 @@ In general, they should not be modified, and if you need to modify them, it is
 best before the window is established.
 """
 
-# pylint: disable=global-statement
-
 __all__ = [
     "FONT",
     "SIZE",
