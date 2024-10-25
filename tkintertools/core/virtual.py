@@ -13,7 +13,7 @@ abstract base class `Components`.
 
 from __future__ import annotations
 
-# pylint: disable=protected-access, unused-argument, unused-import
+# pylint: disable=protected-access, unused-argument
 
 __all__ = [
     "Component",

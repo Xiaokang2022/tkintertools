@@ -22,7 +22,6 @@ import typing
 
 from ..core import constants, virtual
 
-
 _LINUX_FONTS_DIR = os.path.expanduser("~/.fonts/")
 
 

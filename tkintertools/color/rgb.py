@@ -17,7 +17,6 @@ import typing
 from ..animation import controllers
 from . import colormap
 
-
 RGB = tuple[int, int, int]
 """
 R: Red, 0 ~ 255

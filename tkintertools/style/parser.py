@@ -56,8 +56,6 @@ missing parts are empty by default.
 
 from __future__ import annotations
 
-# pylint: disable=unused-import
-
 __all__ = [
     "get",
 ]

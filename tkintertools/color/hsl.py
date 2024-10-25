@@ -19,7 +19,6 @@ import typing
 from ..animation import controllers
 from . import rgb
 
-
 HSL = tuple[float, float, float]
 """
 H: Hue, 0.0 ~ 2π
