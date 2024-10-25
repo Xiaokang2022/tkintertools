@@ -13,8 +13,6 @@ abstract base class `Components`.
 
 from __future__ import annotations
 
-# pylint: disable=protected-access, unused-argument
-
 __all__ = [
     "Component",
     "Shape",
@@ -132,7 +130,7 @@ class Component(abc.ABC):
         if self.styles.get(state) is not None:
             self.configure(self.styles[state], no_delay=no_delay)
 
-    def _get_disabled_style(
+    def get_disabled_style(
         self,
         refer_state: str | None = None,
     ) -> dict[str, str]:
@@ -164,10 +162,10 @@ class Component(abc.ABC):
                 for key, value in kwargs.items():
                     start_color: str = self.widget.master.itemcget(item, key)
                     if start_color.startswith("#") and len(start_color) == 9:
-                        start_color = rgb.rgb_to_str(rgb._str_to_rgba(
+                        start_color = rgb.rgb_to_str(rgb.str_to_rgba(
                             start_color, reference=self.widget.master["bg"]))
                     if value.startswith("#") and len(value) == 9:
-                        value = rgb.rgb_to_str(rgb._str_to_rgba(
+                        value = rgb.rgb_to_str(rgb.str_to_rgba(
                             value, reference=self.widget.master["bg"]))
                     if value == "" or start_color == "":
                         # Null characters cannot be parsed
@@ -180,7 +178,7 @@ class Component(abc.ABC):
             else:
                 for key, value in kwargs.items():
                     if value.startswith("#") and len(value) == 9:
-                        kwargs[key] = rgb.rgb_to_str(rgb._str_to_rgba(
+                        kwargs[key] = rgb.rgb_to_str(rgb.str_to_rgba(
                             value, reference=self.widget.master["bg"]))
                 self.widget.master.itemconfigure(item, **kwargs)
 
@@ -363,8 +361,8 @@ class Feature:
         * `widget`: parent widget
         """
         self.widget = widget
-        self._extras: dict[str, list[typing.Callable] | typing.Callable] = {}
-        widget._feature = self
+        self.extras: dict[str, list[typing.Callable] | typing.Callable] = {}
+        widget.feature = self
 
     def _move_none(self, event: tkinter.Event) -> bool:
         """Event of moving the mouse"""
@@ -462,7 +460,7 @@ class Widget:
         """
         if isinstance(master, Widget):
             self.master, self.widget = master.master, master
-            self.widget._widgets.append(self)
+            self.widget.widgets.append(self)
             self.position = [master.position[0] + position[0],
                              master.position[1] + position[1]]
             self.size = master.size.copy() if size is None else list(size)
@@ -477,25 +475,20 @@ class Widget:
         self.through = through
         self.animation = animation
 
-        self._widgets: list[Widget] = []
-        self._texts: list[Text] = []
-        self._shapes: list[Shape] = []
-        self._images: list[Image] = []
-        self._feature: Feature = Feature(self)
+        self.widgets: list[Widget] = []
+        self.texts: list[Text] = []
+        self.shapes: list[Shape] = []
+        self.images: list[Image] = []
+        self.feature: Feature = Feature(self)
         self._state_before_disabled: str = ""
         self._update_hooks: list[typing.Callable[[str, bool], typing.Any]] = []
 
-        self.master._widgets.append(self)
+        self.master.widgets.append(self)
 
     @property
     def components(self) -> tuple[Component, ...]:
         """Return all components of the widget"""
-        return tuple(self._shapes + self._texts + self._images)
-
-    @property
-    def widgets(self) -> tuple[Widget, ...]:
-        """Return all widgets of the widget"""
-        return tuple(self._widgets)
+        return tuple(self.shapes + self.texts + self.images)
 
     @property
     def offset(self) -> tuple[float, float]:
@@ -514,11 +507,11 @@ class Widget:
     def register(self, component: Component) -> None:
         """Register a component to the widget"""
         if isinstance(component, Shape):
-            self._shapes.append(component)
+            self.shapes.append(component)
         elif isinstance(component, Text):
-            self._texts.append(component)
+            self.texts.append(component)
         elif isinstance(component, Image):
-            self._images.append(component)
+            self.images.append(component)
         component.display()
         component.coords()
         component.update(no_delay=True)
@@ -526,11 +519,11 @@ class Widget:
     def deregister(self, component: Component) -> None:
         """Deregister a component from the widget"""
         if isinstance(component, Shape):
-            self._shapes.remove(component)
+            self.shapes.remove(component)
         elif isinstance(component, Text):
-            self._texts.remove(component)
+            self.texts.remove(component)
         elif isinstance(component, Image):
-            self._images.remove(component)
+            self.images.remove(component)
 
     def update(
         self,
@@ -588,14 +581,14 @@ class Widget:
         * `command`: callback function
         * `add`: if True, original callback function will not be overwritten
         """
-        if hasattr(self._feature, method := f"_{event_name}"):
+        if hasattr(self.feature, method := f"_{event_name}"):
             if not add:
-                self._feature._extras[method] = command
+                self.feature.extras[method] = command
             else:
-                if method not in self._feature._extras:
-                    self._feature._extras[method] = [command]
+                if method not in self.feature.extras:
+                    self.feature.extras[method] = [command]
                 else:
-                    self._feature._extras[method].append(command)
+                    self.feature.extras[method].append(command)
 
     def unbind(
         self,
@@ -607,13 +600,13 @@ class Widget:
         * `event_name`: event name of `virtual.Feature`
         * `command`: callback function
         """
-        if hasattr(self._feature, method := f"_{event_name}"):
-            if isinstance(self._feature._extras[method], list):
-                self._feature._extras[method].remove(command)
-                if not self._feature._extras[method]:
-                    del self._feature._extras[method]
-            elif self._feature._extras[method] == command:
-                del self._feature._extras[method]
+        if hasattr(self.feature, method := f"_{event_name}"):
+            if isinstance(self.feature.extras[method], list):
+                self.feature.extras[method].remove(command)
+                if not self.feature.extras[method]:
+                    del self.feature.extras[method]
+            elif self.feature.extras[method] == command:
+                del self.feature.extras[method]
 
     def disabled(self, value: bool = True) -> None:
         """Disable the widget"""
@@ -621,7 +614,7 @@ class Widget:
             if not self._state_before_disabled:
                 self._state_before_disabled = self.state
             for component in self.components:
-                component._get_disabled_style(self._state_before_disabled)
+                component.get_disabled_style(self._state_before_disabled)
             self.update("disabled", no_delay=True)
         else:
             self._state_before_disabled, last_state \
@@ -645,9 +638,9 @@ class Widget:
 
     def destroy(self) -> None:
         """Destroy the widget"""
-        self.master._widgets.remove(self)
+        self.master.widgets.remove(self)
         if self.widget is not None:
-            self.widget._widgets.remove(self)
+            self.widget.widgets.remove(self)
 
         for component in self.components:
             component.destroy()

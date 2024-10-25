@@ -2,8 +2,6 @@
 
 from __future__ import annotations
 
-# pylint: disable=protected-access
-
 __all__ = [
     "Text",
     "Image",
@@ -84,11 +82,11 @@ class Text(virtual.Widget):
 
     def get(self) -> str:
         """Get the text of the widget"""
-        return self._texts[0].get()
+        return self.texts[0].get()
 
     def set(self, text: str) -> None:
         """Set the text of the widget"""
-        return self._texts[0].set(text)
+        return self.texts[0].set(text)
 
 
 class Image(virtual.Widget):
@@ -130,18 +128,18 @@ class Image(virtual.Widget):
 
     def get(self) -> enhanced.PhotoImage:
         """Get the image of the widget"""
-        if (image := self._images[0].image) is not None:
+        if (image := self.images[0].image) is not None:
             return image
-        return self._images[0]._initail_image
+        return self.images[0]._initail_image
 
     def set(self, image: enhanced.PhotoImage | None) -> None:
         """Set the image of the widget"""
-        self._images[0]._initail_image = image
+        self.images[0]._initail_image = image
         if image is not None:
             self.master.update()
             image = image.scale(*self.master.ratios)
-        self._images[0].image = image
-        self.master.itemconfigure(self._images[0].items[0], image=image)
+        self.images[0].image = image
+        self.master.itemconfigure(self.images[0].items[0], image=image)
 
 
 class Label(virtual.Widget):
@@ -323,16 +321,16 @@ class Switch(virtual.Widget):
 
     def set(self, value: bool, *, callback: bool = False) -> None:
         """Set the state of the switch"""
-        if callback and self._feature._command is not None:
-            self._feature._command(value)
+        if callback and self.feature._command is not None:
+            self.feature._command(value)
         if self.get() == bool(value):
             return
         self.update(
             f"{self.state.split('-')[0]}-{'on' if value else 'off'}",
             no_delay=True)
-        dx = self._shapes[0].size[0]/2 if value else -self._shapes[0].size[0]/2
+        dx = self.shapes[0].size[0]/2 if value else -self.shapes[0].size[0]/2
         animations.MoveComponent(
-            self._shapes[1], 250, (dx, 0),
+            self.shapes[1], 250, (dx, 0),
             controller=controllers.smooth, fps=60).start()
 
 
@@ -406,19 +404,19 @@ class InputBox(virtual.Widget):
 
     def get(self) -> str:
         """Get the value of the Entry"""
-        return self._texts[0].get()
+        return self.texts[0].get()
 
     def set(self, value: str) -> None:
         """Set the text value of the Entry"""
-        self._texts[0].set(value)
+        self.texts[0].set(value)
 
     def append(self, value: str) -> None:
         """Append text to Entry"""
-        self._texts[0].append(value)
+        self.texts[0].append(value)
 
     def delete(self, count: int) -> None:
         """Delete a specified amount of text"""
-        self._texts[0].pop(count)
+        self.texts[0].pop(count)
 
     def clear(self) -> None:
         """Clear the text value of the Entry"""
@@ -467,23 +465,23 @@ class CheckButton(virtual.Widget):
             images.StillImage(self, image=image)
         texts.Information(self).set("✔")
         features.CheckButtonFeature(self, command=command)
-        self._texts[0].disappear()
+        self.texts[0].disappear()
         if default is not None:
             self.set(default)
 
     def get(self) -> bool:
         """Get the state of the check button"""
-        return self._texts[0].visible
+        return self.texts[0].visible
 
     def set(self, value: bool, *, callback: bool = False) -> None:
         """Set the state of the check button"""
-        if callback and self._feature._command is not None:
-            self._feature._command(value)
+        if callback and self.feature._command is not None:
+            self.feature._command(value)
         if self.get() == bool(value):
             return
         if value:
-            return self._texts[0].appear()
-        self._texts[0].disappear()
+            return self.texts[0].appear()
+        self.texts[0].disappear()
 
 
 class ToggleButton(virtual.Widget):
@@ -559,8 +557,8 @@ class ToggleButton(virtual.Widget):
 
     def set(self, value: bool, *, callback: bool = False) -> None:
         """Set the state of the switch"""
-        if callback and self._feature._command is not None:
-            self._feature._command(value)
+        if callback and self.feature._command is not None:
+            self.feature._command(value)
         if self.get() == bool(value):
             return
         self.update(f"{self.state.split('-')[0]}-{'on' if value else 'off'}")
@@ -620,17 +618,17 @@ class RadioButton(virtual.Widget):
 
     def get(self) -> bool:
         """Get the state of the radio button"""
-        return self._shapes[1].visible
+        return self.shapes[1].visible
 
     def set(self, value: bool, *, callback: bool = False) -> None:
         """Set the state of the radio button"""
-        if callback and self._feature._command is not None:
-            self._feature._command(value)
+        if callback and self.feature._command is not None:
+            self.feature._command(value)
         if self.get() == bool(value):
             return
         if value:
-            return self._shapes[1].appear()
-        self._shapes[1].disappear()
+            return self.shapes[1].appear()
+        self.shapes[1].disappear()
 
 
 class ProgressBar(virtual.Widget):
@@ -681,7 +679,7 @@ class ProgressBar(virtual.Widget):
         if image is not None:
             images.StillImage(self, image=image)
         features.ProgressBarFeature(self)
-        self._shapes[1].disappear()
+        self.shapes[1].disappear()
         self.command = command
         if default is not None:
             self.set(default)
@@ -696,19 +694,19 @@ class ProgressBar(virtual.Widget):
         if callback and self.command is not None:
             self.command(value)
         if self.value == 0:
-            return self._shapes[1].disappear()
-        elif not self._shapes[1].visible:
-            self._shapes[1].appear()
+            return self.shapes[1].disappear()
+        elif not self.shapes[1].visible:
+            self.shapes[1].appear()
 
-        if isinstance(self._shapes[1], shapes.Rectangle):
-            self._shapes[1].coords(
+        if isinstance(self.shapes[1], shapes.Rectangle):
+            self.shapes[1].coords(
                 ((self.size[0]-self.size[1]*0.2)
-                 * self.value, self._shapes[1].size[1]))
+                 * self.value, self.shapes[1].size[1]))
         else:
-            self._shapes[1].coords(
+            self.shapes[1].coords(
                 (self.size[1]*0.7
-                 + (self.size[0]-self.size[1] * 0.3-self._shapes[1].size[1])
-                 * self.value, self._shapes[1].size[1]))
+                 + (self.size[0]-self.size[1] * 0.3-self.shapes[1].size[1])
+                 * self.value, self.shapes[1].size[1]))
 
 
 class UnderlineButton(virtual.Widget):
@@ -950,21 +948,21 @@ class Slider(virtual.Widget):
             self.command(value)
         if self.get() == value:
             return
-        if isinstance(self._shapes[-1], shapes.Oval):
+        if isinstance(self.shapes[-1], shapes.Oval):
             delta = (value-self.value) * (self.size[0]-self.size[1])
         else:
             delta = (value-self.value) * (self.size[0]-self.size[1]*2/5)
         self.value = value
-        for shape in self._shapes[2:]:
+        for shape in self.shapes[2:]:
             shape.move(delta, 0)
-        if isinstance(self._shapes[-1], shapes.Oval):
-            self._shapes[1].coords(
+        if isinstance(self.shapes[-1], shapes.Oval):
+            self.shapes[1].coords(
                 (self.size[1]/2 + (self.size[0]-self.size[1])
-                 * self.value, self._shapes[1].size[1]))
+                 * self.value, self.shapes[1].size[1]))
         else:
-            self._shapes[1].coords(
+            self.shapes[1].coords(
                 (self.size[1]/5 + (self.size[0]-self.size[1]*2/5)
-                 * self.value, self._shapes[1].size[1]))
+                 * self.value, self.shapes[1].size[1]))
 
 
 class SegmentedButton(virtual.Widget):
@@ -1066,7 +1064,7 @@ class SegmentedButton(virtual.Widget):
         """Activate the child toggle button for the specified index"""
         if callback and self.command:
             self.command(value)
-        for i, widget in enumerate(self._widgets):
+        for i, widget in enumerate(self.widgets):
             widget.set(i == value)
         self.value = value
 
@@ -1147,35 +1145,35 @@ class SpinBox(virtual.Widget):
 
     def change(self, up: bool) -> None:
         """Try change the current value"""
-        if not (value := self._widgets[0].get()):
-            return self._widgets[0].set("0")
+        if not (value := self.widgets[0].get()):
+            return self.widgets[0].set("0")
         try:
             value = float(value) + (1 if up else -1)
             if math.isclose(value, int_value := int(value)):
                 value = int_value
-            self._widgets[0].set(value)
+            self.widgets[0].set(value)
         except ValueError:
             pass
 
     def get(self) -> str:
         """Get the value of the Entry"""
-        return self._widgets[0].get()
+        return self.widgets[0].get()
 
     def set(self, value: str) -> None:
         """Set the text value of the Entry"""
-        self._widgets[0].set(value)
+        self.widgets[0].set(value)
 
     def append(self, value: str) -> None:
         """Append text to Entry"""
-        self._widgets[0].append(value)
+        self.widgets[0].append(value)
 
     def delete(self, count: int) -> None:
         """Delete a specified amount of text"""
-        self._widgets[0].delete(count)
+        self.widgets[0].delete(count)
 
     def clear(self) -> None:
         """Clear the text value of the Entry"""
-        self._widgets[0].clear()
+        self.widgets[0].clear()
 
 
 class Tooltip(virtual.Widget):

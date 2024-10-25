@@ -7,8 +7,6 @@ The built-in basic animation classes are:
 
 from __future__ import annotations
 
-# pylint: disable=protected-access
-
 __all__ = [
     "Animation",
     "MoveTkWidget",

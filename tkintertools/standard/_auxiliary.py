@@ -148,19 +148,19 @@ class _AuxiliaryInputBox(virtual.Widget):
 
     def get(self) -> str:
         """Get the value of the Entry"""
-        return self._texts[0].get()
+        return self.texts[0].get()
 
     def set(self, value: str) -> None:
         """Set the text value of the Entry"""
-        self._texts[0].set(value)
+        self.texts[0].set(value)
 
     def append(self, value: str) -> None:
         """Append text to Entry"""
-        self._texts[0].append(value)
+        self.texts[0].append(value)
 
     def delete(self, count: int) -> None:
         """Delete a specified amount of text"""
-        self._texts[0].pop(count)
+        self.texts[0].pop(count)
 
     def clear(self) -> None:
         """Clear the text value of the Entry"""

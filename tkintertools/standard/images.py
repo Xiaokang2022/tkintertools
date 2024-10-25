@@ -1,7 +1,5 @@
 """All standard `Image` classes"""
 
-# pylint: disable=attribute-defined-outside-init
-
 __all__ = [
     "StillImage",
 ]

@@ -1,7 +1,5 @@
 """Some useful utility classes or utility functions"""
 
-# pylint: disable=protected-access
-
 __all__ = [
     "get_hwnd",
     "embed_window",
@@ -25,7 +23,7 @@ from ..core import constants, virtual
 _LINUX_FONTS_DIR = os.path.expanduser("~/.fonts/")
 
 
-class _Trigger:
+class Trigger:
     """Single trigger
 
     It can only be triggered once before the reset, and multiple triggers are

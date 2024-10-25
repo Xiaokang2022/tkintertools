@@ -1,7 +1,5 @@
 """The mapping of the color name to its RGB code"""
 
-# pylint: disable=protected-access
-
 __all__ = [
     "COLOR_MAP",
     "name_to_rgb",

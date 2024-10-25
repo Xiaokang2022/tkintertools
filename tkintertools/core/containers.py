@@ -11,8 +11,6 @@ layout.
 
 from __future__ import annotations
 
-# pylint: disable=protected-access
-
 __all__ = [
     "Tk",
     "Toplevel",
@@ -61,21 +59,16 @@ class Tk(tkinter.Tk):
             tkinter.Tk.__init__(self, **kwargs)
 
         self._size = self._initial_size = tuple(size)
-        self._canvases: list[Canvas] = []
+        self.canvases: list[Canvas] = []
 
         self.title(title)
         self.geometry(size=size, position=position)
-        self._theme(manager.get_color_mode() == "dark",
+        self.theme(manager.get_color_mode() == "dark",
                     include_children=False, include_canvases=False)
-        manager.register_event(self._theme)
+        manager.register_event(self.theme)
         for name in "transient", "resizable", "overrideredirect":
             self._wrap_method(name)
         self.bind("<Configure>", lambda _: self._zoom())
-
-    @property
-    def canvases(self) -> tuple[Canvas, ...]:
-        """Retrun all instances of `Canvas` of the widget"""
-        return tuple(self._canvases)
 
     @functools.cached_property
     def ratios(self) -> tuple[float, float]:
@@ -93,7 +86,7 @@ class Tk(tkinter.Tk):
         def wrapper(self: Tk, *args, **kwargs) -> typing.Any:
             result = method(self, *args, **kwargs)
             if result is None:
-                self._theme(manager.get_color_mode() == "dark",
+                self.theme(manager.get_color_mode() == "dark",
                             include_children=False, include_canvases=False)
             return result
         return wrapper
@@ -120,10 +113,10 @@ class Tk(tkinter.Tk):
             if self.__dict__.get("ratios"):
                 del self.__dict__["ratios"]  # Clear cache to update ratios
 
-            for canvas in self._canvases:
-                canvas._re_place()
+            for canvas in self.canvases:
+                canvas.re_place()
 
-    def _theme(
+    def theme(
         self,
         dark: bool,
         *,
@@ -142,10 +135,10 @@ class Tk(tkinter.Tk):
         if include_children:
             for child in self.children:
                 if isinstance(child, Toplevel):
-                    child._theme(dark, include_canvases=include_canvases)
+                    child.theme(dark, include_canvases=include_canvases)
         if include_canvases:
-            for canvas in self._canvases:
-                canvas._theme(dark)
+            for canvas in self.canvases:
+                canvas.theme(dark)
 
     def geometry(
         self,
@@ -317,7 +310,7 @@ class Toplevel(tkinter.Toplevel, Tk):
 
     @typing_extensions.override
     def destroy(self) -> None:
-        manager.remove_event(self._theme)
+        manager.remove_event(self.theme)
         return tkinter.Toplevel.destroy(self)
 
 
@@ -359,10 +352,10 @@ class Canvas(tkinter.Canvas):
         self._size: tuple[int, int]
         self._position: tuple[int, int]
 
-        self._canvases: list[Canvas] = []
-        self._widgets: list[virtual.Widget] = []
-        self._items: list[int] = []
-        self._images: dict[int, list[enhanced.PhotoImage]] = {}
+        self.canvases: list[Canvas] = []
+        self.widgets: list[virtual.Widget] = []
+        self.items: list[int] = []
+        self.images: dict[int, list[enhanced.PhotoImage]] = {}
         # initial image, now image
 
         self.name = name
@@ -372,14 +365,14 @@ class Canvas(tkinter.Canvas):
         self._free_anchor = free_anchor
         self._keep_ratio: typing.Literal["min", "max"] | None = keep_ratio
 
-        self._trigger_config = tools._Trigger(
+        self._trigger_config = tools.Trigger(
             lambda **kwargs: self.configure(
                 **{k: v for k, v in kwargs.items() if self[k] != v}))
-        self._trigger_focus = tools._Trigger(self.focus)
+        self._trigger_focus = tools.Trigger(self.focus)
 
-        self._theme(manager.get_color_mode() == "dark")
+        self.theme(manager.get_color_mode() == "dark")
 
-        master._canvases.append(self)
+        master.canvases.append(self)
 
         self.bind("<Any-Key>", self._input)
 
@@ -412,48 +405,28 @@ class Canvas(tkinter.Canvas):
 
         self.bind("<Configure>", lambda _: self._zoom_self())
 
-    @property
-    def canvases(self) -> tuple[Canvas, ...]:
-        """Retrun all child `Canvas` of the `Canvas`"""
-        return tuple(self._canvases)
-
-    @property
-    def widgets(self) -> tuple[virtual.Widget, ...]:
-        """Retrun all `Widget` of the `Canvas`"""
-        return tuple(self._widgets)
-
-    @property
-    def items(self) -> tuple[int, ...]:
-        """Retrun all items of the `Canvas`"""
-        return tuple(self._items)
-
-    @property
-    def images(self) -> tuple[int, ...]:
-        """Retrun all images of the `Canvas`"""
-        return tuple(self._images)
-
     @functools.cached_property
     def ratios(self) -> tuple[float, float]:
         """Return the aspect zoom ratio of the widget"""
         return tuple(i/j for i, j in zip(self._size, self._initial_size))
 
-    def _theme(self, dark: bool) -> None:
+    def theme(self, dark: bool) -> None:
         """Change the color theme of the Canvas and its items
 
         * `dark`: whether it is in dark mode
         """
         self.update_idletasks()
         self.configure(**parser.get(self))
-        for widget in self._widgets:
-            for component in widget._shapes + widget._texts + widget._images:
+        for widget in self.widgets:
+            for component in widget.shapes + widget.texts + widget.images:
                 if styles := parser.get(widget, component):
                     component.styles = styles
             if widget._state_before_disabled:
                 widget.disabled()
             else:
                 widget.update()
-        for canvas in self._canvases:
-            canvas._theme(dark)
+        for canvas in self.canvases:
+            canvas.theme(dark)
 
     def _initialization(self) -> None:
         """Initialization of size data"""
@@ -476,7 +449,7 @@ class Canvas(tkinter.Canvas):
         self._position = self._initial_position \
             = self.winfo_x() + dx, self.winfo_y() + dy
 
-    def _re_place(self) -> None:
+    def re_place(self) -> None:
         """Resize and position the `Canvas` based on the relevant parameters
 
         WARNING:
@@ -517,11 +490,11 @@ class Canvas(tkinter.Canvas):
         if self._zoom_item:
             relative_ratio = tuple(i/j for i, j in zip(self._size, last_size))
             self._zoom_children(relative_ratio)
-            for widget in self._widgets:
+            for widget in self.widgets:
                 widget.zoom(relative_ratio)
 
-        for canvas in self._canvases:
-            canvas._re_place()
+        for canvas in self.canvases:
+            canvas.re_place()
 
     def _zoom_children(self, relative_ratio: tuple[float, float]) -> None:
         """Experimental: Scale the tkinter Widgets"""
@@ -537,15 +510,15 @@ class Canvas(tkinter.Canvas):
 
     @typing_extensions.override
     def destroy(self) -> None:
-        self.master._canvases.remove(self)
+        self.master.canvases.remove(self)
         return tkinter.Canvas.destroy(self)
 
     def clear(self) -> None:
         """Clear all things in the Canvas"""
-        self._canvases.clear()
-        self._widgets.clear()
-        self._items.clear()
-        self._images.clear()
+        self.canvases.clear()
+        self.widgets.clear()
+        self.items.clear()
+        self.images.clear()
         for child in self.children.values():
             child.destroy()
         self.delete(*self.find_all())
@@ -580,7 +553,7 @@ class Canvas(tkinter.Canvas):
         method: str,
     ) -> typing.Callable:
         """Get command from virtual.Feature"""
-        if (extra_commands := feature._extras.get(method)) is not None:
+        if (extra_commands := feature.extras.get(method)) is not None:
             if not isinstance(extra_commands, list):
                 return extra_commands
 
@@ -601,9 +574,9 @@ class Canvas(tkinter.Canvas):
     ) -> None:
         """Events to move the mouse"""
         self._trigger_config.reset()
-        for widget in self._widgets[::-1]:
-            if widget._feature is not None:
-                if (self._get_command(widget._feature, f"_move_{type_}")(event)
+        for widget in self.widgets[::-1]:
+            if widget.feature is not None:
+                if (self._get_command(widget.feature, f"_move_{type_}")(event)
                         and not widget.through):
                     event.x = math.nan
         self._trigger_config.update(cursor="arrow")
@@ -616,10 +589,10 @@ class Canvas(tkinter.Canvas):
         """Events to active the mouse"""
         self.focus_set()
         self._trigger_focus.reset()
-        for widget in self._widgets[::-1]:
-            if widget._feature is not None:
+        for widget in self.widgets[::-1]:
+            if widget.feature is not None:
                 if (self._get_command(
-                        widget._feature, f"_click_{type_}")(event)
+                        widget.feature, f"_click_{type_}")(event)
                         and not widget.through):
                     event.x = math.nan
         self._trigger_focus.update(True, "")
@@ -630,10 +603,10 @@ class Canvas(tkinter.Canvas):
         type_: typing.Literal["left", "center", "right"]
     ) -> None:
         """Events to release the mouse"""
-        for widget in self._widgets[::-1]:
-            if widget._feature is not None:
+        for widget in self.widgets[::-1]:
+            if widget.feature is not None:
                 if (self._get_command(
-                    widget._feature, f"_release_{type_}")(event)
+                    widget.feature, f"_release_{type_}")(event)
                         and not widget.through):
                     event.x = math.nan
 
@@ -645,49 +618,49 @@ class Canvas(tkinter.Canvas):
         """Events to scroll the mouse wheel"""
         if type_ is not None:
             event.delta = 120 if type_ == "up" else -120
-        for widget in self._widgets[::-1]:
-            if widget._feature is not None:
-                if (self._get_command(widget._feature, "_wheel")(event)
+        for widget in self.widgets[::-1]:
+            if widget.feature is not None:
+                if (self._get_command(widget.feature, "_wheel")(event)
                         and not widget.through):
                     event.x = math.nan
 
     def _input(self, event: tkinter.Event) -> None:
         """Events for typing"""
-        for widget in self._widgets[::-1]:
-            if widget._feature is not None:
-                if (self._get_command(widget._feature, "_input")(event)
+        for widget in self.widgets[::-1]:
+            if widget.feature is not None:
+                if (self._get_command(widget.feature, "_input")(event)
                         and not widget.through):
                     event.x = math.nan
 
     def _copy(self, event: tkinter.Event) -> None:
         """Events for copy operation"""
-        for widget in self._widgets[::-1]:
-            if widget._feature is not None:
-                if (self._get_command(widget._feature, "_copy")(event)
+        for widget in self.widgets[::-1]:
+            if widget.feature is not None:
+                if (self._get_command(widget.feature, "_copy")(event)
                         and not widget.through):
                     pass
 
     def _paste(self, event: tkinter.Event) -> None:
         """Events for paste operation"""
-        for widget in self._widgets[::-1]:
-            if widget._feature is not None:
-                if (self._get_command(widget._feature, "_paste")(event)
+        for widget in self.widgets[::-1]:
+            if widget.feature is not None:
+                if (self._get_command(widget.feature, "_paste")(event)
                         and not widget.through):
                     pass
 
     def _cut(self, event: tkinter.Event) -> None:
         """Events for cut operation"""
-        for widget in self._widgets[::-1]:
-            if widget._feature is not None:
-                if (self._get_command(widget._feature, "_cut")(event)
+        for widget in self.widgets[::-1]:
+            if widget.feature is not None:
+                if (self._get_command(widget.feature, "_cut")(event)
                         and not widget.through):
                     pass
 
     def _select_all(self, event: tkinter.Event) -> None:
         """Events for operation of selecting all"""
-        for widget in self._widgets[::-1]:
-            if widget._feature is not None:
-                if (self._get_command(widget._feature, "_select_all")(event)
+        for widget in self.widgets[::-1]:
+            if widget.feature is not None:
+                if (self._get_command(widget.feature, "_select_all")(event)
                         and not widget.through):
                     pass
 

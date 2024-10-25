@@ -130,7 +130,7 @@ def rgb_to_str(color: RGB) -> str:
 rgb2str = rgb_to_str  # Alias
 
 
-def _str_to_rgba(color: str, *, reference: str) -> RGB:
+def str_to_rgba(color: str, *, reference: str) -> RGB:
     """Experimental: Convert color strings(RGBA) to RGB codes"""
     _, a = divmod(int(color[1:], 16), 256)
     _, b = divmod(_, 256)
@@ -139,4 +139,4 @@ def _str_to_rgba(color: str, *, reference: str) -> RGB:
     return convert((r, g, b), refer_rgb, 1 - a/255)
 
 
-_str2rgba = _str_to_rgba  # Alias
+str2rgba = str_to_rgba  # Alias

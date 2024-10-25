@@ -1,7 +1,5 @@
 """All standard `Text` classes"""
 
-# pylint: disable=attribute-defined-outside-init
-
 __all__ = [
     "Information",
     "SingleLineText",

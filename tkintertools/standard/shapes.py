@@ -1,7 +1,5 @@
 """All standard `Shape` classes"""
 
-# pylint: disable=attribute-defined-outside-init
-
 __all__ = [
     "Line",
     "Rectangle",
