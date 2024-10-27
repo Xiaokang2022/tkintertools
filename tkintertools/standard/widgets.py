@@ -1043,6 +1043,7 @@ class SegmentedButton(virtual.Widget):
             size, text, image = pack
             position = (total_side_length, 5) if layout == "horizontal" else (
                 5, total_side_length)
+            position = tuple(i - j for i, j in zip(position, self.offset))
             ToggleButton(self, position, size, text=text, family=family,
                          fontsize=fontsize, weight=weight, slant=slant,
                          underline=underline, overstrike=overstrike,
