@@ -639,6 +639,8 @@ class Widget:
     def destroy(self) -> None:
         """Destroy the widget"""
         self.master.widgets.remove(self)
+        self.feature = None
+
         if self.widget is not None:
             self.widget.widgets.remove(self)
 
