@@ -644,7 +644,7 @@ class Widget:
 
         for component in self.components:
             component.destroy()
-        for widget in self.widgets:
+        for widget in tuple(self.widgets):
             widget.destroy()
 
     def detect(self, x: int, y: int) -> bool:
