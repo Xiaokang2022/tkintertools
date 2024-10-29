@@ -27,6 +27,7 @@ __all__ = [
 import functools
 import math
 import typing
+import warnings
 
 
 def _map_t(
@@ -86,6 +87,12 @@ def controller_generator(
     * After modifying: $y = \\sin\\frac{\\pi}{2}t, 0 <= t <= 1$
     """
     if map_y:
+        if math.isclose(base_function(end), 0, abs_tol=1e-9):
+            warnings.warn(
+                "The end value of the base function is too close to 0, "
+                "which may cause the result control function to be "
+                "inaccurate or even throw an error.", UserWarning, 2)
+
         @functools.wraps(base_function)
         def _mapper(t: float) -> float:
             return _map_y(base_function, end)(_map_t(start, end)(t))
