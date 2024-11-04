@@ -249,10 +249,10 @@ extra: # 额外设定
           note: 感谢您的反馈！
 
 extra_javascript:
-  - js/click-colorful.js # 鼠标点击效果
-  - js/shortcuts.js # 绑定左右键换页的键盘快捷键
-  - js/mathjax.js # 数学表达式
-  - js/tablesort.js # 表格排序功能
+  - https://Xiaokang2022.github.io/js/click-colorful.js # 鼠标点击效果
+  - https://Xiaokang2022.github.io/js/shortcuts.js # 绑定左右键换页的键盘快捷键
+  - https://Xiaokang2022.github.io/js/mathjax.js # 数学表达式
+  - https://Xiaokang2022.github.io/js/tablesort.js # 表格排序功能
   - https://unpkg.com/mathjax@latest/es5/tex-mml-chtml.js # 数学表达式运行环境
   - https://unpkg.com/tablesort@latest/dist/tablesort.min.js # 表格排序功能运行环境（默认文本类型）
   - https://unpkg.com/tablesort@latest/dist/sorts/tablesort.date.min.js # 表格排序功能（日期类型）
@@ -262,7 +262,7 @@ extra_javascript:
   - https://unpkg.com/tablesort@latest/dist/sorts/tablesort.number.min.js # 表格排序功能（数字类型）
 
 extra_css:
-  - css/extra.css # 加载自定义的样式
+  - https://Xiaokang2022.github.io/css/extra.css # 加载自定义的样式
   - https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css # 图标字体库
   - https://cdnjs.cloudflare.com/ajax/libs/lxgw-wenkai-screen-webfont/1.5.0/style.min.css # 设置字体（霞鹜文楷）【版本不能再更高了，会导致公式字体变小】
 
