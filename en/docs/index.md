@@ -111,7 +111,7 @@ pip install tkintertools[recommended]==3.0.0rc3
 
 ### 📌 Requirements
 
-* [X] <https://github.com/python/typing>
+* [X] <https://github.com/python/typing_extensions>
 
 ### 🎨 Options
 
