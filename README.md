@@ -123,18 +123,18 @@ pip install tkintertools[recommended]==3.0.0rc3
 
 ### 📌 Requirements / 必需包
 
-* [X] [typing-extensions](https://github.com/python/typing)
+* [X] [typing_extensions](https://github.com/python/typing_extensions)
 
 ### 🎨 Options / 可选包
 
 Considering that too many packages will result in a large size of the project file when packing, the optional packages selected below are recommended to be installed  
 考虑到调用的包过多将导致打包时项目文件的大小过大，因此下面被选中的可选包是推荐安装的
 
-* [X] [darkdetect](https://github.com/albertosottile/darkdetect) * `0.8.0`
-* [X] [pywinstyles](https://github.com/Akascape/py-window-styles) * `1.8`
-* [X] [pillow](https://github.com/python-pillow/Pillow) * `>=10.0.0`
-* [ ] [hPyT](https://github.com/Zingzy/hPyT) * `1.3.4`
-* [ ] [win32material](https://github.com/littlewhitecloud/win32style) * `1.0.6`
+* [X] [darkdetect](https://github.com/albertosottile/darkdetect) - `0.8.0`
+* [X] [pywinstyles](https://github.com/Akascape/py-window-styles) - `1.8`
+* [X] [pillow](https://github.com/python-pillow/Pillow) - `>=10.0.0`
+* [ ] [hPyT](https://github.com/Zingzy/hPyT) - `1.3.4`
+* [ ] [win32material](https://github.com/littlewhitecloud/win32style) - `1.0.6`
 
 The following command installs the recommended optional dependencies:  
 以下命令可以安装推荐的可选依赖包：
