@@ -13,7 +13,7 @@ icon: material/bookshelf
     * 版本类型: 开发版本
     * 当前状态: 🟢 <font color="limegreen">持续更新</font>
 
-    [<small>:fontawesome-solid-paper-plane:</small> 打开链接](https://xiaokang2022.github.io/tkintertools-docs/3.0/){ .md-button }
+    [<small>:fontawesome-solid-paper-plane:</small> 打开链接](https://xiaokang2022.github.io/tkintertools-docs/3.0/){ .md-button target="_black" }
 
 !!! info "支持"
 
@@ -33,7 +33,7 @@ icon: material/bookshelf
     * 版本类型: 稳定版本
     * 当前状态: 🔴 <font color="red">停止更新</font>
 
-    [<small>:fontawesome-solid-paper-plane:</small> 打开链接](https://xiaokang2022.github.io/tkintertools-docs/2.6/){ .md-button }
+    [<small>:fontawesome-solid-paper-plane:</small> 打开链接](https://xiaokang2022.github.io/tkintertools-docs/2.6/){ .md-button target="_black" }
 
 !!! info "支持"
 
