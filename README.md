@@ -43,29 +43,19 @@
     </a>
 </p>
 
+> [!IMPORTANT]  
+> **Development of the visual development software that accompanies the framework has begun**!🎉  
+> **该框架配套的可视化开发软件已开始进行开发**！🎉（已新建仓库哩）  
+> Repo: <https://github.com/Xiaokang2022/tkintertools-designer>  
+>
+> <img width=400 src="https://raw.githubusercontent.com/Xiaokang2022/tkintertools-designer/refs/heads/main/dark.png" />
+> <img width=400 src="https://raw.githubusercontent.com/Xiaokang2022/tkintertools-designer/refs/heads/main/light.png" />
+
 ## 📦 Installation / 安装
 
 > [!TIP]  
 > Most of the preview content of the following two versions can be found in the official [demo repository](https://github.com/Xiaokang2022/tkintertools-demos)  
 > 下面两个版本的预览内容大多可以在官方[演示仓库](https://github.com/Xiaokang2022/tkintertools-demos)中找到
-
-### ✅ Stable Version / 稳定版本
-
-* 🔖 Version / 最新版本 : `2.6.21`
-* 🕓 Release / 发布日期 : 2024-01-01
-* ✨ Feature / 更新内容 : [News-2.6.21](./CHANGELOG.md#-2621)
-
-```bash
-pip install tkintertools
-```
-
-<details open><summary>👁️ Preview / 预览</summary>
-
-![preview_1](https://xiaokang2022.github.io/tkintertools-docs/2.6/tutorials/images/1.2-2.1-2.png)
-
-![preview_2](https://xiaokang2022.github.io/tkintertools-docs/2.6/tutorials/images/7.3-3.1-2.png)
-
-</details>
 
 ### 🔥 Dev Version / 开发版本
 
@@ -116,6 +106,24 @@ pip install tkintertools[recommended]==3.0.0rc3
 ![preview_18](https://github.com/Xiaokang2022/tkintertools-demos/blob/main/preview/demo8-1.png?raw=true)
 
 ![preview_19](https://github.com/Xiaokang2022/tkintertools-demos/blob/main/preview/demo10-1.png?raw=true)
+
+</details>
+
+### ✅ Stable Version / 稳定版本
+
+* 🔖 Version / 最新版本 : `2.6.21`
+* 🕓 Release / 发布日期 : 2024-01-01
+* ✨ Feature / 更新内容 : [News-2.6.21](./CHANGELOG.md#-2621)
+
+```bash
+pip install tkintertools
+```
+
+<details open><summary>👁️ Preview / 预览</summary>
+
+![preview_1](https://xiaokang2022.github.io/tkintertools-docs/2.6/tutorials/images/1.2-2.1-2.png)
+
+![preview_2](https://xiaokang2022.github.io/tkintertools-docs/2.6/tutorials/images/7.3-3.1-2.png)
 
 </details>
 
