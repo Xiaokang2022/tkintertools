@@ -49,7 +49,7 @@
 > Repo: <https://github.com/Xiaokang2022/tkintertools-designer>  
 >
 > <img width=360 src="https://raw.githubusercontent.com/Xiaokang2022/tkintertools-designer/refs/heads/main/dark.png" alt="dark"/>
-> <img width=460 src="https://raw.githubusercontent.com/Xiaokang2022/tkintertools-designer/refs/heads/main/light.png" alt="light" />
+> <img width=360 src="https://raw.githubusercontent.com/Xiaokang2022/tkintertools-designer/refs/heads/main/light.png" alt="light" />
 
 ## 📦 Installation / 安装
 
