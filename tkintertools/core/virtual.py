@@ -29,6 +29,7 @@ import tkinter
 import tkinter.font
 import traceback
 import typing
+import warnings
 
 import typing_extensions
 
@@ -206,14 +207,36 @@ class Component(abc.ABC):
         self.styles[key].update(value)
         self.update(no_delay=True)
 
-    def zoom(self, ratios: tuple[float, float]) -> None:
+    def zoom(
+        self,
+        ratios: tuple[float, float],
+        *,
+        zoom_position: bool = True,
+        zoom_size: bool = True,
+    ) -> None:
         """Zoom the `Component`"""
-        self.size[0] *= ratios[0]
-        self.size[1] *= ratios[1]
-        self.position[0] *= ratios[0]
-        self.position[1] *= ratios[1]
-        for item in self.items:
-            self.widget.master.scale(item, 0, 0, *ratios)
+        if not zoom_position and not zoom_size:
+            warnings.warn("This is a no-effect call.", UserWarning, 2)
+            return
+
+        if zoom_size:
+            self.size[0] *= ratios[0]
+            self.size[1] *= ratios[1]
+        if zoom_position:
+            self.position[0] *= ratios[0]
+            self.position[1] *= ratios[1]
+
+        if not zoom_size:
+            x = self.position[0]*ratios[0]
+            y = self.position[1]*ratios[1]
+            for item in self.items:
+                self.widget.master.moveto(item, x, y)
+        elif not zoom_position:
+            for item in self.items:
+                self.widget.master.scale(item, *self.position, *ratios)
+        else:
+            for item in self.items:
+                self.widget.master.scale(item, 0, 0, *ratios)
 
     @abc.abstractmethod
     def display(self) -> None:
@@ -236,12 +259,21 @@ class Shape(Component):
     """The Shape of a `Widget`"""
 
     @typing_extensions.override
-    def zoom(self, ratios: tuple[float, float]) -> None:
+    def zoom(
+        self,
+        ratios: tuple[float, float],
+        *,
+        zoom_position: bool = True,
+        zoom_size: bool = True,
+    ) -> None:
         """Scale the shape"""
-        self.size[0] *= ratios[0]
-        self.size[1] *= ratios[1]
-        self.position[0] *= ratios[0]
-        self.position[1] *= ratios[1]
+        if zoom_size:
+            self.size[0] *= ratios[0]
+            self.size[1] *= ratios[1]
+        if zoom_position:
+            self.position[0] *= ratios[0]
+            self.position[1] *= ratios[1]
+
         self.coords(self.size, self.position)
 
 
@@ -306,9 +338,16 @@ class Text(Component):
         return self.widget.master.bbox(self.items[0])
 
     @typing_extensions.override
-    def zoom(self, ratios: tuple[float, float]) -> None:
+    def zoom(
+        self,
+        ratios: tuple[float, float],
+        *,
+        zoom_position: bool = True,
+        zoom_size: bool = True,
+    ) -> None:
         """Scale the text"""
-        Component.zoom(self, ratios)
+        Component.zoom(
+            self, ratios, zoom_position=zoom_position, zoom_size=zoom_size)
         ratios = self.widget.master.ratios
         self.font.config(size=round(
             self._initial_fontsize*math.sqrt(ratios[0]*ratios[1])))
@@ -345,9 +384,16 @@ class Image(Component):
                            animation=animation, styles=styles, **kwargs)
 
     @typing_extensions.override
-    def zoom(self, ratios: tuple[float, float]) -> None:
+    def zoom(
+        self,
+        ratios: tuple[float, float],
+        *,
+        zoom_position: bool = True,
+        zoom_size: bool = True,
+    ) -> None:
         """Scale the image"""
-        Component.zoom(self, ratios)
+        Component.zoom(
+            self, ratios, zoom_position=zoom_position, zoom_size=zoom_size)
         self.image = self._initail_image.scale(*self.widget.master.ratios)
         for item in self.items:
             self.widget.master.itemconfigure(item, image=self.image)
@@ -655,18 +701,34 @@ class Widget:
         x2, y2 = x1 + w, y1 + h
         return x1 <= x <= x2 and y1 <= y <= y2
 
-    def zoom(self, ratios: tuple[float, float] | None = None) -> None:
+    def zoom(
+        self,
+        ratios: tuple[float, float] | None = None,
+        *,
+        zoom_position: bool = True,
+        zoom_size: bool = True,
+    ) -> None:
         """Zoom self"""
+        if not zoom_position and not zoom_size:
+            warnings.warn("This is a no-effect call.", UserWarning, 2)
+            return
+
         if ratios is None:
             ratios = self.master.ratios
             for widget in self.widgets:
-                widget.zoom(ratios)
-        self.size[0] *= ratios[0]
-        self.size[1] *= ratios[1]
-        self.position[0] *= ratios[0]
-        self.position[1] *= ratios[1]
+                widget.zoom(
+                    ratios, zoom_position=zoom_position, zoom_size=zoom_size)
+
+        if zoom_size:
+            self.size[0] *= ratios[0]
+            self.size[1] *= ratios[1]
+        if zoom_position:
+            self.position[0] *= ratios[0]
+            self.position[1] *= ratios[1]
+
         for component in self.components:
-            component.zoom(ratios)
+            component.zoom(
+                ratios, zoom_position=zoom_position, zoom_size=zoom_size)
 
     def disappear(self) -> None:
         """Let all components of the widget to disappear"""
