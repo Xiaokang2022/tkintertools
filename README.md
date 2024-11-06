@@ -48,8 +48,8 @@
 > **该框架配套的可视化开发软件已开始进行开发**！🎉（已新建仓库哩）  
 > Repo: <https://github.com/Xiaokang2022/tkintertools-designer>  
 >
-> <img width=400 src="https://raw.githubusercontent.com/Xiaokang2022/tkintertools-designer/refs/heads/main/dark.png" />
-> <img width=400 src="https://raw.githubusercontent.com/Xiaokang2022/tkintertools-designer/refs/heads/main/light.png" />
+> <img width=360 src="https://raw.githubusercontent.com/Xiaokang2022/tkintertools-designer/refs/heads/main/dark.png" alt="dark"/>
+> <img width=460 src="https://raw.githubusercontent.com/Xiaokang2022/tkintertools-designer/refs/heads/main/light.png" alt="light" />
 
 ## 📦 Installation / 安装
 
