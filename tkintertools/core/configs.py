@@ -25,13 +25,21 @@ __all__ = [
 ]
 
 
+class _DefaultRoot:
+    """A simple descriptor about tkinter._default_root."""
+
+    def __get__(self, obj, cls) -> tkinter.Tk | None:
+        """Return the current default root."""
+        return tkinter._default_root
+
+
 class Env:
     """Configurations of environment."""
 
     system: str
     is_dark: bool
 
-    default_root: tkinter.Tk | None
+    default_root: tkinter.Tk | None = _DefaultRoot()
 
     @classmethod
     def reset(cls) -> None:
@@ -49,16 +57,6 @@ class Env:
                 return "Windows11"
             return "Windows10"
         return system
-
-    @typing_extensions.override
-    # @classmethod  # XXX: Using this decorator will produce an error, strangely
-    def __getattr__(self, name: str) -> typing.Any:
-        if name == "default_root":
-            return tkinter._default_root
-        return super().__getattr__(name)  # pylint: disable=no-member
-
-
-Env = Env()  # Camouflaged as a class to solve the strange problem above
 
 
 class Font:
