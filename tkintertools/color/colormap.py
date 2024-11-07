@@ -8,6 +8,8 @@ __all__ = [
 
 import tkinter
 
+from ..core import configs
+
 COLOR_MAP: dict[str, tuple[int, int, int]] = {
     'alice blue': (240, 248, 255),
     'aliceblue': (240, 248, 255),
@@ -777,7 +779,7 @@ def name_to_rgb(color_name: str) -> tuple[int, int, int]:
     rgb = COLOR_MAP.get(color_name.lower())
 
     if rgb is None:
-        return tkinter.Misc.winfo_rgb(tkinter._default_root, color_name)
+        return tkinter.Misc.winfo_rgb(configs.Env.default_root, color_name)
 
     return rgb
 

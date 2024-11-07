@@ -24,7 +24,7 @@ import typing
 import warnings
 
 from ..color import rgb
-from ..core import virtual
+from ..core import configs, virtual
 from . import controllers
 
 
@@ -104,7 +104,7 @@ class Animation:
             delay += self._delay + (i < self._leave)
             percentage = self.controller(i/self._total)
             task = tkinter.Misc.after(
-                tkinter._default_root, delay,
+                configs.Env.default_root, delay,
                 self._wrapper(
                     self.callback) if i == self._total else self.callback,
                 percentage - last_percentage
@@ -117,7 +117,7 @@ class Animation:
     def stop(self) -> None:
         """Stop the animation"""
         for task in self._tasks[::-1]:
-            tkinter.Misc.after_cancel(tkinter._default_root, task)
+            tkinter.Misc.after_cancel(configs.Env.default_root, task)
 
 
 class MoveTkWidget(Animation):

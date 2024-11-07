@@ -8,7 +8,7 @@ __all__ = [
 import math
 import typing
 
-from ..core import constants, containers, virtual
+from ..core import configs, containers, virtual
 from ..toolbox import enhanced, tools
 from . import features, images, shapes, texts
 
@@ -43,7 +43,7 @@ class _AuxiliaryLabel(virtual.Widget):
         virtual.Widget.__init__(
             self, master, position, size,
             name=name, through=through, animation=animation)
-        if constants.SYSTEM == "Windows10":
+        if configs.Env.system == "Windows10":
             shapes.Rectangle(self)
         else:
             shapes.HalfRoundedRectangle(self, ignore=ignore)
@@ -87,7 +87,7 @@ class _AuxiliaryButton(virtual.Widget):
         virtual.Widget.__init__(
             self, master, position, size,
             name=name, through=through, animation=animation)
-        if constants.SYSTEM == "Windows10":
+        if configs.Env.system == "Windows10":
             shapes.Rectangle(self)
         else:
             shapes.HalfRoundedRectangle(self, ignore=ignore)
@@ -131,7 +131,7 @@ class _AuxiliaryInputBox(virtual.Widget):
         virtual.Widget.__init__(
             self, master, position, size,
             name=name, through=through, animation=animation)
-        if constants.SYSTEM == "Windows10":
+        if configs.Env.system == "Windows10":
             shapes.Rectangle(self)
         else:
             shapes.HalfRoundedRectangle(self, name=".out", ignore=ignore)

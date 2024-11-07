@@ -30,7 +30,7 @@ import typing_extensions
 
 from ..style import manager, parser
 from ..toolbox import enhanced, tools
-from . import constants, virtual
+from . import configs, virtual
 
 
 class Tk(tkinter.Tk):
@@ -64,7 +64,7 @@ class Tk(tkinter.Tk):
         self.title(title)
         self.geometry(size=size, position=position)
         self.theme(manager.get_color_mode() == "dark",
-                    include_children=False, include_canvases=False)
+                   include_children=False, include_canvases=False)
         manager.register_event(self.theme)
         for name in "transient", "resizable", "overrideredirect":
             self._wrap_method(name)
@@ -87,7 +87,7 @@ class Tk(tkinter.Tk):
             result = method(self, *args, **kwargs)
             if result is None:
                 self.theme(manager.get_color_mode() == "dark",
-                            include_children=False, include_canvases=False)
+                           include_children=False, include_canvases=False)
             return result
         return wrapper
 
@@ -525,16 +525,15 @@ class Canvas(tkinter.Canvas):
 
     @typing_extensions.override
     def create_text(self, x: float, y: float, /, *args, **kwargs) -> int:
-        # XXX: Need to be improved
         if not (font_ := kwargs.get("font")):
             kwargs["font"] = tkinter.font.Font(
-                family=constants.FONT, size=constants.SIZE)
+                family=configs.Font.family, size=configs.Font.size)
         elif isinstance(font_, str):
             kwargs["font"] = tkinter.font.Font(
-                family=font_, size=constants.SIZE)
+                family=font_, size=configs.Font.size)
         elif isinstance(font_, int):
             kwargs["font"] = tkinter.font.Font(
-                family=constants.FONT, size=-abs(font_))
+                family=configs.Font.family, size=-abs(font_))
         elif isinstance(font_, tkinter.font.Font):
             kwargs["font"].config(size=-abs(font_.cget("size")))
         else:

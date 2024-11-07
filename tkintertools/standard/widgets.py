@@ -27,7 +27,7 @@ import math
 import typing
 
 from ..animation import animations, controllers
-from ..core import constants, containers, virtual
+from ..core import configs, containers, virtual
 from ..toolbox import enhanced, tools
 from . import features, images, shapes, texts
 
@@ -191,7 +191,7 @@ class Label(virtual.Widget):
         virtual.Widget.__init__(
             self, master, position, size, name=name, anchor=anchor,
             through=through, animation=animation)
-        if constants.SYSTEM == "Windows10":
+        if configs.Env.system == "Windows10":
             shapes.Rectangle(self)
         else:
             shapes.RoundedRectangle(self)
@@ -254,7 +254,7 @@ class Button(virtual.Widget):
         virtual.Widget.__init__(
             self, master, position, size, anchor=anchor, name=name,
             through=through, animation=animation)
-        if constants.SYSTEM == "Windows10":
+        if configs.Env.system == "Windows10":
             shapes.Rectangle(self)
         else:
             shapes.RoundedRectangle(self)
@@ -300,7 +300,7 @@ class Switch(virtual.Widget):
         virtual.Widget.__init__(
             self, master, position, (length, length / 2), state="normal-off",
             name=name, anchor=anchor, through=through, animation=animation)
-        if constants.SYSTEM == "Windows10":
+        if configs.Env.system == "Windows10":
             shapes.Rectangle(self, name=".out")
             shapes.Rectangle(
                 self, name=".in", relative_position=(length/10, length/10),
@@ -388,7 +388,7 @@ class InputBox(virtual.Widget):
         virtual.Widget.__init__(
             self, master, position, size, name=name, anchor=anchor,
             through=through, animation=animation)
-        if constants.SYSTEM == "Windows10":
+        if configs.Env.system == "Windows10":
             shapes.Rectangle(self)
         else:
             shapes.RoundedRectangle(self, name=".out")
@@ -457,7 +457,7 @@ class CheckButton(virtual.Widget):
         virtual.Widget.__init__(
             self, master, position, (length, length), name=name, anchor=anchor,
             through=through, animation=animation)
-        if constants.SYSTEM == "Windows10":
+        if configs.Env.system == "Windows10":
             shapes.Rectangle(self)
         else:
             shapes.RoundedRectangle(self)
@@ -538,7 +538,7 @@ class ToggleButton(virtual.Widget):
         virtual.Widget.__init__(
             self, master, position, size, state="normal-off", name=name,
             anchor=anchor, through=through, animation=animation)
-        if constants.SYSTEM == "Windows10":
+        if configs.Env.system == "Windows10":
             shapes.Rectangle(self)
         else:
             shapes.RoundedRectangle(self)
@@ -598,7 +598,7 @@ class RadioButton(virtual.Widget):
         virtual.Widget.__init__(
             self, master, position, (length, length), name=name, anchor=anchor,
             through=through, animation=animation)
-        if constants.SYSTEM == "Windows10":
+        if configs.Env.system == "Windows10":
             shapes.Rectangle(self, name=".out")
             shapes.Rectangle(
                 self, name=".in",
@@ -666,7 +666,7 @@ class ProgressBar(virtual.Widget):
         virtual.Widget.__init__(
             self, master, position, size, name=name, anchor=anchor,
             through=through, animation=animation)
-        if constants.SYSTEM == "Windows10":
+        if configs.Env.system == "Windows10":
             shapes.Rectangle(self, name=".out")
             shapes.Rectangle(
                 self, name=".in", size=(0, self.size[1]*0.8),
@@ -873,7 +873,7 @@ class IconButton(virtual.Widget):
         virtual.Widget.__init__(
             self, master, position, size, name=name, anchor=anchor,
             through=through, animation=animation)
-        if constants.SYSTEM == "Windows10":
+        if configs.Env.system == "Windows10":
             shapes.Rectangle(self)
         else:
             shapes.RoundedRectangle(self)
@@ -919,7 +919,7 @@ class Slider(virtual.Widget):
         virtual.Widget.__init__(
             self, master, position, size, name=name, anchor=anchor,
             through=through, animation=animation)
-        if constants.SYSTEM == "Windows10":
+        if configs.Env.system == "Windows10":
             shapes.Rectangle(
                 self, (0, size[1]*5/11), (size[0], size[1]/11), name=".out")
             shapes.Rectangle(
@@ -1034,7 +1034,7 @@ class SegmentedButton(virtual.Widget):
         virtual.Widget.__init__(
             self, master, position, total_size, name=name, anchor=anchor,
             through=through, animation=animation)
-        if constants.SYSTEM == "Windows10":
+        if configs.Env.system == "Windows10":
             shapes.Rectangle(self)
         else:
             shapes.RoundedRectangle(self)
@@ -1132,8 +1132,8 @@ class SpinBox(virtual.Widget):
             show=show, limit=limit, image=image, through=through,
             animation=animation)
         h = size[1]/2 - 6
-        if constants.SYSTEM == "Windows10":
-            w = h / constants.GOLDEN_RATIO
+        if configs.Env.system == "Windows10":
+            w = h / configs.Constant.GOLDEN_RATIO
         else:
             w = 2 * h
         Button(self, (size[0]-w-4, 4), (w, h), text="▲", fontsize=14,
@@ -1231,7 +1231,7 @@ class Tooltip(virtual.Widget):
         virtual.Widget.__init__(
             self, widget.master, position, size, name=name,
             through=through, animation=animation, anchor="center")
-        if constants.SYSTEM == "Windows10":
+        if configs.Env.system == "Windows10":
             shapes.Rectangle(self)
         else:
             shapes.RoundedRectangle(self)

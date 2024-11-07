@@ -1,8 +1,5 @@
 """Support for theme
 
-All third packages which relative to style introduced by `tkintertools` are
-there:
-
 * darkdetect: https://github.com/albertosottile/darkdetect
 * pywinstyles: https://github.com/Akascape/py-window-styles
 * win32material: https://github.com/littlewhitecloud/win32material
@@ -10,18 +7,14 @@ there:
 """
 
 __all__ = [
-    "SYSTEM_DARK_MODE",
     "set_color_mode",
     "get_color_mode",
     "set_theme_map",
-    "get_theme_map",
-    "reset_theme_map",
     "register_event",
     "remove_event",
     "customize_window",
 ]
 
-import pathlib
 import platform
 import threading
 import tkinter
@@ -29,7 +22,7 @@ import traceback
 import types
 import typing
 
-from ..theme import dark, light
+from ..core import configs
 from ..toolbox import tools
 from . import parser
 
@@ -53,22 +46,6 @@ try:
 except ImportError:
     win32material = None
 
-SYSTEM_DARK_MODE: bool = bool(darkdetect.isDark()) if darkdetect else False
-
-theme_map: dict[typing.Literal["dark", "light"], pathlib.Path |
-                str | types.ModuleType] = {"dark": dark, "light": light}
-"""
-The mapping table between dark and light themes, when the program switches to a
-light color, it will use the theme of the light color in the map, and the same
-goes for dark colors
-"""
-
-_color_mode: typing.Literal["system", "light", "dark"] = "system"
-"""
-The color mode of the current program, `"system"` is the following system,
-`"light"` is the light color, and `"dark"` is the dark color
-"""
-
 _callback_events: dict[typing.Callable[[bool, typing.Any], typing.Any],
                        tuple[typing.Any, ...]] = {}
 """Events that are responded to when the system theme changes"""
@@ -85,16 +62,16 @@ def set_color_mode(
 
     `"system"` is the following system
     """
-    global _color_mode
-    _color_mode = mode
-    _process_event(SYSTEM_DARK_MODE if mode == "system" else (mode == "dark"))
+    configs.Theme.color_mode = mode
+    _process_event(configs.Env.is_dark if mode ==
+                   "system" else (mode == "dark"))
 
 
 def get_color_mode() -> typing.Literal["dark", "light"]:
     """Get the color mode of the program"""
-    if _color_mode == "system":
-        return "dark" if SYSTEM_DARK_MODE else "light"
-    return _color_mode
+    if configs.Theme.color_mode == "system":
+        return "dark" if configs.Env.is_dark else "light"
+    return configs.Theme.color_mode
 
 
 def set_theme_map(
@@ -108,22 +85,11 @@ def set_theme_map(
     * `dark_theme`: the name of the theme of the dark theme
     """
     if dark_theme is not None:
-        theme_map["dark"] = dark_theme
+        configs.Theme.dark = dark_theme
     if light_theme is not None:
-        theme_map["light"] = light_theme
+        configs.Theme.light = light_theme
     if any((light_theme, dark_theme)):
         parser.get_file.cache_clear()
-
-
-def get_theme_map() -> dict[typing.Literal["dark", "light"],
-                            str | pathlib.Path | types.ModuleType]:
-    """Get the theme map"""
-    return theme_map.copy()
-
-
-def reset_theme_map() -> None:
-    """Reset the value of theme map"""
-    theme_map.update(dark=dark, light=light)
 
 
 def register_event(
@@ -259,10 +225,9 @@ def _callback(theme: str) -> None:
 
     * `theme`: theme name
     """
-    global SYSTEM_DARK_MODE
-    SYSTEM_DARK_MODE = theme == "Dark"
-    if _color_mode == "system":
-        _process_event(SYSTEM_DARK_MODE)
+    configs.Env.is_dark = theme == "Dark"
+    if configs.Theme.color_mode == "system":
+        _process_event(configs.Env.is_dark)
 
 
 if darkdetect:

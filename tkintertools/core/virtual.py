@@ -37,7 +37,7 @@ from ..animation import animations
 from ..color import rgb
 from ..style import parser
 from ..toolbox import enhanced
-from . import constants, containers
+from . import configs, containers
 
 
 class Component(abc.ABC):
@@ -144,7 +144,8 @@ class Component(abc.ABC):
             for key, value in self.styles["disabled"].items():
                 self.styles["disabled"][key] = rgb.rgb_to_str(rgb.convert(
                     rgb.str_to_rgb(value), rgb.str_to_rgb(
-                        self.widget.master["bg"]), constants.GOLDEN_RATIO))
+                        self.widget.master["bg"]),
+                    configs.Constant.GOLDEN_RATIO))
         return self.styles["disabled"]
 
     def configure(
@@ -325,8 +326,8 @@ class Text(Component):
         self.placeholder = placeholder
         self.limit = limit
         self.font = tkinter.font.Font(
-            family=family if family else constants.FONT,
-            size=-abs(fontsize if fontsize else constants.SIZE),
+            family=family if family else configs.Font.family,
+            size=-abs(fontsize if fontsize else configs.Font.size),
             weight=weight, slant=slant,
             underline=underline, overstrike=overstrike)
         self._initial_fontsize = self.font.cget("size")

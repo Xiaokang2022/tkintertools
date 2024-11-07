@@ -10,6 +10,8 @@ import tkinter
 import tkinter.colorchooser
 import typing
 
+from ..core import configs
+
 
 class TkMessage:
     """Message pop-up"""
@@ -22,7 +24,7 @@ class TkMessage:
         title: str | None = None,
         icon: typing.Literal["error", "info", "question", "warning"] = "info",
         option: typing.Literal["abortretryignore", "ok", "okcancel",
-                             "retrycancel", "yesno", "yesnocancel"] = "ok",
+                               "retrycancel", "yesno", "yesnocancel"] = "ok",
         default: typing.Literal["abort", "retry", "ignore",
                                 "ok", "cancel", "yes", "no"] | None = None,
         master: tkinter.Tk | None = None,
@@ -41,7 +43,7 @@ class TkMessage:
         * `command`: callback function
         """
         if master is None:
-            master: tkinter.Tk = tkinter._default_root
+            master: tkinter.Tk = configs.Env.default_root
             if master is None:
                 master = tkinter._get_temp_root()
         args = ["-icon", icon]
@@ -104,7 +106,7 @@ class TkFontChooser:
         * `command`: callback function
         """
         if master is None:
-            master: tkinter.Tk = tkinter._default_root
+            master: tkinter.Tk = configs.Env.default_root
             if master is None:
                 master = tkinter._get_temp_root()
         args = []
