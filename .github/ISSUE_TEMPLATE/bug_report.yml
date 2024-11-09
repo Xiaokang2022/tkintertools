@@ -9,8 +9,8 @@ body:
         Thanks for taking the time to fill out this bug report! ❤️  
         感谢您抽出宝贵时间填写此错误报告！❤️
 
-        Please read our [Contribution Guideline](../blob/master/CONTRIBUTING.md) before completing this report.
-        请在填写此报告前先阅读我们的[贡献指南](../blob/master/CONTRIBUTING.md)。
+        Please read our [Contribution Guideline](https://xiaokang2022.github.io/tkintertools/en/CONTRIBUTING/) before completing this report.
+        请在填写此报告前先阅读我们的[贡献指南](https://xiaokang2022.github.io/tkintertools/CONTRIBUTING/)。
   - type: dropdown
     id: version
     attributes:
@@ -83,8 +83,8 @@ body:
     attributes:
       label: Code of Conduct
       description: |
-        By submitting this issue, you agree to follow our [Code of Conduct](../blob/master/CODE_OF_CONDUCT.md).  
-        提交此问题，即表示您同意遵守我们的[行为准则](../blob/master/CODE_OF_CONDUCT.md)。
+        By submitting this issue, you agree to follow our [Code of Conduct](https://xiaokang2022.github.io/tkintertools/en/CODE_OF_CONDUCT/).  
+        提交此问题，即表示您同意遵守我们的[行为准则](https://xiaokang2022.github.io/tkintertools/CODE_OF_CONDUCT/)。
       options:
         - label: I agree to follow this project's Code of Conduct
           required: true
