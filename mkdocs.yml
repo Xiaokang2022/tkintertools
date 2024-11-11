@@ -59,8 +59,9 @@ markdown_extensions:
 
   # - pymdownx.progressbar # 进度条（暂不支持）
 
+  # - pymdownx.striphtml # 去除 HTML 中不需要的注释和 / 或标记属性，与插件 minify 有交叉但没有完全覆盖【别启用，大坑】
+
   - pymdownx.extra # 见上面 Python Markdown 配置说明
-  - pymdownx.striphtml # 去除 HTML 中不需要的注释和 / 或标记属性，与插件 minify 有交叉但没有完全覆盖
 
   - pymdownx.blocks.tab # 支持更高级的标签块写法（可能与 pymdownx.tabbed 混淆）
   - pymdownx.blocks.html # 支持一些更高级的 Markdown 内嵌 HTML 语法（pymdownx.blocks 默认开启）
@@ -189,6 +190,8 @@ theme: # 此项各个设定因主题而异
     repo: fontawesome/brands/github # 右上角仓库图标
     edit: material/file-edit # 页面编辑的图标
     view: material/file-eye # 页面查看源代码的图标
+    tag:
+      default: material/tag
 
 extra: # 额外设定
   alternate:
@@ -203,6 +206,8 @@ extra: # 额外设定
     new: 最近添加
     deprecated: 已废弃
   homepage: . # 左上角徽标链接的地址
+  tags:
+    _: _
   annotate: # 允许代码块非注释内的提示，貌似是可以在代码里面加悬浮提示框，而不只是在注释中（感觉这样不好，虽然我不用，但不能没有）
     json: [.s2]
   social: # 社交联系方式（页面右下角内容）
@@ -262,6 +267,7 @@ extra_javascript:
   - https://unpkg.com/tablesort@latest/dist/sorts/tablesort.number.min.js # 表格排序功能（数字类型）
 
 extra_css:
+  - custom.css
   - https://Xiaokang2022.github.io/css/extra.css # 加载自定义的样式
   - https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css # 图标字体库
   - https://cdnjs.cloudflare.com/ajax/libs/lxgw-wenkai-screen-webfont/1.5.0/style.min.css # 设置字体（霞鹜文楷）【版本不能再更高了，会导致公式字体变小】
@@ -269,6 +275,22 @@ extra_css:
 plugins:
   - search
   - statistics
+  - tags:
+      tags_file: blog/tags.md
+  - blog:
+      blog_toc: true
+      post_excerpt: required
+      post_readtime: false
+      pagination_keep_content: true
+      pagination_format: "$link_first $link_previous ~2~ $link_next $link_last"
+  - rss:
+      match_path: blog/posts/.*
+      date_from_meta:
+        as_creation: date
+      categories:
+        - categories
+        - tags
+      comments_path: "#__comments"
   - glightbox:
       background: none
       auto_themed: true
@@ -307,6 +329,10 @@ nav:
           - 4. Todo List: projects/official/4.md
       - 用户项目:
           - 1. Login2.0: projects/users/1.md
+
+  - 相关博客:
+      - blog/index.md
+      - 标签: blog/tags.md
 
   - 官方视频:
       - videos/index.md

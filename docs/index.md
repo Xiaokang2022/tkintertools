@@ -2,6 +2,8 @@
 statistics: true
 comments: true
 icon: material/home
+hide:
+    - statistics
 ---
 
 <br/>
