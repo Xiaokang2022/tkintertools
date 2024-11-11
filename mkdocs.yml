@@ -274,9 +274,8 @@ extra_css:
 
 plugins:
   - search
+  - tags
   - statistics
-  - tags:
-      tags_file: blog/tags.md
   - blog:
       blog_toc: true
       post_excerpt: required
