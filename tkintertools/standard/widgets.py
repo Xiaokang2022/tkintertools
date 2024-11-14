@@ -1079,6 +1079,8 @@ class SpinBox(virtual.Widget):
         position: tuple[int, int],
         size: tuple[int, int] | None = None,
         *,
+        format: str = "d",
+        step: int = 1,
         family: str | None = None,
         fontsize: int | None = None,
         weight: typing.Literal['normal', 'bold'] = "normal",
@@ -1101,6 +1103,8 @@ class SpinBox(virtual.Widget):
         * `master`: parent canvas
         * `position`: position of the widget
         * `size`: size of the widget
+        * `format`: format of value
+        * `step`: value of each change
         * `family`: font family
         * `fontsize`: font size
         * `weight`: weight of the text
@@ -1142,17 +1146,19 @@ class SpinBox(virtual.Widget):
         Button(self, (size[0]-w-4, size[1]/2 + 2), (w, h), text="▼",
                fontsize=14, through=True, command=lambda:
                command(False) if command is not None else self.change(False))
+        self.format = format
+        self.step = step
         features.SpinBoxFeature(self, command=command)
 
     def change(self, up: bool) -> None:
         """Try change the current value"""
         if not (value := self.widgets[0].get()):
-            return self.widgets[0].set("0")
+            return self.widgets[0].set(("%"+self.format) % 0)
         try:
-            value = float(value) + (1 if up else -1)
+            value = float(value) + (self.step if up else -self.step)
             if math.isclose(value, int_value := int(value)):
                 value = int_value
-            self.widgets[0].set(str(value))
+            self.widgets[0].set(("%"+self.format) % value)
         except ValueError:
             pass
 
