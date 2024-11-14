@@ -1152,7 +1152,7 @@ class SpinBox(virtual.Widget):
             value = float(value) + (1 if up else -1)
             if math.isclose(value, int_value := int(value)):
                 value = int_value
-            self.widgets[0].set(value)
+            self.widgets[0].set(str(value))
         except ValueError:
             pass
 
