@@ -172,7 +172,7 @@ class SingleLineText(virtual.Text):
         start: int,
         end: int | typing.Literal["end"],
     ) -> None:
-        """Delete the actual text that appears on the component"""
+        """Delete the actual text that appears on the component, INCLUDING"""
         self.widget.master.dchars(self.items[0], start, end)
 
     def _text_length(self) -> int:
@@ -185,12 +185,12 @@ class SingleLineText(virtual.Text):
         return (x2-x1) + self.get_gap()*2 >= self.size[0]
 
     def select_set(self, start: int, end: int) -> None:
-        """Set the index tuple of the selected text, [start, end]"""
+        """Set the index tuple of the selected text, INCLUDING"""
         self.widget.master.select_from(self.items[0], start)
         self.widget.master.select_to(self.items[0], end)
 
     def select_get(self) -> tuple[int, int] | None:
-        """Get the index tuple of the selected text"""
+        """Get the index tuple of the selected text, INCLUDING"""
         if not self.widget.master.select_item():
             return None
         start = self.widget.master.index(self.items[0], "sel.first")
@@ -199,7 +199,7 @@ class SingleLineText(virtual.Text):
 
     def select_all(self) -> None:
         """Select all texts"""
-        self.select_set(0, self._text_length())
+        self.select_set(0, self._text_length()-1)
 
     def select_clear(self) -> None:
         """Clear the selected text"""
@@ -211,7 +211,7 @@ class SingleLineText(virtual.Text):
 
     def set(self, value: str) -> None:
         """Set text of the component"""
-        self.delete(0, self._text_length())
+        self.delete(0, self._text_length()-1)
         self.append(value)
 
     def insert(self, index: int, value: str) -> None:
@@ -233,7 +233,7 @@ class SingleLineText(virtual.Text):
                 self.right -= 1
 
     def delete(self, start: int, end: int) -> None:
-        """Delete text within the specified index range, [start, end]"""
+        """Delete text within the specified index range, INCLUDING"""
         if self._text_length() == 0:
             return None
         self.text = self.text[:self.left+start] + self.text[self.left+end+1:]
@@ -271,10 +271,10 @@ class SingleLineText(virtual.Text):
 
     def get_gap(self) -> float:
         """Get the size of the spacing between the text and the border"""
-        if self.items:  # XXX: Maybe need to be optimized?
+        if self.items:
             _, y1, _, y2 = self.widget.master.bbox(self.items[0])
-            return (self.size[1] - (y2-y1)) // 2
-        return (self.size[1] - abs(self.font.cget("size"))) // 2
+            return (self.size[1] - (y2-y1)) / 2
+        return (self.size[1] - abs(self.font.cget("size"))) / 2
 
     def _move_left(self) -> None:
         """Move the text to the left as a whole, i.e. press the right arrow"""
