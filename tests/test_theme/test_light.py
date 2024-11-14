@@ -1,11 +1,9 @@
-# pylint: disable=missing-module-docstring
-# pylint: disable=missing-class-docstring
-# pylint: disable=missing-function-docstring
+# pylint: disable=all
 
 import unittest
 
+from tkintertools.standard import images, shapes, texts, widgets
 from tkintertools.theme import light
-from tkintertools.standard import widgets, shapes, texts, images
 
 
 class Test(unittest.TestCase):

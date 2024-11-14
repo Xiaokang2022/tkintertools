@@ -1,11 +1,9 @@
-# pylint: disable=missing-module-docstring
-# pylint: disable=missing-class-docstring
-# pylint: disable=missing-function-docstring
+# pylint: disable=all
 
-import unittest
-import tkinter
-import platform
 import pathlib
+import platform
+import tkinter
+import unittest
 
 from tkintertools.toolbox import enhanced
 

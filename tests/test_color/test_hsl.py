@@ -1,10 +1,8 @@
-# pylint: disable=missing-module-docstring
-# pylint: disable=missing-class-docstring
-# pylint: disable=missing-function-docstring
+# pylint: disable=all
 
-import unittest
-import math
 import colorsys
+import math
+import unittest
 
 from tkintertools.color import hsl
 
