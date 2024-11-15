@@ -99,12 +99,13 @@ class Animation:
         """
         self._tasks.clear()
         last_percentage = 0
+        default_root = configs.Env.default_root
 
         for i in range(1, self._total+1):
             delay += self._delay + (i < self._leave)
             percentage = self.controller(i/self._total)
             task = tkinter.Misc.after(
-                configs.Env.default_root, delay,
+                default_root, delay,
                 self._wrapper(
                     self.callback) if i == self._total else self.callback,
                 percentage - last_percentage
@@ -116,8 +117,9 @@ class Animation:
 
     def stop(self) -> None:
         """Stop the animation"""
+        default_root = configs.Env.default_root
         for task in self._tasks[::-1]:
-            tkinter.Misc.after_cancel(configs.Env.default_root, task)
+            tkinter.Misc.after_cancel(default_root, task)
 
 
 class MoveTkWidget(Animation):
