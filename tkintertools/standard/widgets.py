@@ -406,21 +406,29 @@ class InputBox(virtual.Widget):
         """Get the value of the Entry"""
         return self.texts[0].get()
 
-    def set(self, value: str) -> None:
+    def set(self, value: str) -> bool:
         """Set the text value of the Entry"""
-        self.texts[0].set(value)
+        return self.texts[0].set(value)
 
-    def append(self, value: str) -> None:
+    def insert(self, index: int, value: str) -> bool:
+        """Insert"""
+        return self.texts[0].insert(index, value)
+
+    def append(self, value: str) -> bool:
         """Append text to Entry"""
-        self.texts[0].append(value)
+        return self.texts[0].append(value)
 
-    def delete(self, count: int) -> None:
+    def remove(self, start: int, end: int | None = None) -> int:
+        """Remove"""
+        self.texts[0].remove(start, end)
+
+    def pop(self, index: int = -1) -> str:
         """Delete a specified amount of text"""
-        self.texts[0].pop(count)
+        return self.texts[0].pop(index)
 
     def clear(self) -> None:
         """Clear the text value of the Entry"""
-        self.set("")
+        self.texts[0].clear()
 
 
 class CheckButton(virtual.Widget):

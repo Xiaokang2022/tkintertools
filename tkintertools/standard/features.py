@@ -296,8 +296,9 @@ class InputBoxFeature(ButtonFeature):
             if self.widget.state == "active":  # Maybe widget is disabled
                 self.widget.master._trigger_focus.update(
                     True, self.widget.texts[0].items[0])
-                self._start_index = self.widget.texts[0].cursor_find(event.x)
-                self.widget.texts[0].cursor_set(self._start_index)
+                self._start_index = self.widget.texts[0].text_proxy.cursor_find(
+                    event.x)
+                self.widget.texts[0].text_proxy.cursor_set(self._start_index)
                 self.widget.master.itemconfigure(
                     self.widget.texts[0].items[1], fill="")
         else:
@@ -306,22 +307,23 @@ class InputBoxFeature(ButtonFeature):
                 if not self.widget.texts[0].get():
                     self.widget.master.itemconfigure(
                         self.widget.texts[0].items[1], fill="#787878")
-        self.widget.texts[0].select_clear()
+        self.widget.texts[0].text_proxy.select_clear()
         return flag
 
     def _move_left(self, event: tkinter.Event) -> bool:
         if self.widget.state == "active":
             self.widget.master._trigger_config.update(cursor="xterm")
-            self._end_index = self.widget.texts[0].cursor_find(event.x)
-            self.widget.texts[0].cursor_set(self._end_index)
+            self._end_index = self.widget.texts[0].text_proxy.cursor_find(
+                event.x)
+            self.widget.texts[0].text_proxy.cursor_set(self._end_index)
             if self._start_index < self._end_index:
-                self.widget.texts[0].select_set(
-                    self._start_index, self._end_index-1)
+                self.widget.texts[0].text_proxy.select_set(
+                    self._start_index, self._end_index)
             elif self._start_index > self._end_index:
-                self.widget.texts[0].select_set(
-                    self._end_index, self._start_index-1)
+                self.widget.texts[0].text_proxy.select_set(
+                    self._end_index, self._start_index)
             else:
-                self.widget.texts[0].select_clear()
+                self.widget.texts[0].text_proxy.select_clear()
             return True
         return False
 
@@ -330,61 +332,77 @@ class InputBoxFeature(ButtonFeature):
 
     def _input(self, event: tkinter.Event) -> bool:
         if self.widget.state == "active":
-            select = self.widget.texts[0].select_get()
+            select = self.widget.texts[0].text_proxy.select_get()
             match event.keysym:
                 case "Right":
                     if select is None:
                         self.widget.texts[0].cursor_move(1)
                     else:
-                        self.widget.texts[0].select_clear()
-                        self.widget.texts[0].cursor_move_to(select[1]+1)
+                        self.widget.texts[0].text_proxy.select_clear()
+                        self.widget.texts[0].cursor_move_to(select[1])
                 case "Left":
                     if select is None:
                         self.widget.texts[0].cursor_move(-1)
                     else:
-                        self.widget.texts[0].select_clear()
+                        self.widget.texts[0].text_proxy.select_clear()
                         self.widget.texts[0].cursor_move_to(select[0])
                 case "BackSpace":
                     if select is not None:
-                        self.widget.texts[0].select_clear()
-                        self.widget.texts[0].delete(*select)
-                    elif self.widget.texts[0].text:
-                        self.widget.texts[0].pop()
+                        self.widget.texts[0].text_proxy.select_clear()
+                        self.widget.texts[0].remove(*select)
+                    else:
+                        index = self.widget.texts[0].text_proxy.cursor_get()
+                        if index > 0:
+                            self.widget.texts[0].remove(index - 1)
+                case "Delete":
+                    if select is not None:
+                        self.widget.texts[0].text_proxy.select_clear()
+                        self.widget.texts[0].remove(*select)
+                    else:
+                        index = self.widget.texts[0].text_proxy.cursor_get()
+                        if index < self.widget.texts[0].text_proxy.length():
+                            self.widget.texts[0].remove(index)
                 case _:
                     if len(event.char) and event.char.isprintable():
                         if select is not None:
-                            self.widget.texts[0].select_clear()
-                            self.widget.texts[0].delete(*select)
-                        self.widget.texts[0].append(event.char)
+                            self.widget.texts[0].text_proxy.select_clear()
+                            self.widget.texts[0].remove(*select)
+                        self.widget.texts[0].insert(
+                            self.widget.texts[0].text_proxy.cursor_get(),
+                            event.char)
                         return None
         return False
 
     def _copy(self, event: tkinter.Event) -> bool:
         if flag := self.widget.state == "active":
-            if (select := self.widget.texts[0].select_get()) is not None:
+            select = self.widget.texts[0].text_proxy.select_get()
+            if select is not None:
                 self.widget.master.clipboard_clear()
                 self.widget.master.clipboard_append(
-                    self.widget.texts[0]._text_get()[select[0]: select[1]+1])
+                    self.widget.texts[0].text_proxy.get()[select[0]: select[1]])
         return flag
 
     def _paste(self, event: tkinter.Event) -> bool:
         if flag := self.widget.state == "active":
-            if (select := self.widget.texts[0].select_get()) is not None:
-                self.widget.texts[0].select_clear()
-                self.widget.texts[0].delete(*select)
+            select = self.widget.texts[0].text_proxy.select_get()
+            if select is not None:
+                self.widget.texts[0].text_proxy.select_clear()
+                self.widget.texts[0].remove(*select)
             if value := self.widget.master.clipboard_get():
                 self.widget.texts[0].append(value)
         return flag
 
     def _cut(self, event: tkinter.Event) -> bool:
         if flag := self._copy(event):
-            self.widget.texts[0].delete(*self.widget.texts[0].select_get())
-            self.widget.texts[0].select_clear()
+            select = self.widget.texts[0].text_proxy.select_get()
+            if select is not None:
+                self.widget.texts[0].remove(*select)
+                self.widget.texts[0].text_proxy.select_clear()
         return flag
 
     def _select_all(self, event: tkinter.Event) -> bool:
         if flag := self.widget.state == "active":
-            self.widget.texts[0].select_all()
+            self.widget.texts[0].text_proxy.select_all()
         return flag
 
 
