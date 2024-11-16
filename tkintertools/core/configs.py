@@ -38,7 +38,7 @@ class Env:
 
     system: str
     is_dark: bool
-    default_callback: typing.Callable[[tkinter.Event], False]
+    default_callback: typing.Callable[[tkinter.Event], typing.Literal[False]]
 
     default_root: tkinter.Tk | None = _DefaultRoot()
 
