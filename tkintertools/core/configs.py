@@ -38,6 +38,7 @@ class Env:
 
     system: str
     is_dark: bool
+    default_callback: typing.Callable[[tkinter.Event], False]
 
     default_root: tkinter.Tk | None = _DefaultRoot()
 
@@ -46,6 +47,7 @@ class Env:
         """Reset all configs."""
         cls.system = cls.get_default_system()
         cls.is_dark = bool(darkdetect.isDark()) if darkdetect else False
+        cls.default_callback = lambda _: False
 
     @staticmethod
     def get_default_system() -> str:
@@ -110,12 +112,44 @@ class Constant:
     __sys_call_flag: bool = False
 
     GOLDEN_RATIO: float
+    PRE_DEFINED_EVENTS: tuple[str, ...]
+    PRE_DEFINED_VIRTUAL_EVENTS: tuple[str, ...]
 
     @classmethod
     def reset(cls) -> None:
         """Reset all configs."""
         cls.__sys_call_flag = True
+
         cls.GOLDEN_RATIO = (math.sqrt(5)-1) / 2
+
+        cls.PRE_DEFINED_EVENTS = (
+            "<KeyPress>",
+            "<KeyRelease>",
+            "<Button-1>",
+            "<Button-2>",
+            "<Button-3>",
+            "<Button-4>",
+            "<Button-5>",
+            "<ButtonRelease-1>",
+            "<ButtonRelease-2>",
+            "<ButtonRelease-3>",
+            "<MouseWheel>",
+            "<Motion>",
+            "<B1-Motion>",
+            "<B2-Motion>",
+            "<B3-Motion>",
+            "<Configure>",
+        )
+
+        cls.PRE_DEFINED_VIRTUAL_EVENTS = (
+            "<<Copy>>",
+            "<<Paste>>",
+            "<<Cut>>",
+            "<<SelectAll>>",
+            "<<Redo>>",
+            "<<Undo>>",
+        )
+
         cls.__sys_call_flag = False
 
     @typing_extensions.override

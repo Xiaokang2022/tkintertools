@@ -359,6 +359,7 @@ class Canvas(tkinter.Canvas):
         # initial image, now image
 
         self.name = name
+        self.events: list[str] = []
 
         self._expand: typing.Literal["", "x", "y", "xy"] = expand
         self._zoom_item = zoom_item
@@ -374,34 +375,26 @@ class Canvas(tkinter.Canvas):
 
         master.canvases.append(self)
 
-        self.bind("<Any-Key>", self._input)
+        self.bind("<KeyPress>", self._key_press)
+        self.bind("<KeyRelease>", self._key_release)
 
         if platform.system() == "Linux":
-            self.bind("<Button-4>", lambda event: self._wheel(event, "up"))
-            self.bind("<Button-5>", lambda event: self._wheel(event, "down"))
+            self.bind("<Button-4>", lambda event: self._wheel(event, True))
+            self.bind("<Button-5>", lambda event: self._wheel(event, False))
         else:
-            self.bind("<MouseWheel>", self._wheel)
+            self.bind("<MouseWheel>", lambda event: self._wheel(event, None))
 
-        self.bind("<Button-1>", lambda event: self._click(event, "left"))
-        self.bind("<Button-2>", lambda event: self._click(event, "center"))
-        self.bind("<Button-3>", lambda event: self._click(event, "right"))
+        for _n in "<Button-1>", "<Button-2>", "<Button-3>":
+            self.bind(_n, lambda e, n=_n: self._click(e, n))
 
-        self.bind("<Motion>", lambda event: self._move(event, "none"))
-        self.bind("<B1-Motion>", lambda event: self._move(event, "left"))
-        self.bind("<B2-Motion>", lambda event: self._move(event, "center"))
-        self.bind("<B3-Motion>", lambda event: self._move(event, "right"))
+        for _n in "<Motion>", "<B1-Motion>", "<B2-Motion>", "<B3-Motion>":
+            self.bind(_n, lambda e, n=_n: self._motion(e, n))
 
-        self.bind("<ButtonRelease-1>",
-                  lambda event: self._release(event, "left"))
-        self.bind("<ButtonRelease-2>",
-                  lambda event: self._release(event, "center"))
-        self.bind("<ButtonRelease-3>",
-                  lambda event: self._release(event, "right"))
+        for _n in "<ButtonRelease-1>", "<ButtonRelease-2>", "<ButtonRelease-3>":
+            self.bind(_n, lambda e, n=_n: self._release(e, n))
 
-        self.bind("<<Copy>>", self._copy)
-        self.bind("<<Paste>>", self._paste)
-        self.bind("<<Cut>>", self._cut)
-        self.bind("<<SelectAll>>", self._select_all)
+        for _n in configs.Constant.PRE_DEFINED_VIRTUAL_EVENTS:
+            self.event_register(_n)
 
         self.bind("<Configure>", lambda _: self._zoom_self())
 
@@ -546,122 +539,75 @@ class Canvas(tkinter.Canvas):
 
         return tkinter.Canvas.create_text(self, x, y, *args, **kwargs)
 
-    def _get_command(
-        self,
-        feature: virtual.Feature,
-        method: str,
-    ) -> typing.Callable:
-        """Get command from virtual.Feature"""
-        if (extra_commands := feature.extras.get(method)) is not None:
-            if not isinstance(extra_commands, list):
-                return extra_commands
-
-            def wrapper(*args, **kwargs) -> typing.Any:
-                return_value = getattr(feature, method)(*args, **kwargs)
-                for command in extra_commands:
-                    return_value = command(*args, **kwargs)
-                return return_value
-
-            return wrapper
-
-        return getattr(feature, method)
-
-    def _move(
-        self,
-        event: tkinter.Event,
-        type_: typing.Literal["left", "center", "right", "none"]
-    ) -> None:
+    def _motion(self, event: tkinter.Event, name: str) -> None:
         """Events to move the mouse"""
         self._trigger_config.reset()
         for widget in self.widgets[::-1]:
             if widget.feature is not None:
-                if (self._get_command(widget.feature, f"_move_{type_}")(event)
+                if (widget.feature.get_method(name)(event)
                         and not widget.through):
                     event.x = math.nan
         self._trigger_config.update(cursor="arrow")
 
-    def _click(
-        self,
-        event: tkinter.Event,
-        type_: typing.Literal["left", "center", "right"]
-    ) -> None:
+    def _click(self, event: tkinter.Event, name: str) -> None:
         """Events to active the mouse"""
         self.focus_set()
         self._trigger_focus.reset()
         for widget in self.widgets[::-1]:
             if widget.feature is not None:
-                if (self._get_command(
-                        widget.feature, f"_click_{type_}")(event)
+                if (widget.feature.get_method(name)(event)
                         and not widget.through):
                     event.x = math.nan
         self._trigger_focus.update(True, "")
 
-    def _release(
-        self,
-        event: tkinter.Event,
-        type_: typing.Literal["left", "center", "right"]
-    ) -> None:
+    def _release(self, event: tkinter.Event, name: str) -> None:
         """Events to release the mouse"""
         for widget in self.widgets[::-1]:
             if widget.feature is not None:
-                if (self._get_command(
-                    widget.feature, f"_release_{type_}")(event)
+                if (widget.feature.get_method(name)(event)
                         and not widget.through):
                     event.x = math.nan
 
-    def _wheel(
-        self,
-        event: tkinter.Event,
-        type_: typing.Literal["up", "down"] | None = None
-    ) -> None:
+    def _wheel(self, event: tkinter.Event, type_: bool | None) -> None:
         """Events to scroll the mouse wheel"""
         if type_ is not None:
-            event.delta = 120 if type_ == "up" else -120
+            event.delta = 120 if type_ else -120
         for widget in self.widgets[::-1]:
             if widget.feature is not None:
-                if (self._get_command(widget.feature, "_wheel")(event)
+                if (widget.feature.get_method("<MouseWheel>")(event)
                         and not widget.through):
                     event.x = math.nan
 
-    def _input(self, event: tkinter.Event) -> None:
+    def _key_press(self, event: tkinter.Event) -> None:
         """Events for typing"""
         for widget in self.widgets[::-1]:
             if widget.feature is not None:
-                if (self._get_command(widget.feature, "_input")(event)
+                if (widget.feature.get_method("<KeyPress>")(event)
                         and not widget.through):
                     event.x = math.nan
 
-    def _copy(self, event: tkinter.Event) -> None:
-        """Events for copy operation"""
+    def _key_release(self, event: tkinter.Event) -> None:
+        """Events for typing"""
         for widget in self.widgets[::-1]:
             if widget.feature is not None:
-                if (self._get_command(widget.feature, "_copy")(event)
+                if (widget.feature.get_method("<KeyRelease>")(event)
                         and not widget.through):
-                    pass
+                    event.x = math.nan
 
-    def _paste(self, event: tkinter.Event) -> None:
-        """Events for paste operation"""
-        for widget in self.widgets[::-1]:
-            if widget.feature is not None:
-                if (self._get_command(widget.feature, "_paste")(event)
-                        and not widget.through):
-                    pass
-
-    def _cut(self, event: tkinter.Event) -> None:
-        """Events for cut operation"""
-        for widget in self.widgets[::-1]:
-            if widget.feature is not None:
-                if (self._get_command(widget.feature, "_cut")(event)
-                        and not widget.through):
-                    pass
-
-    def _select_all(self, event: tkinter.Event) -> None:
-        """Events for operation of selecting all"""
-        for widget in self.widgets[::-1]:
-            if widget.feature is not None:
-                if (self._get_command(widget.feature, "_select_all")(event)
-                        and not widget.through):
-                    pass
+    def event_register(
+        self,
+        name: str,
+        *,
+        add: bool | typing.Literal["", "+"] | None = None,
+    ) -> str:
+        """Register a event to process"""
+        def _handle_event(event: tkinter.Event) -> None:
+            for widget in self.widgets[::-1]:
+                if widget.feature is not None:
+                    if (widget.feature.get_method(name)(event)
+                            and not widget.through):
+                        pass
+        return self.bind(name, _handle_event, add)
 
 
 class Frame(Canvas):

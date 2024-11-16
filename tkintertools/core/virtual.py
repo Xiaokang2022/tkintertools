@@ -25,6 +25,7 @@ __all__ = [
 import abc
 import copy
 import math
+import re
 import tkinter
 import tkinter.font
 import traceback
@@ -408,72 +409,35 @@ class Feature:
         * `widget`: parent widget
         """
         self.widget = widget
-        self.extras: dict[str, list[typing.Callable] | typing.Callable] = {}
+        self.extras: dict[str, list[typing.Callable[[
+            tkinter.Event], typing.Any]]] = {}
         widget.feature = self
 
-    def _move_none(self, event: tkinter.Event) -> bool:
-        """Event of moving the mouse"""
-        return False
+    @staticmethod
+    def _parse_method_name(name: str) -> str:
+        name = re.sub("[<\\->]", "", name)
+        name = re.sub("([0-9A-Z])", "_\\1", name)
+        return name.lower()
 
-    def _move_left(self, event: tkinter.Event) -> bool:
-        """Event of holding down the left mouse button to move the mouse"""
-        return False
+    def get_method(self, name: str) -> typing.Callable:
+        """Return method by name"""
+        extra_commands = self.extras.get(name)
+        method = getattr(self, self._parse_method_name(name),
+                         configs.Env.default_callback)
 
-    def _move_center(self, event: tkinter.Event) -> bool:
-        """Event of holding down the center mouse button to move the mouse"""
-        return False
+        if extra_commands is None:
+            return method
 
-    def _move_right(self, event: tkinter.Event) -> bool:
-        """Event of holding down the right mouse button to move the mouse"""
-        return False
+        def _wrapper(event: tkinter.Event) -> typing.Any:
+            return_value = method(event)
+            for command in extra_commands:
+                try:
+                    command(event)
+                except Exception as exc:
+                    traceback.print_exception(exc)
+            return return_value
 
-    def _click_left(self, event: tkinter.Event) -> bool:
-        """Event of pressing the left mouse button"""
-        return False
-
-    def _click_center(self, event: tkinter.Event) -> bool:
-        """Event of pressing the center mouse button"""
-        return False
-
-    def _click_right(self, event: tkinter.Event) -> bool:
-        """Event of pressing the right mouse button"""
-        return False
-
-    def _release_left(self, event: tkinter.Event) -> bool:
-        """Event of releasing the left mouse button"""
-        return False
-
-    def _release_center(self, event: tkinter.Event) -> bool:
-        """Event of releasing the center mouse button"""
-        return False
-
-    def _release_right(self, event: tkinter.Event) -> bool:
-        """Event of releasing the right mouse button"""
-        return False
-
-    def _wheel(self, event: tkinter.Event) -> bool:
-        """Event of scrolling the mouse wheel"""
-        return False
-
-    def _input(self, event: tkinter.Event) -> bool:
-        """Event of typing"""
-        return False
-
-    def _copy(self, event: tkinter.Event) -> bool:
-        """Event of copy operation"""
-        return False
-
-    def _paste(self, event: tkinter.Event) -> bool:
-        """Event of paste operation"""
-        return False
-
-    def _cut(self, event: tkinter.Event) -> bool:
-        """Event of cut operation"""
-        return False
-
-    def _select_all(self, event: tkinter.Event) -> bool:
-        """Event of selecting all operation"""
-        return False
+        return _wrapper
 
 
 class Widget:
@@ -617,43 +581,58 @@ class Widget:
 
     def bind(
         self,
-        event_name: str,
-        command: typing.Callable[[tkinter.Event], bool],
-        *,
-        add: bool = False,
+        sequence: str,
+        func: typing.Callable[[tkinter.Event], typing.Any],
+        add: bool | typing.Literal["", "+"] | None = None,
     ) -> None:
-        """Bind a function to widget on event processing
+        """Bind to this widget at event SEQUENCE a call to function FUNC.
 
-        * `event_name`: event name of `virtual.Feature`
-        * `command`: callback function
+        * `sequence`: event name
+        * `func`: callback function
         * `add`: if True, original callback function will not be overwritten
         """
-        if hasattr(self.feature, method := f"_{event_name}"):
-            if not add:
-                self.feature.extras[method] = command
-            else:
-                if method not in self.feature.extras:
-                    self.feature.extras[method] = [command]
-                else:
-                    self.feature.extras[method].append(command)
+        if sequence not in configs.Constant.PRE_DEFINED_EVENTS:
+            if sequence not in configs.Constant.PRE_DEFINED_VIRTUAL_EVENTS:
+                if sequence not in self.master.events:
+                    self.master.events.append(sequence)
+                    self.master.event_register(sequence)
+
+        if self.feature.extras.get(sequence) is None or add:
+            self.feature.extras[sequence] = [func]
+        else:
+            self.feature.extras[sequence].append(func)
 
     def unbind(
         self,
-        event_name: str,
-        command: typing.Callable[[tkinter.Event], bool],
+        sequence: str,
+        funcid: typing.Callable[[tkinter.Event], typing.Any],
     ) -> None:
-        """Unbind a function to widget on event processing
+        """Unbind for this widget the event SEQUENCE.
 
-        * `event_name`: event name of `virtual.Feature`
-        * `command`: callback function
+        * `sequence`: event name
+        * `funcid`: callback function
         """
-        if hasattr(self.feature, method := f"_{event_name}"):
-            if isinstance(self.feature.extras[method], list):
-                self.feature.extras[method].remove(command)
-                if not self.feature.extras[method]:
-                    del self.feature.extras[method]
-            elif self.feature.extras[method] == command:
-                del self.feature.extras[method]
+        if self.feature.extras.get(sequence) is not None:
+            self.feature.extras[sequence].remove(funcid)
+
+    def event_generate(
+        self,
+        sequence: str,
+        event: tkinter.Event | None = None,
+        **kwargs,
+    ) -> None:
+        """Generate an event SEQUENCE. Additional keyword arguments specify
+        parameter of the event
+
+        * `sequence`: event name
+        * `event`: event
+        * `kwargs`: attr of event
+        """
+        if event is None:
+            event = tkinter.Event()
+        for key, value in kwargs.items():
+            setattr(event, key, value)
+        self.feature.get_method(sequence)(event)
 
     def disabled(self, value: bool = True) -> None:
         """Disable the widget"""
