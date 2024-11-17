@@ -340,22 +340,18 @@ class InputBoxFeature(ButtonFeature):
                     else:
                         self.widget.texts[0].text_proxy.select_clear()
                         self.widget.texts[0].cursor_move_to(select[0])
-                case "BackSpace":
+                case "BackSpace" | "Delete":
                     if select is not None:
                         self.widget.texts[0].text_proxy.select_clear()
                         self.widget.texts[0].remove(*select)
                     else:
                         index = self.widget.texts[0].text_proxy.cursor_get()
-                        if index > 0:
-                            self.widget.texts[0].remove(index - 1)
-                case "Delete":
-                    if select is not None:
-                        self.widget.texts[0].text_proxy.select_clear()
-                        self.widget.texts[0].remove(*select)
-                    else:
-                        index = self.widget.texts[0].text_proxy.cursor_get()
-                        if index < self.widget.texts[0].text_proxy.length():
-                            self.widget.texts[0].remove(index)
+                        if event.keysym == "BackSpace":
+                            if index > 0:
+                                self.widget.texts[0].remove(index - 1)
+                        else:
+                            if index < self.widget.texts[0].text_proxy.length():
+                                self.widget.texts[0].remove(index)
                 case _:
                     if len(event.char) and event.char.isprintable():
                         if select is not None:
@@ -364,7 +360,6 @@ class InputBoxFeature(ButtonFeature):
                         self.widget.texts[0].insert(
                             self.widget.texts[0].text_proxy.cursor_get(),
                             event.char)
-                        return None
         return False
 
     def _copy(self, _: tkinter.Event) -> bool:

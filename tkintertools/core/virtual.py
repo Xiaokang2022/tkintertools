@@ -505,15 +505,16 @@ class Widget:
     def offset(self) -> tuple[float, float]:
         """Return the offset of the anchor relative to nw"""
         match self.anchor:
-            case "n": return self.size[0]/2, 0
-            case "w": return 0, self.size[1]/2
-            case "s": return self.size[0]/2, self.size[1]
-            case "e": return self.size[0], self.size[1]/2
-            case "ne": return self.size[0], 0
-            case "sw": return 0, self.size[1]
-            case "nw": return 0, 0
-            case "se": return self.size[0], self.size[1]
-            case _: return self.size[0]/2, self.size[1]/2
+            case "n": _offset = self.size[0]/2, 0
+            case "w": _offset = 0, self.size[1]/2
+            case "s": _offset = self.size[0]/2, self.size[1]
+            case "e": _offset = self.size[0], self.size[1]/2
+            case "ne": _offset = self.size[0], 0
+            case "sw": _offset = 0, self.size[1]
+            case "nw": _offset = 0, 0
+            case "se": _offset = self.size[0], self.size[1]
+            case _: _offset = self.size[0]/2, self.size[1]/2
+        return _offset
 
     def register(self, component: Component) -> None:
         """Register a component to the widget"""

@@ -78,11 +78,12 @@ def _get_name(
     if obj is None:
         return None
     if getattr(obj, "name", None) is not None:
+        name = obj.name
         if inspect.isclass(obj.name):
-            return obj.name.__name__
-        if obj.name.startswith("."):  # Special rule
-            return obj.__class__.__name__ + obj.name
-        return obj.name
+            name = obj.name.__name__
+        elif obj.name.startswith("."):  # Special rule
+            name = obj.__class__.__name__ + obj.name
+        return name
     if inspect.isclass(obj):
         return obj.__name__
     if not isinstance(obj, str):
