@@ -12,6 +12,74 @@
 > * 🟠 **Deprecated / 弃用**
 > * 🟤 **Refactored / 重构**
 
+## 🔖 `3.0.0rc4`
+
+🕓 *Release Date / 发布日期 : 2024-11-17*
+
+🟢 **Added / 新增**
+
+* The fine-grained scaling of widgets has been improved, and the position and size of the widgets can now be scaled separately by the new parameters of the method  `zoom` of widgets, as described in the documentation  
+提高了控件缩放的细粒度，现在可以通过控件的 `zoom` 方法的新参数分别缩放控件的位置和大小，具体参数见文档
+
+* Added parameters to the widget `SpinBox` to control the size of each time the value is modified and the format in which the value is displayed, see the documentation  
+控件 `SpinBox` 新增参数来控制每次修改值时的大小以及值显示的格式，具体参数见文档
+
+* The widget `InputBox` adds the ability of key <kbd>Del</kbd> to delete text  
+控件 `InputBox` 新增 <kbd>Del</kbd> 键的功能来删除文本
+
+🔵 **Optimized / 优化**
+
+* The function `controllers.controller_generator` now warn when a parameter passed to function is inappropriate  
+现在传递给函数 `controllers.controller_generator` 的参数不合适时会发出警告
+
+* Now use the descriptor to get the default root window dynamically  
+现在使用描述器来动态获取默认的根窗口
+
+* The time error of the animation has been reduced  
+减小了动画的时间误差
+
+* Improved type hints  
+改善类型提示
+
+* Improved code style  
+改善代码风格
+
+🟣 **Fixed / 修复**
+
+* Fixed a bug where the widget `SegmentedButton` would show the wrong position when using the `anchor` parameter  
+修复了控件 `SegmentedButton` 使用参数 `anchor` 时会显示错位的 bug
+
+* Fixed a bug where nested widgets could not be destroyed gracefully  
+修复了嵌套控件无法正常删除的 bug
+
+* Fixed a bug where it was not possible to delete a widget with a lower creation order widget  
+修复了无法用创建顺序靠后的控件去删除创建顺序靠前的控件的 bug
+
+* Fixed a bug where the widget `InputBox` could produce an error when deleting text  
+修复了控件 `InputBox` 在删除文本时可能产生错误的 bug
+
+* Fixed a bug where the widget `InputBox` could produce an error when using the experimental Select All feature  
+修复了控件 `InputBox` 在使用实验性全选功能时可能产生错误的 bug
+
+* Fixed a bug where the widget `SpinBox` would produce an error when using the built-in adjustment value feature  
+修复了控件 `SpinBox` 在使用自带的调节值功能时会产生错误的 bug
+
+🟤 **Refactored / 重构**
+
+* Refactored submodule `core.constants` and renamed to `core.configs`  
+重构子模块 `core.constants` 并重命名为 `core.configs`
+
+* Refactoring the entire event handling mechanism to now bind and handle events almost exactly like native `tkinter`  
+重构整个事件处理机制，现在几乎可以完全像原生 `tkinter` 那样绑定和处理事件了
+
+🔴 **Removed / 移除**
+
+* Removed useless submodule `standard._auxiliary`  
+移除了无用子模块 `standard._auxiliary`
+
+* The function `toolbox.set_mouse_position` has been removed and will be moved to a different project in the future  
+移除了函数 `toolbox.set_mouse_position`，后续会将其移动到其它项目中
+
 ## 🔖 `3.0.0rc3`
 
 🕓 *Release Date / 发布日期 : 2024-10-24*
