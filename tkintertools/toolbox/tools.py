@@ -159,20 +159,6 @@ def screen_size() -> tuple[int, int]:
     return width, height
 
 
-if platform.system() == "Windows":
-
-    __all__.append("set_mouse_position")
-
-    def set_mouse_position(x: int, y: int) -> None:
-        """Set mouse cursor position
-
-        ATTENTION:
-
-        This function only works on Windows OS!
-        """
-        ctypes.windll.user32.SetCursorPos(x, y)
-
-
 def get_text_size(
     text: str,
     fontsize: int | None = None,
