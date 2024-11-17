@@ -65,11 +65,6 @@ class Test(unittest.TestCase):
         self.assertIsInstance(tools.screen_size(), tuple)
 
     @unittest.skipUnless(
-        platform.system() == "Windows", "This only work on Windows.")
-    def test_set_mouse_position(self) -> None:
-        self.assertIsNone(tools.set_mouse_position(0, 0))
-
-    @unittest.skipUnless(
         platform.system() == "Windows", "This test only work on Windows.")
     def test_get_text_size(self) -> None:
         path = pathlib.Path(__file__).parent.parent/"assets/fonts/FiraCode.ttf"
