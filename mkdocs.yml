@@ -208,8 +208,6 @@ extra: # 额外设定
   homepage: . # 左上角徽标链接的地址
   tags:
     _: _
-  annotate: # 允许代码块非注释内的提示，貌似是可以在代码里面加悬浮提示框，而不只是在注释中（感觉这样不好，虽然我不用，但不能没有）
-    json: [.s2]
   social: # 社交联系方式（页面右下角内容）
     - icon: fontawesome/brands/github
       link: https://github.com/Xiaokang2022/tkintertools/
@@ -293,13 +291,13 @@ plugins:
   - glightbox:
       background: none
       auto_themed: true
-  - git-revision-date-localized:
-      enable_creation_date: true
-      type: timeago
-  - git-committers:
-      repository: Xiaokang2022/tkintertools
-      branch: docs
-      token: !ENV GH_TOKEN # 需要自行在终端中设置临时环境变量，强烈不建议显式地在此处设置 token
+  # - git-revision-date-localized:
+  #     enable_creation_date: true
+  #     type: timeago
+  # - git-committers:
+  #     repository: Xiaokang2022/tkintertools
+  #     branch: docs
+  #     token: !ENV GH_TOKEN # 需要自行在终端中设置临时环境变量，强烈不建议显式地在此处设置 token
   - minify:
       minify_html: true
       htmlmin_opts:

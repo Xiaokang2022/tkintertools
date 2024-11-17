@@ -41,30 +41,14 @@ icon: material/home
 
     Most of the preview content of the following two versions can be found in the official [demo repository](https://github.com/Xiaokang2022/tkintertools-demos)
 
-### ✅ Stable Version
-
-* 🔖 Version: `2.6.21`
-* 🕓 Release: 2024-01-01
-* ✨ Feature: [Changelog-2.6.21](./CHANGELOG.md#-2621)
-
-```bash linenums="0"
-pip install tkintertools
-```
-
-???+ "Preview"
-
-    ![](https://xiaokang2022.github.io/tkintertools-docs/2.6/tutorials/images/1.2-2.1-2.png)
-
-    ![](https://xiaokang2022.github.io/tkintertools-docs/2.6/tutorials/images/7.3-3.1-2.png)
-
 ### 🔥 Dev Version
 
-* 🔖 Version: `3.0.0rc3`
-* 🕓 Release: 2024-10-24
-* ✨ Feature: [Changelog-3.0.0rc3](./CHANGELOG.md#-300rc3)
+* 🔖 Version: `3.0.0rc4`
+* 🕓 Release: 2024-11-17
+* ✨ Feature: [Changelog-3.0.0rc4](./CHANGELOG.md#-300rc4)
 
 ```bash linenums="0"
-pip install tkintertools[recommended]==3.0.0rc3
+pip install tkintertools[recommended]==3.0.0rc4
 ```
 
 ???+ "Preview"
@@ -107,6 +91,22 @@ pip install tkintertools[recommended]==3.0.0rc3
 
     ![](https://github.com/Xiaokang2022/tkintertools-demos/blob/main/preview/demo10-1.png?raw=true)
 
+### ✅ Stable Version
+
+* 🔖 Version: `2.6.21`
+* 🕓 Release: 2024-01-01
+* ✨ Feature: [Changelog-2.6.21](./CHANGELOG.md#-2621)
+
+```bash linenums="0"
+pip install tkintertools
+```
+
+???+ "Preview"
+
+    ![](https://xiaokang2022.github.io/tkintertools-docs/2.6/tutorials/images/1.2-2.1-2.png)
+
+    ![](https://xiaokang2022.github.io/tkintertools-docs/2.6/tutorials/images/7.3-3.1-2.png)
+
 ## 📦 Dependency
 
 ### 📌 Requirements
@@ -126,13 +126,13 @@ Considering that too many packages will result in a large size of the project fi
 The following command installs the recommended optional dependencies:
 
 ```bash linenums="0"
-pip install tkintertools[recommended]==3.0.0rc3
+pip install tkintertools[recommended]==3.0.0rc4
 ```
 
 The following command installs all optional dependencies:
 
 ```bash linenums="0"
-pip install tkintertools[all]==3.0.0rc3
+pip install tkintertools[all]==3.0.0rc4
 ```
 
 ## 📦 Extension
@@ -146,7 +146,7 @@ In addition to the basic functionality, `tkintertools` also offers some extensio
 The following command can be used to install all the official extensions:
 
 ```bash linenums="0"
-pip install tkintertools[extension]==3.0.0rc3
+pip install tkintertools[extension]==3.0.0rc4
 ```
 
 ## 👀 More

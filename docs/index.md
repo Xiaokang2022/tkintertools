@@ -43,30 +43,14 @@ hide:
 
     下面两个版本的预览内容大多可以在官方[演示仓库](https://github.com/Xiaokang2022/tkintertools-demos)中找到
 
-### ✅ 稳定版本
-
-* 🔖 最新版本 : `2.6.21`
-* 🕓 发布日期 : 2024-01-01
-* ✨ 更新内容 : [Changelog-2.6.21](./CHANGELOG.md#-2621)
-
-```bash linenums="0"
-pip install tkintertools
-```
-
-???+ "预览图"
-
-    ![](https://xiaokang2022.github.io/tkintertools-docs/2.6/tutorials/images/1.2-2.1-2.png)
-
-    ![](https://xiaokang2022.github.io/tkintertools-docs/2.6/tutorials/images/7.3-3.1-2.png)
-
 ### 🔥 开发版本
 
-* 🔖 最新版本 : `3.0.0rc3`
-* 🕓 发布日期 : 2024-10-24
-* ✨ 更新内容 : [Changelog-3.0.0rc3](./CHANGELOG.md#-300rc3)
+* 🔖 最新版本 : `3.0.0rc4`
+* 🕓 发布日期 : 2024-11-17
+* ✨ 更新内容 : [Changelog-3.0.0rc4](./CHANGELOG.md#-300rc4)
 
 ```bash linenums="0"
-pip install tkintertools[recommended]==3.0.0rc3
+pip install tkintertools[recommended]==3.0.0rc4
 ```
 
 ???+ "预览图"
@@ -109,6 +93,22 @@ pip install tkintertools[recommended]==3.0.0rc3
 
     ![](https://github.com/Xiaokang2022/tkintertools-demos/blob/main/preview/demo10-1.png?raw=true)
 
+### ✅ 稳定版本
+
+* 🔖 最新版本 : `2.6.21`
+* 🕓 发布日期 : 2024-01-01
+* ✨ 更新内容 : [Changelog-2.6.21](./CHANGELOG.md#-2621)
+
+```bash linenums="0"
+pip install tkintertools
+```
+
+???+ "预览图"
+
+    ![](https://xiaokang2022.github.io/tkintertools-docs/2.6/tutorials/images/1.2-2.1-2.png)
+
+    ![](https://xiaokang2022.github.io/tkintertools-docs/2.6/tutorials/images/7.3-3.1-2.png)
+
 ## 📦 相关依赖包
 
 ### 📌 必需包
@@ -128,13 +128,13 @@ pip install tkintertools[recommended]==3.0.0rc3
 以下命令可以安装推荐的可选依赖包：
 
 ```bash linenums="0"
-pip install tkintertools[recommended]==3.0.0rc3
+pip install tkintertools[recommended]==3.0.0rc4
 ```
 
 以下命令可以安装全部可选依赖包：
 
 ```bash linenums="0"
-pip install tkintertools[all]==3.0.0rc3
+pip install tkintertools[all]==3.0.0rc4
 ```
 
 ## 📦 官方扩展包
@@ -148,7 +148,7 @@ pip install tkintertools[all]==3.0.0rc3
 以下命令可以安装全部的官方扩展包：
 
 ```bash linenums="0"
-pip install tkintertools[extension]==3.0.0rc3
+pip install tkintertools[extension]==3.0.0rc4
 ```
 
 ## 👀 更多
