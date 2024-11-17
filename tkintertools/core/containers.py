@@ -366,10 +366,10 @@ class Canvas(tkinter.Canvas):
         self._free_anchor = free_anchor
         self._keep_ratio: typing.Literal["min", "max"] | None = keep_ratio
 
-        self._trigger_config = tools.Trigger(
+        self.trigger_config = tools.Trigger(
             lambda **kwargs: self.configure(
                 **{k: v for k, v in kwargs.items() if self[k] != v}))
-        self._trigger_focus = tools.Trigger(self.focus)
+        self.trigger_focus = tools.Trigger(self.focus)
 
         self.theme(manager.get_color_mode() == "dark")
 
@@ -414,7 +414,7 @@ class Canvas(tkinter.Canvas):
             for component in widget.shapes + widget.texts + widget.images:
                 if styles := parser.get(widget, component):
                     component.styles = styles
-            if widget._state_before_disabled:
+            if widget.state_before_disabled:
                 widget.disabled()
             else:
                 widget.update()
@@ -489,6 +489,8 @@ class Canvas(tkinter.Canvas):
         for canvas in self.canvases:
             canvas.re_place()
 
+        return None
+
     def _zoom_children(self, relative_ratio: tuple[float, float]) -> None:
         """Experimental: Scale the tkinter Widgets"""
         for tk_widgets in tuple(self.children.values()):
@@ -541,24 +543,24 @@ class Canvas(tkinter.Canvas):
 
     def _motion(self, event: tkinter.Event, name: str) -> None:
         """Events to move the mouse"""
-        self._trigger_config.reset()
+        self.trigger_config.reset()
         for widget in self.widgets[::-1]:
             if widget.feature is not None:
                 if (widget.feature.get_method(name)(event)
                         and not widget.through):
                     event.x = math.nan
-        self._trigger_config.update(cursor="arrow")
+        self.trigger_config.update(cursor="arrow")
 
     def _click(self, event: tkinter.Event, name: str) -> None:
         """Events to active the mouse"""
         self.focus_set()
-        self._trigger_focus.reset()
+        self.trigger_focus.reset()
         for widget in self.widgets[::-1]:
             if widget.feature is not None:
                 if (widget.feature.get_method(name)(event)
                         and not widget.through):
                     event.x = math.nan
-        self._trigger_focus.update(True, "")
+        self.trigger_focus.update(True, "")
 
     def _release(self, event: tkinter.Event, name: str) -> None:
         """Events to release the mouse"""

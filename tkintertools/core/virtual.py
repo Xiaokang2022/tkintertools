@@ -381,7 +381,7 @@ class Image(Component):
         * `kwargs`: extra parameters for CanvasItem
         """
         self.image = image
-        self._initail_image = image
+        self.initail_image = image
         Component.__init__(self, widget, relative_position, size, name=name,
                            animation=animation, styles=styles, **kwargs)
 
@@ -396,7 +396,7 @@ class Image(Component):
         """Scale the image"""
         Component.zoom(
             self, ratios, zoom_position=zoom_position, zoom_size=zoom_size)
-        self.image = self._initail_image.scale(*self.widget.master.ratios)
+        self.image = self.initail_image.scale(*self.widget.master.ratios)
         for item in self.items:
             self.widget.master.itemconfigure(item, image=self.image)
 
@@ -491,7 +491,7 @@ class Widget:
         self.shapes: list[Shape] = []
         self.images: list[Image] = []
         self.feature: Feature = Feature(self)
-        self._state_before_disabled: str = ""
+        self.state_before_disabled: str = ""
         self._update_hooks: list[typing.Callable[[str, bool], typing.Any]] = []
 
         self.master.widgets.append(self)
@@ -542,7 +542,7 @@ class Widget:
         *, no_delay: bool = False,
     ) -> None:
         """Update the widget"""
-        if state != "disabled" and self._state_before_disabled:
+        if state != "disabled" and self.state_before_disabled:
             return  # It is currently disabled
         if state is not None:
             self.state = state
@@ -637,14 +637,14 @@ class Widget:
     def disabled(self, value: bool = True) -> None:
         """Disable the widget"""
         if value:
-            if not self._state_before_disabled:
-                self._state_before_disabled = self.state
+            if not self.state_before_disabled:
+                self.state_before_disabled = self.state
             for component in self.components:
-                component.get_disabled_style(self._state_before_disabled)
+                component.get_disabled_style(self.state_before_disabled)
             self.update("disabled", no_delay=True)
         else:
-            self._state_before_disabled, last_state \
-                = "", self._state_before_disabled
+            self.state_before_disabled, last_state \
+                = "", self.state_before_disabled
             self.update(last_state, no_delay=True)
         for widget in self.widgets:
             widget.disabled(value)

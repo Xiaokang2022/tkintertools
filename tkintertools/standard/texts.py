@@ -133,6 +133,7 @@ class Information(virtual.Text):
 
     @typing_extensions.override
     def display(self) -> None:
+        """Display the `Component` on a `Canvas`"""
         self.items = [self.widget.master.create_text(
             0, 0, text=self.text, font=self.font,
             tags=("fill", "fill"), **self.kwargs)]
@@ -143,6 +144,7 @@ class Information(virtual.Text):
         size: tuple[float, float] | None = None,
         position: tuple[float, float] | None = None,
     ) -> None:
+        """Resize the `Component`"""
         super().coords(size, position)
 
         self.widget.master.coords(self.items[0], *self.center())
@@ -167,8 +169,7 @@ class Information(virtual.Text):
 
     def delete(self, num: int) -> None:
         """Remove a portion of the `Text` value from the trail"""
-        if num > len(self.text):
-            num = len(self.text)
+        num = min(len(self.text), num)
         self.text = self.text[:-num]
         self.widget.master.itemconfigure(self.items[0], text=self.text)
 
@@ -241,6 +242,7 @@ class SingleLineText(virtual.Text):
 
     @typing_extensions.override
     def display(self) -> None:
+        """Display the `Component` on a `Canvas`"""
         self.items = [
             self.widget.master.create_text(
                 0, 0, text=self.text, font=self.font,
@@ -255,6 +257,7 @@ class SingleLineText(virtual.Text):
         size: tuple[float, float] | None = None,
         position: tuple[float, float] | None = None,
     ) -> None:
+        """Resize the `Component`"""
         super().coords(size, position)
 
         x, y = self.center()
@@ -353,6 +356,8 @@ class SingleLineText(virtual.Text):
                 self.text_proxy.remove(0)
                 self.left += 1
 
+        return None
+
     def pop(self, index: int = -1) -> str:
         """Delete a character at the text cursor"""
         value = self.text[index]
@@ -394,9 +399,9 @@ class SingleLineText(virtual.Text):
         """Move the index position of the text cursor"""
         index = self.text_proxy.cursor_get()
         if count < 0 < index:
-            return self.text_proxy.cursor_set(index + count)
+            self.text_proxy.cursor_set(index + count)
         elif 0 < count and index < self.text_proxy.length():
-            return self.text_proxy.cursor_set(index + count)
+            self.text_proxy.cursor_set(index + count)
         elif count < 0 and index == 0:
             self._move_right()
         elif count > 0 and index == self.text_proxy.length():

@@ -130,11 +130,11 @@ class Image(virtual.Widget):
         """Get the image of the widget"""
         if (image := self.images[0].image) is not None:
             return image
-        return self.images[0]._initail_image
+        return self.images[0].initail_image
 
     def set(self, image: enhanced.PhotoImage | None) -> None:
         """Set the image of the widget"""
-        self.images[0]._initail_image = image
+        self.images[0].initail_image = image
         if image is not None:
             self.master.update()
             image = image.scale(*self.master.ratios)
@@ -321,8 +321,8 @@ class Switch(virtual.Widget):
 
     def set(self, value: bool, *, callback: bool = False) -> None:
         """Set the state of the switch"""
-        if callback and self.feature._command is not None:
-            self.feature._command(value)
+        if callback and self.feature.command is not None:
+            self.feature.command(value)
         if self.get() == bool(value):
             return
         self.update(
@@ -483,13 +483,13 @@ class CheckButton(virtual.Widget):
 
     def set(self, value: bool, *, callback: bool = False) -> None:
         """Set the state of the check button"""
-        if callback and self.feature._command is not None:
-            self.feature._command(value)
+        if callback and self.feature.command is not None:
+            self.feature.command(value)
         if self.get() == bool(value):
-            return
+            return None
         if value:
             return self.texts[0].appear()
-        self.texts[0].disappear()
+        return self.texts[0].disappear()
 
 
 class ToggleButton(virtual.Widget):
@@ -565,8 +565,8 @@ class ToggleButton(virtual.Widget):
 
     def set(self, value: bool, *, callback: bool = False) -> None:
         """Set the state of the switch"""
-        if callback and self.feature._command is not None:
-            self.feature._command(value)
+        if callback and self.feature.command is not None:
+            self.feature.command(value)
         if self.get() == bool(value):
             return
         self.update(f"{self.state.split('-')[0]}-{'on' if value else 'off'}")
@@ -630,13 +630,13 @@ class RadioButton(virtual.Widget):
 
     def set(self, value: bool, *, callback: bool = False) -> None:
         """Set the state of the radio button"""
-        if callback and self.feature._command is not None:
-            self.feature._command(value)
+        if callback and self.feature.command is not None:
+            self.feature.command(value)
         if self.get() == bool(value):
-            return
+            return None
         if value:
             return self.shapes[1].appear()
-        self.shapes[1].disappear()
+        return self.shapes[1].disappear()
 
 
 class ProgressBar(virtual.Widget):
@@ -703,7 +703,7 @@ class ProgressBar(virtual.Widget):
             self.command(value)
         if self.value == 0:
             return self.shapes[1].disappear()
-        elif not self.shapes[1].visible:
+        if not self.shapes[1].visible:
             self.shapes[1].appear()
 
         if isinstance(self.shapes[1], shapes.Rectangle):
@@ -715,6 +715,8 @@ class ProgressBar(virtual.Widget):
                 (self.size[1]*0.7
                  + (self.size[0]-self.size[1] * 0.3-self.shapes[1].size[1])
                  * self.value, self.shapes[1].size[1]))
+
+        return None
 
 
 class UnderlineButton(virtual.Widget):
@@ -1029,9 +1031,8 @@ class SegmentedButton(virtual.Widget):
                     padding=6, master=master
                 ) for text in text)
             else:
-                sizes = tools.get_text_size(
-                    "", fontsize, family, weight=weight, slant=slant,
-                    padding=6, master=master),
+                sizes = (tools.get_text_size("", fontsize, family,
+                         weight=weight, slant=slant, padding=6, master=master),)
         widths, heights, length = *zip(*sizes), len(sizes)
         if not text:
             sizes, length = (), 0
@@ -1087,7 +1088,7 @@ class SpinBox(virtual.Widget):
         position: tuple[int, int],
         size: tuple[int, int] | None = None,
         *,
-        format: str = "d",
+        style: str = "d",
         step: int = 1,
         family: str | None = None,
         fontsize: int | None = None,
@@ -1111,7 +1112,7 @@ class SpinBox(virtual.Widget):
         * `master`: parent canvas
         * `position`: position of the widget
         * `size`: size of the widget
-        * `format`: format of value
+        * `style`: format of value
         * `step`: value of each change
         * `family`: font family
         * `fontsize`: font size
@@ -1154,7 +1155,7 @@ class SpinBox(virtual.Widget):
         Button(self, (size[0]-w-4, size[1]/2 + 2), (w, h), text="▼",
                fontsize=14, through=True, command=lambda:
                command(False) if command is not None else self.change(False))
-        self.format = format
+        self.format = style
         self.step = step
         features.SpinBoxFeature(self, command=command)
 
@@ -1169,6 +1170,7 @@ class SpinBox(virtual.Widget):
             self.widgets[0].set(("%"+self.format) % value)
         except ValueError:
             pass
+        return None
 
     def get(self) -> str:
         """Get the value of the Entry"""

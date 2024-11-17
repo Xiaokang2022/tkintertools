@@ -14,6 +14,7 @@ class StillImage(virtual.Image):
 
     @typing_extensions.override
     def display(self) -> None:
+        """Display the `Component` on a `Canvas`"""
         self.items = [self.widget.master.create_image(
             0, 0, image=self.image, **self.kwargs)]
 
@@ -23,6 +24,7 @@ class StillImage(virtual.Image):
         size: tuple[float, float] | None = None,
         position: tuple[float, float] | None = None,
     ) -> None:
+        """Resize the `Component`"""
         super().coords(size, position)
 
         self.widget.master.coords(self.items[0], *self.center())

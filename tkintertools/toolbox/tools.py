@@ -127,7 +127,7 @@ def load_font(
 
         return bool(min(num_fonts_added, 1))
 
-    elif platform.system() == "Linux":
+    if platform.system() == "Linux":
         try:
             os.makedirs(_LINUX_FONTS_DIR, exist_ok=True)
             shutil.copy(font_path, _LINUX_FONTS_DIR)

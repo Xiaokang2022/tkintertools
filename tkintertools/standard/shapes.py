@@ -53,6 +53,7 @@ class Line(virtual.Shape):
 
     @typing_extensions.override
     def display(self) -> None:
+        """Display the `Component` on a `Canvas`"""
         self.items = [self.widget.master.create_line(
             0, 0, 0, 0, tags=("fill", "fill"), **self.kwargs)]
 
@@ -62,6 +63,7 @@ class Line(virtual.Shape):
         size: tuple[float, float] | None = None,
         position: tuple[float, float] | None = None,
     ) -> None:
+        """Resize the `Component`"""
         super().coords(size, position)
 
         points = [(x+self.position[0], y+self.position[1])
@@ -75,6 +77,7 @@ class Rectangle(virtual.Shape):
 
     @typing_extensions.override
     def display(self) -> None:
+        """Display the `Component` on a `Canvas`"""
         self.items = [self.widget.master.create_rectangle(
             0, 0, 0, 0, tags=("fill", "fill", "outline", "outline"),
             **self.kwargs)]
@@ -85,6 +88,7 @@ class Rectangle(virtual.Shape):
         size: tuple[float, float] | None = None,
         position: tuple[float, float] | None = None,
     ) -> None:
+        """Resize the `Component`"""
         super().coords(size, position)
 
         self.widget.master.coords(self.items[0], *self.region())
@@ -95,6 +99,7 @@ class Oval(virtual.Shape):
 
     @typing_extensions.override
     def display(self) -> None:
+        """Display the `Component` on a `Canvas`"""
         self.items = [self.widget.master.create_oval(
             0, 0, 0, 0, tags=("fill", "fill", "outline", "outline"),
             **self.kwargs)]
@@ -105,12 +110,14 @@ class Oval(virtual.Shape):
         size: tuple[float, float] | None = None,
         position: tuple[float, float] | None = None,
     ) -> None:
+        """Resize the `Component`"""
         super().coords(size, position)
 
         self.widget.master.coords(self.items[0], *self.region())
 
     @typing_extensions.override
     def detect(self, x: int, y: int) -> bool:
+        """Detect whether the specified coordinates are within `Component`"""
         x1, y1, w, h = *self.position, *self.size
         return math.hypot(2*(x-x1)/w - 1, 2*(y-y1)/h - 1) <= 1
 
@@ -150,6 +157,7 @@ class RegularPolygon(virtual.Shape):
 
     @typing_extensions.override
     def display(self) -> None:
+        """Display the `Component` on a `Canvas`"""
         self.items = [self.widget.master.create_polygon(
             0, 0, 0, 0, tags=("fill", "fill", "outline", "outline"),
             **self.kwargs)]
@@ -160,6 +168,7 @@ class RegularPolygon(virtual.Shape):
         size: tuple[float, float] | None = None,
         position: tuple[float, float] | None = None,
     ) -> None:
+        """Resize the `Component`"""
         super().coords(size, position)
 
         r = min(self.size) / 2
@@ -208,6 +217,7 @@ class RoundedRectangle(virtual.Shape):
 
     @typing_extensions.override
     def display(self) -> None:
+        """Display the `Component` on a `Canvas`"""
         self.items = [
             self.widget.master.create_rectangle(
                 0, 0, 0, 0, outline="", tags=("fill", "fill"), **self.kwargs),
@@ -253,6 +263,7 @@ class RoundedRectangle(virtual.Shape):
         size: tuple[float, float] | None = None,
         position: tuple[float, float] | None = None,
     ) -> None:
+        """Resize the `Component`"""
         super().coords(size, position)
 
         x, y, w, h = *self.position, *self.size
@@ -317,6 +328,7 @@ class HalfRoundedRectangle(virtual.Shape):
 
     @typing_extensions.override
     def display(self) -> None:
+        """Display the `Component` on a `Canvas`"""
         self.items = [
             self.widget.master.create_rectangle(
                 0, 0, 0, 0, outline="", tags=("fill", "fill"), **self.kwargs),
@@ -365,6 +377,7 @@ class HalfRoundedRectangle(virtual.Shape):
         size: tuple[float, float] | None = None,
         position: tuple[float, float] | None = None,
     ) -> None:
+        """Resize the `Component`"""
         super().coords(size, position)
 
         x, y, w, h = *self.position, *self.size
@@ -405,6 +418,7 @@ class SemicircularRectangle(virtual.Shape):
 
     @typing_extensions.override
     def display(self) -> None:
+        """Display the `Component` on a `Canvas`"""
         self.items = [
             self.widget.master.create_arc(
                 0, 0, 0, 0, outline="", extent=180, start=90,
@@ -432,6 +446,7 @@ class SemicircularRectangle(virtual.Shape):
         size: tuple[float, float] | None = None,
         position: tuple[float, float] | None = None,
     ) -> None:
+        """Resize the `Component`"""
         super().coords(size, position)
 
         x, y, w, h = *self.position, *self.size
@@ -454,6 +469,7 @@ class SemicircularRectangle(virtual.Shape):
 
     @typing_extensions.override
     def detect(self, x: int, y: int) -> bool:
+        """Detect whether the specified coordinates are within `Component`"""
         x1, y1, w, h = *self.position, *self.size
         r = h / 2
         if x1+r <= x <= x1+w-r:
@@ -502,6 +518,7 @@ class SharpRectangle(virtual.Shape):
 
     @typing_extensions.override
     def display(self) -> None:
+        """Display the `Component` on a `Canvas`"""
         self.items = [self.widget.master.create_polygon(
             0, 0, 0, 0, tags=("fill", "fill", "outline", "outline"),
             **self.kwargs)]
@@ -512,6 +529,7 @@ class SharpRectangle(virtual.Shape):
         size: tuple[float, float] | None = None,
         position: tuple[float, float] | None = None,
     ) -> None:
+        """Resize the `Component`"""
         super().coords(size, position)
 
         x, y, w, h = *self.position, *self.size
@@ -572,6 +590,7 @@ class Parallelogram(virtual.Shape):
 
     @typing_extensions.override
     def display(self) -> None:
+        """Display the `Component` on a `Canvas`"""
         self.items = [self.widget.master.create_polygon(
             0, 0, 0, 0, tags=("fill", "fill", "outline", "outline"),
             **self.kwargs)]
@@ -582,6 +601,7 @@ class Parallelogram(virtual.Shape):
         size: tuple[float, float] | None = None,
         position: tuple[float, float] | None = None,
     ) -> None:
+        """Resize the `Component`"""
         super().coords(size, position)
 
         x, y, w, h = *self.position, *self.size
