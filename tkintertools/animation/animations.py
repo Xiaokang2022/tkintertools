@@ -20,6 +20,7 @@ __all__ = [
 
 import numbers
 import tkinter
+import traceback
 import typing
 import warnings
 
@@ -83,7 +84,10 @@ class Animation:
             func(x)
 
             if self.end is not None:
-                self.end()
+                try:
+                    self.end()
+                except Exception as exc:
+                    traceback.print_exception(exc)
 
             if self.repeat != 0:
                 self.repeat -= 1
