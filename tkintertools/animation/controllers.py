@@ -17,6 +17,8 @@ The built-in control functions are:
 * `rebound`: before the end, displacement will bounce off a bit
 """
 
+from __future__ import annotations
+
 __all__ = [
     "controller_generator",
     "flat",

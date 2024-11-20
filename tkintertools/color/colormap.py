@@ -1,5 +1,7 @@
 """The mapping of the color name to its RGB code"""
 
+from __future__ import annotations
+
 __all__ = [
     "COLOR_MAP",
     "name_to_rgb",

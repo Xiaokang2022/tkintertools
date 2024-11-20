@@ -1,5 +1,7 @@
 """All standard dialog classes"""
 
+from __future__ import annotations
+
 __all__ = [
     "TkMessage",
     "TkColorChooser",

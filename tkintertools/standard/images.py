@@ -1,5 +1,7 @@
 """All standard `Image` classes"""
 
+from __future__ import annotations
+
 __all__ = [
     "StillImage",
 ]

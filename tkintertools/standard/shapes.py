@@ -1,5 +1,7 @@
 """All standard `Shape` classes"""
 
+from __future__ import annotations
+
 __all__ = [
     "Line",
     "Rectangle",

@@ -1,5 +1,7 @@
 """All standard `Text` classes"""
 
+from __future__ import annotations
+
 __all__ = [
     "Information",
     "SingleLineText",

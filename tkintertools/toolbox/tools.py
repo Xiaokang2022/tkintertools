@@ -1,5 +1,7 @@
 """Some useful utility classes or utility functions"""
 
+from __future__ import annotations
+
 __all__ = [
     "get_hwnd",
     "embed_window",

@@ -1,5 +1,7 @@
 """All configs of tkintertools"""
 
+from __future__ import annotations
+
 import math
 import platform
 import tkinter

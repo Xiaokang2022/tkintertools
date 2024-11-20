@@ -1,5 +1,7 @@
 """Support for RGB"""
 
+from __future__ import annotations
+
 __all__ = [
     "contrast",
     "convert",

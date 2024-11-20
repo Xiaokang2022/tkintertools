@@ -1,5 +1,7 @@
 """All standard `Feature` classes"""
 
+from __future__ import annotations
+
 __all__ = [
     "LabelFeature",
     "ButtonFeature",

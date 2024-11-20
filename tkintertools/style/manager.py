@@ -6,6 +6,8 @@
 * hPyT: https://github.com/Zingzy/hPyT
 """
 
+from __future__ import annotations
+
 __all__ = [
     "set_color_mode",
     "get_color_mode",
