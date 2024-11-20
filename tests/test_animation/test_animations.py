@@ -35,6 +35,14 @@ class TestAnimation(unittest.TestCase):
         an3.start()
         self.assertEqual(len(an3._tasks), 1)
 
+    @unittest.skipIf(platform.system() == "Linux", "No display name.")
+    def test_is_active(self) -> None:
+        an = animations.Animation(60, controllers.flat)
+        an.start()
+        self.assertEqual(an.is_active, True)
+        an.stop()
+        self.assertEqual(an.is_active, False)
+
 
 class TestMoveTkWidget(unittest.TestCase):
 
