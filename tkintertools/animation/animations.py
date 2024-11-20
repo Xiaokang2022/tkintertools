@@ -66,11 +66,17 @@ class Animation:
 
         self._tasks: list[str] = []
         self._delay: int = 1000 // fps
+        self._is_active: bool = False
 
         if self._delay <= self.ms:
             self._total, self._leave = divmod(self.ms, self._delay)
         else:
             self._delay, self._total, self._leave = self.ms, 1, -1
+
+    @property
+    def is_active(self) -> bool:
+        """Return the state of the animation"""
+        return self._is_active
 
     def _wrapper(
         self,
@@ -92,6 +98,8 @@ class Animation:
             if self.repeat != 0:
                 self.repeat -= 1
                 self.start()
+            else:
+                self._is_active = False
 
         return wrapper
 
@@ -102,6 +110,7 @@ class Animation:
         milliseconds 
         """
         self._tasks.clear()
+        self._is_active = True
         last_percentage = 0
         default_root = configs.Env.default_root
 
@@ -122,6 +131,7 @@ class Animation:
     def stop(self) -> None:
         """Stop the animation"""
         default_root = configs.Env.default_root
+        self._is_active = False
         for task in self._tasks[::-1]:
             tkinter.Misc.after_cancel(default_root, task)
 
