@@ -137,7 +137,7 @@ markdown_extensions:
 
 theme: # 此项各个设定因主题而异
   name: material # 主题名称
-  custom_dir: overrides # 覆盖目录
+  custom_dir: docs/overrides # 覆盖目录
   language: zh # 主题语言
   features:
     # - header.autohide # 顶栏自动隐藏
