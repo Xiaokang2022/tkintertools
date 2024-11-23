@@ -1,0 +1,69 @@
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "tkintertools"
+authors = [{ name = "Xiaokang2022", email = "2951256653@qq.com" }]
+maintainers = [{ name = "Xiaokang2022", email = "2951256653@qq.com" }]
+description = "tkintertools is a UI framework based on the Canvas class of tkinter"
+readme = "README.md"
+license = { text = "MIT License" }
+requires-python = ">=3.10"
+keywords = ["tkinter", "tkintertools", "gui", "ui", "cross-platform", "themed"]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: Microsoft :: Windows",
+    "Operating System :: POSIX :: Linux",
+    "Operating System :: MacOS",
+    "Intended Audience :: Developers",
+    "Natural Language :: English",
+    "Natural Language :: Chinese (Simplified)",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Topic :: Software Development :: Widget Sets",
+    "Typing :: Typed",
+]
+dynamic = ["version"]
+dependencies = ["typing_extensions"]
+
+[project.optional-dependencies]
+recommended = [
+    "darkdetect==0.8.0; platform_system != 'Darwin'",
+    "darkdetect[macos-listener]==0.8.0; platform_system == 'Darwin'",
+    "pywinstyles==1.8; platform_system == 'Windows'",
+    "pillow>=10.0.0",
+]
+all = [
+    "darkdetect==0.8.0; platform_system != 'Darwin'",
+    "darkdetect[macos-listener]==0.8.0; platform_system == 'Darwin'",
+    "pywinstyles==1.8; platform_system == 'Windows'",
+    "hPyT==1.3.4; platform_system == 'Windows'",
+    "win32material==1.0.6; platform_system == 'Windows'",
+    "pillow>=10.0.0",
+]
+extension = ["tkintertools-mpl", "tkintertools-3d", "tkintertools-media"]
+
+[project.urls]
+"Bug tracker" = "https://github.com/Xiaokang2022/tkintertools/issues"
+"Changelog" = "https://xiaokang2022.github.io/tkintertools/CHANGELOG/"
+"Documentation" = "https://xiaokang2022.github.io/tkintertools-docs/"
+"Donate" = "https://xiaokang2022.github.io/tkintertools/Sponsor/"
+"Homepage" = "https://xiaokang2022.github.io/tkintertools/"
+"Source code" = "https://github.com/Xiaokang2022/tkintertools"
+
+[tool.setuptools.dynamic]
+version = { attr = "tkintertools.__version__" }
+
+[tool.setuptools.packages.find]
+include = ["tkintertools*"]
+
+[tool.pylint]
+output-format = "colorized"
+reports = "y"
+fail-on = "E,F"
+fail-under = 9
+max-line-length = 80
+
+[tool.pytest.ini_options]
+addopts = ["--color=yes"]
