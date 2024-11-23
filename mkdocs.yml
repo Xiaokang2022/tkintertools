@@ -2,7 +2,7 @@ site_name: tkintertools # 站点名称
 site_url: https://Xiaokang2022.github.io/tkintertools/ # 站点链接
 repo_url: https://github.com/Xiaokang2022/tkintertools # 仓库地址
 repo_name: Xiaokang2022/tkintertools # 仓库名称
-edit_uri: edit/docs/docs # 编辑地址
+edit_uri: edit/main/docs # 编辑地址
 edit_uri_template: null # 编辑地址模板（默认值）
 site_description: tkintertools 的官方网站 # 站点描述
 site_author: Xiaokang2022 # 站点作者
@@ -296,7 +296,7 @@ plugins:
       type: timeago
   - git-committers:
       repository: Xiaokang2022/tkintertools
-      branch: docs
+      branch: main
       token: !ENV GH_TOKEN # 需要自行在终端中设置临时环境变量，强烈不建议显式地在此处设置 token
   - minify:
       minify_html: true
