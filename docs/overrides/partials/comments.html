@@ -1,0 +1,47 @@
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script> 
+<!-- 不蒜子统计，放在这里防止被 material navigation.instant 选项干掉，毕竟这个文件貌似会保持更新 -->
+
+{% if page.meta.comments %}
+<script src="https://giscus.app/client.js" data-repo="Xiaokang2022/tkintertools" data-repo-id="R_kgDOJoVSHw"
+    data-category="GitHub Pages" data-category-id="DIC_kwDOJoVSH84Cf7Nb" data-mapping="pathname" data-strict="1"
+    data-reactions-enabled="1" data-emit-metadata="0" data-input-position="top" data-theme="preferred_color_scheme"
+    data-lang={% if config.theme.language=='zh' %} "zh-CN" {% elif config.theme.language=='en' %} "en" {% endif %}
+    data-loading="lazy" crossorigin="anonymous" async>
+    </script>
+
+<!-- Synchronize Giscus theme with palette -->
+<script>
+    var giscus = document.querySelector("script[src*=giscus]")
+
+    // Set palette on initial load
+    var palette = __md_get("__palette")
+    if (palette && typeof palette.color === "object") {
+        var theme = palette.color.scheme === "slate"
+            ? "dark"
+            : "light"
+
+        // Instruct Giscus to set theme
+        giscus.setAttribute("data-theme", theme)
+    }
+
+    // Register event handlers after documented loaded
+    document.addEventListener("DOMContentLoaded", function () {
+        var ref = document.querySelector("[data-md-component=palette]")
+        ref.addEventListener("change", function () {
+            var palette = __md_get("__palette")
+            if (palette && typeof palette.color === "object") {
+                var theme = palette.color.scheme === "slate"
+                    ? "dark"
+                    : "light"
+
+                // Instruct Giscus to change theme
+                var frame = document.querySelector(".giscus-frame")
+                frame.contentWindow.postMessage(
+                    { giscus: { setConfig: { theme } } },
+                    "https://giscus.app"
+                )
+            }
+        })
+    })
+</script>
+{% endif %}

@@ -1,0 +1,339 @@
+site_name: tkintertools # 站点名称
+site_url: https://Xiaokang2022.github.io/tkintertools/ # 站点链接
+repo_url: https://github.com/Xiaokang2022/tkintertools # 仓库地址
+repo_name: Xiaokang2022/tkintertools # 仓库名称
+edit_uri: edit/main/docs # 编辑地址
+edit_uri_template: null # 编辑地址模板（默认值）
+site_description: tkintertools 的官方网站 # 站点描述
+site_author: Xiaokang2022 # 站点作者
+copyright: <a href="#__consent">修改 Cookie 设置</a><br/>Copyright &copy; 2022 Xiaokang2022 # 版权信息和 Cookie 设置
+remote_branch: gh-pages # GitHub Pages 远程分支名称（默认值）
+remote_name: origin # 远程名称（默认值）
+docs_dir: docs # 文档目录（默认值）
+site_dir: site # 网站目录（默认值）
+dev_addr: 127.0.0.1:8000 # 预览模式地址（默认值）
+use_directory_urls: true # URL 使用目录名还是文件名（默认值）
+strict: false # 警告级别（默认值），出现警告就终止程序
+
+markdown_extensions:
+  ###### Python Markdown 配置（markdown 基础语法）
+
+  # 被 pymdownx.extra 完全替代且【冲突】
+  # - abbr # 定义缩写
+  # - attr_list # Markdown 元素可添加 HTML 和 CSS 属性
+  # - def_list # 定义列表
+  # - footnotes # 脚注
+  # - md_in_html # Markdown 元素可内嵌在 HTML 中
+  # - tables # 表格
+
+  # - fenced_code # 代码块，被 pymdownx.superfences 完全替代且【冲突】
+  # - codehilite # 代码高亮，被 pymdownx.highlight 完全替代且优化
+
+  # - nl2br # 换行符会直接换行
+
+  - admonition # 提示框
+  - meta # 元数据
+  - sane_lists # 理智列表，避免原版 Markdown 列表错误渲染
+  - smarty # 优化部分字符串为特殊符号
+  - wikilinks # 快捷链接
+
+  - toc: # 目录
+      marker: "" # 目录替换文本，空字符串则不替换，缺省为 [TOC]
+      # title: "" # 目录标题，material 主题会自动根据语言计算
+      anchorlink: false # 锚点链接（默认值），给标题自身锚定链接
+      permalink: "&para;" # 锚点符号
+      permalink_title: "" # 锚点链接提示词，空字符表示没有
+      permalink_leading: false # 前置锚点链接（默认值），将锚点放到标题前面
+      baselevel: 1 # 最高级别（默认值），往下顺延
+      separator: "-" # 分隔符（默认值），替换空格字符
+      toc_depth: 4 # 目录显示级别
+      slugify:
+        !!python/object/apply:pymdownx.slugs.slugify # 锚点链接 URL 格式（小写）
+        kwds:
+          case: lower
+
+  ###### PyMdown Extensions 配置（markdown 扩展语法）
+
+  # - pymdownx.pathconverter # 相对链接转绝对链接【?】
+  # - pymdownx.b64 # 允许使用 base64 编码【?】
+
+  # - pymdownx.progressbar # 进度条（暂不支持）
+
+  # - pymdownx.striphtml # 去除 HTML 中不需要的注释和 / 或标记属性，与插件 minify 有交叉但没有完全覆盖【别启用，大坑】
+
+  - pymdownx.extra # 见上面 Python Markdown 配置说明
+
+  - pymdownx.blocks.tab # 支持更高级的标签块写法（可能与 pymdownx.tabbed 混淆）
+  - pymdownx.blocks.html # 支持一些更高级的 Markdown 内嵌 HTML 语法（pymdownx.blocks 默认开启）
+  - pymdownx.blocks.details # 支持更高级的提示框布局（可能与 pymdownx.details 混淆）
+  - pymdownx.blocks.definition # 支持更高级的定义块语法（可能与 def_list 混淆）
+  - pymdownx.blocks.admonition # 支持更高级提示框语法（可能与 admonition 混淆）
+
+  - pymdownx.saneheaders # 理智标题，“#”和标题间必须有空格
+  - pymdownx.smartsymbols # 智能符号优化，比上面的 smarty 支持更多
+  - pymdownx.inlinehilite # 行内代码高亮
+  - pymdownx.keys # 按键高亮优化，增加图标
+  - pymdownx.details # 支持提示框的折叠
+  - pymdownx.mark # 文本高亮
+  - pymdownx.caret # 文本下划线及上标
+  - pymdownx.tilde # 文本删除线及下标
+  - pymdownx.betterem # 斜体与粗体优化，更好的嵌套使用
+
+  - pymdownx.arithmatex: # 数学表达式
+      generic: true
+
+  - pymdownx.snippets: # 外部片段插入
+      url_download: true # 远程文件下载
+      url_timeout: 10.0 # 超时时长（默认值）
+      url_max_size: 33554432 # 文件大小限制（默认值），32MiB
+
+  - pymdownx.escapeall: # 转义一切
+      hardbreak: true # 转义换行符会变成间断 <br>
+      nbsp: true # 空格转义会变成无间隔空格 &nbsp;
+
+  - pymdownx.magiclink: # 魔术链接，自动识别链接
+      user: "" # 可缺省的用户名（默认值）
+      repo: "" # 可缺省的仓库名（默认值）
+      hide_protocol: false # 隐藏链接协议头（默认值）
+      repo_url_shorthand: true # 识别仓库提交等链接
+      repo_url_shortener: true # 仓库提交等链接简短显示
+      social_url_shorthand: true # 识别社交账号等链接
+      social_url_shortener: true # 社交账号等链接简短显示
+      normalize_issue_symbols: true # 规范化 Issue、PR 等链接的表示为 #
+
+  - pymdownx.critic: # 文本评论
+      mode: view # view 显示差异，accept 显示修改后，reject 显示修改前
+
+  - pymdownx.tasklist: # 任务列表
+      custom_checkbox: true # 允许修改复选框样式（默认已修改）
+      clickable_checkbox: true # 允许点击复选框
+
+  - pymdownx.highlight: # 代码高亮
+      use_pygments: true # 使用 Pygments 而不是 JavaScript 来渲染高亮
+      linenums: true # 显示行号（默认值）
+      linenums_style: table # 行号样式 pymdownx-inline 或者 inline 和 table
+      anchor_linenums: true # 用锚链接包装代码行号，便于超链接和共享（就是行号可以像锚点一样被点击）
+      line_spans: __span # 这对于高亮功能正常工作至关重要
+      pygments_lang_class: true # 对于自定义注释标记的运行至关重要
+      # auto_title: true # 自动为所有代码块添加一个标题
+
+  - pymdownx.emoji: # Emoji 表情
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+
+  - pymdownx.superfences: # 各种嵌套
+      disable_indented_code_blocks: false # 禁用缩进代码块（默认值）
+      preserve_tabs: true # 嵌套块格式化表格（实验性）
+      custom_fences:
+        - name: mermaid # 允许 mermaid 图表语法
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+
+  - pymdownx.tabbed: # 选项卡
+      alternate_style: true # 实验性样式
+      combine_header_slug: true # 选项卡 URL 带上父标题的前缀
+      separator: "-" # 分隔符（默认值），替换空格字符
+      slugify: !!python/object/apply:pymdownx.slugs.slugify {}
+
+theme: # 此项各个设定因主题而异
+  name: material # 主题名称
+  custom_dir: docs/overrides # 覆盖目录
+  language: zh # 主题语言
+  features:
+    # - header.autohide # 顶栏自动隐藏
+    - announce.dismiss # 公告栏可以被关闭
+    - search.share # 搜索栏分享按钮
+    - search.suggest # 搜索栏内容建议
+    - search.highlight # 搜索栏内容高亮
+    - content.action.edit # 允许页面被编辑（会出现编辑按钮）
+    - content.action.view # 允许查看页面的源代码（会出现查看源代码按钮）
+    - content.tooltips # 提示框（以前有的样式变好看了，此外还支持更高级的提示框语法）
+    - content.code.copy # 例如：``` python { .yaml .copy } 默认开启，{ .yaml .no-copy } 关闭
+    - content.code.annotate # 允许内联代码注释
+    - content.tabs.link # 同样的标签，整个网站的同步切换，如 C -> C++，则其它类似的全部标签都同步切换
+    - navigation.top # 回到顶部的按钮
+    - navigation.tracking # 锚点跟踪
+    - navigation.footer # 页面底下换页的支持
+    - navigation.indexes # 左侧边栏大节点是否可以被导向到 index.md，可以不写，但不能没有
+    - navigation.instant # 页面不会重复加载（已加载页面不会再次加载）
+    - navigation.instant.progress # 加载速度慢时，在页面顶部显示加载进度（400ms 以上加载时间才会显示它）
+    - navigation.tabs # 页面顶部导航栏
+    # - navigation.tabs.sticky # 导航栏标题栏位置固定
+    # - navigation.sections # 左侧边栏节点是否保持展开
+    # - navigation.expand # 左侧边栏节点默认全部展开（与 navigation.prune 不兼容）
+    # - navigation.prune # 左侧栏节点至多展开一个，以此来减小站点的构建大小（对于页数100+的网站很有用，与 navigation.expand 不兼容）
+    # - toc.integrate # 右边侧栏是否集成到左侧边栏（与 navigation.indexes 不兼容）
+    - toc.follow # 锚点关注，侧边栏自动滚动，使锚点总是可见
+  palette:
+    - media: "(prefers-color-scheme)" # 系统主题
+      toggle:
+        icon: material/theme-light-dark
+        name: 系统主题
+    - media: "(prefers-color-scheme: light)" # 亮色主题
+      scheme: default
+      primary: white
+      accent: orange
+      toggle:
+        icon: material/weather-sunny
+        name: 明亮主题
+    - media: "(prefers-color-scheme: dark)" # 暗色主题
+      scheme: slate
+      primary: black
+      accent: yellow
+      toggle:
+        icon: material/weather-night
+        name: 暗黑主题
+  font: false # 避免从谷歌加载字体导致网页加载变慢（具体参数可以在自定义 CSS 中指定）
+  logo: logo.png # 页面左上角徽标
+  favicon: logo.png # 网页的图标
+  icon: # 替换掉默认的图标
+    repo: fontawesome/brands/github # 右上角仓库图标
+    edit: material/file-edit # 页面编辑的图标
+    view: material/file-eye # 页面查看源代码的图标
+    tag:
+      default: material/tag
+
+extra: # 额外设定
+  alternate:
+    - name: 简体中文
+      link: .
+      lang: zh
+    - name: English
+      link: ./en/
+      lang: en
+  generator: false # 页面底部不显示生成信息
+  status: # 元信息状态标识
+    new: 最近添加
+    deprecated: 已废弃
+  homepage: . # 左上角徽标链接的地址
+  tags:
+    _: _
+  social: # 社交联系方式（页面右下角内容）
+    - icon: fontawesome/brands/github
+      link: https://github.com/Xiaokang2022/tkintertools/
+      name: GitHub 存储库
+    - icon: fontawesome/brands/python
+      link: https://pypi.org/project/tkintertools/
+      name: PyPI
+    - icon: fontawesome/brands/bilibili
+      link: https://space.bilibili.com/498105668
+      name: 哔哩哔哩
+    - icon: fontawesome/solid/paper-plane
+      link: mailto:2951256653@qq.com
+      name: 联系作者
+  consent:
+    actions:
+      - accept
+      - reject
+      - manage
+    title: Cookie 设置
+    description: >-
+      我们使用 cookies 来识别您的重复访问和偏好，以及衡量我们文档的有效性和用户是否找
+      到他们正在搜索的内容。<br/>
+      在您的同意下，您将帮助我们改进我们的文档。<br/>
+      （您稍后仍可以在网页左下角重新修改 cookies 设置）
+  analytics: # 谷歌统计
+    provider: google
+    property: G-9YC5SN4ZFD
+    feedback:
+      title: 该页面对你有帮助吗？
+      ratings:
+        - icon: material/emoticon-happy-outline
+          name: 有帮助
+          data: 1
+          note: 感谢您的反馈！
+        - icon: material/emoticon-neutral-outline
+          name: 一般般
+          data: 0
+          note: 感谢您的反馈！
+        - icon: material/emoticon-sad-outline
+          name: 有待改进
+          data: -1
+          note: 感谢您的反馈！
+
+extra_javascript:
+  - https://Xiaokang2022.github.io/js/click-colorful.js # 鼠标点击效果
+  - https://Xiaokang2022.github.io/js/shortcuts.js # 绑定左右键换页的键盘快捷键
+  - https://Xiaokang2022.github.io/js/mathjax.js # 数学表达式
+  - https://Xiaokang2022.github.io/js/tablesort.js # 表格排序功能
+  - https://unpkg.com/mathjax@latest/es5/tex-mml-chtml.js # 数学表达式运行环境
+  - https://unpkg.com/tablesort@latest/dist/tablesort.min.js # 表格排序功能运行环境（默认文本类型）
+  - https://unpkg.com/tablesort@latest/dist/sorts/tablesort.date.min.js # 表格排序功能（日期类型）
+  - https://unpkg.com/tablesort@latest/dist/sorts/tablesort.dotsep.min.js # 表格排序功能（点分割类型）
+  - https://unpkg.com/tablesort@latest/dist/sorts/tablesort.filesize.min.js # 表格排序功能（文件大小类型）
+  - https://unpkg.com/tablesort@latest/dist/sorts/tablesort.monthname.min.js # 表格排序功能（月份名称类型）
+  - https://unpkg.com/tablesort@latest/dist/sorts/tablesort.number.min.js # 表格排序功能（数字类型）
+
+extra_css:
+  - custom.css
+  - https://Xiaokang2022.github.io/css/extra.css # 加载自定义的样式
+  - https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css # 图标字体库
+  - https://cdnjs.cloudflare.com/ajax/libs/lxgw-wenkai-screen-webfont/1.5.0/style.min.css # 设置字体（霞鹜文楷）【版本不能再更高了，会导致公式字体变小】
+
+plugins:
+  - search
+  - tags
+  - statistics
+  - blog:
+      blog_toc: true
+      post_excerpt: required
+      post_readtime: false
+      pagination_keep_content: true
+      pagination_format: "$link_first $link_previous ~2~ $link_next $link_last"
+  - rss:
+      match_path: blog/posts/.*
+      date_from_meta:
+        as_creation: date
+      categories:
+        - categories
+        - tags
+      comments_path: "#__comments"
+  - glightbox:
+      background: none
+      auto_themed: true
+  - git-revision-date-localized:
+      enable_creation_date: true
+      type: timeago
+  - git-committers:
+      repository: Xiaokang2022/tkintertools
+      branch: main
+      token: !ENV GH_TOKEN # 需要自行在终端中设置临时环境变量，强烈不建议显式地在此处设置 token
+  - minify:
+      minify_html: true
+      htmlmin_opts:
+        remove_comments: true
+
+nav:
+  - 项目主页:
+      - 项目主页: index.md
+      - 开源许可: LICENSE.md
+      - 更新日志: CHANGELOG.md
+      - 贡献指南: CONTRIBUTING.md
+      - 安全策略: SECURITY.md
+      - 行为准则: CODE_OF_CONDUCT.md
+      - 赞助我们: Sponsor.md
+      - 更多交流: Contact.md
+
+  - 教程和文档:
+      - t&d/index.md
+
+  - 示例项目:
+      - projects/index.md
+      - 官方项目:
+          - 1. Intelligent Magic Cube: projects/official/1.md
+          - 2. Chinese Chess: projects/official/2.md
+          - 3. Super Gobang: projects/official/3.md
+          - 4. Todo List: projects/official/4.md
+      - 用户项目:
+          - 1. Login2.0: projects/users/1.md
+
+  - 相关博客:
+      - blog/index.md
+
+  - 官方视频:
+      - videos/index.md
+      - tkt 再度更新：新增播放视频的扩展包！: videos/pages/5.md
+      - 干掉 tkinter！tkintertools 大更新啦！: videos/pages/4.md
+      - tkintertools 又更新啦！: videos/pages/3.md
+      - 碾压 tkinter 的 UI 框架：tkintertools 3.0.0 正式进入 beta 公测阶段: videos/pages/2.md
+      - 这还是你记忆中的 tkinter 的程序吗？？？: videos/pages/1.md

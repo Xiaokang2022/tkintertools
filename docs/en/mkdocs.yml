@@ -1,0 +1,118 @@
+INHERIT: ../mkdocs.yml
+
+site_url: https://Xiaokang2022.github.io/tkintertools/en/ # 站点链接
+edit_uri: edit/main/en/docs # 编辑地址
+site_description: Official website of tkintertools # 站点描述
+copyright: <a href="#__consent">Change Cookie Settings</a><br/>Copyright &copy; 2022 Xiaokang2022 # 版权信息和 Cookie 设置
+docs_dir: docs # 文档目录（默认值）
+site_dir: ../site/en/ # 网站目录（默认值）
+
+theme: # 此项各个设定因主题而异
+  custom_dir: ../overrides # 覆盖目录
+  language: en # 主题语言
+  palette:
+    - media: "(prefers-color-scheme)" # 系统主题
+      toggle:
+        icon: material/theme-light-dark
+        name: System Mode
+    - media: "(prefers-color-scheme: light)" # 亮色主题
+      scheme: default
+      primary: white
+      accent: orange
+      toggle:
+        icon: material/weather-sunny
+        name: Light Mode
+    - media: "(prefers-color-scheme: dark)" # 暗色主题
+      scheme: slate
+      primary: black
+      accent: yellow
+      toggle:
+        icon: material/weather-night
+        name: Dark Mode
+
+extra: # 额外设定
+  alternate:
+    - name: 简体中文
+      link: ../
+      lang: zh
+    - name: English
+      link: .
+      lang: en
+  status: # 元信息状态标识
+    new: Recently added
+    deprecated: Deprecated
+  social: # 社交联系方式（页面右下角内容）
+    - icon: fontawesome/brands/github
+      link: https://github.com/Xiaokang2022/tkintertools/
+      name: GitHub Repository
+    - icon: fontawesome/brands/python
+      link: https://pypi.org/project/tkintertools/
+      name: PyPI
+    - icon: fontawesome/brands/bilibili
+      link: https://space.bilibili.com/498105668
+      name: Bilibili
+    - icon: fontawesome/solid/paper-plane
+      link: mailto:2951256653@qq.com
+      name: Contact the author
+  consent:
+    actions:
+      - accept
+      - reject
+      - manage
+    title: Cookie Consent
+    description: >-
+      We use cookies to recognize your repeated visits and preferences, as well
+      as to measure the effectiveness of our documentation and whether users
+      find what they're searching for. With your consent, you're helping us to
+      make our documentation better.<br/>
+      (You can still modify your cookies settings later in the bottom left
+      corner of the page)
+  analytics: # 谷歌统计
+    provider: google
+    property: G-9YC5SN4ZFD
+    feedback:
+      title: Was this page helpful?
+      ratings:
+        - icon: material/emoticon-happy-outline
+          name: Helpful
+          data: 1
+          note: Thanks for your feedback!
+        - icon: material/emoticon-neutral-outline
+          name: Just so-so
+          data: 0
+          note: Thanks for your feedback!
+        - icon: material/emoticon-sad-outline
+          name: Could be improved
+          data: -1
+          note: Thanks for your feedback!
+
+nav:
+  - Home:
+      - Home: index.md
+      - License: LICENSE.md
+      - Changelog: CHANGELOG.md
+      - Contribution Guide: CONTRIBUTING.md
+      - Security Policy: SECURITY.md
+      - Code of Conduct: CODE_OF_CONDUCT.md
+      - Sponsor this Project: Sponsor.md
+
+  - Tutorials & Documents:
+      - t&d/index.md
+
+  - Projects:
+      - projects/index.md
+      - Official Projects:
+          - 1. Intelligent Magic Cube: projects/official/1.md
+          - 2. Chinese Chess: projects/official/2.md
+          - 3. Super Gobang: projects/official/3.md
+          - 4. Todo List: projects/official/4.md
+      - Users Projects:
+          - 1. Login2.0: projects/users/1.md
+
+  - Videos:
+      - videos/index.md
+      - tkt 再度更新：新增播放视频的扩展包！: videos/pages/5.md
+      - 干掉 tkinter！tkintertools 大更新啦！: videos/pages/4.md
+      - tkintertools 又更新啦！: videos/pages/3.md
+      - 碾压 tkinter 的 UI 框架：tkintertools 3.0.0 正式进入 beta 公测阶段: videos/pages/2.md
+      - 这还是你记忆中的 tkinter 的程序吗？？？: videos/pages/1.md
