@@ -1,11 +1,11 @@
-INHERIT: ../mkdocs.yml
+INHERIT: ../../mkdocs.yml
 
 site_url: https://Xiaokang2022.github.io/tkintertools/en/ # 站点链接
-edit_uri: edit/main/en/docs # 编辑地址
+edit_uri: edit/main/docs/en/docs # 编辑地址
 site_description: Official website of tkintertools # 站点描述
 copyright: <a href="#__consent">Change Cookie Settings</a><br/>Copyright &copy; 2022 Xiaokang2022 # 版权信息和 Cookie 设置
 docs_dir: docs # 文档目录（默认值）
-site_dir: ../site/en/ # 网站目录（默认值）
+site_dir: ../../site/en/ # 网站目录（默认值）
 
 theme: # 此项各个设定因主题而异
   custom_dir: ../overrides # 覆盖目录
@@ -85,6 +85,8 @@ extra: # 额外设定
           name: Could be improved
           data: -1
           note: Thanks for your feedback!
+
+exclude_docs:
 
 nav:
   - Home:

@@ -303,6 +303,8 @@ plugins:
       htmlmin_opts:
         remove_comments: true
 
+exclude_docs: en/
+
 nav:
   - 项目主页:
       - 项目主页: index.md
