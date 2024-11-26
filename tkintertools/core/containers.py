@@ -18,6 +18,7 @@ __all__ = [
     "Frame",
 ]
 
+import collections.abc
 import functools
 import math
 import platform
@@ -76,7 +77,7 @@ class Tk(tkinter.Tk):
         return tuple(i/j for i, j in zip(self._size, self._initial_size))
 
     @staticmethod
-    def _fixed_theme(method):
+    def _fixed_theme(method) -> collections.abc.Callable:
         """This is a decorator that to fix a problem that some methods cause
         the window to lose its theme
 
@@ -240,7 +241,7 @@ class Tk(tkinter.Tk):
 
     def shutdown(
         self,
-        command: typing.Callable | None,
+        command: collections.abc.Callable | None,
         ensure_destroy: bool = False,
         /,
         *args,

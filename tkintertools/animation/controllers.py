@@ -26,16 +26,16 @@ __all__ = [
     "rebound",
 ]
 
+import collections.abc
 import functools
 import math
-import typing
 import warnings
 
 
 def _map_t(
     start: float,
     end: float,
-) -> typing.Callable[[float], float]:
+) -> collections.abc.Callable[[float], float]:
     """Map parameters in any range between 0 and 1
 
     * `start`: the first value of the parameter of control function
@@ -50,9 +50,9 @@ def _map_t(
 
 
 def _map_y(
-    base_function: typing.Callable[[float], float],
+    base_function: collections.abc.Callable[[float], float],
     end: float,
-) -> typing.Callable[[float], float]:
+) -> collections.abc.Callable[[float], float]:
     """Map the final return value to 1
 
     * `base_function`: base function
@@ -68,12 +68,12 @@ def _map_y(
 
 
 def controller_generator(
-    base_function: typing.Callable[[float], float],
+    base_function: collections.abc.Callable[[float], float],
     start: float,
     end: float,
     *,
     map_y: bool = True,
-) -> typing.Callable[[float], float]:
+) -> collections.abc.Callable[[float], float]:
     """Generator of control functions
 
     Modify the generic function to a control function suitable for animation

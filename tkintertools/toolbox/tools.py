@@ -11,6 +11,7 @@ __all__ = [
 ]
 
 import atexit
+import collections.abc
 import ctypes
 import os
 import platform
@@ -18,7 +19,6 @@ import shutil
 import tkinter
 import tkinter.font
 import traceback
-import typing
 
 from ..core import configs, virtual
 
@@ -32,7 +32,7 @@ class Trigger:
     invalid. When triggered, the callback function is called.
     """
 
-    def __init__(self, command: typing.Callable) -> None:
+    def __init__(self, command: collections.abc.Callable) -> None:
         """
         * `command`: the function that is called when triggered
         """

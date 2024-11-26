@@ -11,6 +11,7 @@ __all__ = [
 import tkinter
 
 from ..core import configs
+from . import rgb
 
 COLOR_MAP: dict[str, tuple[int, int, int]] = {
     'alice blue': (240, 248, 255),
@@ -776,14 +777,14 @@ COLOR_MAP: dict[str, tuple[int, int, int]] = {
 }
 
 
-def name_to_rgb(color_name: str) -> tuple[int, int, int]:
+def name_to_rgb(color_name: str) -> rgb.RGB:
     """Convert a color name to RGB code"""
-    rgb = COLOR_MAP.get(color_name.lower())
+    data = COLOR_MAP.get(color_name.lower())
 
-    if rgb is None:
+    if data is None:
         return tkinter.Misc.winfo_rgb(configs.Env.default_root, color_name)
 
-    return rgb
+    return data
 
 
 name2rgb = name_to_rgb  # Alias

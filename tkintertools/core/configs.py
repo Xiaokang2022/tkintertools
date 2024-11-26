@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import collections.abc
 import math
 import platform
 import tkinter
@@ -40,7 +41,7 @@ class Env:
 
     system: str
     is_dark: bool
-    default_callback: typing.Callable[[tkinter.Event], typing.Literal[False]]
+    default_callback: collections.abc.Callable[[tkinter.Event], typing.Literal[False]]
 
     default_root: tkinter.Tk | None = _DefaultRoot()
 

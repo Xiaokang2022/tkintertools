@@ -8,6 +8,7 @@ __all__ = [
     "TkFontChooser",
 ]
 
+import collections.abc
 import tkinter
 import tkinter.colorchooser
 import typing
@@ -30,7 +31,7 @@ class TkMessage:
         default: typing.Literal["abort", "retry", "ignore",
                                 "ok", "cancel", "yes", "no"] | None = None,
         master: tkinter.Tk | None = None,
-        command: typing.Callable[[typing.Literal[
+        command: collections.abc.Callable[[typing.Literal[
             "abort", "retry", "ignore", "ok", "cancel", "yes", "no"]],
             typing.Any] | None = None,
     ) -> None:
@@ -75,7 +76,7 @@ class TkColorChooser:
         title: str | None = None,
         color: str | None = None,
         master: tkinter.Tk | None = None,
-        command: typing.Callable[[str], typing.Any] | None = None,
+        command: collections.abc.Callable[[str], typing.Any] | None = None,
     ) -> None:
         """
         * `title`: title of the window
@@ -99,7 +100,7 @@ class TkFontChooser:
         title: str | None = None,
         font: str | None = None,
         master: tkinter.Tk | None = None,
-        command: typing.Callable[[str], typing.Any] | None = None,
+        command: collections.abc.Callable[[str], typing.Any] | None = None,
     ) -> None:
         """
         * `title`: title of the window

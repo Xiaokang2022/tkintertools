@@ -17,6 +17,7 @@ __all__ = [
     "customize_window",
 ]
 
+import collections.abc
 import platform
 import threading
 import tkinter
@@ -48,8 +49,8 @@ try:
 except ImportError:
     win32material = None
 
-_callback_events: dict[typing.Callable[[bool, typing.Any], typing.Any],
-                       tuple[typing.Any, ...]] = {}
+_callback_events: dict[collections.abc.Callable[[
+    bool, typing.Any], typing.Any], tuple[typing.Any, ...]] = {}
 """Events that are responded to when the system theme changes"""
 
 
@@ -95,7 +96,7 @@ def set_theme_map(
 
 
 def register_event(
-    func: typing.Callable[[bool, typing.Any], typing.Any],
+    func: collections.abc.Callable[[bool, typing.Any], typing.Any],
     *args: typing.Any,
 ) -> None:
     """When the system accent color changes, the registered function will be
@@ -109,7 +110,7 @@ def register_event(
 
 
 def remove_event(
-    func: typing.Callable[[bool, typing.Any], typing.Any],
+    func: collections.abc.Callable[[bool, typing.Any], typing.Any],
 ) -> None:
     """Remove a registered function
 
@@ -128,7 +129,7 @@ def customize_window(
     border_color: str | None = None,
     header_color: str | None = None,
     title_color: str | None = None,
-    enable_file_dnd: typing.Callable[[str], typing.Any] | None = None,
+    enable_file_dnd: collections.abc.Callable[[str], typing.Any] | None = None,
     hide_title_bar: bool | None = None,
     hide_button: typing.Literal["all", "maxmin", "none"] | None = None,
     disable_minimize_button: bool | None = None,

@@ -13,10 +13,10 @@ __all__ = [
     "rgb2hsl",
 ]
 
+import collections.abc
 import colorsys
 import math
 import statistics
-import typing
 
 from ..animation import controllers
 from . import rgb
@@ -93,7 +93,7 @@ def gradient(
     rate: float = 1,
     *,
     channels: tuple[bool, bool, bool] = (True, True, True),
-    contoller: typing.Callable[[float], float] = controllers.flat,
+    contoller: collections.abc.Callable[[float], float] = controllers.flat,
 ) -> list[HSL]:
     """Get a list of color gradients from one color to another proportionally
 

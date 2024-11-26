@@ -17,6 +17,7 @@ __all__ = [
     "SpinBoxFeature",
 ]
 
+import collections.abc
 import tkinter
 import typing
 
@@ -46,7 +47,7 @@ class ButtonFeature(virtual.Feature):
         self,
         widget: virtual.Widget,
         *,
-        command: typing.Callable | None = None,
+        command: collections.abc.Callable | None = None,
         args: tuple = (),
     ) -> None:
         """
@@ -55,7 +56,7 @@ class ButtonFeature(virtual.Feature):
         * `args`: arguments of callback function
         """
         virtual.Feature.__init__(self, widget)
-        self.command: typing.Callable = command
+        self.command: collections.abc.Callable = command
         self._args: tuple = args
 
     def _motion(self, event: tkinter.Event) -> bool:
@@ -269,7 +270,7 @@ class InputBoxFeature(ButtonFeature):
         self,
         widget: virtual.Widget,
         *,
-        command: typing.Callable[..., typing.Any] | None = None,
+        command: collections.abc.Callable[..., typing.Any] | None = None,
         args: tuple = (),
     ) -> None:
         super().__init__(widget, command=command, args=args)
@@ -480,14 +481,14 @@ class SpinBoxFeature(virtual.Feature):
         self,
         widget: virtual.Widget,
         *,
-        command: typing.Callable[[bool], typing.Any] | None = None,
+        command: collections.abc.Callable[[bool], typing.Any] | None = None,
     ) -> None:
         """
         * `widget`: parent widget
         * `command`: callback function
         """
         virtual.Feature.__init__(self, widget)
-        self.command: typing.Callable = command
+        self.command: collections.abc.Callable = command
         if self.command is None:
             self.command = self.widget.change
 

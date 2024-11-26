@@ -13,8 +13,8 @@ __all__ = [
     "rgb2str",
 ]
 
+import collections.abc
 import statistics
-import typing
 
 from ..animation import controllers
 from . import colormap
@@ -91,7 +91,7 @@ def gradient(
     rate: float = 1,
     *,
     channels: tuple[bool, bool, bool] = (True, True, True),
-    contoller: typing.Callable[[float], float] = controllers.flat,
+    contoller: collections.abc.Callable[[float], float] = controllers.flat,
 ) -> list[RGB]:
     """Get a list of color gradients from one color to another proportionally
 

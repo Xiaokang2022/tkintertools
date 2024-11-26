@@ -23,6 +23,7 @@ __all__ = [
 ]
 
 import abc
+import collections.abc
 import copy
 import math
 import re
@@ -409,7 +410,7 @@ class Feature:
         * `widget`: parent widget
         """
         self.widget = widget
-        self.extras: dict[str, list[typing.Callable[[
+        self.extras: dict[str, list[collections.abc.Callable[[
             tkinter.Event], typing.Any]]] = {}
         widget.feature = self
 
@@ -419,7 +420,7 @@ class Feature:
         name = re.sub("([0-9A-Z])", "_\\1", name)
         return name.lower()
 
-    def get_method(self, name: str) -> typing.Callable:
+    def get_method(self, name: str) -> collections.abc.Callable:
         """Return method by name"""
         extra_commands = self.extras.get(name)
         method = getattr(self, self._parse_method_name(name),
@@ -492,7 +493,7 @@ class Widget:
         self.images: list[Image] = []
         self.feature: Feature = Feature(self)
         self.state_before_disabled: str = ""
-        self._update_hooks: list[typing.Callable[[str, bool], typing.Any]] = []
+        self._update_hooks: list[collections.abc.Callable[[str, bool], typing.Any]] = []
 
         self.master.widgets.append(self)
 
@@ -557,7 +558,7 @@ class Widget:
 
     def bind_on_update(
         self,
-        command: typing.Callable[[str, bool], typing.Any],
+        command: collections.abc.Callable[[str, bool], typing.Any],
     ) -> None:
         """Bind an extra function to the widget on update
 
@@ -572,7 +573,7 @@ class Widget:
 
     def unbind_on_update(
         self,
-        command: typing.Callable[[str, bool], typing.Any],
+        command: collections.abc.Callable[[str, bool], typing.Any],
     ) -> None:
         """Unbind an extra function to the widget on update
 
@@ -583,7 +584,7 @@ class Widget:
     def bind(
         self,
         sequence: str,
-        func: typing.Callable[[tkinter.Event], typing.Any],
+        func: collections.abc.Callable[[tkinter.Event], typing.Any],
         add: bool | typing.Literal["", "+"] | None = None,
     ) -> None:
         """Bind to this widget at event SEQUENCE a call to function FUNC.
@@ -606,7 +607,7 @@ class Widget:
     def unbind(
         self,
         sequence: str,
-        funcid: typing.Callable[[tkinter.Event], typing.Any],
+        funcid: collections.abc.Callable[[tkinter.Event], typing.Any],
     ) -> None:
         """Unbind for this widget the event SEQUENCE.
 

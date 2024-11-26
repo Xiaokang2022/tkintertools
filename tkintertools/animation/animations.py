@@ -18,6 +18,7 @@ __all__ = [
     "ScaleFontSize",
 ]
 
+import collections.abc
 import numbers
 import tkinter
 import traceback
@@ -35,10 +36,10 @@ class Animation:
     def __init__(
         self,
         ms: int,
-        controller: typing.Callable[[float], float],
+        controller: collections.abc.Callable[[float], float],
         *,
-        callback: typing.Callable[[float], typing.Any] | None = None,
-        end: typing.Callable[[], typing.Any] | None = None,
+        callback: collections.abc.Callable[[float], typing.Any] | None = None,
+        end: collections.abc.Callable[[], typing.Any] | None = None,
         repeat: int = 0,
         fps: int = 30,
         derivation: bool = False,
@@ -80,8 +81,8 @@ class Animation:
 
     def _wrapper(
         self,
-        func: typing.Callable[[float], float],
-    ) -> typing.Callable[[float], float]:
+        func: collections.abc.Callable[[float], float],
+    ) -> collections.abc.Callable[[float], float]:
         """Make the ending function call correctly
 
         * `func`: the callback function to be wrapped
@@ -145,8 +146,8 @@ class MoveTkWidget(Animation):
         ms: int,
         offset: tuple[float, float],
         *,
-        controller: typing.Callable[[float], float] = controllers.flat,
-        end: typing.Callable[[], typing.Any] | None = None,
+        controller: collections.abc.Callable[[float], float] = controllers.flat,
+        end: collections.abc.Callable[[], typing.Any] | None = None,
         repeat: int = 0,
         fps: int = 30,
     ) -> None:
@@ -184,8 +185,8 @@ class MoveWidget(Animation):
         ms: int,
         offset: tuple[float, float],
         *,
-        controller: typing.Callable[[float], float] = controllers.flat,
-        end: typing.Callable[[], typing.Any] | None = None,
+        controller: collections.abc.Callable[[float], float] = controllers.flat,
+        end: collections.abc.Callable[[], typing.Any] | None = None,
         repeat: int = 0,
         fps: int = 30,
     ) -> None:
@@ -218,8 +219,8 @@ class MoveComponent(Animation):
         ms: int,
         offset: tuple[float, float],
         *,
-        controller: typing.Callable[[float], float] = controllers.flat,
-        end: typing.Callable[[], typing.Any] | None = None,
+        controller: collections.abc.Callable[[float], float] = controllers.flat,
+        end: collections.abc.Callable[[], typing.Any] | None = None,
         repeat: int = 0,
         fps: int = 30,
     ) -> None:
@@ -253,8 +254,8 @@ class MoveItem(Animation):
         ms: int,
         offset: tuple[float, float],
         *,
-        controller: typing.Callable[[float], float] = controllers.flat,
-        end: typing.Callable[[], typing.Any] | None = None,
+        controller: collections.abc.Callable[[float], float] = controllers.flat,
+        end: collections.abc.Callable[[], typing.Any] | None = None,
         repeat: int = 0,
         fps: int = 30,
     ) -> None:
@@ -289,8 +290,8 @@ class GradientTkWidget(Animation):
         ms: int,
         colors: tuple[str, str],
         *,
-        controller: typing.Callable[[float], float] = controllers.flat,
-        end: typing.Callable[[], typing.Any] | None = None,
+        controller: collections.abc.Callable[[float], float] = controllers.flat,
+        end: collections.abc.Callable[[], typing.Any] | None = None,
         repeat: int = 0,
         fps: int = 30,
         derivation: bool = False,
@@ -333,8 +334,8 @@ class GradientItem(Animation):
         ms: int,
         colors: tuple[str, str],
         *,
-        controller: typing.Callable[[float], float] = controllers.flat,
-        end: typing.Callable[[], typing.Any] | None = None,
+        controller: collections.abc.Callable[[float], float] = controllers.flat,
+        end: collections.abc.Callable[[], typing.Any] | None = None,
         repeat: int = 0,
         fps: int = 30,
         derivation: bool = False,
@@ -376,8 +377,8 @@ class ScaleFontSize(Animation):
         ms: int,
         sizes: tuple[float, float] | float,
         *,
-        controller: typing.Callable[[float], float] = controllers.flat,
-        end: typing.Callable[[], typing.Any] | None = None,
+        controller: collections.abc.Callable[[float], float] = controllers.flat,
+        end: collections.abc.Callable[[], typing.Any] | None = None,
         repeat: int = 0,
         fps: int = 30,
         derivation: bool = False,
