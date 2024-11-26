@@ -19,7 +19,6 @@ __all__ = [
 ]
 
 import collections.abc
-import numbers
 import tkinter
 import traceback
 import typing
@@ -36,9 +35,9 @@ class Animation:
     def __init__(
         self,
         ms: int,
-        controller: collections.abc.Callable[[float], float],
+        controller: collections.abc.Callable[[int | float], int | float],
         *,
-        callback: collections.abc.Callable[[float], typing.Any] | None = None,
+        callback: collections.abc.Callable[[int | float], typing.Any] | None = None,
         end: collections.abc.Callable[[], typing.Any] | None = None,
         repeat: int = 0,
         fps: int = 30,
@@ -56,11 +55,11 @@ class Animation:
         """
         self.ms = ms
         self.controller = controller
-        self.callback = callback
         self.end = end
         self.repeat = repeat
         self.fps = fps
         self.derivation = derivation
+        self.callback = callback if callback is not None else lambda _: None
 
         self._tasks: list[str] = []
         self._delay: int = 1000 // fps
@@ -78,13 +77,13 @@ class Animation:
 
     def _wrapper(
         self,
-        func: collections.abc.Callable[[float], float],
-    ) -> collections.abc.Callable[[float], float]:
+        func: collections.abc.Callable[[int | float], typing.Any],
+    ) -> collections.abc.Callable[[int | float], None]:
         """Make the ending function call correctly
 
         * `func`: the callback function to be wrapped
         """
-        def wrapper(x: float) -> None:
+        def wrapper(x: int | float) -> None:
             func(x)
 
             if self.end is not None:
@@ -139,9 +138,9 @@ class MoveTkWidget(Animation):
         self,
         widget: tkinter.Widget,
         ms: int,
-        offset: tuple[float, float],
+        offset: tuple[int | float, int | float],
         *,
-        controller: collections.abc.Callable[[float], float] = controllers.flat,
+        controller: collections.abc.Callable[[int | float], int | float] = controllers.flat,
         end: collections.abc.Callable[[], typing.Any] | None = None,
         repeat: int = 0,
         fps: int = 30,
@@ -175,9 +174,9 @@ class MoveWidget(Animation):
         self,
         widget: virtual.Widget,
         ms: int,
-        offset: tuple[float, float],
+        offset: tuple[int | float, int | float],
         *,
-        controller: collections.abc.Callable[[float], float] = controllers.flat,
+        controller: collections.abc.Callable[[int | float], int | float] = controllers.flat,
         end: collections.abc.Callable[[], typing.Any] | None = None,
         repeat: int = 0,
         fps: int = 30,
@@ -207,9 +206,9 @@ class MoveComponent(Animation):
         self,
         component: virtual.Component,
         ms: int,
-        offset: tuple[float, float],
+        offset: tuple[int | float, int | float],
         *,
-        controller: collections.abc.Callable[[float], float] = controllers.flat,
+        controller: collections.abc.Callable[[int | float], int | float] = controllers.flat,
         end: collections.abc.Callable[[], typing.Any] | None = None,
         repeat: int = 0,
         fps: int = 30,
@@ -240,9 +239,9 @@ class MoveItem(Animation):
         canvas: tkinter.Canvas,
         item: int,
         ms: int,
-        offset: tuple[float, float],
+        offset: tuple[int | float, int | float],
         *,
-        controller: collections.abc.Callable[[float], float] = controllers.flat,
+        controller: collections.abc.Callable[[int | float], int | float] = controllers.flat,
         end: collections.abc.Callable[[], typing.Any] | None = None,
         repeat: int = 0,
         fps: int = 30,
@@ -276,7 +275,7 @@ class GradientTkWidget(Animation):
         ms: int,
         colors: tuple[str, str],
         *,
-        controller: collections.abc.Callable[[float], float] = controllers.flat,
+        controller: collections.abc.Callable[[int | float], int | float] = controllers.flat,
         end: collections.abc.Callable[[], typing.Any] | None = None,
         repeat: int = 0,
         fps: int = 30,
@@ -301,7 +300,7 @@ class GradientTkWidget(Animation):
         Animation.__init__(
             self, ms, controller,
             callback=lambda p: widget.configure(
-                **{parameter: rgb.rgb_to_str(rgb.convert(rgb1, rgb2, p))}),
+                {parameter: rgb.rgb_to_str(rgb.convert(rgb1, rgb2, p))}),
             end=end, repeat=repeat, fps=fps, derivation=derivation,
         )
 
@@ -317,7 +316,7 @@ class GradientItem(Animation):
         ms: int,
         colors: tuple[str, str],
         *,
-        controller: collections.abc.Callable[[float], float] = controllers.flat,
+        controller: collections.abc.Callable[[int | float], int | float] = controllers.flat,
         end: collections.abc.Callable[[], typing.Any] | None = None,
         repeat: int = 0,
         fps: int = 30,
@@ -342,8 +341,8 @@ class GradientItem(Animation):
 
         Animation.__init__(
             self, ms, controller,
-            callback=lambda p: canvas.itemconfigure(item, **{
-                parameter: rgb.rgb_to_str(rgb.convert(rgb1, rgb2, p))}),
+            callback=lambda p: canvas.itemconfigure(
+                item, {parameter: rgb.rgb_to_str(rgb.convert(rgb1, rgb2, p))}),
             end=end, repeat=repeat, fps=fps, derivation=derivation,
         )
 
@@ -351,13 +350,41 @@ class GradientItem(Animation):
 class ScaleFontSize(Animation):
     """Animation of scaling the font size"""
 
+    @typing.overload
     def __init__(
         self,
         text: virtual.Text,
         ms: int,
-        sizes: tuple[float, float] | float,
+        sizes: int | float,
         *,
-        controller: collections.abc.Callable[[float], float] = controllers.flat,
+        controller: collections.abc.Callable[[int | float], int | float] = controllers.flat,
+        end: collections.abc.Callable[[], typing.Any] | None = None,
+        repeat: int = 0,
+        fps: int = 30,
+        derivation: bool = False,
+    ) -> None: ...
+
+    @typing.overload
+    def __init__(
+        self,
+        text: virtual.Text,
+        ms: int,
+        sizes: tuple[int | float, int | float],
+        *,
+        controller: collections.abc.Callable[[int | float], int | float] = controllers.flat,
+        end: collections.abc.Callable[[], typing.Any] | None = None,
+        repeat: int = 0,
+        fps: int = 30,
+        derivation: bool = False,
+    ) -> None: ...
+
+    def __init__(
+        self,
+        text: virtual.Text,
+        ms: int,
+        sizes: int | float | tuple[int | float, int | float],
+        *,
+        controller: collections.abc.Callable[[int | float], int | float] = controllers.flat,
         end: collections.abc.Callable[[], typing.Any] | None = None,
         repeat: int = 0,
         fps: int = 30,
@@ -375,7 +402,7 @@ class ScaleFontSize(Animation):
         """
         self._text = text
 
-        if isinstance(sizes, numbers.Number):
+        if isinstance(sizes, (int, float)):
             sizes = -abs(sizes)
             sizes = text.font.cget("size"), sizes-text.font.cget("size")
         else:

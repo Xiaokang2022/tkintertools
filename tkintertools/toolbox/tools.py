@@ -19,10 +19,11 @@ import shutil
 import tkinter
 import tkinter.font
 import traceback
+import typing
 
 from ..core import configs, virtual
 
-_LINUX_FONTS_DIR = os.path.expanduser("~/.fonts/")
+_LINUX_FONTS_DIR: typing.Final[str] = os.path.expanduser("~/.fonts/")
 
 
 class Trigger:
@@ -32,7 +33,7 @@ class Trigger:
     triggered, the callback function is called.
     """
 
-    def __init__(self, command: collections.abc.Callable) -> None:
+    def __init__(self, command: collections.abc.Callable[..., typing.Any]) -> None:
         """
         * `command`: the function that is called when triggered
         """
@@ -67,7 +68,7 @@ class Trigger:
             self._command(*args, **kwargs)
 
 
-def get_hwnd(widget: tkinter.Widget) -> int:
+def get_hwnd(widget: tkinter.Misc) -> int:
     """Get the HWND of `tkinter.Widget`"""
     return ctypes.windll.user32.GetParent(widget.winfo_id())
 
@@ -81,7 +82,7 @@ def embed_window(window: tkinter.Misc, parent: tkinter.Misc | None, *, focus: bo
     """
     ctypes.windll.user32.SetParent(get_hwnd(window), parent.winfo_id() if parent else None)
 
-    if not focus:
+    if not focus and window.master is not None:
         window.master.focus_set()
 
 
@@ -116,6 +117,7 @@ def load_font(font_path: str | bytes, *, private: bool = True, enumerable: bool 
         return bool(min(num_fonts_added, 1))
 
     if platform.system() == "Linux":
+        font_path = str(font_path)
         try:
             os.makedirs(_LINUX_FONTS_DIR, exist_ok=True)
             shutil.copy(font_path, _LINUX_FONTS_DIR)

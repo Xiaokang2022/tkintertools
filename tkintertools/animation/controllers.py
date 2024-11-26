@@ -3,7 +3,7 @@
 Definition of control function:
 
 ```python
-def f(t: float) -> float: ...
+def f(t: int | float) -> int | float: ...
 ```
 
 * t: 0% ~ 100%, indicates the percentage of time
@@ -28,44 +28,66 @@ __all__ = [
 import collections.abc
 import functools
 import math
+import typing
 import warnings
 
 
-def _map_t(start: float, end: float) -> collections.abc.Callable[[float], float]:
+def _map_t(
+    start: int | float,
+    end: int | float,
+) -> collections.abc.Callable[[int | float], int | float]:
     """Map parameters in any range between 0 and 1
 
     * `start`: the first value of the parameter of control function
     * `end`: the last value of the parameter of control function
     """
-    def _mapper(t: float) -> float:
+    def _mapper(t: int | float) -> int | float:
         return start + t * (end-start)
 
     return _mapper
 
 
 def _map_y(
-    base_function: collections.abc.Callable[[float], float],
-    end: float,
-) -> collections.abc.Callable[[float], float]:
+    base_function: collections.abc.Callable[[int | float], int | float],
+    end: int | float,
+) -> collections.abc.Callable[[int | float], float]:
     """Map the final return value to 1
 
     * `base_function`: base function
     * `end`: the last value of the parameter of control function
     """
     @functools.wraps(base_function)
-    def _mapper(t: float) -> float:
+    def _mapper(t: int | float) -> float:
         return base_function(t) / base_function(end)
 
     return _mapper
 
 
+@typing.overload
 def controller_generator(
-    base_function: collections.abc.Callable[[float], float],
-    start: float,
-    end: float,
+    base_function: collections.abc.Callable[[int | float], int | float],
+    start: int | float,
+    end: int | float,
+) -> collections.abc.Callable[[int | float], float]: ...
+
+
+@typing.overload
+def controller_generator(
+    base_function: collections.abc.Callable[[int | float], int | float],
+    start: int | float,
+    end: int | float,
+    *,
+    map_y: typing.Literal[False] = False,
+) -> collections.abc.Callable[[int | float], int | float]: ...
+
+
+def controller_generator(
+    base_function: collections.abc.Callable[[int | float], int | float],
+    start: int | float,
+    end: int | float,
     *,
     map_y: bool = True,
-) -> collections.abc.Callable[[float], float]:
+) -> collections.abc.Callable[[int | float], int | float]:
     """Generator of control functions
 
     Modify the generic function to a control function suitable for animation
@@ -88,26 +110,34 @@ def controller_generator(
                 "inaccurate or even throw an error.", UserWarning, 2)
 
         @functools.wraps(base_function)
-        def _mapper(t: float) -> float:
+        def _mapper(t: int | float) -> float:
             return _map_y(base_function, end)(_map_t(start, end)(t))
     else:
         @functools.wraps(base_function)
-        def _mapper(t: float) -> float:
+        def _mapper(t: int | float) -> int | float:
             return base_function(_map_t(start, end)(t))
 
     return _mapper
 
 
-def flat(t: float) -> float:
+@typing.overload
+def flat(t: int) -> int: ...
+
+
+@typing.overload
+def flat(t: float) -> float: ...
+
+
+def flat(t: int | float) -> int | float:
     """Flat animation: speed remains the same"""
     return t
 
 
-def smooth(t: float) -> float:
+def smooth(t: int | float) -> float:
     """Smooth animation: speed is slow first, then fast and then slow"""
     return (1 - math.cos(t*math.pi)) / 2
 
 
-def rebound(t: float) -> float:
+def rebound(t: int | float) -> float:
     """Rebound animation: before the end, displacement will bounce off a bit"""
     return controller_generator(math.sin, 0, (math.pi+1) / 2)(t)

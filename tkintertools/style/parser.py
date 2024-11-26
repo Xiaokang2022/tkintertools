@@ -71,16 +71,18 @@ from ..core import configs, containers, virtual
 from . import manager
 
 
-def _get_name(obj: str | virtual.Widget | virtual.Component | None) -> str | None:
+def _get_name(
+    obj: str | virtual.Widget | virtual.Component | containers.Canvas | None,
+) -> str | None:
     """Get the name of the object"""
     if obj is None:
         return None
-    if getattr(obj, "name", None) is not None:
-        name = obj.name
-        if inspect.isclass(obj.name):
-            name = obj.name.__name__
-        elif obj.name.startswith("."):  # Special rule
-            name = obj.__class__.__name__ + obj.name
+    name: str | None = getattr(obj, "name", None)
+    if name is not None:
+        if inspect.isclass(name):
+            name = name.__name__
+        elif name.startswith("."):  # Special rule
+            name = obj.__class__.__name__ + name
         return name
     if inspect.isclass(obj):
         return obj.__name__

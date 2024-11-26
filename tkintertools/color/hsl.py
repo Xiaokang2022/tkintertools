@@ -58,7 +58,7 @@ def convert(
     return tuple(first[i] + (second[i]-first[i]) * rate * v for i, v in enumerate(channels))
 
 
-def blend(colors: list[HSL], *, weights: list[tuple] | None = None) -> HSL:
+def blend(colors: list[HSL], *, weights: list[float] | None = None) -> HSL:
     """Mix colors by weight
 
     * `colors`: color list
@@ -82,7 +82,7 @@ def gradient(
     rate: float = 1,
     *,
     channels: tuple[bool, bool, bool] = (True, True, True),
-    contoller: collections.abc.Callable[[float], float] = controllers.flat,
+    contoller: collections.abc.Callable[[int | float], int | float] = controllers.flat,
 ) -> list[HSL]:
     """Get a list of color gradients from one color to another proportionally
 

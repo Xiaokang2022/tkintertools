@@ -616,7 +616,7 @@ class Widget:
         for widget in self.widgets:
             widget.disabled(value)
 
-    def move(self, dx: int, dy: int) -> None:
+    def move(self, dx: int | float, dy: int | float) -> None:
         """Move the widget"""
         self.position[0] += dx
         self.position[1] += dy

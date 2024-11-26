@@ -8,9 +8,6 @@ import platform
 import tkinter
 import types
 import typing
-import warnings
-
-import typing_extensions
 
 from ..theme import dark, light
 
@@ -28,12 +25,13 @@ __all__ = [
 ]
 
 
-class _DefaultRoot:
+class _DefaultRootDescriptor:
     """A simple descriptor about tkinter._default_root."""
 
-    def __get__(self, obj, cls) -> tkinter.Tk | None:
+    def __get__(self, obj: typing.Any, cls: typing.Any) -> tkinter.Tk | None:
         """Return the current default root."""
-        return tkinter._default_root
+        default_root = tkinter._default_root
+        return default_root
 
 
 class Env:
@@ -43,7 +41,7 @@ class Env:
     is_dark: bool
     default_callback: collections.abc.Callable[[tkinter.Event], typing.Literal[False]]
 
-    default_root: tkinter.Tk | None = _DefaultRoot()
+    default_root = _DefaultRootDescriptor()
 
     @classmethod
     def reset(cls) -> None:
@@ -110,57 +108,37 @@ class Theme:
 
 
 class Constant:
-    """Configurations of font."""
+    """All Constants"""
 
-    __sys_call_flag: bool = False
+    GOLDEN_RATIO: typing.Final[float] = (math.sqrt(5)-1) / 2
 
-    GOLDEN_RATIO: float
-    PRE_DEFINED_EVENTS: tuple[str, ...]
-    PRE_DEFINED_VIRTUAL_EVENTS: tuple[str, ...]
+    PRE_DEFINED_EVENTS: typing.Final[tuple[str, ...]] = (
+        "<KeyPress>",
+        "<KeyRelease>",
+        "<Button-1>",
+        "<Button-2>",
+        "<Button-3>",
+        "<Button-4>",
+        "<Button-5>",
+        "<ButtonRelease-1>",
+        "<ButtonRelease-2>",
+        "<ButtonRelease-3>",
+        "<MouseWheel>",
+        "<Motion>",
+        "<B1-Motion>",
+        "<B2-Motion>",
+        "<B3-Motion>",
+        "<Configure>",
+    )
 
-    @classmethod
-    def reset(cls) -> None:
-        """Reset all configs."""
-        cls.__sys_call_flag = True
-
-        cls.GOLDEN_RATIO = (math.sqrt(5)-1) / 2
-
-        cls.PRE_DEFINED_EVENTS = (
-            "<KeyPress>",
-            "<KeyRelease>",
-            "<Button-1>",
-            "<Button-2>",
-            "<Button-3>",
-            "<Button-4>",
-            "<Button-5>",
-            "<ButtonRelease-1>",
-            "<ButtonRelease-2>",
-            "<ButtonRelease-3>",
-            "<MouseWheel>",
-            "<Motion>",
-            "<B1-Motion>",
-            "<B2-Motion>",
-            "<B3-Motion>",
-            "<Configure>",
-        )
-
-        cls.PRE_DEFINED_VIRTUAL_EVENTS = (
-            "<<Copy>>",
-            "<<Paste>>",
-            "<<Cut>>",
-            "<<SelectAll>>",
-            "<<Redo>>",
-            "<<Undo>>",
-        )
-
-        cls.__sys_call_flag = False
-
-    @typing_extensions.override
-    @classmethod
-    def __setattr__(cls, name, value: typing.Any) -> None:
-        if not cls.__sys_call_flag:
-            warnings.warn("", UserWarning, 2)
-        return super().__setattr__(name, value)
+    PRE_DEFINED_VIRTUAL_EVENTS: typing.Final[tuple[str, ...]] = (
+        "<<Copy>>",
+        "<<Paste>>",
+        "<<Cut>>",
+        "<<SelectAll>>",
+        "<<Redo>>",
+        "<<Undo>>",
+    )
 
 
 def reset_configs() -> None:
@@ -168,7 +146,6 @@ def reset_configs() -> None:
     Env.reset()
     Font.reset()
     Theme.reset()
-    Constant.reset()
 
 
 reset_configs()

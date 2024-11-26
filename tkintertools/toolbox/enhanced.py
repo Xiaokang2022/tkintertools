@@ -12,10 +12,10 @@ import tkinter
 try:
     from PIL import ImageTk
 except ImportError:
-    ImageTk = None
+    pass
 
 
-if not ImageTk:
+if globals().get("ImageTk") is None:
 
     class PhotoImage(tkinter.PhotoImage):
         """Enhanced version of `tkinter.PhotoImage`"""
@@ -32,7 +32,7 @@ if not ImageTk:
                     for x in range(self.width())]
                     for y in range(self.height())]
 
-        def scale(self, x: float, y: float) -> PhotoImage:
+        def scale(self, x: int | float, y: int | float) -> PhotoImage:
             """Scale the PhotoImage"""
             return self.resize(round(x*self.width()), round(y*self.height()))
 
@@ -55,7 +55,7 @@ else:
     class PhotoImage(ImageTk.PhotoImage, tkinter.PhotoImage):
         """Pillow version of `tkinter.PhotoImage`"""
 
-        def scale(self, x: float, y: float) -> PhotoImage:
+        def scale(self, x: int | float, y: int | float) -> PhotoImage:
             """Scale the PhotoImage"""
             return self.resize(round(x*self.width()), round(y*self.height()))
 

@@ -18,6 +18,7 @@ __all__ = [
 ]
 
 import collections.abc
+import ctypes.wintypes
 import platform
 import threading
 import tkinter
@@ -32,22 +33,22 @@ from . import parser
 try:
     import darkdetect
 except ImportError:
-    darkdetect = None
+    pass
 
 try:
     import pywinstyles
 except ImportError:
-    pywinstyles = None
+    pass
 
 try:
     import hPyT
 except ImportError:
-    hPyT = None
+    pass
 
 try:
     import win32material
 except ImportError:
-    win32material = None
+    pass
 
 _callback_events: dict[collections.abc.Callable[[bool, typing.Any], typing.Any], tuple] = {}
 """Events that are responded to when the system theme changes"""
@@ -146,7 +147,7 @@ def customize_window(
 
     This function is only works on Windows OS! And some parameters are useless on Windows 7/10!
     """
-    if pywinstyles:
+    if globals().get("pywinstyles") is not None:
         if style is not None:
             pywinstyles.apply_style(window, style)
             # This is a flaw in `pywinstyles`, which is fixed here
@@ -161,9 +162,9 @@ def customize_window(
         if title_color is not None:
             pywinstyles.change_title_color(window, title_color)
         if enable_file_dnd is not None:
-            pywinstyles.apply_dnd(window, enable_file_dnd)
+            pywinstyles.apply_dnd(tools.get_hwnd(window), enable_file_dnd)
 
-    if hPyT:
+    if globals().get("hPyT") is not None:
         if hide_title_bar is not None:
             if hide_title_bar:
                 hPyT.title_bar.hide(window)
@@ -188,13 +189,13 @@ def customize_window(
             else:
                 hPyT.minimize_button.enable(window)
 
-    if win32material:
+    if globals().get("win32material") is not None:
         if boarder_type is not None:
             match boarder_type:
-                case "rectangular": boarder_type = win32material.BORDERTYPE.RECTANGULAR
-                case "smallround": boarder_type = win32material.BORDERTYPE.SMALLROUND
-                case "round": boarder_type = win32material.BORDERTYPE.ROUND
-            win32material.SetWindowBorder(tools.get_hwnd(window), boarder_type)
+                case "rectangular": type_ = win32material.BORDERTYPE.RECTANGULAR
+                case "smallround": type_ = win32material.BORDERTYPE.SMALLROUND
+                case "round": type_ = win32material.BORDERTYPE.ROUND
+            win32material.SetWindowBorder(ctypes.wintypes.HWND(tools.get_hwnd(window)), type_)
 
 
 def _process_event(dark_mode: bool) -> None:
@@ -220,5 +221,5 @@ def _callback(theme: str) -> None:
         _process_event(configs.Env.is_dark)
 
 
-if darkdetect:
+if globals().get("darkdetect") is not None:
     threading.Thread(target=lambda: darkdetect.listener(_callback), daemon=True).start()

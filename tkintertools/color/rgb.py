@@ -56,7 +56,7 @@ def convert(
     return tuple(first[i] + round((second[i]-first[i]) * rate * v) for i, v in enumerate(channels))
 
 
-def blend(colors: list[RGB], *, weights: list[tuple] | None = None) -> RGB:
+def blend(colors: list[RGB], *, weights: list[float] | None = None) -> RGB:
     """Mix colors by weight
 
     * `colors`: color list
@@ -80,7 +80,7 @@ def gradient(
     rate: float = 1,
     *,
     channels: tuple[bool, bool, bool] = (True, True, True),
-    contoller: collections.abc.Callable[[float], float] = controllers.flat,
+    contoller: collections.abc.Callable[[int | float], int | float] = controllers.flat,
 ) -> list[RGB]:
     """Get a list of color gradients from one color to another proportionally
 
