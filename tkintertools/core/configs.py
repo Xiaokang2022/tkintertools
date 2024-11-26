@@ -14,7 +14,7 @@ from ..theme import dark, light
 try:
     import darkdetect
 except ImportError:
-    darkdetect = None
+    pass
 
 __all__ = [
     "Env",
@@ -47,7 +47,7 @@ class Env:
     def reset(cls) -> None:
         """Reset all configs."""
         cls.system = cls.get_default_system()
-        cls.is_dark = bool(darkdetect.isDark()) if darkdetect else False
+        cls.is_dark = bool(darkdetect.isDark()) if globals().get("darkdetect") else False
         cls.default_callback = lambda _: False
 
     @staticmethod
