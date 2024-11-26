@@ -17,9 +17,9 @@
 
 <p align="center">
 <a href="https://github.com/Xiaokang2022/tkintertools/releases"><img alt="Version" src="https://img.shields.io/github/v/release/Xiaokang2022/tkintertools?include_prereleases&logo=github&label=Version" title="Latest Version" /></a>
-<a href="https://pypistats.org/packages/tkintertools"><img alt="Downloads" src="https://img.shields.io/pypi/dm/tkintertools?label=Downloads&logo=python" title="Downloads" /></a>
-<a href="https://github.com/Xiaokang2022/tkintertools/actions"><img alt="Lint&Test" src="https://img.shields.io/github/actions/workflow/status/Xiaokang2022/tkintertools/python-package.yml?logo=github&label=Lint%26Test" title="Lint&Test"/></a>
-<a href="https://codecov.io/gh/Xiaokang2022/tkintertools"><img src="https://img.shields.io/codecov/c/github/Xiaokang2022/tkintertools?logo=codecov&label=Code%20Coverage" title="Code Coverage"></a>
+<a href="https://pypistats.org/packages/tkintertools"><img alt="Downloads" src="https://img.shields.io/pypi/dm/tkintertools?label=Downloads&logo=python&logoColor=skyblue" title="Downloads" /></a>
+<a href="https://github.com/Xiaokang2022/tkintertools/actions"><img alt="Lint & Test" src="https://img.shields.io/github/actions/workflow/status/Xiaokang2022/tkintertools/python-package.yml?logo=github&label=Lint%20%26%20Test" title="Lint & Test"/></a>
+<a href="https://codecov.io/gh/Xiaokang2022/tkintertools"><img alt="Code Coverage" src="https://img.shields.io/codecov/c/github/Xiaokang2022/tkintertools?logo=codecov&label=Code%20Coverage" title="Code Coverage"></a>
 <br/>
 <a href="https://github.com/Xiaokang2022/tkintertools/watchers"><img alt="Watchers" src="https://img.shields.io/github/watchers/Xiaokang2022/tkintertools?label=Watchers&logo=github&style=flat" title="Watchers" /></a>
 <a href="https://github.com/Xiaokang2022/tkintertools/forks"><img alt="Forks" src="https://img.shields.io/github/forks/Xiaokang2022/tkintertools?label=Forks&logo=github&style=flat" title="Forks" /></a>
