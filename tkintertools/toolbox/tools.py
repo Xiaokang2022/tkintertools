@@ -28,8 +28,8 @@ _LINUX_FONTS_DIR = os.path.expanduser("~/.fonts/")
 class Trigger:
     """Single trigger
 
-    It can only be triggered once before the reset, and multiple triggers are
-    invalid. When triggered, the callback function is called.
+    It can only be triggered once before the reset, and multiple triggers are invalid. When
+    triggered, the callback function is called.
     """
 
     def __init__(self, command: collections.abc.Callable) -> None:
@@ -72,40 +72,27 @@ def get_hwnd(widget: tkinter.Widget) -> int:
     return ctypes.windll.user32.GetParent(widget.winfo_id())
 
 
-def embed_window(
-    window: tkinter.Misc,
-    parent: tkinter.Misc | None,
-    *,
-    focus: bool = False,
-) -> None:
+def embed_window(window: tkinter.Misc, parent: tkinter.Misc | None, *, focus: bool = False) -> None:
     """Embed a widget into another widget
 
     * `window`: Widget that will be embedded in
-    * `parent`: parent widget, `None` indicates that the parent widget is the
-    screen
+    * `parent`: parent widget, `None` indicates that the parent widget is the screen
     * `focus`: whether direct input focus to this window
     """
-    ctypes.windll.user32.SetParent(
-        get_hwnd(window), parent.winfo_id() if parent else None)
+    ctypes.windll.user32.SetParent(get_hwnd(window), parent.winfo_id() if parent else None)
 
     if not focus:
         window.master.focus_set()
 
 
-def load_font(
-    font_path: str | bytes,
-    *,
-    private: bool = True,
-    enumerable: bool = False,
-) -> bool:
-    """Make fonts located in file `font_path` available to the font system, and
-    return `True` if the operation succeeds, `False` otherwise
+def load_font(font_path: str | bytes, *, private: bool = True, enumerable: bool = False) -> bool:
+    """Make fonts located in file `font_path` available to the font system, and return `True` if
+    the operation succeeds, `False` otherwise
 
     * `font_path`: the font file path
-    * `private`: if True, other processes cannot see this
-    font(Only Windows OS), and this font will be unloaded when the process dies
-    * `enumerable`: if True, this font will appear when enumerating
-    fonts(Only Windows OS)
+    * `private`: if True, other processes cannot see this font(Only Windows OS), and this font will
+    be unloaded when the process dies
+    * `enumerable`: if True, this font will appear when enumerating fonts(Only Windows OS)
 
     ATTENTION:
 
@@ -124,8 +111,7 @@ def load_font(
             raise TypeError("`font_path` must be of type `str` or `byte`.")
 
         flags = (0x10 if private else 0) | (0x20 if not enumerable else 0)
-        num_fonts_added = add_font_resource_ex(
-            ctypes.byref(path_buffer), flags, 0)
+        num_fonts_added = add_font_resource_ex(ctypes.byref(path_buffer), flags, 0)
 
         return bool(min(num_fonts_added, 1))
 
@@ -135,8 +121,7 @@ def load_font(
             shutil.copy(font_path, _LINUX_FONTS_DIR)
 
             if private:
-                atexit.register(
-                    os.remove, _LINUX_FONTS_DIR + font_path.rsplit("/", 1)[-1])
+                atexit.register(os.remove, _LINUX_FONTS_DIR + font_path.rsplit("/", 1)[-1])
 
             return True
         except Exception as exc:
@@ -151,8 +136,7 @@ def screen_size() -> tuple[int, int]:
     if configs.Env.default_root is None:
         temp_tk = tkinter.Tk()
         temp_tk.withdraw()
-        width = temp_tk.winfo_screenwidth()
-        height = temp_tk.winfo_screenheight()
+        width, height = temp_tk.winfo_screenwidth(), temp_tk.winfo_screenheight()
         temp_tk.destroy()
         return width, height
 

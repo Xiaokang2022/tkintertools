@@ -50,8 +50,8 @@ theme/
 }
 ```
 
-Style files in JSON format must strictly follow the above format, and the
-missing parts are empty by default.
+Style files in JSON format must strictly follow the above format, and the missing parts are empty
+by default.
 """
 
 from __future__ import annotations
@@ -71,9 +71,7 @@ from ..core import configs, containers, virtual
 from . import manager
 
 
-def _get_name(
-    obj: str | virtual.Widget | virtual.Component | None,
-) -> str | None:
+def _get_name(obj: str | virtual.Widget | virtual.Component | None) -> str | None:
     """Get the name of the object"""
     if obj is None:
         return None
@@ -99,9 +97,8 @@ def get_file(
 ) -> dict[str, dict[str, str]]:
     """Get the style file based on the parameters
 
-    The return value of this function is cached, and when the same style file
-    is fetched, the data is fetched directly from the cache, unless
-    `clear_cache` is called
+    The return value of this function is cached, and when the same style file is fetched, the data
+    is fetched directly from the cache, unless `clear_cache` is called
 
     * `theme`: a specified theme
     * `widget`: widget that need to get styles
@@ -137,6 +134,4 @@ def get(
             theme = configs.Theme.dark
         else:
             theme = configs.Theme.light
-    widget_name = _get_name(widget)
-    component_name = _get_name(component)
-    return get_file(theme, widget_name, component_name).copy()
+    return get_file(theme, _get_name(widget), _get_name(component)).copy()

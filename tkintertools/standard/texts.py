@@ -45,13 +45,7 @@ class _CanvasTextProxy:
             value = show * len(value)
         self.canvas.itemconfigure(self.id, text=value)
 
-    def insert(
-        self,
-        index: int,
-        value: str,
-        *,
-        show: str | None = None,
-    ) -> None:
+    def insert(self, index: int, value: str, *, show: str | None = None) -> None:
         """Insert"""
         if show:
             value = show * len(value)
@@ -118,8 +112,7 @@ class _CanvasTextProxy:
         x1, *_ = self.canvas.bbox(self.id)
         x -= x1 + 1
         font = tkinter.font.Font(font=self.canvas.itemcget(self.id, "font"))
-        index = bisect.bisect_right(
-            tuple(itertools.accumulate(self.get())), x, key=font.measure)
+        index = bisect.bisect_right(tuple(itertools.accumulate(self.get())), x, key=font.measure)
 
         distance_left = abs(x - font.measure(self.get()[:index]))
         distance_right = abs(x - font.measure(self.get()[:index+1]))
@@ -137,8 +130,7 @@ class Information(virtual.Text):
     def display(self) -> None:
         """Display the `Component` on a `Canvas`"""
         self.items = [self.widget.master.create_text(
-            0, 0, text=self.text, font=self.font,
-            tags=("fill", "fill"), **self.kwargs)]
+            0, 0, text=self.text, font=self.font, tags=("fill", "fill"), **self.kwargs)]
 
     @typing_extensions.override
     def coords(
@@ -228,17 +220,11 @@ class SingleLineText(virtual.Text):
         """
         self.left: int = 0
         self.right: int = 0
-        if align == "left":
-            self.anchor = "w"
-        elif align == "right":
-            self.anchor = "e"
-        else:
-            self.anchor = "center"
+        self.anchor = "w" if align == "left" else "e" if align == "right" else "center"
         virtual.Text.__init__(
-            self, widget, relative_position, size, text=text, limit=limit,
-            show=show, placeholder=placeholder, family=family,
-            fontsize=fontsize, weight=weight, slant=slant, underline=underline,
-            overstrike=overstrike, name=name, styles=styles,
+            self, widget, relative_position, size, text=text, limit=limit, show=show,
+            placeholder=placeholder, family=family, fontsize=fontsize, weight=weight, slant=slant,
+            underline=underline, overstrike=overstrike, name=name, styles=styles,
             animation=animation, **kwargs)
         self.text_proxy = _CanvasTextProxy(widget.master, self.items[0])
 
@@ -376,8 +362,7 @@ class SingleLineText(virtual.Text):
         if self.right == len(self.text):
             return
         self.text_proxy.insert(
-            length := self.text_proxy.length(), self.text[self.right],
-            show=self.show)
+            length := self.text_proxy.length(), self.text[self.right], show=self.show)
         self.right += 1
         self.text_proxy.cursor_set(length+1)
 

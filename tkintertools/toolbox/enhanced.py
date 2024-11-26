@@ -34,14 +34,11 @@ if not ImageTk:
 
         def scale(self, x: float, y: float) -> PhotoImage:
             """Scale the PhotoImage"""
-            width = round(x*self.width())
-            height = round(y*self.height())
-            return self.resize(width, height)
+            return self.resize(round(x*self.width()), round(y*self.height()))
 
         def resize(self, width: int, height: int) -> PhotoImage:
             """Resize the PhotoImage"""
-            x = width / self.width()
-            y = height / self.height()
+            x, y = width / self.width(), height / self.height()
             new_image = PhotoImage(width=width, height=height)
             new_image.put([[self._data[int(j/y)][int(i/x)]
                             for i in range(width)] for j in range(height)])
@@ -60,9 +57,7 @@ else:
 
         def scale(self, x: float, y: float) -> PhotoImage:
             """Scale the PhotoImage"""
-            width = round(x*self.width())
-            height = round(y*self.height())
-            return self.resize(width, height)
+            return self.resize(round(x*self.width()), round(y*self.height()))
 
         def resize(self, width: int, height: int) -> PhotoImage:
             """Resize the PhotoImage"""

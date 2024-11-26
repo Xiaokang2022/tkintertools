@@ -30,18 +30,13 @@ MAX = 255, 255, 255
 """The maximum value of the RGB code"""
 
 
-def contrast(
-    rgb: RGB,
-    *,
-    channels: tuple[bool, bool, bool] = (True, True, True),
-) -> RGB:
+def contrast(rgb: RGB, *, channels: tuple[bool, bool, bool] = (True, True, True)) -> RGB:
     """Get a contrasting color of a color
 
     * `rgb`: a tuple, RGB codes
     * `channels`: three color channels
     """
-    return tuple(map(
-        lambda x: (x[1]-x[2]) if x[0] else x[2], zip(channels, MAX, rgb)))
+    return tuple(map(lambda x: (x[1]-x[2]) if x[0] else x[2], zip(channels, MAX, rgb)))
 
 
 def convert(
@@ -58,15 +53,10 @@ def convert(
     * `rate`: conversion rate
     * `channels`: three color channels
     """
-    return tuple(first[i] + round((second[i]-first[i])*rate*v)
-                 for i, v in enumerate(channels))
+    return tuple(first[i] + round((second[i]-first[i]) * rate * v) for i, v in enumerate(channels))
 
 
-def blend(
-    colors: list[RGB],
-    *,
-    weights: list[tuple] | None = None
-) -> RGB:
+def blend(colors: list[RGB], *, weights: list[tuple] | None = None) -> RGB:
     """Mix colors by weight
 
     * `colors`: color list
@@ -80,8 +70,7 @@ def blend(
     _total = sum(weights)
     weights = tuple(map(lambda x: x/_total, weights))  # Different weights
 
-    return tuple(round(sum(map(lambda x: x[0]*x[1], zip(c, weights))))
-                 for c in colors)
+    return tuple(round(sum(map(lambda x: x[0]*x[1], zip(c, weights)))) for c in colors)
 
 
 def gradient(
@@ -137,8 +126,7 @@ def str_to_rgba(color: str, *, reference: str) -> RGB:
     _, a = divmod(int(color[1:], 16), 256)
     _, b = divmod(_, 256)
     r, g = divmod(_, 256)
-    refer_rgb = str_to_rgb(reference)
-    return convert((r, g, b), refer_rgb, 1 - a/255)
+    return convert((r, g, b), str_to_rgb(reference), 1 - a/255)
 
 
 str2rgba = str_to_rgba  # Alias

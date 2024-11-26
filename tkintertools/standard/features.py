@@ -130,28 +130,24 @@ class Highlight(ButtonFeature):
             self.widget.master.trigger_config.update(cursor="hand2")
             if self.widget.state == "normal":
                 self.widget.update("hover")
-                animations.ScaleFontSize(
-                    self.widget.texts[0], 150, sizes=28).start()
+                animations.ScaleFontSize(self.widget.texts[0], 150, sizes=28).start()
         else:
             if self.widget.state != "normal":
                 self.widget.update("normal")
-                animations.ScaleFontSize(
-                    self.widget.texts[0], 150, sizes=24).start()
+                animations.ScaleFontSize(self.widget.texts[0], 150, sizes=24).start()
         return flag
 
     def _button_1(self, _: tkinter.Event) -> bool:
         if flag := self.widget.state == "hover":
             self.widget.update("active")
-            animations.ScaleFontSize(
-                self.widget.texts[0], 150, sizes=26).start()
+            animations.ScaleFontSize(self.widget.texts[0], 150, sizes=26).start()
         return flag
 
     def _button_release_1(self, event: tkinter.Event) -> bool:
         if flag := self.widget.texts[0].detect(event.x, event.y):
             if self.widget.state == "active":
                 self.widget.update("hover")
-                animations.ScaleFontSize(
-                    self.widget.texts[0], 150, sizes=28).start()
+                animations.ScaleFontSize(self.widget.texts[0], 150, sizes=28).start()
                 if self.command is not None:
                     self.command(*self._args)
         return flag
@@ -167,30 +163,22 @@ class SwitchFeature(ButtonFeature):
                 if self.widget.state != "disabled":
                     self.widget.shapes[-1].coords(
                         (self.widget.size[0]/3, self.widget.size[0]/3),
-                        (self.widget.shapes[-1].position[0]
-                         - self.widget.size[0]/60,
-                         self.widget.shapes[-1].position[1]
-                         - self.widget.size[0]/60))
-                self.widget.update(
-                    f"hover-{'on' if self.widget.get() else 'off'}")
+                        (self.widget.shapes[-1].position[0] - self.widget.size[0]/60,
+                         self.widget.shapes[-1].position[1] - self.widget.size[0]/60))
+                self.widget.update(f"hover-{'on' if self.widget.get() else 'off'}")
         else:
             if not self.widget.state.startswith("normal"):
                 if self.widget.state != "disabled":
                     self.widget.shapes[-1].coords(
                         (self.widget.size[0]*3/10, self.widget.size[0]*3/10),
-                        (self.widget.shapes[-1].position[0]
-                         + self.widget.size[0]/60,
-                         self.widget.shapes[-1].position[1]
-                         + self.widget.size[0]/60))
-                self.widget.update(
-                    f"normal-{'on' if self.widget.get() else 'off'}")
+                        (self.widget.shapes[-1].position[0] + self.widget.size[0]/60,
+                         self.widget.shapes[-1].position[1] + self.widget.size[0]/60))
+                self.widget.update(f"normal-{'on' if self.widget.get() else 'off'}")
         return flag
 
     def _button_1(self, _: tkinter.Event) -> bool:
         if flag := self.widget.state.startswith("hover"):
-            self.widget.update(
-                f"active-{'on' if self.widget.get() else 'off'}",
-                no_delay=True)
+            self.widget.update(f"active-{'on' if self.widget.get() else 'off'}", no_delay=True)
         return flag
 
     def _button_release_1(self, event: tkinter.Event) -> bool:
@@ -198,8 +186,7 @@ class SwitchFeature(ButtonFeature):
             if self.widget.state.startswith("active"):
                 boolean = not self.widget.get()
                 self.widget.set(boolean)
-                self.widget.update(
-                    f"hover-{'on' if boolean else 'off'}", no_delay=True)
+                self.widget.update(f"hover-{'on' if boolean else 'off'}", no_delay=True)
                 if self.command is not None:
                     self.command(boolean)
         return flag
@@ -230,18 +217,15 @@ class ToggleButtonFeature(ButtonFeature):
         if flag := self.widget.shapes[0].detect(event.x, event.y):
             self.widget.master.trigger_config.update(cursor="hand2")
             if self.widget.state.startswith("normal"):
-                self.widget.update(
-                    f"hover-{'on' if self.widget.get() else 'off'}")
+                self.widget.update(f"hover-{'on' if self.widget.get() else 'off'}")
         else:
             if not self.widget.state.startswith("normal"):
-                self.widget.update(
-                    f"normal-{'on' if self.widget.get() else 'off'}")
+                self.widget.update(f"normal-{'on' if self.widget.get() else 'off'}")
         return flag
 
     def _button_1(self, _: tkinter.Event) -> bool:
         if flag := self.widget.state.startswith("hover"):
-            self.widget.update(
-                f"active-{'on' if self.widget.get() else 'off'}")
+            self.widget.update(f"active-{'on' if self.widget.get() else 'off'}")
         return flag
 
     def _button_release_1(self, event: tkinter.Event) -> bool:
@@ -291,13 +275,10 @@ class InputBoxFeature(ButtonFeature):
         if flag := self.widget.shapes[0].detect(event.x, event.y):
             self.widget.update("active")
             if self.widget.state == "active":  # Maybe widget is disabled
-                self.widget.master.trigger_focus.update(
-                    True, self.widget.texts[0].items[0])
-                self._start_index = self.widget.texts[0].text_proxy.cursor_find(
-                    event.x)
+                self.widget.master.trigger_focus.update(True, self.widget.texts[0].items[0])
+                self._start_index = self.widget.texts[0].text_proxy.cursor_find(event.x)
                 self.widget.texts[0].text_proxy.cursor_set(self._start_index)
-                self.widget.master.itemconfigure(
-                    self.widget.texts[0].items[1], fill="")
+                self.widget.master.itemconfigure(self.widget.texts[0].items[1], fill="")
         else:
             if self.widget.state != "normal":
                 self.widget.update("normal")
@@ -310,15 +291,12 @@ class InputBoxFeature(ButtonFeature):
     def _b_1_motion(self, event: tkinter.Event) -> bool:
         if self.widget.state == "active":
             self.widget.master.trigger_config.update(cursor="xterm")
-            self._end_index = self.widget.texts[0].text_proxy.cursor_find(
-                event.x)
+            self._end_index = self.widget.texts[0].text_proxy.cursor_find(event.x)
             self.widget.texts[0].text_proxy.cursor_set(self._end_index)
             if self._start_index < self._end_index:
-                self.widget.texts[0].text_proxy.select_set(
-                    self._start_index, self._end_index)
+                self.widget.texts[0].text_proxy.select_set(self._start_index, self._end_index)
             elif self._start_index > self._end_index:
-                self.widget.texts[0].text_proxy.select_set(
-                    self._end_index, self._start_index)
+                self.widget.texts[0].text_proxy.select_set(self._end_index, self._start_index)
             else:
                 self.widget.texts[0].text_proxy.select_clear()
             return True
@@ -361,8 +339,7 @@ class InputBoxFeature(ButtonFeature):
                             self.widget.texts[0].text_proxy.select_clear()
                             self.widget.texts[0].remove(*select)
                         self.widget.texts[0].insert(
-                            self.widget.texts[0].text_proxy.cursor_get(),
-                            event.char)
+                            self.widget.texts[0].text_proxy.cursor_get(), event.char)
         return False
 
     def _copy(self, _: tkinter.Event) -> bool:
@@ -412,38 +389,31 @@ class SliderFeature(virtual.Feature):
                 if isinstance(self.widget.shapes[-1], shapes.Oval):
                     self.widget.shapes[-1].coords(
                         (self.widget.size[1]*2/3, self.widget.size[1]*2/3),
-                        (self.widget.shapes[-2].position[0]
-                         + self.widget.size[1]/6,
-                         self.widget.shapes[-2].position[1]
-                         + self.widget.size[1]/6))
+                        (self.widget.shapes[-2].position[0] + self.widget.size[1]/6,
+                         self.widget.shapes[-2].position[1] + self.widget.size[1]/6))
         else:
             if self.widget.state == "hover":
                 self.widget.update("normal")
                 if isinstance(self.widget.shapes[-1], shapes.Oval):
                     self.widget.shapes[-1].coords(
                         (self.widget.size[1]/2, self.widget.size[1]/2),
-                        (self.widget.shapes[-2].position[0]
-                         + self.widget.size[1]/4,
-                         self.widget.shapes[-2].position[1]
-                         + self.widget.size[1]/4))
+                        (self.widget.shapes[-2].position[0] + self.widget.size[1]/4,
+                         self.widget.shapes[-2].position[1] + self.widget.size[1]/4))
         return flag
 
     def _button_1(self, event: tkinter.Event) -> bool:
         if self.widget.state == "hover":
             self._temp_position = event.x, event.y
             self.widget.update("active")
-        elif (self.widget.state != "disabled" and
-              self.widget.shapes[0].detect(event.x, event.y)):
+        elif self.widget.state != "disabled" and self.widget.shapes[0].detect(event.x, event.y):
             self._temp_position = event.x, event.y
             self.widget.update("active")
             temp_value = self.widget.value
             if isinstance(self.widget.shapes[-1], shapes.Oval):
                 self.widget.shapes[-1].coords(
                     (self.widget.size[1]*2/3, self.widget.size[1]*2/3),
-                    (self.widget.shapes[-2].position[0]
-                     + self.widget.size[1]/6,
-                     self.widget.shapes[-2].position[1]
-                     + self.widget.size[1]/6))
+                    (self.widget.shapes[-2].position[0] + self.widget.size[1]/6,
+                     self.widget.shapes[-2].position[1] + self.widget.size[1]/6))
                 next_value = (
                     (event.x-self.widget.position[0]-self.widget.size[1]/2)
                     / (self.widget.size[0]-self.widget.size[1]))
@@ -460,8 +430,7 @@ class SliderFeature(virtual.Feature):
     def _b_1_motion(self, event: tkinter.Event) -> bool:
         if self._temp_position is not None:
             if isinstance(self.widget.shapes[-1], shapes.Oval):
-                delta = ((event.x-self._temp_position[0])
-                         / (self.widget.size[0]-self.widget.size[1]))
+                delta = (event.x-self._temp_position[0]) / (self.widget.size[0]-self.widget.size[1])
             else:
                 delta = ((event.x-self._temp_position[0])
                          / (self.widget.size[0]-self.widget.size[1]*2/5))

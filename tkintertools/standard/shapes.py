@@ -68,8 +68,7 @@ class Line(virtual.Shape):
         """Resize the `Component`"""
         super().coords(size, position)
 
-        points = [(x+self.position[0], y+self.position[1])
-                  for x, y in self.points]
+        points = [(x+self.position[0], y+self.position[1]) for x, y in self.points]
 
         self.widget.master.coords(self.items[0], *points)
 
@@ -81,8 +80,7 @@ class Rectangle(virtual.Shape):
     def display(self) -> None:
         """Display the `Component` on a `Canvas`"""
         self.items = [self.widget.master.create_rectangle(
-            0, 0, 0, 0, tags=("fill", "fill", "outline", "outline"),
-            **self.kwargs)]
+            0, 0, 0, 0, tags=("fill", "fill", "outline", "outline"), **self.kwargs)]
 
     @typing_extensions.override
     def coords(
@@ -103,8 +101,7 @@ class Oval(virtual.Shape):
     def display(self) -> None:
         """Display the `Component` on a `Canvas`"""
         self.items = [self.widget.master.create_oval(
-            0, 0, 0, 0, tags=("fill", "fill", "outline", "outline"),
-            **self.kwargs)]
+            0, 0, 0, 0, tags=("fill", "fill", "outline", "outline"), **self.kwargs)]
 
     @typing_extensions.override
     def coords(
@@ -161,8 +158,7 @@ class RegularPolygon(virtual.Shape):
     def display(self) -> None:
         """Display the `Component` on a `Canvas`"""
         self.items = [self.widget.master.create_polygon(
-            0, 0, 0, 0, tags=("fill", "fill", "outline", "outline"),
-            **self.kwargs)]
+            0, 0, 0, 0, tags=("fill", "fill", "outline", "outline"), **self.kwargs)]
 
     @typing_extensions.override
     def coords(
@@ -179,10 +175,8 @@ class RegularPolygon(virtual.Shape):
         points = []
         for i in range(self.side):
             angle = math.tau*i/self.side+self.angle
-            points.append(math.cos(angle)*r +
-                          self.position[0] + self.size[0]/2)
-            points.append(math.sin(angle)*r +
-                          self.position[1] + self.size[1]/2)
+            points.append(math.cos(angle)*r + self.position[0] + self.size[0]/2)
+            points.append(math.sin(angle)*r + self.position[1] + self.size[1]/2)
 
         self.widget.master.coords(self.items[0], *points)
 
@@ -234,29 +228,21 @@ class RoundedRectangle(virtual.Shape):
             self.widget.master.create_line(  # e
                 0, 0, 0, 0, tags=("fill", "outline"), **self.kwargs),
             self.widget.master.create_arc(  # nw
-                0, 0, 0, 0, outline="", start=90,
-                tags=("fill", "fill"), **self.kwargs),
+                0, 0, 0, 0, outline="", start=90, tags=("fill", "fill"), **self.kwargs),
             self.widget.master.create_arc(  # sw
-                0, 0, 0, 0, outline="", start=180,
-                tags=("fill", "fill"), **self.kwargs),
+                0, 0, 0, 0, outline="", start=180, tags=("fill", "fill"), **self.kwargs),
             self.widget.master.create_arc(  # ne
-                0, 0, 0, 0, outline="", start=0,
-                tags=("fill", "fill"), **self.kwargs),
+                0, 0, 0, 0, outline="", start=0, tags=("fill", "fill"), **self.kwargs),
             self.widget.master.create_arc(  # se
-                0, 0, 0, 0, outline="", start=-90,
-                tags=("fill", "fill"), **self.kwargs),
+                0, 0, 0, 0, outline="", start=-90, tags=("fill", "fill"), **self.kwargs),
             self.widget.master.create_arc(  # nw
-                0, 0, 0, 0, style="arc", start=90,
-                tags=("outline", "outline"), **self.kwargs),
+                0, 0, 0, 0, style="arc", start=90, tags=("outline", "outline"), **self.kwargs),
             self.widget.master.create_arc(  # sw
-                0, 0, 0, 0, style="arc", start=180,
-                tags=("outline", "outline"), **self.kwargs),
+                0, 0, 0, 0, style="arc", start=180, tags=("outline", "outline"), **self.kwargs),
             self.widget.master.create_arc(  # ne
-                0, 0, 0, 0, style="arc", start=0,
-                tags=("outline", "outline"), **self.kwargs),
+                0, 0, 0, 0, style="arc", start=0, tags=("outline", "outline"), **self.kwargs),
             self.widget.master.create_arc(  # se
-                0, 0, 0, 0, style="arc", start=-90,
-                tags=("outline", "outline"), **self.kwargs),
+                0, 0, 0, 0, style="arc", start=-90, tags=("outline", "outline"), **self.kwargs),
         ]
 
     @typing_extensions.override
@@ -347,30 +333,22 @@ class HalfRoundedRectangle(virtual.Shape):
         ]
         self.items += [
             self.widget.master.create_arc(  # ne
-                0, 0, 0, 0, outline="", start=0,
-                tags=("fill", "fill"), **self.kwargs),
+                0, 0, 0, 0, outline="", start=0, tags=("fill", "fill"), **self.kwargs),
             self.widget.master.create_arc(  # se
-                0, 0, 0, 0, outline="", start=-90,
-                tags=("fill", "fill"), **self.kwargs),
+                0, 0, 0, 0, outline="", start=-90, tags=("fill", "fill"), **self.kwargs),
             self.widget.master.create_arc(  # ne
-                0, 0, 0, 0, style="arc", start=0,
-                tags=("outline", "outline"), **self.kwargs),
+                0, 0, 0, 0, style="arc", start=0, tags=("outline", "outline"), **self.kwargs),
             self.widget.master.create_arc(  # se
-                0, 0, 0, 0, style="arc", start=-90,
-                tags=("outline", "outline"), **self.kwargs),
+                0, 0, 0, 0, style="arc", start=-90, tags=("outline", "outline"), **self.kwargs),
         ] if self.ignore == "left" else [
             self.widget.master.create_arc(  # nw
-                0, 0, 0, 0, outline="", start=90,
-                tags=("fill", "fill"), **self.kwargs),
+                0, 0, 0, 0, outline="", start=90, tags=("fill", "fill"), **self.kwargs),
             self.widget.master.create_arc(  # sw
-                0, 0, 0, 0, outline="", start=180,
-                tags=("fill", "fill"), **self.kwargs),
+                0, 0, 0, 0, outline="", start=180, tags=("fill", "fill"), **self.kwargs),
             self.widget.master.create_arc(  # nw
-                0, 0, 0, 0, style="arc", start=90,
-                tags=("outline", "outline"), **self.kwargs),
+                0, 0, 0, 0, style="arc", start=90, tags=("outline", "outline"), **self.kwargs),
             self.widget.master.create_arc(  # sw
-                0, 0, 0, 0, style="arc", start=180,
-                tags=("outline", "outline"), **self.kwargs),
+                0, 0, 0, 0, style="arc", start=180, tags=("outline", "outline"), **self.kwargs),
         ]
 
     @typing_extensions.override
@@ -522,8 +500,7 @@ class SharpRectangle(virtual.Shape):
     def display(self) -> None:
         """Display the `Component` on a `Canvas`"""
         self.items = [self.widget.master.create_polygon(
-            0, 0, 0, 0, tags=("fill", "fill", "outline", "outline"),
-            **self.kwargs)]
+            0, 0, 0, 0, tags=("fill", "fill", "outline", "outline"), **self.kwargs)]
 
     @typing_extensions.override
     def coords(
@@ -594,8 +571,7 @@ class Parallelogram(virtual.Shape):
     def display(self) -> None:
         """Display the `Component` on a `Canvas`"""
         self.items = [self.widget.master.create_polygon(
-            0, 0, 0, 0, tags=("fill", "fill", "outline", "outline"),
-            **self.kwargs)]
+            0, 0, 0, 0, tags=("fill", "fill", "outline", "outline"), **self.kwargs)]
 
     @typing_extensions.override
     def coords(

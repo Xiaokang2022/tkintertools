@@ -49,14 +49,11 @@ try:
 except ImportError:
     win32material = None
 
-_callback_events: dict[collections.abc.Callable[[
-    bool, typing.Any], typing.Any], tuple[typing.Any, ...]] = {}
+_callback_events: dict[collections.abc.Callable[[bool, typing.Any], typing.Any], tuple] = {}
 """Events that are responded to when the system theme changes"""
 
 
-def set_color_mode(
-    mode: typing.Literal["system", "dark", "light"] = "system",
-) -> None:
+def set_color_mode(mode: typing.Literal["system", "dark", "light"] = "system") -> None:
     """Set the color mode of the program
 
     * `mode`: it can be `"light"`, `"dark"`, and `"system"`
@@ -66,8 +63,7 @@ def set_color_mode(
     `"system"` is the following system
     """
     configs.Theme.color_mode = mode
-    _process_event(configs.Env.is_dark if mode ==
-                   "system" else (mode == "dark"))
+    _process_event(configs.Env.is_dark if mode == "system" else (mode == "dark"))
 
 
 def get_color_mode() -> typing.Literal["dark", "light"]:
@@ -99,9 +95,8 @@ def register_event(
     func: collections.abc.Callable[[bool, typing.Any], typing.Any],
     *args: typing.Any,
 ) -> None:
-    """When the system accent color changes, the registered function will be
-    called, and the parameter is a boolean value indicating whether it is
-    currently a dark theme
+    """When the system accent color changes, the registered function will be called, and the
+    parameter is a boolean value indicating whether it is currently a dark theme
 
     * `func`: callback function
     * `args`: extra arguments
@@ -109,9 +104,7 @@ def register_event(
     _callback_events[func] = args
 
 
-def remove_event(
-    func: collections.abc.Callable[[bool, typing.Any], typing.Any],
-) -> None:
+def remove_event(func: collections.abc.Callable[[bool, typing.Any], typing.Any]) -> None:
     """Remove a registered function
 
     * `func`: callback function
@@ -123,9 +116,8 @@ def remove_event(
 def customize_window(
     window: tkinter.Tk,
     *,
-    style: typing.Literal["mica", "acrylic", "aero", "transparent",
-                          "optimised", "win7", "inverse", "native",
-                          "popup", "dark", "normal"] | None = None,
+    style: typing.Literal["mica", "acrylic", "aero", "transparent", "optimised",
+                          "win7", "inverse", "native", "popup", "dark", "normal"] | None = None,
     border_color: str | None = None,
     header_color: str | None = None,
     title_color: str | None = None,
@@ -134,8 +126,7 @@ def customize_window(
     hide_button: typing.Literal["all", "maxmin", "none"] | None = None,
     disable_minimize_button: bool | None = None,
     disable_maximize_button: bool | None = None,
-    boarder_type: typing.Literal["rectangular",
-                                 "smallround", "round"] | None = None,
+    boarder_type: typing.Literal["rectangular", "smallround", "round"] | None = None,
 ) -> None:
     """Customize the relevant properties of the window
 
@@ -153,8 +144,7 @@ def customize_window(
 
     WARNING:
 
-    This function is only works on Windows OS!
-    And some parameters are useless on Windows 7/10!
+    This function is only works on Windows OS! And some parameters are useless on Windows 7/10!
     """
     if pywinstyles:
         if style is not None:
@@ -201,12 +191,9 @@ def customize_window(
     if win32material:
         if boarder_type is not None:
             match boarder_type:
-                case "rectangular": boarder_type \
-                    = win32material.BORDERTYPE.RECTANGULAR
-                case "smallround": boarder_type \
-                    = win32material.BORDERTYPE.SMALLROUND
-                case "round": boarder_type \
-                    = win32material.BORDERTYPE.ROUND
+                case "rectangular": boarder_type = win32material.BORDERTYPE.RECTANGULAR
+                case "smallround": boarder_type = win32material.BORDERTYPE.SMALLROUND
+                case "round": boarder_type = win32material.BORDERTYPE.ROUND
             win32material.SetWindowBorder(tools.get_hwnd(window), boarder_type)
 
 
@@ -223,8 +210,8 @@ def _process_event(dark_mode: bool) -> None:
 
 
 def _callback(theme: str) -> None:
-    """Callback function that is triggered when a system theme is switched.
-    Valid only if the theme mode is set to Follow System
+    """Callback function that is triggered when a system theme is switched. Valid only if the theme
+    mode is set to Follow System
 
     * `theme`: theme name
     """
@@ -234,5 +221,4 @@ def _callback(theme: str) -> None:
 
 
 if darkdetect:
-    threading.Thread(target=lambda: darkdetect.listener(
-        _callback), daemon=True).start()
+    threading.Thread(target=lambda: darkdetect.listener(_callback), daemon=True).start()

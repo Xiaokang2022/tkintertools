@@ -13,7 +13,7 @@ import tkinter
 from ..core import configs
 from . import rgb
 
-COLOR_MAP: dict[str, tuple[int, int, int]] = {
+COLOR_MAP: dict[str, rgb.RGB] = {
     'alice blue': (240, 248, 255),
     'aliceblue': (240, 248, 255),
     'antique white': (250, 235, 215),

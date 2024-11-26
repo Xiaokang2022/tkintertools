@@ -23,7 +23,7 @@ from . import rgb
 
 HSL = tuple[float, float, float]
 """
-H: Hue, 0.0 ~ 2π
+H: Hue, 0.0 ~ 2pi
 S: Saturation, 0.0 ~ 1.0
 L: Lightness, 0.0 ~ 1.0
 """
@@ -32,18 +32,13 @@ MAX = math.tau, 1, 1
 """The maximum value of the HSL code"""
 
 
-def contrast(
-    hsl: HSL,
-    *,
-    channels: tuple[bool, bool, bool] = (True, True, True),
-) -> HSL:
+def contrast(hsl: HSL, *, channels: tuple[bool, bool, bool] = (True, True, True)) -> HSL:
     """Get a contrasting color of a color
 
     * `hsl`: a tuple, HSL codes
     * `channels`: three color channels
     """
-    return tuple(map(
-        lambda x: (x[1]-x[2]) if x[0] else x[2], zip(channels, MAX, hsl)))
+    return tuple(map(lambda x: (x[1]-x[2]) if x[0] else x[2], zip(channels, MAX, hsl)))
 
 
 def convert(
@@ -60,15 +55,10 @@ def convert(
     * `rate`: conversion rate
     * `channels`: three color channels
     """
-    return tuple(first[i] + (second[i]-first[i])*rate*v
-                 for i, v in enumerate(channels))
+    return tuple(first[i] + (second[i]-first[i]) * rate * v for i, v in enumerate(channels))
 
 
-def blend(
-    colors: list[HSL],
-    *,
-    weights: list[tuple] | None = None
-) -> HSL:
+def blend(colors: list[HSL], *, weights: list[tuple] | None = None) -> HSL:
     """Mix colors by weight
 
     * `colors`: color list
@@ -82,8 +72,7 @@ def blend(
     _total = sum(weights)
     weights = tuple(map(lambda x: x/_total, weights))  # Different weights
 
-    return tuple(sum(map(
-        lambda x: x[0]*x[1], zip(c, weights))) for c in colors)
+    return tuple(sum(map(lambda x: x[0]*x[1], zip(c, weights))) for c in colors)
 
 
 def gradient(

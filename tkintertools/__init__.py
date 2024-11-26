@@ -1,5 +1,5 @@
-"""The `tkintertools` is a UI framework based on the `Canvas` class of
-`tkinter`. In other words, all the UI is drawn in Canvas!
+"""The `tkintertools` is a UI framework based on the `Canvas` class of `tkinter`.
+In other words, all the UI is drawn in Canvas!
 
 * Homepage: https://xiaokang2022.github.io/tkintertools/
 * PyPI: https://pypi.org/project/tkintertools/
@@ -41,9 +41,6 @@ import sys
 from .core import *
 from .standard import *
 from .toolbox.enhanced import *
-
-if sys.version_info < (3, 10):
-    raise ImportError("tkintertools requires Python version 3.10 or higher.")
 
 if sys.platform == "win32":
     import ctypes

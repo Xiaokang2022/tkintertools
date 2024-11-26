@@ -7,8 +7,7 @@ def f(t: float) -> float: ...
 ```
 
 * t: 0% ~ 100%, indicates the percentage of time
-* return value: Any real number, represents a multiple of the cardinality of
-the animation
+* return value: Any real number, represents a multiple of the cardinality of the animation
 
 The built-in control functions are:
 
@@ -32,19 +31,14 @@ import math
 import warnings
 
 
-def _map_t(
-    start: float,
-    end: float,
-) -> collections.abc.Callable[[float], float]:
+def _map_t(start: float, end: float) -> collections.abc.Callable[[float], float]:
     """Map parameters in any range between 0 and 1
 
     * `start`: the first value of the parameter of control function
     * `end`: the last value of the parameter of control function
     """
-    delta = end - start
-
     def _mapper(t: float) -> float:
-        return start + t*delta
+        return start + t * (end-start)
 
     return _mapper
 
@@ -58,11 +52,9 @@ def _map_y(
     * `base_function`: base function
     * `end`: the last value of the parameter of control function
     """
-    end_value = base_function(end)
-
     @functools.wraps(base_function)
     def _mapper(t: float) -> float:
-        return base_function(t) / end_value
+        return base_function(t) / base_function(end)
 
     return _mapper
 

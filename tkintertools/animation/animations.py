@@ -1,8 +1,8 @@
 """Standard animation classes
 
 The built-in basic animation classes are:
-`MoveTkWidget`, `MoveWidget`, `MoveComponent`, `MoveItem`, `GradientTkWidget`,
-`GradientItem`, `ScaleFontSize`
+`MoveTkWidget`, `MoveWidget`, `MoveComponent`, `MoveItem`, `GradientTkWidget`, `GradientItem`,
+`ScaleFontSize`
 """
 
 from __future__ import annotations
@@ -46,13 +46,10 @@ class Animation:
     ) -> None:
         """
         * `ms`: duration of the animation, in milliseconds
-        * `controller`: control functions that determine the course of the
-        entire animation movement
-        * `callback`: callback function, which will be called once per frame,
-        with the parameter being the percentage of the current animation
-        progress
-        * `end`: ending function, which is called once at the end of the
-        animation
+        * `controller`: control functions that determine the course of the entire animation movement
+        * `callback`: callback function, which will be called once per frame, with the parameter
+        being the percentage of the current animation progress
+        * `end`: ending function, which is called once at the end of the animation
         * `repeat`: number of repetitions of the entire animation process
         * `fps`: the FPS of the animation
         * `derivation`: whether the callback function is derivative
@@ -107,8 +104,7 @@ class Animation:
     def start(self, *, delay: int = 0) -> None:
         """Start the animation
 
-        * `delay`: length of the delay before the animation starts, in
-        milliseconds 
+        * `delay`: length of the delay before the animation starts, in milliseconds 
         """
         self._tasks.clear()
         self._is_active = True
@@ -120,8 +116,7 @@ class Animation:
             percentage = self.controller(i/self._total)
             task = tkinter.Misc.after(
                 default_root, delay,
-                self._wrapper(
-                    self.callback) if i == self._total else self.callback,
+                self._wrapper(self.callback) if i == self._total else self.callback,
                 percentage - last_percentage
             )
             self._tasks.append(task)
@@ -155,16 +150,13 @@ class MoveTkWidget(Animation):
         * `widget`: tkinter widget to be moved
         * `ms`: duration of the animation, in milliseconds
         * `offset`: relative offset of the coordinates
-        * `controller`: control functions that determine the course of the
-        entire animation movement
-        * `end`: ending function, which is called once at the end of the
-        animation
+        * `controller`: control functions that determine the course of the entire animation movement
+        * `end`: ending function, which is called once at the end of the animation
         * `repeat`: number of repetitions of the entire animation process
         * `fps`: the FPS of the animation
         """
         if not widget.place_info():
-            warnings.warn(
-                "tkinter widget is not laid out by Place.", UserWarning, 2)
+            warnings.warn("tkinter widget is not laid out by Place.", UserWarning, 2)
 
         widget.update_idletasks()
         x0, y0, dx, dy = widget.winfo_x(), widget.winfo_y(), *offset
@@ -194,10 +186,8 @@ class MoveWidget(Animation):
         * `widget`: widget to be moved
         * `ms`: duration of the animation, in milliseconds
         * `offset`: relative offset of the coordinates
-        * `controller`: control functions that determine the course of the
-        entire animation movement
-        * `end`: ending function, which is called once at the end of the
-        animation
+        * `controller`: control functions that determine the course of the entire animation movement
+        * `end`: ending function, which is called once at the end of the animation
         * `repeat`: number of repetitions of the entire animation process
         * `fps`: the FPS of the animation
         """
@@ -228,10 +218,8 @@ class MoveComponent(Animation):
         * `component`: component to be moved
         * `ms`: duration of the animation, in milliseconds
         * `offset`: relative offset of the coordinates
-        * `controller`: control functions that determine the course of the
-        entire animation movement
-        * `end`: ending function, which is called once at the end of the
-        animation
+        * `controller`: control functions that determine the course of the entire animation movement
+        * `end`: ending function, which is called once at the end of the animation
         * `repeat`: number of repetitions of the entire animation process
         * `fps`: the FPS of the animation
         """
@@ -264,10 +252,8 @@ class MoveItem(Animation):
         * `item`: the item to be moved
         * `ms`: duration of the animation, in milliseconds
         * `offset`: relative offset of the coordinates
-        * `controller`: control functions that determine the course of the
-        entire animation movement
-        * `end`: ending function, which is called once at the end of the
-        animation
+        * `controller`: control functions that determine the course of the entire animation movement
+        * `end`: ending function, which is called once at the end of the animation
         * `repeat`: number of repetitions of the entire animation process
         * `fps`: the FPS of the animation
         """
@@ -298,14 +284,11 @@ class GradientTkWidget(Animation):
     ) -> None:
         """
         * `widget`: tkinter widget whose color is to be gradient
-        * `parameter`: parameter name of the part of the item that needs to be
-        modified in color
+        * `parameter`: parameter name of the part of the item that needs to be modified in color
         * `ms`: duration of the animation, in milliseconds
         * `colors`: a tuple of the initial and ending colors
-        * `controller`: control functions that determine the course of the
-        entire animation movement
-        * `end`: ending function, which is called once at the end of the
-        animation
+        * `controller`: control functions that determine the course of the entire animation movement
+        * `end`: ending function, which is called once at the end of the animation
         * `repeat`: number of repetitions of the entire animation process
         * `fps`: the FPS of the animation
         * `derivation`: whether the callback function is derivative
@@ -343,14 +326,11 @@ class GradientItem(Animation):
         """
         * `canvas`: an instance of `tkinter.Canvas` that contains the item
         * `item`: item whose color is to be gradient
-        * `parameter`: parameter name of the part of the item that needs to be
-        modified in color
+        * `parameter`: parameter name of the part of the item that needs to be modified in color
         * `ms`: duration of the animation, in milliseconds
         * `colors`: a tuple of the initial and ending colors
-        * `controller`: control functions that determine the course of the
-        entire animation movement
-        * `end`: ending function, which is called once at the end of the
-        animation
+        * `controller`: control functions that determine the course of the entire animation movement
+        * `end`: ending function, which is called once at the end of the animation
         * `repeat`: number of repetitions of the entire animation process
         * `fps`: the FPS of the animation
         * `derivation`: whether the callback function is derivative
@@ -384,14 +364,11 @@ class ScaleFontSize(Animation):
         derivation: bool = False,
     ) -> None:
         """
-        * `text`: an instance of `virtual.Text` that needs to be scaled in font
-        size
+        * `text`: an instance of `virtual.Text` that needs to be scaled in font size
         * `ms`: duration of the animation, in milliseconds
         * `sizes`: a tuple of the initial and ending sizes or target font size
-        * `controller`: control functions that determine the course of the
-        entire animation movement
-        * `end`: ending function, which is called once at the end of the
-        animation
+        * `controller`: control functions that determine the course of the entire animation movement
+        * `end`: ending function, which is called once at the end of the animation
         * `repeat`: number of repetitions of the entire animation process
         * `fps`: the FPS of the animation
         * `derivation`: whether the callback function is derivative

@@ -17,8 +17,7 @@ class StillImage(virtual.Image):
     @typing_extensions.override
     def display(self) -> None:
         """Display the `Component` on a `Canvas`"""
-        self.items = [self.widget.master.create_image(
-            0, 0, image=self.image, **self.kwargs)]
+        self.items = [self.widget.master.create_image(0, 0, image=self.image, **self.kwargs)]
 
     @typing_extensions.override
     def coords(

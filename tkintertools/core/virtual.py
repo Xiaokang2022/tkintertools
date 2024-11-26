@@ -1,14 +1,13 @@
 """Various virtual classes
 
-The virtual `Widget` consists of 5 parts, which are `Widget`, `Shape`, `Text`,
-`Image` and `Feature`.
+The virtual `Widget` consists of 5 parts, which are `Widget`, `Shape`, `Text`, `Image` and
+`Feature`.
 
-Where `Feature` is the function of widgets, and each widget can be bound to up
-to one, but in terms of appearance, there is no limit to the number of `Shape`,
-`Text`, and `Image`.
+Where `Feature` is the function of widgets, and each widget can be bound to up to one, but in terms
+of appearance, there is no limit to the number of `Shape`, `Text`, and `Image`.
 
-`Shape`, `Text`, and `Image` are all appearance components that inherit from
-abstract base class `Components`.
+`Shape`, `Text`, and `Image` are all appearance components that inherit from abstract base class
+`Components`.
 """
 
 from __future__ import annotations
@@ -100,8 +99,7 @@ class Component(abc.ABC):
 
     def center(self) -> tuple[int, int]:
         """Return the geometric center of the `Component`"""
-        return self.position[0] + self.size[0]/2, \
-            self.position[1] + self.size[1]/2
+        return self.position[0] + self.size[0]/2, self.position[1] + self.size[1]/2
 
     def region(self) -> tuple[int, int, int, int]:
         """Return the decision region of the `Component`"""
@@ -113,12 +111,7 @@ class Component(abc.ABC):
         x1, y1, x2, y2 = self.region()
         return x1 <= x <= x2 and y1 <= y <= y2
 
-    def update(
-        self,
-        state: str | None = None,
-        *,
-        no_delay: bool = False,
-    ) -> None:
+    def update(self, state: str | None = None, *, no_delay: bool = False) -> None:
         """Update the style of the `Component` to the corresponding state
 
         * `state`: the state of the `Component`
@@ -133,29 +126,19 @@ class Component(abc.ABC):
         if self.styles.get(state) is not None:
             self.configure(self.styles[state], no_delay=no_delay)
 
-    def get_disabled_style(
-        self,
-        refer_state: str | None = None,
-    ) -> dict[str, str]:
+    def get_disabled_style(self, refer_state: str | None = None) -> dict[str, str]:
         """Get the style data of disabled state"""
         if refer_state is None:
             refer_state = self.widget.state
         if self.styles.get("disabled") is None:
-            self.styles["disabled"] = copy.deepcopy(
-                self.styles.get(refer_state, {}))
+            self.styles["disabled"] = copy.deepcopy(self.styles.get(refer_state, {}))
             for key, value in self.styles["disabled"].items():
                 self.styles["disabled"][key] = rgb.rgb_to_str(rgb.convert(
-                    rgb.str_to_rgb(value), rgb.str_to_rgb(
-                        self.widget.master["bg"]),
+                    rgb.str_to_rgb(value), rgb.str_to_rgb(self.widget.master["bg"]),
                     configs.Constant.GOLDEN_RATIO))
         return self.styles["disabled"]
 
-    def configure(
-        self,
-        style: dict[str, str],
-        *,
-        no_delay: bool = False,
-    ) -> None:
+    def configure(self, style: dict[str, str], *, no_delay: bool = False) -> None:
         """Configure properties of `Component` and update them immediately"""
         for item in self.items:
             tags = self.widget.master.itemcget(item, "tags").split()
@@ -176,8 +159,7 @@ class Component(abc.ABC):
                         self.widget.master.itemconfigure(item, **{key: value})
                     else:
                         self.gradient = animations.GradientItem(
-                            self.widget.master, item, key, 150,
-                            (start_color, value))
+                            self.widget.master, item, key, 150, (start_color, value))
                         self.gradient.start()
             else:
                 for key, value in kwargs.items():
@@ -349,11 +331,9 @@ class Text(Component):
         zoom_size: bool = True,
     ) -> None:
         """Scale the text"""
-        Component.zoom(
-            self, ratios, zoom_position=zoom_position, zoom_size=zoom_size)
+        Component.zoom(self, ratios, zoom_position=zoom_position, zoom_size=zoom_size)
         ratios = self.widget.master.ratios
-        self.font.config(size=round(
-            self._initial_fontsize*math.sqrt(ratios[0]*ratios[1])))
+        self.font.config(size=round(self._initial_fontsize*math.sqrt(ratios[0]*ratios[1])))
 
 
 class Image(Component):
@@ -395,8 +375,7 @@ class Image(Component):
         zoom_size: bool = True,
     ) -> None:
         """Scale the image"""
-        Component.zoom(
-            self, ratios, zoom_position=zoom_position, zoom_size=zoom_size)
+        Component.zoom(self, ratios, zoom_position=zoom_position, zoom_size=zoom_size)
         self.image = self.initail_image.scale(*self.widget.master.ratios)
         for item in self.items:
             self.widget.master.itemconfigure(item, image=self.image)
@@ -410,8 +389,7 @@ class Feature:
         * `widget`: parent widget
         """
         self.widget = widget
-        self.extras: dict[str, list[collections.abc.Callable[[
-            tkinter.Event], typing.Any]]] = {}
+        self.extras: dict[str, list[collections.abc.Callable[[tkinter.Event], typing.Any]]] = {}
         widget.feature = self
 
     @staticmethod
@@ -423,8 +401,7 @@ class Feature:
     def get_method(self, name: str) -> collections.abc.Callable:
         """Return method by name"""
         extra_commands = self.extras.get(name)
-        method = getattr(self, self._parse_method_name(name),
-                         configs.Env.default_callback)
+        method = getattr(self, self._parse_method_name(name), configs.Env.default_callback)
 
         if extra_commands is None:
             return method
@@ -455,8 +432,7 @@ class Widget:
         *,
         name: str | None = None,
         state: str = "normal",
-        anchor: typing.Literal["n", "s", "w", "e",
-                               "nw", "ne", "sw", "se", "center"] = "nw",
+        anchor: typing.Literal["n", "s", "w", "e", "nw", "ne", "sw", "se", "center"] = "nw",
         through: bool = False,
         animation: bool = True,
     ) -> None:
@@ -473,8 +449,7 @@ class Widget:
         if isinstance(master, Widget):
             self.master, self.widget = master.master, master
             self.widget.widgets.append(self)
-            self.position = [master.position[0] + position[0],
-                             master.position[1] + position[1]]
+            self.position = [master.position[0] + position[0], master.position[1] + position[1]]
             self.size = master.size.copy() if size is None else list(size)
         else:
             self.master, self.widget = master, None
@@ -538,11 +513,7 @@ class Widget:
         elif isinstance(component, Image):
             self.images.remove(component)
 
-    def update(
-        self,
-        state: str | None = None,
-        *, no_delay: bool = False,
-    ) -> None:
+    def update(self, state: str | None = None, *, no_delay: bool = False) -> None:
         """Update the widget"""
         if state != "disabled" and self.state_before_disabled:
             return  # It is currently disabled
@@ -562,19 +533,15 @@ class Widget:
     ) -> None:
         """Bind an extra function to the widget on update
 
-        This extra function has two positional arguments, both of which are
-        arguments to the method `update`. And this extra function will be
-        called when the widget is updated (whether it's automatically updated
-        or manually updated).
+        This extra function has two positional arguments, both of which are arguments to the method
+        `update`. And this extra function will be called when the widget is updated (whether it's
+        automatically updated or manually updated).
 
         * `command`: the extra function that is bound
         """
         self._update_hooks.append(command)
 
-    def unbind_on_update(
-        self,
-        command: collections.abc.Callable[[str, bool], typing.Any],
-    ) -> None:
+    def unbind_on_update(self, command: collections.abc.Callable[[str, bool], typing.Any]) -> None:
         """Unbind an extra function to the widget on update
 
         * `command`: the extra function that is bound
@@ -623,8 +590,7 @@ class Widget:
         event: tkinter.Event | None = None,
         **kwargs,
     ) -> None:
-        """Generate an event SEQUENCE. Additional keyword arguments specify
-        parameter of the event
+        """Generate an event SEQUENCE. Additional keyword arguments specify parameter of the event
 
         * `sequence`: event name
         * `event`: event
@@ -645,8 +611,7 @@ class Widget:
                 component.get_disabled_style(self.state_before_disabled)
             self.update("disabled", no_delay=True)
         else:
-            self.state_before_disabled, last_state \
-                = "", self.state_before_disabled
+            self.state_before_disabled, last_state = "", self.state_before_disabled
             self.update(last_state, no_delay=True)
         for widget in self.widgets:
             widget.disabled(value)
@@ -698,8 +663,7 @@ class Widget:
         if ratios is None:
             ratios = self.master.ratios
             for widget in self.widgets:
-                widget.zoom(
-                    ratios, zoom_position=zoom_position, zoom_size=zoom_size)
+                widget.zoom(ratios, zoom_position=zoom_position, zoom_size=zoom_size)
 
         if zoom_size:
             self.size[0] *= ratios[0]
@@ -709,8 +673,7 @@ class Widget:
             self.position[1] *= ratios[1]
 
         for component in self.components:
-            component.zoom(
-                ratios, zoom_position=zoom_position, zoom_size=zoom_size)
+            component.zoom(ratios, zoom_position=zoom_position, zoom_size=zoom_size)
 
     def disappear(self) -> None:
         """Let all components of the widget to disappear"""

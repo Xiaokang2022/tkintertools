@@ -32,8 +32,7 @@ class TkMessage:
                                 "ok", "cancel", "yes", "no"] | None = None,
         master: tkinter.Tk | None = None,
         command: collections.abc.Callable[[typing.Literal[
-            "abort", "retry", "ignore", "ok", "cancel", "yes", "no"]],
-            typing.Any] | None = None,
+            "abort", "retry", "ignore", "ok", "cancel", "yes", "no"]], typing.Any] | None = None,
     ) -> None:
         """
         * `message`: message
@@ -85,8 +84,7 @@ class TkColorChooser:
         * `command`: callback function
         """
         color: tuple[tuple[int, int, int] | None, str | None] = \
-            tkinter.colorchooser.askcolor(
-                parent=master, title=title, initialcolor=color)
+            tkinter.colorchooser.askcolor(parent=master, title=title, initialcolor=color)
         if command is not None and color[0] is not None:
             command(color[1])
 
