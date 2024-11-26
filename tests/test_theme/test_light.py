@@ -19,8 +19,7 @@ class Test(unittest.TestCase):
     def test_component_name(self) -> None:
         for widget in set(widgets.__all__) - self.no_name_widgets:
             for component_name in getattr(light, widget):
-                self.assertIn(component_name.split(
-                    ".")[0], self.component_names, component_name)
+                self.assertIn(component_name.split(".")[0], self.component_names, component_name)
 
 
 if __name__ == "__main__":

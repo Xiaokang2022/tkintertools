@@ -24,8 +24,7 @@ class Test(unittest.TestCase):
         self.assertEqual(colormap.name_to_rgb("#000000FFF"), (0, 0, 65535))
         self.assertEqual(colormap.name_to_rgb("#00000000FFFF"), (0, 0, 65535))
         self.assertRaises(tkinter.TclError, colormap.name_to_rgb, "XXX")
-        self.assertRaises(
-            tkinter.TclError, colormap.name_to_rgb, "#0000000000FFFFF")
+        self.assertRaises(tkinter.TclError, colormap.name_to_rgb, "#0000000000FFFFF")
 
         tk.destroy()
 

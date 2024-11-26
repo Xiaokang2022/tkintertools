@@ -10,8 +10,7 @@ from tkintertools.animation import animations, controllers
 class TestAnimation_NoTk(unittest.TestCase):
 
     def test_start(self) -> None:
-        self.assertRaises(AttributeError, animations.Animation(
-            1000, controllers.flat).start)
+        self.assertRaises(AttributeError, animations.Animation(1000, controllers.flat).start)
 
 
 class TestAnimation(unittest.TestCase):
@@ -55,8 +54,8 @@ class TestMoveTkWidget(unittest.TestCase):
 
     @unittest.skipIf(platform.system() == "Linux", "No display name.")
     def test(self) -> None:
-        self.assertWarns(UserWarning, lambda: animations.MoveTkWidget(
-            self.widget, 1000, (100, 100)))
+        self.assertWarns(
+            UserWarning, lambda: animations.MoveTkWidget(self.widget, 1000, (100, 100)))
 
 
 class TestGradientTkWidget(unittest.TestCase):
@@ -70,8 +69,8 @@ class TestGradientTkWidget(unittest.TestCase):
 
     @unittest.skipIf(platform.system() == "Linux", "No display name.")
     def test(self) -> None:
-        self.assertRaises(ValueError, lambda: animations.GradientTkWidget(
-            self.widget, "fill", 1000, ("", "")))
+        self.assertRaises(
+            ValueError, lambda: animations.GradientTkWidget(self.widget, "fill", 1000, ("", "")))
 
 
 class TestGradientItem(unittest.TestCase):
@@ -85,8 +84,8 @@ class TestGradientItem(unittest.TestCase):
 
     @unittest.skipIf(platform.system() == "Linux", "No display name.")
     def test(self) -> None:
-        self.assertRaises(ValueError, lambda: animations.GradientItem(
-            self.canvas, 0, "fill", 1000, ("", "")))
+        self.assertRaises(
+            ValueError, lambda: animations.GradientItem(self.canvas, 0, "fill", 1000, ("", "")))
 
 
 if __name__ == "__main__":

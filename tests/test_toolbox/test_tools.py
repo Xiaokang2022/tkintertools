@@ -42,13 +42,11 @@ class Test(unittest.TestCase):
     def tearDown(self) -> None:
         self.tk.destroy()
 
-    @unittest.skipUnless(
-        platform.system() == "Windows", "This only work on Windows.")
+    @unittest.skipUnless(platform.system() == "Windows", "This only work on Windows.")
     def test_get_hwnd(self) -> None:
         self.assertIsInstance(tools.get_hwnd(self.tk), int)
 
-    @unittest.skipUnless(
-        platform.system() == "Windows", "This only work on Windows.")
+    @unittest.skipUnless(platform.system() == "Windows", "This only work on Windows.")
     def test_embed_window(self) -> None:
         toplevel = tkinter.Toplevel()
         self.assertIsNone(tools.embed_window(toplevel, self.tk))
@@ -64,16 +62,14 @@ class Test(unittest.TestCase):
     def test_screen_size(self) -> None:
         self.assertIsInstance(tools.screen_size(), tuple)
 
-    @unittest.skipUnless(
-        platform.system() == "Windows", "This test only work on Windows.")
+    @unittest.skipUnless(platform.system() == "Windows", "This test only work on Windows.")
     def test_get_text_size(self) -> None:
         path = pathlib.Path(__file__).parent.parent/"assets/fonts/FiraCode.ttf"
         self.assertTrue(tools.load_font(str(path)))
         self.assertEqual(tools.get_text_size("", 20, "Fira Code"), (2, 24))
         self.assertEqual(tools.get_text_size(":)", 20, "Fira Code"), (26, 24))
         self.assertEqual(tools.get_text_size("\n", 20, "Fira Code"), (2, 48))
-        self.assertEqual(tools.get_text_size(
-            "", 20, "Fira Code", padding=5), (12, 34))
+        self.assertEqual(tools.get_text_size("", 20, "Fira Code", padding=5), (12, 34))
 
 
 if __name__ == "__main__":
