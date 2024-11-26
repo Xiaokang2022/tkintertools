@@ -18,7 +18,7 @@ class TestPhotoImage(unittest.TestCase):
         self.width = self.image.width()
         self.height = self.image.height()
 
-    def tearDown(self):
+    def tearDown(self) -> None:
         self.tk.destroy()
 
     def test_scale(self) -> None:

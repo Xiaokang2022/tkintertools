@@ -5,6 +5,7 @@ import platform
 import tkinter
 import unittest
 
+from tkintertools.core import configs
 from tkintertools.toolbox import tools
 
 
@@ -31,6 +32,13 @@ class TestTrigger(unittest.TestCase):
         self.t.unlock()
         self.t.update()
         self.assertTrue(self.t.get())
+
+
+class TestNoTk(unittest.TestCase):
+
+    @unittest.skipIf(platform.system() == "Linux", "No display name.")
+    def test_screen_size(self) -> None:
+        self.assertIsInstance(tools.screen_size(), tuple)
 
 
 class Test(unittest.TestCase):
@@ -70,6 +78,9 @@ class Test(unittest.TestCase):
         self.assertEqual(tools.get_text_size(":)", 20, "Fira Code"), (26, 24))
         self.assertEqual(tools.get_text_size("\n", 20, "Fira Code"), (2, 48))
         self.assertEqual(tools.get_text_size("", 20, "Fira Code", padding=5), (12, 34))
+        self.assertEqual(
+            tools.get_text_size(":)"),
+            tools.get_text_size(":)", configs.Font.size, configs.Font.family))
 
 
 if __name__ == "__main__":

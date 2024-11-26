@@ -21,7 +21,7 @@ class Test(unittest.TestCase):
 
     def test_blend(self) -> None:
         self.assertEqual(hsl.blend([(0, 0, 0), (1, 1, 1)]), (0.5, 0.5, 0.5))
-        self.assertEqual(hsl.blend([(0, 0, 0), (1, 1, 1)], weights=(4, 6)), (0.6, 0.6, 0.6))
+        self.assertEqual(hsl.blend([(0, 0, 0), (1, 1, 1)], weights=[4, 6]), (0.6, 0.6, 0.6))
 
     def test_gradient(self) -> None:
         list_1 = hsl.gradient((0, 0, 0), (1, 1, 1), 3, 0.6)

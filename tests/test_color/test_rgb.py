@@ -21,7 +21,7 @@ class Test(unittest.TestCase):
 
     def test_blend(self) -> None:
         self.assertEqual(rgb.blend([(0, 0, 0), (255, 255, 255)]), (128, 128, 128))
-        self.assertEqual(rgb.blend([(0, 0, 0), (100, 100, 100)], weights=(3, 7)), (70, 70, 70))
+        self.assertEqual(rgb.blend([(0, 0, 0), (100, 100, 100)], weights=[3, 7]), (70, 70, 70))
 
     def test_gradient(self) -> None:
         self.assertEqual(
