@@ -66,9 +66,10 @@ class Component(abc.ABC):
         """
         self.widget = widget
         offset = widget.offset
-        self.position = [widget.position[0] + relative_position[0] - offset[0],
-                         widget.position[1] + relative_position[1] - offset[1]]
-        self.size = widget.size.copy() if size is None else list(size)
+        self.position: list[int | float] = [
+            widget.position[0] + relative_position[0] - offset[0],
+            widget.position[1] + relative_position[1] - offset[1]]
+        self.size: list[int | float] = widget.size.copy() if size is None else list(size)
         self.name = name
         self.animation = animation
         self.styles = styles if styles else parser.get(widget, self)
@@ -97,11 +98,11 @@ class Component(abc.ABC):
         self.widget.deregister(self)
         self.widget.master.delete(*self.items)
 
-    def center(self) -> tuple[int, int]:
+    def center(self) -> tuple[float, float]:
         """Return the geometric center of the `Component`"""
         return self.position[0] + self.size[0]/2, self.position[1] + self.size[1]/2
 
-    def region(self) -> tuple[int, int, int, int]:
+    def region(self) -> tuple[float, float, float, float]:
         """Return the decision region of the `Component`"""
         return self.position[0], self.position[1], \
             self.position[0]+self.size[0], self.position[1]+self.size[1]
@@ -156,7 +157,7 @@ class Component(abc.ABC):
                             value, reference=self.widget.master["bg"]))
                     if value == "" or start_color == "":
                         # Null characters cannot be parsed
-                        self.widget.master.itemconfigure(item, **{key: value})
+                        self.widget.master.itemconfigure(item, {key: value})
                     else:
                         self.gradient = animations.GradientItem(
                             self.widget.master, item, key, 150, (start_color, value))
@@ -166,7 +167,7 @@ class Component(abc.ABC):
                     if value.startswith("#") and len(value) == 9:
                         kwargs[key] = rgb.rgb_to_str(rgb.str_to_rgba(
                             value, reference=self.widget.master["bg"]))
-                self.widget.master.itemconfigure(item, **kwargs)
+                self.widget.master.itemconfigure(item, kwargs)
 
     def appear(self, *, no_delay: bool = True) -> None:
         """Let the component to appear"""
@@ -272,7 +273,7 @@ class Text(Component):
         size: tuple[int, int] | None = None,
         *,
         text: str = "",
-        limit: int = math.inf,
+        limit: int = -1,
         show: str | None = None,
         placeholder: str = "",
         family: str | None = None,
@@ -376,6 +377,8 @@ class Image(Component):
     ) -> None:
         """Scale the image"""
         Component.zoom(self, ratios, zoom_position=zoom_position, zoom_size=zoom_size)
+        if self.initail_image is None:
+            raise RuntimeError("Image is empty.")
         self.image = self.initail_image.scale(*self.widget.master.ratios)
         for item in self.items:
             self.widget.master.itemconfigure(item, image=self.image)
@@ -449,12 +452,13 @@ class Widget:
         if isinstance(master, Widget):
             self.master, self.widget = master.master, master
             self.widget.widgets.append(self)
-            self.position = [master.position[0] + position[0], master.position[1] + position[1]]
-            self.size = master.size.copy() if size is None else list(size)
+            self.position: list[int | float] = [
+                master.position[0] + position[0], master.position[1] + position[1]]
+            self.size: list[int | float] = master.size.copy() if size is None else list(size)
         else:
             self.master, self.widget = master, None
-            self.position = list(position)
-            self.size = [0, 0] if size is None else list(size)
+            self.position: list[int | float] = list(position)
+            self.size: list[int | float] = [0, 0] if size is None else list(size)
 
         self.name = name
         self.state = state
@@ -517,10 +521,12 @@ class Widget:
         """Update the widget"""
         if state != "disabled" and self.state_before_disabled:
             return  # It is currently disabled
-        if state is not None:
-            self.state = state
         for component in self.components:
             component.update(state, no_delay=no_delay)
+        if state is None:
+            state = self.state
+        else:
+            self.state = state
         for command in self._update_hooks:
             try:
                 command(state, no_delay)
@@ -632,7 +638,7 @@ class Widget:
     def destroy(self) -> None:
         """Destroy the widget"""
         self.master.widgets.remove(self)
-        self.feature = None
+        del self.feature
 
         if self.widget is not None:
             self.widget.widgets.remove(self)

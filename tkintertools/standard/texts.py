@@ -149,14 +149,14 @@ class Information(virtual.Text):
 
     def set(self, text: str) -> None:
         """Set the value of `Text`"""
-        if len(text) > self.limit:
+        if len(text) > self.limit >= 0:
             text = text[:self.limit]
         self.text = text
         self.widget.master.itemconfigure(self.items[0], text=self.text)
 
     def append(self, text: str) -> None:
         """Append value to the value of `Text`"""
-        if len(self.text) + len(text) > self.limit:
+        if len(self.text) + len(text) > self.limit >= 0:
             text = self.text[:self.limit-len(self.text)]
         self.text = self.text + text
         self.widget.master.itemconfigure(self.items[0], text=self.text)
