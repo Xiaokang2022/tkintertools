@@ -7,12 +7,6 @@ import unittest
 from tkintertools.animation import animations, controllers
 
 
-class TestAnimation_NoTk(unittest.TestCase):
-
-    def test_start(self) -> None:
-        self.assertRaises(AttributeError, animations.Animation(1000, controllers.flat).start)
-
-
 class TestAnimation(unittest.TestCase):
 
     def setUp(self):

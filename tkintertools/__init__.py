@@ -36,6 +36,7 @@ If you ❤️ this package, leave your ⭐ to me, thanks you so much! 🎉
 __version__ = "3.0.0rc4"
 __author__ = "Xiaokang2022 <2951256653@qq.com>"
 
+import ctypes
 import sys
 
 from .core import *
@@ -43,5 +44,4 @@ from .standard import *
 from .toolbox.enhanced import *
 
 if sys.platform == "win32":
-    import ctypes
     ctypes.windll.shcore.SetProcessDpiAwareness(1)  # Set Windows DPI awareness

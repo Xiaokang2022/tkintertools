@@ -28,10 +28,9 @@ __all__ = [
 class _DefaultRootDescriptor:
     """A simple descriptor about tkinter._default_root."""
 
-    def __get__(self, obj: typing.Any, cls: typing.Any) -> tkinter.Tk | None:
+    def __get__(self, obj: typing.Any, cls: typing.Any) -> tkinter.Tk:
         """Return the current default root."""
-        default_root = tkinter._default_root
-        return default_root
+        return tkinter._get_default_root()
 
 
 class Env:
