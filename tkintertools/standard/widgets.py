@@ -1093,7 +1093,7 @@ class SpinBox(virtual.Widget):
         InputBox(
             self, (0, 0), size, family=family, fontsize=fontsize, weight=weight, slant=slant,
             underline=underline, overstrike=overstrike, align=align, placeholder=placeholder,
-            show=show, limit=limit, image=image, through=through, animation=animation)
+            show=show, limit=limit, image=image, animation=animation, through=True)
         h = size[1]/2 - 6
         w = h/configs.Constant.GOLDEN_RATIO if configs.Env.system == "Windows10" else 2*h
         Button(self, (size[0]-w-4, 4), (w, h), text="▲", fontsize=14, through=True,
