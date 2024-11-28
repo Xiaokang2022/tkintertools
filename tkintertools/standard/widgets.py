@@ -51,7 +51,7 @@ class Text(virtual.Widget):
         justify: typing.Literal["left", "center", "right"] = "left",
         name: str | None = None,
         anchor: typing.Literal["n", "e", "w", "s", "nw", "ne", "sw", "se", "center"] = "nw",
-        through: bool = False,
+        through: bool | None = None,
         animation: bool = True,
     ) -> None:
         """
@@ -100,7 +100,7 @@ class Image(virtual.Widget):
         image: enhanced.PhotoImage | None = None,
         name: str | None = None,
         anchor: typing.Literal["n", "e", "w", "s", "nw", "ne", "sw", "se", "center"] = "nw",
-        through: bool = False,
+        through: bool | None = None,
         animation: bool = True,
     ) -> None:
         """
@@ -160,7 +160,7 @@ class Label(virtual.Widget):
         image: enhanced.PhotoImage | None = None,
         name: str | None = None,
         anchor: typing.Literal["n", "e", "w", "s", "nw", "ne", "sw", "se", "center"] = "nw",
-        through: bool = False,
+        through: bool | None = None,
         animation: bool = True,
     ) -> None:
         """
@@ -220,7 +220,7 @@ class Button(virtual.Widget):
         image: enhanced.PhotoImage | None = None,
         name: str | None = None,
         anchor: typing.Literal["n", "e", "w", "s", "nw", "ne", "sw", "se", "center"] = "nw",
-        through: bool = False,
+        through: bool | None = None,
         animation: bool = True,
     ) -> None:
         """
@@ -274,7 +274,7 @@ class Switch(virtual.Widget):
         image: enhanced.PhotoImage | None = None,
         name: str | None = None,
         anchor: typing.Literal["n", "e", "w", "s", "nw", "ne", "sw", "se", "center"] = "nw",
-        through: bool = False,
+        through: bool | None = None,
         animation: bool = True,
     ) -> None:
         """
@@ -345,7 +345,7 @@ class InputBox(virtual.Widget):
         image: enhanced.PhotoImage | None = None,
         name: str | None = None,
         anchor: typing.Literal["n", "e", "w", "s", "nw", "ne", "sw", "se", "center"] = "nw",
-        through: bool = False,
+        through: bool | None = None,
         animation: bool = True,
     ) -> None:
         """
@@ -429,7 +429,7 @@ class CheckButton(virtual.Widget):
         image: enhanced.PhotoImage | None = None,
         name: str | None = None,
         anchor: typing.Literal["n", "e", "w", "s", "nw", "ne", "sw", "se", "center"] = "nw",
-        through: bool = False,
+        through: bool | None = None,
         animation: bool = True,
     ) -> None:
         """
@@ -496,7 +496,7 @@ class ToggleButton(virtual.Widget):
         image: enhanced.PhotoImage | None = None,
         name: str | None = None,
         anchor: typing.Literal["n", "e", "w", "s", "nw", "ne", "sw", "se", "center"] = "nw",
-        through: bool = False,
+        through: bool | None = None,
         animation: bool = True,
     ) -> None:
         """
@@ -565,7 +565,7 @@ class RadioButton(virtual.Widget):
         image: enhanced.PhotoImage | None = None,
         name: str | None = None,
         anchor: typing.Literal["n", "e", "w", "s", "nw", "ne", "sw", "se", "center"] = "nw",
-        through: bool = False,
+        through: bool | None = None,
         animation: bool = True,
     ) -> None:
         """
@@ -630,7 +630,7 @@ class ProgressBar(virtual.Widget):
         image: enhanced.PhotoImage | None = None,
         name: str | None = None,
         anchor: typing.Literal["n", "e", "w", "s", "nw", "ne", "sw", "se", "center"] = "nw",
-        through: bool = False,
+        through: bool | None = None,
         animation: bool = True,
     ) -> None:
         """
@@ -713,7 +713,7 @@ class UnderlineButton(virtual.Widget):
         name: str | None = None,
         anchor: typing.Literal["n", "e", "w", "s",
                                "nw", "ne", "sw", "se", "center"] = "nw",
-        through: bool = False,
+        through: bool | None = None,
         animation: bool = False,
     ) -> None:
         """
@@ -766,7 +766,7 @@ class HighlightButton(virtual.Widget):
         image: enhanced.PhotoImage | None = None,
         name: str | None = None,
         anchor: typing.Literal["n", "e", "w", "s", "nw", "ne", "sw", "se", "center"] = "nw",
-        through: bool = False,
+        through: bool | None = None,
         animation: bool = True,
     ) -> None:
         """
@@ -820,7 +820,7 @@ class IconButton(virtual.Widget):
         image: enhanced.PhotoImage | None = None,
         name: str | None = None,
         anchor: typing.Literal["n", "e", "w", "s", "nw", "ne", "sw", "se", "center"] = "nw",
-        through: bool = False,
+        through: bool | None = None,
         animation: bool = True,
     ) -> None:
         """
@@ -875,7 +875,7 @@ class Slider(virtual.Widget):
         command: collections.abc.Callable[[float], typing.Any] | None = None,
         name: str | None = None,
         anchor: typing.Literal["n", "e", "w", "s", "nw", "ne", "sw", "se", "center"] = "nw",
-        through: bool = False,
+        through: bool | None = None,
         animation: bool = True,
     ) -> None:
         """
@@ -957,7 +957,7 @@ class SegmentedButton(virtual.Widget):
         layout: typing.Literal["horizontal", "vertical"] = "horizontal",
         name: str | None = None,
         anchor: typing.Literal["n", "e", "w", "s", "nw", "ne", "sw", "se", "center"] = "nw",
-        through: bool = False,
+        through: bool | None = None,
         animation: bool = True,
     ) -> None:
         """
@@ -1012,7 +1012,7 @@ class SegmentedButton(virtual.Widget):
             ToggleButton(
                 self, position, size, text=text, family=family, fontsize=fontsize, weight=weight,
                 slant=slant, underline=underline, overstrike=overstrike, justify=justify,
-                animation=animation, image=image, through=True,
+                animation=animation, image=image,
                 command=lambda _, i=i: (self.set(i), command(i) if command else None))
             total_side_length += size[layout == "vertical"] + 5
         self.command = command
@@ -1058,7 +1058,7 @@ class SpinBox(virtual.Widget):
         image: enhanced.PhotoImage | None = None,
         name: str | None = None,
         anchor: typing.Literal["n", "e", "w", "s", "nw", "ne", "sw", "se", "center"] = "nw",
-        through: bool = False,
+        through: bool | None = None,
         animation: bool = True,
     ) -> None:
         """
@@ -1093,12 +1093,12 @@ class SpinBox(virtual.Widget):
         InputBox(
             self, (0, 0), size, family=family, fontsize=fontsize, weight=weight, slant=slant,
             underline=underline, overstrike=overstrike, align=align, placeholder=placeholder,
-            show=show, limit=limit, image=image, animation=animation, through=True)
+            show=show, limit=limit, image=image, animation=animation)
         h = size[1]/2 - 6
         w = h/configs.Constant.GOLDEN_RATIO if configs.Env.system == "Windows10" else 2*h
-        Button(self, (size[0]-w-4, 4), (w, h), text="▲", fontsize=14, through=True,
+        Button(self, (size[0]-w-4, 4), (w, h), text="▲", fontsize=14,
                command=lambda: command(True) if command is not None else self.change(True))
-        Button(self, (size[0]-w-4, size[1]/2 + 2), (w, h), text="▼", fontsize=14, through=True,
+        Button(self, (size[0]-w-4, size[1]/2 + 2), (w, h), text="▼", fontsize=14,
                command=lambda: command(False) if command is not None else self.change(False))
         self.format = style
         self.step = step

@@ -436,7 +436,7 @@ class Widget:
         name: str | None = None,
         state: str = "normal",
         anchor: typing.Literal["n", "s", "w", "e", "nw", "ne", "sw", "se", "center"] = "nw",
-        through: bool = False,
+        through: bool | None = None,
         animation: bool = True,
     ) -> None:
         """
@@ -463,7 +463,7 @@ class Widget:
         self.name = name
         self.state = state
         self.anchor = anchor
-        self.through = through
+        self.through = self.is_nested() if through is None else through
         self.animation = animation
 
         self.widgets: list[Widget] = []
@@ -495,6 +495,10 @@ class Widget:
             case "se": _offset = self.size[0], self.size[1]
             case _: _offset = self.size[0]/2, self.size[1]/2
         return _offset
+
+    def is_nested(self) -> bool:
+        """Whether the widget is a nested widget"""
+        return self.master is not None
 
     def register(self, component: Component) -> None:
         """Register a component to the widget"""
