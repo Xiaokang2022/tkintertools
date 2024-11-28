@@ -525,7 +525,7 @@ class Canvas(tkinter.Canvas):
         """Events to move the mouse"""
         self.trigger_config.reset()
         for widget in self.widgets[::-1]:
-            if hasattr(widget, "feature"):
+            if hasattr(widget, "feature") and not widget.is_disappeared:
                 if widget.feature.get_method(name)(event) and not widget.through:
                     event.x = math.nan
         self.trigger_config.update(cursor="arrow")
@@ -535,7 +535,7 @@ class Canvas(tkinter.Canvas):
         self.focus_set()
         self.trigger_focus.reset()
         for widget in self.widgets[::-1]:
-            if hasattr(widget, "feature"):
+            if hasattr(widget, "feature") and not widget.is_disappeared:
                 if widget.feature.get_method(name)(event) and not widget.through:
                     event.x = math.nan
         self.trigger_focus.update(True, "")
@@ -543,7 +543,7 @@ class Canvas(tkinter.Canvas):
     def _release(self, event: tkinter.Event, name: str) -> None:
         """Events to release the mouse"""
         for widget in self.widgets[::-1]:
-            if hasattr(widget, "feature"):
+            if hasattr(widget, "feature") and not widget.is_disappeared:
                 if widget.feature.get_method(name)(event) and not widget.through:
                     event.x = math.nan
 
@@ -552,21 +552,21 @@ class Canvas(tkinter.Canvas):
         if type_ is not None:
             event.delta = 120 if type_ else -120
         for widget in self.widgets[::-1]:
-            if hasattr(widget, "feature"):
+            if hasattr(widget, "feature") and not widget.is_disappeared:
                 if widget.feature.get_method("<MouseWheel>")(event) and not widget.through:
                     event.x = math.nan
 
     def _key_press(self, event: tkinter.Event) -> None:
         """Events for typing"""
         for widget in self.widgets[::-1]:
-            if hasattr(widget, "feature"):
+            if hasattr(widget, "feature") and not widget.is_disappeared:
                 if widget.feature.get_method("<KeyPress>")(event) and not widget.through:
                     event.x = math.nan
 
     def _key_release(self, event: tkinter.Event) -> None:
         """Events for typing"""
         for widget in self.widgets[::-1]:
-            if hasattr(widget, "feature"):
+            if hasattr(widget, "feature") and not widget.is_disappeared:
                 if widget.feature.get_method("<KeyRelease>")(event) and not widget.through:
                     event.x = math.nan
 

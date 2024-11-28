@@ -38,7 +38,7 @@ class Text(virtual.Widget):
 
     def __init__(
         self,
-        master: containers.Canvas,
+        master: containers.Canvas | virtual.Widget,
         position: tuple[int, int],
         *,
         text: str = "",
@@ -93,7 +93,7 @@ class Image(virtual.Widget):
 
     def __init__(
         self,
-        master: containers.Canvas,
+        master: containers.Canvas | virtual.Widget,
         position: tuple[int, int],
         size: tuple[int, int] | None = None,
         *,
@@ -145,7 +145,7 @@ class Label(virtual.Widget):
 
     def __init__(
         self,
-        master: containers.Canvas,
+        master: containers.Canvas | virtual.Widget,
         position: tuple[int, int],
         size: tuple[int, int] | None = None,
         *,
@@ -204,7 +204,7 @@ class Button(virtual.Widget):
 
     def __init__(
         self,
-        master: containers.Canvas,
+        master: containers.Canvas | virtual.Widget,
         position: tuple[int, int],
         size: tuple[int, int] | None = None,
         *,
@@ -265,7 +265,7 @@ class Switch(virtual.Widget):
 
     def __init__(
         self,
-        master: containers.Canvas,
+        master: containers.Canvas | virtual.Widget,
         position: tuple[int, int],
         length: int = 60,
         *,
@@ -328,7 +328,7 @@ class InputBox(virtual.Widget):
 
     def __init__(
         self,
-        master: containers.Canvas,
+        master: containers.Canvas | virtual.Widget,
         position: tuple[int, int],
         size: tuple[int, int] | None = None,
         *,
@@ -420,7 +420,7 @@ class CheckButton(virtual.Widget):
 
     def __init__(
         self,
-        master: containers.Canvas,
+        master: containers.Canvas | virtual.Widget,
         position: tuple[int, int],
         length: int = 30,
         *,
@@ -470,7 +470,7 @@ class CheckButton(virtual.Widget):
         if self.get() == bool(value):
             return None
         if value:
-            return self.texts[0].appear()
+            return self.texts[0].disappear(False)
         return self.texts[0].disappear()
 
 
@@ -479,7 +479,7 @@ class ToggleButton(virtual.Widget):
 
     def __init__(
         self,
-        master: containers.Canvas,
+        master: containers.Canvas | virtual.Widget,
         position: tuple[int, int],
         size: tuple[int, int] | None = None,
         *,
@@ -556,7 +556,7 @@ class RadioButton(virtual.Widget):
 
     def __init__(
         self,
-        master: containers.Canvas,
+        master: containers.Canvas | virtual.Widget,
         position: tuple[int, int],
         length: int = 30,
         *,
@@ -612,7 +612,7 @@ class RadioButton(virtual.Widget):
         if self.get() == bool(value):
             return None
         if value:
-            return self.shapes[1].appear()
+            return self.shapes[1].disappear(False)
         return self.shapes[1].disappear()
 
 
@@ -621,7 +621,7 @@ class ProgressBar(virtual.Widget):
 
     def __init__(
         self,
-        master: containers.Canvas,
+        master: containers.Canvas | virtual.Widget,
         position: tuple[int, int],
         size: tuple[int, int] = (400, 20),
         *,
@@ -679,7 +679,7 @@ class ProgressBar(virtual.Widget):
         if self.value == 0:
             return self.shapes[1].disappear()
         if not self.shapes[1].visible:
-            self.shapes[1].appear()
+            self.shapes[1].disappear(False)
 
         if isinstance(self.shapes[1], shapes.Rectangle):
             self.shapes[1].coords(
@@ -697,7 +697,7 @@ class UnderlineButton(virtual.Widget):
 
     def __init__(
         self,
-        master: containers.Canvas,
+        master: containers.Canvas | virtual.Widget,
         position: tuple[int, int],
         *,
         text: str = "",
@@ -751,7 +751,7 @@ class HighlightButton(virtual.Widget):
 
     def __init__(
         self,
-        master: containers.Canvas,
+        master: containers.Canvas | virtual.Widget,
         position: tuple[int, int],
         *,
         text: str = "",
@@ -804,7 +804,7 @@ class IconButton(virtual.Widget):
 
     def __init__(
         self,
-        master: containers.Canvas,
+        master: containers.Canvas | virtual.Widget,
         position: tuple[int, int],
         size: tuple[int, int] | None = None,
         *,
@@ -867,7 +867,7 @@ class Slider(virtual.Widget):
 
     def __init__(
         self,
-        master: containers.Canvas,
+        master: containers.Canvas | virtual.Widget,
         position: tuple[int, int],
         size: tuple[int, int] = (400, 30),
         *,
@@ -939,7 +939,7 @@ class SegmentedButton(virtual.Widget):
 
     def __init__(
         self,
-        master: containers.Canvas,
+        master: containers.Canvas | virtual.Widget,
         position: tuple[int, int],
         sizes: tuple[tuple[int, int], ...] = (),
         *,
@@ -1020,8 +1020,8 @@ class SegmentedButton(virtual.Widget):
             self.set(default)
 
     def get(self) -> int | None:
-        """Get the index of the child toggle button with a value of True. If
-        not, None is returned."""
+        """Get the index of the child toggle button with a value of True. If not, None is
+        returned."""
         return self.value
 
     def set(self, value: int | None, *, callback: bool = False) -> None:
@@ -1038,7 +1038,7 @@ class SpinBox(virtual.Widget):
 
     def __init__(
         self,
-        master: containers.Canvas,
+        master: containers.Canvas | virtual.Widget,
         position: tuple[int, int],
         size: tuple[int, int] | None = None,
         *,
@@ -1209,6 +1209,6 @@ class Tooltip(virtual.Widget):
         if state is None:
             return
         if state.startswith("hover"):
-            self.appear()
+            self.disappear(False)
         elif state.startswith("normal"):
             self.disappear()

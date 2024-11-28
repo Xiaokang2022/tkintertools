@@ -169,20 +169,18 @@ class Component(abc.ABC):
                             value, reference=self.widget.master["bg"]))
                 self.widget.master.itemconfigure(item, kwargs)
 
-    def appear(self, *, no_delay: bool = True) -> None:
-        """Let the component to appear"""
-        self.visible = True
-        self.update(self.widget.state, no_delay=no_delay)
-
-    def disappear(self, *, no_delay: bool = True) -> None:
+    def disappear(self, value: bool = True, *, no_delay: bool = True) -> None:
         """Let the component to disappear"""
-        self.visible = False
-        temp_style = copy.deepcopy(self.styles.get(self.widget.state, None))
-        if temp_style is None:
-            return
-        for arg in temp_style:
-            temp_style[arg] = ""
-        self.configure(temp_style, no_delay=no_delay)
+        self.visible = not value
+        if value:
+            temp_style = copy.deepcopy(self.styles.get(self.widget.state, None))
+            if temp_style is None:
+                return
+            for arg in temp_style:
+                temp_style[arg] = ""
+            self.configure(temp_style, no_delay=no_delay)
+        else:
+            self.update(self.widget.state, no_delay=no_delay)
 
     def __getitem__(self, key: str) -> dict[str, str]:
         """Easy to get style data"""
@@ -473,6 +471,7 @@ class Widget:
         self.feature: Feature = Feature(self)
         self.state_before_disabled: str = ""
         self._update_hooks: list[collections.abc.Callable[[str, bool], typing.Any]] = []
+        self._is_disappeared: bool = False
 
         self.master.widgets.append(self)
 
@@ -480,6 +479,11 @@ class Widget:
     def components(self) -> tuple[Component, ...]:
         """Return all components of the widget"""
         return tuple(self.shapes + self.texts + self.images)
+
+    @property
+    def is_disappeared(self) -> bool:
+        """Whether the widget is forgoted"""
+        return self._is_disappeared
 
     @property
     def offset(self) -> tuple[float, float]:
@@ -498,7 +502,7 @@ class Widget:
 
     def is_nested(self) -> bool:
         """Whether the widget is a nested widget"""
-        return self.master is not None
+        return self.widget is not None
 
     def register(self, component: Component) -> None:
         """Register a component to the widget"""
@@ -525,6 +529,8 @@ class Widget:
         """Update the widget"""
         if state != "disabled" and self.state_before_disabled:
             return  # It is currently disabled
+        for widget in self.widgets:
+            widget.update(state, no_delay=no_delay)
         for component in self.components:
             component.update(state, no_delay=no_delay)
         if state is None:
@@ -623,17 +629,23 @@ class Widget:
         else:
             self.state_before_disabled, last_state = "", self.state_before_disabled
             self.update(last_state, no_delay=True)
+
+    def disappear(self, value: bool = True) -> None:
+        """Let all components of the widget to disappear"""
         for widget in self.widgets:
-            widget.disabled(value)
+            widget.disappear(value)
+        self._is_disappeared = value
+        for component in self.components:
+            component.disappear(value)
 
     def move(self, dx: int | float, dy: int | float) -> None:
         """Move the widget"""
         self.position[0] += dx
         self.position[1] += dy
-        for component in self.components:
-            component.move(dx, dy)
         for widget in self.widgets:
             widget.move(dx, dy)
+        for component in self.components:
+            component.move(dx, dy)
 
     def moveto(self, x: int, y: int) -> None:
         """Move the Widget to a certain position"""
@@ -647,16 +659,16 @@ class Widget:
         if self.widget is not None:
             self.widget.widgets.remove(self)
 
-        for component in self.components:
-            component.destroy()
         for widget in tuple(self.widgets):
             widget.destroy()
+        for component in self.components:
+            component.destroy()
 
     def detect(self, x: int, y: int) -> bool:
         """Detect whether the specified coordinates are within the `Widget`"""
         x1, y1, w, h = *self.position, *self.size
         x2, y2 = x1 + w, y1 + h
-        return x1 <= x <= x2 and y1 <= y <= y2
+        return x1 <= x+self.offset[0] <= x2 and y1 <= y+self.offset[1] <= y2
 
     def zoom(
         self,
@@ -684,17 +696,3 @@ class Widget:
 
         for component in self.components:
             component.zoom(ratios, zoom_position=zoom_position, zoom_size=zoom_size)
-
-    def disappear(self) -> None:
-        """Let all components of the widget to disappear"""
-        for component in self.components:
-            component.disappear()
-        for widget in self.widgets:
-            widget.disappear()
-
-    def appear(self) -> None:
-        """Let all components of the widget to appear"""
-        for component in self.components:
-            component.appear()
-        for widget in self.widgets:
-            widget.appear()
