@@ -40,6 +40,8 @@ class Env:
     is_dark: bool
     default_callback: collections.abc.Callable[[tkinter.Event], typing.Literal[False]]
 
+    enable_animation: bool
+
     default_root = _DefaultRootDescriptor()
 
     @classmethod
@@ -47,6 +49,7 @@ class Env:
         """Reset all configs."""
         cls.system = cls.get_default_system()
         cls.is_dark = bool(darkdetect.isDark()) if globals().get("darkdetect") else False
+        cls.enable_animation = True
         cls.default_callback = lambda _: False
 
     @staticmethod

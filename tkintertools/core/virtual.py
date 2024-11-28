@@ -437,7 +437,7 @@ class Widget:
         state: str = "normal",
         anchor: typing.Literal["n", "s", "w", "e", "nw", "ne", "sw", "se", "center"] = "nw",
         through: bool | None = None,
-        animation: bool = True,
+        animation: bool | None = None,
     ) -> None:
         """
         * `master`: parent canvas
@@ -464,7 +464,7 @@ class Widget:
         self.state = state
         self.anchor = anchor
         self.through = self.is_nested() if through is None else through
-        self.animation = animation
+        self.animation = configs.Env.enable_animation if animation is None else animation
 
         self.widgets: list[Widget] = []
         self.texts: list[Text] = []

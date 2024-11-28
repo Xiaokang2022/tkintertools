@@ -52,7 +52,7 @@ class Text(virtual.Widget):
         name: str | None = None,
         anchor: typing.Literal["n", "e", "w", "s", "nw", "ne", "sw", "se", "center"] = "nw",
         through: bool | None = None,
-        animation: bool = True,
+        animation: bool | None = None,
     ) -> None:
         """
         * `master`: parent canvas
@@ -101,7 +101,7 @@ class Image(virtual.Widget):
         name: str | None = None,
         anchor: typing.Literal["n", "e", "w", "s", "nw", "ne", "sw", "se", "center"] = "nw",
         through: bool | None = None,
-        animation: bool = True,
+        animation: bool | None = None,
     ) -> None:
         """
         * `master`: parent canvas
@@ -161,7 +161,7 @@ class Label(virtual.Widget):
         name: str | None = None,
         anchor: typing.Literal["n", "e", "w", "s", "nw", "ne", "sw", "se", "center"] = "nw",
         through: bool | None = None,
-        animation: bool = True,
+        animation: bool | None = None,
     ) -> None:
         """
         * `master`: parent canvas
@@ -221,7 +221,7 @@ class Button(virtual.Widget):
         name: str | None = None,
         anchor: typing.Literal["n", "e", "w", "s", "nw", "ne", "sw", "se", "center"] = "nw",
         through: bool | None = None,
-        animation: bool = True,
+        animation: bool | None = None,
     ) -> None:
         """
         * `master`: parent canvas
@@ -275,7 +275,7 @@ class Switch(virtual.Widget):
         name: str | None = None,
         anchor: typing.Literal["n", "e", "w", "s", "nw", "ne", "sw", "se", "center"] = "nw",
         through: bool | None = None,
-        animation: bool = True,
+        animation: bool | None = None,
     ) -> None:
         """
         * `master`: parent canvas
@@ -346,7 +346,7 @@ class InputBox(virtual.Widget):
         name: str | None = None,
         anchor: typing.Literal["n", "e", "w", "s", "nw", "ne", "sw", "se", "center"] = "nw",
         through: bool | None = None,
-        animation: bool = True,
+        animation: bool | None = None,
     ) -> None:
         """
         * `master`: parent canvas
@@ -430,7 +430,7 @@ class CheckButton(virtual.Widget):
         name: str | None = None,
         anchor: typing.Literal["n", "e", "w", "s", "nw", "ne", "sw", "se", "center"] = "nw",
         through: bool | None = None,
-        animation: bool = True,
+        animation: bool | None = None,
     ) -> None:
         """
         * `master`: parent canvas
@@ -497,7 +497,7 @@ class ToggleButton(virtual.Widget):
         name: str | None = None,
         anchor: typing.Literal["n", "e", "w", "s", "nw", "ne", "sw", "se", "center"] = "nw",
         through: bool | None = None,
-        animation: bool = True,
+        animation: bool | None = None,
     ) -> None:
         """
         * `master`: parent canvas
@@ -566,7 +566,7 @@ class RadioButton(virtual.Widget):
         name: str | None = None,
         anchor: typing.Literal["n", "e", "w", "s", "nw", "ne", "sw", "se", "center"] = "nw",
         through: bool | None = None,
-        animation: bool = True,
+        animation: bool | None = None,
     ) -> None:
         """
         * `master`: parent canvas
@@ -631,7 +631,7 @@ class ProgressBar(virtual.Widget):
         name: str | None = None,
         anchor: typing.Literal["n", "e", "w", "s", "nw", "ne", "sw", "se", "center"] = "nw",
         through: bool | None = None,
-        animation: bool = True,
+        animation: bool | None = None,
     ) -> None:
         """
         * `master`: parent canvas
@@ -767,7 +767,7 @@ class HighlightButton(virtual.Widget):
         name: str | None = None,
         anchor: typing.Literal["n", "e", "w", "s", "nw", "ne", "sw", "se", "center"] = "nw",
         through: bool | None = None,
-        animation: bool = True,
+        animation: bool | None = None,
     ) -> None:
         """
         * `master`: parent canvas
@@ -821,7 +821,7 @@ class IconButton(virtual.Widget):
         name: str | None = None,
         anchor: typing.Literal["n", "e", "w", "s", "nw", "ne", "sw", "se", "center"] = "nw",
         through: bool | None = None,
-        animation: bool = True,
+        animation: bool | None = None,
     ) -> None:
         """
         * `master`: parent canvas
@@ -876,7 +876,7 @@ class Slider(virtual.Widget):
         name: str | None = None,
         anchor: typing.Literal["n", "e", "w", "s", "nw", "ne", "sw", "se", "center"] = "nw",
         through: bool | None = None,
-        animation: bool = True,
+        animation: bool | None = None,
     ) -> None:
         """
         * `master`: parent canvas
@@ -958,7 +958,7 @@ class SegmentedButton(virtual.Widget):
         name: str | None = None,
         anchor: typing.Literal["n", "e", "w", "s", "nw", "ne", "sw", "se", "center"] = "nw",
         through: bool | None = None,
-        animation: bool = True,
+        animation: bool | None = None,
     ) -> None:
         """
         * `master`: parent canvas
@@ -1059,7 +1059,7 @@ class SpinBox(virtual.Widget):
         name: str | None = None,
         anchor: typing.Literal["n", "e", "w", "s", "nw", "ne", "sw", "se", "center"] = "nw",
         through: bool | None = None,
-        animation: bool = True,
+        animation: bool | None = None,
     ) -> None:
         """
         * `master`: parent canvas
@@ -1138,6 +1138,10 @@ class SpinBox(virtual.Widget):
         self.widgets[0].clear()
 
 
+class OptionButton(virtual.Widget):
+    """A button that has many options to choose"""
+
+
 class Tooltip(virtual.Widget):
     """A tooltip that can display additional information"""
 
@@ -1158,7 +1162,7 @@ class Tooltip(virtual.Widget):
         justify: typing.Literal["left", "center", "right"] = "left",
         name: str | None = None,
         through: bool = True,
-        animation: bool = True,
+        animation: bool | None = None,
     ) -> None:
         """
         * `widget`: the associated widget
