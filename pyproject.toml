@@ -18,10 +18,6 @@ classifiers = [
     "Operating System :: POSIX :: Linux",
     "Operating System :: MacOS",
     "Intended Audience :: Developers",
-    "Natural Language :: English",
-    "Natural Language :: Chinese (Simplified)",
-    "Topic :: Software Development :: Libraries :: Python Modules",
-    "Topic :: Software Development :: Widget Sets",
     "Typing :: Typed",
 ]
 dynamic = ["version"]
@@ -38,7 +34,7 @@ all = [
     "darkdetect==0.8.0; platform_system != 'Darwin'",
     "darkdetect[macos-listener]==0.8.0; platform_system == 'Darwin'",
     "pywinstyles==1.8; platform_system == 'Windows'",
-    "hPyT==1.3.4; platform_system == 'Windows'",
+    "hPyT==1.3.5; platform_system == 'Windows'",
     "win32material==1.0.6; platform_system == 'Windows'",
     "pillow>=10.0.0",
 ]
