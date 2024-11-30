@@ -461,7 +461,9 @@ class Widget:
         self.name = name
         self.state = state
         self.anchor = anchor
-        self.through = self.is_nested() if through is None else through
+        self.through = through
+        if self.through is None and self.is_nested():
+            self.through = True  # Boolean indicate enforce the operation
         self.animation = configs.Env.enable_animation if animation is None else animation
 
         self.widgets: list[Widget] = []

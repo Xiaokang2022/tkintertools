@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 __all__ = [
+    "BaseFeature",
     "LabelFeature",
     "ButtonFeature",
     "Underline",
@@ -24,6 +25,13 @@ import typing
 from ..animation import animations, controllers
 from ..core import virtual
 from ..standard import shapes
+
+
+class BaseFeature(virtual.Feature):
+    """Base Feature"""
+
+    def _motion(self, event: tkinter.Event) -> bool:
+        return self.widget.shapes[0].detect(event.x, event.y)
 
 
 class LabelFeature(virtual.Feature):

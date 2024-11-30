@@ -526,7 +526,11 @@ class Canvas(tkinter.Canvas):
         self.trigger_config.reset()
         for widget in self.widgets[::-1]:
             if hasattr(widget, "feature") and not widget.is_disappeared:
-                if widget.feature.get_method(name)(event) and not widget.through:
+                flag = widget.feature.get_method(name)(event)
+                if widget.through is None:
+                    if flag:
+                        event.x = math.nan
+                elif not widget.through:
                     event.x = math.nan
         self.trigger_config.update(cursor="arrow")
 
