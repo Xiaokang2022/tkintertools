@@ -20,6 +20,7 @@ __all__ = [
     "SegmentedButton",
     "SpinBox",
     "OptionButton",
+    # "ComboBox",
     "Tooltip",
 ]
 
@@ -1230,6 +1231,114 @@ class OptionButton(virtual.Widget):
     def _close_options(self, index: int | None = None) -> None:
         """Close the options"""
         self._button.texts[0].set("" if index is None else self.text[index])
+        self._segmented_button.disappear(True)
+        if self.command is not None:
+            self.command(index)
+
+    def get(self) -> int | None:
+        """Get the index of the child toggle button with a value of True. If not, None is
+        returned."""
+        return self._segmented_button.value
+
+    def set(self, value: int | None, *, callback: bool = False) -> None:
+        """Activate the child toggle button for the specified index"""
+        self._segmented_button.set(value, callback=True)
+        if callback and self.command is not None:
+            self.command(value)
+
+
+class ComboBox(virtual.Widget):
+    """An input box that can provide several options"""
+
+    def __init__(
+        self,
+        master: containers.Canvas | virtual.Widget,
+        position: tuple[int, int],
+        size: tuple[int, int] | None = None,
+        *,
+        text: tuple[str, ...] = (),
+        family: str | None = None,
+        fontsize: int | None = None,
+        weight: typing.Literal['normal', 'bold'] = "normal",
+        slant: typing.Literal['roman', 'italic'] = "roman",
+        underline: bool = False,
+        overstrike: bool = False,
+        justify: typing.Literal["left", "center", "right"] = "left",
+        default: int | None = None,
+        command: collections.abc.Callable[[int | None], typing.Any] | None = None,
+        image: tuple[enhanced.PhotoImage | None, ...] = (),
+        name: str | None = None,
+        anchor: typing.Literal["n", "e", "w", "s", "nw", "ne", "sw", "se", "center"] = "nw",
+        align: typing.Literal["up", "down"] = "down",
+        through: bool | None = None,
+        animation: bool | None = None,
+    ) -> None:
+        """
+        * `master`: parent canvas
+        * `position`: position of the widget
+        * `size`: size of the widget
+        * `text`: text of the widget
+        * `family`: font family
+        * `fontsize`: font size
+        * `weight`: weight of the text
+        * `slant`: slant of the text
+        * `underline`: whether the text is underline
+        * `overstrike`: whether the text is overstrike
+        * `justify`: justify mode of the text
+        * `default`: default value of the widget
+        * `command`: a function that is triggered when the button is pressed
+        * `image`: image of the widget
+        * `name`: name of the widget
+        * `anchor`: anchor of the widget
+        * `align`: align of the widget
+        * `through`: wether detect another widget under the widget
+        * `animation`: wether enable animation
+        """
+        if size is None:
+            size = sorted(tools.get_text_size(t, fontsize, family, weight=weight,
+                          slant=slant, padding=6, master=master) for t in text)[-1]
+        self.text = text
+        virtual.Widget.__init__(
+            self, master, position, size, name=name, anchor=anchor,
+            through=through, animation=animation)
+        self._input_box = InputBox(
+            self, (0, 0), size, family=family, fontsize=fontsize, weight=weight,
+            slant=slant, underline=underline, overstrike=overstrike, anchor=anchor)
+        h = size[1] - 8
+        self._button = Button(
+            self, (size[0]-h-4, 1), (h, h), text="▼", anchor=anchor, command=self._open_options)
+        self._segmented_button = SegmentedButton(
+            self, self._get_position(align), (size,)*len(text), text=text, family=family,
+            fontsize=fontsize, weight=weight, slant=slant, underline=underline,
+            overstrike=overstrike, justify=justify, image=image, layout="vertical",
+            through=through, animation=False, command=self._close_options,
+            anchor="s" if align == "up" else "n" if align == "down" else "center")
+        self._segmented_button.through = None
+        self._segmented_button.disappear(True)
+        self._segmented_button.bind("<Button-1>", self._extra_bind, add="+")
+        self.command = command
+        if default is not None:
+            self.set(default)
+
+    def _get_position(self, align: typing.Literal["up", "center", "down"]) -> tuple[int, int]:
+        """Get the position of "pop-up" SegmentedButton"""
+        x, y = self.size[0]/2 - self.offset[0], self.size[1]/2 - self.offset[1]
+        match align:
+            case "up": y -= self.size[1]/2
+            case "down": y += self.size[1]/2
+        return x, y
+
+    def _extra_bind(self, event) -> None:
+        if not self._segmented_button.detect(event.x, event.y):
+            self._segmented_button.disappear(True)
+
+    def _open_options(self) -> None:
+        """Open the options"""
+        self._segmented_button.disappear(False)
+
+    def _close_options(self, index: int | None = None) -> None:
+        """Close the options"""
+        self._input_box.texts[0].set("" if index is None else self.text[index])
         self._segmented_button.disappear(True)
         if self.command is not None:
             self.command(index)
