@@ -286,13 +286,9 @@ class InputBoxFeature(ButtonFeature):
                 self.widget.master.trigger_focus.update(True, self.widget.texts[0].items[0])
                 self._start_index = self.widget.texts[0].text_proxy.cursor_find(event.x)
                 self.widget.texts[0].text_proxy.cursor_set(self._start_index)
-                self.widget.master.itemconfigure(self.widget.texts[0].items[1], fill="")
         else:
             if self.widget.state != "normal":
                 self.widget.update("normal")
-                if not self.widget.texts[0].get():
-                    self.widget.master.itemconfigure(
-                        self.widget.texts[0].items[1], fill="#787878")
         self.widget.texts[0].text_proxy.select_clear()
         return flag
 

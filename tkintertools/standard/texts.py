@@ -287,6 +287,9 @@ class SingleLineText(virtual.Text):
 
     def insert(self, index: int, value: str) -> bool:
         """Insert text to the location of the specified index"""
+        if not self.text_proxy.length() and value:
+            self.widget.master.itemconfigure(self.items[1], fill="")
+
         if flag := len(self.text + value) <= self.limit:
             index = self._get_index(index)
             key = self.left + index
@@ -343,6 +346,9 @@ class SingleLineText(virtual.Text):
             else:
                 self.text_proxy.remove(0)
                 self.left += 1
+
+        if not self.text_proxy.length():
+            self.widget.master.itemconfigure(self.items[1], fill="#787878")
 
         return None
 
