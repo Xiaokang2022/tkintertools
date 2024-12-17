@@ -44,26 +44,33 @@ class Tk(tkinter.Tk):
         size: tuple[int, int] = (1280, 720),
         position: tuple[int, int] | None = None,
         *,
-        title: str = "",
+        title: str | None = "",
+        icon: str | None = "",
         **kwargs,
     ) -> None:
         """
         * `size`: the size of the window, default value is 1280x720(px)
         * `position`: the position of the window, default value indicates that location is random
         * `title`: the title of the window, default value is an empty string
+        * `icon`: the icon of the window, default value indicates no icon, `None` indicates tk icon
         * `**kwargs`: compatible with other parameters of class `tkinter.Tk`
         """
         if not isinstance(self, Toplevel):
             # tkt.Toplevel and its subclasses do not inherit tk.Tk
             tkinter.Tk.__init__(self, **kwargs)
 
-        self.update()
-        self.call("wm", "iconbitmap", self, "-default", "")
-
         self._size = self._initial_size = tuple(size)
         self.canvases: list[Canvas] = []
 
-        self.title(title)
+        self.update()
+        if icon is not None:
+            if isinstance(self, Toplevel):
+                self.iconbitmap(icon)
+            else:
+                self.call("wm", "iconbitmap", self, "-default", icon)
+        if title is not None:
+            self.title(title)
+
         self.geometry(size=size, position=position)
         self.theme(manager.get_color_mode() == "dark",
                    include_children=False, include_canvases=False)
@@ -278,6 +285,7 @@ class Toplevel(tkinter.Toplevel, Tk):
         position: tuple[int, int] | None = None,
         *,
         title: str | None = None,
+        icon: str | None = None,
         grab: bool = False,
         focus: bool = True,
         **kwargs,
@@ -287,12 +295,13 @@ class Toplevel(tkinter.Toplevel, Tk):
         * `size`: the size of the window, default value is 960x540(px)
         * `position`: the position of the window, default value indicates that location is random
         * `title`: title of window, default is the same as title of master
+        * `icon`: the icon of the window, default is the same as title of master
         * `grab`: set grab for this window
         * `focus`: whether direct input focus to this window
         * `**kwargs`: compatible with other parameters of class `tkinter.Toplevel`
         """
         tkinter.Toplevel.__init__(self, master, **kwargs)
-        Tk.__init__(self, size, position, title=title)  # window style is set
+        Tk.__init__(self, size, position, title=title, icon=icon)  # window style is set
 
         if grab:
             self.grab_set()
