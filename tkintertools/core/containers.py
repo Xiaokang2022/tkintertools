@@ -57,6 +57,9 @@ class Tk(tkinter.Tk):
             # tkt.Toplevel and its subclasses do not inherit tk.Tk
             tkinter.Tk.__init__(self, **kwargs)
 
+        self.update()
+        self.call("wm", "iconbitmap", self, "-default", "")
+
         self._size = self._initial_size = tuple(size)
         self.canvases: list[Canvas] = []
 
