@@ -1100,12 +1100,13 @@ class SpinBox(virtual.Widget):
         virtual.Widget.__init__(
             self, master, position, size, name=name, anchor=anchor,
             through=through, animation=animation)
+        h = size[1]/2 - 6
+        w = h/configs.Constant.GOLDEN_RATIO if configs.Env.system == "Windows10" else 2*h
+        limit_width = - w
         InputBox(
             self, (0, 0), size, family=family, fontsize=fontsize, weight=weight, slant=slant,
             underline=underline, overstrike=overstrike, align=align, placeholder=placeholder,
-            show=show, limit=limit, image=image, animation=animation)
-        h = size[1]/2 - 6
-        w = h/configs.Constant.GOLDEN_RATIO if configs.Env.system == "Windows10" else 2*h
+            show=show, limit=limit, image=image, animation=animation, limit_width=limit_width)
         Button(self, (size[0]-w-4, 4), (w, h), text="▲", fontsize=14,
                command=lambda: command(True) if command is not None else self.change(True))
         Button(self, (size[0]-w-4, size[1]/2 + 2), (w, h), text="▼", fontsize=14,
