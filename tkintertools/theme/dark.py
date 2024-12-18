@@ -288,6 +288,15 @@ Tooltip = {
     }
 }
 
+Spinner = {
+    "Oval": {
+        "normal": {"outline": "#0E4775"},
+    },
+    "Arc": {
+        "normal": {"outline": "#479EF5"},
+    }
+}
+
 UnderlineButton = {
     "Information": {
         "normal": {"fill": "#F1F1F1"},

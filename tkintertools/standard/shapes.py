@@ -6,6 +6,7 @@ __all__ = [
     "Line",
     "Rectangle",
     "Oval",
+    "Arc",
     "RegularPolygon",
     "RoundedRectangle",
     "HalfRoundedRectangle",
@@ -119,6 +120,27 @@ class Oval(virtual.Shape):
         """Detect whether the specified coordinates are within `Component`"""
         x1, y1, w, h = *self.position, *self.size
         return math.hypot(2*(x-x1)/w - 1, 2*(y-y1)/h - 1) <= 1
+
+
+class Arc(virtual.Shape):
+    """Create a arc for a widget"""
+
+    @typing_extensions.override
+    def display(self) -> None:
+        """Display the `Component` on a `Canvas`"""
+        self.items = [self.widget.master.create_arc(
+            0, 0, 0, 0, tags=("fill", "fill", "outline", "outline"), **self.kwargs)]
+
+    @typing_extensions.override
+    def coords(
+        self,
+        size: tuple[float, float] | None = None,
+        position: tuple[float, float] | None = None,
+    ) -> None:
+        """Resize the `Component`"""
+        super().coords(size, position)
+
+        self.widget.master.coords(self.items[0], *self.region())
 
 
 class RegularPolygon(virtual.Shape):

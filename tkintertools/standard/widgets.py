@@ -21,6 +21,7 @@ __all__ = [
     "SpinBox",
     "OptionButton",
     # "ComboBox",
+    "Spinner",
     "Tooltip",
 ]
 
@@ -28,6 +29,9 @@ import collections.abc
 import itertools
 import math
 import typing
+import warnings
+
+import typing_extensions
 
 from ..animation import animations, controllers
 from ..core import configs, containers, virtual
@@ -1353,6 +1357,86 @@ class ComboBox(virtual.Widget):
         self._segmented_button.set(value, callback=True)
         if callback and self.command is not None:
             self.command(value)
+
+
+class Spinner(virtual.Widget):
+    """Spinners visually communicate that something is processing"""
+
+    def __init__(
+        self,
+        master: containers.Canvas | virtual.Widget,
+        position: tuple[int, int],
+        size: tuple[int, int] = (30, 30),
+        *,
+        default: float | None = None,
+        command: collections.abc.Callable[[float], typing.Any] | None = None,
+        widths: tuple[int, int] | None = None,
+        mode: typing.Literal["determinate", "indeterminate"] = "determinate",
+        name: str | None = None,
+        anchor: typing.Literal["n", "e", "w", "s", "nw", "ne", "sw", "se", "center"] = "nw",
+        through: bool | None = None,
+        animation: bool | None = None,
+    ) -> None:
+        """
+        * `master`: parent canvas
+        * `position`: position of the widget
+        * `size`: size of the widget
+        * `default`: default value of the widget
+        * `command`: a function that is triggered when the progress of progress bar is 100%
+        * `widths`: width of the outside ring and inside ring
+        * `mode`: mode of the Spinner
+        * `name`: name of the widget
+        * `anchor`: anchor of the widget
+        * `through`: wether detect another widget under the widget
+        * `animation`: wether enable animation
+        """
+        self.value: float = 0.
+        virtual.Widget.__init__(
+            self, master, position, size, name=name, anchor=anchor,
+            through=through, animation=animation)
+        if widths is None:
+            widths = 4, 3
+        shapes.Oval(self, width=widths[0])
+        shapes.Arc(self, width=widths[1], style="arc")
+        self.master.itemconfigure(self.shapes[1].items[0], extent=0, start=90)
+        self.command = command
+        self.mode = mode
+        if mode == "indeterminate":
+            self._spin = animations.Animation(
+                1200, controllers.flat, repeat=-1, fps=60,
+                callback=lambda p: self.master.itemconfigure(
+                    self.shapes[1].items[0], start=-p*360, extent=math.cos(p*math.tau)*60+120))
+            self._spin.start()
+
+        if default is not None:
+            self.set(default)
+
+    def get(self) -> float:
+        """Get the progress of the Spinner"""
+        if self.mode == "indeterminate":
+            warnings.warn(
+                "The mode of Spinner is 'indeterminate',"
+                "so the method may not get the correct result.",
+                UserWarning, 2)
+        return self.value
+
+    def set(self, value: float, *, callback: bool = False) -> None:
+        """Set the progress of the Spinner"""
+        if self.mode == "indeterminate":
+            warnings.warn(
+                "The mode of Spinner is 'indeterminate', so the method may not have an effect.",
+                UserWarning, 2)
+        self.value = 0 if value < 0 else 1 if value > 1 else value
+        if callback and self.command is not None:
+            self.command(value)
+        self.master.itemconfigure(self.shapes[1].items[0], extent=-value*359)
+
+    @typing_extensions.override
+    def destroy(self) -> None:
+        """Destroy the widget"""
+        if self.mode == "indeterminate":
+            self._spin.stop()
+        return super().destroy()
 
 
 class Tooltip(virtual.Widget):
