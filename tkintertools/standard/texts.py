@@ -184,6 +184,7 @@ class SingleLineText(virtual.Text):
         *,
         text: str = "",
         limit: int = math.inf,
+        limit_width: int = 0,
         show: str | None = None,
         placeholder: str = "",
         align: typing.Literal["left", "center", "right"] = "left",
@@ -211,6 +212,7 @@ class SingleLineText(virtual.Text):
         * `overstrike`: wether text is overstrike
         * `align`: align mode of the text
         * `limit`: limit on the number of characters
+        * `limit_width`: limit on the width of characters
         * `show`: display a value that obscures the original content
         * `placeholder`: a placeholder for the prompt
         * `name`: name of component
@@ -221,6 +223,7 @@ class SingleLineText(virtual.Text):
         self.left: int = 0
         self.right: int = 0
         self.anchor = "w" if align == "left" else "e" if align == "right" else "center"
+        self.limit_width = limit_width
         virtual.Text.__init__(
             self, widget, relative_position, size, text=text, limit=limit, show=show,
             placeholder=placeholder, family=family, fontsize=fontsize, weight=weight, slant=slant,
@@ -267,7 +270,10 @@ class SingleLineText(virtual.Text):
     def _is_overflow(self) -> bool:
         """Whether the text content extends beyond the text box"""
         x1, _, x2, _ = self.widget.master.bbox(self.items[0])
-        return (x2-x1) + self._get_margin()*2 >= self.size[0]
+        width = (x2-x1) + self._get_margin()*2
+        if self.limit_width > 0:
+            return width > self.limit_width*self.widget.master.ratios[0]
+        return width >= self.size[0] + self.limit_width*self.widget.master.ratios[0]
 
     def _get_index(self, index: int) -> int:
         if index < 0:

@@ -348,6 +348,7 @@ class InputBox(virtual.Widget):
         placeholder: str = "",
         show: str | None = None,
         limit: int = math.inf,
+        limit_width: int = 0,
         image: enhanced.PhotoImage | None = None,
         name: str | None = None,
         anchor: typing.Literal["n", "e", "w", "s", "nw", "ne", "sw", "se", "center"] = "nw",
@@ -368,6 +369,7 @@ class InputBox(virtual.Widget):
         * `show`: display a value that obscures the original content
         * `placeholder`: a placeholder for the prompt
         * `limit`: limit on the number of characters
+        * `limit_width`: limit on the width of characters
         * `image`: image of the widget
         * `name`: name of the widget
         * `anchor`: anchor of the widget
@@ -389,7 +391,8 @@ class InputBox(virtual.Widget):
             images.StillImage(self, image=image)
         texts.SingleLineText(
             self, family=family, fontsize=fontsize, weight=weight, slant=slant, underline=underline,
-            overstrike=overstrike, align=align, limit=limit, show=show, placeholder=placeholder)
+            overstrike=overstrike, align=align, limit=limit, limit_width=limit_width, show=show,
+            placeholder=placeholder)
         features.InputBoxFeature(self)
 
     def get(self) -> str:
