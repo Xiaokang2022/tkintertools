@@ -20,7 +20,7 @@ __all__ = [
     "SegmentedButton",
     "SpinBox",
     "OptionButton",
-    # "ComboBox",
+    "ComboBox",
     "Spinner",
     "Tooltip",
 ]
@@ -720,8 +720,7 @@ class UnderlineButton(virtual.Widget):
         command: collections.abc.Callable | None = None,
         image: enhanced.PhotoImage | None = None,
         name: str | None = None,
-        anchor: typing.Literal["n", "e", "w", "s",
-                               "nw", "ne", "sw", "se", "center"] = "nw",
+        anchor: typing.Literal["n", "e", "w", "s", "nw", "ne", "sw", "se", "center"] = "nw",
         through: bool | None = None,
         animation: bool = False,
     ) -> None:
@@ -997,8 +996,8 @@ class SegmentedButton(virtual.Widget):
                     text, fontsize, family, weight=weight, slant=slant, padding=6, master=master
                 ) for text in text)
             else:
-                sizes = (tools.get_text_size("", fontsize, family,
-                         weight=weight, slant=slant, padding=6, master=master),)
+                sizes = (tools.get_text_size(
+                    "", fontsize, family, weight=weight, slant=slant, padding=6, master=master),)
         widths, heights, length = *zip(*sizes), len(sizes)
         if not text:
             sizes, length = (), 0
@@ -1304,17 +1303,18 @@ class ComboBox(virtual.Widget):
         """
         if size is None:
             size = sorted(tools.get_text_size(t, fontsize, family, weight=weight,
-                          slant=slant, padding=6, master=master) for t in text)[-1]
+                          slant=slant, padding=6, master=master) for t in (list(text) + [""]))[-1]
         self.text = text
         virtual.Widget.__init__(
             self, master, position, size, name=name, anchor=anchor,
             through=through, animation=animation)
+        h = size[1] - 10
         self._input_box = InputBox(
-            self, (0, 0), size, family=family, fontsize=fontsize, weight=weight,
-            slant=slant, underline=underline, overstrike=overstrike, anchor=anchor)
-        h = size[1] - 8
+            self, (0, 0), size, family=family, fontsize=fontsize, weight=weight, slant=slant,
+            underline=underline, overstrike=overstrike, anchor=anchor, limit_width=-h)
         self._button = Button(
-            self, (size[0]-h-4, 1), (h, h), text="▼", anchor=anchor, command=self._open_options)
+            self, (size[0]-h-5-self.offset[0], 5-self.offset[1]), (h, h), text="▼",
+            command=self._open_options)
         self._segmented_button = SegmentedButton(
             self, self._get_position(align), (size,)*len(text), text=text, family=family,
             fontsize=fontsize, weight=weight, slant=slant, underline=underline,
