@@ -18,9 +18,9 @@ hide:
 
 <p align="center">
 <a href="https://github.com/Xiaokang2022/tkintertools/releases"><img alt="最新版本" src="https://img.shields.io/github/v/release/Xiaokang2022/tkintertools?include_prereleases&logo=github&label=Version" title="最新版本" /></a>
-<a href="https://pypistats.org/packages/tkintertools"><img alt="下载量" src="https://img.shields.io/pypi/dm/tkintertools?label=Downloads&logo=pypi&logoColor=skyblue" title="下载量" /></a>
-<a href="https://pepy.tech/project/tkintertools"><img alt="总下载量" src="https://img.shields.io/pepy/dt/tkintertools?logo=pypi&logoColor=gold&label=Total%20Downloads" title="总下载量" /></a>
-<a href="https://github.com/Xiaokang2022/tkintertools/actions"><img alt="检查和测试" src="https://img.shields.io/github/actions/workflow/status/Xiaokang2022/tkintertools/python-package.yml?logo=github&label=Lint%26Test" title="检查和测试"/></a>
+<a href="https://pypistats.org/packages/tkintertools"><img alt="下载量" src="https://img.shields.io/pypi/dm/tkintertools?label=Downloads&logo=python&logoColor=skyblue" title="下载量" /></a>
+<a href="https://github.com/Xiaokang2022/tkintertools/actions"><img alt="检查和测试" src="https://img.shields.io/github/actions/workflow/status/Xiaokang2022/tkintertools/python-package.yml?logo=github&label=Lint%20%26%20Test" title="检查和测试"/></a>
+<a href="https://codecov.io/gh/Xiaokang2022/tkintertools"><img alt="代码覆盖率" src="https://img.shields.io/codecov/c/github/Xiaokang2022/tkintertools?logo=codecov&label=Code%20Coverage" title="代码覆盖率"></a>
 <br/>
 <a href="https://github.com/Xiaokang2022/tkintertools/watchers"><img alt="关注" src="https://img.shields.io/github/watchers/Xiaokang2022/tkintertools?label=Watchers&logo=github&style=flat" title="关注" /></a>
 <a href="https://github.com/Xiaokang2022/tkintertools/forks"><img alt="复刻" src="https://img.shields.io/github/forks/Xiaokang2022/tkintertools?label=Forks&logo=github&style=flat" title="复刻" /></a>
@@ -45,12 +45,12 @@ hide:
 
 ### 🔥 开发版本
 
-* 🔖 最新版本 : `3.0.0rc4`
-* 🕓 发布日期 : 2024-11-17
-* ✨ 更新内容 : [Changelog-3.0.0rc4](./CHANGELOG.md#-300rc4)
+* 🔖 最新版本 : `3.0.0rc5`
+* 🕓 发布日期 : 2024-12-19
+* ✨ 更新内容 : [Changelog-3.0.0rc5](./CHANGELOG.md#-300rc5)
 
 ```bash linenums="0"
-pip install tkintertools[recommended]==3.0.0rc4
+pip install tkintertools[recommended]==3.0.0rc5
 ```
 
 ???+ "预览图"
@@ -122,19 +122,19 @@ pip install tkintertools
 * [X] <https://github.com/albertosottile/darkdetect> - `0.8.0`
 * [X] <https://github.com/Akascape/py-window-styles> - `1.8`
 * [X] <https://github.com/python-pillow/Pillow> - `>=10.0.0`
-* [ ] <https://github.com/Zingzy/hPyT> - `1.3.4`
+* [ ] <https://github.com/Zingzy/hPyT> - `1.3.6`
 * [ ] <https://github.com/littlewhitecloud/win32style> - `1.0.6`
 
 以下命令可以安装推荐的可选依赖包：
 
 ```bash linenums="0"
-pip install tkintertools[recommended]==3.0.0rc4
+pip install tkintertools[recommended]==3.0.0rc5
 ```
 
 以下命令可以安装全部可选依赖包：
 
 ```bash linenums="0"
-pip install tkintertools[all]==3.0.0rc4
+pip install tkintertools[all]==3.0.0rc5
 ```
 
 ## 📦 官方扩展包
@@ -148,7 +148,7 @@ pip install tkintertools[all]==3.0.0rc4
 以下命令可以安装全部的官方扩展包：
 
 ```bash linenums="0"
-pip install tkintertools[extension]==3.0.0rc4
+pip install tkintertools[extension]==3.0.0rc5
 ```
 
 ## 👀 更多
@@ -191,6 +191,21 @@ pip install tkintertools[extension]==3.0.0rc4
 
     贡献者应该了解的一些东西
 
+* [🚀 **Gitee 仓库镜像源**](https://gitee.com/Xiaokang2022/tkintertools){ target="_black" }
+
+    ***
+
+    ![Gitee Stars](https://gitee.com/Xiaokang2022/tkintertools/badge/star.svg?theme=dark#only-dark "Gitee Stars")
+    ![Gitee Stars](https://gitee.com/Xiaokang2022/tkintertools/badge/star.svg?theme=white#only-light "Gitee Stars")
+    ![Gitee Forks](https://gitee.com/Xiaokang2022/tkintertools/badge/fork.svg?theme=dark#only-dark "Gitee Forks")
+    ![Gitee Forks](https://gitee.com/Xiaokang2022/tkintertools/badge/fork.svg?theme=white#only-light "Gitee Forks")
+
+* [🚀 **GitCode 仓库镜像源**](https://gitcode.com/Xiaokang2022/tkintertools){ target="_black" }
+
+    ***
+
+    ![GitCode Stars](https://gitcode.com/Xiaokang2022/tkintertools/star/badge.svg "GitCode Stars")
+
 </div>
 
 !!! quote ""
@@ -200,7 +215,7 @@ pip install tkintertools[extension]==3.0.0rc4
     </div>
 
 <div align="center" markdown>
-[✨最新内容](./CHANGELOG.md#-300rc3){ .md-button .md-button--primary title="点我了解最近更新的内容！" }
+[✨最新内容](./CHANGELOG.md#-300rc5){ .md-button .md-button--primary title="点我了解最近更新的内容！" }
 [<big>⭐支持本项目</big>](https://github.com/Xiaokang2022/tkintertools/){ .md-button .md-button--primary title="给项目点个 Star 吧，球球了！" }
 [❤️赞助一下](./Sponsor.md){ .md-button .md-button--primary title="赞助我一下下吧！独自开发不易呢！" }
 </div>

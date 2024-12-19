@@ -2,4 +2,4 @@
 icon: material/scale-balance
 ---
 
---8<-- "LICENSE.txt"
+--8<-- "docs/LICENSE.md:4"

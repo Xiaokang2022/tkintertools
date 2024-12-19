@@ -1,0 +1,100 @@
+/*文本字体、代码字体以及搜索框图标*/
+:root {
+    --md-text-font: "LXGW WenKai Screen";
+    --md-code-font: "Consolas";
+    --md-search-result-icon: url('data:image/svg+xml;charset=utf-8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h7c-.41-.25-.8-.56-1.14-.9a6.48 6.48 0 0 1-.36-9.18C13.69 9.5 17.33 9.13 20 11V8zm-1 7V3.5L18.5 9zm7.31 9.9c1.33-2.11.69-4.9-1.4-6.22-2.11-1.33-4.91-.68-6.22 1.4-1.34 2.11-.69 4.89 1.4 6.22 1.46.93 3.32.93 4.79.02L22 23.39 23.39 22zm-3.81.1a2.5 2.5 0 0 1-2.5-2.5 2.5 2.5 0 0 1 2.5-2.5 2.5 2.5 0 0 1 2.5 2.5 2.5 2.5 0 0 1-2.5 2.5"/></svg>');
+}
+
+/*亮色样式*/
+[data-md-color-scheme="default"] {
+    --md-primary-fg-color: rgba(232, 232, 232, 0.7);
+    --md-header-bg-color: rgba(232, 232, 232, 0.7);
+    --md-typeset-a-color: steelblue;
+    --md-footer-bg-color: #f6f6f6;
+    --md-footer-bg-color--dark: #f6f6f6;
+    --md-footer-fg-color: #222;
+    --md-footer-fg-color--light: #505050;
+    --md-footer-fg-color--lighter: #777777;
+    --md-code-hl-comment-color: #999999;
+}
+
+/*暗色样式*/
+[data-md-color-scheme="slate"] {
+    --md-primary-fg-color: rgba(17, 16, 17, 0.7);
+    --md-header-bg-color: rgba(17, 16, 17, 0.7);
+    --md-typeset-a-color: royalblue;
+    --md-footer-bg-color: #101010;
+    --md-footer-bg-color--dark: #101010;
+    --md-code-hl-comment-color: #777777;
+}
+
+/*顶栏磨砂玻璃效果*/
+[data-md-color-primary="black"] .md-header {
+    background-color: var(--md-header-bg-color);
+}
+
+/*顶栏磨砂玻璃效果*/
+.md-header {
+    transition: none;
+    backdrop-filter: saturate(180%) blur(10px);
+    /* Gaussian blur */
+    -webkit-backdrop-filter: saturate(180%) blur(10px);
+    /* Safari */
+    background-color: var(--md-header-bg-color);
+}
+
+/*居中 mermaid 绘制的图*/
+.mermaid {
+    text-align: center;
+}
+
+/*去除音乐播放器背景颜色*/
+audio::-webkit-media-controls-enclosure {
+    background-color: rgba(0, 0, 0, 0.0);
+}
+
+/*视频 iframe*/
+.video-container {
+    position: relative;
+    padding-bottom: 56.25%;
+    /* 16:9 */
+    height: 0;
+}
+
+/*视频 iframe*/
+.video-container iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+/*图片标题小字号*/
+figcaption {
+    font-size: small;
+}
+
+/*表格居中*/
+.md-typeset__scrollwrap {
+    text-align: center;
+}
+
+/*删除大标题空行*/
+.md-typeset h1 {
+    margin: 0 0;
+}
+
+/*打印时隐藏部分元素*/
+@media print {
+    .md-tooltip2 {
+        display: none;
+    }
+}
+
+/*屏幕过窄时隐藏音乐播放器*/
+@media screen and not (min-width: 32em) {
+    audio.md-header__option {
+        display: none;
+    }
+}

@@ -2,4 +2,4 @@
 icon: material/lock
 ---
 
---8<-- "SECURITY.md:3"
+--8<-- "docs/SECURITY.md:4"

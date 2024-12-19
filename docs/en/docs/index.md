@@ -16,9 +16,9 @@ icon: material/home
 
 <p align="center">
 <a href="https://github.com/Xiaokang2022/tkintertools/releases"><img alt="Version" src="https://img.shields.io/github/v/release/Xiaokang2022/tkintertools?include_prereleases&logo=github&label=Version" title="Latest Version" /></a>
-<a href="https://pypistats.org/packages/tkintertools"><img alt="Downloads" src="https://img.shields.io/pypi/dm/tkintertools?label=Downloads&logo=pypi&logoColor=skyblue" title="Downloads" /></a>
-<a href="https://pepy.tech/project/tkintertools"><img alt="Total Downloads" src="https://img.shields.io/pepy/dt/tkintertools?logo=pypi&logoColor=gold&label=Total%20Downloads" title="Total Downloads" /></a>
-<a href="https://github.com/Xiaokang2022/tkintertools/actions"><img alt="Lint&Test" src="https://img.shields.io/github/actions/workflow/status/Xiaokang2022/tkintertools/python-package.yml?logo=github&label=Lint%26Test" title="Lint&Test"/></a>
+<a href="https://pypistats.org/packages/tkintertools"><img alt="Downloads" src="https://img.shields.io/pypi/dm/tkintertools?label=Downloads&logo=python&logoColor=skyblue" title="Downloads" /></a>
+<a href="https://github.com/Xiaokang2022/tkintertools/actions"><img alt="Lint & Test" src="https://img.shields.io/github/actions/workflow/status/Xiaokang2022/tkintertools/python-package.yml?logo=github&label=Lint%20%26%20Test" title="Lint & Test"/></a>
+<a href="https://codecov.io/gh/Xiaokang2022/tkintertools"><img alt="Code Coverage" src="https://img.shields.io/codecov/c/github/Xiaokang2022/tkintertools?logo=codecov&label=Code%20Coverage" title="Code Coverage"></a>
 <br/>
 <a href="https://github.com/Xiaokang2022/tkintertools/watchers"><img alt="Watchers" src="https://img.shields.io/github/watchers/Xiaokang2022/tkintertools?label=Watchers&logo=github&style=flat" title="Watchers" /></a>
 <a href="https://github.com/Xiaokang2022/tkintertools/forks"><img alt="Forks" src="https://img.shields.io/github/forks/Xiaokang2022/tkintertools?label=Forks&logo=github&style=flat" title="Forks" /></a>
@@ -43,12 +43,12 @@ icon: material/home
 
 ### 🔥 Dev Version
 
-* 🔖 Version: `3.0.0rc4`
-* 🕓 Release: 2024-11-17
-* ✨ Feature: [Changelog-3.0.0rc4](./CHANGELOG.md#-300rc4)
+* 🔖 Version: `3.0.0rc5`
+* 🕓 Release: 2024-12-19
+* ✨ Feature: [Changelog-3.0.0rc5](./CHANGELOG.md#-300rc5)
 
 ```bash linenums="0"
-pip install tkintertools[recommended]==3.0.0rc4
+pip install tkintertools[recommended]==3.0.0rc5
 ```
 
 ???+ "Preview"
@@ -120,19 +120,19 @@ Considering that too many packages will result in a large size of the project fi
 * [X] <https://github.com/albertosottile/darkdetect> - `0.8.0`
 * [X] <https://github.com/Akascape/py-window-styles> - `1.8`
 * [X] <https://github.com/python-pillow/Pillow> - `>=10.0.0`
-* [ ] <https://github.com/Zingzy/hPyT> - `1.3.4`
+* [ ] <https://github.com/Zingzy/hPyT> - `1.3.6`
 * [ ] <https://github.com/littlewhitecloud/win32style> - `1.0.6`
 
 The following command installs the recommended optional dependencies:
 
 ```bash linenums="0"
-pip install tkintertools[recommended]==3.0.0rc4
+pip install tkintertools[recommended]==3.0.0rc5
 ```
 
 The following command installs all optional dependencies:
 
 ```bash linenums="0"
-pip install tkintertools[all]==3.0.0rc4
+pip install tkintertools[all]==3.0.0rc5
 ```
 
 ## 📦 Extension
@@ -146,7 +146,7 @@ In addition to the basic functionality, `tkintertools` also offers some extensio
 The following command can be used to install all the official extensions:
 
 ```bash linenums="0"
-pip install tkintertools[extension]==3.0.0rc4
+pip install tkintertools[extension]==3.0.0rc5
 ```
 
 ## 👀 More
@@ -198,7 +198,7 @@ pip install tkintertools[extension]==3.0.0rc4
     </div>
 
 <div align="center" markdown>
-[✨What's new](./CHANGELOG.md#-300rc1){ .md-button .md-button--primary title="Click here to find out what's new!" }
+[✨What's new](./CHANGELOG.md#-300rc5){ .md-button .md-button--primary title="Click here to find out what's new!" }
 [<big>⭐Support this project</big>](https://github.com/Xiaokang2022/tkintertools/){ .md-button .md-button--primary title="Give the project a Star!" }
 [❤️Sponsor me](./Sponsor.md){ .md-button .md-button--primary title="It's not easy for me to develop it alone!" }
 </div>
