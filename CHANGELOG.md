@@ -12,6 +12,73 @@
 > * 🟠 **Deprecated / 弃用**
 > * 🟤 **Refactored / 重构**
 
+## 🔖 `3.0.0rc5`
+
+🕓 *Release Date / 发布日期 : 2024-12-19*
+
+🟢 **Added / 新增**
+
+* A new property `is_active` has been added to the class `Animation` to represent the state of the animation  
+类 `Animation` 新增了一个属性 `is_active` 表征动画的状态
+
+* Class `virtual.Widget` has a new method `is_nested` to determine if the widget is nested  
+类 `virtual.Widget` 新增了一个方法 `is_nested` 来判断该控件是否为嵌套控件
+
+* Added the global configuration option `enable_animation` to enable the color gradient animation of the widget  
+新增全局配置选项 `enable_animation` 来设置控件颜色渐变动画是否启用
+
+* New widget: `OptionButton`  
+新增控件：选项按钮（`OptionButton`）
+
+* New widget: `ComboBox`  
+新增控件：下拉框（`ComboBox`）
+
+* New widget: `Spinner`  
+新增控件：旋转条（`Spinner`）
+
+* Classes `Tk` and `Toplevel` added the parameter `icon` to set the icon of the window  
+类 `Tk` 和 `Toplevel` 新增了参数 `icon` 来设置窗口的图标
+
+* Class `texts.SingleLineText` added a new parameter `limit_width` to show the maximum width of the text display  
+类 `texts.SingleLineText` 新增了参数 `limit_width` 来显示文本显示的最大宽度
+
+🟣 **Fixed / 修复**
+
+* Fixed a bug where the parameter `end` of the class `Animation` was called with an error causing the animation to terminate  
+修复了类 `Animation` 的参数 `end` 被调用时产生错误导致动画终止的 bug
+
+* Fixed a bug where the default root window could not be obtained in some cases  
+修复了某些情况下无法获取默认根窗口的 bug
+
+* Fixed a bug where the content of the class `virtual.Text` could not be changed when the parameter `limit` was negative  
+修复了类 `virtual.Text` 的参数 `limit` 为负数时，内容无法更改的 bug
+
+* Fixed a bug where the method `detect` for nested widgets had inaccurate results  
+修复了嵌套控件的方法 `detect` 结果不准确的 bug
+
+* Fixed a bug where the method `update` of nested widgets sometimes did not take effect  
+修复了嵌套控件的方法 `update` 有时不生效的 bug
+
+* Fixed a bug where nested widgets could not be disabled  
+修复了嵌套控件无法禁用的 bug
+
+* Fixed a bug where the placeholder character of the widget `InputBox` would sometimes be displayed at the same time as the text content  
+修复了控件 `InputBox` 的占位字符有时会和文本内容同时显示的 bug
+
+* Fixed a bug where the parameter `through` of the widget `SpinBox` was passed incorrectly  
+修复了控件 `SpinBox` 的参数 `through` 传递不正确的 bug
+
+* Fixed a bug where the `anchor` parameter of the widget `SpinBox` did not take effect  
+修复了控件 `SpinBox` 的参数 `anchor` 不生效的 bug
+
+* Fixed a bug where the text of the widget `SpinBox` was obscured by the numeric adjustment button  
+修复了控件 `SpinBox` 的文本被数值调节按钮遮挡的 bug
+
+🔵 **Optimized / 优化**
+
+* Invisible widgets are no longer handled by the event handling mechanism  
+不可见的控件现在不会被事件处理机制处理了
+
 ## 🔖 `3.0.0rc4`
 
 🕓 *Release Date / 发布日期 : 2024-11-17*
@@ -1853,23 +1920,23 @@ Windows 平台下新增对窗口边框颜色、标题栏背景色和标题栏前
 > The following logs belong to the ones found from ancient commit records, only date and version number, no specific content... Since I didn't get into the habit of logging before, there are no more detailed logs, but fortunately the version number is inherited 😅  
 > 下面的日志属于从远古的提交记录中找到的，只有日期和版本号，没有具体的内容…… 由于我以前没有养成记录日志的习惯，故没有更多的详细的日志了，好在版本号继承了下来 😅
 
-| Version / 版本 | Release Date / 发布日期 |               Description / 描述                |
-| :------------: | :---------------------: | :---------------------------------------------: |
-|    `2.5.0`     |       2022-11-21        |          Upload the package to PyPi 🚀           |
-|    `2.4.15`    |       2022-11-18        | Drew and uploaded the first version of the logo |
-|    `2.4.14`    |       2022-11-14        |                                                 |
-|    `2.4.11`    |       2022-11-13        |                                                 |
-|    `2.4.10`    |       2022-11-10        |                                                 |
-|    `2.4.2`     |       2022-11-05        |                                                 |
-|    `2.4.1`     |       2022-11-03        |                                                 |
-|    `2.4.0`     |       2022-11-02        |                                                 |
-|    `2.3.5`     |       2022-11-01        |                                                 |
-|    `2.3.1`     |       2022-10-25        |       Added project license (MulanPSL-2)        |
-|    `2.3.0`     |       2022-10-22        |                                                 |
-|    `2.2.4`     |       2022-10-20        |                                                 |
-|     `2.2`      |       2022-10-19        |                                                 |
-|     `1.4`      |       2022-09-21        |                                                 |
-|     `1.3`      |       2022-09-20        |                                                 |
-|     `1.0`      |       2022-09-10        |    The repository was created and uploaded 🎉    |
-|     `0.2`      |       2022-08-29        |           Modularize codes gradually            |
-|     `0.1`      |       2022-07-23        |             Where the dream begins!             |
+| Version / 版本 | Release Date / 发布日期 |                   Description                   |               描述               |
+| :------------: | :---------------------: | :---------------------------------------------: | :------------------------------: |
+|    `2.5.0`     |       2022-11-21        |          Upload the package to PyPI 🚀           |         上传包到 PyPI 🚀          |
+|    `2.4.15`    |       2022-11-18        | Drew and uploaded the first version of the logo |     绘制并上次了第一版的图标     |
+|    `2.4.14`    |       2022-11-14        |                                                 |                                  |
+|    `2.4.11`    |       2022-11-13        |                                                 |                                  |
+|    `2.4.10`    |       2022-11-10        |                                                 |                                  |
+|    `2.4.2`     |       2022-11-05        |                                                 |                                  |
+|    `2.4.1`     |       2022-11-03        |                                                 |                                  |
+|    `2.4.0`     |       2022-11-02        |                                                 |                                  |
+|    `2.3.5`     |       2022-11-01        |                                                 |                                  |
+|    `2.3.1`     |       2022-10-25        |       Added project license (MulanPSL-2)        | 添加了项目开源许可（MulanPSL-2） |
+|    `2.3.0`     |       2022-10-22        |                                                 |                                  |
+|    `2.2.4`     |       2022-10-20        |                                                 |                                  |
+|     `2.2`      |       2022-10-19        |                                                 |                                  |
+|     `1.4`      |       2022-09-21        |                                                 |                                  |
+|     `1.3`      |       2022-09-20        |                                                 |                                  |
+|     `1.0`      |       2022-09-10        |    The repository was created and uploaded 🎉    |        创建并上传了仓库 🎉        |
+|     `0.2`      |       2022-08-29        |           Modularize codes gradually            |         逐渐模块化了代码         |
+|     `0.1`      |       2022-07-23        |             Where the dream begins!             |          梦开始的地方！          |

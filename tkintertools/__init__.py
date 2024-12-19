@@ -5,6 +5,7 @@ In other words, all the UI is drawn in Canvas!
 * PyPI: https://pypi.org/project/tkintertools/
 * GitHub (Source): https://github.com/Xiaokang2022/tkintertools
 * Gitee (Mirror): https://gitee.com/Xiaokang2022/tkintertools
+* GitCode (Mirror): https://gitcode.com/Xiaokang2022/tkintertools
 
 If you ❤️ this package, leave your ⭐ to me, thanks you so much! 🎉
 
@@ -33,7 +34,7 @@ If you ❤️ this package, leave your ⭐ to me, thanks you so much! 🎉
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-__version__ = "3.0.0rc4"
+__version__ = "3.0.0rc5"
 __author__ = "Xiaokang2022 <2951256653@qq.com>"
 
 import ctypes

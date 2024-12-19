@@ -1,3 +1,7 @@
+> [!IMPORTANT]  
+> 根据社区[投票](https://github.com/Xiaokang2022/tkintertools/discussions/41)结果，本项目将在正式版的时候**重命名**！  
+> According to the results of the community [vote](https://github.com/Xiaokang2022/tkintertools/discussions/41), this project will be **RENAMED** when it is released!
+
 <h1 align="center">tkintertools</h1>
 
 <p align="center"><img alt="logo" src="https://xiaokang2022.github.io/tkintertools/logo.png" title="Logo" /></p>
@@ -52,12 +56,12 @@
 
 ### 🔥 Dev Version / 开发版本
 
-* 🔖 Version / 最新版本 : `3.0.0rc4`
-* 🕓 Release / 发布日期 : 2024-11-17
-* ✨ Feature / 更新内容 : [News-3.0.0](./CHANGELOG.md#-300rc4)
+* 🔖 Version / 最新版本 : `3.0.0rc5`
+* 🕓 Release / 发布日期 : 2024-12-19
+* ✨ Feature / 更新内容 : [News-3.0.0](./CHANGELOG.md#-300rc5)
 
 ```bash
-pip install tkintertools[recommended]==3.0.0rc4
+pip install tkintertools[recommended]==3.0.0rc5
 ```
 
 <details open><summary>👁️ Preview / 预览</summary>
@@ -134,21 +138,21 @@ Considering that too many packages will result in a large size of the project fi
 * [X] [darkdetect](https://github.com/albertosottile/darkdetect) - `0.8.0`
 * [X] [pywinstyles](https://github.com/Akascape/py-window-styles) - `1.8`
 * [X] [pillow](https://github.com/python-pillow/Pillow) - `>=10.0.0`
-* [ ] [hPyT](https://github.com/Zingzy/hPyT) - `1.3.4`
+* [ ] [hPyT](https://github.com/Zingzy/hPyT) - `1.3.6`
 * [ ] [win32material](https://github.com/littlewhitecloud/win32style) - `1.0.6`
 
 The following command installs the recommended optional dependencies:  
 以下命令可以安装推荐的可选依赖包：
 
 ```bash
-pip install tkintertools[recommended]==3.0.0rc4
+pip install tkintertools[recommended]==3.0.0rc5
 ```
 
 The following command installs all optional dependencies:  
 以下命令可以安装全部可选依赖包：
 
 ```bash
-pip install tkintertools[all]==3.0.0rc4
+pip install tkintertools[all]==3.0.0rc5
 ```
 
 ## 📦 Extension / 扩展包
@@ -164,7 +168,7 @@ The following command can be used to install all the official extensions:
 以下命令可以安装全部的官方扩展包：
 
 ```bash
-pip install tkintertools[extension]==3.0.0rc4
+pip install tkintertools[extension]==3.0.0rc5
 ```
 
 ## 👀 More / 更多
