@@ -1,10 +1,3 @@
-> [!IMPORTANT]  
-> Due to my studies, I lack the time and energy to consistently update this project **until the end of this year**, but I will slowly and consistently update the documentation, so please understand.  
-> 由于学业原因，**直到今年年底**，我缺少时间和精力来持续更新本项目，但我还是会慢慢地持续更新文档的，请理解。  
-> Project Homepage / 项目主页: <https://xiaokang2022.github.io/tkintertools/>  
-> Tutorials and Documents / 教程和文档: <https://xiaokang2022.github.io/tkintertools-docs/3.0/>  
-> (**Currently only support Chinese / 目前仅支持中文**)
-
 <h1 align="center">tkintertools</h1>
 
 <p align="center"><img alt="logo" src="https://xiaokang2022.github.io/tkintertools/logo.png" title="Logo" /></p>
@@ -185,5 +178,6 @@ pip install tkintertools[extension]==3.0.0rc4
 * 🎉 Official Website / 官方网站: [Official Website](https://xiaokang2022.github.io/tkintertools/)
 * ❤️ Sponsor this Project / 赞助此项目: [Sponsor](https://xiaokang2022.github.io/tkintertools/Sponsor/)
 * 🚀 Repository Mirrors / 存储库镜像源:
-[GitHub](https://github.com/Xiaokang2022/tkintertools) |
-[Gitee](https://gitee.com/Xiaokang2022/tkintertools)
+[GitHub](https://github.com/Xiaokang2022/tkintertools "GitHub") |
+[GitCode](https://gitcode.com/Xiaokang2022/tkintertools "GitCode") |
+[Gitee](https://gitee.com/Xiaokang2022/tkintertools "Gitee")
