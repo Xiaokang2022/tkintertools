@@ -1306,6 +1306,7 @@ class ComboBox(virtual.Widget):
         if size is None:
             size = sorted(tools.get_text_size(t, fontsize, family, weight=weight,
                           slant=slant, padding=6, master=master) for t in (list(text) + [""]))[-1]
+            size = size[0] + size[1] - 10, size[1]
         self.text = text
         virtual.Widget.__init__(
             self, master, position, size, name=name, anchor=anchor,
