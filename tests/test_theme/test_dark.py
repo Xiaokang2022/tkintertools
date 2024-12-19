@@ -9,7 +9,7 @@ from tkintertools.theme import dark
 class Test(unittest.TestCase):
 
     def setUp(self) -> None:
-        self.no_name_widgets = {"Image", "SpinBox"}
+        self.no_name_widgets = {"Image", "SpinBox", "ComboBox"}
         self.component_names = shapes.__all__ + texts.__all__ + images.__all__
 
     def test_widget_name(self) -> None:
