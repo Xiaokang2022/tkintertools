@@ -271,9 +271,10 @@ class SingleLineText(virtual.Text):
         """Whether the text content extends beyond the text box"""
         x1, _, x2, _ = self.widget.master.bbox(self.items[0])
         width = (x2-x1) + self._get_margin()*2
+        ratio = getattr(self.widget.master, "ratios", (1,))[0]
         if self.limit_width > 0:
-            return width > self.limit_width*self.widget.master.ratios[0]
-        return width >= self.size[0] + self.limit_width*self.widget.master.ratios[0]
+            return width > self.limit_width*ratio
+        return width >= self.size[0] + self.limit_width*ratio
 
     def _get_index(self, index: int) -> int:
         if index < 0:
