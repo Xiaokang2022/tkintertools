@@ -1,0 +1,29 @@
+{#-
+    This file was automatically generated - do not edit
+  -#}
+  {% extends "main.html" %}
+  {% block container %}
+    <div class="md-content" data-md-component="content">
+      <div class="md-content__inner">
+        <header class="md-typeset">
+          {{ page.content }}
+        </header>
+        {% for post in posts %}
+          {% include "partials/post.html" %}
+        {% endfor %}
+        <script defer>
+          var elements = document.getElementsByClassName("statistics");
+          for (var i=1; i< elements.length; i++) {
+            // var index = elements[i].innerHTML.search("")
+            elements[i].innerHTML = elements[i].innerHTML.slice(0, -480);
+          }
+        </script>
+        {% if pagination %}
+          {% block pagination %}
+            {% include "partials/pagination.html" %}
+          {% endblock %}
+        {% endif %}
+      </div>
+    </div>
+    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script> 
+  {% endblock %}
