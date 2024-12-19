@@ -527,12 +527,19 @@ class Widget:
         elif isinstance(component, Image):
             self.images.remove(component)
 
-    def update(self, state: str | None = None, *, no_delay: bool = False) -> None:
+    def update(
+        self,
+        state: str | None = None,
+        *,
+        no_delay: bool = False,
+        nested: bool = True,
+    ) -> None:
         """Update the widget"""
         if state != "disabled" and self.state_before_disabled:
             return  # It is currently disabled
-        for widget in self.widgets:
-            widget.update(state, no_delay=no_delay)
+        if nested:
+            for widget in self.widgets:
+                widget.update(state, no_delay=no_delay)
         for component in self.components:
             component.update(state, no_delay=no_delay)
         if state is None:
@@ -627,10 +634,12 @@ class Widget:
                 self.state_before_disabled = self.state
             for component in self.components:
                 component.get_disabled_style(self.state_before_disabled)
-            self.update("disabled", no_delay=True)
+            self.update("disabled", no_delay=True, nested=False)
         else:
             self.state_before_disabled, last_state = "", self.state_before_disabled
-            self.update(last_state, no_delay=True)
+            self.update(last_state, no_delay=True, nested=False)
+        for widget in self.widgets:
+            widget.disabled(value)
 
     def disappear(self, value: bool = True) -> None:
         """Let all components of the widget to disappear"""
