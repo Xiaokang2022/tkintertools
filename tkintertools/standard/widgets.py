@@ -1105,10 +1105,12 @@ class SpinBox(virtual.Widget):
         InputBox(
             self, (0, 0), size, family=family, fontsize=fontsize, weight=weight, slant=slant,
             underline=underline, overstrike=overstrike, align=align, placeholder=placeholder,
-            show=show, limit=limit, image=image, animation=animation, limit_width=limit_width)
-        Button(self, (size[0]-w-4, 4), (w, h), text="▲", fontsize=14,
+            show=show, limit=limit, image=image, animation=animation, limit_width=limit_width,
+            anchor=anchor)
+        Button(self, (size[0]-w-4-self.offset[0], 4-self.offset[1]), (w, h), text="▲", fontsize=14,
                command=lambda: command(True) if command is not None else self.change(True))
-        Button(self, (size[0]-w-4, size[1]/2 + 2), (w, h), text="▼", fontsize=14,
+        Button(self, (size[0]-w-4-self.offset[0], size[1]/2+2-self.offset[1]), (w, h), text="▼",
+               fontsize=14,
                command=lambda: command(False) if command is not None else self.change(False))
         self.format = style
         self.step = step
