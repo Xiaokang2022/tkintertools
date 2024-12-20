@@ -44,15 +44,15 @@ class Tk(tkinter.Tk):
         size: tuple[int, int] = (1280, 720),
         position: tuple[int, int] | None = None,
         *,
-        title: str | None = "",
-        icon: str | None = "",
+        title: str | None = None,
+        icon: str | None = None,
         **kwargs,
     ) -> None:
         """
         * `size`: the size of the window, default value is 1280x720(px)
         * `position`: the position of the window, default value indicates that location is random
-        * `title`: the title of the window, default value is an empty string
-        * `icon`: the icon of the window, default value indicates no icon, `None` indicates tk icon
+        * `title`: the title of the window, default value is 'tk'
+        * `icon`: the icon of the window, default value is tk icon
         * `**kwargs`: compatible with other parameters of class `tkinter.Tk`
         """
         if not isinstance(self, Toplevel):
@@ -68,6 +68,8 @@ class Tk(tkinter.Tk):
                 self.iconbitmap(icon)
             elif configs.Env.system.startswith("Windows"):
                 self.call("wm", "iconbitmap", self, "-default", icon)
+            else:
+                self.iconbitmap(icon)
         if title is not None:
             self.title(title)
 
