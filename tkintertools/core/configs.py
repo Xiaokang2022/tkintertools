@@ -2,7 +2,16 @@
 
 from __future__ import annotations
 
+__all__ = [
+    "Env",
+    "Font",
+    "Theme",
+    "Constant",
+    "reset_configs",
+]
+
 import collections.abc
+import ctypes
 import math
 import platform
 import tkinter
@@ -15,14 +24,6 @@ try:
     import darkdetect
 except ImportError:
     pass
-
-__all__ = [
-    "Env",
-    "Font",
-    "Theme",
-    "Constant",
-    "reset_configs",
-]
 
 
 class _DefaultRootDescriptor:
@@ -151,3 +152,6 @@ def reset_configs() -> None:
 
 
 reset_configs()
+
+if Env.system.startswith("Windows"):
+    ctypes.windll.shcore.SetProcessDpiAwareness(1)  # Set Windows DPI awareness
