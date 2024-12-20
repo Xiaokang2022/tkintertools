@@ -66,7 +66,7 @@ class Tk(tkinter.Tk):
         if icon is not None:
             if isinstance(self, Toplevel):
                 self.iconbitmap(icon)
-            else:
+            elif configs.Env.system.startswith("Windows"):
                 self.call("wm", "iconbitmap", self, "-default", icon)
         if title is not None:
             self.title(title)
