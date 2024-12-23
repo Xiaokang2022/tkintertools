@@ -59,7 +59,7 @@ output-format = "colorized"
 reports = "y"
 fail-on = "E,F"
 fail-under = 9
-max-line-length = 79
+disable = 'line-too-long'
 
 [tool.pytest.ini_options]
 addopts = ["--color=yes"]

@@ -1,19 +1,12 @@
-"""The mapping of the color name to its RGB code"""
+"""Mapping table between the color names and the RGB codes."""
 
 from __future__ import annotations
 
 __all__ = [
-    "COLOR_MAP",
-    "name_to_rgb",
-    "name2rgb",
+    "MAPPING_TABLE",
 ]
 
-import tkinter
-
-from ..core import configs
-from . import rgb
-
-COLOR_MAP: dict[str, rgb.RGB] = {
+MAPPING_TABLE: dict[str, tuple[int, int, int]] = {
     'alice blue': (240, 248, 255),
     'aliceblue': (240, 248, 255),
     'antique white': (250, 235, 215),
@@ -775,16 +768,4 @@ COLOR_MAP: dict[str, rgb.RGB] = {
     'yellow4': (139, 139, 0),
     'yellowgreen': (154, 205, 50),
 }
-
-
-def name_to_rgb(color_name: str) -> rgb.RGB:
-    """Convert a color name to RGB code"""
-    data = COLOR_MAP.get(color_name.lower())
-
-    if data is None:
-        return tkinter.Misc.winfo_rgb(configs.Env.default_root, color_name)
-
-    return data
-
-
-name2rgb = name_to_rgb  # Alias
+"""Mapping table for color names to RGB codes."""

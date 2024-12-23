@@ -35,7 +35,7 @@ import warnings
 import typing_extensions
 
 from ..animation import animations
-from ..color import rgb
+from ..color import convert, rgb
 from ..style import parser
 from ..toolbox import enhanced
 from . import configs, containers
@@ -134,8 +134,8 @@ class Component(abc.ABC):
         if self.styles.get("disabled") is None:
             self.styles["disabled"] = copy.deepcopy(self.styles.get(refer_state, {}))
             for key, value in self.styles["disabled"].items():
-                self.styles["disabled"][key] = rgb.rgb_to_str(rgb.convert(
-                    rgb.str_to_rgb(value), rgb.str_to_rgb(self.widget.master["bg"]),
+                self.styles["disabled"][key] = convert.rgb_to_hex(rgb.transition(
+                    convert.hex_to_rgb(value), convert.hex_to_rgb(self.widget.master["bg"]),
                     configs.Constant.GOLDEN_RATIO))
         return self.styles["disabled"]
 
@@ -150,11 +150,9 @@ class Component(abc.ABC):
                 for key, value in kwargs.items():
                     start_color: str = self.widget.master.itemcget(item, key)
                     if start_color.startswith("#") and len(start_color) == 9:
-                        start_color = rgb.rgb_to_str(rgb.str_to_rgba(
-                            start_color, reference=self.widget.master["bg"]))
+                        start_color = convert.rgb_to_hex(convert.rgba_to_rgb(convert.hex_to_rgba(start_color), refer=convert.hex_to_rgb(self.widget.master["bg"])))
                     if value.startswith("#") and len(value) == 9:
-                        value = rgb.rgb_to_str(rgb.str_to_rgba(
-                            value, reference=self.widget.master["bg"]))
+                        value = convert.rgb_to_hex(convert.rgba_to_rgb(convert.hex_to_rgba(value), refer=convert.hex_to_rgb(self.widget.master["bg"])))
                     if value == "" or start_color == "":
                         # Null characters cannot be parsed
                         self.widget.master.itemconfigure(item, {key: value})
@@ -165,8 +163,7 @@ class Component(abc.ABC):
             else:
                 for key, value in kwargs.items():
                     if value.startswith("#") and len(value) == 9:
-                        kwargs[key] = rgb.rgb_to_str(rgb.str_to_rgba(
-                            value, reference=self.widget.master["bg"]))
+                        kwargs[key] = convert.rgb_to_hex(convert.rgba_to_rgb(convert.hex_to_rgba(start_color), refer=convert.hex_to_rgb(self.widget.master["bg"])))
                 self.widget.master.itemconfigure(item, kwargs)
 
     def disappear(self, value: bool = True, *, no_delay: bool = True) -> None:

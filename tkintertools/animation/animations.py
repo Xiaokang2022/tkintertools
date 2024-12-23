@@ -24,7 +24,7 @@ import traceback
 import typing
 import warnings
 
-from ..color import rgb
+from ..color import convert, rgb
 from ..core import configs, virtual
 from . import controllers
 
@@ -295,12 +295,12 @@ class GradientTkWidget(Animation):
         if not all(colors):
             raise ValueError(f"Null characters ({colors}) cannot be parsed!")
 
-        rgb1, rgb2 = rgb.str_to_rgb(colors[0]), rgb.str_to_rgb(colors[1])
+        rgb1, rgb2 = convert.str_to_rgb(colors[0]), convert.str_to_rgb(colors[1])
 
         Animation.__init__(
             self, ms, controller,
             callback=lambda p: widget.configure(
-                {parameter: rgb.rgb_to_str(rgb.convert(rgb1, rgb2, p))}),
+                {parameter: convert.rgb_to_hex(rgb.transition(rgb1, rgb2, p))}),
             end=end, repeat=repeat, fps=fps, derivation=derivation,
         )
 
@@ -337,12 +337,12 @@ class GradientItem(Animation):
         if not all(colors):
             raise ValueError(f"Null characters ({colors}) cannot be parsed!")
 
-        rgb1, rgb2 = rgb.str_to_rgb(colors[0]), rgb.str_to_rgb(colors[1])
+        rgb1, rgb2 = convert.str_to_rgb(colors[0]), convert.str_to_rgb(colors[1])
 
         Animation.__init__(
             self, ms, controller,
             callback=lambda p: canvas.itemconfigure(
-                item, {parameter: rgb.rgb_to_str(rgb.convert(rgb1, rgb2, p))}),
+                item, {parameter: convert.rgb_to_hex(rgb.transition(rgb1, rgb2, p))}),
             end=end, repeat=repeat, fps=fps, derivation=derivation,
         )
 
