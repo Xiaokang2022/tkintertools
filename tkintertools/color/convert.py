@@ -148,7 +148,7 @@ def name_to_rgb(value: str, /) -> tuple[int, int, int]:
     if rgb_code := colortable.MAPPING_TABLE.get(value.lower()):
         return rgb_code
 
-    return configs.Env.default_root.winfo_rgb(value)
+    return configs.Env.root.winfo_rgb(value)
 
 
 def rgb_to_name(value: tuple[int, int, int], /) -> list[str]:

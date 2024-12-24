@@ -138,24 +138,24 @@ class Highlight(ButtonFeature):
             self.widget.master.trigger_config.update(cursor="hand2")
             if self.widget.state == "normal":
                 self.widget.update("hover")
-                animations.ScaleFontSize(self.widget.texts[0], 150, sizes=28).start()
+                animations.ScaleFontSize(self.widget.texts[0], 28, 150).start()
         else:
             if self.widget.state != "normal":
                 self.widget.update("normal")
-                animations.ScaleFontSize(self.widget.texts[0], 150, sizes=24).start()
+                animations.ScaleFontSize(self.widget.texts[0], 24, 150).start()
         return flag
 
     def _button_1(self, _: tkinter.Event) -> bool:
         if flag := self.widget.state == "hover":
             self.widget.update("active")
-            animations.ScaleFontSize(self.widget.texts[0], 150, sizes=26).start()
+            animations.ScaleFontSize(self.widget.texts[0], 26, 150).start()
         return flag
 
     def _button_release_1(self, event: tkinter.Event) -> bool:
         if flag := self.widget.texts[0].detect(event.x, event.y):
             if self.widget.state == "active":
                 self.widget.update("hover")
-                animations.ScaleFontSize(self.widget.texts[0], 150, sizes=28).start()
+                animations.ScaleFontSize(self.widget.texts[0], 28, 150).start()
                 if self.command is not None:
                     self.command(*self._args)
         return flag
@@ -427,9 +427,8 @@ class SliderFeature(virtual.Feature):
                     / (self.widget.size[0]-self.widget.size[1]*2/5))
             delta = next_value - temp_value
             animations.Animation(
-                150, controllers.smooth,
-                callback=lambda k: self.widget.set(
-                    temp_value + delta*k, callback=True), fps=60).start()
+                150, lambda k: self.widget.set(temp_value + delta*k, callback=True),
+                controller=controllers.smooth, fps=60).start()
 
     def _b_1_motion(self, event: tkinter.Event) -> bool:
         if self._temp_position is not None:

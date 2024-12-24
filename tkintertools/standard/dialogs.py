@@ -45,7 +45,7 @@ class TkMessage:
         * `command`: callback function
         """
         if master is None:
-            master: tkinter.Tk = configs.Env.default_root
+            master: tkinter.Tk = configs.Env.root
             if master is None:
                 master = tkinter._get_temp_root()
         args = ["-icon", icon]
@@ -107,7 +107,7 @@ class TkFontChooser:
         * `command`: callback function
         """
         if master is None:
-            master: tkinter.Tk = configs.Env.default_root
+            master: tkinter.Tk = configs.Env.root
             if master is None:
                 master = tkinter._get_temp_root()
         args = []

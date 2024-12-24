@@ -30,7 +30,7 @@ class _DefaultRootDescriptor:
     """A simple descriptor about tkinter._default_root."""
 
     def __get__(self, obj: typing.Any, cls: typing.Any) -> tkinter.Tk:
-        """Return the current default root."""
+        """Returns the current default root."""
         return tkinter._get_default_root()
 
 
@@ -43,7 +43,7 @@ class Env:
 
     enable_animation: bool
 
-    default_root = _DefaultRootDescriptor()
+    root = _DefaultRootDescriptor()
 
     @classmethod
     def reset(cls) -> None:

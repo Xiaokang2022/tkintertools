@@ -1,9 +1,8 @@
 """A subpackage that provides animation-related features.
 
-Animations are supported, and the behavior of animations can be controlled
-through control functions, which can be highly customized. In addition, the
-control function also applies to the related classes and functions of the
-`color` subpackage.
+A highly customizable animation base class and related subclasses are provided,
+as well as highly customizable control functions. In addition, control
+functions also applies to the related functions of the `color` subpackage.
 """
 
 from .animations import *

@@ -134,16 +134,16 @@ def load_font(font_path: str | bytes, *, private: bool = True, enumerable: bool 
 
 
 def screen_size() -> tuple[int, int]:
-    """Return the size of the screen"""
-    if configs.Env.default_root is None:
+    """Returns the size of the screen"""
+    if configs.Env.root is None:
         temp_tk = tkinter.Tk()
         temp_tk.withdraw()
         width, height = temp_tk.winfo_screenwidth(), temp_tk.winfo_screenheight()
         temp_tk.destroy()
         return width, height
 
-    width = configs.Env.default_root.winfo_screenwidth()
-    height = configs.Env.default_root.winfo_screenheight()
+    width = configs.Env.root.winfo_screenwidth()
+    height = configs.Env.root.winfo_screenheight()
     return width, height
 
 
@@ -175,7 +175,7 @@ def get_text_size(
         fontsize = configs.Font.size
 
     fontsize = -abs(fontsize)
-    temp_cv = master if master else tkinter.Canvas(configs.Env.default_root)
+    temp_cv = master if master else tkinter.Canvas(configs.Env.root)
     while isinstance(temp_cv, virtual.Widget):
         temp_cv = temp_cv.master
     font = tkinter.font.Font(family=family, size=fontsize, **kwargs)

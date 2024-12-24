@@ -158,7 +158,7 @@ class Component(abc.ABC):
                         self.widget.master.itemconfigure(item, {key: value})
                     else:
                         self.gradient = animations.GradientItem(
-                            self.widget.master, item, key, 150, (start_color, value))
+                            self.widget.master, item, key, (start_color, value), 150)
                         self.gradient.start()
             else:
                 for key, value in kwargs.items():

@@ -326,7 +326,7 @@ class Switch(virtual.Widget):
         self.update(f"{self.state.split('-')[0]}-{'on' if value else 'off'}", no_delay=True)
         dx = self.shapes[0].size[0]/2 if value else -self.shapes[0].size[0]/2
         animations.MoveComponent(
-            self.shapes[1], 250, (dx, 0), controller=controllers.smooth, fps=60).start()
+            self.shapes[1], (dx, 0), 250, controller=controllers.smooth, fps=60).start()
 
 
 class InputBox(virtual.Widget):
@@ -1410,9 +1410,10 @@ class Spinner(virtual.Widget):
         self.mode = mode
         if mode == "indeterminate":
             self._spin = animations.Animation(
-                1200, controllers.linear, repeat=-1, fps=60,
-                callback=lambda p: self.master.itemconfigure(
-                    self.shapes[1].items[0], start=-p*360, extent=math.cos(p*math.tau)*60+120))
+                1200, lambda p: self.master.itemconfigure(
+                    self.shapes[1].items[0], start=-p*360, extent=math.cos(p*math.tau)*60+120),
+                controller=controllers.linear, repeat=-1, fps=60,
+            )
             self._spin.start()
 
         if default is not None:
