@@ -12,7 +12,7 @@ class Test(unittest.TestCase):
         self.assertEqual(rgb.contrast((0, 127, 255)), (255, 128, 0))
         self.assertEqual(rgb.contrast((1, 0, 0), channels=(False, True, True)), (1, 255, 255))
 
-    def test_convert(self) -> None:
+    def test_transition(self) -> None:
         self.assertEqual(rgb.transition((0, 0, 0), (255, 255, 255), 0.5), (128, 128, 128))
         self.assertEqual(rgb.transition((0, 127, 255), (255, 127, 0), 0.5, channels=(False, True, True)), (0, 127, 127))
 

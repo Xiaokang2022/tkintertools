@@ -17,9 +17,9 @@ class TestAnimation(unittest.TestCase):
 
     @unittest.skipIf(platform.system() == "Linux", "No display name.")
     def test_fps(self) -> None:
-        an = animations.Animation(60, controllers.flat, fps=100)
-        an2 = animations.Animation(60, controllers.flat, fps=50)
-        an3 = animations.Animation(1, controllers.flat)
+        an = animations.Animation(60, controllers.linear, fps=100)
+        an2 = animations.Animation(60, controllers.linear, fps=50)
+        an3 = animations.Animation(1, controllers.linear)
 
         an.start()
         self.assertEqual(len(an._tasks), 6)
@@ -30,7 +30,7 @@ class TestAnimation(unittest.TestCase):
 
     @unittest.skipIf(platform.system() == "Linux", "No display name.")
     def test_is_active(self) -> None:
-        an = animations.Animation(60, controllers.flat)
+        an = animations.Animation(60, controllers.linear)
         an.start()
         self.assertEqual(an.is_active, True)
         an.stop()

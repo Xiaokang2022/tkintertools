@@ -12,7 +12,7 @@ class Test(unittest.TestCase):
         self.assertEqual(hsl.contrast((1, 1, 1)), (math.tau - 1, 0, 0))
         self.assertEqual(hsl.contrast((1, 1, 1), channels=(False, True, True)), (1, 0, 0))
 
-    def test_convert(self) -> None:
+    def test_transition(self) -> None:
         self.assertEqual(hsl.transition((0, 0, 0), (math.tau, 1, 1), 0.5), (math.pi, 0.5, 0.5))
         self.assertEqual(hsl.transition((0, 0, 0), (math.pi, 1, 1), 1, channels=(True, True, False)), (math.pi, 1, 0))
 
