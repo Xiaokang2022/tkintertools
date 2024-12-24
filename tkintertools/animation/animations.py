@@ -177,7 +177,7 @@ class MoveWindow(Animation):
                 window.geometry(position=(round(x0+dx*p), round(y0+dy*p)))
         else:
             def callback(p) -> None:
-                window.wm_geometry(f"+{x0+dx*p}+{y0+dy*p}")
+                window.wm_geometry(f"+{round(x0+dx*p)}+{round(y0+dy*p)}")
 
         Animation.__init__(
             self, duration, callback, controller=controller, end=end, fps=fps,
