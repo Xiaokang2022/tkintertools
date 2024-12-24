@@ -62,7 +62,23 @@ class TestAnimation(unittest.TestCase):
 
     @unittest.skipIf(platform.system() == "Linux", "No display name.")
     def test_repeat(self) -> None:
-        animations.Animation(60, lambda _: None, repeat=1).start()
+        an = animations.Animation(60, lambda _: None, repeat=0)
+        an2 = animations.Animation(60, lambda _: None, repeat=1)
+        an3 = animations.Animation(60, lambda _: None, repeat=2)
+        an4 = animations.Animation(60, lambda _: None, repeat=2, repeat_delay=1)
+        an._repeat()
+        an2._repeat()
+        an3._repeat()
+        an4._repeat()
+
+        self.assertEqual(an.count, 0)
+        self.assertEqual(len(an._tasks), 0)
+        self.assertEqual(an2.count, 0)
+        self.assertEqual(len(an2._tasks), 2)
+        self.assertEqual(an3.count, 1)
+        self.assertEqual(len(an3._tasks), 2)
+        self.assertEqual(an4.count, 1)
+        self.assertEqual(len(an4._tasks), 1)
 
     @unittest.skipIf(platform.system() == "Linux", "No display name.")
     def test_delay(self) -> None:
@@ -77,35 +93,55 @@ class TestAnimation(unittest.TestCase):
         self.assertIsInstance(c, str)
         self.assertIsInstance(d, str)
 
+    @unittest.skipIf(platform.system() == "Linux", "No display name.")
+    def test_end(self) -> None:
+        an = animations.Animation(60, lambda _: None, fps=50, end=lambda: None)
+        an.start()
+        self.assertEqual(len(an._tasks), 3+2)
+
 
 class TestMoveWindow_Tk(unittest.TestCase):
 
     def setUp(self) -> None:
         self.tk = tkinter.Tk()
+        self.tk.geometry("+100+100")
         self.top = tkinter.Toplevel(self.tk)
+        self.top.geometry("+100+100")
 
     def tearDown(self) -> None:
         self.tk.destroy()
 
     @unittest.skipIf(platform.system() == "Linux", "No display name.")
     def test(self) -> None:
-        animations.MoveWindow(self.tk, (99, 99), 99).start()
-        animations.MoveWindow(self.top, (99, 99), 99).start()
+        animations.MoveWindow(self.tk, (99, 99), 1, fps=1).callback(1)
+        animations.MoveWindow(self.top, (99, 99), 1, fps=1).callback(1)
+
+        self.tk.update_idletasks()
+        self.top.update_idletasks()
+
+        self.assertEqual(self.tk.winfo_x(), 199)
+        self.assertEqual(self.top.winfo_y(), 199)
 
 
 class TestMoveWindow(unittest.TestCase):
 
     def setUp(self) -> None:
-        self.tk = containers.Tk()
-        self.top = containers.Toplevel(self.tk)
+        self.tk = containers.Tk(position=(100, 100))
+        self.top = containers.Toplevel(self.tk, position=(100, 100))
 
     def tearDown(self) -> None:
         self.tk.destroy()
 
     @unittest.skipIf(platform.system() == "Linux", "No display name.")
     def test(self) -> None:
-        animations.MoveWindow(self.tk, (-99, -99), 99).start()
-        animations.MoveWindow(self.top, (-99, -99), 99).start()
+        animations.MoveWindow(self.tk, (-99, -99), 1, fps=1).callback(1)
+        animations.MoveWindow(self.top, (-99, -99), 1, fps=1).callback(1)
+
+        self.tk.update_idletasks()
+        self.top.update_idletasks()
+
+        self.assertEqual(self.tk.winfo_x(), 1)
+        self.assertEqual(self.top.winfo_y(), 1)
 
 
 class TestMoveTkWidget(unittest.TestCase):
