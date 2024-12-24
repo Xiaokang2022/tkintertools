@@ -1410,7 +1410,7 @@ class Spinner(virtual.Widget):
         self.mode = mode
         if mode == "indeterminate":
             self._spin = animations.Animation(
-                1200, controllers.flat, repeat=-1, fps=60,
+                1200, controllers.linear, repeat=-1, fps=60,
                 callback=lambda p: self.master.itemconfigure(
                     self.shapes[1].items[0], start=-p*360, extent=math.cos(p*math.tau)*60+120))
             self._spin.start()

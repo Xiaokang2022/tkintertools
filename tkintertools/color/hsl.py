@@ -55,7 +55,7 @@ def blend(
     """Mix colors by weight.
 
     * `values`: HSL codes
-    * `weights`: weight list
+    * `weights`: weight list, default value indicates the same weights
     """
     colors = zip(*values)
 
@@ -75,7 +75,7 @@ def gradient(
     rate: float = 1,
     *,
     channels: tuple[bool, bool, bool] = (True, True, True),
-    contoller: collections.abc.Callable[[int | float], int | float] = controllers.flat,
+    contoller: collections.abc.Callable[[int | float], int | float] = controllers.linear,
 ) -> list[tuple[float, float, float]]:
     """Get a list of color gradients from one color to another proportionally.
 

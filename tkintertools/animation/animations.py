@@ -1,8 +1,7 @@
-"""Standard animation classes
+"""Base and standard animation classes.
 
-The built-in basic animation classes are:
-`MoveTkWidget`, `MoveWidget`, `MoveComponent`, `MoveItem`, `GradientTkWidget`, `GradientItem`,
-`ScaleFontSize`
+The animation base class can be inherited or called directly. Other standard
+animation classes are best used by direct calls, rather than inheritance.
 """
 
 from __future__ import annotations
@@ -30,12 +29,12 @@ from . import controllers
 
 
 class Animation:
-    """Animation base class"""
+    """Base animation class."""
 
     def __init__(
         self,
         ms: int,
-        controller: collections.abc.Callable[[int | float], int | float],
+        controller: collections.abc.Callable[[int | float], int | float] = controllers.linear,
         *,
         callback: collections.abc.Callable[[int | float], typing.Any] | None = None,
         end: collections.abc.Callable[[], typing.Any] | None = None,
@@ -45,9 +44,10 @@ class Animation:
     ) -> None:
         """
         * `ms`: duration of the animation, in milliseconds
-        * `controller`: control functions that determine the course of the entire animation movement
-        * `callback`: callback function, which will be called once per frame, with the parameter
-        being the percentage of the current animation progress
+        * `controller`: control functions that determine the course of the
+        entire animation movement
+        * `callback`: callback function, which will be called once per frame,
+        with the parameter being the percentage of the current animation progress
         * `end`: ending function, which is called once at the end of the animation
         * `repeat`: number of repetitions of the entire animation process
         * `fps`: the FPS of the animation
@@ -140,7 +140,7 @@ class MoveTkWidget(Animation):
         ms: int,
         offset: tuple[int | float, int | float],
         *,
-        controller: collections.abc.Callable[[int | float], int | float] = controllers.flat,
+        controller: collections.abc.Callable[[int | float], int | float] = controllers.linear,
         end: collections.abc.Callable[[], typing.Any] | None = None,
         repeat: int = 0,
         fps: int = 30,
@@ -176,7 +176,7 @@ class MoveWidget(Animation):
         ms: int,
         offset: tuple[int | float, int | float],
         *,
-        controller: collections.abc.Callable[[int | float], int | float] = controllers.flat,
+        controller: collections.abc.Callable[[int | float], int | float] = controllers.linear,
         end: collections.abc.Callable[[], typing.Any] | None = None,
         repeat: int = 0,
         fps: int = 30,
@@ -208,7 +208,7 @@ class MoveComponent(Animation):
         ms: int,
         offset: tuple[int | float, int | float],
         *,
-        controller: collections.abc.Callable[[int | float], int | float] = controllers.flat,
+        controller: collections.abc.Callable[[int | float], int | float] = controllers.linear,
         end: collections.abc.Callable[[], typing.Any] | None = None,
         repeat: int = 0,
         fps: int = 30,
@@ -241,7 +241,7 @@ class MoveItem(Animation):
         ms: int,
         offset: tuple[int | float, int | float],
         *,
-        controller: collections.abc.Callable[[int | float], int | float] = controllers.flat,
+        controller: collections.abc.Callable[[int | float], int | float] = controllers.linear,
         end: collections.abc.Callable[[], typing.Any] | None = None,
         repeat: int = 0,
         fps: int = 30,
@@ -275,7 +275,7 @@ class GradientTkWidget(Animation):
         ms: int,
         colors: tuple[str, str],
         *,
-        controller: collections.abc.Callable[[int | float], int | float] = controllers.flat,
+        controller: collections.abc.Callable[[int | float], int | float] = controllers.linear,
         end: collections.abc.Callable[[], typing.Any] | None = None,
         repeat: int = 0,
         fps: int = 30,
@@ -316,7 +316,7 @@ class GradientItem(Animation):
         ms: int,
         colors: tuple[str, str],
         *,
-        controller: collections.abc.Callable[[int | float], int | float] = controllers.flat,
+        controller: collections.abc.Callable[[int | float], int | float] = controllers.linear,
         end: collections.abc.Callable[[], typing.Any] | None = None,
         repeat: int = 0,
         fps: int = 30,
@@ -357,7 +357,7 @@ class ScaleFontSize(Animation):
         ms: int,
         sizes: int | float,
         *,
-        controller: collections.abc.Callable[[int | float], int | float] = controllers.flat,
+        controller: collections.abc.Callable[[int | float], int | float] = controllers.linear,
         end: collections.abc.Callable[[], typing.Any] | None = None,
         repeat: int = 0,
         fps: int = 30,
@@ -371,7 +371,7 @@ class ScaleFontSize(Animation):
         ms: int,
         sizes: tuple[int | float, int | float],
         *,
-        controller: collections.abc.Callable[[int | float], int | float] = controllers.flat,
+        controller: collections.abc.Callable[[int | float], int | float] = controllers.linear,
         end: collections.abc.Callable[[], typing.Any] | None = None,
         repeat: int = 0,
         fps: int = 30,
@@ -384,7 +384,7 @@ class ScaleFontSize(Animation):
         ms: int,
         sizes: int | float | tuple[int | float, int | float],
         *,
-        controller: collections.abc.Callable[[int | float], int | float] = controllers.flat,
+        controller: collections.abc.Callable[[int | float], int | float] = controllers.linear,
         end: collections.abc.Callable[[], typing.Any] | None = None,
         repeat: int = 0,
         fps: int = 30,
