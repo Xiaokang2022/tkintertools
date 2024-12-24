@@ -126,8 +126,8 @@ class TestMoveWindow_Tk(unittest.TestCase):
 class TestMoveWindow(unittest.TestCase):
 
     def setUp(self) -> None:
-        self.tk = containers.Tk(position=(100, 100))
-        self.top = containers.Toplevel(self.tk, position=(100, 100))
+        self.tk = containers.Tk(position=(200, 200))
+        self.top = containers.Toplevel(self.tk, position=(200, 200))
 
     def tearDown(self) -> None:
         self.tk.destroy()
@@ -140,8 +140,8 @@ class TestMoveWindow(unittest.TestCase):
         self.tk.update_idletasks()
         self.top.update_idletasks()
 
-        self.assertEqual(self.tk.winfo_x(), 1)
-        self.assertEqual(self.top.winfo_y(), 1)
+        self.assertEqual(self.tk.winfo_x(), 101)
+        self.assertEqual(self.top.winfo_y(), 101)
 
 
 class TestMoveTkWidget(unittest.TestCase):
