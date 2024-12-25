@@ -1,4 +1,9 @@
-"""All configs of tkintertools"""
+"""All global configuration options.
+
+Some options are read-only, but most of them can be changed, and once changed,
+they will take effect globally for the program. Some changes take effect
+immediately, but some need to take effect when the relevant option is invoked.
+"""
 
 from __future__ import annotations
 
@@ -7,10 +12,9 @@ __all__ = [
     "Font",
     "Theme",
     "Constant",
-    "reset_configs",
+    "reset",
 ]
 
-import collections.abc
 import ctypes
 import math
 import platform
@@ -27,31 +31,28 @@ except ImportError:
 
 
 class _DefaultRootDescriptor:
-    """A simple descriptor about tkinter._default_root."""
+    """A simple descriptor for `tkinter._default_root`."""
 
     def __get__(self, obj: typing.Any, cls: typing.Any) -> tkinter.Tk:
         """Returns the current default root."""
-        return tkinter._get_default_root()
+        return tkinter._get_default_root()  # NOTE # type: ignore
 
 
 class Env:
-    """Configurations of environment."""
+    """Configurations for default environment values."""
 
     system: str
     is_dark: bool
-    default_callback: collections.abc.Callable[[tkinter.Event], typing.Literal[False]]
-
-    enable_animation: bool
+    default_animation: bool
 
     root = _DefaultRootDescriptor()
 
     @classmethod
     def reset(cls) -> None:
-        """Reset all configs."""
+        """Reset all configuration options."""
         cls.system = cls.get_default_system()
         cls.is_dark = bool(darkdetect.isDark()) if globals().get("darkdetect") else False
-        cls.enable_animation = True
-        cls.default_callback = lambda _: False
+        cls.default_animation = True
 
     @staticmethod
     def get_default_system() -> str:
@@ -66,25 +67,24 @@ class Env:
 
 
 class Font:
-    """Configurations of font."""
+    """Configurations for default font."""
 
     family: str
     size: int
 
     @classmethod
     def reset(cls) -> None:
-        """Reset all configs."""
+        """Reset all configuration options."""
         cls.family = cls.get_default_family()
         cls.size = -20
 
     @staticmethod
     def get_default_family() -> str:
-        """Get font family."""
-        if (system := Env.get_default_system()).startswith("Windows"):
-            return "Microsoft YaHei"
-        if system == "Darwin":
-            return "PingFang SC"
-        return "Noto Sans"
+        """Get the default font family."""
+        match platform.system():
+            case "Windows": return "Microsoft YaHei"
+            case "Darwin": return "PingFang SC"
+            case _: return "Noto Sans"
 
 
 class Theme:
@@ -100,7 +100,7 @@ class Theme:
 
     @classmethod
     def reset(cls) -> None:
-        """Reset all configs."""
+        """Reset all configuration options."""
         cls.light, cls.dark = cls.get_default_themes()
         cls.color_mode = "system"
 
@@ -111,11 +111,13 @@ class Theme:
 
 
 class Constant:
-    """All Constants"""
+    """All Constants."""
 
     GOLDEN_RATIO: typing.Final[float] = (math.sqrt(5)-1) / 2
+    """The golden ratio, which is needed to automatically calculate the color
+    of widget on `"disabled"` state. It is READ-ONLY."""
 
-    PRE_DEFINED_EVENTS: typing.Final[tuple[str, ...]] = (
+    PREDEFINED_EVENTS: typing.Final[tuple[str, ...]] = (
         "<KeyPress>",
         "<KeyRelease>",
         "<Button-1>",
@@ -133,8 +135,10 @@ class Constant:
         "<B3-Motion>",
         "<Configure>",
     )
+    """Predefined events that can be used directly without registration. It is
+    READ-ONLY."""
 
-    PRE_DEFINED_VIRTUAL_EVENTS: typing.Final[tuple[str, ...]] = (
+    PREDEFINED_VIRTUAL_EVENTS: typing.Final[tuple[str, ...]] = (
         "<<Copy>>",
         "<<Paste>>",
         "<<Cut>>",
@@ -142,16 +146,18 @@ class Constant:
         "<<Redo>>",
         "<<Undo>>",
     )
+    """Predefined virtual events that can be used directly without
+    registration. It is READ-ONLY."""
 
 
-def reset_configs() -> None:
-    """Reset all configs."""
+def reset() -> None:
+    """Reset all configuration options."""
     Env.reset()
     Font.reset()
     Theme.reset()
 
 
-reset_configs()
+reset()
 
 if Env.system.startswith("Windows"):
     ctypes.windll.shcore.SetProcessDpiAwareness(1)  # Set Windows DPI awareness

@@ -67,7 +67,7 @@ import pathlib
 import types
 import typing
 
-from ..core import configs, containers, virtual
+from ..core import configurations, containers, virtual
 from . import manager
 
 
@@ -133,7 +133,7 @@ def get(
     """
     if theme is None:
         if manager.get_color_mode() == "dark":
-            theme = configs.Theme.dark
+            theme = configurations.Theme.dark
         else:
-            theme = configs.Theme.light
+            theme = configurations.Theme.light
     return get_file(theme, _get_name(widget), _get_name(component)).copy()

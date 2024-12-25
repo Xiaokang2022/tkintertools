@@ -30,7 +30,7 @@ import typing_extensions
 
 from ..style import manager, parser
 from ..toolbox import enhanced, tools
-from . import configs, virtual
+from . import configurations, virtual
 
 
 class Tk(tkinter.Tk):
@@ -66,7 +66,7 @@ class Tk(tkinter.Tk):
         if icon is not None:
             if isinstance(self, Toplevel):
                 self.iconbitmap(icon)
-            elif configs.Env.system.startswith("Windows"):
+            elif configurations.Env.system.startswith("Windows"):
                 self.call("wm", "iconbitmap", self, "-default", icon)
             else:
                 self.iconbitmap(icon)
@@ -393,7 +393,7 @@ class Canvas(tkinter.Canvas):
         for _n in "<ButtonRelease-1>", "<ButtonRelease-2>", "<ButtonRelease-3>":
             self.bind(_n, lambda e, n=_n: self._release(e, n))
 
-        for _n in configs.Constant.PRE_DEFINED_VIRTUAL_EVENTS:
+        for _n in configurations.Constant.PREDEFINED_VIRTUAL_EVENTS:
             self.event_register(_n)
 
         self.bind("<Configure>", lambda _: self._zoom_self())
@@ -518,11 +518,11 @@ class Canvas(tkinter.Canvas):
     @typing_extensions.override
     def create_text(self, x: float, y: float, /, *args, **kwargs) -> int:
         if not (font_ := kwargs.get("font")):
-            kwargs["font"] = tkinter.font.Font(family=configs.Font.family, size=configs.Font.size)
+            kwargs["font"] = tkinter.font.Font(family=configurations.Font.family, size=configurations.Font.size)
         elif isinstance(font_, str):
-            kwargs["font"] = tkinter.font.Font(family=font_, size=configs.Font.size)
+            kwargs["font"] = tkinter.font.Font(family=font_, size=configurations.Font.size)
         elif isinstance(font_, int):
-            kwargs["font"] = tkinter.font.Font(family=configs.Font.family, size=-abs(font_))
+            kwargs["font"] = tkinter.font.Font(family=configurations.Font.family, size=-abs(font_))
         elif isinstance(font_, tkinter.font.Font):
             kwargs["font"].config(size=-abs(font_.cget("size")))
         else:

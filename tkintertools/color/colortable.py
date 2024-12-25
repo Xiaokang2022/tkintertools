@@ -6,7 +6,9 @@ __all__ = [
     "MAPPING_TABLE",
 ]
 
-MAPPING_TABLE: dict[str, tuple[int, int, int]] = {
+import typing
+
+MAPPING_TABLE: typing.Final[dict[str, tuple[int, int, int]]] = {
     'alice blue': (240, 248, 255),
     'aliceblue': (240, 248, 255),
     'antique white': (250, 235, 215),

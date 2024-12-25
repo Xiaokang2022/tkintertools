@@ -21,7 +21,7 @@ import tkinter.font
 import traceback
 import typing
 
-from ..core import configs, virtual
+from ..core import configurations, virtual
 
 _LINUX_FONTS_DIR: typing.Final[str] = os.path.expanduser("~/.fonts/")
 
@@ -135,15 +135,15 @@ def load_font(font_path: str | bytes, *, private: bool = True, enumerable: bool 
 
 def screen_size() -> tuple[int, int]:
     """Returns the size of the screen"""
-    if configs.Env.root is None:
+    if configurations.Env.root is None:
         temp_tk = tkinter.Tk()
         temp_tk.withdraw()
         width, height = temp_tk.winfo_screenwidth(), temp_tk.winfo_screenheight()
         temp_tk.destroy()
         return width, height
 
-    width = configs.Env.root.winfo_screenwidth()
-    height = configs.Env.root.winfo_screenheight()
+    width = configurations.Env.root.winfo_screenwidth()
+    height = configurations.Env.root.winfo_screenheight()
     return width, height
 
 
@@ -170,12 +170,12 @@ def get_text_size(
     * This function only works when the fontsize is negative number!
     """
     if family is None:
-        family = configs.Font.family
+        family = configurations.Font.family
     if fontsize is None:
-        fontsize = configs.Font.size
+        fontsize = configurations.Font.size
 
     fontsize = -abs(fontsize)
-    temp_cv = master if master else tkinter.Canvas(configs.Env.root)
+    temp_cv = master if master else tkinter.Canvas(configurations.Env.root)
     while isinstance(temp_cv, virtual.Widget):
         temp_cv = temp_cv.master
     font = tkinter.font.Font(family=family, size=fontsize, **kwargs)

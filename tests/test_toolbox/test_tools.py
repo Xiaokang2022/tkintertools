@@ -5,7 +5,7 @@ import platform
 import tkinter
 import unittest
 
-from tkintertools.core import configs
+from tkintertools.core import configurations
 from tkintertools.toolbox import tools
 
 
@@ -80,7 +80,7 @@ class Test(unittest.TestCase):
         self.assertEqual(tools.get_text_size("", 20, "Fira Code", padding=5), (12, 34))
         self.assertEqual(
             tools.get_text_size(":)"),
-            tools.get_text_size(":)", configs.Font.size, configs.Font.family))
+            tools.get_text_size(":)", configurations.Font.size, configurations.Font.family))
 
 
 if __name__ == "__main__":

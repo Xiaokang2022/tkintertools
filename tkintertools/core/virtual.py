@@ -38,7 +38,7 @@ from ..animation import animations
 from ..color import convert, rgb
 from ..style import parser
 from ..toolbox import enhanced
-from . import configs, containers
+from . import configurations, containers
 
 
 class Component(abc.ABC):
@@ -136,7 +136,7 @@ class Component(abc.ABC):
             for key, value in self.styles["disabled"].items():
                 self.styles["disabled"][key] = convert.rgb_to_hex(rgb.transition(
                     convert.hex_to_rgb(value), convert.hex_to_rgb(self.widget.master["bg"]),
-                    configs.Constant.GOLDEN_RATIO))
+                    configurations.Constant.GOLDEN_RATIO))
         return self.styles["disabled"]
 
     def configure(self, style: dict[str, str], *, no_delay: bool = False) -> None:
@@ -306,8 +306,8 @@ class Text(Component):
         self.placeholder = placeholder
         self.limit = limit
         self.font = tkinter.font.Font(
-            family=family if family else configs.Font.family,
-            size=-abs(fontsize if fontsize else configs.Font.size),
+            family=family if family else configurations.Font.family,
+            size=-abs(fontsize if fontsize else configurations.Font.size),
             weight=weight, slant=slant,
             underline=underline, overstrike=overstrike)
         self._initial_fontsize = self.font.cget("size")
@@ -399,7 +399,7 @@ class Feature:
     def get_method(self, name: str) -> collections.abc.Callable:
         """Return method by name"""
         extra_commands = self.extras.get(name)
-        method = getattr(self, self._parse_method_name(name), configs.Env.default_callback)
+        method = getattr(self, self._parse_method_name(name), lambda _: False)
 
         if extra_commands is None:
             return method
@@ -461,7 +461,7 @@ class Widget:
         self.through = through
         if self.through is None and self.is_nested():
             self.through = True  # Boolean indicate enforce the operation
-        self.animation = configs.Env.enable_animation if animation is None else animation
+        self.animation = configurations.Env.default_animation if animation is None else animation
 
         self.widgets: list[Widget] = []
         self.texts: list[Text] = []
@@ -582,8 +582,8 @@ class Widget:
         * `func`: callback function
         * `add`: if True, original callback function will not be overwritten
         """
-        if sequence not in configs.Constant.PRE_DEFINED_EVENTS:
-            if sequence not in configs.Constant.PRE_DEFINED_VIRTUAL_EVENTS:
+        if sequence not in configurations.Constant.PREDEFINED_EVENTS:
+            if sequence not in configurations.Constant.PREDEFINED_VIRTUAL_EVENTS:
                 if sequence not in self.master.events:
                     self.master.events.append(sequence)
                     self.master.event_register(sequence)

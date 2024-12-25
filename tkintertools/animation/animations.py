@@ -24,7 +24,7 @@ import typing
 import warnings
 
 from ..color import convert, rgb
-from ..core import configs, containers, virtual
+from ..core import configurations, containers, virtual
 from . import controllers
 
 
@@ -102,23 +102,23 @@ class Animation:
         * `delay`: length of the delay before the animation starts
         """
         if delay > 0:
-            return configs.Env.root.after(delay, self.start)
+            return configurations.Env.root.after(delay, self.start)
 
         delay, last_percentage = 0, 0
 
         for i in range(1, self._total_frames + 1):
             delay += self._delay + (i < self._leave_ms)
             percentage = self.controller(i / self._total_frames)
-            self._tasks.append(configs.Env.root.after(
+            self._tasks.append(configurations.Env.root.after(
                 delay, self.callback, percentage - last_percentage))
 
             if self.derivation:
                 last_percentage = percentage
 
         if self.end is not None:
-            self._tasks.append(configs.Env.root.after(delay, self.end))
+            self._tasks.append(configurations.Env.root.after(delay, self.end))
 
-        self._tasks.append(configs.Env.root.after(delay, self._repeat))
+        self._tasks.append(configurations.Env.root.after(delay, self._repeat))
 
         return None
 
@@ -134,10 +134,10 @@ class Animation:
         * `delay`: length of the delay before the animation stops
         """
         if delay > 0:
-            return configs.Env.root.after(delay, self.stop)
+            return configurations.Env.root.after(delay, self.stop)
 
         while self._tasks:
-            configs.Env.root.after_cancel(self._tasks.pop())
+            configurations.Env.root.after_cancel(self._tasks.pop())
 
         self._count = self.repeat
 
