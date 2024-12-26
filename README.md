@@ -1,33 +1,32 @@
 > [!IMPORTANT]  
-> 根据社区[投票](https://github.com/Xiaokang2022/tkintertools/discussions/41)结果，本项目将在正式版的时候**重命名**！  
 > According to the results of the community [vote](https://github.com/Xiaokang2022/tkintertools/discussions/41), this project will be **RENAMED** when it is released!
 
 <h1 align="center">tkintertools</h1>
 
-<p align="center"><img alt="logo" src="https://xiaokang2022.github.io/tkintertools/logo.png" title="Logo" /></p>
+<p align="center"><img src="docs/logo.png" alt="Logo" title="Logo" /></p>
+
+<p align="center"><b>English</b> | <a href="README.zh_CN.md">简体中文</a></p>
 
 <p align="center">
-<code>tkintertools</code> 是一个基于 <code>tkinter</code> 的 <code>Canvas</code> 类的 UI 框架
-<br/>
 <code>tkintertools</code> is a UI framework based on the <code>Canvas</code> class of <code>tkinter</code>
 </p>
 
 <p align="center">
-<a href="https://github.com/Xiaokang2022/tkintertools/releases"><img alt="Version" src="https://img.shields.io/github/v/release/Xiaokang2022/tkintertools?include_prereleases&logo=github&label=Version" title="Latest Version" /></a>
-<a href="https://pypistats.org/packages/tkintertools"><img alt="Downloads" src="https://img.shields.io/pypi/dm/tkintertools?label=Downloads&logo=python&logoColor=skyblue" title="Downloads" /></a>
-<a href="https://github.com/Xiaokang2022/tkintertools/actions"><img alt="Lint & Test" src="https://img.shields.io/github/actions/workflow/status/Xiaokang2022/tkintertools/python-package.yml?logo=github&label=Lint%20%26%20Test" title="Lint & Test"/></a>
-<a href="https://codecov.io/gh/Xiaokang2022/tkintertools"><img alt="Code Coverage" src="https://img.shields.io/codecov/c/github/Xiaokang2022/tkintertools?logo=codecov&label=Code%20Coverage" title="Code Coverage"></a>
+<a href="https://github.com/Xiaokang2022/tkintertools/releases"><img src="https://custom-icon-badges.demolab.com/github/v/release/Xiaokang2022/tkintertools?logo=tag&label=Version" alt="Version" title="Version" /></a>
+<a href="https://pypistats.org/packages/tkintertools"><img src="https://custom-icon-badges.demolab.com/pypi/dm/tkintertools?logo=download&label=Downloads" alt="Downloads" title="Downloads" /></a>
+<a href="https://github.com/Xiaokang2022/tkintertools/actions"><img src="https://custom-icon-badges.demolab.com/github/actions/workflow/status/Xiaokang2022/tkintertools/python-package.yml?logo=play&label=Lint%20%26%20Test" alt="Lint & Test" title="Lint & Test"/></a>
+<a href="https://codecov.io/gh/Xiaokang2022/tkintertools"><img src="https://img.shields.io/codecov/c/github/Xiaokang2022/tkintertools?logoColor=white&logo=codecov&label=Code Coverage" alt="Code Coverage" title="Code Coverage"></a>
 <br/>
-<a href="https://github.com/Xiaokang2022/tkintertools/watchers"><img alt="Watchers" src="https://img.shields.io/github/watchers/Xiaokang2022/tkintertools?label=Watchers&logo=github&style=flat" title="Watchers" /></a>
-<a href="https://github.com/Xiaokang2022/tkintertools/forks"><img alt="Forks" src="https://img.shields.io/github/forks/Xiaokang2022/tkintertools?label=Forks&logo=github&style=flat" title="Forks" /></a>
-<a href="https://github.com/Xiaokang2022/tkintertools/stargazers"><img alt="Stars" src="https://img.shields.io/github/stars/Xiaokang2022/tkintertools?label=Stars&color=gold&logo=github&style=flat" title="Stars" /></a>
-<a href="https://github.com/Xiaokang2022/tkintertools/issues"><img alt="Issues" src="https://img.shields.io/github/issues/Xiaokang2022/tkintertools?label=Issues&logo=github" title="Issues" /></a>
-<a href="https://github.com/Xiaokang2022/tkintertools/pulls"><img alt="Pull Requests" src="https://img.shields.io/github/issues-pr/Xiaokang2022/tkintertools?label=Pull%20Requests&logo=github" title="Pull Requests" /></a>
-<a href="https://github.com/Xiaokang2022/tkintertools/discussions"><img alt="Discussions" src="https://img.shields.io/github/discussions/Xiaokang2022/tkintertools?label=Discussions&logo=github" title="Discussions" /></a>
+<a href="https://github.com/Xiaokang2022/tkintertools/watchers"><img src="https://custom-icon-badges.demolab.com/github/watchers/Xiaokang2022/tkintertools?style=flat&logo=eye&label=Watchers" alt="Watchers" title="Watchers" /></a>
+<a href="https://github.com/Xiaokang2022/tkintertools/forks"><img src="https://custom-icon-badges.demolab.com/github/forks/Xiaokang2022/tkintertools?style=flat&logo=repo-forked&label=Forks" alt="Forks" title="Forks" /></a>
+<a href="https://github.com/Xiaokang2022/tkintertools/stargazers"><img src="https://custom-icon-badges.demolab.com/github/stars/Xiaokang2022/tkintertools?color=gold&style=flat&logo=star&label=Stars" alt="Stars" title="Stars" /></a>
+<a href="https://github.com/Xiaokang2022/tkintertools/issues"><img src="https://custom-icon-badges.demolab.com/github/issues/Xiaokang2022/tkintertools?logo=issue-opened&label=Issues" alt="Issues" title="Issues" /></a>
+<a href="https://github.com/Xiaokang2022/tkintertools/pulls"><img src="https://custom-icon-badges.demolab.com/github/issues-pr/Xiaokang2022/tkintertools?logo=git-pull-request&label=Pull%20Requests" alt="Pull Requests" title="Pull Requests" /></a>
+<a href="https://github.com/Xiaokang2022/tkintertools/discussions"><img src="https://custom-icon-badges.demolab.com/github/discussions/Xiaokang2022/tkintertools?logo=comment-discussion&label=Discussions" alt="Discussions" title="Discussions" /></a>
 </p>
 
 <p align="center">
-<a href="https://github.com/Xiaokang2022/tkintertools/pulse"><img alt="Insights" src="https://repobeats.axiom.co/api/embed/ab8fae686a5a96f91fa71c40c53c189310924f5e.svg" /></a>
+<a href="https://github.com/Xiaokang2022/tkintertools/pulse"><img src="https://repobeats.axiom.co/api/embed/ab8fae686a5a96f91fa71c40c53c189310924f5e.svg" /></a>
 </p>
 
 <p align="center">
@@ -35,153 +34,66 @@
         <picture>
             <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/svg?repos=Xiaokang2022/tkintertools&type=Date&theme=dark" />
             <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/svg?repos=Xiaokang2022/tkintertools&type=Date" />
-            <img alt="Star History Chart" src="https://api.star-history.com/svg?repos=Xiaokang2022/tkintertools&type=Date" />
+            <img src="https://api.star-history.com/svg?repos=Xiaokang2022/tkintertools&type=Date" />
         </picture>
     </a>
 </p>
 
-> [!IMPORTANT]  
-> **Development of the visual development software that accompanies the framework has begun**!🎉  
-> **该框架配套的可视化开发软件已开始进行开发**！🎉（已新建仓库哩）  
-> Repo: <https://github.com/Xiaokang2022/tkintertools-designer>  
->
-> <img width=360 src="https://raw.githubusercontent.com/Xiaokang2022/tkintertools-designer/refs/heads/main/dark.png" alt="dark"/>
-> <img width=360 src="https://raw.githubusercontent.com/Xiaokang2022/tkintertools-designer/refs/heads/main/light.png" alt="light" />
+## 📦 Installation
 
-## 📦 Installation / 安装
-
-> [!TIP]  
-> Most of the preview content of the following two versions can be found in the official [demo repository](https://github.com/Xiaokang2022/tkintertools-demos)  
-> 下面两个版本的预览内容大多可以在官方[演示仓库](https://github.com/Xiaokang2022/tkintertools-demos)中找到
-
-### 🔥 Dev Version / 开发版本
-
-* 🔖 Version / 最新版本 : `3.0.0rc5`
-* 🕓 Release / 发布日期 : 2024-12-19
-* ✨ Feature / 更新内容 : [News-3.0.0](./CHANGELOG.md#-300rc5)
+Install it with the following command:
 
 ```bash
-pip install tkintertools[recommended]==3.0.0rc5
+pip install tkintertools==3.0.0rc5
 ```
 
-<details open><summary>👁️ Preview / 预览</summary>
+### 📌 Dependencies
 
-![preview_1](https://github.com/Xiaokang2022/tkintertools-demos/blob/main/preview/demo9-1.png?raw=true)
+Here are the only dependencies that the project must need:
 
-![preview_2](https://github.com/Xiaokang2022/tkintertools-demos/blob/main/preview/demo9-2.png?raw=true)
+* [`typing_extensions`](https://github.com/python/typing_extensions): provide additional type hints
 
-![preview_3](https://github.com/Xiaokang2022/tkintertools-demos/blob/main/preview/demo9-3.png?raw=true)
+### 🎨 Optional
 
-![preview_4](https://github.com/Xiaokang2022/tkintertools-demos/blob/main/preview/demo9-4.png?raw=true)
+The following packages are optional and will make the project work without installation, but installing them can give you more functionality:
 
-![preview_5](https://github.com/Xiaokang2022/tkintertools-demos/blob/main/preview/demo0-1.png?raw=true)
+* [`darkdetect`](https://github.com/albertosottile/darkdetect): provide operating system theme detection
+* [`pillow`](https://github.com/python-pillow/Pillow): provide more types of images and optimize image scaling speed
+* [`pywinstyles`](https://github.com/Akascape/py-window-styles): provide some window effects for Windows systems
+* [`hPyT`](https://github.com/Zingzy/hPyT): provide more configuration options for Windows system windows
+* [`win32material`](https://github.com/littlewhitecloud/win32style): provide more configuration options for Windows system windows
 
-![preview_6](https://github.com/Xiaokang2022/tkintertools-demos/blob/main/preview/demo0-2.png?raw=true)
-
-![preview_7](https://github.com/Xiaokang2022/tkintertools-demos/blob/main/preview/demo1-1.png?raw=true)
-
-![preview_8](https://github.com/Xiaokang2022/tkintertools-demos/blob/main/preview/demo1-2.png?raw=true)
-
-![preview_9](https://github.com/Xiaokang2022/tkintertools-demos/blob/main/preview/demo2.png?raw=true)
-
-![preview_10](https://github.com/Xiaokang2022/tkintertools-demos/blob/main/preview/demo3.png?raw=true)
-
-![preview_11](https://github.com/Xiaokang2022/tkintertools-demos/blob/main/preview/demo4-1.png?raw=true)
-
-![preview_12](https://github.com/Xiaokang2022/tkintertools-demos/blob/main/preview/demo4-2.png?raw=true)
-
-![preview_13](https://github.com/Xiaokang2022/tkintertools-demos/blob/main/preview/demo5-1.png?raw=true)
-
-![preview_14](https://github.com/Xiaokang2022/tkintertools-demos/blob/main/preview/demo5-2.png?raw=true)
-
-![preview_15](https://github.com/Xiaokang2022/tkintertools-demos/blob/main/preview/demo6-1.png?raw=true)
-
-![preview_16](https://github.com/Xiaokang2022/tkintertools-demos/blob/main/preview/demo7-1.png?raw=true)
-
-![preview_17](https://github.com/Xiaokang2022/tkintertools-demos/blob/main/preview/demo7-2.png?raw=true)
-
-![preview_18](https://github.com/Xiaokang2022/tkintertools-demos/blob/main/preview/demo8-1.png?raw=true)
-
-![preview_19](https://github.com/Xiaokang2022/tkintertools-demos/blob/main/preview/demo10-1.png?raw=true)
-
-</details>
-
-### ✅ Stable Version / 稳定版本
-
-* 🔖 Version / 最新版本 : `2.6.21`
-* 🕓 Release / 发布日期 : 2024-01-01
-* ✨ Feature / 更新内容 : [News-2.6.21](./CHANGELOG.md#-2621)
-
-```bash
-pip install tkintertools
-```
-
-<details open><summary>👁️ Preview / 预览</summary>
-
-![preview_1](https://xiaokang2022.github.io/tkintertools-docs/2.6/tutorials/images/1.2-2.1-2.png)
-
-![preview_2](https://xiaokang2022.github.io/tkintertools-docs/2.6/tutorials/images/7.3-3.1-2.png)
-
-</details>
-
-## 📦 Dependency / 依赖包
-
-### 📌 Requirements / 必需包
-
-* [X] [typing_extensions](https://github.com/python/typing_extensions)
-
-### 🎨 Options / 可选包
-
-Considering that too many packages will result in a large size of the project file when packing, the optional packages selected below are recommended to be installed  
-考虑到调用的包过多将导致打包时项目文件的大小过大，因此下面被选中的可选包是推荐安装的
-
-* [X] [darkdetect](https://github.com/albertosottile/darkdetect) - `0.8.0`
-* [X] [pywinstyles](https://github.com/Akascape/py-window-styles) - `1.8`
-* [X] [pillow](https://github.com/python-pillow/Pillow) - `>=10.0.0`
-* [ ] [hPyT](https://github.com/Zingzy/hPyT) - `1.3.6`
-* [ ] [win32material](https://github.com/littlewhitecloud/win32style) - `1.0.6`
-
-The following command installs the recommended optional dependencies:  
-以下命令可以安装推荐的可选依赖包：
-
-```bash
-pip install tkintertools[recommended]==3.0.0rc5
-```
-
-The following command installs all optional dependencies:  
-以下命令可以安装全部可选依赖包：
+You can install all the optional packages with the following command:
 
 ```bash
 pip install tkintertools[all]==3.0.0rc5
 ```
 
-## 📦 Extension / 扩展包
+### 📦 Extensions
 
-In addition to the basic functionality, `tkintertools` also offers some extension packages to implement certain functionality. The following official extensions are available:  
-除了基础功能之外，`tkintertools` 还提供一些扩展包来实现某些特定的功能。目前已有的官方扩展包如下：
+In addition to the basic functionality, we also offer a number of extension packs to implement specific functionality. The following official extensions are available:
 
-* [X] [tkintertools-mpl](https://github.com/Xiaokang2022/tkintertools-mpl)
-* [X] [tkintertools-media](https://github.com/Xiaokang2022/tkintertools-media)
-* [X] [tkintertools-3d](https://github.com/Xiaokang2022/tkintertools-3d)
+* [`tkintertools-mpl`](https://github.com/Xiaokang2022/tkintertools-mpl): support for `matplotlib`
+* [`tkintertools-media`](https://github.com/Xiaokang2022/tkintertools-media): support for media files
+* [`tkintertools-3d`](https://github.com/Xiaokang2022/tkintertools-3d): support for simple 3D drawings
 
-The following command can be used to install all the official extensions:  
-以下命令可以安装全部的官方扩展包：
+You can install all the official extensions with the following command:
 
 ```bash
 pip install tkintertools[extension]==3.0.0rc5
 ```
 
-## 👀 More / 更多
+## 👀 More
 
-* 📑 License / 项目许可: [*LICENSE.txt*](LICENSE.txt)
-* 📘 Changelog / 更新日志: [*CHANGELOG.md*](CHANGELOG.md)
-* 📕 Security Policy / 安全策略: [*SECURITY.md*](SECURITY.md)
-* 📗 Contribution Guide / 贡献指南: [*CONTRIBUTING.md*](CONTRIBUTING.md)
-* 📙 Code of Conduct / 行为准则: [*CODE_OF_CONDUCT.md*](CODE_OF_CONDUCT.md)
-* 📚 Tutorials and Documents / 教程和文档: [Tutorials & Documents](https://xiaokang2022.github.io/tkintertools-docs/)
-* 🎉 Official Website / 官方网站: [Official Website](https://xiaokang2022.github.io/tkintertools/)
-* ❤️ Sponsor this Project / 赞助此项目: [Sponsor](https://xiaokang2022.github.io/tkintertools/Sponsor/)
-* 🚀 Repository Mirrors / 存储库镜像源:
-[GitHub](https://github.com/Xiaokang2022/tkintertools "GitHub") |
-[GitCode](https://gitcode.com/Xiaokang2022/tkintertools "GitCode") |
-[Gitee](https://gitee.com/Xiaokang2022/tkintertools "Gitee")
+* 📑 License: [*LICENSE.txt*](LICENSE.txt)
+* 📘 Changelog: [*CHANGELOG.md*](CHANGELOG.md)
+* 📕 Security Policy: [*SECURITY.md*](SECURITY.md)
+* 📗 Contribution Guide: [*CONTRIBUTING.md*](CONTRIBUTING.md)
+* 📙 Code of Conduct: [*CODE_OF_CONDUCT.md*](CODE_OF_CONDUCT.md)
+* 📚 Tutorials and Documents: [Tutorials & Documents](https://xiaokang2022.github.io/tkintertools-docs/)
+* 🎉 Official Website: [Official Website](https://xiaokang2022.github.io/tkintertools/)
+* ❤️ Sponsor this Project: [Sponsor](https://xiaokang2022.github.io/tkintertools/Sponsor/)
+* 🚀 Repository Mirrors:
+[GitHub](https://github.com/Xiaokang2022/tkintertools) |
+[GitCode](https://gitcode.com/Xiaokang2022/tkintertools) |
+[Gitee](https://gitee.com/Xiaokang2022/tkintertools)
