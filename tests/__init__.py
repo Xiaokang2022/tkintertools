@@ -1,4 +1,4 @@
-"""Tests for tkintertools"""
+"""Tests entry point. Just run the file to start tests."""
 
 import unittest
 

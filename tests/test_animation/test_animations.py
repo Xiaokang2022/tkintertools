@@ -4,7 +4,7 @@ import platform
 import tkinter
 import unittest
 
-from tkintertools.animation import animations, controllers
+from tkintertools.animation import animations
 from tkintertools.core import containers
 from tkintertools.standard import widgets
 

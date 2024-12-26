@@ -3,7 +3,7 @@
 
 <h1 align="center">tkintertools</h1>
 
-<p align="center"><img src="docs/logo.png" alt="Logo" title="Logo" /></p>
+<p align="center"><img src="https://xiaokang2022.github.io/tkintertools/logo.png" alt="Logo" title="Logo" /></p>
 
 <p align="center"><b>English</b> | <a href="README.zh_CN.md">简体中文</a></p>
 
@@ -44,7 +44,7 @@
 Install it with the following command:
 
 ```bash
-pip install tkintertools==3.0.0rc5
+pip install tkintertools[recommended]==3.0.0rc5
 ```
 
 ### 📌 Dependencies
