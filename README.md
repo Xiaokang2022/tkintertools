@@ -3,9 +3,9 @@
 
 <h1 align="center">tkintertools</h1>
 
-<p align="center"><img src="https://xiaokang2022.github.io/tkintertools/logo.png" alt="Logo" title="Logo" /></p>
+<p align="center"><img src="docs/logo.png" alt="Logo" title="Logo" /></p>
 
-<p align="center">English | <a href="README.zh_CN.md">简体中文</a></p>
+<p align="center">English | <a href="README.zh_CN.md">简体中文</a> | <a href="README.zh_TW.md">繁體中文</a></p>
 
 <p align="center">
 <code>tkintertools</code> is a UI framework based on the <code>Canvas</code> class of <code>tkinter</code>

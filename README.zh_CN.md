@@ -3,9 +3,9 @@
 
 <h1 align="center">tkintertools</h1>
 
-<p align="center"><img src="https://xiaokang2022.github.io/tkintertools/logo.png" alt="Logo" title="Logo" /></p>
+<p align="center"><img src="docs/logo.png" alt="Logo" title="Logo" /></p>
 
-<p align="center"><a href="README.md">English</a> | 简体中文</p>
+<p align="center"><a href="README.md">English</a> | 简体中文 | <a href="README.zh_TW.md">繁體中文</a></p>
 
 <p align="center">
 <code>tkintertools</code> 是一个基于 <code>tkinter</code> 的 <code>Canvas</code> 类的 UI 框架
