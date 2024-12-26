@@ -1,5 +1,5 @@
 """tkintertools is a framework based on the module `tkinter` that allows you to
-build graphical interface programs as if you were drawing.
+build graphical user interface programs as if you were drawing.
 
 * Website: https://xiaokang2022.github.io/tkintertools/
 * GitHub: https://github.com/Xiaokang2022/tkintertools
@@ -7,7 +7,9 @@ build graphical interface programs as if you were drawing.
 
 If you ❤️ this package, please leave your ⭐ to us, thank you very much! 🎉
 
-![](https://img.shields.io/github/stars/Xiaokang2022/tkintertools)
+![Stars](https://img.shields.io/github/stars/Xiaokang2022/tkintertools) \
+![Forks](https://img.shields.io/github/forks/Xiaokang2022/tkintertools) \
+![Watchers](https://img.shields.io/github/watchers/Xiaokang2022/tkintertools)
 """
 
 # MIT License

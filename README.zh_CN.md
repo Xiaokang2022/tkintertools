@@ -12,17 +12,17 @@
 </p>
 
 <p align="center">
-<a href="https://github.com/Xiaokang2022/tkintertools/releases"><img src="https://custom-icon-badges.demolab.com/github/v/release/Xiaokang2022/tkintertools?logo=tag&label=版本" alt="版本" title="版本" /></a>
-<a href="https://pypistats.org/packages/tkintertools"><img src="https://custom-icon-badges.demolab.com/pypi/dm/tkintertools?logo=download&label=下载" alt="下载" title="下载" /></a>
-<a href="https://github.com/Xiaokang2022/tkintertools/actions"><img src="https://custom-icon-badges.demolab.com/github/actions/workflow/status/Xiaokang2022/tkintertools/python-package.yml?logo=play&label=检查和测试" alt="检查和测试" title="检查和测试"/></a>
-<a href="https://codecov.io/gh/Xiaokang2022/tkintertools"><img src="https://img.shields.io/codecov/c/github/Xiaokang2022/tkintertools?logoColor=white&logo=codecov&label=代码覆盖率" alt="代码覆盖率" title="代码覆盖率"></a>
+<a href="https://github.com/Xiaokang2022/tkintertools/releases"><img src="https://custom-icon-badges.demolab.com/github/v/release/Xiaokang2022/tkintertools?logo=tag&label=%e7%89%88%e6%9c%ac" alt="版本" title="版本" /></a>
+<a href="https://pypistats.org/packages/tkintertools"><img src="https://custom-icon-badges.demolab.com/pypi/dm/tkintertools?logo=download&label=%e4%b8%8b%e8%bd%bd" alt="下载" title="下载" /></a>
+<a href="https://github.com/Xiaokang2022/tkintertools/actions"><img src="https://custom-icon-badges.demolab.com/github/actions/workflow/status/Xiaokang2022/tkintertools/python-package.yml?logo=play&label=%e6%a3%80%e6%9f%a5%e5%92%8c%e6%b5%8b%e8%af%95" alt="检查和测试" title="检查和测试"/></a>
+<a href="https://codecov.io/gh/Xiaokang2022/tkintertools"><img src="https://img.shields.io/codecov/c/github/Xiaokang2022/tkintertools?logoColor=white&logo=codecov&label=%e4%bb%a3%e7%a0%81%e8%a6%86%e7%9b%96%e7%8e%87" alt="代码覆盖率" title="代码覆盖率"></a>
 <br/>
-<a href="https://github.com/Xiaokang2022/tkintertools/watchers"><img src="https://custom-icon-badges.demolab.com/github/watchers/Xiaokang2022/tkintertools?style=flat&logo=eye&label=关注" alt="关注" title="关注" /></a>
-<a href="https://github.com/Xiaokang2022/tkintertools/forks"><img src="https://custom-icon-badges.demolab.com/github/forks/Xiaokang2022/tkintertools?style=flat&logo=repo-forked&label=分支" alt="分支" title="分支" /></a>
-<a href="https://github.com/Xiaokang2022/tkintertools/stargazers"><img src="https://custom-icon-badges.demolab.com/github/stars/Xiaokang2022/tkintertools?color=gold&style=flat&logo=star&label=星标" alt="星标" title="星标" /></a>
-<a href="https://github.com/Xiaokang2022/tkintertools/issues"><img src="https://custom-icon-badges.demolab.com/github/issues/Xiaokang2022/tkintertools?logo=issue-opened&label=议题" alt="议题" title="议题" /></a>
-<a href="https://github.com/Xiaokang2022/tkintertools/pulls"><img src="https://custom-icon-badges.demolab.com/github/issues-pr/Xiaokang2022/tkintertools?logo=git-pull-request&label=拉取请求" alt="拉取请求" title="拉取请求" /></a>
-<a href="https://github.com/Xiaokang2022/tkintertools/discussions"><img src="https://custom-icon-badges.demolab.com/github/discussions/Xiaokang2022/tkintertools?logo=comment-discussion&label=讨论" alt="讨论" title="讨论" /></a>
+<a href="https://github.com/Xiaokang2022/tkintertools/watchers"><img src="https://custom-icon-badges.demolab.com/github/watchers/Xiaokang2022/tkintertools?style=flat&logo=eye&label=%e5%85%b3%e6%b3%a8" alt="关注" title="关注" /></a>
+<a href="https://github.com/Xiaokang2022/tkintertools/forks"><img src="https://custom-icon-badges.demolab.com/github/forks/Xiaokang2022/tkintertools?style=flat&logo=repo-forked&label=%e5%88%86%e6%94%af" alt="分支" title="分支" /></a>
+<a href="https://github.com/Xiaokang2022/tkintertools/stargazers"><img src="https://custom-icon-badges.demolab.com/github/stars/Xiaokang2022/tkintertools?color=gold&style=flat&logo=star&label=%e6%98%9f%e6%a0%87" alt="星标" title="星标" /></a>
+<a href="https://github.com/Xiaokang2022/tkintertools/issues"><img src="https://custom-icon-badges.demolab.com/github/issues/Xiaokang2022/tkintertools?logo=issue-opened&label=%e8%ae%ae%e9%a2%98" alt="议题" title="议题" /></a>
+<a href="https://github.com/Xiaokang2022/tkintertools/pulls"><img src="https://custom-icon-badges.demolab.com/github/issues-pr/Xiaokang2022/tkintertools?logo=git-pull-request&label=%e6%8b%89%e5%8f%96%e8%af%b7%e6%b1%82" alt="拉取请求" title="拉取请求" /></a>
+<a href="https://github.com/Xiaokang2022/tkintertools/discussions"><img src="https://custom-icon-badges.demolab.com/github/discussions/Xiaokang2022/tkintertools?logo=comment-discussion&label=%e8%ae%a8%e8%ae%ba" alt="讨论" title="讨论" /></a>
 </p>
 
 <p align="center">
