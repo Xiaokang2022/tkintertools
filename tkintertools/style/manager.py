@@ -50,7 +50,7 @@ try:
 except ImportError:
     pass
 
-_callback_events: dict[collections.abc.Callable[[bool, typing.Any], typing.Any], tuple] = {}
+_callback_events: dict[collections.abc.Callable[..., typing.Any], tuple] = {}
 """Events that are responded to when the system theme changes"""
 
 
@@ -93,7 +93,7 @@ def set_theme_map(
 
 
 def register_event(
-    func: collections.abc.Callable[[bool, typing.Any], typing.Any],
+    func: collections.abc.Callable[..., typing.Any],
     *args: typing.Any,
 ) -> None:
     """When the system accent color changes, the registered function will be called, and the
@@ -105,7 +105,7 @@ def register_event(
     _callback_events[func] = args
 
 
-def remove_event(func: collections.abc.Callable[[bool, typing.Any], typing.Any]) -> None:
+def remove_event(func: collections.abc.Callable[..., typing.Any]) -> None:
     """Remove a registered function
 
     * `func`: callback function

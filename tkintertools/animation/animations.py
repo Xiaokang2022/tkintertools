@@ -11,7 +11,7 @@ __all__ = [
     "MoveWindow",
     "MoveTkWidget",
     "MoveWidget",
-    "MoveComponent",
+    "MoveElement",
     "MoveItem",
     "GradientTkWidget",
     "GradientItem",
@@ -34,7 +34,7 @@ class Animation:
     def __init__(
         self,
         duration: int,
-        callback: collections.abc.Callable[[int | float], typing.Any],
+        command: collections.abc.Callable[[int | float], typing.Any],
         *,
         controller: collections.abc.Callable[[int | float], int | float] = controllers.linear,
         end: collections.abc.Callable[[], typing.Any] | None = None,
@@ -45,7 +45,7 @@ class Animation:
     ) -> None:
         """
         * `duration`: duration of the animation, in milliseconds
-        * `callback`: callback function, which will be called once per frame
+        * `command`: callback function, which will be called once per frame
         * `controller`: a function that controls the animation process
         * `end`: end function, which is called once at the end of the animation
         * `fps`: frame rate of the animation
@@ -53,7 +53,7 @@ class Animation:
         * `repeat_delay`: length of the delay before the animation repeats
         * `derivation`: whether the callback function is derivative
         """
-        self.callback = callback
+        self.command = command
         self.controller = controller
         self.end = end
         self.repeat = repeat
@@ -110,7 +110,7 @@ class Animation:
             delay += self._delay + (i < self._leave_ms)
             percentage = self.controller(i / self._total_frames)
             self._tasks.append(configurations.Env.root.after(
-                delay, self.callback, percentage - last_percentage))
+                delay, self.command, percentage - last_percentage))
 
             if self.derivation:
                 last_percentage = percentage
@@ -256,12 +256,12 @@ class MoveWidget(Animation):
         )
 
 
-class MoveComponent(Animation):
-    """Animation of moving `virtual.Component`."""
+class MoveElement(Animation):
+    """Animation of moving `virtual.Element`."""
 
     def __init__(
         self,
-        component: virtual.Component,
+        element: virtual.Element,
         offset: tuple[int | float, int | float],
         duration: int,
         *,
@@ -272,7 +272,7 @@ class MoveComponent(Animation):
         repeat_delay: int = 0,
     ) -> None:
         """
-        * `component`: the `virtual.Component` to be moved
+        * `element`: the `virtual.Element` to be moved
         * `offset`: relative offset of the coordinates
         * `duration`: duration of the animation, in milliseconds
         * `controller`: a function that controls the animation process
@@ -282,7 +282,7 @@ class MoveComponent(Animation):
         * `repeat_delay`: length of the delay before the animation repeats
         """
         Animation.__init__(
-            self, duration, lambda p: component.move(offset[0]*p, offset[1]*p),
+            self, duration, lambda p: element.move(offset[0]*p, offset[1]*p),
             controller=controller, end=end, fps=fps, repeat=repeat,
             repeat_delay=repeat_delay, derivation=True,
         )

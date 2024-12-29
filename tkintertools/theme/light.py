@@ -2,16 +2,8 @@
 
 from __future__ import annotations
 
-import copy
-
 Canvas = {
     "bg": "#F1F1F1",
-    "insertbackground": "#000000",
-    "highlightthickness": 0,
-}
-
-Frame = {
-    "bg": "#EAEAEA",
     "insertbackground": "#000000",
     "highlightthickness": 0,
 }
@@ -304,17 +296,3 @@ UnderlineButton = {
         "active": {"fill": "purple"},
     }
 }
-
-_AuxiliaryLabel = copy.deepcopy(Label)
-del _AuxiliaryLabel["RoundedRectangle"]
-_AuxiliaryLabel["HalfRoundedRectangle"] = Label["RoundedRectangle"]
-
-_AuxiliaryButton = copy.deepcopy(Button)
-del _AuxiliaryButton["RoundedRectangle"]
-_AuxiliaryButton["HalfRoundedRectangle"] = Button["RoundedRectangle"]
-
-_AuxiliaryInputBox = copy.deepcopy(InputBox)
-del _AuxiliaryInputBox["RoundedRectangle.in"]
-del _AuxiliaryInputBox["RoundedRectangle.out"]
-_AuxiliaryInputBox["HalfRoundedRectangle.in"] = InputBox["RoundedRectangle.in"]
-_AuxiliaryInputBox["HalfRoundedRectangle.out"] = InputBox["RoundedRectangle.out"]

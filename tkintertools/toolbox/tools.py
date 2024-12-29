@@ -8,6 +8,7 @@ __all__ = [
     "load_font",
     "screen_size",
     "get_text_size",
+    "get_cursor",
 ]
 
 import atexit
@@ -18,7 +19,6 @@ import platform
 import shutil
 import tkinter
 import tkinter.font
-import traceback
 import typing
 
 from ..core import configurations, virtual
@@ -126,9 +126,8 @@ def load_font(font_path: str | bytes, *, private: bool = True, enumerable: bool 
                 atexit.register(os.remove, _LINUX_FONTS_DIR + font_path.rsplit("/", 1)[-1])
 
             return True
-        except Exception as exc:
-            traceback.print_exception(exc)
-            return False
+        finally:
+            pass
 
     return False
 
@@ -185,3 +184,13 @@ def get_text_size(
     if master is None:
         temp_cv.destroy()
     return 2*padding + x2 - x1, 2*padding + y2 - y1
+
+
+def get_cursor(name: str, /) -> str:
+    """Get the cursor name."""
+    if name == "disabled":
+        match platform.system():
+            case "Windows": return "no"
+            case "Darwin": return "notallowed"
+            case _: return "arrow"
+    return name

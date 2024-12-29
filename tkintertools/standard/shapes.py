@@ -52,7 +52,7 @@ class Line(virtual.Shape):
         self.points = [] if points is None else points
         virtual.Shape.__init__(
             self, widget, relative_position, size,
-            name=name, styles=styles, animation=animation, **kwargs)
+            name=name, styles=styles, gradient_animation=animation, **kwargs)
 
     @typing_extensions.override
     def display(self) -> None:
@@ -174,7 +174,7 @@ class RegularPolygon(virtual.Shape):
         self.angle = angle
         virtual.Shape.__init__(
             self, widget, relative_position, size,
-            name=name, styles=styles, animation=animation, **kwargs)
+            name=name, styles=styles, gradient_animation=animation, **kwargs)
 
     @typing_extensions.override
     def display(self) -> None:
@@ -231,7 +231,7 @@ class RoundedRectangle(virtual.Shape):
         self.radius = radius
         virtual.Shape.__init__(
             self, widget, relative_position, size,
-            name=name, styles=styles, animation=animation, **kwargs)
+            name=name, styles=styles, gradient_animation=animation, **kwargs)
 
     @typing_extensions.override
     def display(self) -> None:
@@ -334,7 +334,7 @@ class HalfRoundedRectangle(virtual.Shape):
         self.ignore = ignore
         virtual.Shape.__init__(
             self, widget, relative_position, size,
-            name=name, styles=styles, animation=animation, **kwargs)
+            name=name, styles=styles, gradient_animation=animation, **kwargs)
 
     @typing_extensions.override
     def display(self) -> None:
@@ -516,7 +516,7 @@ class SharpRectangle(virtual.Shape):
             warnings.warn("Parameters are not suitable", UserWarning, 5)
         virtual.Shape.__init__(
             self, widget, relative_position, size,
-            name=name, styles=styles, animation=animation, **kwargs)
+            name=name, styles=styles, gradient_animation=animation, **kwargs)
 
     @typing_extensions.override
     def display(self) -> None:
@@ -587,7 +587,7 @@ class Parallelogram(virtual.Shape):
             warnings.warn("Parameters are not suitable", UserWarning, 5)
         virtual.Shape.__init__(
             self, widget, relative_position, size,
-            name=name, styles=styles, animation=animation, **kwargs)
+            name=name, styles=styles, gradient_animation=animation, **kwargs)
 
     @typing_extensions.override
     def display(self) -> None:

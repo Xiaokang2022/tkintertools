@@ -72,7 +72,7 @@ from . import manager
 
 
 def _get_name(
-    obj: str | virtual.Widget | virtual.Component | containers.Canvas | None,
+    obj: str | virtual.Widget | virtual.Element | containers.Canvas | None,
 ) -> str | None:
     """Get the name of the object"""
     if obj is None:
@@ -121,7 +121,7 @@ def get_file(
 
 def get(
     widget: str | virtual.Widget | containers.Canvas,
-    component: str | virtual.Component | None = None,
+    component: str | virtual.Element | None = None,
     *,
     theme: str | pathlib.Path | types.ModuleType | None = None,
 ) -> dict[str, dict[str, str]] | dict[str, typing.Any]:

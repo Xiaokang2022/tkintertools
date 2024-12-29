@@ -113,8 +113,8 @@ class TestMoveWindow_Tk(unittest.TestCase):
 
     @unittest.skipIf(platform.system() == "Linux", "No display name.")
     def test(self) -> None:
-        animations.MoveWindow(self.tk, (99, 99), 1, fps=1).callback(1)
-        animations.MoveWindow(self.top, (99, 99), 1, fps=1).callback(1)
+        animations.MoveWindow(self.tk, (99, 99), 1, fps=1).command(1)
+        animations.MoveWindow(self.top, (99, 99), 1, fps=1).command(1)
 
         self.tk.update_idletasks()
         self.top.update_idletasks()
@@ -134,8 +134,8 @@ class TestMoveWindow(unittest.TestCase):
 
     @unittest.skipIf(platform.system() == "Linux", "No display name.")
     def test(self) -> None:
-        animations.MoveWindow(self.tk, (-99, -99), 1, fps=1).callback(1)
-        animations.MoveWindow(self.top, (-99, -99), 1, fps=1).callback(1)
+        animations.MoveWindow(self.tk, (-99, -99), 1, fps=1).command(1)
+        animations.MoveWindow(self.top, (-99, -99), 1, fps=1).command(1)
 
         self.tk.update_idletasks()
         self.top.update_idletasks()
@@ -191,7 +191,7 @@ class TestMoveComponent(unittest.TestCase):
 
     @unittest.skipIf(platform.system() == "Linux", "No display name.")
     def test(self) -> None:
-        animations.MoveComponent(self.widget.components[0], (99, 99), 99).start()
+        animations.MoveElement(self.widget.elements[0], (99, 99), 99).start()
 
 
 class TestMoveItem(unittest.TestCase):

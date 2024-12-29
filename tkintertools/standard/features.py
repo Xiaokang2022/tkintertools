@@ -25,6 +25,7 @@ import typing
 from ..animation import animations, controllers
 from ..core import virtual
 from ..standard import shapes
+from ..toolbox import tools
 
 
 class BaseFeature(virtual.Feature):
@@ -69,7 +70,9 @@ class ButtonFeature(virtual.Feature):
 
     def _motion(self, event: tkinter.Event) -> bool:
         if flag := self.widget.shapes[0].detect(event.x, event.y):
-            self.widget.master.trigger_config.update(cursor="hand2")
+            cursor = tools.get_cursor(
+                "disabled" if self.widget.state == "disabled" else "hand2")
+            self.widget.master.trigger_config.update(cursor=cursor)
             if self.widget.state == "normal":
                 self.widget.update("hover")
         else:
@@ -105,7 +108,9 @@ class Underline(ButtonFeature):
 
     def _motion(self, event: tkinter.Event) -> bool:
         if flag := self.widget.texts[0].detect(event.x, event.y):
-            self.widget.master.trigger_config.update(cursor="hand2")
+            cursor = tools.get_cursor(
+                "disabled" if self.widget.state == "disabled" else "hand2")
+            self.widget.master.trigger_config.update(cursor=cursor)
             if self.widget.state == "normal":
                 self.widget.update("hover")
                 self.widget.texts[0].font.config(underline=True)
@@ -135,7 +140,9 @@ class Highlight(ButtonFeature):
 
     def _motion(self, event: tkinter.Event) -> bool:
         if flag := self.widget.texts[0].detect(event.x, event.y):
-            self.widget.master.trigger_config.update(cursor="hand2")
+            cursor = tools.get_cursor(
+                "disabled" if self.widget.state == "disabled" else "hand2")
+            self.widget.master.trigger_config.update(cursor=cursor)
             if self.widget.state == "normal":
                 self.widget.update("hover")
                 animations.ScaleFontSize(self.widget.texts[0], 28, 150).start()
@@ -166,7 +173,9 @@ class SwitchFeature(ButtonFeature):
 
     def _motion(self, event: tkinter.Event) -> bool:
         if flag := self.widget.shapes[0].detect(event.x, event.y):
-            self.widget.master.trigger_config.update(cursor="hand2")
+            cursor = tools.get_cursor(
+                "disabled" if self.widget.state == "disabled" else "hand2")
+            self.widget.master.trigger_config.update(cursor=cursor)
             if self.widget.state.startswith("normal"):
                 if self.widget.state != "disabled":
                     self.widget.shapes[-1].coords(
@@ -223,7 +232,9 @@ class ToggleButtonFeature(ButtonFeature):
 
     def _motion(self, event: tkinter.Event) -> bool:
         if flag := self.widget.shapes[0].detect(event.x, event.y):
-            self.widget.master.trigger_config.update(cursor="hand2")
+            cursor = tools.get_cursor(
+                "disabled" if self.widget.state == "disabled" else "hand2")
+            self.widget.master.trigger_config.update(cursor=cursor)
             if self.widget.state.startswith("normal"):
                 self.widget.update(f"hover-{'on' if self.widget.get() else 'off'}")
         else:
@@ -271,7 +282,9 @@ class InputBoxFeature(ButtonFeature):
 
     def _motion(self, event: tkinter.Event) -> bool:
         if flag := self.widget.shapes[0].detect(event.x, event.y):
-            self.widget.master.trigger_config.update(cursor="xterm")
+            cursor = tools.get_cursor(
+                "disabled" if self.widget.state == "disabled" else "xterm")
+            self.widget.master.trigger_config.update(cursor=cursor)
             if self.widget.state == "normal":
                 self.widget.update("hover")
         else:
@@ -294,7 +307,9 @@ class InputBoxFeature(ButtonFeature):
 
     def _b_1_motion(self, event: tkinter.Event) -> bool:
         if self.widget.state == "active":
-            self.widget.master.trigger_config.update(cursor="xterm")
+            cursor = tools.get_cursor(
+                "disabled" if self.widget.state == "disabled" else "xterm")
+            self.widget.master.trigger_config.update(cursor=cursor)
             self._end_index = self.widget.texts[0].text_proxy.cursor_find(event.x)
             self.widget.texts[0].text_proxy.cursor_set(self._end_index)
             if self._start_index < self._end_index:

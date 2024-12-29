@@ -13,7 +13,7 @@ of appearance, there is no limit to the number of `Shape`, `Text`, and `Image`.
 from __future__ import annotations
 
 __all__ = [
-    "Component",
+    "Element",
     "Shape",
     "Text",
     "Image",
@@ -41,23 +41,23 @@ from ..toolbox import enhanced
 from . import configurations, containers
 
 
-class Component(abc.ABC):
-    """The basic part of a `Widget`"""
+class Element(abc.ABC):
+    """The basic visible part of a `Widget`."""
 
     def __init__(
         self,
         widget: Widget,
-        relative_position: tuple[int, int] = (0, 0),
+        position: tuple[int, int] = (0, 0),
         size: tuple[int, int] | None = None,
         *,
         name: str | None = None,
-        animation: bool = True,
+        gradient_animation: bool = True,
         styles: dict[str, dict[str, str]] | None = None,
         **kwargs,
     ) -> None:
         """
         * `widget`: parent widget
-        * `relative_position`: position relative to its widgets
+        * `position`: position relative to its widgets
         * `size`: size of component
         * `name`: name of component
         * `animation`: Wether use animation to change color
@@ -67,11 +67,11 @@ class Component(abc.ABC):
         self.widget = widget
         offset = widget.offset
         self.position: list[int | float] = [
-            widget.position[0] + relative_position[0] - offset[0],
-            widget.position[1] + relative_position[1] - offset[1]]
+            widget.position[0] + position[0] - offset[0],
+            widget.position[1] + position[1] - offset[1]]
         self.size: list[int | float] = widget.size.copy() if size is None else list(size)
         self.name = name
-        self.animation = animation
+        self.animation = gradient_animation
         self.styles = styles if styles else parser.get(widget, self)
 
         self.items: list[int] = []
@@ -135,7 +135,7 @@ class Component(abc.ABC):
             self.styles["disabled"] = copy.deepcopy(self.styles.get(refer_state, {}))
             for key, value in self.styles["disabled"].items():
                 self.styles["disabled"][key] = convert.rgb_to_hex(rgb.transition(
-                    convert.hex_to_rgb(value), convert.hex_to_rgb(self.widget.master["bg"]),
+                    convert.hex_to_rgb(value), convert.str_to_rgb(self.widget.master["bg"]),
                     configurations.Constant.GOLDEN_RATIO))
         return self.styles["disabled"]
 
@@ -236,7 +236,7 @@ class Component(abc.ABC):
             self.position = list(position)
 
 
-class Shape(Component):
+class Shape(Element):
     """The Shape of a `Widget`"""
 
     @typing_extensions.override
@@ -258,7 +258,7 @@ class Shape(Component):
         self.coords(self.size, self.position)
 
 
-class Text(Component):
+class Text(Element):
     """The Text of a `Widget`"""
 
     def __init__(
@@ -311,8 +311,8 @@ class Text(Component):
             weight=weight, slant=slant,
             underline=underline, overstrike=overstrike)
         self._initial_fontsize = self.font.cget("size")
-        Component.__init__(self, widget, relative_position, size, name=name,
-                           styles=styles, animation=animation, **kwargs)
+        Element.__init__(self, widget, relative_position, size, name=name,
+                           styles=styles, gradient_animation=animation, **kwargs)
 
     def region(self) -> tuple[int, int, int, int]:
         """Return the decision region of the `Text`"""
@@ -327,12 +327,12 @@ class Text(Component):
         zoom_size: bool = True,
     ) -> None:
         """Scale the text"""
-        Component.zoom(self, ratios, zoom_position=zoom_position, zoom_size=zoom_size)
+        Element.zoom(self, ratios, zoom_position=zoom_position, zoom_size=zoom_size)
         ratios = self.widget.master.ratios
         self.font.config(size=round(self._initial_fontsize*math.sqrt(ratios[0]*ratios[1])))
 
 
-class Image(Component):
+class Image(Element):
     """The Image of a `Widget`"""
 
     def __init__(
@@ -359,8 +359,8 @@ class Image(Component):
         """
         self.image = image
         self.initail_image = image
-        Component.__init__(self, widget, relative_position, size, name=name,
-                           animation=animation, styles=styles, **kwargs)
+        Element.__init__(self, widget, relative_position, size, name=name,
+                           gradient_animation=animation, styles=styles, **kwargs)
 
     @typing_extensions.override
     def zoom(
@@ -371,7 +371,7 @@ class Image(Component):
         zoom_size: bool = True,
     ) -> None:
         """Scale the image"""
-        Component.zoom(self, ratios, zoom_position=zoom_position, zoom_size=zoom_size)
+        Element.zoom(self, ratios, zoom_position=zoom_position, zoom_size=zoom_size)
         if self.initail_image is None:
             raise RuntimeError("Image is empty.")
         self.image = self.initail_image.scale(*self.widget.master.ratios)
@@ -386,9 +386,8 @@ class Feature:
         """
         * `widget`: parent widget
         """
-        self.widget = widget
+        self.widget, widget.feature = widget, self
         self.extras: dict[str, list[collections.abc.Callable[[tkinter.Event], typing.Any]]] = {}
-        widget.feature = self
 
     @staticmethod
     def _parse_method_name(name: str) -> str:
@@ -431,8 +430,8 @@ class Widget:
         name: str | None = None,
         state: str = "normal",
         anchor: typing.Literal["n", "s", "w", "e", "nw", "ne", "sw", "se", "center"] = "nw",
-        through: bool | None = None,
-        animation: bool | None = None,
+        capture_events: bool | None = None,
+        gradient_animation: bool | None = None,
     ) -> None:
         """
         * `master`: parent canvas
@@ -458,10 +457,10 @@ class Widget:
         self.name = name
         self.state = state
         self.anchor = anchor
-        self.through = through
+        self.through = capture_events
         if self.through is None and self.is_nested():
             self.through = True  # Boolean indicate enforce the operation
-        self.animation = configurations.Env.default_animation if animation is None else animation
+        self.animation = configurations.Env.default_animation if gradient_animation is None else gradient_animation
 
         self.widgets: list[Widget] = []
         self.texts: list[Text] = []
@@ -475,8 +474,8 @@ class Widget:
         self.master.widgets.append(self)
 
     @property
-    def components(self) -> tuple[Component, ...]:
-        """Return all components of the widget"""
+    def elements(self) -> tuple[Element, ...]:
+        """Return all elements of the widget"""
         return tuple(self.shapes + self.texts + self.images)
 
     @property
@@ -503,7 +502,7 @@ class Widget:
         """Whether the widget is a nested widget"""
         return self.widget is not None
 
-    def register(self, component: Component) -> None:
+    def register(self, component: Element) -> None:
         """Register a component to the widget"""
         if isinstance(component, Shape):
             self.shapes.append(component)
@@ -515,7 +514,7 @@ class Widget:
         component.coords()
         component.update(no_delay=True)
 
-    def deregister(self, component: Component) -> None:
+    def deregister(self, component: Element) -> None:
         """Deregister a component from the widget"""
         if isinstance(component, Shape):
             self.shapes.remove(component)
@@ -537,7 +536,7 @@ class Widget:
         if nested:
             for widget in self.widgets:
                 widget.update(state, no_delay=no_delay)
-        for component in self.components:
+        for component in self.elements:
             component.update(state, no_delay=no_delay)
         if state is None:
             state = self.state
@@ -586,7 +585,7 @@ class Widget:
             if sequence not in configurations.Constant.PREDEFINED_VIRTUAL_EVENTS:
                 if sequence not in self.master.events:
                     self.master.events.append(sequence)
-                    self.master.event_register(sequence)
+                    self.master.register_event(sequence)
 
         if self.feature.extras.get(sequence) is None or add:
             self.feature.extras[sequence] = [func]
@@ -606,7 +605,7 @@ class Widget:
         if self.feature.extras.get(sequence) is not None:
             self.feature.extras[sequence].remove(funcid)
 
-    def event_generate(
+    def generate_event(
         self,
         sequence: str,
         event: tkinter.Event | None = None,
@@ -629,8 +628,8 @@ class Widget:
         if value:
             if not self.state_before_disabled:
                 self.state_before_disabled = self.state
-            for component in self.components:
-                component.get_disabled_style(self.state_before_disabled)
+            for element in self.elements:
+                element.get_disabled_style(self.state_before_disabled)
             self.update("disabled", no_delay=True, nested=False)
         else:
             self.state_before_disabled, last_state = "", self.state_before_disabled
@@ -643,8 +642,8 @@ class Widget:
         for widget in self.widgets:
             widget.disappear(value)
         self._is_disappeared = value
-        for component in self.components:
-            component.disappear(value)
+        for element in self.elements:
+            element.disappear(value)
 
     def move(self, dx: int | float, dy: int | float) -> None:
         """Move the widget"""
@@ -652,8 +651,8 @@ class Widget:
         self.position[1] += dy
         for widget in self.widgets:
             widget.move(dx, dy)
-        for component in self.components:
-            component.move(dx, dy)
+        for element in self.elements:
+            element.move(dx, dy)
 
     def moveto(self, x: int, y: int) -> None:
         """Move the Widget to a certain position"""
@@ -669,8 +668,8 @@ class Widget:
 
         for widget in tuple(self.widgets):
             widget.destroy()
-        for component in self.components:
-            component.destroy()
+        for element in self.elements:
+            element.destroy()
 
     def detect(self, x: int, y: int) -> bool:
         """Detect whether the specified coordinates are within the `Widget`"""
@@ -702,5 +701,5 @@ class Widget:
             self.position[0] *= ratios[0]
             self.position[1] *= ratios[1]
 
-        for component in self.components:
-            component.zoom(ratios, zoom_position=zoom_position, zoom_size=zoom_size)
+        for element in self.elements:
+            element.zoom(ratios, zoom_position=zoom_position, zoom_size=zoom_size)
