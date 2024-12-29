@@ -34,7 +34,7 @@ If you ❤️ this package, please leave your ⭐ to us, thank you very much!
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-__version__ = "3.0.0"
+__version__ = "3.0.0rc6"
 __author__ = "Xiaokang2022 <2951256653@qq.com>"
 
 from .core import *

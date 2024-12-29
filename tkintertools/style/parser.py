@@ -32,7 +32,7 @@ theme/
 
 ```json
 {
-    "component01": {
+    "element01": {
         "state01": {
             "arg01": "color",
             "arg02": "color",
@@ -43,7 +43,7 @@ theme/
         },
         ...
     },
-    "component02": {
+    "element02": {
         ...
     },
     ...
@@ -95,7 +95,7 @@ def _get_name(
 def get_file(
     theme: str | pathlib.Path | types.ModuleType,
     widget: str,
-    component: str | None = None,
+    element: str | None = None,
 ) -> dict[str, dict[str, str]]:
     """Get the style file based on the parameters
 
@@ -104,31 +104,31 @@ def get_file(
 
     * `theme`: a specified theme
     * `widget`: widget that need to get styles
-    * `component`: component that need to get styles
+    * `element`: element that need to get styles
     """
     if isinstance(theme, types.ModuleType):
         if hasattr(theme, widget):
-            if component is None:
+            if element is None:
                 return getattr(theme, widget)
-            return getattr(theme, widget).get(component, {})
+            return getattr(theme, widget).get(element, {})
     elif (file_path := pathlib.Path(theme)/f"{widget}.json").exists():
         with open(file_path, "r", encoding="utf-8") as data:
-            if component is None:
+            if element is None:
                 return json.load(data)
-            return json.load(data).get(component, {})
+            return json.load(data).get(element, {})
     return {}
 
 
 def get(
     widget: str | virtual.Widget | containers.Canvas,
-    component: str | virtual.Element | None = None,
+    element: str | virtual.Element | None = None,
     *,
     theme: str | pathlib.Path | types.ModuleType | None = None,
 ) -> dict[str, dict[str, str]] | dict[str, typing.Any]:
     """Get style data based on parameters
 
     * `widget`: widget that need to get styles
-    * `component`: component that need to get styles
+    * `element`: element that need to get styles
     * `theme`: path to the style folder
     """
     if theme is None:
@@ -136,4 +136,4 @@ def get(
             theme = configurations.Theme.dark
         else:
             theme = configurations.Theme.light
-    return get_file(theme, _get_name(widget), _get_name(component)).copy()
+    return get_file(theme, _get_name(widget), _get_name(element)).copy()

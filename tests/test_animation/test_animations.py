@@ -179,7 +179,7 @@ class TestMoveWidget(unittest.TestCase):
         animations.MoveWidget(self.widget, (99, 99), 99).start()
 
 
-class TestMoveComponent(unittest.TestCase):
+class TestMoveElement(unittest.TestCase):
 
     def setUp(self) -> None:
         self.tk = containers.Tk()

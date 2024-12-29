@@ -11,11 +11,11 @@ container_name01: dict[str, str | int] = {
 ...
 
 widget_name01: dict[str, dict[str, dict[str, str]]] = {
-    "component01": {
+    "element01": {
         "state01": { attr01: "color", attr02: "color", ...},
         "state02": ...,
     },
-    "component02": ...,
+    "element02": ...,
 }
 
 ...

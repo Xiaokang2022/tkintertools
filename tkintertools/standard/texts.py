@@ -128,7 +128,7 @@ class Information(virtual.Text):
 
     @typing_extensions.override
     def display(self) -> None:
-        """Display the `Component` on a `Canvas`"""
+        """Display the `Element` on a `Canvas`"""
         self.items = [self.widget.master.create_text(
             0, 0, text=self.text, font=self.font, tags=("fill", "fill"), **self.kwargs)]
 
@@ -138,7 +138,7 @@ class Information(virtual.Text):
         size: tuple[float, float] | None = None,
         position: tuple[float, float] | None = None,
     ) -> None:
-        """Resize the `Component`"""
+        """Resize the `Element`"""
         super().coords(size, position)
 
         self.widget.master.coords(self.items[0], *self.center())
@@ -202,7 +202,7 @@ class SingleLineText(virtual.Text):
         """
         * `widget`: parent widget
         * `relative_position`: position relative to its widgets
-        * `size`: size of component
+        * `size`: size of element
         * `text`: text value
         * `family`: font family
         * `fontsize`: font size
@@ -215,9 +215,9 @@ class SingleLineText(virtual.Text):
         * `limit_width`: limit on the width of characters
         * `show`: display a value that obscures the original content
         * `placeholder`: a placeholder for the prompt
-        * `name`: name of component
+        * `name`: name of element
         * `animation`: Wether use animation to change color
-        * `styles`: style dict of component
+        * `styles`: style dict of element
         * `kwargs`: extra parameters for CanvasItem
         """
         self.left: int = 0
@@ -233,7 +233,7 @@ class SingleLineText(virtual.Text):
 
     @typing_extensions.override
     def display(self) -> None:
-        """Display the `Component` on a `Canvas`"""
+        """Display the `Element` on a `Canvas`"""
         self.items = [
             self.widget.master.create_text(
                 0, 0, text=self.text, font=self.font,
@@ -248,7 +248,7 @@ class SingleLineText(virtual.Text):
         size: tuple[float, float] | None = None,
         position: tuple[float, float] | None = None,
     ) -> None:
-        """Resize the `Component`"""
+        """Resize the `Element`"""
         super().coords(size, position)
 
         x, y = self.center()
@@ -284,11 +284,11 @@ class SingleLineText(virtual.Text):
         raise IndexError("string index out of range")
 
     def get(self) -> str:
-        """Get text of the component"""
+        """Get text of the element"""
         return self.text
 
     def set(self, value: str) -> bool:
-        """Set text of the component"""
+        """Set text of the element"""
         self.clear()
         return self.append(value)
 

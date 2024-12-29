@@ -58,10 +58,10 @@ class Element(abc.ABC):
         """
         * `widget`: parent widget
         * `position`: position relative to its widgets
-        * `size`: size of component
-        * `name`: name of component
+        * `size`: size of element
+        * `name`: name of element
         * `animation`: Wether use animation to change color
-        * `styles`: style dict of component
+        * `styles`: style dict of element
         * `kwargs`: extra parameters for CanvasItem
         """
         self.widget = widget
@@ -83,39 +83,39 @@ class Element(abc.ABC):
         widget.register(self)
 
     def move(self, dx: float, dy: float) -> None:
-        """Move the `Component`"""
+        """Move the `Element`"""
         self.position[0] += dx
         self.position[1] += dy
         for item in self.items:
             self.widget.master.move(item, dx, dy)
 
     def moveto(self, x: float, y: float) -> None:
-        """Move the `Component` to a certain position"""
+        """Move the `Element` to a certain position"""
         return self.move(x-self.position[0], y-self.position[1])
 
     def destroy(self) -> None:
-        """Destroy the `Component`"""
+        """Destroy the `Element`"""
         self.widget.deregister(self)
         self.widget.master.delete(*self.items)
 
     def center(self) -> tuple[float, float]:
-        """Return the geometric center of the `Component`"""
+        """Return the geometric center of the `Element`"""
         return self.position[0] + self.size[0]/2, self.position[1] + self.size[1]/2
 
     def region(self) -> tuple[float, float, float, float]:
-        """Return the decision region of the `Component`"""
+        """Return the decision region of the `Element`"""
         return self.position[0], self.position[1], \
             self.position[0]+self.size[0], self.position[1]+self.size[1]
 
     def detect(self, x: int, y: int) -> bool:
-        """Detect whether the specified coordinates are within `Component`"""
+        """Detect whether the specified coordinates are within `Element`"""
         x1, y1, x2, y2 = self.region()
         return x1 <= x <= x2 and y1 <= y <= y2
 
     def update(self, state: str | None = None, *, no_delay: bool = False) -> None:
-        """Update the style of the `Component` to the corresponding state
+        """Update the style of the `Element` to the corresponding state
 
-        * `state`: the state of the `Component`
+        * `state`: the state of the `Element`
         """
         if not self.visible:
             return
@@ -140,7 +140,7 @@ class Element(abc.ABC):
         return self.styles["disabled"]
 
     def configure(self, style: dict[str, str], *, no_delay: bool = False) -> None:
-        """Configure properties of `Component` and update them immediately"""
+        """Configure properties of `Element` and update them immediately"""
         for item in self.items:
             tags = self.widget.master.itemcget(item, "tags").split()
             kwargs = {key: value for key, param
@@ -167,7 +167,7 @@ class Element(abc.ABC):
                 self.widget.master.itemconfigure(item, kwargs)
 
     def disappear(self, value: bool = True, *, no_delay: bool = True) -> None:
-        """Let the component to disappear"""
+        """Let the element to disappear"""
         self.visible = not value
         if value:
             temp_style = copy.deepcopy(self.styles.get(self.widget.state, None))
@@ -195,7 +195,7 @@ class Element(abc.ABC):
         zoom_position: bool = True,
         zoom_size: bool = True,
     ) -> None:
-        """Zoom the `Component`"""
+        """Zoom the `Element`"""
         if not zoom_position and not zoom_size:
             warnings.warn("This is a no-effect call.", UserWarning, 2)
             return
@@ -221,7 +221,7 @@ class Element(abc.ABC):
 
     @abc.abstractmethod
     def display(self) -> None:
-        """Display the `Component` on a `Canvas`"""
+        """Display the `Element` on a `Canvas`"""
 
     @abc.abstractmethod
     def coords(
@@ -229,7 +229,7 @@ class Element(abc.ABC):
         size: tuple[float, float] | None = None,
         position: tuple[float, float] | None = None,
     ) -> None:
-        """Resize the `Component`"""
+        """Resize the `Element`"""
         if size is not None:
             self.size = list(size)
         if position is not None:
@@ -285,7 +285,7 @@ class Text(Element):
         """
         * `widget`: parent widget
         * `relative_position`: position relative to its widgets
-        * `size`: size of component
+        * `size`: size of element
         * `text`: text value
         * `family`: font family
         * `fontsize`: font size
@@ -296,9 +296,9 @@ class Text(Element):
         * `limit`: limit on the number of characters
         * `show`: display a value that obscures the original content
         * `placeholder`: a placeholder for the prompt
-        * `name`: name of component
+        * `name`: name of element
         * `animation`: Wether use animation to change color
-        * `styles`: style dict of component
+        * `styles`: style dict of element
         * `kwargs`: extra parameters for CanvasItem
         """
         self.text = text
@@ -350,11 +350,11 @@ class Image(Element):
         """
         * `widget`: parent widget
         * `relative_position`: position relative to its widgets
-        * `size`: size of component
-        * `image`: image object of the component
-        * `name`: name of component
+        * `size`: size of element
+        * `image`: image object of the element
+        * `name`: name of element
         * `animation`: Wether use animation to change color
-        * `styles`: style dict of component
+        * `styles`: style dict of element
         * `kwargs`: extra parameters for CanvasItem
         """
         self.image = image
@@ -502,26 +502,26 @@ class Widget:
         """Whether the widget is a nested widget"""
         return self.widget is not None
 
-    def register(self, component: Element) -> None:
-        """Register a component to the widget"""
-        if isinstance(component, Shape):
-            self.shapes.append(component)
-        elif isinstance(component, Text):
-            self.texts.append(component)
-        elif isinstance(component, Image):
-            self.images.append(component)
-        component.display()
-        component.coords()
-        component.update(no_delay=True)
+    def register(self, element: Element) -> None:
+        """Register a element to the widget"""
+        if isinstance(element, Shape):
+            self.shapes.append(element)
+        elif isinstance(element, Text):
+            self.texts.append(element)
+        elif isinstance(element, Image):
+            self.images.append(element)
+        element.display()
+        element.coords()
+        element.update(no_delay=True)
 
-    def deregister(self, component: Element) -> None:
-        """Deregister a component from the widget"""
-        if isinstance(component, Shape):
-            self.shapes.remove(component)
-        elif isinstance(component, Text):
-            self.texts.remove(component)
-        elif isinstance(component, Image):
-            self.images.remove(component)
+    def deregister(self, element: Element) -> None:
+        """Deregister a element from the widget"""
+        if isinstance(element, Shape):
+            self.shapes.remove(element)
+        elif isinstance(element, Text):
+            self.texts.remove(element)
+        elif isinstance(element, Image):
+            self.images.remove(element)
 
     def update(
         self,
@@ -536,8 +536,8 @@ class Widget:
         if nested:
             for widget in self.widgets:
                 widget.update(state, no_delay=no_delay)
-        for component in self.elements:
-            component.update(state, no_delay=no_delay)
+        for element in self.elements:
+            element.update(state, no_delay=no_delay)
         if state is None:
             state = self.state
         else:
@@ -638,7 +638,7 @@ class Widget:
             widget.disabled(value)
 
     def disappear(self, value: bool = True) -> None:
-        """Let all components of the widget to disappear"""
+        """Let all elements of the widget to disappear"""
         for widget in self.widgets:
             widget.disappear(value)
         self._is_disappeared = value
