@@ -5,10 +5,10 @@
 
 <p align="center"><img src="docs/logo.png" alt="Logo" title="Logo" /></p>
 
-<p align="center">English | <a href="README.zh_CN.md">简体中文</a> | <a href="README.zh_TW.md">繁體中文</a></p>
+<p align="center">English | <a href="README.zh-Hans.md">简体中文</a> | <a href="README.zh-Hant.md">繁體中文</a></p>
 
 <p align="center">
-<code>tkintertools</code> is a UI framework based on the <code>Canvas</code> class of <code>tkinter</code>
+A lightweight UI framework based on <code>tkinter</code> with all UI drawn in <code>Canvas</code>
 </p>
 
 <p align="center">
@@ -47,7 +47,7 @@ Install it with the following command:
 pip install tkintertools[recommended]==3.0.0rc5
 ```
 
-### 📌 Dependencies
+### 🛠️ Dependencies
 
 Here are the only dependencies that the project must need:
 
@@ -69,7 +69,7 @@ You can install all the optional packages with the following command:
 pip install tkintertools[all]==3.0.0rc5
 ```
 
-### 📦 Extensions
+### 🧩 Extensions
 
 In addition to the basic functionality, we also offer a number of extension packs to implement specific functionality. The following official extensions are available:
 
@@ -91,7 +91,7 @@ pip install tkintertools[extension]==3.0.0rc5
 * 📗 Contribution Guide: [*CONTRIBUTING.md*](CONTRIBUTING.md)
 * 📙 Code of Conduct: [*CODE_OF_CONDUCT.md*](CODE_OF_CONDUCT.md)
 * 📚 Tutorials and Documents: [Tutorials & Documents](https://xiaokang2022.github.io/tkintertools-docs/)
-* 🎉 Official Website: [Official Website](https://xiaokang2022.github.io/tkintertools/)
+* 🌏 Official Website: [Official Website](https://xiaokang2022.github.io/tkintertools/)
 * ❤️ Sponsor this Project: [Sponsor](https://xiaokang2022.github.io/tkintertools/Sponsor/)
 * 🚀 Repository Mirrors:
 [GitHub](https://github.com/Xiaokang2022/tkintertools) |

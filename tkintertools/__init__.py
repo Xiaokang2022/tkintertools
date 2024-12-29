@@ -1,11 +1,11 @@
-"""tkintertools is a framework based on the module `tkinter` that allows you to
-build graphical user interface programs as if you were drawing.
+"""This package is a lightweight UI framework based on `tkinter` with all UI
+drawn in `Canvas`.
 
 * Website: https://xiaokang2022.github.io/tkintertools/
 * GitHub: https://github.com/Xiaokang2022/tkintertools
 * PyPI: https://pypi.org/project/tkintertools/
 
-If you ❤️ this package, please leave your ⭐ to us, thank you very much! 🎉
+If you ❤️ this package, please leave your ⭐ to us, thank you very much!
 
 ![Stars](https://img.shields.io/github/stars/Xiaokang2022/tkintertools) \
 ![Forks](https://img.shields.io/github/forks/Xiaokang2022/tkintertools) \

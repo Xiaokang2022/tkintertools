@@ -6,7 +6,7 @@ build-backend = "setuptools.build_meta"
 name = "tkintertools"
 authors = [{ name = "Xiaokang2022", email = "2951256653@qq.com" }]
 maintainers = [{ name = "Xiaokang2022", email = "2951256653@qq.com" }]
-description = "tkintertools is a UI framework based on the Canvas class of tkinter"
+description = "A lightweight UI framework based on tkinter with all UI drawn in Canvas."
 readme = "README.md"
 license = { text = "MIT License" }
 requires-python = ">=3.10"

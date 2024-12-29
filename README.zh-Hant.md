@@ -5,10 +5,10 @@
 
 <p align="center"><img src="docs/logo.png" alt="Logo" title="Logo" /></p>
 
-<p align="center"><a href="README.md">English</a> | <a href="README.zh_CN.md">简体中文</a> | 繁體中文</p>
+<p align="center"><a href="README.md">English</a> | <a href="README.zh-Hans.md">简体中文</a> | 繁體中文</p>
 
 <p align="center">
-<code>tkintertools</code> 是一個基於 <code>tkinter</code> 的 <code>Canvas</code> 類的 UI 框架
+一個基於 <code>tkinter</code> 且所有控件都由 <code>Canvas</code> 繪製的羽量級 UI 框架
 </p>
 
 <p align="center">
@@ -47,7 +47,7 @@
 pip install tkintertools[recommended]==3.0.0rc5
 ```
 
-### 📌 依賴包
+### 🛠️ 依賴包
 
 下面是該項目唯一必須需要的依賴包：
 
@@ -69,7 +69,7 @@ pip install tkintertools[recommended]==3.0.0rc5
 pip install tkintertools[all]==3.0.0rc5
 ```
 
-### 📦 擴展包
+### 🧩 擴展包
 
 除了基礎功能之外，我們還提供一些擴展包來實現某些特定的功能。目前已有的官方擴展包如下：
 
@@ -91,7 +91,7 @@ pip install tkintertools[extension]==3.0.0rc5
 * 📗 貢獻指南: [*CONTRIBUTING.md*](CONTRIBUTING.md)
 * 📙 行爲準則: [*CODE_OF_CONDUCT.md*](CODE_OF_CONDUCT.md)
 * 📚 教程和文檔: [Tutorials & Documents](https://xiaokang2022.github.io/tkintertools-docs/)
-* 🎉 官方網站: [Official Website](https://xiaokang2022.github.io/tkintertools/)
+* 🌏 官方網站: [Official Website](https://xiaokang2022.github.io/tkintertools/)
 * ❤️ 贊助我們: [Sponsor](https://xiaokang2022.github.io/tkintertools/Sponsor/)
 * 🚀 存儲庫鏡像源:
 [GitHub](https://github.com/Xiaokang2022/tkintertools) |
