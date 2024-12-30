@@ -1,4 +1,4 @@
-"""All containers
+"""All containers.
 
 There are two containers at the window level: `Tk` and `Toplevel`. `Tk` is
 generally used for the main window, while `Toplevel` is a pop-up window.

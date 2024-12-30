@@ -9,6 +9,7 @@ __all__ = [
     "screen_size",
     "get_text_size",
     "get_cursor",
+    "create_smoke",
 ]
 
 import atexit
@@ -21,7 +22,14 @@ import tkinter
 import tkinter.font
 import typing
 
-from ..core import configurations, virtual
+from ..core import configurations, containers, virtual
+from ..standard import widgets
+from . import enhanced
+
+try:
+    from PIL import Image
+except ImportError:
+    pass
 
 _LINUX_FONTS_DIR: typing.Final[str] = os.path.expanduser("~/.fonts/")
 
@@ -194,3 +202,34 @@ def get_cursor(name: str, /) -> str:
             case "Darwin": return "notallowed"
             case _: return "arrow"
     return name
+
+
+def create_smoke(
+    canvas: containers.Canvas,
+    *,
+    size: tuple[int, int] | None = None,
+    position: tuple[int, int] = (0, 0),
+    color: str | tuple[int, int, int, int] = "#00000066",
+) -> widgets.Image:
+    """Create a temporary smoke zone. Return the `widgets.Image` widget.
+
+    * `canvas`: canvas that the smoke zone will be created on
+    * `size`: size of the smoke zone
+    * `position`: position of the smoke zone
+    * `color`: color of the smoke zone
+
+    This function need `PIL` to run.
+
+    About the "smoke", see: https://fluent2.microsoft.design/material#smoke
+    """
+    if not globals().get("Image"):
+        raise RuntimeError("Package 'pillow' is missing.")
+
+    if size is None:
+        canvas.update_idletasks()
+        size = canvas.winfo_width(), canvas.winfo_height()
+
+    # When you have 'PIL.Image', you definitely have 'PIL.ImageTk'
+    image = enhanced.PhotoImage(Image.new("RGBA", size, color))
+
+    return widgets.Image(canvas, position, size, image=image)

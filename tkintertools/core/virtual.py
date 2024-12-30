@@ -52,6 +52,7 @@ class Element(abc.ABC):
         *,
         name: str | None = None,
         gradient_animation: bool = True,
+        auto_update: bool = True,
         styles: dict[str, dict[str, str]] | None = None,
         **kwargs,
     ) -> None:
