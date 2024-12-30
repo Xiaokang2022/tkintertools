@@ -195,7 +195,7 @@ class SwitchFeature(ButtonFeature):
 
     def _button_1(self, _: tkinter.Event) -> bool:
         if flag := self.widget.state.startswith("hover"):
-            self.widget.update(f"active-{'on' if self.widget.get() else 'off'}", no_delay=True)
+            self.widget.update(f"active-{'on' if self.widget.get() else 'off'}", gradient_animation=True)
         return flag
 
     def _button_release_1(self, event: tkinter.Event) -> bool:
@@ -203,7 +203,7 @@ class SwitchFeature(ButtonFeature):
             if self.widget.state.startswith("active"):
                 boolean = not self.widget.get()
                 self.widget.set(boolean)
-                self.widget.update(f"hover-{'on' if boolean else 'off'}", no_delay=True)
+                self.widget.update(f"hover-{'on' if boolean else 'off'}", gradient_animation=True)
                 if self.command is not None:
                     self.command(boolean)
         return flag
@@ -214,14 +214,14 @@ class CheckBoxFeature(ButtonFeature):
 
     def _button_1(self, _: tkinter.Event) -> bool:
         if flag := self.widget.state == "hover":
-            self.widget.update("active", no_delay=True)
+            self.widget.update("active", gradient_animation=True)
         return flag
 
     def _button_release_1(self, event: tkinter.Event) -> bool:
         if flag := self.widget.shapes[0].detect(event.x, event.y):
             if self.widget.state == "active":
                 self.widget.set(boolean := not self.widget.get())
-                self.widget.update("hover", no_delay=True)
+                self.widget.update("hover", gradient_animation=True)
                 if self.command is not None:
                     self.command(boolean)
         return flag

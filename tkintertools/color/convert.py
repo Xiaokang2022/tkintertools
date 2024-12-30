@@ -43,7 +43,7 @@ __all__ = [
 import colorsys
 import math
 
-from ..core import configurations
+from ..core import configs
 from . import colortable, rgb
 
 
@@ -148,7 +148,7 @@ def name_to_rgb(value: str, /) -> tuple[int, int, int]:
     if rgb_code := colortable.MAPPING_TABLE.get(value.lower()):
         return rgb_code
 
-    return configurations.Env.root.winfo_rgb(value)
+    return configs.Env.root.winfo_rgb(value)
 
 
 def rgb_to_name(value: tuple[int, int, int], /) -> list[str]:

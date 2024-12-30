@@ -26,7 +26,7 @@ import traceback
 import types
 import typing
 
-from ..core import configurations
+from ..core import configs
 from ..toolbox import tools
 from . import parser
 
@@ -63,15 +63,15 @@ def set_color_mode(mode: typing.Literal["system", "dark", "light"] = "system") -
 
     `"system"` is the following system
     """
-    configurations.Theme.color_mode = mode
-    _process_event(configurations.Env.is_dark if mode == "system" else (mode == "dark"))
+    configs.Theme.color_mode = mode
+    _process_event(configs.Env.is_dark if mode == "system" else (mode == "dark"))
 
 
 def get_color_mode() -> typing.Literal["dark", "light"]:
     """Get the color mode of the program"""
-    if configurations.Theme.color_mode == "system":
-        return "dark" if configurations.Env.is_dark else "light"
-    return configurations.Theme.color_mode
+    if configs.Theme.color_mode == "system":
+        return "dark" if configs.Env.is_dark else "light"
+    return configs.Theme.color_mode
 
 
 def set_theme_map(
@@ -85,9 +85,9 @@ def set_theme_map(
     * `dark_theme`: the name of the theme of the dark theme
     """
     if dark_theme is not None:
-        configurations.Theme.dark = dark_theme
+        configs.Theme.dark = dark_theme
     if light_theme is not None:
-        configurations.Theme.light = light_theme
+        configs.Theme.light = light_theme
     if any((light_theme, dark_theme)):
         parser.get_file.cache_clear()
 
@@ -216,9 +216,9 @@ def _callback(theme: str) -> None:
 
     * `theme`: theme name
     """
-    configurations.Env.is_dark = theme == "Dark"
-    if configurations.Theme.color_mode == "system":
-        _process_event(configurations.Env.is_dark)
+    configs.Env.is_dark = theme == "Dark"
+    if configs.Theme.color_mode == "system":
+        _process_event(configs.Env.is_dark)
 
 
 if globals().get("darkdetect") is not None:

@@ -1,13 +1,15 @@
-"""Various virtual classes
+"""All virtual classes.
 
-The virtual `Widget` consists of 5 parts, which are `Widget`, `Shape`, `Text`, `Image` and
-`Feature`.
+The `virtual.Widget` consists of five parts, which are `Shape`, `Text`, `Image`,
+`Style` and `Feature`. In addition, they can be nested within each other.
 
-Where `Feature` is the function of widgets, and each widget can be bound to up to one, but in terms
-of appearance, there is no limit to the number of `Shape`, `Text`, and `Image`.
+Where `Feature` is the function of widgets, `Style` control the color of the
+widget, and each widget can be bound to up to one `Feature` and one `Style`,
+but in terms of appearance, there is no limit to the number of `Shape`, `Text`,
+and `Image`.
 
-`Shape`, `Text`, and `Image` are all appearance components that inherit from abstract base class
-`Components`.
+`Shape`, `Text`, and `Image` are all appearance elements that inherit from
+abstract base class `Elements`.
 """
 
 from __future__ import annotations
@@ -17,6 +19,7 @@ __all__ = [
     "Shape",
     "Text",
     "Image",
+    "Style",
     "Feature",
     "Widget",
 ]
@@ -38,11 +41,11 @@ from ..animation import animations
 from ..color import convert, rgb
 from ..style import parser
 from ..toolbox import enhanced
-from . import configurations, containers
+from . import configs, containers
 
 
 class Element(abc.ABC):
-    """The basic visible part of a `Widget`."""
+    """The basic visible part of a `virtual.Widget`."""
 
     def __init__(
         self,
@@ -61,19 +64,21 @@ class Element(abc.ABC):
         * `position`: position relative to its widgets
         * `size`: size of element
         * `name`: name of element
-        * `animation`: Wether use animation to change color
+        * `gradient_animation`: Wether use animation to change color
+        * `auto_update`: 
         * `styles`: style dict of element
         * `kwargs`: extra parameters for CanvasItem
         """
         self.widget = widget
-        offset = widget.offset
-        self.position: list[int | float] = [
-            widget.position[0] + position[0] - offset[0],
-            widget.position[1] + position[1] - offset[1]]
-        self.size: list[int | float] = widget.size.copy() if size is None else list(size)
-        self.name = self.__class__.__name__ if name is None else name
         self.gradient_animation = gradient_animation
         self.auto_update = auto_update
+
+        self.position: tuple[int | float, int | float] = (
+            widget.position[0] + position[0] - widget.offset[0],
+            widget.position[1] + position[1] - widget.offset[1],
+        )
+        self.size: tuple[int | float, int | float] = widget.size if size is None else size
+        self.name = self.__class__.__name__ if name is None else name
         self.styles = styles if styles else parser.get(widget, self)
 
         self.items: list[int] = []
@@ -82,12 +87,16 @@ class Element(abc.ABC):
 
         self.kwargs = kwargs
 
-        widget.register(self)
+        widget.register_elements(self)
 
     def move(self, dx: float, dy: float) -> None:
-        """Move the `Element`"""
-        self.position[0] += dx
-        self.position[1] += dy
+        """Move the `Element`.
+
+        * `dx`: x-coordinate offset
+        * `dy`: y-coordinate offset
+        """
+        self.position = self.position[0]+dx, self.position[1]+dy
+
         for item in self.items:
             self.widget.master.move(item, dx, dy)
 
@@ -99,7 +108,7 @@ class Element(abc.ABC):
         """Destroy the `Element`"""
         for gradient in self.gradients:
             gradient.stop()
-        self.widget.deregister(self)
+        self.widget.deregister_elements(self)
         self.widget.master.delete(*self.items)
 
     def center(self) -> tuple[float, float]:
@@ -116,11 +125,12 @@ class Element(abc.ABC):
         x1, y1, x2, y2 = self.region()
         return x1 <= x <= x2 and y1 <= y <= y2
 
-    def update(self, state: str | None = None, *, no_delay: bool = False) -> None:
+    def update(self, state: str | None = None, *, gradient_animation: bool = False) -> None:
         """Update the style of the `Element` to the corresponding state
 
         * `state`: the state of the `Element`
         """
+        gradient_animation = not gradient_animation
         if not self.visible:
             return
         if state is None:
@@ -129,7 +139,7 @@ class Element(abc.ABC):
             gradient.stop()
         self.gradients.clear()
         if self.styles.get(state) is not None:
-            self.configure(self.styles[state], no_delay=no_delay)
+            self.configure(self.styles[state], no_delay=gradient_animation)
 
     def get_disabled_style(self, refer_state: str | None = None) -> dict[str, str]:
         """Get the style data of disabled state"""
@@ -140,7 +150,7 @@ class Element(abc.ABC):
             for key, value in self.styles["disabled"].items():
                 self.styles["disabled"][key] = convert.rgb_to_hex(rgb.transition(
                     convert.hex_to_rgb(value), convert.str_to_rgb(self.widget.master["bg"]),
-                    configurations.Constant.GOLDEN_RATIO))
+                    configs.Constant.GOLDEN_RATIO))
         return self.styles["disabled"]
 
     def configure(self, style: dict[str, str], *, no_delay: bool = False) -> None:
@@ -175,24 +185,19 @@ class Element(abc.ABC):
     def disappear(self, value: bool = True, *, no_delay: bool = True) -> None:
         """Let the element to disappear"""
         self.visible = not value
+
         if value:
             temp_style = copy.deepcopy(self.styles.get(self.widget.state, None))
+
             if temp_style is None:
                 return
+
             for arg in temp_style:
                 temp_style[arg] = ""
+
             self.configure(temp_style, no_delay=no_delay)
         else:
-            self.update(self.widget.state, no_delay=no_delay)
-
-    def __getitem__(self, key: str) -> dict[str, str]:
-        """Easy to get style data"""
-        return self.styles[key]
-
-    def __setitem__(self, key: str, value: dict[str, str]) -> None:
-        """Easy to set style data"""
-        self.styles[key].update(value)
-        self.update(no_delay=True)
+            self.update(self.widget.state, gradient_animation=no_delay)
 
     def zoom(
         self,
@@ -201,23 +206,26 @@ class Element(abc.ABC):
         zoom_position: bool = True,
         zoom_size: bool = True,
     ) -> None:
-        """Zoom the `Element`"""
+        """Zoom the `Element`.
+
+        * `ratios`: ratios of zooming
+        * `zoom_position`: whether or not to zoom the location of the element
+        * `zoom_size`: whether or not to zoom the size of the element
+        """
         if not zoom_position and not zoom_size:
             warnings.warn("This is a no-effect call.", UserWarning, 2)
             return
 
         if zoom_size:
-            self.size[0] *= ratios[0]
-            self.size[1] *= ratios[1]
+            self.size = self.size[0]*ratios[0], self.size[1]*ratios[1]
+
         if zoom_position:
-            self.position[0] *= ratios[0]
-            self.position[1] *= ratios[1]
+            self.position = self.position[0]*ratios[0], self.position[1]*ratios[1]
 
         if not zoom_size:
-            x = self.position[0]*ratios[0]
-            y = self.position[1]*ratios[1]
             for item in self.items:
-                self.widget.master.moveto(item, x, y)
+                self.widget.master.moveto(
+                    item, self.position[0]*ratios[0], self.position[1]*ratios[1])
         elif not zoom_position:
             for item in self.items:
                 self.widget.master.scale(item, *self.position, *ratios)
@@ -227,19 +235,26 @@ class Element(abc.ABC):
 
     @abc.abstractmethod
     def display(self) -> None:
-        """Display the `Element` on a `Canvas`"""
+        """Display the `Element` on a `Canvas`."""
 
     @abc.abstractmethod
     def coords(
         self,
-        size: tuple[float, float] | None = None,
-        position: tuple[float, float] | None = None,
+        size: tuple[int | float, int | float] | None = None,
+        position: tuple[int | float, int | float] | None = None,
     ) -> None:
-        """Resize the `Element`"""
+        """Resize the `Element`.
+
+        * `size`: new size of the element
+        * `position`: new position of the element
+        """
         if size is not None:
-            self.size = list(size)
+            self.size = size
+
         if position is not None:
-            self.position = list(position)
+            self.position = position
+
+        # overload this method to do something here
 
 
 class Shape(Element):
@@ -253,19 +268,23 @@ class Shape(Element):
         zoom_position: bool = True,
         zoom_size: bool = True,
     ) -> None:
-        """Scale the shape"""
+        """Scale the shape.
+
+        * `ratios`: ratios of zooming
+        * `zoom_position`: whether or not to zoom the location of the shape
+        * `zoom_size`: whether or not to zoom the size of the shape
+        """
         if zoom_size:
-            self.size[0] *= ratios[0]
-            self.size[1] *= ratios[1]
+            self.size = self.size[0]*ratios[0], self.size[1]*ratios[1]
+
         if zoom_position:
-            self.position[0] *= ratios[0]
-            self.position[1] *= ratios[1]
+            self.position = self.position[0]*ratios[0], self.position[1]*ratios[1]
 
         self.coords(self.size, self.position)
 
 
 class Text(Element):
-    """The Text of a `Widget`"""
+    """The Text of a `Widget`."""
 
     def __init__(
         self,
@@ -311,17 +330,20 @@ class Text(Element):
         self.show = show
         self.placeholder = placeholder
         self.limit = limit
+
         self.font = tkinter.font.Font(
-            family=family if family else configurations.Font.family,
-            size=-abs(fontsize if fontsize else configurations.Font.size),
+            family=family if family else configs.Font.family,
+            size=-abs(fontsize if fontsize else configs.Font.size),
             weight=weight, slant=slant,
             underline=underline, overstrike=overstrike)
+
         self._initial_fontsize = self.font.cget("size")
+
         Element.__init__(self, widget, relative_position, size, name=name,
                          styles=styles, gradient_animation=animation, **kwargs)
 
     def region(self) -> tuple[int, int, int, int]:
-        """Return the decision region of the `Text`"""
+        """Return the decision region of the `Text`."""
         return self.widget.master.bbox(self.items[0])
 
     @typing_extensions.override
@@ -332,14 +354,20 @@ class Text(Element):
         zoom_position: bool = True,
         zoom_size: bool = True,
     ) -> None:
-        """Scale the text"""
+        """Scale the text.
+
+        * `ratios`: ratios of zooming
+        * `zoom_position`: whether or not to zoom the location of the text
+        * `zoom_size`: whether or not to zoom the size of the text
+        """
         Element.zoom(self, ratios, zoom_position=zoom_position, zoom_size=zoom_size)
-        ratios = self.widget.master.ratios
-        self.font.config(size=round(self._initial_fontsize*math.sqrt(ratios[0]*ratios[1])))
+
+        self.font.config(size=round(self._initial_fontsize*math.sqrt(
+            self.widget.master.ratios[0]*self.widget.master.ratios[1])))
 
 
 class Image(Element):
-    """The Image of a `Widget`"""
+    """The Image of a `Widget`."""
 
     def __init__(
         self,
@@ -365,6 +393,7 @@ class Image(Element):
         """
         self.image = image
         self.initail_image = image
+
         Element.__init__(self, widget, relative_position, size, name=name,
                          gradient_animation=animation, styles=styles, **kwargs)
 
@@ -376,55 +405,103 @@ class Image(Element):
         zoom_position: bool = True,
         zoom_size: bool = True,
     ) -> None:
-        """Scale the image"""
+        """Scale the image.
+
+        * `ratios`: ratios of zooming
+        * `zoom_position`: whether or not to zoom the location of the image
+        * `zoom_size`: whether or not to zoom the size of the image
+        """
         Element.zoom(self, ratios, zoom_position=zoom_position, zoom_size=zoom_size)
+
         if self.initail_image is None:
             raise RuntimeError("Image is empty.")
+
         self.image = self.initail_image.scale(*self.widget.master.ratios)
+
         for item in self.items:
             self.widget.master.itemconfigure(item, image=self.image)
 
 
+class Style:
+    """The styles of a `Widget`."""
+
+    light: dict[str, dict[str, dict[str, str]]]
+    dark: dict[str, dict[str, dict[str, str]]]
+
+    def __init__(self, widget: Widget, *, auto_update: bool = True) -> None:
+        """
+        * `widget`: parent widget
+        * `auto_update`: 
+        """
+        self.widget, widget.style = widget, self
+        self.auto_update = auto_update
+
+    def update(
+        self,
+        state: str,
+        *,
+        gradient_animation: bool | None = None,
+    ) -> None:
+        """Update the style of the widget."""
+
+    def configure(self) -> None:
+        """Configure the style."""
+
+
 class Feature:
-    """The features of a `Widget`"""
+    """The features of a `Widget`."""
 
     def __init__(self, widget: Widget) -> None:
         """
         * `widget`: parent widget
         """
         self.widget, widget.feature = widget, self
-        self.extras: dict[str, list[collections.abc.Callable[[tkinter.Event], typing.Any]]] = {}
+        self.extra_commands: dict[str, list[collections.abc.Callable[[tkinter.Event], typing.Any]]] = {}
 
     @staticmethod
     def _parse_method_name(name: str) -> str:
+        """Parse the name to method name.
+
+        * `name`: original name
+
+        Example:
+
+        * `"<Ctrl-C>"` -> `"_ctrl_c"`
+        * `"<MouseWheel>"` -> `"_mouse_wheel"`
+        """
         name = re.sub("[<\\->]", "", name)
         name = re.sub("([0-9A-Z])", "_\\1", name)
         return name.lower()
 
     def get_method(self, name: str) -> collections.abc.Callable:
-        """Return method by name"""
-        extra_commands = self.extras.get(name)
+        """Return method by name.
+
+        * `name`: name of the method
+        """
+        extra_commands = self.extra_commands.get(name)
         method = getattr(self, self._parse_method_name(name), lambda _: False)
 
         if extra_commands is None:
             return method
 
-        def _wrapper(event: tkinter.Event) -> typing.Any:
-            return_value = method(event)
+        def wrapper(event: tkinter.Event) -> typing.Any:
+            result = method(event)
+
             for command in extra_commands:
                 try:
                     command(event)
                 except Exception as exc:
                     traceback.print_exception(exc)
-            return return_value
 
-        return _wrapper
+            return result
+
+        return wrapper
 
 
 class Widget:
-    """Base Widget Class
+    """Base Widget Class.
 
-    `Widget` = `Shape` + `Text` + `Image` + `Feature` + `Widget`
+    `Widget` = `Element` + `Style` + `Feature`
     """
 
     def __init__(
@@ -434,7 +511,6 @@ class Widget:
         size: tuple[int, int] | None = None,
         *,
         name: str | None = None,
-        state: str = "normal",
         anchor: typing.Literal["n", "s", "w", "e", "nw", "ne", "sw", "se", "center"] = "nw",
         capture_events: bool | None = None,
         gradient_animation: bool | None = None,
@@ -444,113 +520,138 @@ class Widget:
         * `position`: position of the widget
         * `size`: size of the widget
         * `name`: name of the widget
-        * `state`: default state of the widget
         * `anchor`: layout anchor of the widget
-        * `through`: wether detect another widget under the widget
-        * `animation`: wether enable animation
+        * `capture_events`: wether detect another widget under the widget
+        * `gradient_animation`: wether enable animation
         """
         if isinstance(master, Widget):
             self.master, self.widget = master.master, master
             self.widget.widgets.append(self)
-            self.position: list[int | float] = [
-                master.position[0] + position[0], master.position[1] + position[1]]
-            self.size: list[int | float] = master.size.copy() if size is None else list(size)
+            self.position: tuple[int | float, int | float] = (
+                master.position[0] + position[0],
+                master.position[1] + position[1],
+            )
+            self.size: tuple[int | float, int | float] = master.size if size is None else size
         else:
             self.master, self.widget = master, None
-            self.position: list[int | float] = list(position)
-            self.size: list[int | float] = [0, 0] if size is None else list(size)
+            self.position: tuple[int | float, int | float] = position
+            self.size: tuple[int | float, int | float] = (0, 0) if size is None else size
 
         self.name = name
-        self.state = state
         self.anchor = anchor
-        self.capture_events = capture_events
-        if self.capture_events is None and self.is_nested():
-            self.capture_events = True  # Boolean indicate enforce the operation
-        self.gradient_animation = configurations.Env.default_animation if gradient_animation is None else gradient_animation
+
+        if capture_events is None and self.nested:
+            self.capture_events = False  # bool indicates enforce the operation
+        else:
+            self.capture_events = capture_events
+
+        if gradient_animation is None:
+            self.gradient_animation = configs.Env.default_animation
+        else:
+            self.gradient_animation = gradient_animation
 
         self.widgets: list[Widget] = []
         self.texts: list[Text] = []
         self.shapes: list[Shape] = []
         self.images: list[Image] = []
-        self.feature: Feature = Feature(self)
+        self.style = Style(self)
+        self.feature = Feature(self)
+
+        self.state: str = "normal"
         self.state_before_disabled: str = ""
+        self.disappeared: bool = False
+
         self._update_hooks: list[collections.abc.Callable[[str, bool], typing.Any]] = []
-        self._is_disappeared: bool = False
 
         self.master.widgets.append(self)
 
     @property
     def elements(self) -> tuple[Element, ...]:
-        """Return all elements of the widget"""
+        """Return all elements of the widget."""
         return tuple(self.shapes + self.texts + self.images)
 
     @property
-    def is_disappeared(self) -> bool:
-        """Whether the widget is forgoted"""
-        return self._is_disappeared
+    def nested(self) -> bool:
+        """Whether the widget is a nested widget."""
+        return self.widget is not None
 
     @property
     def offset(self) -> tuple[float, float]:
-        """Return the offset of the anchor relative to nw"""
+        """Return the offset of the anchor relative to "nw"."""
         match self.anchor:
-            case "n": _offset = self.size[0]/2, 0
-            case "w": _offset = 0, self.size[1]/2
-            case "s": _offset = self.size[0]/2, self.size[1]
-            case "e": _offset = self.size[0], self.size[1]/2
-            case "ne": _offset = self.size[0], 0
-            case "sw": _offset = 0, self.size[1]
-            case "nw": _offset = 0, 0
-            case "se": _offset = self.size[0], self.size[1]
-            case _: _offset = self.size[0]/2, self.size[1]/2
-        return _offset
+            case "n": result = self.size[0]/2, 0
+            case "w": result = 0, self.size[1]/2
+            case "s": result = self.size[0]/2, self.size[1]
+            case "e": result = self.size[0], self.size[1]/2
+            case "ne": result = self.size[0], 0
+            case "sw": result = 0, self.size[1]
+            case "nw": result = 0, 0
+            case "se": result = self.size[0], self.size[1]
+            case _: result = self.size[0]/2, self.size[1]/2
 
-    def is_nested(self) -> bool:
-        """Whether the widget is a nested widget"""
-        return self.widget is not None
+        return result
 
-    def register(self, element: Element) -> None:
-        """Register a element to the widget"""
-        if isinstance(element, Shape):
-            self.shapes.append(element)
-        elif isinstance(element, Text):
-            self.texts.append(element)
-        elif isinstance(element, Image):
-            self.images.append(element)
-        element.display()
-        element.coords()
-        element.update(no_delay=True)
+    def register_elements(self, *elements: Element) -> None:
+        """Register elements to the widget.
 
-    def deregister(self, element: Element) -> None:
-        """Deregister a element from the widget"""
-        if isinstance(element, Shape):
-            self.shapes.remove(element)
-        elif isinstance(element, Text):
-            self.texts.remove(element)
-        elif isinstance(element, Image):
-            self.images.remove(element)
+        * `elements`: elements to be registered
+        """
+        for element in elements:
+            if isinstance(element, Shape):
+                self.shapes.append(element)
+            elif isinstance(element, Text):
+                self.texts.append(element)
+            elif isinstance(element, Image):
+                self.images.append(element)
+
+            element.display()
+            element.coords()
+            element.update(gradient_animation=True)
+
+    def deregister_elements(self, *elements: Element) -> None:
+        """Deregister a element from the widget.
+
+        * `elements`: elements to be deregistered
+        """
+        for element in elements:
+            if isinstance(element, Shape):
+                self.shapes.remove(element)
+            elif isinstance(element, Text):
+                self.texts.remove(element)
+            elif isinstance(element, Image):
+                self.images.remove(element)
 
     def update(
         self,
         state: str | None = None,
         *,
-        no_delay: bool = False,
+        gradient_animation: bool | None = None,
         nested: bool = True,
     ) -> None:
         """Update the widget"""
         if state != "disabled" and self.state_before_disabled:
             return  # It is currently disabled
+
+        if gradient_animation is None:
+            gradient_animation = self.gradient_animation
+
         if nested:
             for widget in self.widgets:
-                widget.update(state, no_delay=no_delay)
+                widget.update(state, gradient_animation=gradient_animation)
+
         for element in self.elements:
-            element.update(state, no_delay=no_delay)
+            element.update(state, gradient_animation=gradient_animation)
+
+        # self.style.update(state, gradient_animation=gradient_animation)
+
         if state is None:
             state = self.state
         else:
-            self.state = state
+            self.state = state  # update self.state
+
         for command in self._update_hooks:
             try:
-                command(state, no_delay)
+                command(state, gradient_animation)
             except Exception as exc:
                 traceback.print_exception(exc)
 
@@ -558,18 +659,22 @@ class Widget:
         self,
         command: collections.abc.Callable[[str, bool], typing.Any],
     ) -> None:
-        """Bind an extra function to the widget on update
+        """Bind an extra function to the widget on update.
 
-        This extra function has two positional arguments, both of which are arguments to the method
-        `update`. And this extra function will be called when the widget is updated (whether it's
-        automatically updated or manually updated).
+        This extra function has two positional arguments, both of which are
+        arguments to the method `update`. And this extra function will be
+        called when the widget is updated (whether it's automatically updated
+        or manually updated).
 
         * `command`: the extra function that is bound
         """
         self._update_hooks.append(command)
 
-    def unbind_on_update(self, command: collections.abc.Callable[[str, bool], typing.Any]) -> None:
-        """Unbind an extra function to the widget on update
+    def unbind_on_update(
+        self,
+        command: collections.abc.Callable[[str, bool], typing.Any],
+    ) -> None:
+        """Unbind an extra function to the widget on update.
 
         * `command`: the extra function that is bound
         """
@@ -578,38 +683,38 @@ class Widget:
     def bind(
         self,
         sequence: str,
-        func: collections.abc.Callable[[tkinter.Event], typing.Any],
+        command: collections.abc.Callable[[tkinter.Event], typing.Any],
         add: bool | typing.Literal["", "+"] | None = None,
     ) -> None:
-        """Bind to this widget at event SEQUENCE a call to function FUNC.
+        """Bind to this widget at event sequence a call to function command.
 
         * `sequence`: event name
-        * `func`: callback function
+        * `command`: callback function
         * `add`: if True, original callback function will not be overwritten
         """
-        if sequence not in configurations.Constant.PREDEFINED_EVENTS:
-            if sequence not in configurations.Constant.PREDEFINED_VIRTUAL_EVENTS:
+        if sequence not in configs.Constant.PREDEFINED_EVENTS:
+            if sequence not in configs.Constant.PREDEFINED_VIRTUAL_EVENTS:
                 if sequence not in self.master.events:
                     self.master.events.append(sequence)
                     self.master.register_event(sequence)
 
-        if self.feature.extras.get(sequence) is None or add:
-            self.feature.extras[sequence] = [func]
+        if self.feature.extra_commands.get(sequence) is None or add:
+            self.feature.extra_commands[sequence] = [command]
         else:
-            self.feature.extras[sequence].append(func)
+            self.feature.extra_commands[sequence].append(command)
 
     def unbind(
         self,
         sequence: str,
-        funcid: collections.abc.Callable[[tkinter.Event], typing.Any],
+        command: collections.abc.Callable[[tkinter.Event], typing.Any],
     ) -> None:
-        """Unbind for this widget the event SEQUENCE.
+        """Unbind for this widget the event sequence.
 
         * `sequence`: event name
-        * `funcid`: callback function
+        * `command`: callback function
         """
-        if self.feature.extras.get(sequence) is not None:
-            self.feature.extras[sequence].remove(funcid)
+        if self.feature.extra_commands.get(sequence) is not None:
+            self.feature.extra_commands[sequence].remove(command)
 
     def generate_event(
         self,
@@ -617,7 +722,8 @@ class Widget:
         event: tkinter.Event | None = None,
         **kwargs,
     ) -> None:
-        """Generate an event SEQUENCE. Additional keyword arguments specify parameter of the event
+        """Generate an event sequence. Additional keyword arguments specify
+        parameter of the event.
 
         * `sequence`: event name
         * `event`: event
@@ -625,62 +731,80 @@ class Widget:
         """
         if event is None:
             event = tkinter.Event()
+
         for key, value in kwargs.items():
             setattr(event, key, value)
+
         self.feature.get_method(sequence)(event)
 
-    def disabled(self, value: bool = True) -> None:
-        """Disable the widget"""
+    def disable(self, value: bool = True, /) -> None:
+        """Disable the widget."""
         if value:
             if not self.state_before_disabled:
                 self.state_before_disabled = self.state
             for element in self.elements:
                 element.get_disabled_style(self.state_before_disabled)
-            self.update("disabled", no_delay=True, nested=False)
+            self.update("disabled", gradient_animation=True, nested=False)
         else:
             self.state_before_disabled, last_state = "", self.state_before_disabled
-            self.update(last_state, no_delay=True, nested=False)
+            self.update(last_state, gradient_animation=True, nested=False)
         for widget in self.widgets:
-            widget.disabled(value)
+            widget.disable(value)
 
-    def disappear(self, value: bool = True) -> None:
-        """Let all elements of the widget to disappear"""
+    def disappear(self, value: bool = True, /) -> None:
+        """Let all elements of the widget to disappear."""
+        self.disappeared = value
+
         for widget in self.widgets:
             widget.disappear(value)
-        self._is_disappeared = value
+
         for element in self.elements:
             element.disappear(value)
 
     def move(self, dx: int | float, dy: int | float) -> None:
-        """Move the widget"""
-        self.position[0] += dx
-        self.position[1] += dy
+        """Move the widget.
+
+        * `dx`: x-coordinate offset
+        * `dy`: y-coordinate offset
+        """
+        self.position = self.position[0]+dx, self.position[1]+dy
+
         for widget in self.widgets:
             widget.move(dx, dy)
+
         for element in self.elements:
             element.move(dx, dy)
 
     def moveto(self, x: int, y: int) -> None:
-        """Move the Widget to a certain position"""
+        """Move the Widget to a certain position.
+
+        * `x`: x-coordinate of the target location
+        * `y`: y-coordinate of the target location
+        """
         return self.move(x-self.position[0], y-self.position[1])
 
     def destroy(self) -> None:
-        """Destroy the widget"""
+        """Destroy the widget."""
         self.master.widgets.remove(self)
-        del self.feature
+        del self.feature, self.style
 
         if self.widget is not None:
             self.widget.widgets.remove(self)
 
         for widget in tuple(self.widgets):
             widget.destroy()
+
         for element in self.elements:
             element.destroy()
 
     def detect(self, x: int, y: int) -> bool:
-        """Detect whether the specified coordinates are within the `Widget`"""
+        """Detect whether the specified coordinates are within the `Widget`.
+
+        * `x`: x-coordinate of the location to be detected
+        * `y`: y-coordinate of the location to be detected
+        """
         x1, y1, w, h = *self.position, *self.size
-        x2, y2 = x1 + w, y1 + h
+        x2, y2 = x1+w, y1+h
         return x1 <= x+self.offset[0] <= x2 and y1 <= y+self.offset[1] <= y2
 
     def zoom(
@@ -690,22 +814,27 @@ class Widget:
         zoom_position: bool = True,
         zoom_size: bool = True,
     ) -> None:
-        """Zoom self"""
+        """Zoom widget ifself.
+
+        * `ratios`: ratios of zooming
+        * `zoom_position`: whether or not to zoom the location of the widget
+        * `zoom_size`: whether or not to zoom the size of the widget
+        """
         if not zoom_position and not zoom_size:
             warnings.warn("This is a no-effect call.", UserWarning, 2)
             return
 
         if ratios is None:
             ratios = self.master.ratios
-            for widget in self.widgets:
-                widget.zoom(ratios, zoom_position=zoom_position, zoom_size=zoom_size)
 
         if zoom_size:
-            self.size[0] *= ratios[0]
-            self.size[1] *= ratios[1]
+            self.size = self.size[0]*ratios[0], self.size[1]*ratios[1]
+
         if zoom_position:
-            self.position[0] *= ratios[0]
-            self.position[1] *= ratios[1]
+            self.position = self.position[0]*ratios[0], self.position[1]*ratios[1]
+
+        for widget in self.widgets:
+            widget.zoom(ratios, zoom_position=zoom_position, zoom_size=zoom_size)
 
         for element in self.elements:
             element.zoom(ratios, zoom_position=zoom_position, zoom_size=zoom_size)

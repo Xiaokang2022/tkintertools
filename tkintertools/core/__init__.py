@@ -3,5 +3,5 @@
 Most of the abstract and base classes are defined here.
 """
 
-from .configurations import *
+from .configs import *
 from .containers import *
