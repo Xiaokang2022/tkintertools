@@ -70,12 +70,13 @@ class Element(abc.ABC):
             widget.position[0] + position[0] - offset[0],
             widget.position[1] + position[1] - offset[1]]
         self.size: list[int | float] = widget.size.copy() if size is None else list(size)
-        self.name = name
-        self.animation = gradient_animation
+        self.name = self.__class__.__name__ if name is None else name
+        self.gradient_animation = gradient_animation
+        self.auto_update = auto_update
         self.styles = styles if styles else parser.get(widget, self)
 
         self.items: list[int] = []
-        self.gradient: animations.GradientItem | None = None
+        self.gradients: list[animations.GradientItem] = []
         self.visible: bool = True
 
         self.kwargs = kwargs
@@ -95,6 +96,8 @@ class Element(abc.ABC):
 
     def destroy(self) -> None:
         """Destroy the `Element`"""
+        for gradient in self.gradients:
+            gradient.stop()
         self.widget.deregister(self)
         self.widget.master.delete(*self.items)
 
@@ -121,9 +124,9 @@ class Element(abc.ABC):
             return
         if state is None:
             state = self.widget.state
-        if self.gradient is not None:
-            self.gradient.stop()
-            self.gradient = None
+        for gradient in self.gradients:
+            gradient.stop()
+        self.gradients.clear()
         if self.styles.get(state) is not None:
             self.configure(self.styles[state], no_delay=no_delay)
 
@@ -146,7 +149,7 @@ class Element(abc.ABC):
             kwargs = {key: value for key, param
                       in zip(tags[0:-1:2], tags[1:len(tags):2])
                       if (value := style.get(param)) is not None}
-            if self.widget.animation and self.animation and not no_delay:
+            if self.widget.gradient_animation and self.gradient_animation and not no_delay:
                 for key, value in kwargs.items():
                     start_color: str = self.widget.master.itemcget(item, key)
                     if start_color.startswith("#") and len(start_color) == 9:
@@ -157,14 +160,16 @@ class Element(abc.ABC):
                         # Null characters cannot be parsed
                         self.widget.master.itemconfigure(item, {key: value})
                     else:
-                        self.gradient = animations.GradientItem(
-                            self.widget.master, item, key, (start_color, value), 150)
-                        self.gradient.start()
+                        self.gradients.append(animations.GradientItem(
+                            self.widget.master, item, key, (start_color, value), 150))
             else:
                 for key, value in kwargs.items():
                     if value.startswith("#") and len(value) == 9:
                         kwargs[key] = convert.rgb_to_hex(convert.rgba_to_rgb(convert.hex_to_rgba(start_color), refer=convert.hex_to_rgb(self.widget.master["bg"])))
                 self.widget.master.itemconfigure(item, kwargs)
+
+        for gradient in self.gradients:
+            gradient.start()
 
     def disappear(self, value: bool = True, *, no_delay: bool = True) -> None:
         """Let the element to disappear"""
@@ -312,7 +317,7 @@ class Text(Element):
             underline=underline, overstrike=overstrike)
         self._initial_fontsize = self.font.cget("size")
         Element.__init__(self, widget, relative_position, size, name=name,
-                           styles=styles, gradient_animation=animation, **kwargs)
+                         styles=styles, gradient_animation=animation, **kwargs)
 
     def region(self) -> tuple[int, int, int, int]:
         """Return the decision region of the `Text`"""
@@ -360,7 +365,7 @@ class Image(Element):
         self.image = image
         self.initail_image = image
         Element.__init__(self, widget, relative_position, size, name=name,
-                           gradient_animation=animation, styles=styles, **kwargs)
+                         gradient_animation=animation, styles=styles, **kwargs)
 
     @typing_extensions.override
     def zoom(
@@ -457,10 +462,10 @@ class Widget:
         self.name = name
         self.state = state
         self.anchor = anchor
-        self.through = capture_events
-        if self.through is None and self.is_nested():
-            self.through = True  # Boolean indicate enforce the operation
-        self.animation = configurations.Env.default_animation if gradient_animation is None else gradient_animation
+        self.capture_events = capture_events
+        if self.capture_events is None and self.is_nested():
+            self.capture_events = True  # Boolean indicate enforce the operation
+        self.gradient_animation = configurations.Env.default_animation if gradient_animation is None else gradient_animation
 
         self.widgets: list[Widget] = []
         self.texts: list[Text] = []

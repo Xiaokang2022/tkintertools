@@ -10,8 +10,8 @@ __all__ = [
     "Switch",
     "InputBox",
     "ToggleButton",
-    "CheckButton",
-    "RadioButton",
+    "CheckBox",
+    "RadioGroup",
     "ProgressBar",
     "UnderlineButton",
     "HighlightButton",
@@ -36,7 +36,7 @@ import typing_extensions
 from ..animation import animations, controllers
 from ..core import configurations, containers, virtual
 from ..toolbox import enhanced, tools
-from . import features, images, shapes, texts
+from . import features, images, shapes, styles, texts
 
 
 class Text(virtual.Widget):
@@ -424,7 +424,7 @@ class InputBox(virtual.Widget):
         self.texts[0].clear()
 
 
-class CheckButton(virtual.Widget):
+class CheckBox(virtual.Widget):
     """Checkbox button widget, generally used to check some options"""
 
     def __init__(
@@ -463,7 +463,7 @@ class CheckButton(virtual.Widget):
         if image is not None:
             images.StillImage(self, image=image)
         texts.Information(self).set("✔")
-        features.CheckButtonFeature(self, command=command)
+        features.CheckBoxFeature(self, command=command)
         self.texts[0].disappear()
         if default is not None:
             self.set(default)
@@ -560,7 +560,7 @@ class ToggleButton(virtual.Widget):
         self.update(f"{self.state.split('-')[0]}-{'on' if value else 'off'}")
 
 
-class RadioButton(virtual.Widget):
+class RadioGroup(virtual.Widget):
     """Radio button widget, generally used to select one of several options"""
 
     def __init__(
@@ -606,7 +606,7 @@ class RadioButton(virtual.Widget):
                 size=(self.size[0]/2, self.size[1]/2)).disappear()
         if image is not None:
             images.StillImage(self, image=image)
-        features.RadioButtonFeature(self, command=command)
+        features.RadioGroupFeature(self, command=command)
         if default is not None:
             self.set(default)
 
@@ -1214,7 +1214,7 @@ class OptionButton(virtual.Widget):
             overstrike=overstrike, justify=justify, image=image, layout="vertical",
             through=through, animation=False, command=self._close_options,
             anchor="s" if align == "up" else "n" if align == "down" else "center")
-        self._segmented_button.through = None
+        self._segmented_button.capture_events = None
         self._segmented_button.disappear(True)
         self._segmented_button.bind("<Button-1>", self._extra_bind, add="+")
         self.command = command
@@ -1324,7 +1324,7 @@ class ComboBox(virtual.Widget):
             overstrike=overstrike, justify=justify, image=image, layout="vertical",
             through=through, animation=False, command=self._close_options,
             anchor="s" if align == "up" else "n" if align == "down" else "center")
-        self._segmented_button.through = None
+        self._segmented_button.capture_events = None
         self._segmented_button.disappear(True)
         self._segmented_button.bind("<Button-1>", self._extra_bind, add="+")
         self.command = command

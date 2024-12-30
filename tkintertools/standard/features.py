@@ -10,8 +10,8 @@ __all__ = [
     "Highlight",
     "SwitchFeature",
     "ToggleButtonFeature",
-    "CheckButtonFeature",
-    "RadioButtonFeature",
+    "CheckBoxFeature",
+    "RadioGroupFeature",
     "ProgressBarFeature",
     "InputBoxFeature",
     "SliderFeature",
@@ -209,7 +209,7 @@ class SwitchFeature(ButtonFeature):
         return flag
 
 
-class CheckButtonFeature(ButtonFeature):
+class CheckBoxFeature(ButtonFeature):
     """Feature of CheckButton"""
 
     def _button_1(self, _: tkinter.Event) -> bool:
@@ -258,7 +258,7 @@ class ToggleButtonFeature(ButtonFeature):
         return flag
 
 
-class RadioButtonFeature(CheckButtonFeature):
+class RadioGroupFeature(CheckBoxFeature):
     """Feature of RadioButton"""
 
 
