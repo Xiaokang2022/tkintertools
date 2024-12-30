@@ -26,7 +26,7 @@ Button = {
     }
 }
 
-CheckButton = {
+CheckBox = {
     "Information": {
         "normal": {"fill": "#1A1A1A"},
         "hover": {"fill": "#1A1A1A"},
@@ -167,7 +167,7 @@ ProgressBar = {
     }
 }
 
-RadioButton = {
+RadioGroup = {
     "Oval.in": {
         "normal": {"fill": "#32BF42", "outline": "#32BF42"},
         "hover": {"fill": "#06B025", "outline": "#06B025"},
