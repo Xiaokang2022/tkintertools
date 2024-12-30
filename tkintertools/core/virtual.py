@@ -78,7 +78,11 @@ class Element(abc.ABC):
             widget.position[1] + position[1] - widget.offset[1],
         )
         self.size: tuple[int | float, int | float] = widget.size if size is None else size
-        self.name = self.__class__.__name__ if name is None else name
+
+        self.name = self.__class__.__name__
+        if name is not None:
+            self.name += name
+
         self.styles = styles if styles else parser.get(widget, self)
 
         self.items: list[int] = []
@@ -89,7 +93,7 @@ class Element(abc.ABC):
 
         widget.register_elements(self)
 
-    def move(self, dx: float, dy: float) -> None:
+    def move(self, dx: int | float, dy: int | float) -> None:
         """Move the `Element`.
 
         * `dx`: x-coordinate offset
@@ -100,28 +104,37 @@ class Element(abc.ABC):
         for item in self.items:
             self.widget.master.move(item, dx, dy)
 
-    def moveto(self, x: float, y: float) -> None:
-        """Move the `Element` to a certain position"""
+    def moveto(self, x: int | float, y: int | float) -> None:
+        """Move the `Element` to a certain position.
+
+        * `x`: x-coordinate of the target location
+        * `y`: y-coordinate of the target location
+        """
         return self.move(x-self.position[0], y-self.position[1])
 
     def destroy(self) -> None:
-        """Destroy the `Element`"""
+        """Destroy the `Element`."""
         for gradient in self.gradients:
             gradient.stop()
+
         self.widget.deregister_elements(self)
         self.widget.master.delete(*self.items)
 
     def center(self) -> tuple[float, float]:
-        """Return the geometric center of the `Element`"""
+        """Return the geometric center of the `Element`."""
         return self.position[0] + self.size[0]/2, self.position[1] + self.size[1]/2
 
-    def region(self) -> tuple[float, float, float, float]:
-        """Return the decision region of the `Element`"""
-        return self.position[0], self.position[1], \
-            self.position[0]+self.size[0], self.position[1]+self.size[1]
+    def region(self) -> tuple[int, int, int, int]:
+        """Return the decision region of the `Element`."""
+        x, y, w, h = *self.position, *self.size
+        return round(x), round(y), round(x+w), round(y+h)
 
-    def detect(self, x: int, y: int) -> bool:
-        """Detect whether the specified coordinates are within `Element`"""
+    def detect(self, x: int | float, y: int | float) -> bool:
+        """Detect whether the specified coordinates are within `Element`.
+
+        * `x`: x-coordinate of the location to be detected
+        * `y`: y-coordinate of the location to be detected
+        """
         x1, y1, x2, y2 = self.region()
         return x1 <= x <= x2 and y1 <= y <= y2
 
@@ -344,7 +357,10 @@ class Text(Element):
 
     def region(self) -> tuple[int, int, int, int]:
         """Return the decision region of the `Text`."""
-        return self.widget.master.bbox(self.items[0])
+        if self.items:
+            return self.widget.master.bbox(self.items[0])
+
+        return Element.region(self)
 
     @typing_extensions.override
     def zoom(
@@ -397,6 +413,13 @@ class Image(Element):
         Element.__init__(self, widget, relative_position, size, name=name,
                          gradient_animation=animation, styles=styles, **kwargs)
 
+    def region(self) -> tuple[int, int, int, int]:
+        """Return the decision region of the `Image`."""
+        if self.items:
+            return self.widget.master.bbox(self.items[0])
+
+        return Element.region(self)
+
     @typing_extensions.override
     def zoom(
         self,
@@ -425,8 +448,8 @@ class Image(Element):
 class Style:
     """The styles of a `Widget`."""
 
-    light: dict[str, dict[str, dict[str, str]]]
-    dark: dict[str, dict[str, dict[str, str]]]
+    light: dict[str, dict[str, dict[str, str]]] = {}
+    dark: dict[str, dict[str, dict[str, str]]] = {}
 
     def __init__(self, widget: Widget, *, auto_update: bool = True) -> None:
         """
@@ -436,16 +459,23 @@ class Style:
         self.widget, widget.style = widget, self
         self.auto_update = auto_update
 
-    def update(
+    def reset(
         self,
-        state: str,
         *,
-        gradient_animation: bool | None = None,
+        theme: typing.Literal["light", "dark"] | None = None,
     ) -> None:
-        """Update the style of the widget."""
+        """Reset the style of the widget and update.
 
-    def configure(self) -> None:
-        """Configure the style."""
+        * `theme`: the theme ot be reset, None indicates both
+        """
+        if theme != "light":
+            self.dark = self.__class__.dark
+
+        if theme != "dark":
+            self.light = self.__class__.light
+
+        for element in self.widget.elements:
+            element.update()
 
 
 class Feature:
@@ -775,7 +805,7 @@ class Widget:
         for element in self.elements:
             element.move(dx, dy)
 
-    def moveto(self, x: int, y: int) -> None:
+    def moveto(self, x: int | float, y: int | float) -> None:
         """Move the Widget to a certain position.
 
         * `x`: x-coordinate of the target location
@@ -797,7 +827,7 @@ class Widget:
         for element in self.elements:
             element.destroy()
 
-    def detect(self, x: int, y: int) -> bool:
+    def detect(self, x: int | float, y: int | float) -> bool:
         """Detect whether the specified coordinates are within the `Widget`.
 
         * `x`: x-coordinate of the location to be detected

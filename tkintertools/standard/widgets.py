@@ -296,8 +296,9 @@ class Switch(virtual.Widget):
         * `animation`: wether enable animation
         """
         virtual.Widget.__init__(
-            self, master, position, (length, length / 2), state="normal-off",
+            self, master, position, (length, length / 2),
             name=name, anchor=anchor, capture_events=through, gradient_animation=animation)
+        self.state = "normal-off"
         if configs.Env.system == "Windows10":
             shapes.Rectangle(self, name=".out")
             shapes.Rectangle(
@@ -532,8 +533,9 @@ class ToggleButton(virtual.Widget):
             size = tools.get_text_size(
                 text, fontsize, family, weight=weight, slant=slant, padding=6, master=master)
         virtual.Widget.__init__(
-            self, master, position, size, state="normal-off", name=name,
+            self, master, position, size, name=name,
             anchor=anchor, capture_events=through, gradient_animation=animation)
+        self.state = "normal-off"
         if configs.Env.system == "Windows10":
             shapes.Rectangle(self)
         else:
