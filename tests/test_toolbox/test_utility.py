@@ -84,6 +84,8 @@ class Test(unittest.TestCase):
             case _: self.assertEqual(disabled, "arrow")
 
     def test_create_smoke(self) -> None:
+        if globals().get("Image") is None:
+            raise unittest.SkipTest("PIL not available.")
         size = 100, 100
         smoke = utility.create_smoke(size)
         self.assertEqual((smoke.width(), smoke.height()), size)
