@@ -8,6 +8,11 @@ import unittest
 from tkintertools.core import configs, containers
 from tkintertools.toolbox import utility
 
+try:
+    import PIL
+except ImportError:
+    pass
+
 
 class TestTrigger(unittest.TestCase):
 
@@ -84,7 +89,7 @@ class Test(unittest.TestCase):
             case _: self.assertEqual(disabled, "arrow")
 
     def test_create_smoke(self) -> None:
-        if globals().get("Image") is None:
+        if globals().get("PIL") is None:
             raise unittest.SkipTest("PIL not available.")
         size = 100, 100
         smoke = utility.create_smoke(size)
