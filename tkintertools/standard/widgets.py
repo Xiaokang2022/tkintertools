@@ -35,7 +35,7 @@ import typing_extensions
 
 from ..animation import animations, controllers
 from ..core import configs, containers, virtual
-from ..toolbox import enhanced, tools
+from ..toolbox import enhanced, utility
 from . import features, images, shapes, styles, texts
 
 
@@ -189,7 +189,7 @@ class Label(virtual.Widget):
         * `animation`: wether enable animation
         """
         if size is None:
-            size = tools.get_text_size(
+            size = utility.get_text_size(
                 text, fontsize, family, weight=weight, slant=slant, padding=6, master=master)
         virtual.Widget.__init__(
             self, master, position, size, name=name, anchor=anchor,
@@ -251,7 +251,7 @@ class Button(virtual.Widget):
         * `animation`: wether enable animation
         """
         if size is None:
-            size = tools.get_text_size(
+            size = utility.get_text_size(
                 text, fontsize, family, weight=weight, slant=slant, padding=6, master=master)
         virtual.Widget.__init__(
             self, master, position, size, anchor=anchor, name=name,
@@ -382,7 +382,7 @@ class InputBox(virtual.Widget):
         * `animation`: wether enable animation
         """
         if size is None:
-            size = 200, tools.get_text_size(
+            size = 200, utility.get_text_size(
                 "", fontsize, family, weight=weight, slant=slant, padding=6, master=master)[1]
         virtual.Widget.__init__(
             self, master, position, size, name=name, anchor=anchor,
@@ -536,7 +536,7 @@ class ToggleButton(virtual.Widget):
         * `animation`: wether enable animation
         """
         if size is None:
-            size = tools.get_text_size(
+            size = utility.get_text_size(
                 text, fontsize, family, weight=weight, slant=slant, padding=6, master=master)
         virtual.Widget.__init__(
             self, master, position, size, name=name,
@@ -754,7 +754,7 @@ class UnderlineButton(virtual.Widget):
         * `animation`: wether enable animation
         """
         virtual.Widget.__init__(
-            self, master, position, tools.get_text_size(
+            self, master, position, utility.get_text_size(
                 text, fontsize, family, weight=weight, slant=slant, master=master),
             name=name, anchor=anchor, capture_events=through, gradient_animation=animation)
         styles.UnderlineButtonStyle(self)
@@ -808,7 +808,7 @@ class HighlightButton(virtual.Widget):
         * `animation`: wether enable animation
         """
         virtual.Widget.__init__(
-            self, master, position, tools.get_text_size(
+            self, master, position, utility.get_text_size(
                 text, fontsize, family, weight=weight, slant=slant, master=master),
             name=name, anchor=anchor, capture_events=through, gradient_animation=animation)
         styles.HighlightButtonStyle(self)
@@ -864,7 +864,7 @@ class IconButton(virtual.Widget):
         * `animation`: wether enable animation
         """
         if size is None:
-            size = tools.get_text_size(
+            size = utility.get_text_size(
                 text, fontsize, family, weight=weight, slant=slant, padding=6, master=master)
             size = size[0] + size[1] - 6, size[1]
         virtual.Widget.__init__(
@@ -1007,11 +1007,11 @@ class SegmentedButton(virtual.Widget):
         self.value: int | None = None
         if not sizes:
             if text:
-                sizes = tuple(tools.get_text_size(
+                sizes = tuple(utility.get_text_size(
                     text, fontsize, family, weight=weight, slant=slant, padding=6, master=master
                 ) for text in text)
             else:
-                sizes = (tools.get_text_size(
+                sizes = (utility.get_text_size(
                     "", fontsize, family, weight=weight, slant=slant, padding=6, master=master),)
         widths, heights, length = *zip(*sizes), len(sizes)
         if not text:
@@ -1110,7 +1110,7 @@ class SpinBox(virtual.Widget):
         * `animation`: wether enable animation
         """
         if size is None:
-            size = 200, tools.get_text_size(
+            size = 200, utility.get_text_size(
                 "", fontsize, family, weight=weight, slant=slant, padding=6, master=master)[1]
         virtual.Widget.__init__(
             self, master, position, size, name=name, anchor=anchor,
@@ -1214,7 +1214,7 @@ class OptionButton(virtual.Widget):
         * `animation`: wether enable animation
         """
         if size is None:
-            size = sorted(tools.get_text_size(t, fontsize, family, weight=weight,
+            size = sorted(utility.get_text_size(t, fontsize, family, weight=weight,
                           slant=slant, padding=6, master=master) for t in (list(text) + [""]))[-1]
         self.text = text
         virtual.Widget.__init__(
@@ -1321,7 +1321,7 @@ class ComboBox(virtual.Widget):
         * `animation`: wether enable animation
         """
         if size is None:
-            size = sorted(tools.get_text_size(t, fontsize, family, weight=weight,
+            size = sorted(utility.get_text_size(t, fontsize, family, weight=weight,
                           slant=slant, padding=6, master=master) for t in (list(text) + [""]))[-1]
             size = size[0] + size[1] - 10, size[1]
         self.text = text
@@ -1505,7 +1505,7 @@ class Tooltip(virtual.Widget):
         * `animation`: wether enable animation
         """
         if size is None:
-            size = tools.get_text_size(
+            size = utility.get_text_size(
                 text, fontsize, family, weight=weight, slant=slant, padding=6, master=widget.master)
         position = [widget.position[0] + widget.size[0]/2 - widget.offset[0],
                     widget.position[1] + widget.size[1]/2 - widget.offset[1]]

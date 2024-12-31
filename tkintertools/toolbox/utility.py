@@ -1,14 +1,14 @@
-"""Some useful utility classes or utility functions"""
+"""Some useful utility classes or utility functions."""
 
 from __future__ import annotations
 
 __all__ = [
-    "get_hwnd",
+    "get_parent",
     "embed_window",
     "load_font",
     "screen_size",
     "get_text_size",
-    "get_cursor",
+    "fix_cursor",
     "create_smoke",
 ]
 
@@ -22,8 +22,7 @@ import tkinter
 import tkinter.font
 import typing
 
-from ..core import configs, containers, virtual
-from ..standard import widgets
+from ..core import configs, virtual
 from . import enhanced
 
 try:
@@ -35,13 +34,16 @@ _LINUX_FONTS_DIR: typing.Final[str] = os.path.expanduser("~/.fonts/")
 
 
 class Trigger:
-    """Single trigger
+    """Single trigger.
 
-    It can only be triggered once before the reset, and multiple triggers are invalid. When
-    triggered, the callback function is called.
+    It can only be triggered once before the reset, and multiple triggers are
+    invalid. When triggered, the callback function is called.
     """
 
-    def __init__(self, command: collections.abc.Callable[..., typing.Any]) -> None:
+    def __init__(
+        self,
+        command: collections.abc.Callable[..., typing.Any],
+    ) -> None:
         """
         * `command`: the function that is called when triggered
         """
@@ -50,64 +52,78 @@ class Trigger:
         self._command = command
 
     def get(self) -> bool:
-        """Get the status of the trigger"""
+        """Get the status of the trigger."""
         return self._flag
 
     def reset(self) -> None:
-        """Reset the status of the trigger"""
+        """Reset the status of the trigger."""
         if not self._lock:
             self._flag = False
 
     def lock(self) -> None:
-        """Lock the trigger so that it can't be updated"""
+        """Lock the trigger so that it can't be updated."""
         self._lock = True
 
     def unlock(self) -> None:
-        """Unlock this trigger so that it can be updated again"""
+        """Unlock this trigger so that it can be updated again."""
         self._lock = False
 
     def update(self, value: bool = True, /, *args, **kwargs) -> None:
-        """Update the status of the trigger
+        """Update the status of the trigger.
 
-        `value`: updated value
+        * `value`: updated value
+        * `args`: args of the command
+        * `kwargs`: kwargs of the command
         """
         if not self._lock and not self._flag and value:
             self._flag = True
             self._command(*args, **kwargs)
 
 
-def get_hwnd(widget: tkinter.Misc) -> int:
-    """Get the HWND of `tkinter.Widget`"""
+def get_parent(widget: tkinter.Misc) -> int:
+    """Get the HWND of `tkinter.Widget`.
+
+    * `widget`: the widget
+    """
     return ctypes.windll.user32.GetParent(widget.winfo_id())
 
 
-def embed_window(window: tkinter.Misc, parent: tkinter.Misc | None, *, focus: bool = False) -> None:
-    """Embed a widget into another widget
+def embed_window(
+    window: tkinter.Misc,
+    parent: tkinter.Misc | None,
+    *,
+    focus: bool = False,
+) -> None:
+    """Embed a widget into another widget.
 
     * `window`: Widget that will be embedded in
     * `parent`: parent widget, `None` indicates that the parent widget is the screen
     * `focus`: whether direct input focus to this window
     """
-    ctypes.windll.user32.SetParent(get_hwnd(window), parent.winfo_id() if parent else None)
+    ctypes.windll.user32.SetParent(get_parent(window), parent.winfo_id() if parent else None)
 
     if not focus and window.master is not None:
         window.master.focus_set()
 
 
-def load_font(font_path: str | bytes, *, private: bool = True, enumerable: bool = False) -> bool:
-    """Make fonts located in file `font_path` available to the font system, and return `True` if
-    the operation succeeds, `False` otherwise
+def load_font(
+    font_path: str | bytes,
+    *,
+    private: bool = True,
+    enumerable: bool = False,
+) -> bool:
+    """Make fonts located in file `font_path` available to the font system, and
+    return `True` if the operation succeeds, `False` otherwise.
 
     * `font_path`: the font file path
-    * `private`: if True, other processes cannot see this font(Only Windows OS), and this font will
-    be unloaded when the process dies
+    * `private`: if True, other processes cannot see this font(Only Windows OS),
+    and this font will be unloaded when the process dies
     * `enumerable`: if True, this font will appear when enumerating fonts(Only Windows OS)
 
-    ATTENTION:
+    This function only works on Windows and Linux OS.
 
-    * This function is referenced from `customtkinter.FontManager.load_font`,
-    CustomTkinter: https://github.com/TomSchimansky/CustomTkinter
-    * This function only works on Windows and Linux OS
+    This function is referenced from `customtkinter.FontManager.load_font`,
+    CustomTkinter: https://github.com/TomSchimansky/CustomTkinter.
     """
     if platform.system() == "Windows":
         if isinstance(font_path, str):
@@ -126,6 +142,7 @@ def load_font(font_path: str | bytes, *, private: bool = True, enumerable: bool 
 
     if platform.system() == "Linux":
         font_path = str(font_path)
+
         try:
             os.makedirs(_LINUX_FONTS_DIR, exist_ok=True)
             shutil.copy(font_path, _LINUX_FONTS_DIR)
@@ -141,14 +158,7 @@ def load_font(font_path: str | bytes, *, private: bool = True, enumerable: bool 
 
 
 def screen_size() -> tuple[int, int]:
-    """Returns the size of the screen"""
-    if configs.Env.root is None:
-        temp_tk = tkinter.Tk()
-        temp_tk.withdraw()
-        width, height = temp_tk.winfo_screenwidth(), temp_tk.winfo_screenheight()
-        temp_tk.destroy()
-        return width, height
-
+    """Returns the size of the screen."""
     width = configs.Env.root.winfo_screenwidth()
     height = configs.Env.root.winfo_screenheight()
     return width, height
@@ -163,7 +173,7 @@ def get_text_size(
     master: tkinter.Canvas | virtual.Widget | None = None,
     **kwargs,
 ) -> tuple[int, int]:
-    """Get the size of a text with a special font family and font size
+    """Get the size of a text with a special font family and font size.
 
     * `text`: the text
     * `fontsize`: font size of the text
@@ -172,9 +182,7 @@ def get_text_size(
     * `master`: default canvas or widget provided
     * `kwargs`: kwargs of `tkinter.font.Font`
 
-    ATTENTION:
-
-    * This function only works when the fontsize is negative number!
+    This function only works when the fontsize is negative number!
     """
     if family is None:
         family = configs.Font.family
@@ -183,39 +191,43 @@ def get_text_size(
 
     fontsize = -abs(fontsize)
     temp_cv = master if master else tkinter.Canvas(configs.Env.root)
+
     while isinstance(temp_cv, virtual.Widget):
         temp_cv = temp_cv.master
+
     font = tkinter.font.Font(family=family, size=fontsize, **kwargs)
     item = temp_cv.create_text(-9999, -9999, text=text, font=font)
     x1, y1, x2, y2 = temp_cv.bbox(item)
     temp_cv.delete(item)
+
     if master is None:
         temp_cv.destroy()
+
     return 2*padding + x2 - x1, 2*padding + y2 - y1
 
 
-def get_cursor(name: str, /) -> str:
-    """Get the cursor name."""
+def fix_cursor(name: str, /) -> str:
+    """Fix the cursor name.
+
+    * `name`: name of cursor
+    """
     if name == "disabled":
         match platform.system():
             case "Windows": return "no"
             case "Darwin": return "notallowed"
             case _: return "arrow"
+
     return name
 
 
 def create_smoke(
-    canvas: containers.Canvas,
+    size: tuple[int, int],
     *,
-    size: tuple[int, int] | None = None,
-    position: tuple[int, int] = (0, 0),
     color: str | tuple[int, int, int, int] = "#00000066",
-) -> widgets.Image:
-    """Create a temporary smoke zone. Return the `widgets.Image` widget.
+) -> enhanced.PhotoImage:
+    """Create a temporary smoke zone. Return the `enhanced.PhotoImage`.
 
-    * `canvas`: canvas that the smoke zone will be created on
     * `size`: size of the smoke zone
-    * `position`: position of the smoke zone
     * `color`: color of the smoke zone
 
     This function need `PIL` to run.
@@ -225,11 +237,5 @@ def create_smoke(
     if not globals().get("Image"):
         raise RuntimeError("Package 'pillow' is missing.")
 
-    if size is None:
-        canvas.update_idletasks()
-        size = canvas.winfo_width(), canvas.winfo_height()
-
     # When you have 'PIL.Image', you definitely have 'PIL.ImageTk'
-    image = enhanced.PhotoImage(Image.new("RGBA", size, color))
-
-    return widgets.Image(canvas, position, size, image=image)
+    return enhanced.PhotoImage(Image.new("RGBA", size, color))

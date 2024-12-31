@@ -13,8 +13,7 @@ class TestPhotoImage(unittest.TestCase):
 
     def setUp(self) -> None:
         self.tk = tkinter.Tk()
-        self.image = enhanced.PhotoImage(
-            file=pathlib.Path(__file__).parent.parent/"assets/images/logo.png")
+        self.image = enhanced.PhotoImage(file=pathlib.Path(__file__).parent.parent/"assets/images/logo.png")
         self.width = self.image.width()
         self.height = self.image.height()
 

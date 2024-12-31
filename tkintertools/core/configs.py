@@ -10,7 +10,6 @@ from __future__ import annotations
 __all__ = [
     "Env",
     "Font",
-    "Theme",
     "Constant",
     "reset",
 ]
@@ -86,21 +85,6 @@ class Font:
             case _: return "Noto Sans"
 
 
-class Theme:
-    """Configurations of theme."""
-
-    color_mode: typing.Literal["light", "dark", "system"]
-    """
-    The color mode of the current program, `"system"` is the following system,
-    `"light"` is the light color, and `"dark"` is the dark color
-    """
-
-    @classmethod
-    def reset(cls) -> None:
-        """Reset all configuration options."""
-        cls.color_mode = "system"
-
-
 class Constant:
     """All Constants."""
 
@@ -145,7 +129,6 @@ def reset() -> None:
     """Reset all configuration options."""
     Env.reset()
     Font.reset()
-    Theme.reset()
 
 
 reset()

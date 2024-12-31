@@ -25,7 +25,7 @@ import typing
 from ..animation import animations, controllers
 from ..core import virtual
 from ..standard import shapes
-from ..toolbox import tools
+from ..toolbox import utility
 
 
 class BaseFeature(virtual.Feature):
@@ -70,7 +70,7 @@ class ButtonFeature(virtual.Feature):
 
     def _motion(self, event: tkinter.Event) -> bool:
         if flag := self.widget.shapes[0].detect(event.x, event.y):
-            cursor = tools.get_cursor(
+            cursor = utility.fix_cursor(
                 "disabled" if self.widget.state == "disabled" else "hand2")
             self.widget.master.trigger_config.update(cursor=cursor)
             if self.widget.state == "normal":
@@ -108,7 +108,7 @@ class Underline(ButtonFeature):
 
     def _motion(self, event: tkinter.Event) -> bool:
         if flag := self.widget.texts[0].detect(event.x, event.y):
-            cursor = tools.get_cursor(
+            cursor = utility.fix_cursor(
                 "disabled" if self.widget.state == "disabled" else "hand2")
             self.widget.master.trigger_config.update(cursor=cursor)
             if self.widget.state == "normal":
@@ -140,7 +140,7 @@ class Highlight(ButtonFeature):
 
     def _motion(self, event: tkinter.Event) -> bool:
         if flag := self.widget.texts[0].detect(event.x, event.y):
-            cursor = tools.get_cursor(
+            cursor = utility.fix_cursor(
                 "disabled" if self.widget.state == "disabled" else "hand2")
             self.widget.master.trigger_config.update(cursor=cursor)
             if self.widget.state == "normal":
@@ -173,7 +173,7 @@ class SwitchFeature(ButtonFeature):
 
     def _motion(self, event: tkinter.Event) -> bool:
         if flag := self.widget.shapes[0].detect(event.x, event.y):
-            cursor = tools.get_cursor(
+            cursor = utility.fix_cursor(
                 "disabled" if self.widget.state == "disabled" else "hand2")
             self.widget.master.trigger_config.update(cursor=cursor)
             if self.widget.state.startswith("normal"):
@@ -232,7 +232,7 @@ class ToggleButtonFeature(ButtonFeature):
 
     def _motion(self, event: tkinter.Event) -> bool:
         if flag := self.widget.shapes[0].detect(event.x, event.y):
-            cursor = tools.get_cursor(
+            cursor = utility.fix_cursor(
                 "disabled" if self.widget.state == "disabled" else "hand2")
             self.widget.master.trigger_config.update(cursor=cursor)
             if self.widget.state.startswith("normal"):
@@ -282,7 +282,7 @@ class InputBoxFeature(ButtonFeature):
 
     def _motion(self, event: tkinter.Event) -> bool:
         if flag := self.widget.shapes[0].detect(event.x, event.y):
-            cursor = tools.get_cursor(
+            cursor = utility.fix_cursor(
                 "disabled" if self.widget.state == "disabled" else "xterm")
             self.widget.master.trigger_config.update(cursor=cursor)
             if self.widget.state == "normal":
@@ -307,7 +307,7 @@ class InputBoxFeature(ButtonFeature):
 
     def _b_1_motion(self, event: tkinter.Event) -> bool:
         if self.widget.state == "active":
-            cursor = tools.get_cursor(
+            cursor = utility.fix_cursor(
                 "disabled" if self.widget.state == "disabled" else "xterm")
             self.widget.master.trigger_config.update(cursor=cursor)
             self._end_index = self.widget.texts[0].text_proxy.cursor_find(event.x)

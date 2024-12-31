@@ -25,7 +25,7 @@ import traceback
 import typing
 
 from ..core import configs
-from ..toolbox import tools
+from ..toolbox import utility
 
 try:
     import darkdetect
@@ -48,7 +48,11 @@ except ImportError:
     pass
 
 _callback_events: dict[collections.abc.Callable[..., typing.Any], tuple] = {}
-"""Events that are responded to when the system theme changes"""
+"""Events that are responded to when the system theme changes."""
+
+_color_mode: typing.Literal["light", "dark", "system"] = "system"
+"""The color mode of the current program, `"system"` is the following system,
+`"light"` is the light color, and `"dark"` is the dark color."""
 
 
 def set_color_mode(mode: typing.Literal["system", "dark", "light"] = "system") -> None:
@@ -60,23 +64,26 @@ def set_color_mode(mode: typing.Literal["system", "dark", "light"] = "system") -
 
     `"system"` is the following system
     """
-    configs.Theme.color_mode = mode
+    global _color_mode
+    _color_mode = mode
     _process_event(configs.Env.is_dark if mode == "system" else (mode == "dark"))
 
 
 def get_color_mode() -> typing.Literal["dark", "light"]:
-    """Get the color mode of the program"""
-    if configs.Theme.color_mode == "system":
+    """Get the color mode of the program."""
+    if _color_mode == "system":
         return "dark" if configs.Env.is_dark else "light"
-    return configs.Theme.color_mode
+
+    return _color_mode
 
 
 def register_event(
     func: collections.abc.Callable[..., typing.Any],
     *args: typing.Any,
 ) -> None:
-    """When the system accent color changes, the registered function will be called, and the
-    parameter is a boolean value indicating whether it is currently a dark theme
+    """When the system accent color changes, the registered function will be
+    called, and the parameter is a boolean value indicating whether it is
+    currently a dark theme.
 
     * `func`: callback function
     * `args`: extra arguments
@@ -85,7 +92,7 @@ def register_event(
 
 
 def remove_event(func: collections.abc.Callable[..., typing.Any]) -> None:
-    """Remove a registered function
+    """Remove a registered function.
 
     * `func`: callback function
     """
@@ -141,7 +148,7 @@ def customize_window(
         if title_color is not None:
             pywinstyles.change_title_color(window, title_color)
         if enable_file_dnd is not None:
-            pywinstyles.apply_dnd(tools.get_hwnd(window), enable_file_dnd)
+            pywinstyles.apply_dnd(utility.get_parent(window), enable_file_dnd)
 
     if globals().get("hPyT") is not None:
         if hide_title_bar is not None:
@@ -174,11 +181,11 @@ def customize_window(
                 case "rectangular": type_ = win32material.BORDERTYPE.RECTANGULAR
                 case "smallround": type_ = win32material.BORDERTYPE.SMALLROUND
                 case "round": type_ = win32material.BORDERTYPE.ROUND
-            win32material.SetWindowBorder(ctypes.wintypes.HWND(tools.get_hwnd(window)), type_)
+            win32material.SetWindowBorder(ctypes.wintypes.HWND(utility.get_parent(window)), type_)
 
 
 def _process_event(dark_mode: bool) -> None:
-    """Handle registered callback functions
+    """Handle registered callback functions.
 
     * `dark_mode`: Wether it is dark mode
     """
@@ -190,15 +197,17 @@ def _process_event(dark_mode: bool) -> None:
 
 
 def _callback(theme: str) -> None:
-    """Callback function that is triggered when a system theme is switched. Valid only if the theme
-    mode is set to Follow System
+    """Callback function that is triggered when a system theme is switched.
+    Valid only if the theme mode is set to follow system.
 
     * `theme`: theme name
     """
     configs.Env.is_dark = theme == "Dark"
-    if configs.Theme.color_mode == "system":
+
+    if _color_mode == "system":
         _process_event(configs.Env.is_dark)
 
 
 if globals().get("darkdetect") is not None:
-    threading.Thread(target=lambda: darkdetect.listener(_callback), daemon=True).start()
+    threading.Thread(
+        target=lambda: darkdetect.listener(_callback), daemon=True).start()

@@ -25,7 +25,7 @@ import typing
 import typing_extensions
 
 from ..theme import manager
-from ..toolbox import tools
+from ..toolbox import utility
 from . import configs, virtual
 
 
@@ -402,8 +402,8 @@ class Canvas(tkinter.Canvas):
         self._free_anchor = free_anchor
         self._keep_ratio: typing.Literal["min", "max"] | None = keep_ratio
 
-        self.trigger_focus = tools.Trigger(self.focus)
-        self.trigger_config = tools.Trigger(lambda **kwargs: self.configure(
+        self.trigger_focus = utility.Trigger(self.focus)
+        self.trigger_config = utility.Trigger(lambda **kwargs: self.configure(
             **{k: v for k, v in kwargs.items() if self[k] != v}))
 
         if self.auto_update:
