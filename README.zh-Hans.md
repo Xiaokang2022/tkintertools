@@ -132,6 +132,14 @@ pip install tkintertools[extension]==3.0.0rc5
 
 ![preview_19](https://github.com/Xiaokang2022/tkintertools-demos/blob/main/preview/demo10-1.png?raw=true)
 
+![project_1](https://github.com/Xiaokang2022/Intelligent-Magic-Cube/blob/main/preview.png?raw=true)
+
+![project_2](https://github.com/Xiaokang2022/Chess/blob/master/preview.png?raw=true)
+
+![project_3](https://github.com/Xiaokang2022/Super-Gobang/blob/main/preview.png?raw=true)
+
+![project_4](https://github.com/Xiaokang2022/TodoList/blob/master/preview.png?raw=true)
+
 </details>
 
 ### 🔗 链接

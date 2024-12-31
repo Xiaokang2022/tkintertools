@@ -132,11 +132,19 @@ The demos below are some of the things that can be achieved with the project, th
 
 ![preview_19](https://github.com/Xiaokang2022/tkintertools-demos/blob/main/preview/demo10-1.png?raw=true)
 
+![project_1](https://github.com/Xiaokang2022/Intelligent-Magic-Cube/blob/main/preview.png?raw=true)
+
+![project_2](https://github.com/Xiaokang2022/Chess/blob/master/preview.png?raw=true)
+
+![project_3](https://github.com/Xiaokang2022/Super-Gobang/blob/main/preview.png?raw=true)
+
+![project_4](https://github.com/Xiaokang2022/TodoList/blob/master/preview.png?raw=true)
+
 </details>
 
 ### 🔗 Links
 
-Here are some links that may be useful to you:
+Here are some links that may be helpful to you:
 
 * 📑 License: [*MIT License*](LICENSE.txt)
 * 📘 Changelog: [*CHANGELOG.md*](CHANGELOG.md)
