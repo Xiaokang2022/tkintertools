@@ -85,7 +85,60 @@ pip install tkintertools[extension]==3.0.0rc5
 
 ## 👀 More
 
-* 📑 License: [*LICENSE.txt*](LICENSE.txt)
+### 🖼️ Gallery
+
+The demos below are some of the things that can be achieved with the project, they may be built with the latest version of the project, or they may be built with an older version, but either way, the code for the demo below can be found in the [demo repository](https://github.com/Xiaokang2022/tkintertools-demos)!
+
+> [!TIP]  
+> Please click **"Expand"** to view the gallery
+
+<details><summary><b>Expand</b></summary>
+
+![preview_1](https://github.com/Xiaokang2022/tkintertools-demos/blob/main/preview/demo9-1.png?raw=true)
+
+![preview_2](https://github.com/Xiaokang2022/tkintertools-demos/blob/main/preview/demo9-2.png?raw=true)
+
+![preview_3](https://github.com/Xiaokang2022/tkintertools-demos/blob/main/preview/demo9-3.png?raw=true)
+
+![preview_4](https://github.com/Xiaokang2022/tkintertools-demos/blob/main/preview/demo9-4.png?raw=true)
+
+![preview_5](https://github.com/Xiaokang2022/tkintertools-demos/blob/main/preview/demo0-1.png?raw=true)
+
+![preview_6](https://github.com/Xiaokang2022/tkintertools-demos/blob/main/preview/demo0-2.png?raw=true)
+
+![preview_7](https://github.com/Xiaokang2022/tkintertools-demos/blob/main/preview/demo1-1.png?raw=true)
+
+![preview_8](https://github.com/Xiaokang2022/tkintertools-demos/blob/main/preview/demo1-2.png?raw=true)
+
+![preview_9](https://github.com/Xiaokang2022/tkintertools-demos/blob/main/preview/demo2.png?raw=true)
+
+![preview_10](https://github.com/Xiaokang2022/tkintertools-demos/blob/main/preview/demo3.png?raw=true)
+
+![preview_11](https://github.com/Xiaokang2022/tkintertools-demos/blob/main/preview/demo4-1.png?raw=true)
+
+![preview_12](https://github.com/Xiaokang2022/tkintertools-demos/blob/main/preview/demo4-2.png?raw=true)
+
+![preview_13](https://github.com/Xiaokang2022/tkintertools-demos/blob/main/preview/demo5-1.png?raw=true)
+
+![preview_14](https://github.com/Xiaokang2022/tkintertools-demos/blob/main/preview/demo5-2.png?raw=true)
+
+![preview_15](https://github.com/Xiaokang2022/tkintertools-demos/blob/main/preview/demo6-1.png?raw=true)
+
+![preview_16](https://github.com/Xiaokang2022/tkintertools-demos/blob/main/preview/demo7-1.png?raw=true)
+
+![preview_17](https://github.com/Xiaokang2022/tkintertools-demos/blob/main/preview/demo7-2.png?raw=true)
+
+![preview_18](https://github.com/Xiaokang2022/tkintertools-demos/blob/main/preview/demo8-1.png?raw=true)
+
+![preview_19](https://github.com/Xiaokang2022/tkintertools-demos/blob/main/preview/demo10-1.png?raw=true)
+
+</details>
+
+### 🔗 Links
+
+Here are some links that may be useful to you:
+
+* 📑 License: [*MIT License*](LICENSE.txt)
 * 📘 Changelog: [*CHANGELOG.md*](CHANGELOG.md)
 * 📕 Security Policy: [*SECURITY.md*](SECURITY.md)
 * 📗 Contribution Guide: [*CONTRIBUTING.md*](CONTRIBUTING.md)

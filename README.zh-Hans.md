@@ -85,7 +85,60 @@ pip install tkintertools[extension]==3.0.0rc5
 
 ## 👀 更多
 
-* 📑 项目许可: [*LICENSE.txt*](LICENSE.txt)
+### 🖼️ 画廊
+
+下面是一些可以用该项目实现的演示，它们可能是用该项目的最新版本构建的，也可能是用旧版构建的，但无论怎样，它们的代码都可以在[演示存储库](https://github.com/Xiaokang2022/tkintertools-demos)中找到！
+
+> [!TIP]  
+> 请点击 **“展开”** 来查看画廊
+
+<details><summary><b>展开</b></summary>
+
+![preview_1](https://github.com/Xiaokang2022/tkintertools-demos/blob/main/preview/demo9-1.png?raw=true)
+
+![preview_2](https://github.com/Xiaokang2022/tkintertools-demos/blob/main/preview/demo9-2.png?raw=true)
+
+![preview_3](https://github.com/Xiaokang2022/tkintertools-demos/blob/main/preview/demo9-3.png?raw=true)
+
+![preview_4](https://github.com/Xiaokang2022/tkintertools-demos/blob/main/preview/demo9-4.png?raw=true)
+
+![preview_5](https://github.com/Xiaokang2022/tkintertools-demos/blob/main/preview/demo0-1.png?raw=true)
+
+![preview_6](https://github.com/Xiaokang2022/tkintertools-demos/blob/main/preview/demo0-2.png?raw=true)
+
+![preview_7](https://github.com/Xiaokang2022/tkintertools-demos/blob/main/preview/demo1-1.png?raw=true)
+
+![preview_8](https://github.com/Xiaokang2022/tkintertools-demos/blob/main/preview/demo1-2.png?raw=true)
+
+![preview_9](https://github.com/Xiaokang2022/tkintertools-demos/blob/main/preview/demo2.png?raw=true)
+
+![preview_10](https://github.com/Xiaokang2022/tkintertools-demos/blob/main/preview/demo3.png?raw=true)
+
+![preview_11](https://github.com/Xiaokang2022/tkintertools-demos/blob/main/preview/demo4-1.png?raw=true)
+
+![preview_12](https://github.com/Xiaokang2022/tkintertools-demos/blob/main/preview/demo4-2.png?raw=true)
+
+![preview_13](https://github.com/Xiaokang2022/tkintertools-demos/blob/main/preview/demo5-1.png?raw=true)
+
+![preview_14](https://github.com/Xiaokang2022/tkintertools-demos/blob/main/preview/demo5-2.png?raw=true)
+
+![preview_15](https://github.com/Xiaokang2022/tkintertools-demos/blob/main/preview/demo6-1.png?raw=true)
+
+![preview_16](https://github.com/Xiaokang2022/tkintertools-demos/blob/main/preview/demo7-1.png?raw=true)
+
+![preview_17](https://github.com/Xiaokang2022/tkintertools-demos/blob/main/preview/demo7-2.png?raw=true)
+
+![preview_18](https://github.com/Xiaokang2022/tkintertools-demos/blob/main/preview/demo8-1.png?raw=true)
+
+![preview_19](https://github.com/Xiaokang2022/tkintertools-demos/blob/main/preview/demo10-1.png?raw=true)
+
+</details>
+
+### 🔗 链接
+
+这里是一些可能对您有帮助的链接：
+
+* 📑 项目许可: [*MIT License*](LICENSE.txt)
 * 📘 更新日志: [*CHANGELOG.md*](CHANGELOG.md)
 * 📕 安全策略: [*SECURITY.md*](SECURITY.md)
 * 📗 贡献指南: [*CONTRIBUTING.md*](CONTRIBUTING.md)
