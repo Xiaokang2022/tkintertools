@@ -39,7 +39,7 @@ import typing_extensions
 
 from ..animation import animations
 from ..color import convert, rgb
-from ..style import manager
+from ..theme import manager
 from ..toolbox import enhanced
 from . import configs, containers
 

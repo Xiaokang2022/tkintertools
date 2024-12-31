@@ -24,7 +24,7 @@ import typing
 
 import typing_extensions
 
-from ..style import manager
+from ..theme import manager
 from ..toolbox import tools
 from . import configs, virtual
 

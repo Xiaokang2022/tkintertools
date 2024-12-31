@@ -99,7 +99,7 @@ def generate(
                 "inaccurate or even throw an error.", UserWarning, 2)
 
         @functools.wraps(base)
-        def _mapper(t: int | float) -> float:  # NOTE # type: ignore
+        def _mapper(t: int | float) -> float:
             return _map_y(base, end)(_map_t(start, end)(t))
     else:
         @functools.wraps(base)

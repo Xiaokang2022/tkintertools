@@ -32,7 +32,7 @@ class _DefaultRootDescriptor:
 
     def __get__(self, obj: typing.Any, cls: typing.Any) -> tkinter.Tk:
         """Returns the current default root."""
-        return tkinter._get_default_root()  # NOTE # type: ignore
+        return tkinter._get_default_root()
 
 
 class Env:
