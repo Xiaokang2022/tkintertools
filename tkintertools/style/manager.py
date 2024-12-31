@@ -11,7 +11,6 @@ from __future__ import annotations
 __all__ = [
     "set_color_mode",
     "get_color_mode",
-    "set_theme_map",
     "register_event",
     "remove_event",
     "customize_window",
@@ -23,12 +22,10 @@ import platform
 import threading
 import tkinter
 import traceback
-import types
 import typing
 
 from ..core import configs
 from ..toolbox import tools
-from . import parser
 
 try:
     import darkdetect
@@ -72,24 +69,6 @@ def get_color_mode() -> typing.Literal["dark", "light"]:
     if configs.Theme.color_mode == "system":
         return "dark" if configs.Env.is_dark else "light"
     return configs.Theme.color_mode
-
-
-def set_theme_map(
-    *,
-    light_theme: str | types.ModuleType | None = None,
-    dark_theme: str | types.ModuleType | None = None,
-) -> None:
-    """Set the path to the theme file used by the current program
-
-    * `light_theme`: the name of the theme of the light theme
-    * `dark_theme`: the name of the theme of the dark theme
-    """
-    if dark_theme is not None:
-        configs.Theme.dark = dark_theme
-    if light_theme is not None:
-        configs.Theme.light = light_theme
-    if any((light_theme, dark_theme)):
-        parser.get_file.cache_clear()
 
 
 def register_event(

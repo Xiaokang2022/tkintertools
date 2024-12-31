@@ -54,8 +54,7 @@ class Element(abc.ABC):
         size: tuple[int, int] | None = None,
         *,
         name: str | None = None,
-        gradient_animation: bool = True,
-        auto_update: bool = True,
+        gradient_animation: bool | None = None,
         **kwargs,
     ) -> None:
         """
@@ -64,20 +63,24 @@ class Element(abc.ABC):
         * `size`: size of element
         * `name`: name of element
         * `gradient_animation`: Wether use animation to change color
-        * `auto_update`: 
         * `kwargs`: extra parameters for CanvasItem
         """
         self.widget = widget
-        self.gradient_animation = gradient_animation
-        self.auto_update = auto_update
+
+        if gradient_animation is None:
+            self.gradient_animation = widget.gradient_animation
+        else:
+            self.gradient_animation = gradient_animation
 
         self.position: tuple[int | float, int | float] = (
             widget.position[0] + position[0] - widget.offset[0],
             widget.position[1] + position[1] - widget.offset[1],
         )
+
         self.size: tuple[int | float, int | float] = widget.size if size is None else size
 
         self.name = self.__class__.__name__
+
         if name is not None:
             self.name += name
 
@@ -205,7 +208,7 @@ class Element(abc.ABC):
         for gradient in self.gradients:
             gradient.start()
 
-    def disappear(
+    def forget(
         self,
         value: bool = True,
         *,
@@ -475,12 +478,12 @@ class Style:
     ) -> None:
         """
         * `widget`: parent widget
-        * `auto_update`: 
+        * `auto_update`: whether the theme manager update it automatically
         """
         self.widget, widget.style = widget, self
 
         if auto_update is None:
-            self.auto_update = configs.Env.auto_update
+            self.auto_update = widget.auto_update
         else:
             self.auto_update = auto_update
 
@@ -583,6 +586,7 @@ class Feature:
         """
         name = re.sub("[<\\->]", "", name)
         name = re.sub("([0-9A-Z])", "_\\1", name)
+
         return name.lower()
 
     def get_method(self, name: str) -> collections.abc.Callable:
@@ -626,6 +630,7 @@ class Widget:
         anchor: typing.Literal["n", "s", "w", "e", "nw", "ne", "sw", "se", "center"] = "nw",
         capture_events: bool | None = None,
         gradient_animation: bool | None = None,
+        auto_update: bool | None = None,
     ) -> None:
         """
         * `master`: parent canvas
@@ -635,6 +640,7 @@ class Widget:
         * `anchor`: layout anchor of the widget
         * `capture_events`: wether detect another widget under the widget
         * `gradient_animation`: wether enable animation
+        * `auto_update`: whether the theme manager update it automatically
         """
         if isinstance(master, Widget):
             self.master, self.widget = master.master, master
@@ -661,6 +667,11 @@ class Widget:
             self.gradient_animation = configs.Env.default_animation
         else:
             self.gradient_animation = gradient_animation
+
+        if auto_update is None:
+            self.auto_update = configs.Env.auto_update
+        else:
+            self.auto_update = auto_update
 
         self.widgets: list[Widget] = []
         self.texts: list[Text] = []
@@ -740,7 +751,12 @@ class Widget:
         gradient_animation: bool | None = None,
         nested: bool = True,
     ) -> None:
-        """Update the widget"""
+        """Update the widget.
+
+        * `state`: state of the widget
+        * `gradient_animation`: whether use gradient animation
+        * `nested`: whether nested
+        """
         if state != "disabled" and self.state_before_disabled:
             return  # It is currently disabled
 
@@ -848,13 +864,17 @@ class Widget:
         self.feature.get_method(sequence)(event)
 
     def disable(self, value: bool = True, /) -> None:
-        """Disable the widget."""
+        """Disable the widget.
+
+        * `value`: whether to disable
+        """
         if value:
             if not self.state_before_disabled:
                 self.state_before_disabled = self.state
+
             for element in self.elements:
                 self.style.get_disabled_style(element=element)
-                # element.get_disabled_style(self.state_before_disabled)
+
             self.update("disabled", gradient_animation=True, nested=False)
         else:
             self.state_before_disabled, last_state = "", self.state_before_disabled
@@ -862,15 +882,18 @@ class Widget:
         for widget in self.widgets:
             widget.disable(value)
 
-    def disappear(self, value: bool = True, /) -> None:
-        """Let all elements of the widget to disappear."""
+    def forget(self, value: bool = True, /) -> None:
+        """Let all elements of the widget to disappear.
+
+        * `value`: whether to forget the widget
+        """
         self.disappeared = value
 
         for widget in self.widgets:
-            widget.disappear(value)
+            widget.forget(value)
 
         for element in self.elements:
-            element.disappear(value)
+            element.forget(value)
 
     def move(self, dx: int | float, dy: int | float) -> None:
         """Move the widget.
@@ -897,6 +920,7 @@ class Widget:
     def destroy(self) -> None:
         """Destroy the widget."""
         self.master.widgets.remove(self)
+
         del self.feature, self.style
 
         if self.widget is not None:
@@ -916,6 +940,7 @@ class Widget:
         """
         x1, y1, w, h = *self.position, *self.size
         x2, y2 = x1+w, y1+h
+
         return x1 <= x+self.offset[0] <= x2 and y1 <= y+self.offset[1] <= y2
 
     def zoom(

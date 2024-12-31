@@ -24,7 +24,7 @@ import typing
 
 import typing_extensions
 
-from ..style import manager, parser
+from ..style import manager
 from ..toolbox import tools
 from . import configs, virtual
 
@@ -35,6 +35,9 @@ class Tk(tkinter.Tk):
     In general, there is only one main window. But after destroying it, another
     one can be created.
     """
+
+    light = {"bg": "#F1F1F1"}
+    dark = {"bg": "#202020"}
 
     def __init__(
         self,
@@ -61,6 +64,8 @@ class Tk(tkinter.Tk):
         self.init_size: typing.Final[tuple[int, int]] = size[0], size[1]
         self.canvases: list[Canvas] = []
         self.size = self.init_size
+
+        self.light, self.dark = self.light.copy(), self.dark.copy()
 
         self.update()  # wm_iconbitmap will not take effect without this line
 
@@ -99,20 +104,27 @@ class Tk(tkinter.Tk):
         @functools.wraps(method)
         def wrapper(tk: Tk, *args, **kwargs) -> typing.Any:
             result = method(tk, *args, **kwargs)
+
             if result is None:
                 tk.theme(manager.get_color_mode() == "dark",
                          include_children=False, include_canvases=False)
+
             return result
+
         return wrapper
 
     def _wrap_method(self, method_name: str) -> None:
-        """Some problems can be fixed by decorating the original method"""
+        """Some problems can be fixed by decorating the original method.
+
+        * `method_name`: the name of the method to be decorated
+        """
         method = getattr(tkinter.Wm, method_name)
 
         @Tk._fixed_theme
         @functools.wraps(method)
         def wrapper(*args, **kwargs) -> typing.Any:
             result = method(*args, **kwargs)
+
             return None if result == "" else result
 
         setattr(self, method_name,
@@ -148,15 +160,18 @@ class Tk(tkinter.Tk):
         * `include_canvases`: wether include its canvases
         """
         self.update_idletasks()
-        self["bg"] = "#202020" if dark else "#F1F1F1"
+        self["bg"] = self.dark["bg"] if dark else self.light["bg"]
         manager.customize_window(self, style="dark" if dark else "normal")
+
         if include_children:
             for child in self.children:
                 if isinstance(child, Toplevel):
                     child.theme(dark, include_canvases=include_canvases)
+
         if include_canvases:
             for canvas in self.canvases:
-                canvas.theme(dark)
+                if canvas.auto_update:
+                    canvas.theme(dark)
 
     def geometry(
         self,
@@ -324,6 +339,18 @@ class Canvas(tkinter.Canvas):
     The parent widget of all virtual widgets is `Canvas`.
     """
 
+    light = {
+        "bg": "#F1F1F1",
+        "insertbackground": "#000000",
+        "highlightthickness": 0,
+    }
+
+    dark = {
+        "bg": "#202020",
+        "insertbackground": "#FFFFFF",
+        "highlightthickness": 0,
+    }
+
     def __init__(
         self,
         master: Tk | Toplevel | Canvas,
@@ -332,7 +359,7 @@ class Canvas(tkinter.Canvas):
         zoom_item: bool = False,
         keep_ratio: typing.Literal["min", "max"] | None = None,
         free_anchor: bool = False,
-        name: str | None = None,
+        auto_update: bool | None = None,
         **kwargs,
     ) -> None:
         """
@@ -342,6 +369,7 @@ class Canvas(tkinter.Canvas):
         * `keep_ratio`: the mode of aspect ratio, `min` follows the minimum
         value, `max` follows the maximum value
         * `free_anchor`: whether the anchor point is free-floating
+        * `auto_update`: whether the theme manager update it automatically
         * `kwargs`: compatible with other parameters of class `tkinter.Canvas`
         """
         tkinter.Canvas.__init__(self, master, **kwargs)
@@ -362,19 +390,26 @@ class Canvas(tkinter.Canvas):
         self.canvases: list[Canvas] = []
         self.widgets: list[virtual.Widget] = []
 
-        self.name = name
         self.events: list[str] = []
+
+        if auto_update is None:
+            self.auto_update = configs.Env.auto_update
+        else:
+            self.auto_update = auto_update
 
         self._expand: typing.Literal["", "x", "y", "xy"] = expand
         self._zoom_item = zoom_item
         self._free_anchor = free_anchor
         self._keep_ratio: typing.Literal["min", "max"] | None = keep_ratio
 
+        self.trigger_focus = tools.Trigger(self.focus)
         self.trigger_config = tools.Trigger(lambda **kwargs: self.configure(
             **{k: v for k, v in kwargs.items() if self[k] != v}))
-        self.trigger_focus = tools.Trigger(self.focus)
 
-        self.theme(manager.get_color_mode() == "dark")
+        if self.auto_update:
+            self.theme(manager.get_color_mode() == "dark")
+
+        self.light, self.dark = self.light.copy(), self.dark.copy()
 
         master.canvases.append(self)
 
@@ -409,7 +444,7 @@ class Canvas(tkinter.Canvas):
         * `dark`: whether it is in dark mode
         """
         self.update_idletasks()
-        self.configure(parser.get(self))
+        self.configure(getattr(self, manager.get_color_mode(), {}))
 
         for widget in self.widgets:
             if widget.style.auto_update:
@@ -609,9 +644,10 @@ class Canvas(tkinter.Canvas):
         be bound is not in the predefined event, you need to manually call the
         method once.
         """
-        def _handle_event(event: tkinter.Event) -> None:
+        def handle_event(event: tkinter.Event) -> None:
             for widget in self.widgets[::-1]:
                 if hasattr(widget, "feature"):
                     if widget.feature.get_method(name)(event) and widget.capture_events:
                         pass
-        return self.bind(name, _handle_event, add)
+
+        return self.bind(name, handle_event, add)

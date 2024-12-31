@@ -19,10 +19,7 @@ import ctypes
 import math
 import platform
 import tkinter
-import types
 import typing
-
-from ..theme import dark, light
 
 try:
     import darkdetect
@@ -92,8 +89,6 @@ class Font:
 class Theme:
     """Configurations of theme."""
 
-    light: types.ModuleType | dict
-    dark: types.ModuleType | dict
     color_mode: typing.Literal["light", "dark", "system"]
     """
     The color mode of the current program, `"system"` is the following system,
@@ -103,13 +98,7 @@ class Theme:
     @classmethod
     def reset(cls) -> None:
         """Reset all configuration options."""
-        cls.light, cls.dark = cls.get_default_themes()
         cls.color_mode = "system"
-
-    @staticmethod
-    def get_default_themes() -> tuple[types.ModuleType, types.ModuleType]:
-        """Get default themes."""
-        return light, dark
 
 
 class Constant:

@@ -471,7 +471,7 @@ class CheckBox(virtual.Widget):
             images.StillImage(self, image=image)
         texts.Information(self).set("✔")
         features.CheckBoxFeature(self, command=command)
-        self.texts[0].disappear()
+        self.texts[0].forget()
         if default is not None:
             self.set(default)
 
@@ -486,8 +486,8 @@ class CheckBox(virtual.Widget):
         if self.get() == bool(value):
             return None
         if value:
-            return self.texts[0].disappear(False)
-        return self.texts[0].disappear()
+            return self.texts[0].forget(False)
+        return self.texts[0].forget()
 
 
 class ToggleButton(virtual.Widget):
@@ -607,13 +607,13 @@ class RadioGroup(virtual.Widget):
             shapes.Rectangle(
                 self, name=".in",
                 position=(self.size[0]/4, self.size[1]/4),
-                size=(self.size[0]/2, self.size[1]/2)).disappear()
+                size=(self.size[0]/2, self.size[1]/2)).forget()
         else:
             shapes.Oval(self, name=".out")
             shapes.Oval(
                 self, name=".in",
                 position=(self.size[0]/4, self.size[1]/4),
-                size=(self.size[0]/2, self.size[1]/2)).disappear()
+                size=(self.size[0]/2, self.size[1]/2)).forget()
         if image is not None:
             images.StillImage(self, image=image)
         features.RadioGroupFeature(self, command=command)
@@ -631,8 +631,8 @@ class RadioGroup(virtual.Widget):
         if self.get() == bool(value):
             return None
         if value:
-            return self.shapes[1].disappear(False)
-        return self.shapes[1].disappear()
+            return self.shapes[1].forget(False)
+        return self.shapes[1].forget()
 
 
 class ProgressBar(virtual.Widget):
@@ -682,7 +682,7 @@ class ProgressBar(virtual.Widget):
         if image is not None:
             images.StillImage(self, image=image)
         features.ProgressBarFeature(self)
-        self.shapes[1].disappear()
+        self.shapes[1].forget()
         self.command = command
         if default is not None:
             self.set(default)
@@ -697,9 +697,9 @@ class ProgressBar(virtual.Widget):
         if callback and self.command is not None:
             self.command(value)
         if self.value == 0:
-            return self.shapes[1].disappear()
+            return self.shapes[1].forget()
         if not self.shapes[1].visible:
-            self.shapes[1].disappear(False)
+            self.shapes[1].forget(False)
 
         if isinstance(self.shapes[1], shapes.Rectangle):
             self.shapes[1].coords(
@@ -1232,7 +1232,7 @@ class OptionButton(virtual.Widget):
             through=through, animation=False, command=self._close_options,
             anchor="s" if align == "up" else "n" if align == "down" else "center")
         self._segmented_button.capture_events = None
-        self._segmented_button.disappear(True)
+        self._segmented_button.forget(True)
         self._segmented_button.bind("<Button-1>", self._extra_bind, add="+")
         self.command = command
         if default is not None:
@@ -1248,16 +1248,16 @@ class OptionButton(virtual.Widget):
 
     def _extra_bind(self, event) -> None:
         if not self._segmented_button.detect(event.x, event.y):
-            self._segmented_button.disappear(True)
+            self._segmented_button.forget(True)
 
     def _open_options(self) -> None:
         """Open the options"""
-        self._segmented_button.disappear(False)
+        self._segmented_button.forget(False)
 
     def _close_options(self, index: int | None = None) -> None:
         """Close the options"""
         self._button.texts[0].set("" if index is None else self.text[index])
-        self._segmented_button.disappear(True)
+        self._segmented_button.forget(True)
         if self.command is not None:
             self.command(index)
 
@@ -1342,7 +1342,7 @@ class ComboBox(virtual.Widget):
             through=through, animation=False, command=self._close_options,
             anchor="s" if align == "up" else "n" if align == "down" else "center")
         self._segmented_button.capture_events = None
-        self._segmented_button.disappear(True)
+        self._segmented_button.forget(True)
         self._segmented_button.bind("<Button-1>", self._extra_bind, add="+")
         self.command = command
         if default is not None:
@@ -1358,16 +1358,16 @@ class ComboBox(virtual.Widget):
 
     def _extra_bind(self, event) -> None:
         if not self._segmented_button.detect(event.x, event.y):
-            self._segmented_button.disappear(True)
+            self._segmented_button.forget(True)
 
     def _open_options(self) -> None:
         """Open the options"""
-        self._segmented_button.disappear(False)
+        self._segmented_button.forget(False)
 
     def _close_options(self, index: int | None = None) -> None:
         """Close the options"""
         self._input_box.texts[0].set("" if index is None else self.text[index])
-        self._segmented_button.disappear(True)
+        self._segmented_button.forget(True)
         if self.command is not None:
             self.command(index)
 
@@ -1526,13 +1526,13 @@ class Tooltip(virtual.Widget):
             self, text=text, family=family, fontsize=fontsize, weight=weight, slant=slant,
             underline=underline, overstrike=overstrike, justify=justify)
         widget._update_hooks.append(self._display)
-        self.disappear()
+        self.forget()
 
     def _display(self, state: str | None, _: bool) -> None:
         """Show or hide the tooltip"""
         if state is None:
             return
         if state.startswith("hover"):
-            self.disappear(False)
+            self.forget(False)
         elif state.startswith("normal"):
-            self.disappear()
+            self.forget()
