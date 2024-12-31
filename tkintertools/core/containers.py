@@ -243,6 +243,12 @@ class Tk(tkinter.Tk):
         result = self.wm_attributes("-transparentcolor", value)
         return None if result == "" else result
 
+    @typing_extensions.override
+    def destroy(self) -> None:
+        """Destroy this and all descendants widgets."""
+        manager.remove_event(self.theme)
+        return tkinter.Tk.destroy(self)
+
     def shutdown(
         self,
         command: collections.abc.Callable[[], typing.Any],
@@ -406,9 +412,6 @@ class Canvas(tkinter.Canvas):
         self.configure(parser.get(self))
 
         for widget in self.widgets:
-            for element in widget.shapes + widget.texts + widget.images:
-                if styles := parser.get(widget, element):
-                    element.styles = styles
             if widget.style.auto_update:
                 if widget.state_before_disabled:
                     widget.disable()

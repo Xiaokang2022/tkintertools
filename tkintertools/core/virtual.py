@@ -39,7 +39,7 @@ import typing_extensions
 
 from ..animation import animations
 from ..color import convert, rgb
-from ..style import parser
+from ..style import manager
 from ..toolbox import enhanced
 from . import configs, containers
 
@@ -56,7 +56,6 @@ class Element(abc.ABC):
         name: str | None = None,
         gradient_animation: bool = True,
         auto_update: bool = True,
-        styles: dict[str, dict[str, str]] | None = None,
         **kwargs,
     ) -> None:
         """
@@ -66,7 +65,6 @@ class Element(abc.ABC):
         * `name`: name of element
         * `gradient_animation`: Wether use animation to change color
         * `auto_update`: 
-        * `styles`: style dict of element
         * `kwargs`: extra parameters for CanvasItem
         """
         self.widget = widget
@@ -82,8 +80,6 @@ class Element(abc.ABC):
         self.name = self.__class__.__name__
         if name is not None:
             self.name += name
-
-        self.styles = styles if styles else parser.get(widget, self)
 
         self.items: list[int] = []
         self.gradients: list[animations.GradientItem] = []
@@ -138,69 +134,93 @@ class Element(abc.ABC):
         x1, y1, x2, y2 = self.region()
         return x1 <= x <= x2 and y1 <= y <= y2
 
-    def update(self, state: str | None = None, *, gradient_animation: bool = False) -> None:
-        """Update the style of the `Element` to the corresponding state
+    def update(
+        self,
+        state: str | None = None,
+        *,
+        gradient_animation: bool = False,
+    ) -> None:
+        """Update the style of the `Element` to the corresponding state.
 
         * `state`: the state of the `Element`
+        * `gradient_animation`: whether use gradient animation
         """
-        gradient_animation = not gradient_animation
         if not self.visible:
             return
+
         if state is None:
             state = self.widget.state
+
+        if data := self.widget.style[self].get(state):
+            self.configure(data, gradient_animation=gradient_animation)
+
+    def configure(
+        self,
+        style: dict[str, str],
+        *,
+        gradient_animation: bool = True,
+    ) -> None:
+        """Configure properties of `Element` and update them immediately.
+
+        * `style`: style data
+        * `gradient_animation`: whether use gradient animation
+        """
         for gradient in self.gradients:
             gradient.stop()
+
         self.gradients.clear()
-        if self.styles.get(state) is not None:
-            self.configure(self.styles[state], no_delay=gradient_animation)
 
-    def get_disabled_style(self, refer_state: str | None = None) -> dict[str, str]:
-        """Get the style data of disabled state"""
-        if refer_state is None:
-            refer_state = self.widget.state
-        if self.styles.get("disabled") is None:
-            self.styles["disabled"] = copy.deepcopy(self.styles.get(refer_state, {}))
-            for key, value in self.styles["disabled"].items():
-                self.styles["disabled"][key] = convert.rgb_to_hex(rgb.transition(
-                    convert.hex_to_rgb(value), convert.str_to_rgb(self.widget.master["bg"]),
-                    configs.Constant.GOLDEN_RATIO))
-        return self.styles["disabled"]
+        bg = convert.str_to_rgb(self.widget.master.cget("bg"))
 
-    def configure(self, style: dict[str, str], *, no_delay: bool = False) -> None:
-        """Configure properties of `Element` and update them immediately"""
         for item in self.items:
             tags = self.widget.master.itemcget(item, "tags").split()
-            kwargs = {key: value for key, param
-                      in zip(tags[0:-1:2], tags[1:len(tags):2])
-                      if (value := style.get(param)) is not None}
-            if self.widget.gradient_animation and self.gradient_animation and not no_delay:
+            keys, args = tags[0:-1:2], tags[1:len(tags):2]
+            values = (style.get(arg) for arg in args)
+            kwargs = {k: v for k, v in zip(keys, values) if v is not None}
+
+            for key, value in kwargs.items():
+                if value.startswith("#") and len(value) == 9:
+                    rgba_code = convert.hex_to_rgba(value)
+                    kwargs[key] = convert.rgb_to_hex(
+                        convert.rgba_to_rgb(rgba_code, refer=bg))
+
+            if self.widget.gradient_animation and self.gradient_animation and gradient_animation:
                 for key, value in kwargs.items():
-                    start_color: str = self.widget.master.itemcget(item, key)
-                    if start_color.startswith("#") and len(start_color) == 9:
-                        start_color = convert.rgb_to_hex(convert.rgba_to_rgb(convert.hex_to_rgba(start_color), refer=convert.hex_to_rgb(self.widget.master["bg"])))
-                    if value.startswith("#") and len(value) == 9:
-                        value = convert.rgb_to_hex(convert.rgba_to_rgb(convert.hex_to_rgba(value), refer=convert.hex_to_rgb(self.widget.master["bg"])))
-                    if value == "" or start_color == "":
+                    start: str = self.widget.master.itemcget(item, key)
+
+                    if start.startswith("#") and len(start) == 9:
+                        rgba_code = convert.hex_to_rgba(start)
+                        start = convert.rgb_to_hex(
+                            convert.rgba_to_rgb(rgba_code, refer=bg))
+
+                    if value == "" or start == "":
                         # Null characters cannot be parsed
                         self.widget.master.itemconfigure(item, {key: value})
                     else:
                         self.gradients.append(animations.GradientItem(
-                            self.widget.master, item, key, (start_color, value), 150))
+                            self.widget.master, item, key, (start, value), 150))
             else:
-                for key, value in kwargs.items():
-                    if value.startswith("#") and len(value) == 9:
-                        kwargs[key] = convert.rgb_to_hex(convert.rgba_to_rgb(convert.hex_to_rgba(start_color), refer=convert.hex_to_rgb(self.widget.master["bg"])))
                 self.widget.master.itemconfigure(item, kwargs)
 
         for gradient in self.gradients:
             gradient.start()
 
-    def disappear(self, value: bool = True, *, no_delay: bool = True) -> None:
-        """Let the element to disappear"""
+    def disappear(
+        self,
+        value: bool = True,
+        *,
+        gradient_animation: bool = False,
+    ) -> None:
+        """Let the element to disappear.
+
+        * `value`: whether to disappear
+        * `gradient_animation`: whether use gradient animation
+        """
         self.visible = not value
 
         if value:
-            temp_style = copy.deepcopy(self.styles.get(self.widget.state, None))
+            temp_style = copy.deepcopy(
+                self.widget.style[self].get(self.widget.state))
 
             if temp_style is None:
                 return
@@ -208,9 +228,9 @@ class Element(abc.ABC):
             for arg in temp_style:
                 temp_style[arg] = ""
 
-            self.configure(temp_style, no_delay=no_delay)
+            self.configure(temp_style, gradient_animation=gradient_animation)
         else:
-            self.update(self.widget.state, gradient_animation=no_delay)
+            self.update(self.widget.state, gradient_animation=gradient_animation)
 
     def zoom(
         self,
@@ -317,7 +337,6 @@ class Text(Element):
         overstrike: bool = False,
         name: str | None = None,
         animation: bool = True,
-        styles: dict[str, dict[str, str]] | None = None,
         **kwargs,
     ) -> None:
         """
@@ -336,7 +355,6 @@ class Text(Element):
         * `placeholder`: a placeholder for the prompt
         * `name`: name of element
         * `animation`: Wether use animation to change color
-        * `styles`: style dict of element
         * `kwargs`: extra parameters for CanvasItem
         """
         self.text = text
@@ -353,7 +371,7 @@ class Text(Element):
         self._initial_fontsize = self.font.cget("size")
 
         Element.__init__(self, widget, relative_position, size, name=name,
-                         styles=styles, gradient_animation=animation, **kwargs)
+                         gradient_animation=animation, **kwargs)
 
     def region(self) -> tuple[int, int, int, int]:
         """Return the decision region of the `Text`."""
@@ -394,7 +412,6 @@ class Image(Element):
         image: enhanced.PhotoImage | None = None,
         name: str | None = None,
         animation: bool = True,
-        styles: dict[str, dict[str, str]] | None = None,
         **kwargs,
     ) -> None:
         """
@@ -404,14 +421,13 @@ class Image(Element):
         * `image`: image object of the element
         * `name`: name of element
         * `animation`: Wether use animation to change color
-        * `styles`: style dict of element
         * `kwargs`: extra parameters for CanvasItem
         """
         self.image = image
         self.initail_image = image
 
         Element.__init__(self, widget, relative_position, size, name=name,
-                         gradient_animation=animation, styles=styles, **kwargs)
+                         gradient_animation=animation, **kwargs)
 
     def region(self) -> tuple[int, int, int, int]:
         """Return the decision region of the `Image`."""
@@ -451,13 +467,79 @@ class Style:
     light: dict[str, dict[str, dict[str, str]]] = {}
     dark: dict[str, dict[str, dict[str, str]]] = {}
 
-    def __init__(self, widget: Widget, *, auto_update: bool = True) -> None:
+    def __init__(
+        self,
+        widget: Widget,
+        *,
+        auto_update: bool | None = None,
+    ) -> None:
         """
         * `widget`: parent widget
         * `auto_update`: 
         """
         self.widget, widget.style = widget, self
-        self.auto_update = auto_update
+
+        if auto_update is None:
+            self.auto_update = configs.Env.auto_update
+        else:
+            self.auto_update = auto_update
+
+        self.light = copy.deepcopy(self.light)
+        self.dark = copy.deepcopy(self.dark)
+
+        self._cache: dict[str, dict[str, dict[str, str]]] = {}
+
+    def __getitem__(
+        self,
+        key: Element | str | int,
+        /,
+    ) -> dict[str, dict[str, str]]:
+        if isinstance(key, Element):
+            key = key.name
+        elif isinstance(key, int):
+            key = self.widget.elements[key].name
+
+        return self.get().get(key, {})
+
+    def get_disabled_style(self, *, element: Element) -> dict[str, str]:
+        """Get the style data of disabled state.
+
+        * `element`: element that style to be calculated
+        """
+        if style := self[element].get("disabled"):
+            return style
+
+        if self.widget.state_before_disabled:
+            state = self.widget.state_before_disabled
+        else:
+            state = self.widget.state
+
+        now_style = copy.deepcopy(self.get()[element.name][state])
+
+        bg = convert.str_to_rgb(self.widget.master.cget("bg"))
+
+        for key, value in now_style.items():
+            now_style[key] = convert.rgb_to_hex(rgb.transition(
+                convert.str_to_rgb(value), bg, configs.Constant.GOLDEN_RATIO))
+
+        self[element]["disabled"] = now_style  # cache
+
+        return now_style
+
+    def get(
+        self,
+        *,
+        theme: typing.Literal["light", "dark"] | None = None,
+    ) -> dict[str, dict[str, dict[str, str]]]:
+        """Return the style of the widget.
+
+        * `theme`: the theme of the widget, None indicates the current theme
+        """
+        if not self._cache or self.auto_update:
+            self._cache = getattr(
+                self, theme if theme else manager.get_color_mode(), {})
+
+        return self._cache
 
     def reset(
         self,
@@ -466,13 +548,13 @@ class Style:
     ) -> None:
         """Reset the style of the widget and update.
 
-        * `theme`: the theme ot be reset, None indicates both
+        * `theme`: the theme to be reset, None indicates both
         """
         if theme != "light":
-            self.dark = self.__class__.dark
+            self.dark = copy.deepcopy(self.__class__.dark)
 
         if theme != "dark":
-            self.light = self.__class__.light
+            self.light = copy.deepcopy(self.__class__.light)
 
         for element in self.widget.elements:
             element.update()
@@ -672,8 +754,6 @@ class Widget:
         for element in self.elements:
             element.update(state, gradient_animation=gradient_animation)
 
-        # self.style.update(state, gradient_animation=gradient_animation)
-
         if state is None:
             state = self.state
         else:
@@ -773,7 +853,8 @@ class Widget:
             if not self.state_before_disabled:
                 self.state_before_disabled = self.state
             for element in self.elements:
-                element.get_disabled_style(self.state_before_disabled)
+                self.style.get_disabled_style(element=element)
+                # element.get_disabled_style(self.state_before_disabled)
             self.update("disabled", gradient_animation=True, nested=False)
         else:
             self.state_before_disabled, last_state = "", self.state_before_disabled

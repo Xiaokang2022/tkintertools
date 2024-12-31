@@ -36,7 +36,7 @@ import typing_extensions
 from ..animation import animations, controllers
 from ..core import configs, containers, virtual
 from ..toolbox import enhanced, tools
-from . import features, images, shapes, texts
+from . import features, images, shapes, styles, texts
 
 
 class Text(virtual.Widget):
@@ -81,6 +81,7 @@ class Text(virtual.Widget):
             name=name, anchor=anchor, capture_events=through, gradient_animation=animation)
         # The above parameter `anchor` has no practical effect and is only used
         # to query the data of the widget.
+        styles.TextStyle(self)
         texts.Information(
             self, text=text, family=family, fontsize=fontsize, weight=weight, slant=slant,
             underline=underline, overstrike=overstrike, justify=justify, anchor=anchor)
@@ -193,6 +194,7 @@ class Label(virtual.Widget):
         virtual.Widget.__init__(
             self, master, position, size, name=name, anchor=anchor,
             capture_events=through, gradient_animation=animation)
+        styles.LabelStyle(self)
         if configs.Env.system == "Windows10":
             shapes.Rectangle(self)
         else:
@@ -254,6 +256,7 @@ class Button(virtual.Widget):
         virtual.Widget.__init__(
             self, master, position, size, anchor=anchor, name=name,
             capture_events=through, gradient_animation=animation)
+        styles.ButtonStyle(self)
         if configs.Env.system == "Windows10":
             shapes.Rectangle(self)
         else:
@@ -299,6 +302,7 @@ class Switch(virtual.Widget):
             self, master, position, (length, length / 2),
             name=name, anchor=anchor, capture_events=through, gradient_animation=animation)
         self.state = "normal-off"
+        styles.SwitchStyle(self)
         if configs.Env.system == "Windows10":
             shapes.Rectangle(self, name=".out")
             shapes.Rectangle(
@@ -383,6 +387,7 @@ class InputBox(virtual.Widget):
         virtual.Widget.__init__(
             self, master, position, size, name=name, anchor=anchor,
             capture_events=through, gradient_animation=animation)
+        styles.InputBoxStyle(self)
         if configs.Env.system == "Windows10":
             shapes.Rectangle(self)
         else:
@@ -457,6 +462,7 @@ class CheckBox(virtual.Widget):
         virtual.Widget.__init__(
             self, master, position, (length, length), name=name, anchor=anchor,
             capture_events=through, gradient_animation=animation)
+        styles.CheckBoxStyle(self)
         if configs.Env.system == "Windows10":
             shapes.Rectangle(self)
         else:
@@ -536,6 +542,7 @@ class ToggleButton(virtual.Widget):
             self, master, position, size, name=name,
             anchor=anchor, capture_events=through, gradient_animation=animation)
         self.state = "normal-off"
+        styles.ToggleButtonStyle(self)
         if configs.Env.system == "Windows10":
             shapes.Rectangle(self)
         else:
@@ -594,6 +601,7 @@ class RadioGroup(virtual.Widget):
         virtual.Widget.__init__(
             self, master, position, (length, length), name=name, anchor=anchor,
             capture_events=through, gradient_animation=animation)
+        styles.RadioGroupStyle(self)
         if configs.Env.system == "Windows10":
             shapes.Rectangle(self, name=".out")
             shapes.Rectangle(
@@ -660,6 +668,7 @@ class ProgressBar(virtual.Widget):
         virtual.Widget.__init__(
             self, master, position, size, name=name, anchor=anchor,
             capture_events=through, gradient_animation=animation)
+        styles.ProgressBarStyle(self)
         if configs.Env.system == "Windows10":
             shapes.Rectangle(self, name=".out")
             shapes.Rectangle(
@@ -748,6 +757,7 @@ class UnderlineButton(virtual.Widget):
             self, master, position, tools.get_text_size(
                 text, fontsize, family, weight=weight, slant=slant, master=master),
             name=name, anchor=anchor, capture_events=through, gradient_animation=animation)
+        styles.UnderlineButtonStyle(self)
         if image is not None:
             images.StillImage(self, image=image)
         texts.Information(
@@ -801,6 +811,7 @@ class HighlightButton(virtual.Widget):
             self, master, position, tools.get_text_size(
                 text, fontsize, family, weight=weight, slant=slant, master=master),
             name=name, anchor=anchor, capture_events=through, gradient_animation=animation)
+        styles.HighlightButtonStyle(self)
         if image is not None:
             images.StillImage(self, image=image)
         texts.Information(
@@ -859,6 +870,7 @@ class IconButton(virtual.Widget):
         virtual.Widget.__init__(
             self, master, position, size, name=name, anchor=anchor,
             capture_events=through, gradient_animation=animation)
+        styles.IconButtonStyle(self)
         if configs.Env.system == "Windows10":
             shapes.Rectangle(self)
         else:
@@ -904,6 +916,7 @@ class Slider(virtual.Widget):
         virtual.Widget.__init__(
             self, master, position, size, name=name, anchor=anchor,
             capture_events=through, gradient_animation=animation)
+        styles.SliderStyle(self)
         if configs.Env.system == "Windows10":
             shapes.Rectangle(self, (0, size[1]*5/11), (size[0], size[1]/11), name=".out")
             shapes.Rectangle(self, (0, size[1]*5/11), (size[1]/5, size[1]/11), name=".in")
@@ -1010,6 +1023,7 @@ class SegmentedButton(virtual.Widget):
         virtual.Widget.__init__(
             self, master, position, total_size, name=name, anchor=anchor,
             capture_events=through, gradient_animation=animation)
+        styles.SegmentedButtonStyle(self)
         if configs.Env.system == "Windows10":
             shapes.Rectangle(self)
         else:
@@ -1206,6 +1220,7 @@ class OptionButton(virtual.Widget):
         virtual.Widget.__init__(
             self, master, position, size, name=name, anchor=anchor,
             capture_events=through, gradient_animation=animation)
+        styles.OptionButtonStyle(self)
         self._button = Button(
             self, (0, 0), size, family=family, fontsize=fontsize, weight=weight,
             slant=slant, underline=underline, overstrike=overstrike, justify=justify, anchor=anchor,
@@ -1403,6 +1418,7 @@ class Spinner(virtual.Widget):
         virtual.Widget.__init__(
             self, master, position, size, name=name, anchor=anchor,
             capture_events=through, gradient_animation=animation)
+        styles.SpinnerStyle(self)
         if widths is None:
             widths = 4, 3
         shapes.Oval(self, width=widths[0])
@@ -1501,6 +1517,7 @@ class Tooltip(virtual.Widget):
         virtual.Widget.__init__(
             self, widget.master, position, size, name=name,
             capture_events=through, gradient_animation=animation, anchor="center")
+        styles.TooltipStyle(self)
         if configs.Env.system == "Windows10":
             shapes.Rectangle(self)
         else:

@@ -44,6 +44,7 @@ class Env:
     system: str
     is_dark: bool
     default_animation: bool
+    auto_update: bool
 
     root = _DefaultRootDescriptor()
 
@@ -53,6 +54,7 @@ class Env:
         cls.system = cls.get_default_system()
         cls.is_dark = bool(darkdetect.isDark()) if globals().get("darkdetect") else False
         cls.default_animation = True
+        cls.auto_update = True
 
     @staticmethod
     def get_default_system() -> str:
