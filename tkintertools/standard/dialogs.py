@@ -13,8 +13,6 @@ import tkinter
 import tkinter.colorchooser
 import typing
 
-from ..core import configs
-
 
 class TkMessage:
     """Message pop-up"""
@@ -26,13 +24,10 @@ class TkMessage:
         *,
         title: str | None = None,
         icon: typing.Literal["error", "info", "question", "warning"] = "info",
-        option: typing.Literal["abortretryignore", "ok", "okcancel",
-                               "retrycancel", "yesno", "yesnocancel"] = "ok",
-        default: typing.Literal["abort", "retry", "ignore",
-                                "ok", "cancel", "yes", "no"] | None = None,
+        option: typing.Literal["abortretryignore", "ok", "okcancel", "retrycancel", "yesno", "yesnocancel"] = "ok",
+        default: typing.Literal["abort", "retry", "ignore", "ok", "cancel", "yes", "no"] | None = None,
         master: tkinter.Tk | None = None,
-        command: collections.abc.Callable[[typing.Literal[
-            "abort", "retry", "ignore", "ok", "cancel", "yes", "no"]], typing.Any] | None = None,
+        command: collections.abc.Callable[[typing.Literal["abort", "retry", "ignore", "ok", "cancel", "yes", "no"]], typing.Any] | None = None,
     ) -> None:
         """
         * `message`: message
@@ -45,14 +40,15 @@ class TkMessage:
         * `command`: callback function
         """
         if master is None:
-            master: tkinter.Tk = configs.Env.root
-            if master is None:
-                master = tkinter._get_temp_root()
+            master = tkinter._get_temp_root()
+
         args = ["-icon", icon]
+
         if title is not None:
             args += ["-title", title]
         elif master is not None:
             args += ["-title", master.title()]
+
         if message is not None:
             args += ["-message", message]
         if detail is not None:
@@ -61,7 +57,9 @@ class TkMessage:
             args += ["-type", option]
         if default is not None:
             args += ["-default", default]
+
         value = master.call("tk_messageBox", "-parent", master, *args)
+
         if command is not None:
             command(value)
 
@@ -83,10 +81,11 @@ class TkColorChooser:
         * `master`: parent widget of the window
         * `command`: callback function
         """
-        color: tuple[tuple[int, int, int] | None, str | None] = \
-            tkinter.colorchooser.askcolor(parent=master, title=title, initialcolor=color)
-        if command is not None and color[0] is not None:
-            command(color[1])
+        colors = tkinter.colorchooser.askcolor(
+            initialcolor=color, parent=master, title=title)
+
+        if command is not None and colors[0] is not None:
+            command(colors[1])
 
 
 class TkFontChooser:
@@ -107,9 +106,8 @@ class TkFontChooser:
         * `command`: callback function
         """
         if master is None:
-            master: tkinter.Tk = configs.Env.root
-            if master is None:
-                master = tkinter._get_temp_root()
+            master = tkinter._get_temp_root()
+
         args = []
         if title is not None:
             args += ["-title", title]
@@ -117,5 +115,6 @@ class TkFontChooser:
             args += ["-font", font]
         if command is not None:
             args += ["-command", master.register(command)]
+
         master.call("tk", "fontchooser", "configure", "-parent", master, *args)
         master.call("tk", "fontchooser", "show")

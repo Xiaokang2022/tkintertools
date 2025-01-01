@@ -290,7 +290,7 @@ class Element(abc.ABC):
         if position is not None:
             self.position = position
 
-        # overload this method to do something here
+        # override this method to do something here
 
 
 class Shape(Element):
@@ -467,6 +467,8 @@ class Image(Element):
 class Style:
     """The styles of a `Widget`."""
 
+    states = "normal", "hover", "active", "disabled"
+
     light: dict[str, dict[str, dict[str, str]]] = {}
     dark: dict[str, dict[str, dict[str, str]]] = {}
 
@@ -480,7 +482,7 @@ class Style:
         * `widget`: parent widget
         * `auto_update`: whether the theme manager update it automatically
         """
-        self.widget, widget.style = widget, self
+        self.widget = widget
 
         if auto_update is None:
             self.auto_update = widget.auto_update
@@ -562,6 +564,21 @@ class Style:
         for element in self.widget.elements:
             element.update()
 
+    @staticmethod
+    def _wrap_arg(arg: tuple[str | None, ...] | str, /) -> tuple[str | None, ...]:
+        """Wrap the argument to a tuple.
+
+        * `arg`: argument
+        """
+        if isinstance(arg, str):
+            return (arg,)
+
+        return arg
+
+    def set(self) -> None:
+        """Set the style of the widget."""
+        # override this method to do something here
+
 
 class Feature:
     """The features of a `Widget`."""
@@ -570,7 +587,7 @@ class Feature:
         """
         * `widget`: parent widget
         """
-        self.widget, widget.feature = widget, self
+        self.widget = widget
         self.extra_commands: dict[str, list[collections.abc.Callable[[tkinter.Event], typing.Any]]] = {}
 
     @staticmethod
@@ -631,6 +648,7 @@ class Widget:
         capture_events: bool | None = None,
         gradient_animation: bool | None = None,
         auto_update: bool | None = None,
+        style: type[Style] | None = None,
     ) -> None:
         """
         * `master`: parent canvas
@@ -641,6 +659,7 @@ class Widget:
         * `capture_events`: wether detect another widget under the widget
         * `gradient_animation`: wether enable animation
         * `auto_update`: whether the theme manager update it automatically
+        * `style`: style of the widget
         """
         if isinstance(master, Widget):
             self.master, self.widget = master.master, master
@@ -677,7 +696,7 @@ class Widget:
         self.texts: list[Text] = []
         self.shapes: list[Shape] = []
         self.images: list[Image] = []
-        self.style = Style(self)
+        self.style = Style(self) if style is None else style(self)
         self.feature = Feature(self)
 
         self.state: str = "normal"

@@ -57,8 +57,10 @@ class Text(virtual.Widget):
         justify: typing.Literal["left", "center", "right"] = "left",
         name: str | None = None,
         anchor: typing.Literal["n", "e", "w", "s", "nw", "ne", "sw", "se", "center"] = "nw",
-        through: bool | None = None,
-        animation: bool | None = None,
+        capture_events: bool | None = None,
+        gradient_animation: bool | None = None,
+        auto_update: bool | None = None,
+        style: type[virtual.Style] | None = None,
     ) -> None:
         """
         * `master`: parent canvas
@@ -73,15 +75,19 @@ class Text(virtual.Widget):
         * `justify`: justify mode of the text
         * `name`: name of the widget
         * `anchor`: anchor of the widget
-        * `through`: wether detect another widget under the widget
-        * `animation`: wether enable animation
+        * `capture_events`: wether detect another widget under the widget
+        * `gradient_animation`: wether enable gradient_animation
+        * `auto_update`: whether the theme manager update it automatically
+        * `style`: style of the widget
         """
         virtual.Widget.__init__(
-            self, master, position, (0, 0),
-            name=name, anchor=anchor, capture_events=through, gradient_animation=animation)
+            self, master, position, (0, 0), name=name, anchor=anchor,
+            capture_events=capture_events, gradient_animation=gradient_animation,
+            auto_update=auto_update, style=style)
         # The above parameter `anchor` has no practical effect and is only used
         # to query the data of the widget.
-        styles.TextStyle(self)
+        if style is None:
+            self.style = styles.TextStyle(self)
         texts.Information(
             self, text=text, family=family, fontsize=fontsize, weight=weight, slant=slant,
             underline=underline, overstrike=overstrike, justify=justify, anchor=anchor)
@@ -107,8 +113,10 @@ class Image(virtual.Widget):
         image: enhanced.PhotoImage | None = None,
         name: str | None = None,
         anchor: typing.Literal["n", "e", "w", "s", "nw", "ne", "sw", "se", "center"] = "nw",
-        through: bool | None = None,
-        animation: bool | None = None,
+        capture_events: bool | None = None,
+        gradient_animation: bool | None = None,
+        auto_update: bool | None = None,
+        style: type[virtual.Style] | None = None,
     ) -> None:
         """
         * `master`: parent canvas
@@ -117,12 +125,15 @@ class Image(virtual.Widget):
         * `image`: image of the widget
         * `name`: name of the widget
         * `anchor`: anchor of the widget
-        * `through`: wether detect another widget under the widget
-        * `animation`: wether enable animation
+        * `capture_events`: wether detect another widget under the widget
+        * `gradient_animation`: wether enable gradient_animation
+        * `auto_update`: whether the theme manager update it automatically
+        * `style`: style of the widget
         """
         virtual.Widget.__init__(
-            self, master, position, (0, 0),
-            name=name, anchor=anchor, capture_events=through, gradient_animation=animation)
+            self, master, position, (0, 0), name=name, anchor=anchor,
+            capture_events=capture_events, gradient_animation=gradient_animation,
+            auto_update=auto_update, style=style)
         # The above parameter `anchor` has no practical effect and is only used
         # to query the data of the widget.
         if image is not None and size is not None:
@@ -167,8 +178,10 @@ class Label(virtual.Widget):
         image: enhanced.PhotoImage | None = None,
         name: str | None = None,
         anchor: typing.Literal["n", "e", "w", "s", "nw", "ne", "sw", "se", "center"] = "nw",
-        through: bool | None = None,
-        animation: bool | None = None,
+        capture_events: bool | None = None,
+        gradient_animation: bool | None = None,
+        auto_update: bool | None = None,
+        style: type[virtual.Style] | None = None,
     ) -> None:
         """
         * `master`: parent canvas
@@ -185,16 +198,20 @@ class Label(virtual.Widget):
         * `image`: image of the widget
         * `name`: name of the widget
         * `anchor`: anchor of the widget
-        * `through`: wether detect another widget under the widget
-        * `animation`: wether enable animation
+        * `capture_events`: wether detect another widget under the widget
+        * `gradient_animation`: wether enable gradient_animation
+        * `auto_update`: whether the theme manager update it automatically
+        * `style`: style of the widget
         """
         if size is None:
             size = utility.get_text_size(
                 text, fontsize, family, weight=weight, slant=slant, padding=6, master=master)
         virtual.Widget.__init__(
             self, master, position, size, name=name, anchor=anchor,
-            capture_events=through, gradient_animation=animation)
-        styles.LabelStyle(self)
+            capture_events=capture_events, gradient_animation=gradient_animation,
+            auto_update=auto_update, style=style)
+        if style is None:
+            self.style = styles.LabelStyle(self)
         if configs.Env.system == "Windows10":
             shapes.Rectangle(self)
         else:
@@ -204,7 +221,7 @@ class Label(virtual.Widget):
         texts.Information(
             self, text=text, family=family, fontsize=fontsize, weight=weight, slant=slant,
             underline=underline, overstrike=overstrike, justify=justify)
-        features.LabelFeature(self)
+        self.feature = features.LabelFeature(self)
 
 
 class Button(virtual.Widget):
@@ -228,8 +245,10 @@ class Button(virtual.Widget):
         image: enhanced.PhotoImage | None = None,
         name: str | None = None,
         anchor: typing.Literal["n", "e", "w", "s", "nw", "ne", "sw", "se", "center"] = "nw",
-        through: bool | None = None,
-        animation: bool | None = None,
+        capture_events: bool | None = None,
+        gradient_animation: bool | None = None,
+        auto_update: bool | None = None,
+        style: type[virtual.Style] | None = None,
     ) -> None:
         """
         * `master`: parent canvas
@@ -247,16 +266,20 @@ class Button(virtual.Widget):
         * `image`: image of the widget
         * `name`: name of the widget
         * `anchor`: anchor of the widget
-        * `through`: wether detect another widget under the widget
-        * `animation`: wether enable animation
+        * `capture_events`: wether detect another widget under the widget
+        * `gradient_animation`: wether enable gradient_animation
+        * `auto_update`: whether the theme manager update it automatically
+        * `style`: style of the widget
         """
         if size is None:
             size = utility.get_text_size(
                 text, fontsize, family, weight=weight, slant=slant, padding=6, master=master)
         virtual.Widget.__init__(
             self, master, position, size, anchor=anchor, name=name,
-            capture_events=through, gradient_animation=animation)
-        styles.ButtonStyle(self)
+            capture_events=capture_events, gradient_animation=gradient_animation,
+            auto_update=auto_update, style=style)
+        if style is None:
+            self.style = styles.ButtonStyle(self)
         if configs.Env.system == "Windows10":
             shapes.Rectangle(self)
         else:
@@ -266,7 +289,7 @@ class Button(virtual.Widget):
         texts.Information(
             self, text=text, family=family, fontsize=fontsize, weight=weight, slant=slant,
             underline=underline, overstrike=overstrike, justify=justify)
-        features.ButtonFeature(self, command=command)
+        self.feature = features.ButtonFeature(self, command=command)
 
 
 class Switch(virtual.Widget):
@@ -283,8 +306,10 @@ class Switch(virtual.Widget):
         image: enhanced.PhotoImage | None = None,
         name: str | None = None,
         anchor: typing.Literal["n", "e", "w", "s", "nw", "ne", "sw", "se", "center"] = "nw",
-        through: bool | None = None,
-        animation: bool | None = None,
+        capture_events: bool | None = None,
+        gradient_animation: bool | None = None,
+        auto_update: bool | None = None,
+        style: type[virtual.Style] | None = None,
     ) -> None:
         """
         * `master`: parent canvas
@@ -295,14 +320,18 @@ class Switch(virtual.Widget):
         * `image`: image of the widget
         * `name`: name of the widget
         * `anchor`: anchor of the widget
-        * `through`: wether detect another widget under the widget
-        * `animation`: wether enable animation
+        * `capture_events`: wether detect another widget under the widget
+        * `gradient_animation`: wether enable gradient_animation
+        * `auto_update`: whether the theme manager update it automatically
+        * `style`: style of the widget
         """
         virtual.Widget.__init__(
-            self, master, position, (length, length / 2),
-            name=name, anchor=anchor, capture_events=through, gradient_animation=animation)
+            self, master, position, (length, length / 2), name=name,
+            anchor=anchor, capture_events=capture_events, gradient_animation=gradient_animation,
+            auto_update=auto_update, style=style)
         self.state = "normal-off"
-        styles.SwitchStyle(self)
+        if style is None:
+            self.style = styles.SwitchStyle(self)
         if configs.Env.system == "Windows10":
             shapes.Rectangle(self, name=".out")
             shapes.Rectangle(
@@ -314,7 +343,7 @@ class Switch(virtual.Widget):
                         size=(length*3/10, length*3/10), gradient_animation=False)
         if image is not None:
             images.StillImage(self, image=image)
-        features.SwitchFeature(self, command=command)
+        self.feature = features.SwitchFeature(self, command=command)
         if default is not None:
             self.set(default)
 
@@ -357,8 +386,10 @@ class InputBox(virtual.Widget):
         image: enhanced.PhotoImage | None = None,
         name: str | None = None,
         anchor: typing.Literal["n", "e", "w", "s", "nw", "ne", "sw", "se", "center"] = "nw",
-        through: bool | None = None,
-        animation: bool | None = None,
+        capture_events: bool | None = None,
+        gradient_animation: bool | None = None,
+        auto_update: bool | None = None,
+        style: type[virtual.Style] | None = None,
     ) -> None:
         """
         * `master`: parent canvas
@@ -378,16 +409,20 @@ class InputBox(virtual.Widget):
         * `image`: image of the widget
         * `name`: name of the widget
         * `anchor`: anchor of the widget
-        * `through`: wether detect another widget under the widget
-        * `animation`: wether enable animation
+        * `capture_events`: wether detect another widget under the widget
+        * `gradient_animation`: wether enable gradient_animation
+        * `auto_update`: whether the theme manager update it automatically
+        * `style`: style of the widget
         """
         if size is None:
             size = 200, utility.get_text_size(
                 "", fontsize, family, weight=weight, slant=slant, padding=6, master=master)[1]
         virtual.Widget.__init__(
             self, master, position, size, name=name, anchor=anchor,
-            capture_events=through, gradient_animation=animation)
-        styles.InputBoxStyle(self)
+            capture_events=capture_events, gradient_animation=gradient_animation,
+            auto_update=auto_update, style=style)
+        if style is None:
+            self.style = styles.InputBoxStyle(self)
         if configs.Env.system == "Windows10":
             shapes.Rectangle(self)
         else:
@@ -399,7 +434,7 @@ class InputBox(virtual.Widget):
             self, family=family, fontsize=fontsize, weight=weight, slant=slant, underline=underline,
             overstrike=overstrike, align=align, limit=limit, limit_width=limit_width, show=show,
             placeholder=placeholder)
-        features.InputBoxFeature(self)
+        self.feature = features.InputBoxFeature(self)
 
     def get(self) -> str:
         """Get the value of the Entry"""
@@ -444,8 +479,10 @@ class CheckBox(virtual.Widget):
         image: enhanced.PhotoImage | None = None,
         name: str | None = None,
         anchor: typing.Literal["n", "e", "w", "s", "nw", "ne", "sw", "se", "center"] = "nw",
-        through: bool | None = None,
-        animation: bool | None = None,
+        capture_events: bool | None = None,
+        gradient_animation: bool | None = None,
+        auto_update: bool | None = None,
+        style: type[virtual.Style] | None = None,
     ) -> None:
         """
         * `master`: parent canvas
@@ -456,13 +493,17 @@ class CheckBox(virtual.Widget):
         * `image`: image of the widget
         * `name`: name of the widget
         * `anchor`: anchor of the widget
-        * `through`: wether detect another widget under the widget
-        * `animation`: wether enable animation
+        * `capture_events`: wether detect another widget under the widget
+        * `gradient_animation`: wether enable gradient_animation
+        * `auto_update`: whether the theme manager update it automatically
+        * `style`: style of the widget
         """
         virtual.Widget.__init__(
             self, master, position, (length, length), name=name, anchor=anchor,
-            capture_events=through, gradient_animation=animation)
-        styles.CheckBoxStyle(self)
+            capture_events=capture_events, gradient_animation=gradient_animation,
+            auto_update=auto_update, style=style)
+        if style is None:
+            self.style = styles.CheckBoxStyle(self)
         if configs.Env.system == "Windows10":
             shapes.Rectangle(self)
         else:
@@ -470,7 +511,7 @@ class CheckBox(virtual.Widget):
         if image is not None:
             images.StillImage(self, image=image)
         texts.Information(self).set("✔")
-        features.CheckBoxFeature(self, command=command)
+        self.feature = features.CheckBoxFeature(self, command=command)
         self.texts[0].forget()
         if default is not None:
             self.set(default)
@@ -512,8 +553,10 @@ class ToggleButton(virtual.Widget):
         image: enhanced.PhotoImage | None = None,
         name: str | None = None,
         anchor: typing.Literal["n", "e", "w", "s", "nw", "ne", "sw", "se", "center"] = "nw",
-        through: bool | None = None,
-        animation: bool | None = None,
+        capture_events: bool | None = None,
+        gradient_animation: bool | None = None,
+        auto_update: bool | None = None,
+        style: type[virtual.Style] | None = None,
     ) -> None:
         """
         * `master`: parent canvas
@@ -532,17 +575,21 @@ class ToggleButton(virtual.Widget):
         * `image`: image of the widget
         * `name`: name of the widget
         * `anchor`: anchor of the widget
-        * `through`: wether detect another widget under the widget
-        * `animation`: wether enable animation
+        * `capture_events`: wether detect another widget under the widget
+        * `gradient_animation`: wether enable gradient_animation
+        * `auto_update`: whether the theme manager update it automatically
+        * `style`: style of the widget
         """
         if size is None:
             size = utility.get_text_size(
                 text, fontsize, family, weight=weight, slant=slant, padding=6, master=master)
         virtual.Widget.__init__(
-            self, master, position, size, name=name,
-            anchor=anchor, capture_events=through, gradient_animation=animation)
+            self, master, position, size, name=name, anchor=anchor,
+            capture_events=capture_events, gradient_animation=gradient_animation,
+            auto_update=auto_update, style=style)
         self.state = "normal-off"
-        styles.ToggleButtonStyle(self)
+        if style is None:
+            self.style = styles.ToggleButtonStyle(self)
         if configs.Env.system == "Windows10":
             shapes.Rectangle(self)
         else:
@@ -552,7 +599,7 @@ class ToggleButton(virtual.Widget):
         texts.Information(
             self, text=text, family=family, fontsize=fontsize, weight=weight, slant=slant,
             underline=underline, overstrike=overstrike, justify=justify)
-        features.ToggleButtonFeature(self, command=command)
+        self.feature = features.ToggleButtonFeature(self, command=command)
         if default is not None:
             self.set(default)
 
@@ -583,8 +630,10 @@ class RadioGroup(virtual.Widget):
         image: enhanced.PhotoImage | None = None,
         name: str | None = None,
         anchor: typing.Literal["n", "e", "w", "s", "nw", "ne", "sw", "se", "center"] = "nw",
-        through: bool | None = None,
-        animation: bool | None = None,
+        capture_events: bool | None = None,
+        gradient_animation: bool | None = None,
+        auto_update: bool | None = None,
+        style: type[virtual.Style] | None = None,
     ) -> None:
         """
         * `master`: parent canvas
@@ -595,13 +644,17 @@ class RadioGroup(virtual.Widget):
         * `image`: image of the widget
         * `name`: name of the widget
         * `anchor`: anchor of the widget
-        * `through`: wether detect another widget under the widget
-        * `animation`: wether enable animation
+        * `capture_events`: wether detect another widget under the widget
+        * `gradient_animation`: wether enable gradient_animation
+        * `auto_update`: whether the theme manager update it automatically
+        * `style`: style of the widget
         """
         virtual.Widget.__init__(
             self, master, position, (length, length), name=name, anchor=anchor,
-            capture_events=through, gradient_animation=animation)
-        styles.RadioGroupStyle(self)
+            capture_events=capture_events, gradient_animation=gradient_animation,
+            auto_update=auto_update, style=style)
+        if style is None:
+            self.style = styles.RadioGroupStyle(self)
         if configs.Env.system == "Windows10":
             shapes.Rectangle(self, name=".out")
             shapes.Rectangle(
@@ -616,7 +669,7 @@ class RadioGroup(virtual.Widget):
                 size=(self.size[0]/2, self.size[1]/2)).forget()
         if image is not None:
             images.StillImage(self, image=image)
-        features.RadioGroupFeature(self, command=command)
+        self.feature = features.RadioGroupFeature(self, command=command)
         if default is not None:
             self.set(default)
 
@@ -649,8 +702,10 @@ class ProgressBar(virtual.Widget):
         image: enhanced.PhotoImage | None = None,
         name: str | None = None,
         anchor: typing.Literal["n", "e", "w", "s", "nw", "ne", "sw", "se", "center"] = "nw",
-        through: bool | None = None,
-        animation: bool | None = None,
+        capture_events: bool | None = None,
+        gradient_animation: bool | None = None,
+        auto_update: bool | None = None,
+        style: type[virtual.Style] | None = None,
     ) -> None:
         """
         * `master`: parent canvas
@@ -661,14 +716,18 @@ class ProgressBar(virtual.Widget):
         * `image`: image of the widget
         * `name`: name of the widget
         * `anchor`: anchor of the widget
-        * `through`: wether detect another widget under the widget
-        * `animation`: wether enable animation
+        * `capture_events`: wether detect another widget under the widget
+        * `gradient_animation`: wether enable gradient_animation
+        * `auto_update`: whether the theme manager update it automatically
+        * `style`: style of the widget
         """
         self.value: float = 0
         virtual.Widget.__init__(
             self, master, position, size, name=name, anchor=anchor,
-            capture_events=through, gradient_animation=animation)
-        styles.ProgressBarStyle(self)
+            capture_events=capture_events, gradient_animation=gradient_animation,
+            auto_update=auto_update, style=style)
+        if style is None:
+            self.style = styles.ProgressBarStyle(self)
         if configs.Env.system == "Windows10":
             shapes.Rectangle(self, name=".out")
             shapes.Rectangle(
@@ -681,7 +740,7 @@ class ProgressBar(virtual.Widget):
                 position=(self.size[1]*0.15, self.size[1]*0.15))
         if image is not None:
             images.StillImage(self, image=image)
-        features.ProgressBarFeature(self)
+        self.feature = features.ProgressBarFeature(self)
         self.shapes[1].forget()
         self.command = command
         if default is not None:
@@ -732,8 +791,10 @@ class UnderlineButton(virtual.Widget):
         image: enhanced.PhotoImage | None = None,
         name: str | None = None,
         anchor: typing.Literal["n", "e", "w", "s", "nw", "ne", "sw", "se", "center"] = "nw",
-        through: bool | None = None,
-        animation: bool = False,
+        capture_events: bool | None = None,
+        gradient_animation: bool = False,
+        auto_update: bool | None = None,
+        style: type[virtual.Style] | None = None,
     ) -> None:
         """
         * `master`: parent canvas
@@ -750,20 +811,24 @@ class UnderlineButton(virtual.Widget):
         * `image`: image of the widget
         * `name`: name of the widget
         * `anchor`: anchor of the widget
-        * `through`: wether detect another widget under the widget
-        * `animation`: wether enable animation
+        * `capture_events`: wether detect another widget under the widget
+        * `gradient_animation`: wether enable gradient_animation
+        * `auto_update`: whether the theme manager update it automatically
+        * `style`: style of the widget
         """
         virtual.Widget.__init__(
             self, master, position, utility.get_text_size(
                 text, fontsize, family, weight=weight, slant=slant, master=master),
-            name=name, anchor=anchor, capture_events=through, gradient_animation=animation)
-        styles.UnderlineButtonStyle(self)
+            name=name, anchor=anchor, capture_events=capture_events,
+            gradient_animation=gradient_animation, auto_update=auto_update, style=style)
+        if style is None:
+            self.style = styles.UnderlineButtonStyle(self)
         if image is not None:
             images.StillImage(self, image=image)
         texts.Information(
             self, text=text, family=family, fontsize=fontsize, weight=weight, slant=slant,
             underline=underline, overstrike=overstrike, justify=justify)
-        features.Underline(self, command=command)
+        self.feature = features.Underline(self, command=command)
 
 
 class HighlightButton(virtual.Widget):
@@ -786,8 +851,10 @@ class HighlightButton(virtual.Widget):
         image: enhanced.PhotoImage | None = None,
         name: str | None = None,
         anchor: typing.Literal["n", "e", "w", "s", "nw", "ne", "sw", "se", "center"] = "nw",
-        through: bool | None = None,
-        animation: bool | None = None,
+        capture_events: bool | None = None,
+        gradient_animation: bool | None = None,
+        auto_update: bool | None = None,
+        style: type[virtual.Style] | None = None,
     ) -> None:
         """
         * `master`: parent canvas
@@ -804,20 +871,24 @@ class HighlightButton(virtual.Widget):
         * `image`: image of the widget
         * `name`: name of the widget
         * `anchor`: anchor of the widget
-        * `through`: wether detect another widget under the widget
-        * `animation`: wether enable animation
+        * `capture_events`: wether detect another widget under the widget
+        * `gradient_animation`: wether enable gradient_animation
+        * `auto_update`: whether the theme manager update it automatically
+        * `style`: style of the widget
         """
         virtual.Widget.__init__(
             self, master, position, utility.get_text_size(
                 text, fontsize, family, weight=weight, slant=slant, master=master),
-            name=name, anchor=anchor, capture_events=through, gradient_animation=animation)
-        styles.HighlightButtonStyle(self)
+            name=name, anchor=anchor, capture_events=capture_events,
+            gradient_animation=gradient_animation, auto_update=auto_update, style=style)
+        if style is None:
+            self.style = styles.HighlightButtonStyle(self)
         if image is not None:
             images.StillImage(self, image=image)
         texts.Information(
             self, text=text, family=family, fontsize=fontsize, weight=weight, slant=slant,
             underline=underline, overstrike=overstrike, justify=justify)
-        features.Highlight(self, command=command)
+        self.feature = features.Highlight(self, command=command)
 
 
 class IconButton(virtual.Widget):
@@ -841,8 +912,10 @@ class IconButton(virtual.Widget):
         image: enhanced.PhotoImage | None = None,
         name: str | None = None,
         anchor: typing.Literal["n", "e", "w", "s", "nw", "ne", "sw", "se", "center"] = "nw",
-        through: bool | None = None,
-        animation: bool | None = None,
+        capture_events: bool | None = None,
+        gradient_animation: bool | None = None,
+        auto_update: bool | None = None,
+        style: type[virtual.Style] | None = None,
     ) -> None:
         """
         * `master`: parent canvas
@@ -860,8 +933,10 @@ class IconButton(virtual.Widget):
         * `image`: image of the widget
         * `name`: name of the widget
         * `anchor`: anchor of the widget
-        * `through`: wether detect another widget under the widget
-        * `animation`: wether enable animation
+        * `capture_events`: wether detect another widget under the widget
+        * `gradient_animation`: wether enable gradient_animation
+        * `auto_update`: whether the theme manager update it automatically
+        * `style`: style of the widget
         """
         if size is None:
             size = utility.get_text_size(
@@ -869,8 +944,10 @@ class IconButton(virtual.Widget):
             size = size[0] + size[1] - 6, size[1]
         virtual.Widget.__init__(
             self, master, position, size, name=name, anchor=anchor,
-            capture_events=through, gradient_animation=animation)
-        styles.IconButtonStyle(self)
+            capture_events=capture_events, gradient_animation=gradient_animation,
+            auto_update=auto_update, style=style)
+        if style is None:
+            self.style = styles.IconButtonStyle(self)
         if configs.Env.system == "Windows10":
             shapes.Rectangle(self)
         else:
@@ -881,7 +958,7 @@ class IconButton(virtual.Widget):
             self, (size[1] - size[0]/2, 0), text=text, family=family, fontsize=fontsize,
             weight=weight, slant=slant, underline=underline, overstrike=overstrike,
             justify=justify, anchor="w")
-        features.ButtonFeature(self, command=command)
+        self.feature = features.ButtonFeature(self, command=command)
 
 
 class Slider(virtual.Widget):
@@ -897,8 +974,10 @@ class Slider(virtual.Widget):
         command: collections.abc.Callable[[float], typing.Any] | None = None,
         name: str | None = None,
         anchor: typing.Literal["n", "e", "w", "s", "nw", "ne", "sw", "se", "center"] = "nw",
-        through: bool | None = None,
-        animation: bool | None = None,
+        capture_events: bool | None = None,
+        gradient_animation: bool | None = None,
+        auto_update: bool | None = None,
+        style: type[virtual.Style] | None = None,
     ) -> None:
         """
         * `master`: parent canvas
@@ -908,15 +987,19 @@ class Slider(virtual.Widget):
         * `command`: a function that is triggered when the button is pressed
         * `name`: name of the widget
         * `anchor`: anchor of the widget
-        * `through`: wether detect another widget under the widget
-        * `animation`: wether enable animation
+        * `capture_events`: wether detect another widget under the widget
+        * `gradient_animation`: wether enable gradient_animation
+        * `auto_update`: whether the theme manager update it automatically
+        * `style`: style of the widget
         """
         self.value: float = 0
         self.command = command
         virtual.Widget.__init__(
             self, master, position, size, name=name, anchor=anchor,
-            capture_events=through, gradient_animation=animation)
-        styles.SliderStyle(self)
+            capture_events=capture_events, gradient_animation=gradient_animation,
+            auto_update=auto_update, style=style)
+        if style is None:
+            self.style = styles.SliderStyle(self)
         if configs.Env.system == "Windows10":
             shapes.Rectangle(self, (0, size[1]*5/11), (size[0], size[1]/11), name=".out")
             shapes.Rectangle(self, (0, size[1]*5/11), (size[1]/5, size[1]/11), name=".in")
@@ -926,7 +1009,7 @@ class Slider(virtual.Widget):
             shapes.SemicircularRectangle(self, (0, size[1]*2/5), (size[1]/2, size[1]/5), name=".in")
             shapes.Oval(self, size=(size[1], size[1]), name=".out")
             shapes.Oval(self, (size[1]/4, size[1]/4), (size[1]/2, size[1]/2), name=".in")
-        features.SliderFeature(self)
+        self.feature = features.SliderFeature(self)
         if default is not None:
             self.set(default)
 
@@ -980,8 +1063,10 @@ class SegmentedButton(virtual.Widget):
         layout: typing.Literal["horizontal", "vertical"] = "horizontal",
         name: str | None = None,
         anchor: typing.Literal["n", "e", "w", "s", "nw", "ne", "sw", "se", "center"] = "nw",
-        through: bool | None = None,
-        animation: bool | None = None,
+        capture_events: bool | None = None,
+        gradient_animation: bool | None = None,
+        auto_update: bool | None = None,
+        style: type[virtual.Style] | None = None,
     ) -> None:
         """
         * `master`: parent canvas
@@ -1001,8 +1086,10 @@ class SegmentedButton(virtual.Widget):
         * `layout`: layout mode of the widget
         * `name`: name of the widget
         * `anchor`: anchor of the widget
-        * `through`: wether detect another widget under the widget
-        * `animation`: wether enable animation
+        * `capture_events`: wether detect another widget under the widget
+        * `gradient_animation`: wether enable gradient_animation
+        * `auto_update`: whether the theme manager update it automatically
+        * `style`: style of the widget
         """
         self.value: int | None = None
         if not sizes:
@@ -1022,8 +1109,10 @@ class SegmentedButton(virtual.Widget):
             total_size = max(widths) + 10, sum(heights) + length*5 + 5
         virtual.Widget.__init__(
             self, master, position, total_size, name=name, anchor=anchor,
-            capture_events=through, gradient_animation=animation)
-        styles.SegmentedButtonStyle(self)
+            capture_events=capture_events, gradient_animation=gradient_animation,
+            auto_update=auto_update, style=style)
+        if style is None:
+            self.style = styles.SegmentedButtonStyle(self)
         if configs.Env.system == "Windows10":
             shapes.Rectangle(self)
         else:
@@ -1036,13 +1125,13 @@ class SegmentedButton(virtual.Widget):
             ToggleButton(
                 self, position, size, text=text, family=family, fontsize=fontsize, weight=weight,
                 slant=slant, underline=underline, overstrike=overstrike, justify=justify,
-                animation=animation, image=image,
+                gradient_animation=gradient_animation, image=image,
                 command=lambda _, i=i: (self.set(i), command(i) if command else None))
             total_side_length += size[layout == "vertical"] + 5
         self.command = command
         if default is not None:
             self.set(default)
-        features.BaseFeature(self)
+        self.feature = features.BaseFeature(self)
 
     def get(self) -> int | None:
         """Get the index of the child toggle button with a value of True. If not, None is
@@ -1067,7 +1156,7 @@ class SpinBox(virtual.Widget):
         position: tuple[int, int],
         size: tuple[int, int] | None = None,
         *,
-        style: str = "d",
+        format_spec: str = "d",
         step: int = 1,
         family: str | None = None,
         fontsize: int | None = None,
@@ -1083,14 +1172,16 @@ class SpinBox(virtual.Widget):
         image: enhanced.PhotoImage | None = None,
         name: str | None = None,
         anchor: typing.Literal["n", "e", "w", "s", "nw", "ne", "sw", "se", "center"] = "nw",
-        through: bool | None = None,
-        animation: bool | None = None,
+        capture_events: bool | None = None,
+        gradient_animation: bool | None = None,
+        auto_update: bool | None = None,
+        style: type[virtual.Style] | None = None,
     ) -> None:
         """
         * `master`: parent canvas
         * `position`: position of the widget
         * `size`: size of the widget
-        * `style`: format of value
+        * `format_spec`: format of value
         * `step`: value of each change
         * `family`: font family
         * `fontsize`: font size
@@ -1106,31 +1197,34 @@ class SpinBox(virtual.Widget):
         * `image`: image of the widget
         * `name`: name of the widget
         * `anchor`: anchor of the widget
-        * `through`: wether detect another widget under the widget
-        * `animation`: wether enable animation
+        * `capture_events`: wether detect another widget under the widget
+        * `gradient_animation`: wether enable gradient_animation
+        * `auto_update`: whether the theme manager update it automatically
+        * `style`: style of the widget
         """
         if size is None:
             size = 200, utility.get_text_size(
                 "", fontsize, family, weight=weight, slant=slant, padding=6, master=master)[1]
         virtual.Widget.__init__(
             self, master, position, size, name=name, anchor=anchor,
-            capture_events=through, gradient_animation=animation)
+            capture_events=capture_events, gradient_animation=gradient_animation,
+            auto_update=auto_update, style=style)
         h = size[1]/2 - 6
         w = h/configs.Constant.GOLDEN_RATIO if configs.Env.system == "Windows10" else 2*h
         limit_width = - w
         InputBox(
             self, (0, 0), size, family=family, fontsize=fontsize, weight=weight, slant=slant,
             underline=underline, overstrike=overstrike, align=align, placeholder=placeholder,
-            show=show, limit=limit, image=image, animation=animation, limit_width=limit_width,
+            show=show, limit=limit, image=image, gradient_animation=gradient_animation, limit_width=limit_width,
             anchor=anchor)
         Button(self, (size[0]-w-4-self.offset[0], 4-self.offset[1]), (w, h), text="▲", fontsize=14,
                command=lambda: command(True) if command is not None else self.change(True))
         Button(self, (size[0]-w-4-self.offset[0], size[1]/2+2-self.offset[1]), (w, h), text="▼",
                fontsize=14,
                command=lambda: command(False) if command is not None else self.change(False))
-        self.format = style
+        self.format = format_spec
         self.step = step
-        features.SpinBoxFeature(self, command=command)
+        self.feature = features.SpinBoxFeature(self, command=command)
 
     def change(self, up: bool) -> None:
         """Try change the current value"""
@@ -1189,8 +1283,10 @@ class OptionButton(virtual.Widget):
         name: str | None = None,
         anchor: typing.Literal["n", "e", "w", "s", "nw", "ne", "sw", "se", "center"] = "nw",
         align: typing.Literal["up", "center", "down"] = "center",
-        through: bool | None = None,
-        animation: bool | None = None,
+        capture_events: bool | None = None,
+        gradient_animation: bool | None = None,
+        auto_update: bool | None = None,
+        style: type[virtual.Style] | None = None,
     ) -> None:
         """
         * `master`: parent canvas
@@ -1210,8 +1306,10 @@ class OptionButton(virtual.Widget):
         * `name`: name of the widget
         * `anchor`: anchor of the widget
         * `align`: align of the widget
-        * `through`: wether detect another widget under the widget
-        * `animation`: wether enable animation
+        * `capture_events`: wether detect another widget under the widget
+        * `gradient_animation`: wether enable gradient_animation
+        * `auto_update`: whether the theme manager update it automatically
+        * `style`: style of the widget
         """
         if size is None:
             size = sorted(utility.get_text_size(t, fontsize, family, weight=weight,
@@ -1219,8 +1317,10 @@ class OptionButton(virtual.Widget):
         self.text = text
         virtual.Widget.__init__(
             self, master, position, size, name=name, anchor=anchor,
-            capture_events=through, gradient_animation=animation)
-        styles.OptionButtonStyle(self)
+            capture_events=capture_events, gradient_animation=gradient_animation,
+            auto_update=auto_update, style=style)
+        if style is None:
+            self.style = styles.OptionButtonStyle(self)
         self._button = Button(
             self, (0, 0), size, family=family, fontsize=fontsize, weight=weight,
             slant=slant, underline=underline, overstrike=overstrike, justify=justify, anchor=anchor,
@@ -1229,7 +1329,7 @@ class OptionButton(virtual.Widget):
             self, self._get_position(align), (size,)*len(text), text=text, family=family,
             fontsize=fontsize, weight=weight, slant=slant, underline=underline,
             overstrike=overstrike, justify=justify, image=image, layout="vertical",
-            through=through, animation=False, command=self._close_options,
+            capture_events=capture_events, gradient_animation=False, command=self._close_options,
             anchor="s" if align == "up" else "n" if align == "down" else "center")
         self._segmented_button.capture_events = None
         self._segmented_button.forget(True)
@@ -1296,8 +1396,10 @@ class ComboBox(virtual.Widget):
         name: str | None = None,
         anchor: typing.Literal["n", "e", "w", "s", "nw", "ne", "sw", "se", "center"] = "nw",
         align: typing.Literal["up", "down"] = "down",
-        through: bool | None = None,
-        animation: bool | None = None,
+        capture_events: bool | None = None,
+        gradient_animation: bool | None = None,
+        auto_update: bool | None = None,
+        style: type[virtual.Style] | None = None,
     ) -> None:
         """
         * `master`: parent canvas
@@ -1317,8 +1419,10 @@ class ComboBox(virtual.Widget):
         * `name`: name of the widget
         * `anchor`: anchor of the widget
         * `align`: align of the widget
-        * `through`: wether detect another widget under the widget
-        * `animation`: wether enable animation
+        * `capture_events`: wether detect another widget under the widget
+        * `gradient_animation`: wether enable gradient_animation
+        * `auto_update`: whether the theme manager update it automatically
+        * `style`: style of the widget
         """
         if size is None:
             size = sorted(utility.get_text_size(t, fontsize, family, weight=weight,
@@ -1327,7 +1431,8 @@ class ComboBox(virtual.Widget):
         self.text = text
         virtual.Widget.__init__(
             self, master, position, size, name=name, anchor=anchor,
-            capture_events=through, gradient_animation=animation)
+            capture_events=capture_events, gradient_animation=gradient_animation,
+            auto_update=auto_update, style=style)
         h = size[1] - 10
         self._input_box = InputBox(
             self, (0, 0), size, family=family, fontsize=fontsize, weight=weight, slant=slant,
@@ -1339,7 +1444,7 @@ class ComboBox(virtual.Widget):
             self, self._get_position(align), (size,)*len(text), text=text, family=family,
             fontsize=fontsize, weight=weight, slant=slant, underline=underline,
             overstrike=overstrike, justify=justify, image=image, layout="vertical",
-            through=through, animation=False, command=self._close_options,
+            capture_events=capture_events, gradient_animation=False, command=self._close_options,
             anchor="s" if align == "up" else "n" if align == "down" else "center")
         self._segmented_button.capture_events = None
         self._segmented_button.forget(True)
@@ -1398,8 +1503,10 @@ class Spinner(virtual.Widget):
         mode: typing.Literal["determinate", "indeterminate"] = "determinate",
         name: str | None = None,
         anchor: typing.Literal["n", "e", "w", "s", "nw", "ne", "sw", "se", "center"] = "nw",
-        through: bool | None = None,
-        animation: bool | None = None,
+        capture_events: bool | None = None,
+        gradient_animation: bool | None = None,
+        auto_update: bool | None = None,
+        style: type[virtual.Style] | None = None,
     ) -> None:
         """
         * `master`: parent canvas
@@ -1411,14 +1518,18 @@ class Spinner(virtual.Widget):
         * `mode`: mode of the Spinner
         * `name`: name of the widget
         * `anchor`: anchor of the widget
-        * `through`: wether detect another widget under the widget
-        * `animation`: wether enable animation
+        * `capture_events`: wether detect another widget under the widget
+        * `gradient_animation`: wether enable gradient_animation
+        * `auto_update`: whether the theme manager update it automatically
+        * `style`: style of the widget
         """
         self.value: float = 0.
         virtual.Widget.__init__(
             self, master, position, size, name=name, anchor=anchor,
-            capture_events=through, gradient_animation=animation)
-        styles.SpinnerStyle(self)
+            capture_events=capture_events, gradient_animation=gradient_animation,
+            auto_update=auto_update, style=style)
+        if style is None:
+            self.style = styles.SpinnerStyle(self)
         if widths is None:
             widths = 4, 3
         shapes.Oval(self, width=widths[0])
@@ -1484,8 +1595,10 @@ class Tooltip(virtual.Widget):
         overstrike: bool = False,
         justify: typing.Literal["left", "center", "right"] = "left",
         name: str | None = None,
-        through: bool = True,
-        animation: bool | None = None,
+        capture_events: bool = True,
+        gradient_animation: bool | None = None,
+        auto_update: bool | None = None,
+        style: type[virtual.Style] | None = None,
     ) -> None:
         """
         * `widget`: the associated widget
@@ -1501,8 +1614,10 @@ class Tooltip(virtual.Widget):
         * `overstrike`: whether the text is overstrike
         * `justify`: justify mode of the text
         * `name`: name of the widget
-        * `through`: wether detect another widget under the widget
-        * `animation`: wether enable animation
+        * `capture_events`: wether detect another widget under the widget
+        * `gradient_animation`: wether enable gradient_animation
+        * `auto_update`: whether the theme manager update it automatically
+        * `style`: style of the widget
         """
         if size is None:
             size = utility.get_text_size(
@@ -1516,8 +1631,10 @@ class Tooltip(virtual.Widget):
             case "left":  position[0] -= widget.size[0]/2 + size[0]/2 + padding
         virtual.Widget.__init__(
             self, widget.master, position, size, name=name,
-            capture_events=through, gradient_animation=animation, anchor="center")
-        styles.TooltipStyle(self)
+            capture_events=capture_events, gradient_animation=gradient_animation,
+            anchor="center", auto_update=auto_update, style=style)
+        if style is None:
+            self.style = styles.TooltipStyle(self)
         if configs.Env.system == "Windows10":
             shapes.Rectangle(self)
         else:
