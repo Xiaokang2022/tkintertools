@@ -12,10 +12,10 @@ import tkinter
 try:
     from PIL import ImageTk
 except ImportError:
-    pass
+    ImageTk = None
 
 
-if globals().get("ImageTk") is None:
+if ImageTk is None:
 
     class PhotoImage(tkinter.PhotoImage):
         """Enhanced version of `tkinter.PhotoImage`."""
