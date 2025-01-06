@@ -353,20 +353,22 @@ class Canvas(tkinter.Canvas):
         master: Tk | Toplevel | Canvas,
         *,
         expand: typing.Literal["", "x", "y", "xy"] = "xy",
-        zoom_item: bool = False,
+        auto_zoom: bool = False,
         keep_ratio: typing.Literal["min", "max"] | None = None,
         free_anchor: bool = False,
         auto_update: bool | None = None,
+        zoom_all_items: bool = False,
         **kwargs,
     ) -> None:
         """
         * `master`: parent widget
         * `expand`: the mode of expand, `x` is horizontal, and `y` is vertical
-        * `zoom_item`: whether or not to scale its items
+        * `auto_zoom`: whether or not to scale its items automatically
         * `keep_ratio`: the mode of aspect ratio, `min` follows the minimum
         value, `max` follows the maximum value
         * `free_anchor`: whether the anchor point is free-floating
         * `auto_update`: whether the theme manager update it automatically
+        * `zoom_all_items`: (Experimental) whether or not to scale its all items
         * `kwargs`: compatible with other parameters of class `tkinter.Canvas`
         """
         tkinter.Canvas.__init__(self, master, **kwargs)
@@ -395,9 +397,10 @@ class Canvas(tkinter.Canvas):
             self.auto_update = auto_update
 
         self._expand: typing.Literal["", "x", "y", "xy"] = expand
-        self._zoom_item = zoom_item
+        self._auto_zoom = auto_zoom
         self._free_anchor = free_anchor
         self._keep_ratio: typing.Literal["min", "max"] | None = keep_ratio
+        self._zoom_all_items = zoom_all_items
 
         self.trigger_focus = utility.Trigger(self.focus)
         self.trigger_config = utility.Trigger(lambda **kwargs: self.configure(
@@ -510,11 +513,18 @@ class Canvas(tkinter.Canvas):
         if self.__dict__.get("ratios"):
             del self.__dict__["ratios"]  # Clear cache to update the ratios
 
-        if self._zoom_item:
+        if self._auto_zoom:
             relative_ratio = self._size[0]/size[0], self._size[1]/size[1]
             self._zoom_tk_widgets(relative_ratio)
+
             for widget in self.widgets:
                 widget.zoom(relative_ratio)
+
+            if self._zoom_all_items:
+                for item in self.find_all():
+                    if self.gettags(item):
+                        continue
+                    self.scale(item, 0, 0, relative_ratio[0], relative_ratio[1])
 
         for canvas in self.canvases:
             canvas.zoom()
