@@ -161,7 +161,7 @@ class Tk(tkinter.Tk):
         """
         self.update_idletasks()
         self["bg"] = self.dark["bg"] if dark else self.light["bg"]
-        manager.customize_window(self, style="dark" if dark else "normal")
+        manager.customize_window(self, theme="dark" if dark else "normal")
 
         if include_children:
             for child in self.children:
@@ -264,19 +264,16 @@ class Tk(tkinter.Tk):
         manager.remove_event(self.theme)
         return tkinter.Tk.destroy(self)
 
-    def shutdown(
+    def at_exit(
         self,
         command: collections.abc.Callable[[], typing.Any],
         *,
-        ensure_destroy: bool = False,
+        ensure_destroy: bool = True,
     ) -> None:
         """Set a function that will be called when the window is closed.
 
         * `command`: the function that was called
         * `ensure_destroy`: whether the window is guaranteed to be closed
-
-        Regardless of whether the function is successfully called or not, the
-        window will still close gracefully.
         """
         def wrapper() -> None:
             try:  # There is no need to catch errors

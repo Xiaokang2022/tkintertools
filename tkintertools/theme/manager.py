@@ -23,6 +23,7 @@ import threading
 import tkinter
 import traceback
 import typing
+import warnings
 
 from ..core import configs
 from ..toolbox import utility
@@ -30,22 +31,22 @@ from ..toolbox import utility
 try:
     import darkdetect
 except ImportError:
-    pass
+    darkdetect = None
 
 try:
     import pywinstyles
 except ImportError:
-    pass
+    pywinstyles = None
 
 try:
     import hPyT
 except ImportError:
-    pass
+    hPyT = None
 
 try:
     import win32material
 except ImportError:
-    pass
+    win32material = None
 
 _callback_events: dict[collections.abc.Callable[..., typing.Any], tuple] = {}
 """Events that are responded to when the system theme changes."""
@@ -64,7 +65,7 @@ def set_color_mode(mode: typing.Literal["system", "dark", "light"] = "system") -
 
     `"system"` is the following system
     """
-    global _color_mode
+    global _color_mode  # pylint: disable=W0603
     _color_mode = mode
     _process_event(configs.Env.is_dark if mode == "system" else (mode == "dark"))
 
@@ -103,8 +104,7 @@ def remove_event(func: collections.abc.Callable[..., typing.Any]) -> None:
 def customize_window(
     window: tkinter.Tk,
     *,
-    style: typing.Literal["mica", "acrylic", "aero", "transparent", "optimised",
-                          "win7", "inverse", "native", "popup", "dark", "normal"] | None = None,
+    theme: typing.Literal["mica", "acrylic", "aero", "transparent", "optimised", "win7", "inverse", "native", "popup", "dark", "normal"] | None = None,
     border_color: str | None = None,
     header_color: str | None = None,
     title_color: str | None = None,
@@ -113,12 +113,12 @@ def customize_window(
     hide_button: typing.Literal["all", "maxmin", "none"] | None = None,
     disable_minimize_button: bool | None = None,
     disable_maximize_button: bool | None = None,
-    boarder_type: typing.Literal["rectangular", "smallround", "round"] | None = None,
+    border_type: typing.Literal["rectangular", "smallround", "round"] | None = None,
 ) -> None:
     """Customize the relevant properties of the window
 
     * `window`: the window which being customized
-    * `style`: different styles for windows
+    * `theme`: different themes for windows
     * `border_color`: border color of the window
     * `header_color`: header color of the window
     * `title_color`: title color of the window
@@ -127,16 +127,15 @@ def customize_window(
     * `hide_button`: Wether hide part of buttons on title bar
     * `disable_minimize_button`: Wether disable minimize button
     * `disable_maximize_button`: Wether disable maximize button
-    * `boarder_type`: boarder type of the window
+    * `border_type`: border type of the window
 
-    WARNING:
-
-    This function is only works on Windows OS! And some parameters are useless on Windows 7/10!
+    This function is only works on Windows OS! And some parameters are useless
+    on Windows 7/10!
     """
-    if globals().get("pywinstyles") is not None:
-        if style is not None:
-            pywinstyles.apply_style(window, style)
-            # This is a flaw in `pywinstyles`, which is fixed here
+    if pywinstyles is not None:
+        if theme is not None:
+            pywinstyles.apply_style(window, theme)
+            # NOTE: This is a flaw in `pywinstyles`, which is fixed here
             if platform.win32_ver()[0] == "10":
                 window.withdraw()
                 window.deiconify()
@@ -149,8 +148,10 @@ def customize_window(
             pywinstyles.change_title_color(window, title_color)
         if enable_file_dnd is not None:
             pywinstyles.apply_dnd(utility.get_parent(window), enable_file_dnd)
+    elif any((theme, border_color, header_color, title_color, enable_file_dnd)):
+        warnings.warn("Package 'pywinstyles' is missing.", UserWarning, 2)
 
-    if globals().get("hPyT") is not None:
+    if hPyT is not None:
         if hide_title_bar is not None:
             if hide_title_bar:
                 hPyT.title_bar.hide(window)
@@ -174,26 +175,38 @@ def customize_window(
                 hPyT.minimize_button.disable(window)
             else:
                 hPyT.minimize_button.enable(window)
+    elif any(map(lambda x: x is not None, (
+            hide_title_bar, hide_button,
+            disable_maximize_button, disable_minimize_button))):
+        warnings.warn("Package 'hPyT' is missing.", UserWarning, 2)
 
-    if globals().get("win32material") is not None:
-        if boarder_type is not None:
-            match boarder_type:
+    if win32material is not None:
+        if border_type is not None:
+            match border_type:
                 case "rectangular": type_ = win32material.BORDERTYPE.RECTANGULAR
                 case "smallround": type_ = win32material.BORDERTYPE.SMALLROUND
                 case "round": type_ = win32material.BORDERTYPE.ROUND
-            win32material.SetWindowBorder(ctypes.wintypes.HWND(utility.get_parent(window)), type_)
+            win32material.SetWindowBorder(
+                ctypes.wintypes.HWND(utility.get_parent(window)), type_)
+    elif any((border_type, )):
+        warnings.warn("Package 'win32material' is missing.", UserWarning, 2)
 
 
-def _process_event(dark_mode: bool) -> None:
+def _process_event(dark_mode: bool) -> bool:
     """Handle registered callback functions.
 
     * `dark_mode`: Wether it is dark mode
     """
+    flag = True  # For test, True indicate no any exceptions
+
     for func, args in _callback_events.items():
         try:  # Prevent detection thread from crashing
             func(dark_mode, *args)
-        except Exception as exc:
+        except Exception as exc:  # pylint: disable=W0718
+            flag = False
             traceback.print_exception(exc)
+
+    return flag
 
 
 def _callback(theme: str) -> None:
@@ -208,7 +221,7 @@ def _callback(theme: str) -> None:
         _process_event(configs.Env.is_dark)
 
 
-if globals().get("darkdetect") is not None:
+if darkdetect is not None:
     configs.Env.is_dark = bool(darkdetect.isDark())
     threading.Thread(
-        target=lambda: darkdetect.listener(_callback), daemon=True).start()
+        target=darkdetect.listener, args=(_callback,), daemon=True).start()
