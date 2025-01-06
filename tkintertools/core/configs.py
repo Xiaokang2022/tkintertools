@@ -20,11 +20,6 @@ import platform
 import tkinter
 import typing
 
-try:
-    import darkdetect
-except ImportError:
-    pass
-
 
 class _DefaultRootDescriptor:
     """A simple descriptor for `tkinter._default_root`."""
@@ -48,7 +43,7 @@ class Env:
     def reset(cls) -> None:
         """Reset all configuration options."""
         cls.system = cls.get_default_system()
-        cls.is_dark = bool(darkdetect.isDark()) if globals().get("darkdetect") else False
+        cls.is_dark = False
         cls.default_animation = True
         cls.auto_update = True
 

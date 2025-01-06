@@ -209,5 +209,6 @@ def _callback(theme: str) -> None:
 
 
 if globals().get("darkdetect") is not None:
+    configs.Env.is_dark = bool(darkdetect.isDark())
     threading.Thread(
         target=lambda: darkdetect.listener(_callback), daemon=True).start()
