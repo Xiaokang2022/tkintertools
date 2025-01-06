@@ -28,9 +28,7 @@ from . import enhanced
 try:
     from PIL import Image
 except ImportError:
-    pass
-
-_LINUX_FONTS_DIR: typing.Final[str] = os.path.expanduser("~/.fonts/")
+    Image = None
 
 
 class Trigger:
@@ -142,13 +140,14 @@ def load_font(
 
     if platform.system() == "Linux":
         font_path = str(font_path)
+        linux_fonts_dir = os.path.expanduser("~/.fonts/")
 
         try:
-            os.makedirs(_LINUX_FONTS_DIR, exist_ok=True)
-            shutil.copy(font_path, _LINUX_FONTS_DIR)
+            os.makedirs(linux_fonts_dir, exist_ok=True)
+            shutil.copy(font_path, linux_fonts_dir)
 
             if private:
-                atexit.register(os.remove, _LINUX_FONTS_DIR + font_path.rsplit("/", 1)[-1])
+                atexit.register(os.remove, linux_fonts_dir + font_path.rsplit("/", 1)[-1])
 
             return True
         finally:
@@ -234,7 +233,7 @@ def create_smoke(
 
     About the "smoke", see: https://fluent2.microsoft.design/material#smoke
     """
-    if not globals().get("Image"):
+    if Image is None:
         raise RuntimeError("Package 'pillow' is missing.")
 
     # When you have 'PIL.Image', you definitely have 'PIL.ImageTk'

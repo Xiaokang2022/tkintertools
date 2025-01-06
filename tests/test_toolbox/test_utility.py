@@ -1,17 +1,15 @@
 # pylint: disable=all
 
+import importlib
 import pathlib
 import platform
 import tkinter
 import unittest
+import unittest.mock
 
+import tkintertools
 from tkintertools.core import configs, containers
 from tkintertools.toolbox import utility
-
-try:
-    import PIL
-except ImportError:
-    pass
 
 
 class TestTrigger(unittest.TestCase):
@@ -44,6 +42,7 @@ class Test(unittest.TestCase):
     @unittest.skipIf(platform.system() == "Linux", "No display name.")
     def setUp(self) -> None:
         self.tk = containers.Tk()
+        self.cv = containers.Canvas(self.tk)
 
     def tearDown(self) -> None:
         self.tk.destroy()
@@ -62,7 +61,12 @@ class Test(unittest.TestCase):
     def test_load_font(self) -> None:
         self.assertFalse(utility.load_font(""))
         path = pathlib.Path(__file__).parent.parent/"assets/fonts/FiraCode.ttf"
+        self.assertRaises(TypeError, utility.load_font, path)
         self.assertTrue(utility.load_font(str(path)))
+        self.assertTrue(utility.load_font(bytes(path)))
+
+        with unittest.mock.patch("platform.system", return_value="Darwin"):
+            self.assertFalse(utility.load_font(str(path)))
 
     @unittest.skipIf(platform.system() == "Linux", "No display name.")
     def test_screen_size(self) -> None:
@@ -71,6 +75,7 @@ class Test(unittest.TestCase):
     @unittest.skipUnless(platform.system() == "Windows", "This test only work on Windows.")
     def test_get_text_size(self) -> None:
         path = pathlib.Path(__file__).parent.parent/"assets/fonts/FiraCode.ttf"
+
         self.assertTrue(utility.load_font(str(path)))
         self.assertEqual(utility.get_text_size("", 20, "Fira Code"), (2, 24))
         self.assertEqual(utility.get_text_size(":)", 20, "Fira Code"), (26, 24))
@@ -78,22 +83,32 @@ class Test(unittest.TestCase):
         self.assertEqual(utility.get_text_size("", 20, "Fira Code", padding=5), (12, 34))
         self.assertEqual(utility.get_text_size(":)"), utility.get_text_size(":)", configs.Font.size, configs.Font.family))
 
+        widget = tkintertools.Button(self.cv, (0, 0))
+        self.assertEqual(utility.get_text_size("", 20, "Fira Code", master=widget), (2, 20))  # TODO: Why this different from the above?
+
     def test_fix_cursor(self) -> None:
         self.assertEqual(utility.fix_cursor("a"), "a")
 
-        disabled = utility.fix_cursor("disabled")
+        with unittest.mock.patch("platform.system", return_value="Windows"):
+            self.assertEqual(utility.fix_cursor("disabled"), "no")
 
-        match platform.system():
-            case "Windows": self.assertEqual(disabled, "no")
-            case "Darwin": self.assertEqual(disabled, "notallowed")
-            case _: self.assertEqual(disabled, "arrow")
+        with unittest.mock.patch("platform.system", return_value="Darwin"):
+            self.assertEqual(utility.fix_cursor("disabled"), "notallowed")
+
+        with unittest.mock.patch("platform.system", return_value="Linux"):
+            self.assertEqual(utility.fix_cursor("disabled"), "arrow")
 
     def test_create_smoke(self) -> None:
-        if globals().get("PIL") is None:
-            raise unittest.SkipTest("PIL not available.")
         size = 100, 100
         smoke = utility.create_smoke(size)
         self.assertEqual((smoke.width(), smoke.height()), size)
+
+        with unittest.mock.patch.dict("sys.modules", {'PIL': None}):
+            importlib.reload(utility)
+
+        self.assertRaises(RuntimeError, utility.create_smoke, size)
+
+        importlib.reload(utility)
 
 
 if __name__ == "__main__":
