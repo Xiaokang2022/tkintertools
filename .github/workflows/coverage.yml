@@ -20,7 +20,7 @@ jobs:
       run: |
         pip install pytest
         pip install pytest-cov
-        pip install .
+        pip install .[opt]
         pytest --cov --cov-report=xml --junitxml=junit.xml
     - name: Upload coverage to Codecov
       uses: codecov/codecov-action@v5
