@@ -84,7 +84,7 @@ class Test(unittest.TestCase):
         self.assertEqual(utility.get_text_size(":)"), utility.get_text_size(":)", configs.Font.size, configs.Font.family))
 
         widget = tkintertools.Button(self.cv, (0, 0))
-        self.assertEqual(utility.get_text_size("", -20, "Fira Code", master=widget), (2, 24))  # TODO: Why this different from the above?
+        self.assertEqual(utility.get_text_size("", 20, "Fira Code", master=widget), (2, 24))
 
     def test_fix_cursor(self) -> None:
         self.assertEqual(utility.fix_cursor("a"), "a")

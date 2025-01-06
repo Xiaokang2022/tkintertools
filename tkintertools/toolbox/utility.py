@@ -194,7 +194,7 @@ def get_text_size(
     while isinstance(temp_cv, virtual.Widget):
         temp_cv = temp_cv.master
 
-    font = tkinter.font.Font(family=family, size=fontsize, **kwargs)
+    font = tkinter.font.Font(temp_cv, family=family, size=fontsize, **kwargs)
     item = temp_cv.create_text(-9999, -9999, text=text, font=font)
     x1, y1, x2, y2 = temp_cv.bbox(item)
     temp_cv.delete(item)
