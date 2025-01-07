@@ -11,7 +11,6 @@ from tkintertools.core import configs, containers
 from tkintertools.theme import manager
 
 
-@unittest.skipIf(platform.system() == "Linux", "No display name.")
 class TestCase(unittest.TestCase):
 
     def setUp(self) -> None:

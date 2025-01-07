@@ -39,7 +39,6 @@ class TestTrigger(unittest.TestCase):
 
 class TestCase(unittest.TestCase):
 
-    @unittest.skipIf(platform.system() == "Linux", "No display name.")
     def setUp(self) -> None:
         self.tk = containers.Tk()
         self.cv = containers.Canvas(self.tk)
@@ -68,7 +67,6 @@ class TestCase(unittest.TestCase):
         with unittest.mock.patch("platform.system", return_value="Darwin"):
             self.assertFalse(utility.load_font(str(path)))
 
-    @unittest.skipIf(platform.system() == "Linux", "No display name.")
     def test_screen_size(self) -> None:
         self.assertIsInstance(utility.screen_size(), tuple)
 

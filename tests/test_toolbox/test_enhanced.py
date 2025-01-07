@@ -10,7 +10,6 @@ import unittest.mock
 from tkintertools.toolbox import enhanced
 
 
-@unittest.skipIf(platform.system() == "Linux", "No display name.")
 class TestPhotoImage(unittest.TestCase):
 
     def setUp(self) -> None:
@@ -42,7 +41,6 @@ class TestPhotoImage(unittest.TestCase):
         self.assertEqual(new_height, 100)
 
 
-@unittest.skipIf(platform.system() == "Linux", "No display name.")
 class TestPhotoImageNoPillow(unittest.TestCase):
 
     def setUp(self) -> None:

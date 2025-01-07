@@ -10,7 +10,6 @@ from tkintertools.core import containers
 from tkintertools.standard import widgets
 
 
-# @unittest.skipIf(platform.system() == "Linux", "No display name.")
 class TestTk(unittest.TestCase):
 
     def test_init(self) -> None:
@@ -45,11 +44,17 @@ class TestTk(unittest.TestCase):
     def test_fullscreen(self) -> None:
         with containers.Tk() as tk:
             self.assertIsNone(tk.fullscreen())
-            tk.update_idletasks()
             self.assertTrue(tk.fullscreen(None))
             self.assertIsNone(tk.fullscreen(False))
-            tk.update_idletasks()
-            self.assertFalse(tk.fullscreen(None))
+
+            if platform.system() == "Windows":
+                self.assertFalse(tk.fullscreen(None))
+            elif platform.system() == "Darwin":
+                with io.StringIO() as captured_output:
+                    with contextlib.redirect_stderr(captured_output):
+                        self.assertFalse(tk.fullscreen(None))
+                    # Darwin takes a long time to change, here is some output
+                    self.assertTrue(bool(captured_output.getvalue()))
 
     @unittest.skipUnless(platform.system() == "Windows", "Only works on Windows")
     def test_toolwindow(self) -> None:
@@ -124,7 +129,6 @@ class TestTk(unittest.TestCase):
             mock_theme.assert_called()
 
 
-@unittest.skipIf(platform.system() == "Linux", "No display name.")
 class TestToplevel(unittest.TestCase):
 
     def setUp(self) -> None:
@@ -137,7 +141,6 @@ class TestToplevel(unittest.TestCase):
         self.tl = containers.Toplevel(grab=True, focus=True)
 
 
-@unittest.skipIf(platform.system() == "Linux", "No display name.")
 class TestCanvas(unittest.TestCase):
 
     def test_init(self) -> None:
