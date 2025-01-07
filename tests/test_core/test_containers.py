@@ -10,7 +10,7 @@ from tkintertools.core import containers
 from tkintertools.standard import widgets
 
 
-@unittest.skipIf(platform.system() == "Linux", "No display name.")
+# @unittest.skipIf(platform.system() == "Linux", "No display name.")
 class TestTk(unittest.TestCase):
 
     def test_init(self) -> None:
@@ -45,13 +45,11 @@ class TestTk(unittest.TestCase):
     def test_fullscreen(self) -> None:
         with containers.Tk() as tk:
             self.assertIsNone(tk.fullscreen())
-            tk.update_idletasks()
             self.assertTrue(tk.fullscreen(None))
             self.assertIsNone(tk.fullscreen(False))
-            tk.update_idletasks()
             self.assertFalse(tk.fullscreen(None))
 
-    @unittest.skipIf(platform.system() == "Darwin", "No method.")
+    @unittest.skipUnless(platform.system() == "Windows", "Only works on Windows")
     def test_toolwindow(self) -> None:
         with containers.Tk() as tk:
             self.assertIsNone(tk.toolwindow())
@@ -59,7 +57,7 @@ class TestTk(unittest.TestCase):
             self.assertIsNone(tk.toolwindow(False))
             self.assertFalse(tk.toolwindow(None))
 
-    @unittest.skipIf(platform.system() == "Darwin", "No method.")
+    @unittest.skipUnless(platform.system() == "Windows", "Only works on Windows")
     def test_transparentcolor(self) -> None:
         with containers.Tk() as tk:
             self.assertEqual(tk.transparentcolor(), None)
@@ -67,6 +65,15 @@ class TestTk(unittest.TestCase):
             self.assertEqual(str(tk.transparentcolor()), "red")
             self.assertIsNone(tk.transparentcolor(""))
             self.assertEqual(tk.transparentcolor(), None)
+
+    @unittest.skipUnless(platform.system() == "Darwin", "Only works on Darwin")
+    def test_transparent(self) -> None:
+        with containers.Tk() as tk:
+            self.assertEqual(tk.transparent(), None)
+            self.assertIsNone(tk.transparent("red"))
+            self.assertEqual(str(tk.transparent()), "red")
+            self.assertIsNone(tk.transparent(""))
+            self.assertEqual(tk.transparent(), None)
 
     def test_center(self) -> None:
         with containers.Tk() as tk:
