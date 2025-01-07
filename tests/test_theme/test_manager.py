@@ -1,6 +1,8 @@
 # pylint: disable=all
 
+import contextlib
 import importlib
+import io
 import platform
 import unittest
 import unittest.mock
@@ -42,17 +44,21 @@ class Test(unittest.TestCase):
 
         manager.register_event(callback)
 
-        self.assertTrue(manager._process_event(True))
-
         manager._process_event(True)
         self.assertTrue(a)
         manager._process_event(False)
         self.assertFalse(a)
 
         manager.remove_event(callback)
-        manager.register_event(lambda: None)
+        manager.register_event(f := lambda: None)
 
-        self.assertFalse(manager._process_event(True))
+        with io.StringIO() as captured_output:
+            with contextlib.redirect_stderr(captured_output):
+                manager._process_event(True)
+
+            self.assertTrue(bool(captured_output.getvalue()))
+
+        manager.remove_event(f)
 
     @unittest.skipUnless(platform.system() == "Windows", "Only works on Windows OS.")
     def test_apply_theme(self) -> None:
@@ -94,5 +100,5 @@ class Test(unittest.TestCase):
             manager.apply_theme(self.tk, theme="normal")
 
 
-if __name__ == "_-main__":
-    unittest.main
+if __name__ == "__main__":
+    unittest.main()

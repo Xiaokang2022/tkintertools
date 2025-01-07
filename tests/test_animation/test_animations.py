@@ -30,6 +30,10 @@ class TestAnimation(unittest.TestCase):
         an3.start()
         self.assertEqual(len(an3._tasks), 1+1)
 
+        an.stop()
+        an2.stop()
+        an3.stop()
+
     @unittest.skipIf(platform.system() == "Linux", "No display name.")
     def test_active(self) -> None:
         an = animations.Animation(60, lambda _: None)
@@ -39,7 +43,19 @@ class TestAnimation(unittest.TestCase):
         self.assertEqual(an.active, False)
 
     @unittest.skipIf(platform.system() == "Linux", "No display name.")
-    def test_count(self) -> None:
+    def test_skip(self) -> None:
+        an = animations.Animation(60, lambda _: None, repeat=5)
+
+        self.assertEqual(an._count, 5)
+        an.skip()
+        self.assertEqual(an._count, 4)
+        an.skip(2)
+        self.assertEqual(an._count, 2)
+        an.skip(3)
+        self.assertEqual(an._count, 0)
+
+    @unittest.skipIf(platform.system() == "Linux", "No display name.")
+    def test_count(self) -> None:  # TODO
         an = animations.Animation(60, lambda _: None)
         an2 = animations.Animation(60, lambda _: None, repeat=2)
 
@@ -59,9 +75,10 @@ class TestAnimation(unittest.TestCase):
         self.assertEqual(an._delay, 60)
         self.assertEqual(an._total_frames, 1)
         self.assertEqual(an._leave_ms, 0)
+        an.stop()
 
     @unittest.skipIf(platform.system() == "Linux", "No display name.")
-    def test_repeat(self) -> None:
+    def test_repeat(self) -> None:  # TODO
         an = animations.Animation(60, lambda _: None, repeat=0)
         an2 = animations.Animation(60, lambda _: None, repeat=1)
         an3 = animations.Animation(60, lambda _: None, repeat=2)
@@ -80,24 +97,31 @@ class TestAnimation(unittest.TestCase):
         self.assertEqual(an4.count, 1)
         self.assertEqual(len(an4._tasks), 1)
 
+        an.stop()
+        an2.stop()
+        an3.stop()
+        an4.stop()
+
     @unittest.skipIf(platform.system() == "Linux", "No display name.")
     def test_delay(self) -> None:
-        an1 = animations.Animation(60, lambda _: None, repeat=1)
-        a = an1.start(delay=0)
-        b = an1.stop(delay=0)
-        an2 = animations.Animation(60, lambda _: None, repeat=1)
-        c = an2.start(delay=1)
-        d = an2.stop(delay=1)
-        self.assertIsNone(a)
-        self.assertIsNone(b)
-        self.assertIsInstance(c, str)
-        self.assertIsInstance(d, str)
+        an1 = animations.Animation(1, lambda _: None)
+        self.assertIsNone(an1.start(delay=0))
+        self.assertIsNone(an1.stop(delay=0))
+
+        an2 = animations.Animation(1, lambda _: None)
+
+        self.tk.after_cancel(task_1 := an2.start(delay=10))
+        self.tk.after_cancel(task_2 := an2.stop(delay=10))
+
+        self.assertIsInstance(task_1, str)
+        self.assertIsInstance(task_2, str)
 
     @unittest.skipIf(platform.system() == "Linux", "No display name.")
     def test_end(self) -> None:
         an = animations.Animation(60, lambda _: None, fps=50, end=lambda: None)
         an.start()
         self.assertEqual(len(an._tasks), 3+2)
+        an.stop()
 
 
 class TestMoveWindow_Tk(unittest.TestCase):
@@ -155,13 +179,15 @@ class TestMoveTkWidget(unittest.TestCase):
         self.widget3.place(x=10, y=10)
 
     def tearDown(self) -> None:
+        self.an.stop()
         self.tk.destroy()
 
     @unittest.skipIf(platform.system() == "Linux", "No display name.")
     def test(self) -> None:
         self.assertWarns(UserWarning, lambda: animations.MoveTkWidget(self.widget, (99, 99), 99))
         self.assertWarns(UserWarning, lambda: animations.MoveTkWidget(self.widget2, (99, 99), 99))
-        animations.MoveTkWidget(self.widget3, (99, 99), 99).start()
+        self.an = animations.MoveTkWidget(self.widget3, (99, 99), 99)
+        self.an.start()
 
 
 class TestMoveWidget(unittest.TestCase):
@@ -172,11 +198,13 @@ class TestMoveWidget(unittest.TestCase):
         self.widget = widgets.Button(self.cv, (10, 10))
 
     def tearDown(self) -> None:
+        self.an.stop()
         self.tk.destroy()
 
     @unittest.skipIf(platform.system() == "Linux", "No display name.")
     def test(self) -> None:
-        animations.MoveWidget(self.widget, (99, 99), 99).start()
+        self.an = animations.MoveWidget(self.widget, (99, 99), 99)
+        self.an.start()
 
 
 class TestMoveElement(unittest.TestCase):
@@ -187,11 +215,13 @@ class TestMoveElement(unittest.TestCase):
         self.widget = widgets.Button(self.cv, (10, 10))
 
     def tearDown(self) -> None:
+        self.an.stop()
         self.tk.destroy()
 
     @unittest.skipIf(platform.system() == "Linux", "No display name.")
     def test(self) -> None:
-        animations.MoveElement(self.widget.elements[0], (99, 99), 99).start()
+        self.an = animations.MoveElement(self.widget.elements[0], (99, 99), 99)
+        self.an.start()
 
 
 class TestMoveItem(unittest.TestCase):
@@ -202,11 +232,13 @@ class TestMoveItem(unittest.TestCase):
         self.item = self.cv.create_rectangle(10, 10, 20, 20)
 
     def tearDown(self) -> None:
+        self.an.stop()
         self.tk.destroy()
 
     @unittest.skipIf(platform.system() == "Linux", "No display name.")
     def test(self) -> None:
-        animations.MoveItem(self.cv, self.item, (99, 99), 99).start()
+        self.an = animations.MoveItem(self.cv, self.item, (99, 99), 99)
+        self.an.start()
 
 
 class TestGradientTkWidget(unittest.TestCase):
@@ -216,11 +248,13 @@ class TestGradientTkWidget(unittest.TestCase):
         self.widget = tkinter.Label(self.tk)
 
     def tearDown(self) -> None:
+        self.an.stop()
         self.tk.destroy()
 
     @unittest.skipIf(platform.system() == "Linux", "No display name.")
     def test(self) -> None:
-        animations.GradientTkWidget(self.widget, "fill", ("red", "#00FF00"), 99).start()
+        self.an = animations.GradientTkWidget(self.widget, "fill", ("red", "#00FF00"), 99)
+        self.an.start()
         self.assertRaises(ValueError, lambda: animations.GradientTkWidget(self.widget, "fill", ("", ""), 1000))
 
 
@@ -232,11 +266,13 @@ class TestGradientItem(unittest.TestCase):
         self.item = self.cv.create_rectangle(10, 10, 20, 20)
 
     def tearDown(self) -> None:
+        self.an.stop()
         self.tk.destroy()
 
     @unittest.skipIf(platform.system() == "Linux", "No display name.")
     def test(self) -> None:
-        animations.GradientItem(self.cv, self.item, "fill", ("red", "#0000FF"), 99).start()
+        self.an = animations.GradientItem(self.cv, self.item, "fill", ("red", "#0000FF"), 99)
+        self.an.start()
         self.assertRaises(ValueError, lambda: animations.GradientItem(self.cv, self.item, "fill", ("", ""), 1000))
 
 
@@ -248,14 +284,22 @@ class TestScaleFontSize(unittest.TestCase):
         self.widget = widgets.Text(self.cv, (10, 10), text="Hello, World!")
 
     def tearDown(self) -> None:
+        self.an1.stop()
+        self.an2.stop()
+        self.an3.stop()
+        self.an4.stop()
         self.tk.destroy()
 
     @unittest.skipIf(platform.system() == "Linux", "No display name.")
     def test(self) -> None:
-        animations.ScaleFontSize(self.widget.texts[0], 10, 99).start()
-        animations.ScaleFontSize(self.widget.texts[0], 24.5, 99).start()
-        animations.ScaleFontSize(self.widget.texts[0], (10, 20), 99).start()
-        animations.ScaleFontSize(self.widget.texts[0], (11.1, 22.2), 99).start()
+        self.an1 = animations.ScaleFontSize(self.widget.texts[0], 10, 99)
+        self.an1.start()
+        self.an2 = animations.ScaleFontSize(self.widget.texts[0], 24.5, 99)
+        self.an2.start()
+        self.an3 = animations.ScaleFontSize(self.widget.texts[0], (10, 20), 99)
+        self.an3.start()
+        self.an4 = animations.ScaleFontSize(self.widget.texts[0], (11.1, 22.2), 99)
+        self.an4.start()
 
 
 if __name__ == "__main__":

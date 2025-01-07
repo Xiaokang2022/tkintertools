@@ -1,6 +1,7 @@
-"""Tests entry point. Just run the file to start tests."""
+# pylint: disable=all
 
+import os.path
 import unittest
 
 if __name__ == "__main__":
-    unittest.TextTestRunner().run(unittest.TestLoader().discover("."))
+    unittest.TextTestRunner().run(unittest.TestLoader().discover(os.path.dirname(__file__)))

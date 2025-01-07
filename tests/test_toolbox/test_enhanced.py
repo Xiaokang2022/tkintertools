@@ -46,17 +46,18 @@ class TestPhotoImage(unittest.TestCase):
 class TestPhotoImageNoPillow(unittest.TestCase):
 
     def setUp(self) -> None:
+        self.tk = tkinter.Tk()
+
         with unittest.mock.patch.dict("sys.modules", {'PIL': None}):
             importlib.reload(enhanced)
 
-        self.tk = tkinter.Tk()
         self.image = enhanced.PhotoImage(file=pathlib.Path(__file__).parent.parent/"assets/images/logo.png")
         self.width = self.image.width()
         self.height = self.image.height()
 
     def tearDown(self) -> None:
-        self.tk.destroy()
         importlib.reload(enhanced)
+        self.tk.destroy()
 
     def test_scale(self) -> None:
         large_image = self.image.scale(1.5, 1.5)
