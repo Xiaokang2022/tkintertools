@@ -45,8 +45,10 @@ class TestTk(unittest.TestCase):
     def test_fullscreen(self) -> None:
         with containers.Tk() as tk:
             self.assertIsNone(tk.fullscreen())
+            tk.update_idletasks()
             self.assertTrue(tk.fullscreen(None))
             self.assertIsNone(tk.fullscreen(False))
+            tk.update_idletasks()
             self.assertFalse(tk.fullscreen(None))
 
     @unittest.skipUnless(platform.system() == "Windows", "Only works on Windows")
