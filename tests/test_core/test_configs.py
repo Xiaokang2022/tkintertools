@@ -17,9 +17,9 @@ class TestEnv(unittest.TestCase):
         configs.Env.reset()
 
         self.assertEqual(configs.Env.system, configs.Env.get_default_system())
-        self.assertEqual(configs.Env.is_dark, False)
-        self.assertEqual(configs.Env.default_animation, True)
-        self.assertEqual(configs.Env.auto_update, True)
+        self.assertFalse(configs.Env.is_dark)
+        self.assertTrue(configs.Env.default_animation)
+        self.assertTrue(configs.Env.auto_update)
 
     def test_get_default_system(self) -> None:
         with unittest.mock.patch('platform.system', return_value='Windows'):

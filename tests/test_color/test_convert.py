@@ -7,7 +7,7 @@ import unittest
 from tkintertools.color import convert
 
 
-class Test(unittest.TestCase):
+class TestCase(unittest.TestCase):
 
     def test_rgb_to_hex(self) -> None:
         self.assertEqual(convert.rgb_to_hex((255, 255, 255)), "#FFFFFF")

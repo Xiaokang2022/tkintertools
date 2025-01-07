@@ -38,9 +38,9 @@ class TestAnimation(unittest.TestCase):
     def test_active(self) -> None:
         an = animations.Animation(60, lambda _: None)
         an.start()
-        self.assertEqual(an.active, True)
+        self.assertTrue(an.active)
         an.stop()
-        self.assertEqual(an.active, False)
+        self.assertFalse(an.active)
 
     @unittest.skipIf(platform.system() == "Linux", "No display name.")
     def test_skip(self) -> None:
@@ -55,7 +55,7 @@ class TestAnimation(unittest.TestCase):
         self.assertEqual(an._count, 0)
 
     @unittest.skipIf(platform.system() == "Linux", "No display name.")
-    def test_count(self) -> None:  # TODO
+    def test_count(self) -> None:
         an = animations.Animation(60, lambda _: None)
         an2 = animations.Animation(60, lambda _: None, repeat=2)
 
@@ -78,7 +78,7 @@ class TestAnimation(unittest.TestCase):
         an.stop()
 
     @unittest.skipIf(platform.system() == "Linux", "No display name.")
-    def test_repeat(self) -> None:  # TODO
+    def test_repeat(self) -> None:
         an = animations.Animation(60, lambda _: None, repeat=0)
         an2 = animations.Animation(60, lambda _: None, repeat=1)
         an3 = animations.Animation(60, lambda _: None, repeat=2)
@@ -136,7 +136,7 @@ class TestMoveWindow_Tk(unittest.TestCase):
         self.tk.destroy()
 
     @unittest.skipIf(platform.system() == "Linux", "No display name.")
-    def test(self) -> None:
+    def test_init(self) -> None:
         animations.MoveWindow(self.tk, (99, 99), 1, fps=1).command(1)
         animations.MoveWindow(self.top, (99, 99), 1, fps=1).command(1)
 
@@ -157,7 +157,7 @@ class TestMoveWindow(unittest.TestCase):
         self.tk.destroy()
 
     @unittest.skipIf(platform.system() == "Linux", "No display name.")
-    def test(self) -> None:
+    def test_init(self) -> None:
         animations.MoveWindow(self.tk, (-99, -99), 1, fps=1).command(1)
         animations.MoveWindow(self.top, (-99, -99), 1, fps=1).command(1)
 
@@ -183,7 +183,7 @@ class TestMoveTkWidget(unittest.TestCase):
         self.tk.destroy()
 
     @unittest.skipIf(platform.system() == "Linux", "No display name.")
-    def test(self) -> None:
+    def test_init(self) -> None:
         self.assertWarns(UserWarning, lambda: animations.MoveTkWidget(self.widget, (99, 99), 99))
         self.assertWarns(UserWarning, lambda: animations.MoveTkWidget(self.widget2, (99, 99), 99))
         self.an = animations.MoveTkWidget(self.widget3, (99, 99), 99)
@@ -202,7 +202,7 @@ class TestMoveWidget(unittest.TestCase):
         self.tk.destroy()
 
     @unittest.skipIf(platform.system() == "Linux", "No display name.")
-    def test(self) -> None:
+    def test_init(self) -> None:
         self.an = animations.MoveWidget(self.widget, (99, 99), 99)
         self.an.start()
 
@@ -219,7 +219,7 @@ class TestMoveElement(unittest.TestCase):
         self.tk.destroy()
 
     @unittest.skipIf(platform.system() == "Linux", "No display name.")
-    def test(self) -> None:
+    def test_init(self) -> None:
         self.an = animations.MoveElement(self.widget.elements[0], (99, 99), 99)
         self.an.start()
 
@@ -236,7 +236,7 @@ class TestMoveItem(unittest.TestCase):
         self.tk.destroy()
 
     @unittest.skipIf(platform.system() == "Linux", "No display name.")
-    def test(self) -> None:
+    def test_init(self) -> None:
         self.an = animations.MoveItem(self.cv, self.item, (99, 99), 99)
         self.an.start()
 
@@ -252,7 +252,7 @@ class TestGradientTkWidget(unittest.TestCase):
         self.tk.destroy()
 
     @unittest.skipIf(platform.system() == "Linux", "No display name.")
-    def test(self) -> None:
+    def test_init(self) -> None:
         self.an = animations.GradientTkWidget(self.widget, "fill", ("red", "#00FF00"), 99)
         self.an.start()
         self.assertRaises(ValueError, lambda: animations.GradientTkWidget(self.widget, "fill", ("", ""), 1000))
@@ -270,7 +270,7 @@ class TestGradientItem(unittest.TestCase):
         self.tk.destroy()
 
     @unittest.skipIf(platform.system() == "Linux", "No display name.")
-    def test(self) -> None:
+    def test_init(self) -> None:
         self.an = animations.GradientItem(self.cv, self.item, "fill", ("red", "#0000FF"), 99)
         self.an.start()
         self.assertRaises(ValueError, lambda: animations.GradientItem(self.cv, self.item, "fill", ("", ""), 1000))
@@ -291,7 +291,7 @@ class TestScaleFontSize(unittest.TestCase):
         self.tk.destroy()
 
     @unittest.skipIf(platform.system() == "Linux", "No display name.")
-    def test(self) -> None:
+    def test_init(self) -> None:
         self.an1 = animations.ScaleFontSize(self.widget.texts[0], 10, 99)
         self.an1.start()
         self.an2 = animations.ScaleFontSize(self.widget.texts[0], 24.5, 99)

@@ -5,7 +5,7 @@ import unittest
 from tkintertools.color import rgb
 
 
-class Test(unittest.TestCase):
+class TestCase(unittest.TestCase):
 
     def test_contrast(self) -> None:
         self.assertEqual(rgb.contrast((0, 0, 0)), (255, 255, 255))

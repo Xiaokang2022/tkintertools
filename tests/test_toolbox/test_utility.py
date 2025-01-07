@@ -37,7 +37,7 @@ class TestTrigger(unittest.TestCase):
         self.assertTrue(self.t.get())
 
 
-class Test(unittest.TestCase):
+class TestCase(unittest.TestCase):
 
     @unittest.skipIf(platform.system() == "Linux", "No display name.")
     def setUp(self) -> None:

@@ -6,7 +6,7 @@ import unittest
 from tkintertools.color import hsl
 
 
-class Test(unittest.TestCase):
+class TestCase(unittest.TestCase):
 
     def test_contrast(self) -> None:
         self.assertEqual(hsl.contrast((1, 1, 1)), (math.tau - 1, 0, 0))

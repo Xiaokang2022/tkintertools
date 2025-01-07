@@ -6,7 +6,7 @@ import unittest
 from tkintertools.animation import controllers
 
 
-class Test(unittest.TestCase):
+class TestCase(unittest.TestCase):
 
     def test_linear(self) -> None:
         self.assertEqual(controllers.linear(0), 0)
