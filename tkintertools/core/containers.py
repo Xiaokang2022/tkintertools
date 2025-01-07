@@ -255,25 +255,46 @@ class Tk(tkinter.Tk, Misc):
         The method should be called at the end of the code, or after some time
         after the program has started.
         """
+        if value is False and platform.system() == "Darwin":  # patch for Darwin
+            value = not self.fullscreen(None)
+
         result = self.wm_attributes("-fullscreen", value)
         return None if result == "" else bool(result)
 
-    @_fixed_theme
-    def toolwindow(self, value: bool | None = True) -> bool | None:
-        """Set or get whether the window is tool-window
+    if platform.system() == "Windows":
 
-        * `value`: indicate whether the window is tool-window
-        """
-        result = self.wm_attributes("-toolwindow", value)
-        return None if result == "" else bool(result)
+        @_fixed_theme
+        def toolwindow(self, value: bool | None = True) -> bool | None:
+            """Set or get whether the window is tool-window
 
-    def transparentcolor(self, value: str | None = None) -> str | None:
-        """Set or get the penetration color of the window
+            * `value`: indicate whether the window is tool-window
 
-        * `value`: the penetration color of the window
-        """
-        result = self.wm_attributes("-transparentcolor", value)
-        return None if result == "" else result
+            This method only works on Windows!
+            """
+            result = self.wm_attributes("-toolwindow", value)
+            return None if result == "" else bool(result)
+
+        def transparentcolor(self, value: str | None = None) -> str | None:
+            """Set or get the penetration color of the window
+
+            * `value`: the penetration color of the window
+
+            This method only works on Windows!
+            """
+            result = self.wm_attributes("-transparentcolor", value)
+            return None if result == "" else result
+
+    elif platform.system() == "Darwin":
+
+        def transparent(self, value: str | None = None) -> str | None:
+            """Set or get the penetration color of the window
+
+            * `value`: the penetration color of the window
+
+            This method only works on Darwin!
+            """
+            result = self.wm_attributes("-transparent", value)
+            return None if result == "" else result
 
     @typing_extensions.override
     def destroy(self) -> None:
@@ -302,6 +323,7 @@ class Tk(tkinter.Tk, Misc):
                     self.destroy()
 
         self.wm_protocol("WM_DELETE_WINDOW", wrapper)
+
 
 class Toplevel(tkinter.Toplevel, Tk, Misc):
     """Toplevel window.
