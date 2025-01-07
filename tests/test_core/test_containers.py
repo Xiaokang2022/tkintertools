@@ -68,15 +68,6 @@ class TestTk(unittest.TestCase):
             self.assertIsNone(tk.transparentcolor(""))
             self.assertEqual(tk.transparentcolor(), None)
 
-    @unittest.skipUnless(platform.system() == "Darwin", "Only works on Darwin")
-    def test_transparent(self) -> None:
-        with containers.Tk() as tk:
-            self.assertEqual(tk.transparent(), None)
-            self.assertIsNone(tk.transparent("red"))
-            self.assertEqual(str(tk.transparent()), "red")
-            self.assertIsNone(tk.transparent(""))
-            self.assertEqual(tk.transparent(), None)
-
     def test_center(self) -> None:
         with containers.Tk() as tk:
             tk.center()

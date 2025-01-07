@@ -284,18 +284,6 @@ class Tk(tkinter.Tk, Misc):
             result = self.wm_attributes("-transparentcolor", value)
             return None if result == "" else result
 
-    elif platform.system() == "Darwin":
-
-        def transparent(self, value: str | None = None) -> str | None:
-            """Set or get the penetration color of the window
-
-            * `value`: the penetration color of the window
-
-            This method only works on Darwin!
-            """
-            result = self.wm_attributes("-transparent", value)
-            return None if result == "" else result
-
     @typing_extensions.override
     def destroy(self) -> None:
         """Destroy this and all descendants widgets."""
