@@ -15,6 +15,7 @@ __all__ = [
     "Canvas",
 ]
 
+import abc
 import collections.abc
 import functools
 import platform
@@ -29,7 +30,21 @@ from ..toolbox import utility
 from . import configs, virtual
 
 
-class Tk(tkinter.Tk):
+class Misc(abc.ABC):
+    """An abstract miscellaneous class that implements some details."""
+
+    @abc.abstractmethod
+    def destroy(self) -> None:
+        """Destroy the object."""
+
+    def __enter__(self) -> typing_extensions.Self:
+        return self
+
+    def __exit__(self, *args, **kwargs) -> None:
+        self.destroy()
+
+
+class Tk(tkinter.Tk, Misc):
     """Main window.
 
     In general, there is only one main window. But after destroying it, another
@@ -285,7 +300,7 @@ class Tk(tkinter.Tk):
         self.wm_protocol("WM_DELETE_WINDOW", wrapper)
 
 
-class Toplevel(tkinter.Toplevel, Tk):
+class Toplevel(tkinter.Toplevel, Tk, Misc):
     """Toplevel window.
 
     It can be used as a pop-up window, or it can be customized to put anything
@@ -330,7 +345,7 @@ class Toplevel(tkinter.Toplevel, Tk):
         return tkinter.Toplevel.destroy(self)
 
 
-class Canvas(tkinter.Canvas):
+class Canvas(tkinter.Canvas, Misc):
     """Main contrainer: Canvas.
 
     The parent widget of all virtual widgets is `Canvas`.
