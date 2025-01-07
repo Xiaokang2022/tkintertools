@@ -21,6 +21,7 @@ import functools
 import platform
 import tkinter
 import tkinter.font
+import traceback
 import typing
 
 import typing_extensions
@@ -179,9 +180,10 @@ class Tk(tkinter.Tk, Misc):
         manager.apply_theme(self, theme="dark" if dark else "normal")
 
         if include_children:
-            for child in self.children:
+            for child in self.children.values():
                 if isinstance(child, Toplevel):
-                    child.theme(dark, include_canvases=include_canvases)
+                    child.theme(dark, include_canvases=include_canvases,
+                                include_children=True)
 
         if include_canvases:
             for canvas in self.canvases:
@@ -291,14 +293,15 @@ class Tk(tkinter.Tk, Misc):
         * `ensure_destroy`: whether the window is guaranteed to be closed
         """
         def wrapper() -> None:
-            try:  # There is no need to catch errors
+            try:
                 command()
+            except Exception as exc:  # pylint: disable=W0718
+                traceback.print_exception(exc)
             finally:
                 if ensure_destroy:
                     self.destroy()
 
         self.wm_protocol("WM_DELETE_WINDOW", wrapper)
-
 
 class Toplevel(tkinter.Toplevel, Tk, Misc):
     """Toplevel window.
@@ -486,7 +489,6 @@ class Canvas(tkinter.Canvas, Misc):
             case "s": dx, dy = self.init_size[0], self.init_size[1]//2
             case "se": dx, dy = self.init_size[0], self.init_size[1]
             case "center": dx, dy = self.init_size[0]//2, self.init_size[1]//2
-            case _: dx, dy = 0, 0
 
         self.init_position = self.winfo_x() + dx, self.winfo_y() + dy
         self._position = self.init_position
