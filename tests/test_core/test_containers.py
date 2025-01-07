@@ -2,6 +2,7 @@
 
 import contextlib
 import io
+import platform
 import unittest
 import unittest.mock
 
@@ -9,6 +10,7 @@ from tkintertools.core import containers
 from tkintertools.standard import widgets
 
 
+@unittest.skipIf(platform.system() == "Linux", "No display name.")
 class TestTk(unittest.TestCase):
 
     def test_init(self) -> None:
@@ -43,10 +45,13 @@ class TestTk(unittest.TestCase):
     def test_fullscreen(self) -> None:
         with containers.Tk() as tk:
             self.assertIsNone(tk.fullscreen())
+            tk.update_idletasks()
             self.assertTrue(tk.fullscreen(None))
             self.assertIsNone(tk.fullscreen(False))
+            tk.update_idletasks()
             self.assertFalse(tk.fullscreen(None))
 
+    @unittest.skipIf(platform.system() == "Darwin", "No method.")
     def test_toolwindow(self) -> None:
         with containers.Tk() as tk:
             self.assertIsNone(tk.toolwindow())
@@ -54,11 +59,12 @@ class TestTk(unittest.TestCase):
             self.assertIsNone(tk.toolwindow(False))
             self.assertFalse(tk.toolwindow(None))
 
+    @unittest.skipIf(platform.system() == "Darwin", "No method.")
     def test_transparentcolor(self) -> None:
         with containers.Tk() as tk:
             self.assertEqual(tk.transparentcolor(), None)
             self.assertIsNone(tk.transparentcolor("red"))
-            self.assertEqual(tk.transparentcolor(), "red")
+            self.assertEqual(str(tk.transparentcolor()), "red")
             self.assertIsNone(tk.transparentcolor(""))
             self.assertEqual(tk.transparentcolor(), None)
 
@@ -118,6 +124,7 @@ class TestTk(unittest.TestCase):
             mock_theme.assert_called()
 
 
+@unittest.skipIf(platform.system() == "Linux", "No display name.")
 class TestToplevel(unittest.TestCase):
 
     def setUp(self) -> None:
@@ -130,6 +137,7 @@ class TestToplevel(unittest.TestCase):
         self.tl = containers.Toplevel(grab=True, focus=True)
 
 
+@unittest.skipIf(platform.system() == "Linux", "No display name.")
 class TestCanvas(unittest.TestCase):
 
     def test_init(self) -> None:
