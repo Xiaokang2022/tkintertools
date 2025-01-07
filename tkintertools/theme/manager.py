@@ -13,6 +13,8 @@ __all__ = [
     "get_color_mode",
     "register_event",
     "remove_event",
+    "apply_file_dnd",
+    "apply_theme",
     "customize_window",
 ]
 
@@ -101,14 +103,58 @@ def remove_event(func: collections.abc.Callable[..., typing.Any]) -> None:
         del _callback_events[func]
 
 
+def apply_file_dnd(
+    window: tkinter.Tk,
+    *,
+    command: collections.abc.Callable[[str], typing.Any],
+) -> None:
+    """Apply file drag and drop in a widget.
+
+    * `window`: the window which being customized
+    * `command`: callback function, accept a parameter that represents the path
+    of the file
+
+    This function is only works on Windows OS!
+    """
+    if pywinstyles is None:
+        warnings.warn("Package 'pywinstyles' is missing.", UserWarning, 2)
+        return
+
+    pywinstyles.apply_dnd(utility.get_parent(window), command)
+
+
+def apply_theme(
+    window: tkinter.Tk,
+    *,
+    theme: typing.Literal["mica", "acrylic", "aero", "transparent", "optimised", "win7", "inverse", "native", "popup", "dark", "normal"],
+) -> None:
+    """Apply some Windows themes to the window.
+
+    * `window`: the window which being customized
+    * `theme`: different themes for windows
+
+    This function is only works on Windows OS! And some parameters are useless
+    on Windows 7/10!
+    """
+    if pywinstyles is None:
+        warnings.warn("Package 'pywinstyles' is missing.", UserWarning, 2)
+        return
+
+    pywinstyles.apply_style(window, theme)
+
+    # NOTE: This is a flaw in `pywinstyles`, which is fixed here
+    if platform.win32_ver()[0] == "10":
+        window.withdraw()
+        window.deiconify()
+        window.update()
+
+
 def customize_window(
     window: tkinter.Tk,
     *,
-    theme: typing.Literal["mica", "acrylic", "aero", "transparent", "optimised", "win7", "inverse", "native", "popup", "dark", "normal"] | None = None,
     border_color: str | None = None,
     header_color: str | None = None,
     title_color: str | None = None,
-    enable_file_dnd: collections.abc.Callable[[str], typing.Any] | None = None,
     hide_title_bar: bool | None = None,
     hide_button: typing.Literal["all", "maxmin", "none"] | None = None,
     disable_minimize_button: bool | None = None,
@@ -118,11 +164,9 @@ def customize_window(
     """Customize the relevant properties of the window
 
     * `window`: the window which being customized
-    * `theme`: different themes for windows
     * `border_color`: border color of the window
     * `header_color`: header color of the window
     * `title_color`: title color of the window
-    * `enable_file_dnd`: apply file drag and drop in window
     * `hide_title_bar`: Wether hide the whole title bar
     * `hide_button`: Wether hide part of buttons on title bar
     * `disable_minimize_button`: Wether disable minimize button
@@ -133,22 +177,13 @@ def customize_window(
     on Windows 7/10!
     """
     if pywinstyles is not None:
-        if theme is not None:
-            pywinstyles.apply_style(window, theme)
-            # NOTE: This is a flaw in `pywinstyles`, which is fixed here
-            if platform.win32_ver()[0] == "10":
-                window.withdraw()
-                window.deiconify()
-                window.update()
         if border_color is not None:
             pywinstyles.change_border_color(window, border_color)
         if header_color is not None:
             pywinstyles.change_header_color(window, header_color)
         if title_color is not None:
             pywinstyles.change_title_color(window, title_color)
-        if enable_file_dnd is not None:
-            pywinstyles.apply_dnd(utility.get_parent(window), enable_file_dnd)
-    elif any((theme, border_color, header_color, title_color, enable_file_dnd)):
+    elif any((border_color, header_color, title_color)):
         warnings.warn("Package 'pywinstyles' is missing.", UserWarning, 2)
 
     if hPyT is not None:

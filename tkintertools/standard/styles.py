@@ -158,7 +158,6 @@ class SwitchStyle(virtual.Style):
 
     states = ("normal-off", "hover-off", "active-off",
               "normal-on", "hover-on", "active-on", "disabled")
-    # TODO: Is it really necessary to add "disabled"?
 
     light = {
         "Oval": {

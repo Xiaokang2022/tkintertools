@@ -55,8 +55,16 @@ class Test(unittest.TestCase):
         self.assertFalse(manager._process_event(True))
 
     @unittest.skipUnless(platform.system() == "Windows", "Only works on Windows OS.")
+    def test_apply_theme(self) -> None:
+        manager.apply_theme(self.tk, theme="normal")
+
+    @unittest.skipUnless(platform.system() == "Windows", "Only works on Windows OS.")
+    def test_apply_file_dnd(self) -> None:
+        manager.apply_file_dnd(self.tk, command=lambda _: None)
+
+    @unittest.skipUnless(platform.system() == "Windows", "Only works on Windows OS.")
     def test_customize_window(self) -> None:
-        manager.customize_window(self.tk, theme="normal", border_color="red", header_color="green", title_color="blue")
+        manager.customize_window(self.tk, border_color="red", header_color="green", title_color="blue")
 
         for border_type in "rectangular", "smallround", "round":
             manager.customize_window(self.tk, border_type=border_type)
@@ -67,23 +75,24 @@ class Test(unittest.TestCase):
         manager.customize_window(self.tk, hide_title_bar=True, disable_maximize_button=True, disable_minimize_button=True)
         manager.customize_window(self.tk, hide_title_bar=False, disable_maximize_button=False, disable_minimize_button=False)
 
-        manager.customize_window(self.tk, enable_file_dnd=lambda _: None)  # TODO: Why this can not run before the above?
-
     @unittest.skipUnless(platform.system() == "Windows", "Only works on Windows OS.")
-    def test_customize_window_no_dependencies(self) -> None:
+    def test_no_dependencies(self) -> None:
         with unittest.mock.patch.dict("sys.modules", {'darkdetect': None, "pywinstyles": None, "hPyT": None, "win32material": None}):
             importlib.reload(manager)
 
-        self.assertWarns(UserWarning, manager.customize_window, self.tk, theme="normal")
+        self.assertWarns(UserWarning, manager.apply_theme, self.tk, theme="normal")
+        self.assertWarns(UserWarning, manager.apply_file_dnd, self.tk, command=lambda _: None)
+        self.assertWarns(UserWarning, manager.customize_window, self.tk, header_color="red")
         self.assertWarns(UserWarning, manager.customize_window, self.tk, hide_button="all")
         self.assertWarns(UserWarning, manager.customize_window, self.tk, border_type="round")
 
         importlib.reload(manager)
-    
+
     @unittest.skipUnless(platform.system() == "Windows", "Only works on Windows OS.")
-    def test_customize_window_on_Windows10(self) -> None:
+    def test_apply_theme_on_Windows10(self) -> None:
         with unittest.mock.patch("platform.win32_ver", return_value=('10', '10.0.19041', 'multiprocessor Free')):
-            manager.customize_window(self.tk, theme="normal")
+            manager.apply_theme(self.tk, theme="normal")
+
 
 if __name__ == "_-main__":
     unittest.main

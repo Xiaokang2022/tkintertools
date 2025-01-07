@@ -21,7 +21,7 @@ def contrast(
     *,
     channels: tuple[bool, bool, bool] = (True, True, True),
 ) -> tuple[int, int, int]:
-    """Get the contrasting color of a color.
+    """Get the contrasting color of a RGB code.
 
     * `value`: a RGB code
     * `channels`: three color channels

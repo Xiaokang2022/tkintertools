@@ -22,7 +22,7 @@ def contrast(
     *,
     channels: tuple[bool, bool, bool] = (True, True, True),
 ) -> tuple[float, float, float]:
-    """Get the contrasting color of a color.
+    """Get the contrasting color of a HSL code.
 
     * `value`: a HSL code
     * `channels`: three color channels

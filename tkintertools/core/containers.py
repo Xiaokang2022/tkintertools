@@ -161,7 +161,7 @@ class Tk(tkinter.Tk):
         """
         self.update_idletasks()
         self["bg"] = self.dark["bg"] if dark else self.light["bg"]
-        manager.customize_window(self, theme="dark" if dark else "normal")
+        manager.apply_theme(self, theme="dark" if dark else "normal")
 
         if include_children:
             for child in self.children:

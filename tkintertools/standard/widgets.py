@@ -357,7 +357,7 @@ class Switch(virtual.Widget):
             self.feature.command(value)
         if self.get() == bool(value):
             return
-        self.update(f"{self.state.split('-')[0]}-{'on' if value else 'off'}", gradient_animation=True)
+        self.update(f"{self.state.split('-', maxsplit=1)}-{'on' if value else 'off'}", gradient_animation=True)
         dx = self.shapes[0].size[0]/2 if value else -self.shapes[0].size[0]/2
         animations.MoveElement(
             self.shapes[1], (dx, 0), 250, controller=controllers.smooth, fps=60).start()
@@ -613,7 +613,7 @@ class ToggleButton(virtual.Widget):
             self.feature.command(value)
         if self.get() == bool(value):
             return
-        self.update(f"{self.state.split('-')[0]}-{'on' if value else 'off'}")
+        self.update(f"{self.state.split('-', maxsplit=1)}-{'on' if value else 'off'}")
 
 
 class RadioGroup(virtual.Widget):

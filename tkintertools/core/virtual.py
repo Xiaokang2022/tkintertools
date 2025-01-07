@@ -644,7 +644,7 @@ class Feature:
             for command in extra_commands:
                 try:
                     command(event)
-                except Exception as exc:
+                except Exception as exc:  # pylint: disable=W0718
                     traceback.print_exception(exc)
 
             return result
@@ -818,7 +818,7 @@ class Widget:
         for command in self._update_hooks:
             try:
                 command(state, gradient_animation)
-            except Exception as exc:
+            except Exception as exc:  # pylint: disable=W0718
                 traceback.print_exception(exc)
 
     def bind_on_update(
