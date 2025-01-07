@@ -143,6 +143,13 @@ class Animation:
 
         return None
 
+    def skip(self, count: int = 1) -> None:
+        """Skip some loops.
+
+        * `count`: count of skipping
+        """
+        self._count = max(self._count-count, 0)
+
 
 class MoveWindow(Animation):
     """Animation of moving the window."""
