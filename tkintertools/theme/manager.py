@@ -227,21 +227,16 @@ def customize_window(
         warnings.warn("Package 'win32material' is missing.", UserWarning, 2)
 
 
-def _process_event(dark_mode: bool) -> bool:
+def _process_event(dark_mode: bool) -> None:
     """Handle registered callback functions.
 
     * `dark_mode`: Wether it is dark mode
     """
-    flag = True  # For test, True indicate no any exceptions
-
     for func, args in _callback_events.items():
         try:  # Prevent detection thread from crashing
             func(dark_mode, *args)
         except Exception as exc:  # pylint: disable=W0718
-            flag = False
             traceback.print_exception(exc)
-
-    return flag
 
 
 def _callback(theme: str) -> None:

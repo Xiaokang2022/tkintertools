@@ -548,6 +548,10 @@ class Canvas(tkinter.Canvas):
     def destroy(self) -> None:
         """Destroy this and all descendants widgets."""
         self.master.canvases.remove(self)
+
+        for widget in tuple(self.widgets):
+            widget.destroy()
+
         return tkinter.Canvas.destroy(self)
 
     def clear(self) -> None:
