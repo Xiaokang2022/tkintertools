@@ -575,6 +575,27 @@ class Style:
 
         return arg
 
+    def _set(
+        self,
+        data: tuple[str | None, ...] | str | None,
+        **kwargs: tuple[Element | str | int, ...] | Element | str | int,
+    ) -> None:
+        """Set the color of a style conveniently.
+
+        * `data`: data of color
+        * `kwargs`: { arg name: element key or element keys tuple }
+        """
+        if data is None:
+            return
+
+        for i, color in enumerate(self._wrap_arg(data)):
+            if color is None:
+                continue
+
+            for arg, keys in kwargs.items():
+                for key in keys if isinstance(keys, tuple) else (keys,):
+                    self[key][self.states[i]].update({arg: color})
+
     def set(self) -> None:
         """Set the style of the widget."""
         # override this method to do something here

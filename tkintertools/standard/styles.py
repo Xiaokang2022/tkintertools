@@ -50,15 +50,11 @@ class TextStyle(virtual.Style):
     ) -> None:
         """Set the style of the widget.
 
-        * `fg`: The foreground color of the widget
+        * `fg`: the foreground color of the widget
 
-        states: "normal", "hover", "active", "disabled"
+        states: "normal", "hover", "active"
         """
-        if fg is not None:
-            for i, color in enumerate(self._wrap_arg(fg)):
-                if color is not None:
-                    self[-1][self.states[i]].update(fill=color)
-
+        self._set(fg, fill=-1)
         self.widget.update()
 
 
@@ -105,27 +101,15 @@ class LabelStyle(virtual.Style):
     ) -> None:
         """Set the style of the widget.
 
-        * `fg`: The foreground color of the widget.
-        * `bg`: The background color of the widget.
-        * `ol`: The outline color of the widget.
+        * `fg`: the foreground color of the widget.
+        * `bg`: the background color of the widget.
+        * `ol`: the outline color of the widget.
 
-        states: "normal", "hover", "active", "disabled"
+        states: "normal", "hover", "active"
         """
-        if fg is not None:
-            for i, color in enumerate(self._wrap_arg(fg)):
-                if color is not None:
-                    self[-1][self.states[i]].update(fill=color)
-
-        if bg is not None:
-            for i, color in enumerate(self._wrap_arg(bg)):
-                if color is not None:
-                    self[0][self.states[i]].update(fill=color)
-
-        if ol is not None:
-            for i, color in enumerate(self._wrap_arg(ol)):
-                if color is not None:
-                    self[0][self.states[i]].update(outline=color)
-
+        self._set(fg, fill=-1)
+        self._set(bg, fill=0)
+        self._set(ol, outline=0)
         self.widget.update()
 
 
@@ -172,6 +156,10 @@ class ButtonStyle(LabelStyle):
 class SwitchStyle(virtual.Style):
     """Style of Switch"""
 
+    states = ("normal-off", "hover-off", "active-off",
+              "normal-on", "hover-on", "active-on", "disabled")
+    # TODO: Is it really necessary to add "disabled"?
+
     light = {
         "Oval": {
             "normal-off": {"fill": "#5D5D5E", "outline": "#5D5D5E"},
@@ -241,6 +229,31 @@ class SwitchStyle(virtual.Style):
             "active-on": {"fill": "#49A8DA", "outline": "#5DBCED"},
         }
     }
+
+    @typing_extensions.override
+    def set(
+        self,
+        *,
+        bg: tuple[str | None, ...] | str | None = None,
+        ol: tuple[str | None, ...] | str | None = None,
+        bg_in: tuple[str | None, ...] | str | None = None,
+        ol_in: tuple[str | None, ...] | str | None = None,
+    ) -> None:
+        """Set the style of the widget.
+
+        * `bg`: the background color of the widget.
+        * `ol`: the outline color of the widget.
+        * `bg_in`: the inside background color of the widget.
+        * `ol_in`: the inside outline color of the widget.
+
+        states: "normal-off", "hover-off", "active-off", "normal-on",
+        "hover-on", "active-on"
+        """
+        self._set(bg, fill=("Rectangle.out", "SemicircularRectangle"))
+        self._set(ol, outline=("Rectangle.out", "SemicircularRectangle"))
+        self._set(bg_in, fill=("Rectangle.in", "Oval"))
+        self._set(ol_in, fill=("Rectangle.in", "Oval"))
+        self.widget.update()
 
 
 class InputBoxStyle(virtual.Style):
@@ -292,6 +305,30 @@ class InputBoxStyle(virtual.Style):
         }
     }
 
+    @typing_extensions.override
+    def set(
+        self,
+        *,
+        fg: tuple[str | None, ...] | str | None = None,
+        bg: tuple[str | None, ...] | str | None = None,
+        ol: tuple[str | None, ...] | str | None = None,
+        hl: tuple[str | None, ...] | str | None = None,
+    ) -> None:
+        """Set the style of the widget.
+
+        * `fg`: the foreground color of the widget.
+        * `bg`: the background color of the widget.
+        * `ol`: the outline color of the widget.
+        * `hl`: the highlight bar of the widget
+
+        states: "normal", "hover", "active"
+        """
+        self._set(fg, fill="SingleLineText")
+        self._set(bg, fill=("Rectangle", "RoundedRectangle.in"))
+        self._set(ol, outline=("Rectangle", "RoundedRectangle.in"))
+        self._set(hl, fill="RoundedRectangle.out", outline="RoundedRectangle.out")
+        self.widget.update()
+
 
 class CheckBoxStyle(virtual.Style):
     """Style of CheckBox"""
@@ -332,9 +369,33 @@ class CheckBoxStyle(virtual.Style):
         }
     }
 
+    @typing_extensions.override
+    def set(
+        self,
+        *,
+        fg: tuple[str | None, ...] | str | None = None,
+        bg: tuple[str | None, ...] | str | None = None,
+        ol: tuple[str | None, ...] | str | None = None,
+    ) -> None:
+        """Set the style of the widget.
+
+        * `fg`: the foreground color of the widget.
+        * `bg`: the background color of the widget.
+        * `ol`: the outline color of the widget.
+
+        states: "normal", "hover", "active"
+        """
+        self._set(fg, fill=-1)
+        self._set(bg, fill=0)
+        self._set(ol, outline=0)
+        self.widget.update()
+
 
 class ToggleButtonStyle(virtual.Style):
     """Style of ToggleButton"""
+
+    states = ("normal-off", "hover-off", "active-off",
+              "normal-on", "hover-on", "active-on", "disabled")
 
     light = {
         "Information": {
@@ -390,6 +451,28 @@ class ToggleButtonStyle(virtual.Style):
         }
     }
 
+    @typing_extensions.override
+    def set(
+        self,
+        *,
+        fg: tuple[str | None, ...] | str | None = None,
+        bg: tuple[str | None, ...] | str | None = None,
+        ol: tuple[str | None, ...] | str | None = None,
+    ) -> None:
+        """Set the style of the widget.
+
+        * `fg`: the foreground color of the widget.
+        * `bg`: the background color of the widget.
+        * `ol`: the outline color of the widget.
+
+        states: "normal-off", "hover-off", "active-off", "normal-on",
+        "hover-on", "active-on"
+        """
+        self._set(fg, fill=-1)
+        self._set(bg, fill=0)
+        self._set(ol, outline=0)
+        self.widget.update()
+
 
 class RadioGroupStyle(virtual.Style):
     """Style of RadioGroup"""
@@ -440,6 +523,30 @@ class RadioGroupStyle(virtual.Style):
         }
     }
 
+    @typing_extensions.override
+    def set(
+        self,
+        *,
+        bg: tuple[str | None, ...] | str | None = None,
+        ol: tuple[str | None, ...] | str | None = None,
+        bg_in: tuple[str | None, ...] | str | None = None,
+        ol_in: tuple[str | None, ...] | str | None = None,
+    ) -> None:
+        """Set the style of the widget.
+
+        * `bg`: the background color of the widget.
+        * `ol`: the outline color of the widget.
+        * `bg_in`: the inside background color of the widget.
+        * `ol_in`: the inside outline color of the widget.
+
+        states: "normal", "hover", "active"
+        """
+        self._set(bg, fill=0)
+        self._set(ol, outline=0)
+        self._set(bg_in, fill=1)
+        self._set(ol_in, outline=1)
+        self.widget.update()
+
 
 class ProgressBarStyle(virtual.Style):
     """Style of ProgressBar"""
@@ -482,8 +589,32 @@ class ProgressBarStyle(virtual.Style):
         }
     }
 
+    @typing_extensions.override
+    def set(
+        self,
+        *,
+        bg: tuple[str | None, ...] | str | None = None,
+        ol: tuple[str | None, ...] | str | None = None,
+        bg_in: tuple[str | None, ...] | str | None = None,
+        ol_in: tuple[str | None, ...] | str | None = None,
+    ) -> None:
+        """Set the style of the widget.
 
-class UnderlineButtonStyle(virtual.Style):
+        * `bg`: the background color of the widget.
+        * `ol`: the outline color of the widget.
+        * `bg_in`: the inside background color of the widget.
+        * `ol_in`: the inside outline color of the widget.
+
+        states: "normal", "hover"
+        """
+        self._set(bg, fill=0)
+        self._set(ol, outline=0)
+        self._set(bg_in, fill=1)
+        self._set(ol_in, outline=1)
+        self.widget.update()
+
+
+class UnderlineButtonStyle(TextStyle):
     """Style of UnderlineButton"""
 
     light = {
@@ -503,7 +634,7 @@ class UnderlineButtonStyle(virtual.Style):
     }
 
 
-class HighlightButtonStyle(virtual.Style):
+class HighlightButtonStyle(TextStyle):
     """Style of HighlightButtonStyle"""
 
     light = {
@@ -523,7 +654,7 @@ class HighlightButtonStyle(virtual.Style):
     }
 
 
-class IconButtonStyle(virtual.Style):
+class IconButtonStyle(LabelStyle):
     """Style of IconButtonStyle"""
 
     light = {
@@ -618,6 +749,32 @@ class SliderStyle(virtual.Style):
         }
     }
 
+    @typing_extensions.override
+    def set(
+        self,
+        *,
+        fg: tuple[str | None, ...] | str | None = None,
+        bg: tuple[str | None, ...] | str | None = None,
+        pt: tuple[str | None, ...] | str | None = None,
+        hl: tuple[str | None, ...] | str | None = None,
+    ) -> None:
+        """Set the style of the widget.
+
+        * `fg`: the foreground color of the widget.
+        * `bg`: the background color of the widget.
+        * `pt`: the pointer color of the widget.
+        * `hl`: the pointer highlight part color of the widget (Only for
+        Windows11 theme).
+
+        states: "normal", "hover", "active"
+        """
+        self._set(fg, fill=1, outline=1)
+        self._set(bg, fill=0, outline=0)
+        self._set(pt, fill=2, outline=2)
+        self._set(hl, fill="Oval.in", outline="Oval.in")
+        # Only works on Windows11 theme, compatible with other themes
+        self.widget.update()
+
 
 class SegmentedButtonStyle(virtual.Style):
     """Style of SegmentedButton"""
@@ -643,6 +800,24 @@ class SegmentedButtonStyle(virtual.Style):
             "hover": {"fill": "#323232", "outline": "#3D3D3D"},
         }
     }
+
+    @typing_extensions.override
+    def set(
+        self,
+        *,
+        bg: tuple[str | None, ...] | str | None = None,
+        ol: tuple[str | None, ...] | str | None = None,
+    ) -> None:
+        """Set the style of the widget.
+
+        * `bg`: the background color of the widget.
+        * `ol`: the outline color of the widget.
+
+        states: "normal", "hover"
+        """
+        self._set(bg, fill=0)
+        self._set(ol, outline=0)
+        self.widget.update()
 
 
 class OptionButtonStyle(virtual.Style):
@@ -674,6 +849,24 @@ class OptionButtonStyle(virtual.Style):
         }
     }
 
+    @typing_extensions.override
+    def set(
+        self,
+        *,
+        bg: tuple[str | None, ...] | str | None = None,
+        ol: tuple[str | None, ...] | str | None = None,
+    ) -> None:
+        """Set the style of the widget.
+
+        * `bg`: the background color of the widget.
+        * `ol`: the outline color of the widget.
+
+        states: "normal", "hover", "active"
+        """
+        self._set(bg, fill=0)
+        self._set(ol, outline=0)
+        self.widget.update()
+
 
 class SpinnerStyle(virtual.Style):
     """Style of Spinner"""
@@ -695,6 +888,24 @@ class SpinnerStyle(virtual.Style):
             "normal": {"outline": "#479EF5"},
         }
     }
+
+    @typing_extensions.override
+    def set(
+        self,
+        *,
+        fg: tuple[str | None, ...] | str | None = None,
+        bg: tuple[str | None, ...] | str | None = None,
+    ) -> None:
+        """Set the style of the widget.
+
+        * `fg`: the foreground color of the widget.
+        * `bg`: the background color of the widget.
+
+        states: "normal"
+        """
+        self._set(fg, outline=0)
+        self._set(bg, outline=1)
+        self.widget.update()
 
 
 class TooltipStyle(virtual.Style):
@@ -723,3 +934,24 @@ class TooltipStyle(virtual.Style):
             "normal": {"fill": "#2B2B2B", "outline": "#3D3D3D"},
         }
     }
+
+    @typing_extensions.override
+    def set(
+        self,
+        *,
+        fg: tuple[str | None, ...] | str | None = None,
+        bg: tuple[str | None, ...] | str | None = None,
+        ol: tuple[str | None, ...] | str | None = None,
+    ) -> None:
+        """Set the style of the widget.
+
+        * `fg`: the foreground color of the widget.
+        * `bg`: the background color of the widget.
+        * `ol`: the outline color of the widget.
+
+        states: "normal"
+        """
+        self._set(fg, fill=-1)
+        self._set(bg, fill=0)
+        self._set(ol, outline=0)
+        self.widget.update()
