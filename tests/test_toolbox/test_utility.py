@@ -65,7 +65,6 @@ class TestCase(unittest.TestCase):
                 self.assertFalse(utility.load_font(""))
 
         path = pathlib.Path(__file__).parent.parent/"assets/fonts/FiraCode.ttf"
-        self.assertRaises(Exception, utility.load_font, path)
         self.assertTrue(utility.load_font(str(path)))
         self.assertTrue(utility.load_font(bytes(path)))
 

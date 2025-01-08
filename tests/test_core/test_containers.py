@@ -3,6 +3,7 @@
 import contextlib
 import io
 import platform
+import tkinter
 import unittest
 import unittest.mock
 
@@ -167,6 +168,52 @@ class TestCanvas(unittest.TestCase):
                 with containers.Canvas(tk) as cv:
                     cv.place(width=100, height=100, anchor=anchor)
                     cv._initialization()
+
+    def test_zoom_tk_widgets(self) -> None:
+        with containers.Tk() as tk:
+            with containers.Canvas(tk) as cv:
+                tkinter.Button(cv).place(x=0, y=0)
+                with containers.Canvas(cv):
+                    cv._zoom_tk_widgets(rel_ratio=(1., 1.))
+
+    def test_clear(self) -> None:
+        with containers.Tk() as tk:
+            with containers.Canvas(tk) as cv:
+                tkinter.Button(cv)
+                cv.clear()
+
+    def test_zoom_self(self) -> None:
+        with containers.Tk() as tk:
+            with containers.Canvas(tk, auto_zoom=True, zoom_all_items=True) as cv:
+                containers.Canvas(cv)
+                widgets.Button(cv, (0, 0))
+                cv.create_rectangle(0, 0, 1, 1)
+                cv.place(width=100, height=100)
+                cv._initialization()
+                cv._zoom_self()
+
+    def test_create_text(self) -> None:
+        with containers.Tk() as tk:
+            with containers.Canvas(tk) as cv:
+                cv.create_text(0, 0)
+                cv.create_text(0, 0, font=10)
+                cv.create_text(0, 0, font="Aria")
+                cv.create_text(0, 0, font=("Aria", 10, "bold"))
+
+    def test_zoom(self) -> None:
+        with containers.Tk() as tk:
+            with containers.Canvas(tk) as cv:
+                cv.place(width=100, height=100)
+                cv.zoom()
+    
+    def test_register_event(self) -> None:
+        with containers.Tk() as tk:
+            with containers.Canvas(tk) as cv:
+                widget = widgets.Button(cv, (0, 0))
+                cv.register_event("<<Test>>")
+                # cv.register_event("<<Test>>", add="+")
+                widget.bind("<<Test>>", lambda _: None)
+                widget.generate_event("<<Test>>", tkinter.Event())
 
 
 if __name__ == "__main__":

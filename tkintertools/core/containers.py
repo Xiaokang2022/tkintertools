@@ -586,7 +586,7 @@ class Canvas(tkinter.Canvas, Misc):
         self.canvases.clear()
         self.widgets.clear()
 
-        for child in self.children.values():
+        for child in tuple(self.children.values()):
             child.destroy()
 
         self.delete(*self.find_all())
