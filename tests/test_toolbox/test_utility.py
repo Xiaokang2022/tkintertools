@@ -1,6 +1,8 @@
 # pylint: disable=all
 
+import contextlib
 import importlib
+import io
 import pathlib
 import platform
 import tkinter
@@ -56,10 +58,12 @@ class TestCase(unittest.TestCase):
         self.assertIsNone(utility.embed_window(toplevel, self.tk))
         toplevel.destroy()
 
-    @unittest.skipIf(platform.system() == "Linux", "???")  # TODO
     @unittest.skipIf(platform.system() == "Darwin", "This not work on Darwin.")
     def test_load_font(self) -> None:
-        self.assertFalse(utility.load_font(""))
+        with io.StringIO() as captured_output:
+            with contextlib.redirect_stderr(captured_output):
+                self.assertFalse(utility.load_font(""))
+
         path = pathlib.Path(__file__).parent.parent/"assets/fonts/FiraCode.ttf"
         self.assertRaises(TypeError, utility.load_font, path)
         self.assertTrue(utility.load_font(str(path)))

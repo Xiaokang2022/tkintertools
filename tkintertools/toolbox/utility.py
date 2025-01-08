@@ -20,6 +20,7 @@ import platform
 import shutil
 import tkinter
 import tkinter.font
+import traceback
 import typing
 
 from ..core import configs, virtual
@@ -139,7 +140,9 @@ def load_font(
         return bool(min(num_fonts_added, 1))
 
     if platform.system() == "Linux":
-        font_path = str(font_path)
+        if isinstance(font_path, bytes):
+            font_path = font_path.decode()
+
         linux_fonts_dir = os.path.expanduser("~/.fonts/")
 
         try:
@@ -150,8 +153,8 @@ def load_font(
                 atexit.register(os.remove, linux_fonts_dir + font_path.rsplit("/", 1)[-1])
 
             return True
-        finally:
-            pass
+        except Exception as exc:  # pylint: disable=W0718
+            traceback.print_exception(exc)
 
     return False
 
