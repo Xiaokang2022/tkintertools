@@ -12,22 +12,34 @@ jobs:
 
     steps:
     - uses: actions/checkout@main
+
     - name: Setup Python
       uses: actions/setup-python@main
       with:
         python-version: 3.13
+
+    - name: Install the GUI environment (ubuntu only)
+      if: runner.os == 'Linux'
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y xvfb
+        Xvfb :99 -screen 0 1280x1024x24 &
+        echo "DISPLAY=:99" >> $GITHUB_ENV
+
     - name: Generate coverage report
       run: |
         pip install pytest
         pip install pytest-cov
         pip install .[opt]
         pytest --cov --cov-report=xml --junitxml=junit.xml
+
     - name: Upload coverage to Codecov
       uses: codecov/codecov-action@v5
       with:
         token: ${{ secrets.CODECOV_TOKEN }}
         fail_ci_if_error: false
         verbose: true
+
     - name: Upload test results to Codecov
       if: ${{ !cancelled() }}
       uses: codecov/test-results-action@v1

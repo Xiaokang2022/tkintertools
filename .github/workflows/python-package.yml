@@ -20,16 +20,11 @@ jobs:
 
     steps:
     - uses: actions/checkout@main
+
     - name: Set up Python ${{ matrix.python-version }}
       uses: actions/setup-python@main
       with:
         python-version: ${{ matrix.python-version }}
-    - name: Install dependencies
-      run: |
-        pip3 install --upgrade pip
-        pip3 install pylint
-        pip3 install pytest
-        pip3 install .[opt]
 
     - name: Install the GUI environment (ubuntu only)
       if: runner.os == 'Linux'
@@ -39,7 +34,15 @@ jobs:
         Xvfb :99 -screen 0 1280x1024x24 &
         echo "DISPLAY=:99" >> $GITHUB_ENV
 
+    - name: Install dependencies
+      run: |
+        pip3 install --upgrade pip
+        pip3 install pylint
+        pip3 install pytest
+        pip3 install .[opt]
+
     - name: Lint with pylint
       run: pylint $(git ls-files "*.py")
+
     - name: Test with pytest
       run: pytest
