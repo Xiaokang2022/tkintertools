@@ -202,18 +202,40 @@ class TestCanvas(unittest.TestCase):
 
     def test_zoom(self) -> None:
         with containers.Tk() as tk:
+            with containers.Canvas(tk, free_anchor=True) as cv:
+                with unittest.mock.patch("tkintertools.core.containers.Canvas.winfo_viewable", return_value=True):
+                    cv.place(width=100, height=100)
+                    cv._initialization()
+                    cv.zoom()
+
+    def test_on_events(self) -> None:
+        with containers.Tk() as tk:
             with containers.Canvas(tk) as cv:
-                cv.place(width=100, height=100)
-                cv.zoom()
-    
+                widgets.Button(cv, (0, 0), capture_events=True)
+                widgets.Button(cv, (0, 0))
+                event = tkinter.Event()
+                event.x = 1
+                event.y = 1
+                event.char = ":)"
+                cv.on_motion(event, "<Motion>")
+                event.x = 1
+                cv.on_click(event, "<Button-1>")
+                event.x = 1
+                cv.on_release(event, "<ButtonRelease-1>")
+                event.x = 1
+                cv.on_wheel(event, True)
+                event.x = 1
+                cv.on_key_press(event)
+                event.x = 1
+                cv.on_key_release(event)
+
     def test_register_event(self) -> None:
         with containers.Tk() as tk:
             with containers.Canvas(tk) as cv:
                 widget = widgets.Button(cv, (0, 0))
                 cv.register_event("<<Test>>")
-                # cv.register_event("<<Test>>", add="+")
-                widget.bind("<<Test>>", lambda _: None)
-                widget.generate_event("<<Test>>", tkinter.Event())
+                widget.bind("<<Test>>", lambda _: True)
+                cv.event_generate("<<Test>>")
 
 
 if __name__ == "__main__":
