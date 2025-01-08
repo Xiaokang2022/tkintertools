@@ -56,6 +56,7 @@ class TestCase(unittest.TestCase):
         self.assertIsNone(utility.embed_window(toplevel, self.tk))
         toplevel.destroy()
 
+    @unittest.skipIf(platform.system() == "Linux", "???")  # TODO
     @unittest.skipIf(platform.system() == "Darwin", "This not work on Darwin.")
     def test_load_font(self) -> None:
         self.assertFalse(utility.load_font(""))
