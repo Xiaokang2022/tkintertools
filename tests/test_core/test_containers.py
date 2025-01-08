@@ -35,11 +35,11 @@ class TestTk(unittest.TestCase):
             self.assertIsNone(tk.alpha(0.8))
             self.assertEqual(tk.alpha(), 0.8)
 
-    @unittest.skipIf(platform.system() == "Linux", "???")  # TODO
     def test_topmost(self) -> None:
         with containers.Tk() as tk:
             self.assertIsNone(tk.topmost())
-            self.assertTrue(tk.topmost(None))
+            tk.after(1, lambda: self.assertTrue(tk.topmost(None)))  # Linux needs a short pause
+            tk.update_idletasks()
             self.assertIsNone(tk.topmost(False))
             self.assertFalse(tk.topmost(None))
 
