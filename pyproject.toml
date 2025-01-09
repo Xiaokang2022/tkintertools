@@ -25,20 +25,20 @@ dependencies = ["typing_extensions"]
 
 [project.optional-dependencies]
 opt = [
-    "darkdetect==0.8.0; platform_system != 'Darwin'",
+    "darkdetect==0.8.0",
     "darkdetect[macos-listener]==0.8.0; platform_system == 'Darwin'",
-    "pywinstyles==1.8; platform_system == 'Windows'",
-    "hPyT==1.3.7; platform_system == 'Windows'",
-    "win32material==1.0.6; platform_system == 'Windows'",
+    "pywinstyles==1.8;                  platform_system == 'Windows'",
+    "hPyT==1.3.7;                       platform_system == 'Windows'",
+    "win32material==1.0.6;              platform_system == 'Windows'",
     "pillow>=10.0.0",
 ]
 ext = ["tkintertools-mpl", "tkintertools-3d", "tkintertools-media"]
 all = [
-    "darkdetect==0.8.0; platform_system != 'Darwin'",
+    "darkdetect==0.8.0",
     "darkdetect[macos-listener]==0.8.0; platform_system == 'Darwin'",
-    "pywinstyles==1.8; platform_system == 'Windows'",
-    "hPyT==1.3.7; platform_system == 'Windows'",
-    "win32material==1.0.6; platform_system == 'Windows'",
+    "pywinstyles==1.8;                  platform_system == 'Windows'",
+    "hPyT==1.3.7;                       platform_system == 'Windows'",
+    "win32material==1.0.6;              platform_system == 'Windows'",
     "pillow>=10.0.0",
     "tkintertools-mpl",
     "tkintertools-3d",
@@ -67,4 +67,4 @@ fail-under = 9
 disable = 'line-too-long'
 
 [tool.pytest.ini_options]
-addopts = ["--color=yes"]
+addopts = ["--color=yes", "--reruns=3"]

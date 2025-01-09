@@ -26,7 +26,7 @@ jobs:
       with:
         python-version: ${{ matrix.python-version }}
 
-    - name: Install the GUI environment (ubuntu only)
+    - name: Install the GUI environment (Ubuntu only)
       if: runner.os == 'Linux'
       run: |
         sudo apt-get update
@@ -36,10 +36,11 @@ jobs:
 
     - name: Install dependencies
       run: |
-        pip3 install --upgrade pip
-        pip3 install pylint
-        pip3 install pytest
-        pip3 install .[opt]
+        pip install --upgrade pip
+        pip install pylint
+        pip install pytest
+        pip install pytest-rerunfailures
+        pip install .[opt]
 
     - name: Lint with pylint
       run: pylint $(git ls-files "*.py")

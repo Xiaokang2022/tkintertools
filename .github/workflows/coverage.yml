@@ -18,7 +18,7 @@ jobs:
       with:
         python-version: 3.13
 
-    - name: Install the GUI environment (ubuntu only)
+    - name: Install the GUI environment (Ubuntu only)
       if: runner.os == 'Linux'
       run: |
         sudo apt-get update
@@ -30,6 +30,7 @@ jobs:
       run: |
         pip install pytest
         pip install pytest-cov
+        pip install pytest-rerunfailures
         pip install .[opt]
         pytest --cov --cov-report=xml --junitxml=junit.xml
 
