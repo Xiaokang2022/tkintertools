@@ -11,7 +11,7 @@ __all__ = [
     "InputBox",
     "ToggleButton",
     "CheckBox",
-    "RadioGroup",
+    "RadioBox",
     "ProgressBar",
     "UnderlineButton",
     "HighlightButton",
@@ -616,7 +616,7 @@ class ToggleButton(virtual.Widget):
         self.update(f"{self.state.split('-', maxsplit=1)}-{'on' if value else 'off'}")
 
 
-class RadioGroup(virtual.Widget):
+class RadioBox(virtual.Widget):
     """Radio button widget, generally used to select one of several options"""
 
     def __init__(
@@ -649,6 +649,7 @@ class RadioGroup(virtual.Widget):
         * `auto_update`: whether the theme manager update it automatically
         * `style`: style of the widget
         """
+        self.groups: list[RadioBox] = [self]
         virtual.Widget.__init__(
             self, master, position, (length, length), name=name, anchor=anchor,
             capture_events=capture_events, gradient_animation=gradient_animation,
@@ -669,7 +670,7 @@ class RadioGroup(virtual.Widget):
                 size=(self.size[0]/2, self.size[1]/2)).forget()
         if image is not None:
             images.StillImage(self, image=image)
-        self.feature = features.RadioGroupFeature(self, command=command)
+        self.feature = features.RadioBoxFeature(self, command=command)
         if default is not None:
             self.set(default)
 
@@ -686,6 +687,18 @@ class RadioGroup(virtual.Widget):
         if value:
             return self.shapes[1].forget(False)
         return self.shapes[1].forget()
+
+    def group(self, *radio_boxes: RadioBox) -> None:
+        """Combine other radio boxes.
+
+        * `radio_boxes`: other radio boxes
+        """
+        for radio_box in radio_boxes:
+            if radio_box in self.groups:
+                continue
+
+            self.groups.append(radio_box)
+            radio_box.groups = self.groups
 
 
 class ProgressBar(virtual.Widget):

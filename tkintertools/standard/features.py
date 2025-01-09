@@ -11,7 +11,7 @@ __all__ = [
     "SwitchFeature",
     "ToggleButtonFeature",
     "CheckBoxFeature",
-    "RadioGroupFeature",
+    "RadioBoxFeature",
     "ProgressBarFeature",
     "InputBoxFeature",
     "SliderFeature",
@@ -21,6 +21,8 @@ __all__ = [
 import collections.abc
 import tkinter
 import typing
+
+import typing_extensions
 
 from ..animation import animations, controllers
 from ..core import virtual
@@ -258,8 +260,26 @@ class ToggleButtonFeature(ButtonFeature):
         return flag
 
 
-class RadioGroupFeature(CheckBoxFeature):
+class RadioBoxFeature(CheckBoxFeature):
     """Feature of RadioButton"""
+
+    @typing_extensions.override
+    def _button_release_1(self, event: tkinter.Event) -> bool:
+        if flag := self.widget.shapes[0].detect(event.x, event.y):
+            if self.widget.state.startswith("active"):
+                if self.widget.get():
+                    return flag
+                else:
+                    for radio_box in tuple(self.widget.groups):
+                        if radio_box.get():
+                            radio_box.set(False, callback=True)
+
+                boolean = not self.widget.get()
+                self.widget.set(boolean)
+                self.widget.update(f"hover-{'on' if boolean else 'off'}")
+                if self.command is not None:
+                    self.command(boolean)
+        return flag
 
 
 class ProgressBarFeature(LabelFeature):
