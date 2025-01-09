@@ -343,7 +343,7 @@ class Toplevel(tkinter.Toplevel, Tk, Misc):
 
     def __init__(
         self,
-        master: Tk | None = None,
+        master: Tk | Toplevel | None = None,
         size: tuple[int, int] = (960, 540),
         position: tuple[int, int] | None = None,
         *,
@@ -403,7 +403,7 @@ class Canvas(tkinter.Canvas, Misc):
 
     def __init__(
         self,
-        master: Tk | Toplevel | Canvas,
+        master: Tk | Toplevel | Canvas | None = None,
         *,
         expand: typing.Literal["", "x", "y", "xy"] = "xy",
         auto_zoom: bool = False,
@@ -464,7 +464,7 @@ class Canvas(tkinter.Canvas, Misc):
 
         self.light, self.dark = self.light.copy(), self.dark.copy()
 
-        master.canvases.append(self)
+        self.master.canvases.append(self)
 
         self.bind("<KeyPress>", self.on_key_press)
         self.bind("<KeyRelease>", self.on_key_release)
