@@ -128,11 +128,9 @@ def load_font(
         if isinstance(font_path, str):
             path_buffer = ctypes.create_unicode_buffer(font_path)
             add_font_resource_ex = ctypes.windll.gdi32.AddFontResourceExW
-        elif isinstance(font_path, bytes):
+        else:
             path_buffer = ctypes.create_string_buffer(font_path)
             add_font_resource_ex = ctypes.windll.gdi32.AddFontResourceExA
-        else:
-            raise TypeError("`font_path` must be of type `str` or `byte`.")
 
         flags = (0x10 if private else 0) | (0x20 if not enumerable else 0)
         num_fonts_added = add_font_resource_ex(ctypes.byref(path_buffer), flags, 0)

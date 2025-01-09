@@ -27,12 +27,16 @@ import typing
 import typing_extensions
 
 from ..theme import manager
-from ..toolbox import utility
+from ..toolbox import enhanced, utility
 from . import configs, virtual
 
 
 class Misc(abc.ABC):
-    """An abstract miscellaneous class that implements some details."""
+    """An abstract miscellaneous class that implements some details.
+
+    Currently, this class implements the ability to use the `with` statement
+    for its subclasses for testing.
+    """
 
     @abc.abstractmethod
     def destroy(self) -> None:
@@ -61,7 +65,7 @@ class Tk(tkinter.Tk, Misc):
         position: tuple[int, int] | None = None,
         *,
         title: str | None = None,
-        icon: str | None = None,
+        icon: str | enhanced.PhotoImage | None = None,
         **kwargs,
     ) -> None:
         """
@@ -85,19 +89,19 @@ class Tk(tkinter.Tk, Misc):
 
         self.update()  # wm_iconbitmap will not take effect without this line
 
+        self._icon: str | enhanced.PhotoImage | None = icon
+
         if icon is not None:
-            if platform.system() == "Windows" and isinstance(self, Tk):
-                self.call("wm", "iconbitmap", self, "-default", icon)
-            else:
-                self.wm_iconbitmap(icon)
+            self.icon(icon)
 
         if title is not None:
             self.wm_title(title)
 
         self.geometry(size=size, position=position)
 
-        self.theme(manager.get_color_mode() == "dark",
-                   include_children=False, include_canvases=False)
+        self.theme(
+            manager.get_color_mode() == "dark", include_children=False,
+            include_canvases=False)
         manager.register_event(self.theme)
 
         for name in "transient", "resizable", "overrideredirect":
@@ -230,6 +234,22 @@ class Tk(tkinter.Tk, Misc):
         x, y = (w-self.size[0]) // 2, (h-self.size[1]) // 2
         self.geometry(position=(x+dx, y+dy))
 
+    def icon(self, value: str | enhanced.PhotoImage) -> None:
+        """Set the icon of the window.
+
+        * `value`: the icon
+        """
+        self._icon = value
+
+        if isinstance(value, enhanced.PhotoImage):
+            self.wm_iconphoto(False, value)
+        elif isinstance(value, str):
+            if value:
+                self.wm_iconbitmap(value)
+            elif platform.system() == "Windows" and isinstance(self, Tk):
+                # now, the value is ""
+                self.call("wm", "iconbitmap", self, "-default", value)
+
     def alpha(self, value: float | None = None) -> float | None:
         """Set or get the transparency of the window
 
@@ -327,7 +347,7 @@ class Toplevel(tkinter.Toplevel, Tk, Misc):
         position: tuple[int, int] | None = None,
         *,
         title: str | None = None,
-        icon: str | None = None,
+        icon: str | enhanced.PhotoImage | None = None,
         grab: bool = False,
         focus: bool = True,
         **kwargs,
@@ -343,6 +363,10 @@ class Toplevel(tkinter.Toplevel, Tk, Misc):
         * `**kwargs`: compatible with other parameters of class `tkinter.Toplevel`
         """
         tkinter.Toplevel.__init__(self, master, **kwargs)
+
+        if icon is None:
+            icon = getattr(self.master, "_icon", None)  # For some rare cases
+
         Tk.__init__(self, size, position, title=title, icon=icon)  # set style
 
         if grab:

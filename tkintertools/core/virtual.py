@@ -704,7 +704,7 @@ class Widget:
             self.capture_events = capture_events
 
         if gradient_animation is None:
-            self.gradient_animation = configs.Env.default_animation
+            self.gradient_animation = configs.Env.gradient_animation
         else:
             self.gradient_animation = gradient_animation
 

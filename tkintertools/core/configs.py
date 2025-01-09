@@ -24,19 +24,27 @@ import typing
 class _DefaultRootDescriptor:
     """A simple descriptor for `tkinter._default_root`."""
 
-    def __get__(self, obj: typing.Any, cls: typing.Any) -> tkinter.Tk:
-        """Returns the current default root."""
+    def __get__(self, *args, **kwargs) -> tkinter.Tk:
+        """Returns the current default root.
+
+        In some cases, the method also returns `tkinter.Tk` and `None`, but
+        this can happen if the usage is not recommended.
+        """
         return tkinter._get_default_root()
 
 
 class Env:
     """Configurations for default environment values."""
 
+    # Global configurations
     system: str
     is_dark: bool
-    default_animation: bool
+
+    # Default parameters for widgets
+    gradient_animation: bool
     auto_update: bool
 
+    # Dynamic value
     root = _DefaultRootDescriptor()
 
     @classmethod
@@ -44,19 +52,19 @@ class Env:
         """Reset all configuration options."""
         cls.system = cls.get_default_system()
         cls.is_dark = False
-        cls.default_animation = True
+        cls.gradient_animation = True
         cls.auto_update = True
 
     @staticmethod
     def get_default_system() -> str:
         """Get the system of environment."""
-        if (system := platform.system()) == "Windows":
+        if platform.system() == "Windows":
             # If Python version is 3.10, the function below gets an error result
             # SYSTEM = f"Windows{platform.win32_ver()[0]}"
             if int(platform.win32_ver()[1].split(".")[-1]) >= 22000:
                 return "Windows11"
             return "Windows10"
-        return system
+        return platform.system()
 
 
 class Font:
