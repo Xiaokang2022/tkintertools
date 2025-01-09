@@ -84,7 +84,7 @@ class TestTk(unittest.TestCase):
         with containers.Tk() as tk:
             with containers.Toplevel(tk):
                 with containers.Canvas(tk):
-                    tk.theme(True, include_children=True, include_canvases=True)
+                    tk.theme("dark", include_children=True, include_canvases=True)
 
     def test_at_exit(self) -> None:
         a = None
@@ -165,7 +165,7 @@ class TestCanvas(unittest.TestCase):
                 widgets.Button(cv, (0, 0), auto_update=False)
                 widgets.Button(cv, (0, 0), auto_update=True).disable()
                 with containers.Canvas(cv):
-                    cv.theme(True)
+                    cv.theme("dark")
 
     def test_initialization(self) -> None:
         with containers.Tk() as tk:

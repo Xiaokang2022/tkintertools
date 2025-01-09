@@ -69,13 +69,13 @@ def set_color_mode(mode: typing.Literal["system", "dark", "light"] = "system") -
     """
     global _color_mode  # pylint: disable=W0603
     _color_mode = mode
-    _process_event(configs.Env.is_dark if mode == "system" else (mode == "dark"))
+    _process_event(configs.Env.theme if mode == "system" else mode)
 
 
 def get_color_mode() -> typing.Literal["dark", "light"]:
     """Get the color mode of the program."""
     if _color_mode == "system":
-        return "dark" if configs.Env.is_dark else "light"
+        return configs.Env.theme
 
     return _color_mode
 
@@ -242,14 +242,14 @@ def customize_window(
         warnings.warn("Package 'win32material' is missing.", UserWarning, 2)
 
 
-def _process_event(dark_mode: bool) -> None:
+def _process_event(theme: typing.Literal["light", "dark"]) -> None:
     """Handle registered callback functions.
 
-    * `dark_mode`: Wether it is dark mode
+    * `theme`: theme name
     """
     for func, args in _callback_events.items():
         try:  # Prevent detection thread from crashing
-            func(dark_mode, *args)
+            func(theme, *args)
         except Exception as exc:  # pylint: disable=W0718
             traceback.print_exception(exc)
 
@@ -260,13 +260,13 @@ def _callback(theme: str) -> None:
 
     * `theme`: theme name
     """
-    configs.Env.is_dark = theme == "Dark"
+    configs.Env.theme = "dark" if theme == "Dark" else "light"
 
     if _color_mode == "system":
-        _process_event(configs.Env.is_dark)
+        _process_event(configs.Env.theme)
 
 
 if darkdetect is not None:
-    configs.Env.is_dark = bool(darkdetect.isDark())
+    configs.Env.theme = "dark" if darkdetect.isDark() else "light"
     threading.Thread(
         target=darkdetect.listener, args=(_callback,), daemon=True).start()

@@ -26,13 +26,13 @@ class TestCase(unittest.TestCase):
         self.assertEqual(manager.get_color_mode(), "dark")
 
     def test_callback(self) -> None:
-        configs.Env.is_dark = False
+        configs.Env.theme = "light"
 
         manager._callback("Dark")
-        self.assertTrue(configs.Env.is_dark)
+        self.assertEqual(configs.Env.theme, "dark")
 
         manager._callback(":)")
-        self.assertFalse(configs.Env.is_dark)
+        self.assertEqual(configs.Env.theme, "light")
 
     def test_process_event(self) -> None:
         a = None
@@ -43,17 +43,17 @@ class TestCase(unittest.TestCase):
 
         manager.register_event(callback)
 
-        manager._process_event(True)
-        self.assertTrue(a)
-        manager._process_event(False)
-        self.assertFalse(a)
+        manager._process_event("dark")
+        self.assertEqual(a, "dark")
+        manager._process_event("light")
+        self.assertEqual(a, "light")
 
         manager.remove_event(callback)
         manager.register_event(f := lambda: None)
 
         with io.StringIO() as captured_output:
             with contextlib.redirect_stderr(captured_output):
-                manager._process_event(True)
+                manager._process_event("dark")
 
             self.assertTrue(bool(captured_output.getvalue()))
 

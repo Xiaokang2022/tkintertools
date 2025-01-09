@@ -100,7 +100,7 @@ class Tk(tkinter.Tk, Misc):
         self.geometry(size=size, position=position)
 
         self.theme(
-            manager.get_color_mode() == "dark", include_children=False,
+            manager.get_color_mode(), include_children=False,
             include_canvases=False)
         manager.register_event(self.theme)
 
@@ -126,8 +126,9 @@ class Tk(tkinter.Tk, Misc):
             result = method(tk, *args, **kwargs)
 
             if result is None:
-                tk.theme(manager.get_color_mode() == "dark",
-                         include_children=False, include_canvases=False)
+                tk.theme(
+                    manager.get_color_mode(),
+                    include_children=False, include_canvases=False)
 
             return result
 
@@ -168,31 +169,31 @@ class Tk(tkinter.Tk, Misc):
 
     def theme(
         self,
-        dark: bool,
+        value: typing.Literal["light", "dark"],
         *,
         include_children: bool = True,
         include_canvases: bool = True,
     ) -> None:
         """Change the color theme of the window
 
-        * `dark`: whether it is in dark mode
+        * `value`: theme name
         * `include_children`: wether include its children, like Toplevel
         * `include_canvases`: wether include its canvases
         """
         self.update_idletasks()
-        self["bg"] = self.dark["bg"] if dark else self.light["bg"]
-        manager.apply_theme(self, theme="dark" if dark else "normal")
+        self.configure(bg=getattr(self, value)["bg"])
+        manager.apply_theme(self, theme="dark" if value == "dark" else "normal")
 
         if include_children:
             for child in self.children.values():
                 if isinstance(child, Toplevel):
-                    child.theme(dark, include_canvases=include_canvases,
-                                include_children=True)
+                    child.theme(value, include_canvases=include_canvases,
+                                include_children=include_children)
 
         if include_canvases:
             for canvas in self.canvases:
                 if canvas.auto_update:
-                    canvas.theme(dark)
+                    canvas.theme(value)
 
     def geometry(
         self,
@@ -459,7 +460,7 @@ class Canvas(tkinter.Canvas, Misc):
             **{k: v for k, v in kwargs.items() if self[k] != v}))
 
         if self.auto_update:
-            self.theme(manager.get_color_mode() == "dark")
+            self.theme(manager.get_color_mode())
 
         self.light, self.dark = self.light.copy(), self.dark.copy()
 
@@ -490,10 +491,10 @@ class Canvas(tkinter.Canvas, Misc):
         """Return the aspect zoom ratio of the widget."""
         return self._size[0]/self.init_size[0], self._size[1]/self.init_size[1]
 
-    def theme(self, dark: bool) -> None:
+    def theme(self, value: typing.Literal["light", "dark"]) -> None:
         """Change the color theme of the Canvas and its items
 
-        * `dark`: whether it is in dark mode
+        * `value`: theme name
         """
         self.update_idletasks()
         self.configure(getattr(self, manager.get_color_mode(), {}))
@@ -506,7 +507,7 @@ class Canvas(tkinter.Canvas, Misc):
                     widget.update()
 
         for canvas in self.canvases:
-            canvas.theme(dark)
+            canvas.theme(value)
 
     def _initialization(self) -> None:
         """Initialization of size data."""

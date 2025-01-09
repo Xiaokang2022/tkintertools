@@ -38,7 +38,7 @@ class Env:
 
     # Global configurations
     system: str
-    is_dark: bool
+    theme: typing.Literal["light", "dark"]
 
     # Default parameters for widgets
     gradient_animation: bool
@@ -51,7 +51,7 @@ class Env:
     def reset(cls) -> None:
         """Reset all configuration options."""
         cls.system = cls.get_default_system()
-        cls.is_dark = False
+        cls.theme = "light"
         cls.gradient_animation = True
         cls.auto_update = True
 
