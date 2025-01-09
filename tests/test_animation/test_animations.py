@@ -1,6 +1,5 @@
 # pylint: disable=all
 
-import platform
 import tkinter
 import unittest
 
@@ -12,7 +11,7 @@ from tkintertools.standard import widgets
 class TestAnimation(unittest.TestCase):
 
     def setUp(self):
-        self.tk = tkinter.Tk()
+        self.tk = containers.Tk()
 
     def tearDown(self):
         self.tk.destroy()
@@ -161,7 +160,7 @@ class TestMoveWindow(unittest.TestCase):
 class TestMoveTkWidget(unittest.TestCase):
 
     def setUp(self) -> None:
-        self.tk = tkinter.Tk()
+        self.tk = containers.Tk()
         self.widget = tkinter.Label(self.tk)
         self.widget2 = tkinter.Label(self.tk)
         self.widget2.pack()
@@ -230,7 +229,7 @@ class TestMoveItem(unittest.TestCase):
 class TestGradientTkWidget(unittest.TestCase):
 
     def setUp(self) -> None:
-        self.tk = tkinter.Tk()
+        self.tk = containers.Tk()
         self.widget = tkinter.Label(self.tk)
 
     def tearDown(self) -> None:
@@ -246,7 +245,7 @@ class TestGradientTkWidget(unittest.TestCase):
 class TestGradientItem(unittest.TestCase):
 
     def setUp(self) -> None:
-        self.tk = tkinter.Tk()
+        self.tk = containers.Tk()
         self.cv = tkinter.Canvas(self.tk)
         self.item = self.cv.create_rectangle(10, 10, 20, 20)
 

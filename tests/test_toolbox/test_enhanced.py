@@ -2,18 +2,17 @@
 
 import importlib
 import pathlib
-import platform
-import tkinter
 import unittest
 import unittest.mock
 
+from tkintertools.core import containers
 from tkintertools.toolbox import enhanced
 
 
 class TestPhotoImage(unittest.TestCase):
 
     def setUp(self) -> None:
-        self.tk = tkinter.Tk()
+        self.tk = containers.Tk()
         self.image = enhanced.PhotoImage(file=pathlib.Path(__file__).parent.parent/"assets/images/logo.png")
         self.width = self.image.width()
         self.height = self.image.height()
@@ -44,7 +43,7 @@ class TestPhotoImage(unittest.TestCase):
 class TestPhotoImageNoPillow(unittest.TestCase):
 
     def setUp(self) -> None:
-        self.tk = tkinter.Tk()
+        self.tk = containers.Tk()
 
         with unittest.mock.patch.dict("sys.modules", {'PIL': None}):
             importlib.reload(enhanced)

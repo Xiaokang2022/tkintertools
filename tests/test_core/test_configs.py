@@ -11,14 +11,14 @@ class TestEnv(unittest.TestCase):
     def test_reset(self) -> None:
         configs.Env.system = ""
         configs.Env.is_dark = False
-        configs.Env.default_animation = False
+        configs.Env.gradient_animation = False
         configs.Env.auto_update = False
 
         configs.Env.reset()
 
         self.assertEqual(configs.Env.system, configs.Env.get_default_system())
         self.assertFalse(configs.Env.is_dark)
-        self.assertTrue(configs.Env.default_animation)
+        self.assertTrue(configs.Env.gradient_animation)
         self.assertTrue(configs.Env.auto_update)
 
     def test_get_default_system(self) -> None:

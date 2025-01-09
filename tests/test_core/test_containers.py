@@ -9,18 +9,14 @@ import unittest.mock
 
 from tkintertools.core import containers
 from tkintertools.standard import widgets
+from tkintertools.toolbox import enhanced
 
 
 class TestTk(unittest.TestCase):
 
-    @unittest.skipIf(platform.system() == "Linux", "ico")  # TODO
     def test_init(self) -> None:
         containers.Tk(icon="").destroy()
-        containers.Tk(icon="tests/assets/images/logo.ico").destroy()
         containers.Tk(title=":)").destroy()
-
-        with unittest.mock.patch("platform.system", return_value="Darwin"):
-            containers.Tk(icon="tests/assets/images/logo.ico").destroy()
 
     def test_ratios(self) -> None:
         with containers.Tk() as tk:
@@ -29,6 +25,14 @@ class TestTk(unittest.TestCase):
             tk.update_idletasks()
             tk._zoom()
             self.assertEqual(tk.ratios, (0.5, 0.5))
+
+    def test_icon(self) -> None:
+        with containers.Tk() as tk:
+            if platform.system() != "Linux":
+                tk.icon("")
+                tk.icon("tests/assets/images/logo.ico")
+
+            tk.icon(enhanced.PhotoImage(file="tests/assets/images/logo.png", master=tk))
 
     def test_alpha(self) -> None:
         with containers.Tk() as tk:
@@ -44,7 +48,8 @@ class TestTk(unittest.TestCase):
             self.assertIsNone(tk.topmost(False))
             self.assertFalse(tk.topmost(None))
 
-    @unittest.skipUnless(platform.system() == "Windows", "Linux; Darwin")  # TODO
+    # TODO: Test on Darwin and  Linux
+    @unittest.skipUnless(platform.system() == "Windows", "The results are difficult to test")
     def test_fullscreen(self) -> None:
         with containers.Tk() as tk:
             self.assertIsNone(tk.fullscreen())
