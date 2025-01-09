@@ -126,7 +126,7 @@ def apply_file_dnd(
 def apply_theme(
     window: tkinter.Tk,
     *,
-    theme: typing.Literal["mica", "acrylic", "aero", "transparent", "optimised", "win7", "inverse", "native", "popup", "dark", "normal"],
+    theme: typing.Literal["mica", "acrylic", "acrylic2", "aero", "transparent", "optimised", "win7", "inverse", "native", "popup", "dark", "normal"],
 ) -> None:
     """Apply some Windows themes to the window.
 
@@ -136,6 +136,21 @@ def apply_theme(
     This function is only works on Windows OS! And some parameters are useless
     on Windows 7/10!
     """
+    if theme in ("mica", "acrylic2"):
+        if win32material is None:
+            warnings.warn(
+                "Package 'win32material' is missing.", UserWarning, 2)
+            return
+
+        if theme == "mica":  # NOTE: "mica" of package `pywinstyles` do not work
+            win32material.ApplyMica(
+                ctypes.wintypes.HWND(utility.get_parent(window)))
+        elif theme == "acrylic2":  # Only for titlebar
+            win32material.ApplyAcrylic(
+                ctypes.wintypes.HWND(utility.get_parent(window)))
+
+        return
+
     if pywinstyles is None:
         warnings.warn("Package 'pywinstyles' is missing.", UserWarning, 2)
         return

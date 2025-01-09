@@ -62,6 +62,8 @@ class TestCase(unittest.TestCase):
     @unittest.skipUnless(platform.system() == "Windows", "Only works on Windows OS.")
     def test_apply_theme(self) -> None:
         manager.apply_theme(self.tk, theme="normal")
+        manager.apply_theme(self.tk, theme="mica")
+        manager.apply_theme(self.tk, theme="acrylic2")
 
     @unittest.skipUnless(platform.system() == "Windows", "Only works on Windows OS.")
     def test_apply_file_dnd(self) -> None:
@@ -86,6 +88,7 @@ class TestCase(unittest.TestCase):
             importlib.reload(manager)
 
         self.assertWarns(UserWarning, manager.apply_theme, self.tk, theme="normal")
+        self.assertWarns(UserWarning, manager.apply_theme, self.tk, theme="mica")
         self.assertWarns(UserWarning, manager.apply_file_dnd, self.tk, command=lambda _: None)
         self.assertWarns(UserWarning, manager.customize_window, self.tk, header_color="red")
         self.assertWarns(UserWarning, manager.customize_window, self.tk, hide_button="all")
