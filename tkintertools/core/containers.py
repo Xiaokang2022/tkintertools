@@ -180,7 +180,7 @@ class Tk(tkinter.Tk, Misc):
         * `include_children`: wether include its children, like Toplevel
         * `include_canvases`: wether include its canvases
         """
-        self.update_idletasks()
+        self.update()
         self.configure(bg=getattr(self, value)["bg"])
         manager.apply_theme(self, theme="dark" if value == "dark" else "normal")
 
@@ -496,7 +496,7 @@ class Canvas(tkinter.Canvas, Misc):
 
         * `value`: theme name
         """
-        self.update_idletasks()
+        self.update()
         self.configure(getattr(self, manager.get_color_mode(), {}))
 
         for widget in self.widgets:
@@ -570,7 +570,9 @@ class Canvas(tkinter.Canvas, Misc):
             self._zoom_tk_widgets(relative_ratio)
 
             for widget in self.widgets:
-                widget.zoom(relative_ratio)
+                # Nested widget will be zoomed by its parent widget
+                if not widget.nested:
+                    widget.zoom(relative_ratio)
 
             if self._zoom_all_items:
                 for item in self.find_all():

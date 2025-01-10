@@ -73,7 +73,7 @@ def gradient(
     rate: float = 1,
     *,
     channels: tuple[bool, bool, bool] = (True, True, True),
-    contoller: collections.abc.Callable[[int | float], int | float] = controllers.linear,
+    contoller: collections.abc.Callable[[float], float] = controllers.linear,
 ) -> list[tuple[int, int, int]]:
     """Get a list of color gradients from one color to another proportionally.
 

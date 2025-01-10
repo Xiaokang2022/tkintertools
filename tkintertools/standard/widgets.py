@@ -1610,7 +1610,6 @@ class Tooltip(virtual.Widget):
         overstrike: bool = False,
         justify: typing.Literal["left", "center", "right"] = "left",
         name: str | None = None,
-        capture_events: bool = True,
         gradient_animation: bool | None = None,
         auto_update: bool | None = None,
         style: type[virtual.Style] | None = None,
@@ -1629,7 +1628,6 @@ class Tooltip(virtual.Widget):
         * `overstrike`: whether the text is overstrike
         * `justify`: justify mode of the text
         * `name`: name of the widget
-        * `capture_events`: wether detect another widget under the widget
         * `gradient_animation`: wether enable gradient_animation
         * `auto_update`: whether the theme manager update it automatically
         * `style`: style of the widget
@@ -1646,7 +1644,7 @@ class Tooltip(virtual.Widget):
             case "left":  position[0] -= widget.size[0]/2 + size[0]/2 + padding
         virtual.Widget.__init__(
             self, widget.master, position, size, name=name,
-            capture_events=capture_events, gradient_animation=gradient_animation,
+            capture_events=False, gradient_animation=gradient_animation,
             anchor="center", auto_update=auto_update, style=style)
         if style is None:
             self.style = styles.TooltipStyle(self)

@@ -34,9 +34,9 @@ class Animation:
     def __init__(
         self,
         duration: int,
-        command: collections.abc.Callable[[int | float], typing.Any],
+        command: collections.abc.Callable[[float], typing.Any],
         *,
-        controller: collections.abc.Callable[[int | float], int | float] = controllers.linear,
+        controller: collections.abc.Callable[[float], float] = controllers.linear,
         end: collections.abc.Callable[[], typing.Any] | None = None,
         fps: int = 30,
         repeat: int = 0,
@@ -157,10 +157,10 @@ class MoveWindow(Animation):
     def __init__(
         self,
         window: tkinter.Tk | tkinter.Toplevel | containers.Tk | containers.Toplevel,
-        offset: tuple[int | float, int | float],
+        offset: tuple[float, float],
         duration: int,
         *,
-        controller: collections.abc.Callable[[int | float], int | float] = controllers.linear,
+        controller: collections.abc.Callable[[float], float] = controllers.linear,
         end: collections.abc.Callable[[], typing.Any] | None = None,
         fps: int = 30,
         repeat: int = 0,
@@ -176,7 +176,7 @@ class MoveWindow(Animation):
         * `repeat`: number of repetitions of the animation
         * `repeat_delay`: length of the delay before the animation repeats
         """
-        window.update_idletasks()
+        window.update()
         x0, y0, dx, dy = window.winfo_x(), window.winfo_y(), *offset
 
         if isinstance(window, (containers.Tk, containers.Toplevel)):
@@ -198,10 +198,10 @@ class MoveTkWidget(Animation):
     def __init__(
         self,
         widget: tkinter.Widget,
-        offset: tuple[int | float, int | float],
+        offset: tuple[float, float],
         duration: int,
         *,
-        controller: collections.abc.Callable[[int | float], int | float] = controllers.linear,
+        controller: collections.abc.Callable[[float], float] = controllers.linear,
         end: collections.abc.Callable[[], typing.Any] | None = None,
         fps: int = 30,
         repeat: int = 0,
@@ -221,7 +221,7 @@ class MoveTkWidget(Animation):
             warnings.warn(
                 "The tkinter widget is not laid out by Place.", UserWarning, 2)
 
-        widget.update_idletasks()
+        widget.update()
         x0, y0, dx, dy = widget.winfo_x(), widget.winfo_y(), *offset
 
         Animation.__init__(
@@ -237,10 +237,10 @@ class MoveWidget(Animation):
     def __init__(
         self,
         widget: virtual.Widget,
-        offset: tuple[int | float, int | float],
+        offset: tuple[float, float],
         duration: int,
         *,
-        controller: collections.abc.Callable[[int | float], int | float] = controllers.linear,
+        controller: collections.abc.Callable[[float], float] = controllers.linear,
         end: collections.abc.Callable[[], typing.Any] | None = None,
         fps: int = 30,
         repeat: int = 0,
@@ -269,10 +269,10 @@ class MoveElement(Animation):
     def __init__(
         self,
         element: virtual.Element,
-        offset: tuple[int | float, int | float],
+        offset: tuple[float, float],
         duration: int,
         *,
-        controller: collections.abc.Callable[[int | float], int | float] = controllers.linear,
+        controller: collections.abc.Callable[[float], float] = controllers.linear,
         end: collections.abc.Callable[[], typing.Any] | None = None,
         fps: int = 30,
         repeat: int = 0,
@@ -302,10 +302,10 @@ class MoveItem(Animation):
         self,
         canvas: tkinter.Canvas | containers.Canvas,
         item: int,
-        offset: tuple[int | float, int | float],
+        offset: tuple[float, float],
         duration: int,
         *,
-        controller: collections.abc.Callable[[int | float], int | float] = controllers.linear,
+        controller: collections.abc.Callable[[float], float] = controllers.linear,
         end: collections.abc.Callable[[], typing.Any] | None = None,
         fps: int = 30,
         repeat: int = 0,
@@ -340,7 +340,7 @@ class GradientTkWidget(Animation):
         colors: tuple[str, str],
         duration: int,
         *,
-        controller: collections.abc.Callable[[int | float], int | float] = controllers.linear,
+        controller: collections.abc.Callable[[float], float] = controllers.linear,
         end: collections.abc.Callable[[], typing.Any] | None = None,
         fps: int = 30,
         repeat: int = 0,
@@ -383,7 +383,7 @@ class GradientItem(Animation):
         colors: tuple[str, str],
         duration: int,
         *,
-        controller: collections.abc.Callable[[int | float], int | float] = controllers.linear,
+        controller: collections.abc.Callable[[float], float] = controllers.linear,
         end: collections.abc.Callable[[], typing.Any] | None = None,
         fps: int = 30,
         repeat: int = 0,
@@ -423,10 +423,10 @@ class ScaleFontSize(Animation):
     def __init__(
         self,
         text: virtual.Text,
-        sizes: int | float,
+        sizes: float,
         duration: int,
         *,
-        controller: collections.abc.Callable[[int | float], int | float] = controllers.linear,
+        controller: collections.abc.Callable[[float], float] = controllers.linear,
         end: collections.abc.Callable[[], typing.Any] | None = None,
         fps: int = 30,
         repeat: int = 0,
@@ -438,10 +438,10 @@ class ScaleFontSize(Animation):
     def __init__(
         self,
         text: virtual.Text,
-        sizes: tuple[int | float, int | float],
+        sizes: tuple[float, float],
         duration: int,
         *,
-        controller: collections.abc.Callable[[int | float], int | float] = controllers.linear,
+        controller: collections.abc.Callable[[float], float] = controllers.linear,
         end: collections.abc.Callable[[], typing.Any] | None = None,
         fps: int = 30,
         repeat: int = 0,
@@ -452,10 +452,10 @@ class ScaleFontSize(Animation):
     def __init__(
         self,
         text: virtual.Text,
-        sizes: int | float | tuple[int | float, int | float],
+        sizes: float | tuple[float, float],
         duration: int,
         *,
-        controller: collections.abc.Callable[[int | float], int | float] = controllers.linear,
+        controller: collections.abc.Callable[[float], float] = controllers.linear,
         end: collections.abc.Callable[[], typing.Any] | None = None,
         fps: int = 30,
         repeat: int = 0,

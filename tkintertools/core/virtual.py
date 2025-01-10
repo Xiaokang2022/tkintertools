@@ -72,12 +72,12 @@ class Element(abc.ABC):
         else:
             self.gradient_animation = gradient_animation
 
-        self.position: tuple[int | float, int | float] = (
+        self.position: tuple[float, float] = (
             widget.position[0] + position[0] - widget.offset[0],
             widget.position[1] + position[1] - widget.offset[1],
         )
 
-        self.size: tuple[int | float, int | float] = widget.size if size is None else size
+        self.size: tuple[float, float] = widget.size if size is None else size
 
         self.name = self.__class__.__name__
 
@@ -92,7 +92,7 @@ class Element(abc.ABC):
 
         widget.register_elements(self)
 
-    def move(self, dx: int | float, dy: int | float) -> None:
+    def move(self, dx: float, dy: float) -> None:
         """Move the `Element`.
 
         * `dx`: x-coordinate offset
@@ -103,7 +103,7 @@ class Element(abc.ABC):
         for item in self.items:
             self.widget.master.move(item, dx, dy)
 
-    def moveto(self, x: int | float, y: int | float) -> None:
+    def moveto(self, x: float, y: float) -> None:
         """Move the `Element` to a certain position.
 
         * `x`: x-coordinate of the target location
@@ -128,7 +128,7 @@ class Element(abc.ABC):
         x, y, w, h = *self.position, *self.size
         return round(x), round(y), round(x+w), round(y+h)
 
-    def detect(self, x: int | float, y: int | float) -> bool:
+    def detect(self, x: float, y: float) -> bool:
         """Detect whether the specified coordinates are within `Element`.
 
         * `x`: x-coordinate of the location to be detected
@@ -276,8 +276,8 @@ class Element(abc.ABC):
     @abc.abstractmethod
     def coords(
         self,
-        size: tuple[int | float, int | float] | None = None,
-        position: tuple[int | float, int | float] | None = None,
+        size: tuple[float, float] | None = None,
+        position: tuple[float, float] | None = None,
     ) -> None:
         """Resize the `Element`.
 
@@ -688,15 +688,15 @@ class Widget:
         if isinstance(master, Widget):
             self.master, self.widget = master.master, master
             self.widget.widgets.append(self)
-            self.position: tuple[int | float, int | float] = (
+            self.position: tuple[float, float] = (
                 master.position[0] + position[0],
                 master.position[1] + position[1],
             )
-            self.size: tuple[int | float, int | float] = master.size if size is None else size
+            self.size: tuple[float, float] = master.size if size is None else size
         else:
             self.master, self.widget = master, None
-            self.position: tuple[int | float, int | float] = position
-            self.size: tuple[int | float, int | float] = (0, 0) if size is None else size
+            self.position: tuple[float, float] = position
+            self.size: tuple[float, float] = (0, 0) if size is None else size
 
         self.name = name
         self.anchor = anchor
@@ -938,7 +938,7 @@ class Widget:
         for element in self.elements:
             element.forget(value)
 
-    def move(self, dx: int | float, dy: int | float) -> None:
+    def move(self, dx: float, dy: float) -> None:
         """Move the widget.
 
         * `dx`: x-coordinate offset
@@ -952,7 +952,7 @@ class Widget:
         for element in self.elements:
             element.move(dx, dy)
 
-    def moveto(self, x: int | float, y: int | float) -> None:
+    def moveto(self, x: float, y: float) -> None:
         """Move the Widget to a certain position.
 
         * `x`: x-coordinate of the target location
@@ -975,7 +975,7 @@ class Widget:
         for element in self.elements:
             element.destroy()
 
-    def detect(self, x: int | float, y: int | float) -> bool:
+    def detect(self, x: float, y: float) -> bool:
         """Detect whether the specified coordinates are within the `Widget`.
 
         * `x`: x-coordinate of the location to be detected

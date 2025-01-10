@@ -22,7 +22,7 @@ class TestTk(unittest.TestCase):
         with containers.Tk() as tk:
             self.assertEqual(tk.ratios, (1., 1.))
             tk.wm_geometry(f"{tk.size[0]//2}x{tk.size[1]//2}")
-            tk.update_idletasks()
+            tk.update()
             tk._zoom()
             self.assertEqual(tk.ratios, (0.5, 0.5))
 
@@ -44,7 +44,7 @@ class TestTk(unittest.TestCase):
         with containers.Tk() as tk:
             self.assertIsNone(tk.topmost())
             tk.after(1, lambda: self.assertTrue(tk.topmost(None)))  # Linux needs a short pause
-            tk.update_idletasks()
+            tk.update()
             self.assertIsNone(tk.topmost(False))
             self.assertFalse(tk.topmost(None))
 
@@ -119,7 +119,7 @@ class TestTk(unittest.TestCase):
             with containers.Canvas(tk):
                 tk.ratios  # trigger caching
                 tk.geometry(size=(23, 33))
-                tk.update_idletasks()
+                tk.update()
                 tk._zoom()
 
     @unittest.mock.patch("tkintertools.core.containers.Tk.theme")
@@ -152,10 +152,10 @@ class TestCanvas(unittest.TestCase):
         with containers.Tk() as tk:
             with containers.Canvas(tk) as cv:
                 cv.place(width=100, height=100)
-                cv.update_idletasks()
+                cv.update()
                 self.assertEqual(cv.ratios, (1., 1.))
                 cv.place(width=50, height=50)
-                cv.update_idletasks()
+                cv.update()
                 self.assertEqual(cv.ratios, (0.5, 0.5))
 
     def test_theme(self) -> None:

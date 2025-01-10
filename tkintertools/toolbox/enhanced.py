@@ -32,7 +32,7 @@ if ImageTk is None:
                     for x in range(self.width())]
                     for y in range(self.height())]
 
-        def scale(self, x: int | float, y: int | float) -> PhotoImage:
+        def scale(self, x: float, y: float) -> PhotoImage:
             """Scale the PhotoImage.
 
             * `x`: The x-axis scale factor
@@ -63,7 +63,7 @@ else:
     class PhotoImage(ImageTk.PhotoImage, tkinter.PhotoImage):
         """Pillow version of `tkinter.PhotoImage`."""
 
-        def scale(self, x: int | float, y: int | float) -> PhotoImage:
+        def scale(self, x: float, y: float) -> PhotoImage:
             """Scale the PhotoImage.
 
             * `x`: The x-axis scale factor

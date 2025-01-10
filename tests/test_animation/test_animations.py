@@ -130,8 +130,8 @@ class TestMoveWindow_Tk(unittest.TestCase):
         animations.MoveWindow(self.tk, (99, 99), 1, fps=1).command(1)
         animations.MoveWindow(self.top, (99, 99), 1, fps=1).command(1)
 
-        self.tk.update_idletasks()
-        self.top.update_idletasks()
+        self.tk.update()
+        self.top.update()
 
         self.assertEqual(self.tk.winfo_x(), 199)
         self.assertEqual(self.top.winfo_y(), 199)
@@ -150,8 +150,8 @@ class TestMoveWindow(unittest.TestCase):
         animations.MoveWindow(self.tk, (-99, -99), 1, fps=1).command(1)
         animations.MoveWindow(self.top, (-99, -99), 1, fps=1).command(1)
 
-        self.tk.update_idletasks()
-        self.top.update_idletasks()
+        self.tk.update()
+        self.top.update()
 
         self.assertEqual(self.tk.winfo_x(), 101)
         self.assertEqual(self.top.winfo_y(), 101)
