@@ -602,7 +602,9 @@ class Canvas(tkinter.Canvas, Misc):
         self.master.canvases.remove(self)
 
         for widget in tuple(self.widgets):
-            widget.destroy()
+            # Nested widget will be destroyed by its parent widget
+            if not widget.nested:
+                widget.destroy()
 
         return tkinter.Canvas.destroy(self)
 

@@ -357,7 +357,7 @@ class Switch(virtual.Widget):
             self.feature.command(value)
         if self.get() == bool(value):
             return
-        self.update(f"{self.state.split('-', maxsplit=1)}-{'on' if value else 'off'}", gradient_animation=True)
+        self.update(f"{self.state.split('-', maxsplit=1)[0]}-{'on' if value else 'off'}")
         dx = self.shapes[0].size[0]/2 if value else -self.shapes[0].size[0]/2
         animations.MoveElement(
             self.shapes[1], (dx, 0), 250, controller=controllers.smooth, fps=60).start()
@@ -526,7 +526,7 @@ class CheckBox(virtual.Widget):
             self.feature.command(value)
         if self.get() == bool(value):
             return None
-        self.update(f"{self.state.split('-', maxsplit=1)}-{'on' if value else 'off'}")
+        self.update(f"{self.state.split('-', maxsplit=1)[0]}-{'on' if value else 'off'}")
 
 
 class ToggleButton(virtual.Widget):
@@ -611,7 +611,7 @@ class ToggleButton(virtual.Widget):
             self.feature.command(value)
         if self.get() == bool(value):
             return
-        self.update(f"{self.state.split('-', maxsplit=1)}-{'on' if value else 'off'}")
+        self.update(f"{self.state.split('-', maxsplit=1)[0]}-{'on' if value else 'off'}")
 
 
 class RadioBox(virtual.Widget):
@@ -1179,6 +1179,7 @@ class SpinBox(virtual.Widget):
         placeholder: str = "",
         show: str | None = None,
         limit: int = math.inf,
+        default: str | None = None,
         command: collections.abc.Callable[[bool], typing.Any] | None = None,
         image: enhanced.PhotoImage | None = None,
         name: str | None = None,
@@ -1204,6 +1205,7 @@ class SpinBox(virtual.Widget):
         * `show`: display a value that obscures the original content
         * `placeholder`: a placeholder for the prompt
         * `limit`: limit on the number of characters
+        * `default`: default value of the widget
         * `command`: a function that is triggered when the button is pressed
         * `image`: image of the widget
         * `name`: name of the widget
@@ -1236,6 +1238,8 @@ class SpinBox(virtual.Widget):
         self.format = format_spec
         self.step = step
         self.feature = features.SpinBoxFeature(self, command=command)
+        if default is not None:
+            self.set(default)
 
     def change(self, up: bool) -> None:
         """Try change the current value"""
