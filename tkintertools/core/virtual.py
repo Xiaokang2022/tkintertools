@@ -496,17 +496,24 @@ class Style:
 
         self._cache: dict[str, dict[str, dict[str, str]]] = {}
 
-    def __getitem__(
-        self,
-        key: Element | str | int,
-        /,
-    ) -> dict[str, dict[str, str]]:
+    def _get_key(self, key: Element | str | int) -> str:
+        """Get the key.
+
+        * `key`: the object related to the key
+        """
         if isinstance(key, Element):
             key = key.name
         elif isinstance(key, int):
             key = self.widget.elements[key].name
 
-        return self.get().get(key, {})
+        return key
+
+    def __getitem__(
+        self,
+        key: Element | str | int,
+        /,
+    ) -> dict[str, dict[str, str]]:
+        return self.get().get(self._get_key(key), {})
 
     def get_disabled_style(self, *, element: Element) -> dict[str, str]:
         """Get the style data of disabled state.
@@ -585,11 +592,13 @@ class Style:
 
     def _set(
         self,
-        data: tuple[str | None, ...] | str | None,
+        theme: typing.Literal["light", "dark"] | None = None,
+        data: tuple[str | None, ...] | str | None = None,
         **kwargs: tuple[Element | str | int, ...] | Element | str | int,
     ) -> None:
         """Set the color of a style conveniently.
 
+        * `theme`: the theme name, None indicates both
         * `data`: data of color
         * `kwargs`: { arg name: element key or element keys tuple }
         """
@@ -600,9 +609,16 @@ class Style:
             if color is None:
                 continue
 
+            state = self.states[i]
+
             for arg, keys in kwargs.items():
                 for key in keys if isinstance(keys, tuple) else (keys,):
-                    self[key][self.states[i]].update({arg: color})
+                    key, pair = self._get_key(key), {arg: color}
+
+                    if theme != "dark":
+                        self.get(theme="light")[key][state].update(pair)
+                    if theme != "light":
+                        self.get(theme="dark")[key][state].update(pair)
 
     def set(self) -> None:
         """Set the style of the widget."""

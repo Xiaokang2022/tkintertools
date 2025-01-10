@@ -22,6 +22,8 @@ __all__ = [
     "UnderlineButtonStyle",
 ]
 
+import typing
+
 import typing_extensions
 
 from ..core import virtual
@@ -45,16 +47,18 @@ class TextStyle(virtual.Style):
     @typing_extensions.override
     def set(
         self,
+        theme: typing.Literal["light", "dark"] | None = None,
         *,
         fg: tuple[str | None, ...] | str | None = None,
     ) -> None:
         """Set the style of the widget.
 
+        * `theme`: the theme name, None indicates both
         * `fg`: the foreground color of the widget
 
         states: "normal", "hover", "active"
         """
-        self._set(fg, fill=-1)
+        self._set(theme, fg, fill=-1)
         self.widget.update()
 
 
@@ -94,6 +98,7 @@ class LabelStyle(virtual.Style):
     @typing_extensions.override
     def set(
         self,
+        theme: typing.Literal["light", "dark"] | None = None,
         *,
         fg: tuple[str | None, ...] | str | None = None,
         bg: tuple[str | None, ...] | str | None = None,
@@ -101,15 +106,16 @@ class LabelStyle(virtual.Style):
     ) -> None:
         """Set the style of the widget.
 
+        * `theme`: the theme name, None indicates both
         * `fg`: the foreground color of the widget.
         * `bg`: the background color of the widget.
         * `ol`: the outline color of the widget.
 
         states: "normal", "hover", "active"
         """
-        self._set(fg, fill=-1)
-        self._set(bg, fill=0)
-        self._set(ol, outline=0)
+        self._set(theme, fg, fill=-1)
+        self._set(theme, bg, fill=0)
+        self._set(theme, ol, outline=0)
         self.widget.update()
 
 
@@ -232,6 +238,7 @@ class SwitchStyle(virtual.Style):
     @typing_extensions.override
     def set(
         self,
+        theme: typing.Literal["light", "dark"] | None = None,
         *,
         bg: tuple[str | None, ...] | str | None = None,
         ol: tuple[str | None, ...] | str | None = None,
@@ -240,6 +247,7 @@ class SwitchStyle(virtual.Style):
     ) -> None:
         """Set the style of the widget.
 
+        * `theme`: the theme name, None indicates both
         * `bg`: the background color of the widget.
         * `ol`: the outline color of the widget.
         * `bg_in`: the inside background color of the widget.
@@ -248,10 +256,10 @@ class SwitchStyle(virtual.Style):
         states: "normal-off", "hover-off", "active-off", "normal-on",
         "hover-on", "active-on"
         """
-        self._set(bg, fill=("Rectangle.out", "SemicircularRectangle"))
-        self._set(ol, outline=("Rectangle.out", "SemicircularRectangle"))
-        self._set(bg_in, fill=("Rectangle.in", "Oval"))
-        self._set(ol_in, fill=("Rectangle.in", "Oval"))
+        self._set(theme, bg, fill=("Rectangle.out", "SemicircularRectangle"))
+        self._set(theme, ol, outline=("Rectangle.out", "SemicircularRectangle"))
+        self._set(theme, bg_in, fill=("Rectangle.in", "Oval"))
+        self._set(theme, ol_in, fill=("Rectangle.in", "Oval"))
         self.widget.update()
 
 
@@ -307,6 +315,7 @@ class InputBoxStyle(virtual.Style):
     @typing_extensions.override
     def set(
         self,
+        theme: typing.Literal["light", "dark"] | None = None,
         *,
         fg: tuple[str | None, ...] | str | None = None,
         bg: tuple[str | None, ...] | str | None = None,
@@ -315,6 +324,7 @@ class InputBoxStyle(virtual.Style):
     ) -> None:
         """Set the style of the widget.
 
+        * `theme`: the theme name, None indicates both
         * `fg`: the foreground color of the widget.
         * `bg`: the background color of the widget.
         * `ol`: the outline color of the widget.
@@ -322,10 +332,10 @@ class InputBoxStyle(virtual.Style):
 
         states: "normal", "hover", "active"
         """
-        self._set(fg, fill="SingleLineText")
-        self._set(bg, fill=("Rectangle", "RoundedRectangle.in"))
-        self._set(ol, outline=("Rectangle", "RoundedRectangle.in"))
-        self._set(hl, fill="RoundedRectangle.out", outline="RoundedRectangle.out")
+        self._set(theme, fg, fill="SingleLineText")
+        self._set(theme, bg, fill=("Rectangle", "RoundedRectangle.in"))
+        self._set(theme, ol, outline=("Rectangle", "RoundedRectangle.in"))
+        self._set(theme, hl, fill="RoundedRectangle.out", outline="RoundedRectangle.out")
         self.widget.update()
 
 
@@ -392,6 +402,7 @@ class ToggleButtonStyle(virtual.Style):
     @typing_extensions.override
     def set(
         self,
+        theme: typing.Literal["light", "dark"] | None = None,
         *,
         fg: tuple[str | None, ...] | str | None = None,
         bg: tuple[str | None, ...] | str | None = None,
@@ -399,6 +410,7 @@ class ToggleButtonStyle(virtual.Style):
     ) -> None:
         """Set the style of the widget.
 
+        * `theme`: the theme name, None indicates both
         * `fg`: the foreground color of the widget.
         * `bg`: the background color of the widget.
         * `ol`: the outline color of the widget.
@@ -406,9 +418,9 @@ class ToggleButtonStyle(virtual.Style):
         states: "normal-off", "hover-off", "active-off", "normal-on",
         "hover-on", "active-on"
         """
-        self._set(fg, fill=-1)
-        self._set(bg, fill=0)
-        self._set(ol, outline=0)
+        self._set(theme, fg, fill=-1)
+        self._set(theme, bg, fill=0)
+        self._set(theme, ol, outline=0)
         self.widget.update()
 
 
@@ -525,6 +537,7 @@ class RadioBoxStyle(virtual.Style):
     @typing_extensions.override
     def set(
         self,
+        theme: typing.Literal["light", "dark"] | None = None,
         *,
         bg: tuple[str | None, ...] | str | None = None,
         ol: tuple[str | None, ...] | str | None = None,
@@ -533,6 +546,7 @@ class RadioBoxStyle(virtual.Style):
     ) -> None:
         """Set the style of the widget.
 
+        * `theme`: the theme name, None indicates both
         * `bg`: the background color of the widget.
         * `ol`: the outline color of the widget.
         * `bg_in`: the inside background color of the widget.
@@ -540,10 +554,10 @@ class RadioBoxStyle(virtual.Style):
 
         states: "normal", "hover", "active"
         """
-        self._set(bg, fill=0)
-        self._set(ol, outline=0)
-        self._set(bg_in, fill=1)
-        self._set(ol_in, outline=1)
+        self._set(theme, bg, fill=0)
+        self._set(theme, ol, outline=0)
+        self._set(theme, bg_in, fill=1)
+        self._set(theme, ol_in, outline=1)
         self.widget.update()
 
 
@@ -591,6 +605,7 @@ class ProgressBarStyle(virtual.Style):
     @typing_extensions.override
     def set(
         self,
+        theme: typing.Literal["light", "dark"] | None = None,
         *,
         bg: tuple[str | None, ...] | str | None = None,
         ol: tuple[str | None, ...] | str | None = None,
@@ -599,6 +614,7 @@ class ProgressBarStyle(virtual.Style):
     ) -> None:
         """Set the style of the widget.
 
+        * `theme`: the theme name, None indicates both
         * `bg`: the background color of the widget.
         * `ol`: the outline color of the widget.
         * `bg_in`: the inside background color of the widget.
@@ -606,10 +622,10 @@ class ProgressBarStyle(virtual.Style):
 
         states: "normal", "hover"
         """
-        self._set(bg, fill=0)
-        self._set(ol, outline=0)
-        self._set(bg_in, fill=1)
-        self._set(ol_in, outline=1)
+        self._set(theme, bg, fill=0)
+        self._set(theme, ol, outline=0)
+        self._set(theme, bg_in, fill=1)
+        self._set(theme, ol_in, outline=1)
         self.widget.update()
 
 
@@ -751,6 +767,7 @@ class SliderStyle(virtual.Style):
     @typing_extensions.override
     def set(
         self,
+        theme: typing.Literal["light", "dark"] | None = None,
         *,
         fg: tuple[str | None, ...] | str | None = None,
         bg: tuple[str | None, ...] | str | None = None,
@@ -759,6 +776,7 @@ class SliderStyle(virtual.Style):
     ) -> None:
         """Set the style of the widget.
 
+        * `theme`: the theme name, None indicates both
         * `fg`: the foreground color of the widget.
         * `bg`: the background color of the widget.
         * `pt`: the pointer color of the widget.
@@ -767,10 +785,10 @@ class SliderStyle(virtual.Style):
 
         states: "normal", "hover", "active"
         """
-        self._set(fg, fill=1, outline=1)
-        self._set(bg, fill=0, outline=0)
-        self._set(pt, fill=2, outline=2)
-        self._set(hl, fill="Oval.in", outline="Oval.in")
+        self._set(theme, fg, fill=1, outline=1)
+        self._set(theme, bg, fill=0, outline=0)
+        self._set(theme, pt, fill=2, outline=2)
+        self._set(theme, hl, fill="Oval.in", outline="Oval.in")
         # Only works on Windows11 theme, compatible with other themes
         self.widget.update()
 
@@ -803,19 +821,21 @@ class SegmentedButtonStyle(virtual.Style):
     @typing_extensions.override
     def set(
         self,
+        theme: typing.Literal["light", "dark"] | None = None,
         *,
         bg: tuple[str | None, ...] | str | None = None,
         ol: tuple[str | None, ...] | str | None = None,
     ) -> None:
         """Set the style of the widget.
 
+        * `theme`: the theme name, None indicates both
         * `bg`: the background color of the widget.
         * `ol`: the outline color of the widget.
 
         states: "normal", "hover"
         """
-        self._set(bg, fill=0)
-        self._set(ol, outline=0)
+        self._set(theme, bg, fill=0)
+        self._set(theme, ol, outline=0)
         self.widget.update()
 
 
@@ -851,19 +871,21 @@ class OptionButtonStyle(virtual.Style):
     @typing_extensions.override
     def set(
         self,
+        theme: typing.Literal["light", "dark"] | None = None,
         *,
         bg: tuple[str | None, ...] | str | None = None,
         ol: tuple[str | None, ...] | str | None = None,
     ) -> None:
         """Set the style of the widget.
 
+        * `theme`: the theme name, None indicates both
         * `bg`: the background color of the widget.
         * `ol`: the outline color of the widget.
 
         states: "normal", "hover", "active"
         """
-        self._set(bg, fill=0)
-        self._set(ol, outline=0)
+        self._set(theme, bg, fill=0)
+        self._set(theme, ol, outline=0)
         self.widget.update()
 
 
@@ -891,19 +913,21 @@ class SpinnerStyle(virtual.Style):
     @typing_extensions.override
     def set(
         self,
+        theme: typing.Literal["light", "dark"] | None = None,
         *,
         fg: tuple[str | None, ...] | str | None = None,
         bg: tuple[str | None, ...] | str | None = None,
     ) -> None:
         """Set the style of the widget.
 
+        * `theme`: the theme name, None indicates both
         * `fg`: the foreground color of the widget.
         * `bg`: the background color of the widget.
 
         states: "normal"
         """
-        self._set(fg, outline=0)
-        self._set(bg, outline=1)
+        self._set(theme, fg, outline=0)
+        self._set(theme, bg, outline=1)
         self.widget.update()
 
 
@@ -937,6 +961,7 @@ class TooltipStyle(virtual.Style):
     @typing_extensions.override
     def set(
         self,
+        theme: typing.Literal["light", "dark"] | None = None,
         *,
         fg: tuple[str | None, ...] | str | None = None,
         bg: tuple[str | None, ...] | str | None = None,
@@ -944,13 +969,14 @@ class TooltipStyle(virtual.Style):
     ) -> None:
         """Set the style of the widget.
 
+        * `theme`: the theme name, None indicates both
         * `fg`: the foreground color of the widget.
         * `bg`: the background color of the widget.
         * `ol`: the outline color of the widget.
 
         states: "normal"
         """
-        self._set(fg, fill=-1)
-        self._set(bg, fill=0)
-        self._set(ol, outline=0)
+        self._set(theme, fg, fill=-1)
+        self._set(theme, bg, fill=0)
+        self._set(theme, ol, outline=0)
         self.widget.update()
