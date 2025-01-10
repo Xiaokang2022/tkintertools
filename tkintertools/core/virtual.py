@@ -524,6 +524,9 @@ class Style:
         bg = convert.str_to_rgb(self.widget.master.cget("bg"))
 
         for key, value in now_style.items():
+            if not value:  # Empty string
+                now_style[key] = value
+                continue
             now_style[key] = convert.rgb_to_hex(rgb.transition(
                 convert.str_to_rgb(value), bg, configs.Constant.GOLDEN_RATIO))
 
