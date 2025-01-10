@@ -253,10 +253,10 @@ class RadioBoxFeature(ButtonFeature):
             if self.widget.state.startswith("active"):
                 if self.widget.get():
                     return flag
-                else:
-                    for radio_box in tuple(self.widget.groups):
-                        if radio_box.get():
-                            radio_box.set(False, callback=True)
+
+                for radio_box in tuple(self.widget.groups):
+                    if radio_box.get():
+                        radio_box.set(False, callback=True)
 
                 boolean = not self.widget.get()
                 self.widget.set(boolean)

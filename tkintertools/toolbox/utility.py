@@ -99,7 +99,8 @@ def embed_window(
     * `parent`: parent widget, `None` indicates that the parent widget is the screen
     * `focus`: whether direct input focus to this window
     """
-    ctypes.windll.user32.SetParent(get_parent(window), parent.winfo_id() if parent else None)
+    ctypes.windll.user32.SetParent(
+        get_parent(window), parent.winfo_id() if parent else None)
 
     if not focus and window.master is not None:
         window.master.focus_set()
@@ -133,7 +134,8 @@ def load_font(
             add_font_resource_ex = ctypes.windll.gdi32.AddFontResourceExA
 
         flags = (0x10 if private else 0) | (0x20 if not enumerable else 0)
-        num_fonts_added = add_font_resource_ex(ctypes.byref(path_buffer), flags, 0)
+        num_fonts_added = add_font_resource_ex(
+            ctypes.byref(path_buffer), flags, 0)
 
         return bool(min(num_fonts_added, 1))
 
@@ -148,7 +150,8 @@ def load_font(
             shutil.copy(font_path, linux_fonts_dir)
 
             if private:
-                atexit.register(os.remove, linux_fonts_dir + font_path.rsplit("/", 1)[-1])
+                atexit.register(
+                    os.remove, linux_fonts_dir + font_path.rsplit("/", 1)[-1])
 
             return True
         except Exception as exc:  # pylint: disable=W0718

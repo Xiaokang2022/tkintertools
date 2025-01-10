@@ -200,7 +200,10 @@ def str_to_rgb(value: str, /) -> tuple[int, int, int]:
 
     * `value`: a color name or a hexadecimal code
     """
-    return hex_to_rgb(fix_hex_length(value)) if value.startswith("#") else name_to_rgb(value)
+    if value.startswith("#"):
+        return hex_to_rgb(fix_hex_length(value))
+
+    return name_to_rgb(value)
 
 
 # Alias

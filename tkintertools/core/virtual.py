@@ -214,9 +214,9 @@ class Element(abc.ABC):
         *,
         gradient_animation: bool = False,
     ) -> None:
-        """Let the element to disappear.
+        """Let the element to forget.
 
-        * `value`: whether to disappear
+        * `value`: whether to forget
         * `gradient_animation`: whether use gradient animation
         """
         self.visible = not value
@@ -397,7 +397,8 @@ class Text(Element):
         * `zoom_position`: whether or not to zoom the location of the text
         * `zoom_size`: whether or not to zoom the size of the text
         """
-        Element.zoom(self, ratios, zoom_position=zoom_position, zoom_size=zoom_size)
+        Element.zoom(
+            self, ratios, zoom_position=zoom_position, zoom_size=zoom_size)
 
         self.font.config(size=round(self._initial_fontsize*math.sqrt(
             self.widget.master.ratios[0]*self.widget.master.ratios[1])))
@@ -453,7 +454,8 @@ class Image(Element):
         * `zoom_position`: whether or not to zoom the location of the image
         * `zoom_size`: whether or not to zoom the size of the image
         """
-        Element.zoom(self, ratios, zoom_position=zoom_position, zoom_size=zoom_size)
+        Element.zoom(
+            self, ratios, zoom_position=zoom_position, zoom_size=zoom_size)
 
         if self.initail_image is None:
             raise RuntimeError("Image is empty.")
@@ -568,7 +570,10 @@ class Style:
             element.update()
 
     @staticmethod
-    def _wrap_arg(arg: tuple[str | None, ...] | str, /) -> tuple[str | None, ...]:
+    def _wrap_arg(
+        arg: tuple[str | None, ...] | str,
+        /,
+    ) -> tuple[str | None, ...]:
         """Wrap the argument to a tuple.
 
         * `arg`: argument
@@ -926,7 +931,7 @@ class Widget:
             widget.disable(value)
 
     def forget(self, value: bool = True, /) -> None:
-        """Let all elements of the widget to disappear.
+        """Let all elements of the widget to forget.
 
         * `value`: whether to forget the widget
         """
@@ -1013,7 +1018,9 @@ class Widget:
             self.position = self.position[0]*ratios[0], self.position[1]*ratios[1]
 
         for widget in self.widgets:
-            widget.zoom(ratios, zoom_position=zoom_position, zoom_size=zoom_size)
+            widget.zoom(
+                ratios, zoom_position=zoom_position, zoom_size=zoom_size)
 
         for element in self.elements:
-            element.zoom(ratios, zoom_position=zoom_position, zoom_size=zoom_size)
+            element.zoom(
+                ratios, zoom_position=zoom_position, zoom_size=zoom_size)

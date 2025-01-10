@@ -525,7 +525,7 @@ class CheckBox(virtual.Widget):
         if callback and self.feature.command is not None:
             self.feature.command(value)
         if self.get() == bool(value):
-            return None
+            return
         self.update(f"{self.state.split('-', maxsplit=1)[0]}-{'on' if value else 'off'}")
 
 

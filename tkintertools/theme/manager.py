@@ -58,7 +58,9 @@ _color_mode: typing.Literal["light", "dark", "system"] = "system"
 `"light"` is the light color, and `"dark"` is the dark color."""
 
 
-def set_color_mode(mode: typing.Literal["system", "dark", "light"] = "system") -> None:
+def set_color_mode(
+    mode: typing.Literal["system", "dark", "light"] = "system",
+) -> None:
     """Set the color mode of the program
 
     * `mode`: it can be `"light"`, `"dark"`, and `"system"`
