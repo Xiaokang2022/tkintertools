@@ -29,7 +29,7 @@ opt = [
     "darkdetect[macos-listener]==0.8.0; platform_system == 'Darwin'",
     "pywinstyles==1.8;                  platform_system == 'Windows'",
     "hPyT==1.3.7;                       platform_system == 'Windows'",
-    "win32material==1.0.6;              platform_system == 'Windows'",
+    "win32material==1.0.7;              platform_system == 'Windows'",
     "pillow>=10.0.0",
 ]
 ext = ["tkintertools-mpl", "tkintertools-3d", "tkintertools-media"]
@@ -38,7 +38,7 @@ all = [
     "darkdetect[macos-listener]==0.8.0; platform_system == 'Darwin'",
     "pywinstyles==1.8;                  platform_system == 'Windows'",
     "hPyT==1.3.7;                       platform_system == 'Windows'",
-    "win32material==1.0.6;              platform_system == 'Windows'",
+    "win32material==1.0.7;              platform_system == 'Windows'",
     "pillow>=10.0.0",
     "tkintertools-mpl",
     "tkintertools-3d",

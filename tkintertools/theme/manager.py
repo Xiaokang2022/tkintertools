@@ -47,7 +47,7 @@ except ImportError:
 
 try:
     import win32material
-except (ImportError, OSError):  # NOTE: Temporary workaround (OSError), wait upstream to solve the problem
+except ImportError:
     win32material = None
 
 _callback_events: dict[collections.abc.Callable[..., typing.Any], tuple] = {}
