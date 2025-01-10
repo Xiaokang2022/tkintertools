@@ -329,67 +329,6 @@ class InputBoxStyle(virtual.Style):
         self.widget.update()
 
 
-class CheckBoxStyle(virtual.Style):
-    """Style of CheckBox"""
-
-    light = {
-        "Information": {
-            "normal": {"fill": "#1A1A1A"},
-            "hover": {"fill": "#1A1A1A"},
-            "active": {"fill": "#1A1A1A"},
-        },
-        "Rectangle": {
-            "normal": {"fill": "#E1E1E1", "outline": "#C0C0C0"},
-            "hover": {"fill": "#E5F1FB", "outline": "#288CDB"},
-            "active": {"fill": "#CCE4F7", "outline": "#4884B4"},
-        },
-        "RoundedRectangle": {
-            "normal": {"fill": "#FEFEFE", "outline": "#DCDCDC"},
-            "hover": {"fill": "#FAFAFA", "outline": "#DCDCDC"},
-            "active": {"fill": "#F3F3F3", "outline": "#DCDCDC"},
-        }
-    }
-
-    dark = {
-        "Information": {
-            "normal": {"fill": "#F1F1F1"},
-            "hover": {"fill": "#F1F1F1"},
-            "active": {"fill": "#F1F1F1"},
-        },
-        "Rectangle": {
-            "normal": {"fill": "#333333", "outline": "#333333"},
-            "hover": {"fill": "#333333", "outline": "#858585"},
-            "active": {"fill": "#666666", "outline": "#666666"},
-        },
-        "RoundedRectangle": {
-            "normal": {"fill": "#373737", "outline": "#3D3D3D"},
-            "hover": {"fill": "#3C3C3C", "outline": "#3D3D3D"},
-            "active": {"fill": "#323232", "outline": "#3D3D3D"},
-        }
-    }
-
-    @typing_extensions.override
-    def set(
-        self,
-        *,
-        fg: tuple[str | None, ...] | str | None = None,
-        bg: tuple[str | None, ...] | str | None = None,
-        ol: tuple[str | None, ...] | str | None = None,
-    ) -> None:
-        """Set the style of the widget.
-
-        * `fg`: the foreground color of the widget.
-        * `bg`: the background color of the widget.
-        * `ol`: the outline color of the widget.
-
-        states: "normal", "hover", "active"
-        """
-        self._set(fg, fill=-1)
-        self._set(bg, fill=0)
-        self._set(ol, outline=0)
-        self.widget.update()
-
-
 class ToggleButtonStyle(virtual.Style):
     """Style of ToggleButton"""
 
@@ -471,6 +410,67 @@ class ToggleButtonStyle(virtual.Style):
         self._set(bg, fill=0)
         self._set(ol, outline=0)
         self.widget.update()
+
+
+class CheckBoxStyle(ToggleButtonStyle):
+    """Style of CheckBox"""
+
+    states = ("normal-off", "hover-off", "active-off",
+              "normal-on", "hover-on", "active-on", "disabled")
+
+    light = {
+        "Information": {
+            "normal-off": {"fill": ""},
+            "hover-off": {"fill": ""},
+            "active-off": {"fill": ""},
+            "normal-on": {"fill": "#F1F1F1"},
+            "hover-on": {"fill": "#F1F1F1"},
+            "active-on": {"fill": "#F1F1F1"},
+        },
+        "Rectangle": {
+            "normal-off": {"fill": "#E1E1E1", "outline": "#C0C0C0"},
+            "hover-off": {"fill": "#E5F1FB", "outline": "#288CDB"},
+            "active-off": {"fill": "#CCE4F7", "outline": "#4884B4"},
+            "normal-on": {"fill": "#49A8DA", "outline": "#49B3EB"},
+            "hover-on": {"fill": "#49B3EB", "outline": "#49B3EB"},
+            "active-on": {"fill": "#0078D7", "outline": "#49B3EB"},
+        },
+        "RoundedRectangle": {
+            "normal-off": {"fill": "#FEFEFE", "outline": "#DCDCDC"},
+            "hover-off": {"fill": "#FAFAFA", "outline": "#DCDCDC"},
+            "active-off": {"fill": "#F3F3F3", "outline": "#DCDCDC"},
+            "normal-on": {"fill": "#49A8DA", "outline": "#49B3EB"},
+            "hover-on": {"fill": "#49B3EB", "outline": "#49B3EB"},
+            "active-on": {"fill": "#0078D7", "outline": "#49B3EB"},
+        }
+    }
+
+    dark = {
+        "Information": {
+            "normal-off": {"fill": ""},
+            "hover-off": {"fill": ""},
+            "active-off": {"fill": ""},
+            "normal-on": {"fill": "#1A1A1A"},
+            "hover-on": {"fill": "#1A1A1A"},
+            "active-on": {"fill": "#1A1A1A"},
+        },
+        "Rectangle": {
+            "normal-off": {"fill": "#333333", "outline": "#333333"},
+            "hover-off": {"fill": "#333333", "outline": "#858585"},
+            "active-off": {"fill": "#666666", "outline": "#666666"},
+            "normal-on": {"fill": "#0067C0", "outline": "#0078D7"},
+            "hover-on": {"fill": "#1975C5", "outline": "#1975C5"},
+            "active-on": {"fill": "#2D7FC6", "outline": "#2072B9"},
+        },
+        "RoundedRectangle": {
+            "normal-off": {"fill": "#373737", "outline": "#3D3D3D"},
+            "hover-off": {"fill": "#3C3C3C", "outline": "#3D3D3D"},
+            "active-off": {"fill": "#323232", "outline": "#3D3D3D"},
+            "normal-on": {"fill": "#0067C0", "outline": "#0078D7"},
+            "hover-on": {"fill": "#1975C5", "outline": "#1975C5"},
+            "active-on": {"fill": "#2D7FC6", "outline": "#2072B9"},
+        }
+    }
 
 
 class RadioGroupStyle(virtual.Style):

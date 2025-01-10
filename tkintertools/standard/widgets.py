@@ -502,6 +502,7 @@ class CheckBox(virtual.Widget):
             self, master, position, (length, length), name=name, anchor=anchor,
             capture_events=capture_events, gradient_animation=gradient_animation,
             auto_update=auto_update, style=style)
+        self.state = "normal-off"
         if style is None:
             self.style = styles.CheckBoxStyle(self)
         if configs.Env.system == "Windows10":
@@ -510,15 +511,14 @@ class CheckBox(virtual.Widget):
             shapes.RoundedRectangle(self)
         if image is not None:
             images.StillImage(self, image=image)
-        texts.Information(self).set("✔")
+        texts.Information(self, text="✔")
         self.feature = features.CheckBoxFeature(self, command=command)
-        self.texts[0].forget()
         if default is not None:
             self.set(default)
 
     def get(self) -> bool:
         """Get the state of the check button"""
-        return self.texts[0].visible
+        return self.state.endswith("on")
 
     def set(self, value: bool, *, callback: bool = False) -> None:
         """Set the state of the check button"""
@@ -526,9 +526,7 @@ class CheckBox(virtual.Widget):
             self.feature.command(value)
         if self.get() == bool(value):
             return None
-        if value:
-            return self.texts[0].forget(False)
-        return self.texts[0].forget()
+        self.update(f"{self.state.split('-', maxsplit=1)}-{'on' if value else 'off'}")
 
 
 class ToggleButton(virtual.Widget):

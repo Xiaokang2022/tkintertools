@@ -211,24 +211,6 @@ class SwitchFeature(ButtonFeature):
         return flag
 
 
-class CheckBoxFeature(ButtonFeature):
-    """Feature of CheckButton"""
-
-    def _button_1(self, _: tkinter.Event) -> bool:
-        if flag := self.widget.state == "hover":
-            self.widget.update("active", gradient_animation=True)
-        return flag
-
-    def _button_release_1(self, event: tkinter.Event) -> bool:
-        if flag := self.widget.shapes[0].detect(event.x, event.y):
-            if self.widget.state == "active":
-                self.widget.set(boolean := not self.widget.get())
-                self.widget.update("hover", gradient_animation=True)
-                if self.command is not None:
-                    self.command(boolean)
-        return flag
-
-
 class ToggleButtonFeature(ButtonFeature):
     """Feature of ToggleButton"""
 
@@ -260,8 +242,17 @@ class ToggleButtonFeature(ButtonFeature):
         return flag
 
 
-class RadioBoxFeature(CheckBoxFeature):
+class CheckBoxFeature(ToggleButtonFeature):
+    """Feature of CheckButton"""
+
+
+class RadioBoxFeature(ButtonFeature):
     """Feature of RadioButton"""
+
+    def _button_1(self, _: tkinter.Event) -> bool:
+        if flag := self.widget.state == "hover":
+            self.widget.update("active", gradient_animation=True)
+        return flag
 
     @typing_extensions.override
     def _button_release_1(self, event: tkinter.Event) -> bool:
