@@ -12,7 +12,7 @@ __all__ = [
     "LabelStyle",
     "OptionButtonStyle",
     "ProgressBarStyle",
-    "RadioGroupStyle",
+    "RadioBoxStyle",
     "SegmentedButtonStyle",
     "SliderStyle",
     "SwitchStyle",
@@ -473,7 +473,7 @@ class CheckBoxStyle(ToggleButtonStyle):
     }
 
 
-class RadioGroupStyle(virtual.Style):
+class RadioBoxStyle(virtual.Style):
     """Style of RadioGroup"""
 
     light = {
@@ -619,8 +619,8 @@ class UnderlineButtonStyle(TextStyle):
     light = {
         "Information": {
             "normal": {"fill": "#1A1A1A"},
-            "hover": {"fill": "blue"},
-            "active": {"fill": "purple"},
+            "hover": {"fill": "royalblue"},
+            "active": {"fill": "#787878"},
         }
     }
 
@@ -628,7 +628,7 @@ class UnderlineButtonStyle(TextStyle):
         "Information": {
             "normal": {"fill": "#F1F1F1"},
             "hover": {"fill": "royalblue"},
-            "active": {"fill": "purple"},
+            "active": {"fill": "#787878"},
         }
     }
 

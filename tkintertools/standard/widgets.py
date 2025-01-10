@@ -653,7 +653,7 @@ class RadioBox(virtual.Widget):
             capture_events=capture_events, gradient_animation=gradient_animation,
             auto_update=auto_update, style=style)
         if style is None:
-            self.style = styles.RadioGroupStyle(self)
+            self.style = styles.RadioBoxStyle(self)
         if configs.Env.system == "Windows10":
             shapes.Rectangle(self, name=".out")
             shapes.Rectangle(
@@ -1142,7 +1142,7 @@ class SegmentedButton(virtual.Widget):
         self.command = command
         if default is not None:
             self.set(default)
-        self.feature = features.BaseFeature(self)
+        self.feature = features.SegmentedButtonFeature(self)
 
     def get(self) -> int | None:
         """Get the index of the child toggle button with a value of True. If not, None is

@@ -3,7 +3,6 @@
 from __future__ import annotations
 
 __all__ = [
-    "BaseFeature",
     "LabelFeature",
     "ButtonFeature",
     "Underline",
@@ -15,6 +14,7 @@ __all__ = [
     "ProgressBarFeature",
     "InputBoxFeature",
     "SliderFeature",
+    "SegmentedButtonFeature",
     "SpinBoxFeature",
 ]
 
@@ -28,13 +28,6 @@ from ..animation import animations, controllers
 from ..core import virtual
 from ..standard import shapes
 from ..toolbox import utility
-
-
-class BaseFeature(virtual.Feature):
-    """Base Feature"""
-
-    def _motion(self, event: tkinter.Event) -> bool:
-        return self.widget.shapes[0].detect(event.x, event.y)
 
 
 class LabelFeature(virtual.Feature):
@@ -470,6 +463,13 @@ class SliderFeature(virtual.Feature):
         if self.widget.state == "active":
             self._temp_position = None
             self.widget.update("hover")
+
+
+class SegmentedButtonFeature(virtual.Feature):
+    """Feature of SegmentedButton"""
+
+    def _motion(self, event: tkinter.Event) -> bool:
+        return self.widget.shapes[0].detect(event.x, event.y)
 
 
 class SpinBoxFeature(virtual.Feature):
