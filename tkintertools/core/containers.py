@@ -516,7 +516,7 @@ class Canvas(tkinter.Canvas, Misc):
         self.init_size = self.winfo_width(), self.winfo_height()
         self._size = self.init_size
 
-        match self.place_info().get("anchor"):
+        match self.place_info().get("anchor", "nw"):
             case "nw": dx, dy = 0, 0
             case "n": dx, dy = self.init_size[0]//2, 0
             case "w": dx, dy = 0, self.init_size[1]//2
