@@ -393,12 +393,14 @@ class Canvas(tkinter.Canvas, Misc):
         "bg": "#F1F1F1",
         "insertbackground": "#000000",
         "highlightthickness": 0,
+        "selectborderwidth": 0,
     }
 
     dark = {
         "bg": "#202020",
         "insertbackground": "#FFFFFF",
         "highlightthickness": 0,
+        "selectborderwidth": 0,
     }
 
     def __init__(
