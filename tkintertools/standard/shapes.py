@@ -35,8 +35,7 @@ class Line(virtual.Shape):
         *,
         points: list[tuple[float, float]] | None = None,
         name: str | None = None,
-        animation: bool = True,
-        styles: dict[str | int, dict[str | int, dict[str, str]]] | None = None,
+        gradient_animation: bool = True,
         **kwargs,
     ) -> None:
         """
@@ -45,14 +44,13 @@ class Line(virtual.Shape):
         * `size`: size of element
         * `points`: key points of line
         * `name`: name of element
-        * `animation`: Wether use animation to change color
-        * `styles`: style dict of element
+        * `gradient_animation`: Wether use animation to change color
         * `kwargs`: extra parameters for CanvasItem
         """
         self.points = [] if points is None else points
         virtual.Shape.__init__(
             self, widget, relative_position, size,
-            name=name, styles=styles, gradient_animation=animation, **kwargs)
+            name=name, gradient_animation=gradient_animation, **kwargs)
 
     @typing_extensions.override
     def display(self) -> None:
@@ -155,8 +153,7 @@ class RegularPolygon(virtual.Shape):
         side: int = 3,
         angle: float = 0,
         name: str | None = None,
-        animation: bool = True,
-        styles: dict[str, dict[str, str]] | None = None,
+        gradient_animation: bool = True,
         **kwargs,
     ) -> None:
         """
@@ -166,15 +163,14 @@ class RegularPolygon(virtual.Shape):
         * `side`: number of sides of a regular polygon
         * `angle`: number of radians of a regular polygon rotated clockwise
         * `name`: name of element
-        * `animation`: Wether use animation to change color
-        * `styles`: style dict of element
+        * `gradient_animation`: Wether use animation to change color
         * `kwargs`: extra parameters for CanvasItem
         """
         self.side = side
         self.angle = angle
         virtual.Shape.__init__(
             self, widget, relative_position, size,
-            name=name, styles=styles, gradient_animation=animation, **kwargs)
+            name=name, gradient_animation=gradient_animation, **kwargs)
 
     @typing_extensions.override
     def display(self) -> None:
@@ -214,8 +210,7 @@ class RoundedRectangle(virtual.Shape):
         *,
         radius: int = 5,
         name: str | None = None,
-        animation: bool = True,
-        styles: dict[str, dict[str, str]] | None = None,
+        gradient_animation: bool = True,
         **kwargs,
     ) -> None:
         """
@@ -224,14 +219,13 @@ class RoundedRectangle(virtual.Shape):
         * `size`: size of element
         * `radius`: radius of the fillet
         * `name`: name of element
-        * `animation`: Wether use animation to change color
-        * `styles`: style dict of element
+        * `gradient_animation`: Wether use animation to change color
         * `kwargs`: extra parameters for CanvasItem
         """
         self.radius = radius
         virtual.Shape.__init__(
             self, widget, relative_position, size,
-            name=name, styles=styles, gradient_animation=animation, **kwargs)
+            name=name, gradient_animation=gradient_animation, **kwargs)
 
     @typing_extensions.override
     def display(self) -> None:
@@ -315,8 +309,7 @@ class HalfRoundedRectangle(virtual.Shape):
         radius: int = 5,
         ignore: typing.Literal["left", "right"] = "left",
         name: str | None = None,
-        animation: bool = True,
-        styles: dict[str, dict[str, str]] | None = None,
+        gradient_animation: bool = True,
         **kwargs,
     ) -> None:
         """
@@ -326,15 +319,14 @@ class HalfRoundedRectangle(virtual.Shape):
         * `radius`: radius of the fillet
         * `ignore`: edges to ignore
         * `name`: name of element
-        * `animation`: Wether use animation to change color
-        * `styles`: style dict of element
+        * `gradient_animation`: Wether use animation to change color
         * `kwargs`: extra parameters for CanvasItem
         """
         self.radius = radius
         self.ignore = ignore
         virtual.Shape.__init__(
             self, widget, relative_position, size,
-            name=name, styles=styles, gradient_animation=animation, **kwargs)
+            name=name, gradient_animation=gradient_animation, **kwargs)
 
     @typing_extensions.override
     def display(self) -> None:
@@ -493,8 +485,7 @@ class SharpRectangle(virtual.Shape):
         theta: float = math.pi/6,
         ratio: tuple[float, float] = (0.5, 0.5),
         name: str | None = None,
-        animation: bool = True,
-        styles: dict[str, dict[str, str]] | None = None,
+        gradient_animation: bool = True,
         **kwargs,
     ) -> None:
         """
@@ -504,8 +495,7 @@ class SharpRectangle(virtual.Shape):
         * `theta`: number of radians of sharp corners
         * `ratio`: height ratio of the left and right sharp corners
         * `name`: name of element
-        * `animation`: Wether use animation to change color
-        * `styles`: style dict of element
+        * `gradient_animation`: Wether use animation to change color
         * `kwargs`: extra parameters for CanvasItem
         """
         self.theta = theta
@@ -516,7 +506,7 @@ class SharpRectangle(virtual.Shape):
             warnings.warn("Parameters are not suitable", UserWarning, 5)
         virtual.Shape.__init__(
             self, widget, relative_position, size,
-            name=name, styles=styles, gradient_animation=animation, **kwargs)
+            name=name, gradient_animation=gradient_animation, **kwargs)
 
     @typing_extensions.override
     def display(self) -> None:
@@ -568,8 +558,7 @@ class Parallelogram(virtual.Shape):
         *,
         theta: float = math.pi/6,
         name: str | None = None,
-        animation: bool = True,
-        styles: dict[str, dict[str, str]] | None = None,
+        gradient_animation: bool = True,
         **kwargs,
     ) -> None:
         """
@@ -578,8 +567,7 @@ class Parallelogram(virtual.Shape):
         * `size`: size of element
         * `theta`: number of radians that the parallelogram is inclined to
         * `name`: name of element
-        * `animation`: Wether use animation to change color
-        * `styles`: style dict of element
+        * `gradient_animation`: Wether use animation to change color
         * `kwargs`: extra parameters for CanvasItem
         """
         self.theta = theta
@@ -587,7 +575,7 @@ class Parallelogram(virtual.Shape):
             warnings.warn("Parameters are not suitable", UserWarning, 5)
         virtual.Shape.__init__(
             self, widget, relative_position, size,
-            name=name, styles=styles, gradient_animation=animation, **kwargs)
+            name=name, gradient_animation=gradient_animation, **kwargs)
 
     @typing_extensions.override
     def display(self) -> None:

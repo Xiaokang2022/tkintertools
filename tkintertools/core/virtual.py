@@ -32,6 +32,7 @@ import re
 import tkinter
 import tkinter.font
 import traceback
+import types
 import typing
 import warnings
 
@@ -339,7 +340,7 @@ class Text(Element):
         underline: bool = False,
         overstrike: bool = False,
         name: str | None = None,
-        animation: bool = True,
+        gradient_animation: bool = True,
         **kwargs,
     ) -> None:
         """
@@ -357,7 +358,7 @@ class Text(Element):
         * `show`: display a value that obscures the original content
         * `placeholder`: a placeholder for the prompt
         * `name`: name of element
-        * `animation`: Wether use animation to change color
+        * `gradient_animation`: Wether use animation to change color
         * `kwargs`: extra parameters for CanvasItem
         """
         self.text = text
@@ -374,7 +375,7 @@ class Text(Element):
         self._initial_fontsize = self.font.cget("size")
 
         Element.__init__(self, widget, relative_position, size, name=name,
-                         gradient_animation=animation, **kwargs)
+                         gradient_animation=gradient_animation, **kwargs)
 
     def region(self) -> tuple[int, int, int, int]:
         """Return the decision region of the `Text`."""
@@ -415,7 +416,7 @@ class Image(Element):
         *,
         image: enhanced.PhotoImage | None = None,
         name: str | None = None,
-        animation: bool = True,
+        gradient_animation: bool = True,
         **kwargs,
     ) -> None:
         """
@@ -424,14 +425,14 @@ class Image(Element):
         * `size`: size of element
         * `image`: image object of the element
         * `name`: name of element
-        * `animation`: Wether use animation to change color
+        * `gradient_animation`: Wether use animation to change color
         * `kwargs`: extra parameters for CanvasItem
         """
         self.image = image
         self.initail_image = image
 
         Element.__init__(self, widget, relative_position, size, name=name,
-                         gradient_animation=animation, **kwargs)
+                         gradient_animation=gradient_animation, **kwargs)
 
     def region(self) -> tuple[int, int, int, int]:
         """Return the decision region of the `Image`."""
@@ -598,9 +599,9 @@ class Style:
 
     @staticmethod
     def _wrap_arg(
-        arg: tuple[str | None, ...] | str,
+        arg: tuple[str | types.EllipsisType | None, ...] | str,
         /,
-    ) -> tuple[str | None, ...]:
+    ) -> tuple[str | types.EllipsisType | None, ...]:
         """Wrap the argument to a tuple.
 
         * `arg`: argument
@@ -613,7 +614,7 @@ class Style:
     def _set(
         self,
         theme: typing.Literal["light", "dark"] | None = None,
-        data: tuple[str | None, ...] | str | None = None,
+        data: tuple[str | types.EllipsisType, ...] | str | None = None,
         **kwargs: tuple[Element | str | int, ...] | Element | str | int,
     ) -> None:
         """Set the color of a style conveniently.
@@ -626,7 +627,7 @@ class Style:
             return
 
         for i, color in enumerate(self._wrap_arg(data)):
-            if color is None:
+            if color is Ellipsis:
                 continue
 
             state = self.states[i]

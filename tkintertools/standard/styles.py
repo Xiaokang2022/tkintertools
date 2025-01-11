@@ -22,6 +22,7 @@ __all__ = [
     "UnderlineButtonStyle",
 ]
 
+import types
 import typing
 
 import typing_extensions
@@ -49,7 +50,7 @@ class TextStyle(virtual.Style):
         self,
         theme: typing.Literal["light", "dark"] | None = None,
         *,
-        fg: tuple[str | None, ...] | str | None = None,
+        fg: tuple[str | types.EllipsisType, ...] | str | None = None,
     ) -> None:
         """Set the style of the widget.
 
@@ -100,9 +101,9 @@ class LabelStyle(virtual.Style):
         self,
         theme: typing.Literal["light", "dark"] | None = None,
         *,
-        fg: tuple[str | None, ...] | str | None = None,
-        bg: tuple[str | None, ...] | str | None = None,
-        ol: tuple[str | None, ...] | str | None = None,
+        fg: tuple[str | types.EllipsisType, ...] | str | None = None,
+        bg: tuple[str | types.EllipsisType, ...] | str | None = None,
+        ol: tuple[str | types.EllipsisType, ...] | str | None = None,
     ) -> None:
         """Set the style of the widget.
 
@@ -240,10 +241,10 @@ class SwitchStyle(virtual.Style):
         self,
         theme: typing.Literal["light", "dark"] | None = None,
         *,
-        bg_slot: tuple[str | None, ...] | str | None = None,
-        ol_slot: tuple[str | None, ...] | str | None = None,
-        bg_dot: tuple[str | None, ...] | str | None = None,
-        ol_dot: tuple[str | None, ...] | str | None = None,
+        bg_slot: tuple[str | types.EllipsisType, ...] | str | None = None,
+        ol_slot: tuple[str | types.EllipsisType, ...] | str | None = None,
+        bg_dot: tuple[str | types.EllipsisType, ...] | str | None = None,
+        ol_dot: tuple[str | types.EllipsisType, ...] | str | None = None,
     ) -> None:
         """Set the style of the widget.
 
@@ -317,10 +318,10 @@ class InputBoxStyle(virtual.Style):
         self,
         theme: typing.Literal["light", "dark"] | None = None,
         *,
-        fg: tuple[str | None, ...] | str | None = None,
-        bg: tuple[str | None, ...] | str | None = None,
-        ol: tuple[str | None, ...] | str | None = None,
-        bg_bar: tuple[str | None, ...] | str | None = None,
+        fg: tuple[str | types.EllipsisType, ...] | str | None = None,
+        bg: tuple[str | types.EllipsisType, ...] | str | None = None,
+        ol: tuple[str | types.EllipsisType, ...] | str | None = None,
+        bg_bar: tuple[str | types.EllipsisType, ...] | str | None = None,
     ) -> None:
         """Set the style of the widget.
 
@@ -404,9 +405,9 @@ class ToggleButtonStyle(virtual.Style):
         self,
         theme: typing.Literal["light", "dark"] | None = None,
         *,
-        fg: tuple[str | None, ...] | str | None = None,
-        bg: tuple[str | None, ...] | str | None = None,
-        ol: tuple[str | None, ...] | str | None = None,
+        fg: tuple[str | types.EllipsisType, ...] | str | None = None,
+        bg: tuple[str | types.EllipsisType, ...] | str | None = None,
+        ol: tuple[str | types.EllipsisType, ...] | str | None = None,
     ) -> None:
         """Set the style of the widget.
 
@@ -539,10 +540,10 @@ class RadioBoxStyle(virtual.Style):
         self,
         theme: typing.Literal["light", "dark"] | None = None,
         *,
-        bg_box: tuple[str | None, ...] | str | None = None,
-        ol_box: tuple[str | None, ...] | str | None = None,
-        bg_dot: tuple[str | None, ...] | str | None = None,
-        ol_dot: tuple[str | None, ...] | str | None = None,
+        bg_box: tuple[str | types.EllipsisType, ...] | str | None = None,
+        ol_box: tuple[str | types.EllipsisType, ...] | str | None = None,
+        bg_dot: tuple[str | types.EllipsisType, ...] | str | None = None,
+        ol_dot: tuple[str | types.EllipsisType, ...] | str | None = None,
     ) -> None:
         """Set the style of the widget.
 
@@ -607,10 +608,10 @@ class ProgressBarStyle(virtual.Style):
         self,
         theme: typing.Literal["light", "dark"] | None = None,
         *,
-        bg_slot: tuple[str | None, ...] | str | None = None,
-        ol_slot: tuple[str | None, ...] | str | None = None,
-        bg_bar: tuple[str | None, ...] | str | None = None,
-        ol_bar: tuple[str | None, ...] | str | None = None,
+        bg_slot: tuple[str | types.EllipsisType, ...] | str | None = None,
+        ol_slot: tuple[str | types.EllipsisType, ...] | str | None = None,
+        bg_bar: tuple[str | types.EllipsisType, ...] | str | None = None,
+        ol_bar: tuple[str | types.EllipsisType, ...] | str | None = None,
     ) -> None:
         """Set the style of the widget.
 
@@ -769,10 +770,10 @@ class SliderStyle(virtual.Style):
         self,
         theme: typing.Literal["light", "dark"] | None = None,
         *,
-        fg_slot: tuple[str | None, ...] | str | None = None,
-        bg_slot: tuple[str | None, ...] | str | None = None,
-        bg_pnt: tuple[str | None, ...] | str | None = None,
-        bg_dot: tuple[str | None, ...] | str | None = None,
+        fg_slot: tuple[str | types.EllipsisType, ...] | str | None = None,
+        bg_slot: tuple[str | types.EllipsisType, ...] | str | None = None,
+        bg_pnt: tuple[str | types.EllipsisType, ...] | str | None = None,
+        bg_dot: tuple[str | types.EllipsisType, ...] | str | None = None,
     ) -> None:
         """Set the style of the widget.
 
@@ -823,8 +824,8 @@ class SegmentedButtonStyle(virtual.Style):
         self,
         theme: typing.Literal["light", "dark"] | None = None,
         *,
-        bg: tuple[str | None, ...] | str | None = None,
-        ol: tuple[str | None, ...] | str | None = None,
+        bg: tuple[str | types.EllipsisType, ...] | str | None = None,
+        ol: tuple[str | types.EllipsisType, ...] | str | None = None,
     ) -> None:
         """Set the style of the widget.
 
@@ -873,8 +874,8 @@ class OptionButtonStyle(virtual.Style):
         self,
         theme: typing.Literal["light", "dark"] | None = None,
         *,
-        bg: tuple[str | None, ...] | str | None = None,
-        ol: tuple[str | None, ...] | str | None = None,
+        bg: tuple[str | types.EllipsisType, ...] | str | None = None,
+        ol: tuple[str | types.EllipsisType, ...] | str | None = None,
     ) -> None:
         """Set the style of the widget.
 
@@ -915,8 +916,8 @@ class SpinnerStyle(virtual.Style):
         self,
         theme: typing.Literal["light", "dark"] | None = None,
         *,
-        fg: tuple[str | None, ...] | str | None = None,
-        bg: tuple[str | None, ...] | str | None = None,
+        fg: tuple[str | types.EllipsisType, ...] | str | None = None,
+        bg: tuple[str | types.EllipsisType, ...] | str | None = None,
     ) -> None:
         """Set the style of the widget.
 
@@ -963,9 +964,9 @@ class TooltipStyle(virtual.Style):
         self,
         theme: typing.Literal["light", "dark"] | None = None,
         *,
-        fg: tuple[str | None, ...] | str | None = None,
-        bg: tuple[str | None, ...] | str | None = None,
-        ol: tuple[str | None, ...] | str | None = None,
+        fg: tuple[str | types.EllipsisType, ...] | str | None = None,
+        bg: tuple[str | types.EllipsisType, ...] | str | None = None,
+        ol: tuple[str | types.EllipsisType, ...] | str | None = None,
     ) -> None:
         """Set the style of the widget.
 

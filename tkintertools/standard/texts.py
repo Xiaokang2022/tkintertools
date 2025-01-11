@@ -195,8 +195,7 @@ class SingleLineText(virtual.Text):
         underline: bool = False,
         overstrike: bool = False,
         name: str | None = None,
-        animation: bool = True,
-        styles: dict[str, dict[str, str]] | None = None,
+        gradient_animation: bool = True,
         **kwargs,
     ) -> None:
         """
@@ -216,8 +215,7 @@ class SingleLineText(virtual.Text):
         * `show`: display a value that obscures the original content
         * `placeholder`: a placeholder for the prompt
         * `name`: name of element
-        * `animation`: Wether use animation to change color
-        * `styles`: style dict of element
+        * `gradient_animation`: Wether use animation to change color
         * `kwargs`: extra parameters for CanvasItem
         """
         self.left: int = 0
@@ -227,8 +225,8 @@ class SingleLineText(virtual.Text):
         virtual.Text.__init__(
             self, widget, relative_position, size, text=text, limit=limit, show=show,
             placeholder=placeholder, family=family, fontsize=fontsize, weight=weight, slant=slant,
-            underline=underline, overstrike=overstrike, name=name, styles=styles,
-            animation=animation, **kwargs)
+            underline=underline, overstrike=overstrike, name=name,
+            gradient_animation=gradient_animation, **kwargs)
         self.text_proxy = _CanvasTextProxy(widget.master, self.items[0])
 
     @typing_extensions.override
