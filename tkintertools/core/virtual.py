@@ -543,6 +543,26 @@ class Style:
 
         return now_style
 
+    def init(
+        self,
+        key: Element | str | int,
+        *,
+        theme: typing.Literal["light", "dark"] | None = None,
+    ) -> None:
+        """Initialize some style of an element.
+
+        * `name`: the key of the element
+        * `theme`: the theme name, None indicates both
+        """
+        name = self._get_key(key)
+
+        if theme != "light":
+            if not self.dark.get(name):
+                self.dark[name] = {}
+        if theme != "dark":
+            if not self.light.get(name):
+                self.light[name] = {}
+
     def get(
         self,
         *,
@@ -688,7 +708,6 @@ class Widget:
         position: tuple[int, int] = (0, 0),
         size: tuple[int, int] | None = None,
         *,
-        name: str | None = None,
         anchor: typing.Literal["n", "s", "w", "e", "nw", "ne", "sw", "se", "center"] = "nw",
         capture_events: bool | None = None,
         gradient_animation: bool | None = None,
@@ -699,7 +718,6 @@ class Widget:
         * `master`: parent canvas
         * `position`: position of the widget
         * `size`: size of the widget
-        * `name`: name of the widget
         * `anchor`: layout anchor of the widget
         * `capture_events`: wether detect another widget under the widget
         * `gradient_animation`: wether enable animation
@@ -719,7 +737,6 @@ class Widget:
             self.position: tuple[float, float] = position
             self.size: tuple[float, float] = (0, 0) if size is None else size
 
-        self.name = name
         self.anchor = anchor
 
         if capture_events is None and self.nested:

@@ -240,26 +240,26 @@ class SwitchStyle(virtual.Style):
         self,
         theme: typing.Literal["light", "dark"] | None = None,
         *,
-        bg: tuple[str | None, ...] | str | None = None,
-        ol: tuple[str | None, ...] | str | None = None,
-        bg_in: tuple[str | None, ...] | str | None = None,
-        ol_in: tuple[str | None, ...] | str | None = None,
+        bg_slot: tuple[str | None, ...] | str | None = None,
+        ol_slot: tuple[str | None, ...] | str | None = None,
+        bg_dot: tuple[str | None, ...] | str | None = None,
+        ol_dot: tuple[str | None, ...] | str | None = None,
     ) -> None:
         """Set the style of the widget.
 
         * `theme`: the theme name, None indicates both
-        * `bg`: the background color of the widget.
-        * `ol`: the outline color of the widget.
-        * `bg_in`: the inside background color of the widget.
-        * `ol_in`: the inside outline color of the widget.
+        * `bg_slot`: the background color of the widget.
+        * `ol_slot`: the outline color of the widget.
+        * `bg_dot`: the inside background color of the widget.
+        * `ol_dot`: the inside outline color of the widget.
 
         states: "normal-off", "hover-off", "active-off", "normal-on",
         "hover-on", "active-on"
         """
-        self._set(theme, bg, fill=("Rectangle.out", "SemicircularRectangle"))
-        self._set(theme, ol, outline=("Rectangle.out", "SemicircularRectangle"))
-        self._set(theme, bg_in, fill=("Rectangle.in", "Oval"))
-        self._set(theme, ol_in, fill=("Rectangle.in", "Oval"))
+        self._set(theme, bg_slot, fill=("Rectangle.out", "SemicircularRectangle"))
+        self._set(theme, ol_slot, outline=("Rectangle.out", "SemicircularRectangle"))
+        self._set(theme, bg_dot, fill=("Rectangle.in", "Oval"))
+        self._set(theme, ol_dot, fill=("Rectangle.in", "Oval"))
         self.widget.update()
 
 
@@ -320,7 +320,7 @@ class InputBoxStyle(virtual.Style):
         fg: tuple[str | None, ...] | str | None = None,
         bg: tuple[str | None, ...] | str | None = None,
         ol: tuple[str | None, ...] | str | None = None,
-        hl: tuple[str | None, ...] | str | None = None,
+        bg_bar: tuple[str | None, ...] | str | None = None,
     ) -> None:
         """Set the style of the widget.
 
@@ -328,14 +328,14 @@ class InputBoxStyle(virtual.Style):
         * `fg`: the foreground color of the widget.
         * `bg`: the background color of the widget.
         * `ol`: the outline color of the widget.
-        * `hl`: the highlight bar of the widget
+        * `bg_bar`: the highlight bar of the widget (Only for Windows11 theme)
 
         states: "normal", "hover", "active"
         """
         self._set(theme, fg, fill="SingleLineText")
         self._set(theme, bg, fill=("Rectangle", "RoundedRectangle.in"))
         self._set(theme, ol, outline=("Rectangle", "RoundedRectangle.in"))
-        self._set(theme, hl, fill="RoundedRectangle.out", outline="RoundedRectangle.out")
+        self._set(theme, bg_bar, fill="RoundedRectangle.out", outline="RoundedRectangle.out")
         self.widget.update()
 
 
@@ -539,25 +539,25 @@ class RadioBoxStyle(virtual.Style):
         self,
         theme: typing.Literal["light", "dark"] | None = None,
         *,
-        bg: tuple[str | None, ...] | str | None = None,
-        ol: tuple[str | None, ...] | str | None = None,
-        bg_in: tuple[str | None, ...] | str | None = None,
-        ol_in: tuple[str | None, ...] | str | None = None,
+        bg_box: tuple[str | None, ...] | str | None = None,
+        ol_box: tuple[str | None, ...] | str | None = None,
+        bg_dot: tuple[str | None, ...] | str | None = None,
+        ol_dot: tuple[str | None, ...] | str | None = None,
     ) -> None:
         """Set the style of the widget.
 
         * `theme`: the theme name, None indicates both
-        * `bg`: the background color of the widget.
-        * `ol`: the outline color of the widget.
-        * `bg_in`: the inside background color of the widget.
-        * `ol_in`: the inside outline color of the widget.
+        * `bg_box`: the background color of the widget.
+        * `ol_box`: the outline color of the widget.
+        * `bg_dot`: the inside background color of the widget.
+        * `ol_dot`: the inside outline color of the widget.
 
         states: "normal", "hover", "active"
         """
-        self._set(theme, bg, fill=0)
-        self._set(theme, ol, outline=0)
-        self._set(theme, bg_in, fill=1)
-        self._set(theme, ol_in, outline=1)
+        self._set(theme, bg_box, fill=0)
+        self._set(theme, ol_box, outline=0)
+        self._set(theme, bg_dot, fill=1)
+        self._set(theme, ol_dot, outline=1)
         self.widget.update()
 
 
@@ -607,25 +607,25 @@ class ProgressBarStyle(virtual.Style):
         self,
         theme: typing.Literal["light", "dark"] | None = None,
         *,
-        bg: tuple[str | None, ...] | str | None = None,
-        ol: tuple[str | None, ...] | str | None = None,
-        bg_in: tuple[str | None, ...] | str | None = None,
-        ol_in: tuple[str | None, ...] | str | None = None,
+        bg_slot: tuple[str | None, ...] | str | None = None,
+        ol_slot: tuple[str | None, ...] | str | None = None,
+        bg_bar: tuple[str | None, ...] | str | None = None,
+        ol_bar: tuple[str | None, ...] | str | None = None,
     ) -> None:
         """Set the style of the widget.
 
         * `theme`: the theme name, None indicates both
-        * `bg`: the background color of the widget.
-        * `ol`: the outline color of the widget.
-        * `bg_in`: the inside background color of the widget.
-        * `ol_in`: the inside outline color of the widget.
+        * `bg_slot`: the background color of the widget.
+        * `ol_slot`: the outline color of the widget.
+        * `bg_bar`: the inside background color of the widget.
+        * `ol_bar`: the inside outline color of the widget.
 
         states: "normal", "hover"
         """
-        self._set(theme, bg, fill=0)
-        self._set(theme, ol, outline=0)
-        self._set(theme, bg_in, fill=1)
-        self._set(theme, ol_in, outline=1)
+        self._set(theme, bg_slot, fill=0)
+        self._set(theme, ol_slot, outline=0)
+        self._set(theme, bg_bar, fill=1)
+        self._set(theme, ol_bar, outline=1)
         self.widget.update()
 
 
@@ -769,26 +769,26 @@ class SliderStyle(virtual.Style):
         self,
         theme: typing.Literal["light", "dark"] | None = None,
         *,
-        fg: tuple[str | None, ...] | str | None = None,
-        bg: tuple[str | None, ...] | str | None = None,
-        pt: tuple[str | None, ...] | str | None = None,
-        hl: tuple[str | None, ...] | str | None = None,
+        fg_slot: tuple[str | None, ...] | str | None = None,
+        bg_slot: tuple[str | None, ...] | str | None = None,
+        bg_pnt: tuple[str | None, ...] | str | None = None,
+        bg_dot: tuple[str | None, ...] | str | None = None,
     ) -> None:
         """Set the style of the widget.
 
         * `theme`: the theme name, None indicates both
-        * `fg`: the foreground color of the widget.
-        * `bg`: the background color of the widget.
-        * `pt`: the pointer color of the widget.
-        * `hl`: the pointer highlight part color of the widget (Only for
+        * `fg_slot`: the foreground color of the widget.
+        * `bg_slot`: the background color of the widget.
+        * `bg_pnt`: the pointer color of the widget.
+        * `bg_dot`: the pointer highlight part color of the widget (Only for
         Windows11 theme).
 
         states: "normal", "hover", "active"
         """
-        self._set(theme, fg, fill=1, outline=1)
-        self._set(theme, bg, fill=0, outline=0)
-        self._set(theme, pt, fill=2, outline=2)
-        self._set(theme, hl, fill="Oval.in", outline="Oval.in")
+        self._set(theme, fg_slot, fill=1, outline=1)
+        self._set(theme, bg_slot, fill=0, outline=0)
+        self._set(theme, bg_pnt, fill=2, outline=2)
+        self._set(theme, bg_dot, fill="Oval.in", outline="Oval.in")
         # Only works on Windows11 theme, compatible with other themes
         self.widget.update()
 

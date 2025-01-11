@@ -55,7 +55,6 @@ class Text(virtual.Widget):
         underline: bool = False,
         overstrike: bool = False,
         justify: typing.Literal["left", "center", "right"] = "left",
-        name: str | None = None,
         anchor: typing.Literal["n", "e", "w", "s", "nw", "ne", "sw", "se", "center"] = "nw",
         capture_events: bool | None = None,
         gradient_animation: bool | None = None,
@@ -73,7 +72,6 @@ class Text(virtual.Widget):
         * `underline`: whether the text is underline
         * `overstrike`: whether the text is overstrike
         * `justify`: justify mode of the text
-        * `name`: name of the widget
         * `anchor`: anchor of the widget
         * `capture_events`: wether detect another widget under the widget
         * `gradient_animation`: wether enable gradient_animation
@@ -81,7 +79,7 @@ class Text(virtual.Widget):
         * `style`: style of the widget
         """
         virtual.Widget.__init__(
-            self, master, position, (0, 0), name=name, anchor=anchor,
+            self, master, position, (0, 0), anchor=anchor,
             capture_events=capture_events, gradient_animation=gradient_animation,
             auto_update=auto_update, style=style)
         # The above parameter `anchor` has no practical effect and is only used
@@ -111,7 +109,6 @@ class Image(virtual.Widget):
         size: tuple[int, int] | None = None,
         *,
         image: enhanced.PhotoImage | None = None,
-        name: str | None = None,
         anchor: typing.Literal["n", "e", "w", "s", "nw", "ne", "sw", "se", "center"] = "nw",
         capture_events: bool | None = None,
         gradient_animation: bool | None = None,
@@ -123,7 +120,6 @@ class Image(virtual.Widget):
         * `position`: position of the widget
         * `size`: size of the widget
         * `image`: image of the widget
-        * `name`: name of the widget
         * `anchor`: anchor of the widget
         * `capture_events`: wether detect another widget under the widget
         * `gradient_animation`: wether enable gradient_animation
@@ -131,7 +127,7 @@ class Image(virtual.Widget):
         * `style`: style of the widget
         """
         virtual.Widget.__init__(
-            self, master, position, (0, 0), name=name, anchor=anchor,
+            self, master, position, (0, 0), anchor=anchor,
             capture_events=capture_events, gradient_animation=gradient_animation,
             auto_update=auto_update, style=style)
         # The above parameter `anchor` has no practical effect and is only used
@@ -176,7 +172,6 @@ class Label(virtual.Widget):
         overstrike: bool = False,
         justify: typing.Literal["left", "center", "right"] = "left",
         image: enhanced.PhotoImage | None = None,
-        name: str | None = None,
         anchor: typing.Literal["n", "e", "w", "s", "nw", "ne", "sw", "se", "center"] = "nw",
         capture_events: bool | None = None,
         gradient_animation: bool | None = None,
@@ -196,7 +191,6 @@ class Label(virtual.Widget):
         * `overstrike`: whether the text is overstrike
         * `justify`: justify mode of the text
         * `image`: image of the widget
-        * `name`: name of the widget
         * `anchor`: anchor of the widget
         * `capture_events`: wether detect another widget under the widget
         * `gradient_animation`: wether enable gradient_animation
@@ -207,7 +201,7 @@ class Label(virtual.Widget):
             size = utility.get_text_size(
                 text, fontsize, family, weight=weight, slant=slant, padding=6, master=master)
         virtual.Widget.__init__(
-            self, master, position, size, name=name, anchor=anchor,
+            self, master, position, size, anchor=anchor,
             capture_events=capture_events, gradient_animation=gradient_animation,
             auto_update=auto_update, style=style)
         if style is None:
@@ -243,7 +237,6 @@ class Button(virtual.Widget):
         justify: typing.Literal["left", "center", "right"] = "left",
         command: collections.abc.Callable | None = None,
         image: enhanced.PhotoImage | None = None,
-        name: str | None = None,
         anchor: typing.Literal["n", "e", "w", "s", "nw", "ne", "sw", "se", "center"] = "nw",
         capture_events: bool | None = None,
         gradient_animation: bool | None = None,
@@ -264,7 +257,6 @@ class Button(virtual.Widget):
         * `justify`: justify mode of the text
         * `command`: a function that is triggered when the button is pressed
         * `image`: image of the widget
-        * `name`: name of the widget
         * `anchor`: anchor of the widget
         * `capture_events`: wether detect another widget under the widget
         * `gradient_animation`: wether enable gradient_animation
@@ -275,7 +267,7 @@ class Button(virtual.Widget):
             size = utility.get_text_size(
                 text, fontsize, family, weight=weight, slant=slant, padding=6, master=master)
         virtual.Widget.__init__(
-            self, master, position, size, anchor=anchor, name=name,
+            self, master, position, size, anchor=anchor,
             capture_events=capture_events, gradient_animation=gradient_animation,
             auto_update=auto_update, style=style)
         if style is None:
@@ -304,7 +296,6 @@ class Switch(virtual.Widget):
         default: bool | None = None,
         command: collections.abc.Callable[[bool], typing.Any] | None = None,
         image: enhanced.PhotoImage | None = None,
-        name: str | None = None,
         anchor: typing.Literal["n", "e", "w", "s", "nw", "ne", "sw", "se", "center"] = "nw",
         capture_events: bool | None = None,
         gradient_animation: bool | None = None,
@@ -318,7 +309,6 @@ class Switch(virtual.Widget):
         * `default`: default value of the widget
         * `command`: a function that is triggered when the switch is changed
         * `image`: image of the widget
-        * `name`: name of the widget
         * `anchor`: anchor of the widget
         * `capture_events`: wether detect another widget under the widget
         * `gradient_animation`: wether enable gradient_animation
@@ -326,7 +316,7 @@ class Switch(virtual.Widget):
         * `style`: style of the widget
         """
         virtual.Widget.__init__(
-            self, master, position, (length, length / 2), name=name,
+            self, master, position, (length, length / 2),
             anchor=anchor, capture_events=capture_events, gradient_animation=gradient_animation,
             auto_update=auto_update, style=style)
         self.state = "normal-off"
@@ -384,7 +374,6 @@ class InputBox(virtual.Widget):
         limit: int = math.inf,
         limit_width: int = 0,
         image: enhanced.PhotoImage | None = None,
-        name: str | None = None,
         anchor: typing.Literal["n", "e", "w", "s", "nw", "ne", "sw", "se", "center"] = "nw",
         capture_events: bool | None = None,
         gradient_animation: bool | None = None,
@@ -407,7 +396,6 @@ class InputBox(virtual.Widget):
         * `limit`: limit on the number of characters
         * `limit_width`: limit on the width of characters
         * `image`: image of the widget
-        * `name`: name of the widget
         * `anchor`: anchor of the widget
         * `capture_events`: wether detect another widget under the widget
         * `gradient_animation`: wether enable gradient_animation
@@ -418,7 +406,7 @@ class InputBox(virtual.Widget):
             size = 200, utility.get_text_size(
                 "", fontsize, family, weight=weight, slant=slant, padding=6, master=master)[1]
         virtual.Widget.__init__(
-            self, master, position, size, name=name, anchor=anchor,
+            self, master, position, size, anchor=anchor,
             capture_events=capture_events, gradient_animation=gradient_animation,
             auto_update=auto_update, style=style)
         if style is None:
@@ -477,7 +465,6 @@ class CheckBox(virtual.Widget):
         default: bool | None = None,
         command: collections.abc.Callable[[bool], typing.Any] | None = None,
         image: enhanced.PhotoImage | None = None,
-        name: str | None = None,
         anchor: typing.Literal["n", "e", "w", "s", "nw", "ne", "sw", "se", "center"] = "nw",
         capture_events: bool | None = None,
         gradient_animation: bool | None = None,
@@ -491,7 +478,6 @@ class CheckBox(virtual.Widget):
         * `default`: default state of the widget
         * `command`: a function that is triggered when the state of check button is on
         * `image`: image of the widget
-        * `name`: name of the widget
         * `anchor`: anchor of the widget
         * `capture_events`: wether detect another widget under the widget
         * `gradient_animation`: wether enable gradient_animation
@@ -499,7 +485,7 @@ class CheckBox(virtual.Widget):
         * `style`: style of the widget
         """
         virtual.Widget.__init__(
-            self, master, position, (length, length), name=name, anchor=anchor,
+            self, master, position, (length, length), anchor=anchor,
             capture_events=capture_events, gradient_animation=gradient_animation,
             auto_update=auto_update, style=style)
         self.state = "normal-off"
@@ -549,7 +535,6 @@ class ToggleButton(virtual.Widget):
         default: bool | None = None,
         command: collections.abc.Callable[[bool], typing.Any] | None = None,
         image: enhanced.PhotoImage | None = None,
-        name: str | None = None,
         anchor: typing.Literal["n", "e", "w", "s", "nw", "ne", "sw", "se", "center"] = "nw",
         capture_events: bool | None = None,
         gradient_animation: bool | None = None,
@@ -571,7 +556,6 @@ class ToggleButton(virtual.Widget):
         * `default`: default state of the widget
         * `command`: a function that is triggered when the state of check button is on
         * `image`: image of the widget
-        * `name`: name of the widget
         * `anchor`: anchor of the widget
         * `capture_events`: wether detect another widget under the widget
         * `gradient_animation`: wether enable gradient_animation
@@ -582,7 +566,7 @@ class ToggleButton(virtual.Widget):
             size = utility.get_text_size(
                 text, fontsize, family, weight=weight, slant=slant, padding=6, master=master)
         virtual.Widget.__init__(
-            self, master, position, size, name=name, anchor=anchor,
+            self, master, position, size, anchor=anchor,
             capture_events=capture_events, gradient_animation=gradient_animation,
             auto_update=auto_update, style=style)
         self.state = "normal-off"
@@ -626,7 +610,6 @@ class RadioBox(virtual.Widget):
         default: bool | None = None,
         command: collections.abc.Callable[[int], typing.Any] | None = None,
         image: enhanced.PhotoImage | None = None,
-        name: str | None = None,
         anchor: typing.Literal["n", "e", "w", "s", "nw", "ne", "sw", "se", "center"] = "nw",
         capture_events: bool | None = None,
         gradient_animation: bool | None = None,
@@ -640,7 +623,6 @@ class RadioBox(virtual.Widget):
         * `default`: default state of the widget
         * `command`: a function that is triggered when the state of radio button is on
         * `image`: image of the widget
-        * `name`: name of the widget
         * `anchor`: anchor of the widget
         * `capture_events`: wether detect another widget under the widget
         * `gradient_animation`: wether enable gradient_animation
@@ -649,7 +631,7 @@ class RadioBox(virtual.Widget):
         """
         self.groups: list[RadioBox] = [self]
         virtual.Widget.__init__(
-            self, master, position, (length, length), name=name, anchor=anchor,
+            self, master, position, (length, length), anchor=anchor,
             capture_events=capture_events, gradient_animation=gradient_animation,
             auto_update=auto_update, style=style)
         if style is None:
@@ -711,7 +693,6 @@ class ProgressBar(virtual.Widget):
         default: float | None = None,
         command: collections.abc.Callable[[float], typing.Any] | None = None,
         image: enhanced.PhotoImage | None = None,
-        name: str | None = None,
         anchor: typing.Literal["n", "e", "w", "s", "nw", "ne", "sw", "se", "center"] = "nw",
         capture_events: bool | None = None,
         gradient_animation: bool | None = None,
@@ -725,7 +706,6 @@ class ProgressBar(virtual.Widget):
         * `default`: default value of the widget
         * `command`: a function that is triggered when the progress of progress bar is 100%
         * `image`: image of the widget
-        * `name`: name of the widget
         * `anchor`: anchor of the widget
         * `capture_events`: wether detect another widget under the widget
         * `gradient_animation`: wether enable gradient_animation
@@ -734,7 +714,7 @@ class ProgressBar(virtual.Widget):
         """
         self.value: float = 0
         virtual.Widget.__init__(
-            self, master, position, size, name=name, anchor=anchor,
+            self, master, position, size, anchor=anchor,
             capture_events=capture_events, gradient_animation=gradient_animation,
             auto_update=auto_update, style=style)
         if style is None:
@@ -800,7 +780,6 @@ class UnderlineButton(virtual.Widget):
         justify: typing.Literal["left", "center", "right"] = "left",
         command: collections.abc.Callable | None = None,
         image: enhanced.PhotoImage | None = None,
-        name: str | None = None,
         anchor: typing.Literal["n", "e", "w", "s", "nw", "ne", "sw", "se", "center"] = "nw",
         capture_events: bool | None = None,
         gradient_animation: bool = False,
@@ -820,7 +799,6 @@ class UnderlineButton(virtual.Widget):
         * `justify`: justify mode of the text
         * `command`: a function that is triggered when the underline button is pressed
         * `image`: image of the widget
-        * `name`: name of the widget
         * `anchor`: anchor of the widget
         * `capture_events`: wether detect another widget under the widget
         * `gradient_animation`: wether enable gradient_animation
@@ -830,7 +808,7 @@ class UnderlineButton(virtual.Widget):
         virtual.Widget.__init__(
             self, master, position, utility.get_text_size(
                 text, fontsize, family, weight=weight, slant=slant, master=master),
-            name=name, anchor=anchor, capture_events=capture_events,
+            anchor=anchor, capture_events=capture_events,
             gradient_animation=gradient_animation, auto_update=auto_update, style=style)
         if style is None:
             self.style = styles.UnderlineButtonStyle(self)
@@ -860,7 +838,6 @@ class HighlightButton(virtual.Widget):
         justify: typing.Literal["left", "center", "right"] = "left",
         command: collections.abc.Callable | None = None,
         image: enhanced.PhotoImage | None = None,
-        name: str | None = None,
         anchor: typing.Literal["n", "e", "w", "s", "nw", "ne", "sw", "se", "center"] = "nw",
         capture_events: bool | None = None,
         gradient_animation: bool | None = None,
@@ -880,7 +857,6 @@ class HighlightButton(virtual.Widget):
         * `justify`: justify mode of the text
         * `command`: a function that is triggered when the hightlight button is pressed
         * `image`: image of the widget
-        * `name`: name of the widget
         * `anchor`: anchor of the widget
         * `capture_events`: wether detect another widget under the widget
         * `gradient_animation`: wether enable gradient_animation
@@ -890,7 +866,7 @@ class HighlightButton(virtual.Widget):
         virtual.Widget.__init__(
             self, master, position, utility.get_text_size(
                 text, fontsize, family, weight=weight, slant=slant, master=master),
-            name=name, anchor=anchor, capture_events=capture_events,
+            anchor=anchor, capture_events=capture_events,
             gradient_animation=gradient_animation, auto_update=auto_update, style=style)
         if style is None:
             self.style = styles.HighlightButtonStyle(self)
@@ -921,7 +897,6 @@ class IconButton(virtual.Widget):
         justify: typing.Literal["left", "center", "right"] = "left",
         command: collections.abc.Callable | None = None,
         image: enhanced.PhotoImage | None = None,
-        name: str | None = None,
         anchor: typing.Literal["n", "e", "w", "s", "nw", "ne", "sw", "se", "center"] = "nw",
         capture_events: bool | None = None,
         gradient_animation: bool | None = None,
@@ -942,7 +917,6 @@ class IconButton(virtual.Widget):
         * `justify`: justify mode of the text
         * `command`: a function that is triggered when the button is pressed
         * `image`: image of the widget
-        * `name`: name of the widget
         * `anchor`: anchor of the widget
         * `capture_events`: wether detect another widget under the widget
         * `gradient_animation`: wether enable gradient_animation
@@ -954,7 +928,7 @@ class IconButton(virtual.Widget):
                 text, fontsize, family, weight=weight, slant=slant, padding=6, master=master)
             size = size[0] + size[1] - 6, size[1]
         virtual.Widget.__init__(
-            self, master, position, size, name=name, anchor=anchor,
+            self, master, position, size, anchor=anchor,
             capture_events=capture_events, gradient_animation=gradient_animation,
             auto_update=auto_update, style=style)
         if style is None:
@@ -983,7 +957,6 @@ class Slider(virtual.Widget):
         *,
         default: float | None = None,
         command: collections.abc.Callable[[float], typing.Any] | None = None,
-        name: str | None = None,
         anchor: typing.Literal["n", "e", "w", "s", "nw", "ne", "sw", "se", "center"] = "nw",
         capture_events: bool | None = None,
         gradient_animation: bool | None = None,
@@ -996,7 +969,6 @@ class Slider(virtual.Widget):
         * `size`: size of the widget
         * `default`: default value of the widget
         * `command`: a function that is triggered when the button is pressed
-        * `name`: name of the widget
         * `anchor`: anchor of the widget
         * `capture_events`: wether detect another widget under the widget
         * `gradient_animation`: wether enable gradient_animation
@@ -1006,7 +978,7 @@ class Slider(virtual.Widget):
         self.value: float = 0
         self.command = command
         virtual.Widget.__init__(
-            self, master, position, size, name=name, anchor=anchor,
+            self, master, position, size, anchor=anchor,
             capture_events=capture_events, gradient_animation=gradient_animation,
             auto_update=auto_update, style=style)
         if style is None:
@@ -1072,7 +1044,6 @@ class SegmentedButton(virtual.Widget):
         command: collections.abc.Callable[[int | None], typing.Any] | None = None,
         image: tuple[enhanced.PhotoImage | None, ...] = (),
         layout: typing.Literal["horizontal", "vertical"] = "horizontal",
-        name: str | None = None,
         anchor: typing.Literal["n", "e", "w", "s", "nw", "ne", "sw", "se", "center"] = "nw",
         capture_events: bool | None = None,
         gradient_animation: bool | None = None,
@@ -1095,7 +1066,6 @@ class SegmentedButton(virtual.Widget):
         * `command`: a function that is triggered when the button is pressed
         * `image`: image of the widget
         * `layout`: layout mode of the widget
-        * `name`: name of the widget
         * `anchor`: anchor of the widget
         * `capture_events`: wether detect another widget under the widget
         * `gradient_animation`: wether enable gradient_animation
@@ -1119,7 +1089,7 @@ class SegmentedButton(virtual.Widget):
         else:
             total_size = max(widths) + 10, sum(heights) + length*5 + 5
         virtual.Widget.__init__(
-            self, master, position, total_size, name=name, anchor=anchor,
+            self, master, position, total_size, anchor=anchor,
             capture_events=capture_events, gradient_animation=gradient_animation,
             auto_update=auto_update, style=style)
         if style is None:
@@ -1182,7 +1152,6 @@ class SpinBox(virtual.Widget):
         default: str | None = None,
         command: collections.abc.Callable[[bool], typing.Any] | None = None,
         image: enhanced.PhotoImage | None = None,
-        name: str | None = None,
         anchor: typing.Literal["n", "e", "w", "s", "nw", "ne", "sw", "se", "center"] = "nw",
         capture_events: bool | None = None,
         gradient_animation: bool | None = None,
@@ -1208,7 +1177,6 @@ class SpinBox(virtual.Widget):
         * `default`: default value of the widget
         * `command`: a function that is triggered when the button is pressed
         * `image`: image of the widget
-        * `name`: name of the widget
         * `anchor`: anchor of the widget
         * `capture_events`: wether detect another widget under the widget
         * `gradient_animation`: wether enable gradient_animation
@@ -1219,7 +1187,7 @@ class SpinBox(virtual.Widget):
             size = 200, utility.get_text_size(
                 "", fontsize, family, weight=weight, slant=slant, padding=6, master=master)[1]
         virtual.Widget.__init__(
-            self, master, position, size, name=name, anchor=anchor,
+            self, master, position, size, anchor=anchor,
             capture_events=capture_events, gradient_animation=gradient_animation,
             auto_update=auto_update, style=style)
         h = size[1]/2 - 6
@@ -1295,7 +1263,6 @@ class OptionButton(virtual.Widget):
         default: int | None = None,
         command: collections.abc.Callable[[int | None], typing.Any] | None = None,
         image: tuple[enhanced.PhotoImage | None, ...] = (),
-        name: str | None = None,
         anchor: typing.Literal["n", "e", "w", "s", "nw", "ne", "sw", "se", "center"] = "nw",
         align: typing.Literal["up", "center", "down"] = "center",
         capture_events: bool | None = None,
@@ -1318,7 +1285,6 @@ class OptionButton(virtual.Widget):
         * `default`: default value of the widget
         * `command`: a function that is triggered when the button is pressed
         * `image`: image of the widget
-        * `name`: name of the widget
         * `anchor`: anchor of the widget
         * `align`: align of the widget
         * `capture_events`: wether detect another widget under the widget
@@ -1331,7 +1297,7 @@ class OptionButton(virtual.Widget):
                           slant=slant, padding=6, master=master) for t in (list(text) + [""]))[-1]
         self.text = text
         virtual.Widget.__init__(
-            self, master, position, size, name=name, anchor=anchor,
+            self, master, position, size, anchor=anchor,
             capture_events=capture_events, gradient_animation=gradient_animation,
             auto_update=auto_update, style=style)
         if style is None:
@@ -1408,7 +1374,6 @@ class ComboBox(virtual.Widget):
         default: int | None = None,
         command: collections.abc.Callable[[int | None], typing.Any] | None = None,
         image: tuple[enhanced.PhotoImage | None, ...] = (),
-        name: str | None = None,
         anchor: typing.Literal["n", "e", "w", "s", "nw", "ne", "sw", "se", "center"] = "nw",
         align: typing.Literal["up", "down"] = "down",
         capture_events: bool | None = None,
@@ -1431,7 +1396,6 @@ class ComboBox(virtual.Widget):
         * `default`: default value of the widget
         * `command`: a function that is triggered when the button is pressed
         * `image`: image of the widget
-        * `name`: name of the widget
         * `anchor`: anchor of the widget
         * `align`: align of the widget
         * `capture_events`: wether detect another widget under the widget
@@ -1445,7 +1409,7 @@ class ComboBox(virtual.Widget):
             size = size[0] + size[1] - 10, size[1]
         self.text = text
         virtual.Widget.__init__(
-            self, master, position, size, name=name, anchor=anchor,
+            self, master, position, size, anchor=anchor,
             capture_events=capture_events, gradient_animation=gradient_animation,
             auto_update=auto_update, style=style)
         h = size[1] - 10
@@ -1516,7 +1480,6 @@ class Spinner(virtual.Widget):
         command: collections.abc.Callable[[float], typing.Any] | None = None,
         widths: tuple[int, int] | None = None,
         mode: typing.Literal["determinate", "indeterminate"] = "determinate",
-        name: str | None = None,
         anchor: typing.Literal["n", "e", "w", "s", "nw", "ne", "sw", "se", "center"] = "nw",
         capture_events: bool | None = None,
         gradient_animation: bool | None = None,
@@ -1531,7 +1494,6 @@ class Spinner(virtual.Widget):
         * `command`: a function that is triggered when the progress of progress bar is 100%
         * `widths`: width of the outside ring and inside ring
         * `mode`: mode of the Spinner
-        * `name`: name of the widget
         * `anchor`: anchor of the widget
         * `capture_events`: wether detect another widget under the widget
         * `gradient_animation`: wether enable gradient_animation
@@ -1540,7 +1502,7 @@ class Spinner(virtual.Widget):
         """
         self.value: float = 0.
         virtual.Widget.__init__(
-            self, master, position, size, name=name, anchor=anchor,
+            self, master, position, size, anchor=anchor,
             capture_events=capture_events, gradient_animation=gradient_animation,
             auto_update=auto_update, style=style)
         if style is None:
@@ -1609,7 +1571,6 @@ class Tooltip(virtual.Widget):
         underline: bool = False,
         overstrike: bool = False,
         justify: typing.Literal["left", "center", "right"] = "left",
-        name: str | None = None,
         gradient_animation: bool | None = None,
         auto_update: bool | None = None,
         style: type[virtual.Style] | None = None,
@@ -1627,7 +1588,6 @@ class Tooltip(virtual.Widget):
         * `underline`: whether the text is underline
         * `overstrike`: whether the text is overstrike
         * `justify`: justify mode of the text
-        * `name`: name of the widget
         * `gradient_animation`: wether enable gradient_animation
         * `auto_update`: whether the theme manager update it automatically
         * `style`: style of the widget
@@ -1643,7 +1603,7 @@ class Tooltip(virtual.Widget):
             case "right": position[0] += widget.size[0]/2 + size[0]/2 + padding
             case "left":  position[0] -= widget.size[0]/2 + size[0]/2 + padding
         virtual.Widget.__init__(
-            self, widget.master, position, size, name=name,
+            self, widget.master, position, size,
             capture_events=False, gradient_animation=gradient_animation,
             anchor="center", auto_update=auto_update, style=style)
         if style is None:
