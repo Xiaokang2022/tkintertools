@@ -206,7 +206,7 @@ def customize_window(
     if hPyT is not None:
         if hide_title_bar is not None:
             if hide_title_bar:
-                hPyT.title_bar.hide(window)
+                hPyT.title_bar.hide(window, no_span=True)
             else:
                 hPyT.title_bar.unhide(window)
         if hide_button is not None:
