@@ -955,6 +955,8 @@ class Widget:
                 self.state_before_disabled = self.state
 
             for element in self.elements:
+                if isinstance(element, Image):  # No style for Image
+                    continue
                 self.style.get_disabled_style(element=element)
 
             self.update("disabled", gradient_animation=True, nested=False)
