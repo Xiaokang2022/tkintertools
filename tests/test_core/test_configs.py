@@ -50,7 +50,7 @@ class TestFont(unittest.TestCase):
             self.assertEqual(configs.Font.get_default_family(), "Microsoft YaHei")
 
         with unittest.mock.patch('platform.system', return_value='Darwin'):
-            self.assertEqual(configs.Font.get_default_family(), "PingFang SC")
+            self.assertEqual(configs.Font.get_default_family(), "SF Pro")
 
         with unittest.mock.patch('platform.system', return_value='Linux'):
             self.assertEqual(configs.Font.get_default_family(), "Noto Sans")

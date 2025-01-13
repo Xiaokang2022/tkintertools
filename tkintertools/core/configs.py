@@ -84,7 +84,7 @@ class Font:
         """Get the default font family."""
         match platform.system():
             case "Windows": return "Microsoft YaHei"
-            case "Darwin": return "PingFang SC"
+            case "Darwin": return "SF Pro"
             case _: return "Noto Sans"
 
 
