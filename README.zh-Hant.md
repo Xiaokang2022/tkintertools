@@ -7,6 +7,8 @@
 
 <p align="center"><a href="README.md">English</a> · <a href="README.zh-Hans.md">简体中文</a> · 繁體中文</p>
 
+<p align="center"><a title="官方網站" href="https://xiaokang2022.github.io/tkintertools/">https://xiaokang2022.github.io/tkintertools/</a></p>
+
 <p align="center">
 一個基於 <code>tkinter</code> 且控件都由 <code>Canvas</code> 繪製的羽量級 UI 框架
 </p>
@@ -43,15 +45,15 @@
 
 用以下命令進行安裝：
 
-```bash
-pip install tkintertools[recommended]==3.0.0rc5
+```shell
+pip install tkintertools==3.0.0rc6
 ```
 
 ### 🛠️ 依賴包
 
 下面是該項目唯一必須需要的依賴包：
 
-* [`typing_extensions`](https://github.com/python/typing_extensions): 提供額外的類型提示
+* [`typing-extensions`](https://github.com/python/typing_extensions): 提供額外的類型提示
 
 ### 🎨 可選包
 
@@ -63,10 +65,10 @@ pip install tkintertools[recommended]==3.0.0rc5
 * [`hPyT`](https://github.com/Zingzy/hPyT): 提供更多 Windows 系統窗口的配置選項
 * [`win32material`](https://github.com/littlewhitecloud/win32style): 提供更多 Windows 系統窗口的配置選項
 
-用以下命令可以安裝全部的可選包：
+**推薦**，這些包都應該安裝，用以下命令可以安裝全部的可選包：
 
-```bash
-pip install tkintertools[all]==3.0.0rc5
+```shell
+pip install tkintertools[opt]==3.0.0rc6
 ```
 
 ### 🧩 擴展包
@@ -79,8 +81,8 @@ pip install tkintertools[all]==3.0.0rc5
 
 用以下命令可以安裝全部的官方擴展包：
 
-```bash
-pip install tkintertools[extension]==3.0.0rc5
+```shell
+pip install tkintertools[ext]==3.0.0rc6
 ```
 
 ## 👀 更多
@@ -152,9 +154,7 @@ pip install tkintertools[extension]==3.0.0rc5
 * 📗 貢獻指南: [*CONTRIBUTING.md*](CONTRIBUTING.md)
 * 📙 行爲準則: [*CODE_OF_CONDUCT.md*](CODE_OF_CONDUCT.md)
 * 📚 教程和文檔: [Tutorials & Documents](https://xiaokang2022.github.io/tkintertools-docs/)
-* 🌏 官方網站: [Official Website](https://xiaokang2022.github.io/tkintertools/)
 * ❤️ 贊助我們: [Sponsor](https://xiaokang2022.github.io/tkintertools/Sponsor/)
 * 🚀 存儲庫鏡像源:
-[GitHub](https://github.com/Xiaokang2022/tkintertools) |
-[GitCode](https://gitcode.com/Xiaokang2022/tkintertools) |
+[GitCode](https://gitcode.com/Xiaokang2022/tkintertools),
 [Gitee](https://gitee.com/Xiaokang2022/tkintertools)

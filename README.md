@@ -7,6 +7,8 @@
 
 <p align="center">English · <a href="README.zh-Hans.md">简体中文</a> · <a href="README.zh-Hant.md">繁體中文</a></p>
 
+<p align="center"><a title="Official Website" href="https://xiaokang2022.github.io/tkintertools/">https://xiaokang2022.github.io/tkintertools/</a></p>
+
 <p align="center">
 A lightweight UI framework based on <code>tkinter</code> with all UI drawn in <code>Canvas</code>
 </p>
@@ -43,15 +45,15 @@ A lightweight UI framework based on <code>tkinter</code> with all UI drawn in <c
 
 Install it with the following command:
 
-```bash
-pip install tkintertools[recommended]==3.0.0rc5
+```shell
+pip install tkintertools==3.0.0rc6
 ```
 
 ### 🛠️ Dependencies
 
 Here are the only dependencies that the project must need:
 
-* [`typing_extensions`](https://github.com/python/typing_extensions): provide additional type hints
+* [`typing-extensions`](https://github.com/python/typing_extensions): provide additional type hints
 
 ### 🎨 Optional
 
@@ -63,10 +65,10 @@ The following packages are optional and will make the project work without insta
 * [`hPyT`](https://github.com/Zingzy/hPyT): provide more configuration options for Windows system windows
 * [`win32material`](https://github.com/littlewhitecloud/win32style): provide more configuration options for Windows system windows
 
-You can install all the optional packages with the following command:
+**Recommended**, these packages should be installed. You can install all the optional packages with the following command:
 
-```bash
-pip install tkintertools[all]==3.0.0rc5
+```shell
+pip install tkintertools[opt]==3.0.0rc6
 ```
 
 ### 🧩 Extensions
@@ -79,8 +81,8 @@ In addition to the basic functionality, we also offer a number of extension pack
 
 You can install all the official extensions with the following command:
 
-```bash
-pip install tkintertools[extension]==3.0.0rc5
+```shell
+pip install tkintertools[ext]==3.0.0rc6
 ```
 
 ## 👀 More
@@ -149,12 +151,10 @@ Here are some links that may be helpful to you:
 * 📑 License: [*MIT License*](LICENSE.txt)
 * 📘 Changelog: [*CHANGELOG.md*](CHANGELOG.md)
 * 📕 Security Policy: [*SECURITY.md*](SECURITY.md)
-* 📗 Contribution Guide: [*CONTRIBUTING.md*](CONTRIBUTING.md)
+* 📗 Contribution Guideline: [*CONTRIBUTING.md*](CONTRIBUTING.md)
 * 📙 Code of Conduct: [*CODE_OF_CONDUCT.md*](CODE_OF_CONDUCT.md)
 * 📚 Tutorials and Documents: [Tutorials & Documents](https://xiaokang2022.github.io/tkintertools-docs/)
-* 🌏 Official Website: [Official Website](https://xiaokang2022.github.io/tkintertools/)
 * ❤️ Sponsor this Project: [Sponsor](https://xiaokang2022.github.io/tkintertools/Sponsor/)
 * 🚀 Repository Mirrors:
-[GitHub](https://github.com/Xiaokang2022/tkintertools) |
-[GitCode](https://gitcode.com/Xiaokang2022/tkintertools) |
+[GitCode](https://gitcode.com/Xiaokang2022/tkintertools),
 [Gitee](https://gitee.com/Xiaokang2022/tkintertools)

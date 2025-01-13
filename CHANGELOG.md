@@ -12,6 +12,152 @@
 > * 🟠 **Deprecated / 弃用**
 > * 🟤 **Refactored / 重构**
 
+## 🔖 `3.0.0rc6`
+
+🕓 *Release Date / 发布日期 : 2025-01-13*
+
+🟢 **Added / 新增**
+
+* Add disabled mouse cursor styles  
+新增控件禁用状态时的鼠标样式
+
+* Add function `create_smoke` to create translucent rectangular areas  
+新增函数 `create_smoke` 来创建半透明的矩形区域
+
+* Add widget virtual composition class `virtual.Style` to control the style of a widget  
+新增控件虚拟组成类 `virtual.Style` 来控制一个控件的样式
+
+* Add a new submodule `standard.styles`  
+新增模块 `standard.styles`
+
+* Add method `set` to class `Style` to quickly modify the style of the widget  
+类 `Style` 新增方法 `set` 来快速修改控件样式
+
+* Add a new experimental image element `Smoke`  
+增加了一个实验性的图片元素 `Smoke`
+
+* Add an experimental parameter `zoom_all_items` to `Canvas`  
+增加了一个实验性参数 `zoom_all_items` 给 `Canvas`
+
+* Add method `skip` to class `Animation` to skip some loops  
+增加了方法 `skip` 来跳过类 `Animation` 的一些循环
+
+* Add the ability to use the with statement to the containers  
+容器控件现在可以使用 with 语句来临时创建并删除了
+
+* Add a new theme `"acrylic2"` to function `apply_theme`  
+函数 `apply_theme` 新增配置选项 `"acrylic2"`
+
+* `Canvas` now supports automatic get the default master  
+`Canvas` 现在可以自动获取默认的父部件了
+
+* Now can specify the style to modify a theme  
+现在修改单个控件的主题时可以指定某个主题了  
+
+🟣 **Fixed / 修复**
+
+* Fix a bug where classes `Tk` and `Toplevel` may not work on Linux platforms  
+修复了类 `Tk` 和类 `Toplevel` 可能无法在 Linux 平台上无法运行的 bug
+
+* Fix class `animations.MoveWindow` may report an error when passing in certain parameters  
+修复了类 `animations.MoveWindow` 传入某些参数时可能报错的 bug
+
+* Fix a bug where widgets would flicker unexpectedly when changing colors  
+修复了修改控件颜色时会意外闪烁的 bug
+
+* Fix a bug where the animation did not completely stop when the `Element` was destroyed  
+修复了元素删除时其动画不会停止的 bug
+
+* Fix a bug where widgets don't scale their nested widgets in some cases  
+修复了控件在某些情况下不会缩放其嵌套控件的 bug
+
+* Fix a bug where the coordinates of the Image element were incorrectly detected  
+修复了元素 `Image` 的坐标被错误检测的 bug
+
+* Fix a bug where the registered theme processing event was not deleted when the root window was deleted  
+修复了当根窗口被删除时其注册的样式处理事件没有被删除的 bug
+
+* Fixed a bug where the function `get_text_size` return value is inaccurate  
+修复了函数 `get_text_size` 返回值在某些情况下不不准确的 bug
+
+* Fix a bug where deleting a `Canvas` would not automatically delete the `Widget`, resulting in the widget's animation not automatically terminating  
+修复了删除 `Canvas` 不会自动删除 `Widget` 的错误，从而导致 Widget 的动画不会自动终止
+
+* Fix a bug where style switch of `containers.Tk` does not automatically take effect on child windows  
+修复了类 `containers.Tk` 的样式切换时不会应用于子窗口的 bug
+
+* Fix a bug where some of methods of containers.Tk do not work on non-Windows systems  
+修复 `containers.Tk` 的部分方法无法在非 Windows 平台上生效的 bug
+
+* Fix the bug that function `load_font` can not take effect in some cases under the Linux platform  
+修复了某些情况下函数 `load_font` 无法在 Linux 平台上生效的 bug
+
+* Fix a bug where function `apply_theme` do not take effect when the parameter is `"mica"`  
+修复了函数 `apply_theme` 在 Windows 平台上输入参数 `"mica"` 时无效的 bug
+
+* Fix a bug where the icon of the window can not be set on the Linux platform  
+修复了在 Linux 平台下窗口的图标无法设置的 bug
+
+* A new method `group` has been added to the `RadioBox` widget to combine other radio widgets  
+控件 `RadioBox` 新增方法 `group` 来绑定其它单选框控件
+
+* Fix a bug where an error is reported when auto-calculating styles in the disabled state due to the inability to process empty strings  
+修复了控件在禁用状态自动计算状态时因传入空字符串而报错的 bug
+
+* Fix a bug where the selected part of the text box has a border  
+修复了文本框在选中文本时有一个边框的 bug
+
+* Fix a bug where Canvas initialization failed in some cases  
+修复了某些情况下画布在初始化时会失败的 bug
+
+* Fix a bug where the window size would change when the title bar is hidden  
+修复了隐藏窗口标题栏时窗口大小会改变的 bug
+
+* Fix a bug where an error is reported when disabling widgets with `Image` elements  
+修复了禁用含图片元素的控件时会报错的 bug
+
+* Fix a bug where the default font on macOS platform is not recognized by `matplotlib`  
+修复了在 macOS 平台上的默认字体无法被 `matplotlib` 包识别的 bug
+
+🔵 **Optimized / 优化**
+
+* Change some `update_idletasks` to `update` to improve speed performance  
+修改了部分 `update_idletasks` 为 `update` 来提升性能
+
+🔴 **Removed / 移除**
+
+* Removed class `Frame` and its styles  
+移除了类 `Frame` 及其样式
+
+* Removed the **original** subpackage `theme`  
+移除了**原来的**子包 `theme`
+
+🟤 **Refactored / 重构**
+
+* Refactor subpackage `color`  
+重构了子包 `color`
+
+* Refactor submodule `animation`  
+重构了子包 `animation`
+
+* Refactor submodule `configs`  
+重构了子模块 `configs`
+
+* Refactor submodule `containers`  
+重构了子模块 `containers`
+
+* Refactor style control mechanism  
+重构了样式控制机制
+
+* Refactor subpackage `style` and renamed to `theme`  
+重构子包 `style` 并重命名为 `theme`
+
+* Refactor widget `RadioButton` and renamed to `RadioBox`  
+重构控件 `RadioButton` 并重命名为 `RadioBox`
+
+* Refactor widget `CheckButton` and renamed to `CheckBox`  
+重构控件 `CheckButton` 并重命名为 `CheckBox`
+
 ## 🔖 `3.0.0rc5`
 
 🕓 *Release Date / 发布日期 : 2024-12-19*
@@ -182,7 +328,7 @@
 修复了字体为斜体或者粗体时，大小不会被正确计算，导致控件显示不正确的 bug
 
 * Fixed a bug that font loading may fail in some cases under Windows  
-修复了 Windows 系统下，部分情况下字体加载可能失败的 bug
+修复 Windows 系统下，部分情况下字体加载可能失败的 bug
 
 * Fixed a bug where the results of the functions `rgb.contrast` and `hsl.contrast` were incorrect  
 修复了函数 `rgb.contrast` 和 `hsl.contrast` 的结果不正确的 bug
@@ -232,7 +378,7 @@
 🟣 **Fixed / 修复**
 
 * Fixed a bug where widget `SegmentedButton` had incorrect function bindings  
-修复了 `SegmentedButton` 的函数绑定不正确的 bug
+修复 `SegmentedButton` 的函数绑定不正确的 bug
 
 * Fixed a bug where disabling styles would not recalculate  
 修复了禁用样式不会重复计算的 bug
@@ -241,7 +387,7 @@
 修复了字体加载函数在 Linux 操作系统上不生效的 bug
 
 * Fixed a bug where the return value of method `alpha` of class `Tk` was incorrect  
-修复了 `Tk` 的方法 `alpha` 的返回值不正确的 bug
+修复 `Tk` 的方法 `alpha` 的返回值不正确的 bug
 
 * Fixed a bug where some methods of class `Tk` were called and the window style was lost  
 修复了类 `Tk` 的某些方法被调用时会导致窗口丢失样式的 bug
@@ -364,10 +510,10 @@
 🟣 **Fixed / 修复**
 
 * Fixed a bug where `IconButton` was missing style files  
-修复了 `IconButton` 缺少样式文件的 bug
+修复 `IconButton` 缺少样式文件的 bug
 
 * Fixed a bug where the `Slider` could be activated unexpectedly when disabled  
-修复了 `Slider` 在禁用时可能会意外激活的 bug
+修复 `Slider` 在禁用时可能会意外激活的 bug
 
 * Fixed a bug where text had no effect on modifying its properties after scaling  
 修复了文本在缩放后修改其属性不起作用的 bug
@@ -989,7 +1135,7 @@ Windows 平台下新增对窗口边框颜色、标题栏背景色和标题栏前
 🟣 **Fixed / 修复**
 
 * Fixed a bug where GIFs could not be played  
-修复了 gif 动图无法播放的问题
+修复 gif 动图无法播放的问题
 
 🔵 **Optimized / 优化**
 
@@ -1194,7 +1340,7 @@ Windows 平台下新增对窗口边框颜色、标题栏背景色和标题栏前
 函数 `color` 返回值缺少符号 “#”
 
 * Fixed a bug where the canvas of the `tools_3d` submodule could not use widgets such as buttons  
-修复了 `tools_3d` 子模块的画布无法使用按钮等控件的问题
+修复 `tools_3d` 子模块的画布无法使用按钮等控件的问题
 
 * Fixed a bug where the `Switch` of the Widget class could not control the `Switch` by clicking on the inner slider  
 修复了控件类 `Switch` 点击内部滑块无法操控 `Switch` 的问题
@@ -1443,10 +1589,10 @@ Windows 平台下新增对窗口边框颜色、标题栏背景色和标题栏前
 🟣 **Fixed / 修复**
 
 * Fixed a bug where movement and rotation between points, lines, and sides in the 3D module are out of sync  
-修复了 3D 模块中的点、线与面之间移动和旋转不同步的 bug
+修复 3D 模块中的点、线与面之间移动和旋转不同步的 bug
 
 * Fixed a bug where class `Canvas_3D` in the 3D module would be invalid when passing arguments to class `Canvas` in the original `tkinter` module  
-修复了 3D 模块中的类 `Canvas_3D` 在传递原 `tkinter` 模块中的类 `Canvas` 的参数时会无效的 bug
+修复 3D 模块中的类 `Canvas_3D` 在传递原 `tkinter` 模块中的类 `Canvas` 的参数时会无效的 bug
 
 🟡 **Changed / 变更**
 
@@ -1558,7 +1704,7 @@ Windows 平台下新增对窗口边框颜色、标题栏背景色和标题栏前
 🟣 **Fixed / 修复**
 
 * Fixed a bug where the `move` function cannot move a window  
-修复了 `move` 函数无法移动窗口的 bug
+修复 `move` 函数无法移动窗口的 bug
 
 🔵 **Optimized / 优化**
 
@@ -1591,7 +1737,7 @@ Windows 平台下新增对窗口边框颜色、标题栏背景色和标题栏前
 🟣 **Fixed / 修复**
 
 * Fixed the problem of inaccurate Python version requirements. The minimum module operation requirement should be Python 3.11  
-修复了 Python 版本要求不准确的问题，模块最低运行要求应为 Python3.11
+修复 Python 版本要求不准确的问题，模块最低运行要求应为 Python3.11
 
 * Fixed the problem that the `configure` method of `_BaseWidget` cannot get the normal effect when modifying the parameter `text` to an empty string  
 修复了控件基类 `_BaseWidget` 的方法 `configure` 在将参数 `text` 修改为空字符串时无法得到正常效果的问题
@@ -1655,7 +1801,7 @@ Windows 平台下新增对窗口边框颜色、标题栏背景色和标题栏前
 🟣 **Fixed / 修复**
 
 * Fixed an incomplete parameter bug in the `moveto` method of the `Canvas` class  
-修复了 `Canvas` 类的方法 `moveto` 在参数上不完备的 bug
+修复 `Canvas` 类的方法 `moveto` 在参数上不完备的 bug
 
 * Fixed a bug that sometimes causes multiple widgets to touch at the same time  
 修复了有时候会产生多个控件同时触碰的 bug
@@ -1743,7 +1889,7 @@ Windows 平台下新增对窗口边框颜色、标题栏背景色和标题栏前
 修复了单例模式类（`Singleton`）在初始化时无法传递参数的 bug
 
 * Fixed the bug that sometimes the font parameters of `_CanvasItemId` could not be found when scaling fonts in `Canvas` class  
-修复了 `Canvas` 类在缩放字体时，有时会找不到 `_CanvasItemId` 的字体参数的 bug
+修复 `Canvas` 类在缩放字体时，有时会找不到 `_CanvasItemId` 的字体参数的 bug
 
 🟡 **Changed / 变更**
 
@@ -1778,7 +1924,7 @@ Windows 平台下新增对窗口边框颜色、标题栏背景色和标题栏前
 🟣 **Fixed / 修复**
 
 * Fixed the bug that the width and height will not change in some cases when scaling `Canvas` classes  
-修复了 `Canvas` 类缩放时，宽高在某些情况下不会改变的 bug
+修复 `Canvas` 类缩放时，宽高在某些情况下不会改变的 bug
 
 🟡 **Changed / 变更**
 
@@ -1919,7 +2065,7 @@ Windows 平台下新增对窗口边框颜色、标题栏背景色和标题栏前
 | Version / 版本 | Release Date / 发布日期 |                              Description / 描述                              |
 | :------------: | :---------------------: | :--------------------------------------------------------------------------: |
 |    `2.5.0`     |       2022-11-21        |               Upload the package to PyPI 🚀<br/>上传包到 PyPI 🚀               |
-|    `2.4.15`    |       2022-11-18        | Drew and uploaded the first version of the logo<br/>绘制并上次了第一版的图标 |
+|    `2.4.15`    |       2022-11-18        | Drew and uploaded the first version of the logo<br/>绘制并上传了第一版的图标 |
 |    `2.4.14`    |       2022-11-14        |                                                                              |
 |    `2.4.11`    |       2022-11-13        |                                                                              |
 |    `2.4.10`    |       2022-11-10        |                                                                              |
