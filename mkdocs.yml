@@ -6,7 +6,7 @@ edit_uri: edit/main/docs # 编辑地址
 edit_uri_template: null # 编辑地址模板（默认值）
 site_description: tkintertools 的官方网站 # 站点描述
 site_author: Xiaokang2022 # 站点作者
-copyright: <a href="#__consent">修改 Cookie 设置</a><br/>Copyright &copy; 2022-2024 Xiaokang2022 # 版权信息和 Cookie 设置
+copyright: <a href="#__consent">修改 Cookie 设置</a><br/>Copyright &copy; 2022 Xiaokang2022 # 版权信息和 Cookie 设置
 remote_branch: gh-pages # GitHub Pages 远程分支名称（默认值）
 remote_name: origin # 远程名称（默认值）
 docs_dir: docs # 文档目录（默认值）
@@ -211,7 +211,7 @@ extra: # 额外设定
   social: # 社交联系方式（页面右下角内容）
     - icon: fontawesome/brands/github
       link: https://github.com/Xiaokang2022/tkintertools/
-      name: GitHub 存储库
+      name: GitHub
     - icon: fontawesome/brands/python
       link: https://pypi.org/project/tkintertools/
       name: PyPI
