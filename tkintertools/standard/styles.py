@@ -57,7 +57,7 @@ class TextStyle(virtual.Style):
         * `theme`: the theme name, None indicates both
         * `fg`: the foreground color of the widget
 
-        states: "normal", "hover", "active"
+        states: "normal"
         """
         self._set(theme, fg, fill=-1)
         self.widget.update()
@@ -112,7 +112,7 @@ class LabelStyle(virtual.Style):
         * `bg`: the background color of the widget.
         * `ol`: the outline color of the widget.
 
-        states: "normal", "hover", "active"
+        states: "normal", "hover"
         """
         self._set(theme, fg, fill=-1)
         self._set(theme, bg, fill=0)
@@ -158,6 +158,26 @@ class ButtonStyle(LabelStyle):
             "active": {"fill": "#323232", "outline": "#3D3D3D"},
         }
     }
+
+    @typing_extensions.override
+    def set(
+        self,
+        theme: typing.Literal["light", "dark"] | None = None,
+        *,
+        fg: tuple[str | types.EllipsisType, ...] | str | None = None,
+        bg: tuple[str | types.EllipsisType, ...] | str | None = None,
+        ol: tuple[str | types.EllipsisType, ...] | str | None = None,
+    ) -> None:
+        """Set the style of the widget.
+
+        * `theme`: the theme name, None indicates both
+        * `fg`: the foreground color of the widget.
+        * `bg`: the background color of the widget.
+        * `ol`: the outline color of the widget.
+
+        states: "normal", "hover", "active"
+        """
+        LabelStyle.set(self, theme, fg=fg, bg=bg, ol=ol)
 
 
 class SwitchStyle(virtual.Style):
