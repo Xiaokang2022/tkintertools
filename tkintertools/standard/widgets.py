@@ -217,6 +217,14 @@ class Label(virtual.Widget):
             underline=underline, overstrike=overstrike, justify=justify)
         self.feature = features.LabelFeature(self)
 
+    def get(self) -> str:
+        """Get the text of the widget"""
+        return self.texts[0].get()
+
+    def set(self, text: str) -> None:
+        """Set the text of the widget"""
+        return self.texts[0].set(text)
+
 
 class Button(virtual.Widget):
     """Button widget, typically used to trigger a function"""
@@ -282,6 +290,14 @@ class Button(virtual.Widget):
             self, text=text, family=family, fontsize=fontsize, weight=weight, slant=slant,
             underline=underline, overstrike=overstrike, justify=justify)
         self.feature = features.ButtonFeature(self, command=command)
+
+    def get(self) -> str:
+        """Get the text of the widget"""
+        return self.texts[0].get()
+
+    def set(self, text: str) -> None:
+        """Set the text of the widget"""
+        return self.texts[0].set(text)
 
 
 class Switch(virtual.Widget):
@@ -944,6 +960,14 @@ class IconButton(virtual.Widget):
             weight=weight, slant=slant, underline=underline, overstrike=overstrike,
             justify=justify, anchor="w")
         self.feature = features.ButtonFeature(self, command=command)
+
+    def get(self) -> str:
+        """Get the text of the widget"""
+        return self.texts[0].get()
+
+    def set(self, text: str) -> None:
+        """Set the text of the widget"""
+        return self.texts[0].set(text)
 
 
 class Slider(virtual.Widget):
@@ -1617,6 +1641,14 @@ class Tooltip(virtual.Widget):
             underline=underline, overstrike=overstrike, justify=justify)
         widget._update_hooks.append(self._display)
         self.forget()
+
+    def get(self) -> str:
+        """Get the text of the widget"""
+        return self.texts[0].get()
+
+    def set(self, text: str) -> None:
+        """Set the text of the widget"""
+        return self.texts[0].set(text)
 
     def _display(self, state: str | None, _: bool) -> None:
         """Show or hide the tooltip"""
