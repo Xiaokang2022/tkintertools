@@ -31,11 +31,6 @@ from ..core import configs
 from ..toolbox import utility
 
 try:
-    import darkdetect
-except ImportError:
-    darkdetect = None
-
-try:
     import pywinstyles
 except ImportError:
     pywinstyles = None
@@ -49,6 +44,18 @@ try:
     import win32material
 except ImportError:
     win32material = None
+
+try:
+    if (platform.system() == "Windows"
+        and int(platform.release()) >= 10
+            and int(platform.version().rsplit('.', maxsplit=1)[1]) >= 14393):
+        # NOTE: On some Windows platforms, it is not possible to import
+        # package `darkdetect` through the regular method
+        import darkdetect._windows_detect as darkdetect
+    else:
+        import darkdetect
+except ImportError:
+    darkdetect = None
 
 _callback_events: dict[collections.abc.Callable[..., typing.Any], tuple] = {}
 """Events that are responded to when the system theme changes."""
