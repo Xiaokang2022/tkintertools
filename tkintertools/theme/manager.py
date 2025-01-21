@@ -52,8 +52,9 @@ try:
         # package `darkdetect` through the regular method
         if int(major) >= 10 and int(micro) >= 14393:
             import darkdetect._windows_detect as darkdetect
-
-    if globals().get("darkdetect") is None:
+        else:
+            import darkdetect
+    else:
         import darkdetect
 except ImportError:
     darkdetect = None
