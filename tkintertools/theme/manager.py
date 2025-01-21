@@ -46,13 +46,14 @@ except ImportError:
     win32material = None
 
 try:
-    if (platform.system() == "Windows"
-        and int(platform.release()) >= 10
-            and int(platform.version().rsplit('.', maxsplit=1)[1]) >= 14393):
+    if platform.system() == "Windows":
+        major, _, micro = platform.version().split(".")
         # NOTE: On some Windows platforms, it is not possible to import
         # package `darkdetect` through the regular method
-        import darkdetect._windows_detect as darkdetect
-    else:
+        if int(major) >= 10 and int(micro) >= 14393:
+            import darkdetect._windows_detect as darkdetect
+
+    if globals().get("darkdetect") is None:
         import darkdetect
 except ImportError:
     darkdetect = None
