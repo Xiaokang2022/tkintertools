@@ -13,7 +13,7 @@ icon: material/bookshelf
     * Version type: Dev
     * Updating status: 🟢 <font color="limegreen">OK</font>
 
-    [<small>:fontawesome-solid-paper-plane:</small> Open Link](https://xiaokang2022.github.io/tkintertools-docs/3.0/){ .md-button target="_black" }
+    [<small>:fontawesome-solid-paper-plane:</small> Open Link](https://xiaokang2022.github.io/maliang-docs/3.0/){ .md-button target="_black" }
 
 !!! info "Supports"
 
@@ -33,7 +33,7 @@ icon: material/bookshelf
     * Version type: Stable
     * Updating status: 🔴 <font color="red">Stopped</font>
 
-    [<small>:fontawesome-solid-paper-plane:</small> Open Link](https://xiaokang2022.github.io/tkintertools-docs/2.6/){ .md-button target="_black" }
+    [<small>:fontawesome-solid-paper-plane:</small> Open Link](https://xiaokang2022.github.io/maliang-docs/2.6/){ .md-button target="_black" }
 
 !!! info "Supports"
 

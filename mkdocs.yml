@@ -1,10 +1,10 @@
-site_name: tkintertools # 站点名称
-site_url: https://Xiaokang2022.github.io/tkintertools/ # 站点链接
-repo_url: https://github.com/Xiaokang2022/tkintertools # 仓库地址
-repo_name: Xiaokang2022/tkintertools # 仓库名称
+site_name: maliang # 站点名称
+site_url: https://Xiaokang2022.github.io/maliang/ # 站点链接
+repo_url: https://github.com/Xiaokang2022/maliang # 仓库地址
+repo_name: Xiaokang2022/maliang # 仓库名称
 edit_uri: edit/main/docs # 编辑地址
 edit_uri_template: null # 编辑地址模板（默认值）
-site_description: tkintertools 的官方网站 # 站点描述
+site_description: maliang 的官方网站 # 站点描述
 site_author: Xiaokang2022 # 站点作者
 copyright: <a href="#__consent">修改 Cookie 设置</a><br/>Copyright &copy; 2022 Xiaokang2022 # 版权信息和 Cookie 设置
 remote_branch: gh-pages # GitHub Pages 远程分支名称（默认值）
@@ -210,10 +210,10 @@ extra: # 额外设定
     _: _
   social: # 社交联系方式（页面右下角内容）
     - icon: fontawesome/brands/github
-      link: https://github.com/Xiaokang2022/tkintertools/
+      link: https://github.com/Xiaokang2022/maliang/
       name: GitHub
     - icon: fontawesome/brands/python
-      link: https://pypi.org/project/tkintertools/
+      link: https://pypi.org/project/maliang/
       name: PyPI
     - icon: fontawesome/brands/bilibili
       link: https://space.bilibili.com/498105668
@@ -294,7 +294,7 @@ plugins:
       enable_creation_date: true
       type: timeago
   - git-committers:
-      repository: Xiaokang2022/tkintertools
+      repository: Xiaokang2022/maliang
       branch: main
       token: !ENV GH_TOKEN # 需要自行在终端中设置临时环境变量，强烈不建议显式地在此处设置 token
       exclude_committers:
@@ -336,7 +336,7 @@ nav:
   - 官方视频:
       - videos/index.md
       - tkt 再度更新：新增播放视频的扩展包！: videos/pages/5.md
-      - 干掉 tkinter！tkintertools 大更新啦！: videos/pages/4.md
-      - tkintertools 又更新啦！: videos/pages/3.md
-      - 碾压 tkinter 的 UI 框架：tkintertools 3.0.0 正式进入 beta 公测阶段: videos/pages/2.md
+      - 干掉 tkinter！maliang 大更新啦！: videos/pages/4.md
+      - maliang 又更新啦！: videos/pages/3.md
+      - 碾压 tkinter 的 UI 框架：maliang 3.0.0 正式进入 beta 公测阶段: videos/pages/2.md
       - 这还是你记忆中的 tkinter 的程序吗？？？: videos/pages/1.md

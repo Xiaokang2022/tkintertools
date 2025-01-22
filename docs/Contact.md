@@ -10,8 +10,8 @@ icon: material/wechat
 === ":fontawesome-brands-qq:{ .middle } QQ 群"
 
     <div align="center">
-        <img src="../share.dark.jpg#only-dark" width=360 />
-        <img src="../share.light.jpg#only-light" width=360 />
+        <img src="../share.dark.png#only-dark" width=360 />
+        <img src="../share.light.png#only-light" width=360 />
     </div>
 
 === "其它"

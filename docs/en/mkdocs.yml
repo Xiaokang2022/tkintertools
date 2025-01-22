@@ -1,8 +1,8 @@
 INHERIT: ../../mkdocs.yml
 
-site_url: https://Xiaokang2022.github.io/tkintertools/en/ # 站点链接
+site_url: https://Xiaokang2022.github.io/maliang/en/ # 站点链接
 edit_uri: edit/main/docs/en/docs # 编辑地址
-site_description: Official website of tkintertools # 站点描述
+site_description: Official website of maliang # 站点描述
 copyright: <a href="#__consent">Change Cookie Settings</a><br/>Copyright &copy; 2022 Xiaokang2022 # 版权信息和 Cookie 设置
 docs_dir: docs # 文档目录（默认值）
 site_dir: ../../site/en/ # 网站目录（默认值）
@@ -43,10 +43,10 @@ extra: # 额外设定
     deprecated: Deprecated
   social: # 社交联系方式（页面右下角内容）
     - icon: fontawesome/brands/github
-      link: https://github.com/Xiaokang2022/tkintertools/
+      link: https://github.com/Xiaokang2022/maliang/
       name: GitHub
     - icon: fontawesome/brands/python
-      link: https://pypi.org/project/tkintertools/
+      link: https://pypi.org/project/maliang/
       name: PyPI
     - icon: fontawesome/brands/bilibili
       link: https://space.bilibili.com/498105668
@@ -114,7 +114,7 @@ nav:
   - Videos:
       - videos/index.md
       - tkt 再度更新：新增播放视频的扩展包！: videos/pages/5.md
-      - 干掉 tkinter！tkintertools 大更新啦！: videos/pages/4.md
-      - tkintertools 又更新啦！: videos/pages/3.md
-      - 碾压 tkinter 的 UI 框架：tkintertools 3.0.0 正式进入 beta 公测阶段: videos/pages/2.md
+      - 干掉 tkinter！maliang 大更新啦！: videos/pages/4.md
+      - maliang 又更新啦！: videos/pages/3.md
+      - 碾压 tkinter 的 UI 框架：maliang 3.0.0 正式进入 beta 公测阶段: videos/pages/2.md
       - 这还是你记忆中的 tkinter 的程序吗？？？: videos/pages/1.md
