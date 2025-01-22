@@ -63,7 +63,7 @@ The following packages are optional and will make the project work without insta
 * [`pillow`](https://github.com/python-pillow/Pillow): provide more types of images and optimize image scaling speed
 * [`pywinstyles`](https://github.com/Akascape/py-window-styles): provide some window effects for Windows systems
 * [`hPyT`](https://github.com/Zingzy/hPyT): provide more configuration options for Windows system windows
-* [`win32material`](https://github.com/littlewhitecloud/win32style): provide more configuration options for Windows system windows
+* [`win32material`](https://github.com/littlewhitecloud/win32material): provide more configuration options for Windows system windows
 
 **Recommended**, these packages should be installed. You can install all the optional packages with the following command:
 
