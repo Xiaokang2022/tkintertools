@@ -77,7 +77,7 @@ pip install maliang[opt]
 
 * [`maliang-mpl`](https://github.com/Xiaokang2022/maliang-mpl): 提供 `matplotlib` 包的相关支持
 * [`maliang-media`](https://github.com/Xiaokang2022/maliang-media): 提供媒体文件的相关支持
-* [`maliang-3d`](https://github.com/Xiaokang2022/maliang-3d): 提供简单 3D 绘图的相关支持
+* [`maliang-three`](https://github.com/Xiaokang2022/maliang-three): 提供简单 3D 绘图的相关支持
 
 用以下命令可以安装全部的官方扩展包：
 

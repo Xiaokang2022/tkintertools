@@ -77,7 +77,7 @@ In addition to the basic functionality, we also offer a number of extension pack
 
 * [`maliang-mpl`](https://github.com/Xiaokang2022/maliang-mpl): support for `matplotlib`
 * [`maliang-media`](https://github.com/Xiaokang2022/maliang-media): support for media files
-* [`maliang-3d`](https://github.com/Xiaokang2022/maliang-3d): support for simple 3D drawings
+* [`maliang-three`](https://github.com/Xiaokang2022/maliang-three): support for simple 3D drawings
 
 You can install all the official extensions with the following command:
 

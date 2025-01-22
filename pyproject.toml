@@ -46,7 +46,7 @@ opt = [
 ext = [
     "maliang-mpl>=1.2.3",
     "maliang-media>=1.1.3",
-    "maliang-3d>=1.0.3",
+    "maliang-three>=1.0.3",
 ]
 
 [project.urls]
