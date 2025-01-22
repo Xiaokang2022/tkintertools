@@ -98,6 +98,30 @@ class ButtonFeature(virtual.Feature):
         return flag
 
 
+class IconOnlyFeature(ButtonFeature):
+    """Feature of Icon Only Button"""
+
+    def _motion(self, event: tkinter.Event) -> bool:
+        if flag := self.widget.images[0].detect(event.x, event.y):
+            cursor = utility.fix_cursor(
+                "disabled" if self.widget.state == "disabled" else "hand2")
+            self.widget.master.trigger_config.update(cursor=cursor)
+            if self.widget.state == "normal":
+                self.widget.update("hover")
+        else:
+            if self.widget.state != "normal":
+                self.widget.update("normal")
+        return flag
+
+    def _button_release_1(self, event: tkinter.Event) -> bool:
+        if flag := self.widget.images[0].detect(event.x, event.y):
+            if self.widget.state == "active":
+                self.widget.update("hover")
+                if self.command is not None:
+                    self.command(*self._args)
+        return flag
+
+
 class Underline(ButtonFeature):
     """Feature of underline"""
 
