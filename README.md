@@ -1,5 +1,5 @@
 > [!IMPORTANT]  
-> According to the results of the community [vote](https://github.com/Xiaokang2022/maliang/discussions/41), this project will be **RENAMED** when it is released!
+> This project was originally named `tkintertools` and has been renamed to `maliang` after a community [vote](https://github.com/Xiaokang2022/maliang/discussions/41)! 🎉
 
 <h1 align="center">maliang</h1>
 
@@ -28,7 +28,7 @@ A lightweight UI framework based on <code>tkinter</code> with all UI drawn in <c
 </p>
 
 <p align="center">
-<a href="https://github.com/Xiaokang2022/maliang/pulse"><img src="https://repobeats.axiom.co/api/embed/ab8fae686a5a96f91fa71c40c53c189310924f5e.svg" /></a>
+<a href="https://github.com/Xiaokang2022/maliang/pulse"><img src="https://repobeats.axiom.co/api/embed/b4832e0ac90defe97c7e11e0c9e926793ec7135c.svg" /></a>
 </p>
 
 <p align="center">
@@ -46,7 +46,7 @@ A lightweight UI framework based on <code>tkinter</code> with all UI drawn in <c
 Install it with the following command:
 
 ```shell
-pip install maliang==3.0.0rc6
+pip install maliang
 ```
 
 ### 🛠️ Dependencies
@@ -68,7 +68,7 @@ The following packages are optional and will make the project work without insta
 **Recommended**, these packages should be installed. You can install all the optional packages with the following command:
 
 ```shell
-pip install maliang[opt]==3.0.0rc6
+pip install maliang[opt]
 ```
 
 ### 🧩 Extensions
@@ -82,7 +82,7 @@ In addition to the basic functionality, we also offer a number of extension pack
 You can install all the official extensions with the following command:
 
 ```shell
-pip install maliang[ext]==3.0.0rc6
+pip install maliang[ext]
 ```
 
 ## 👀 More
@@ -156,5 +156,5 @@ Here are some links that may be helpful to you:
 * 📚 Tutorials and Documents: [Tutorials & Documents](https://xiaokang2022.github.io/maliang-docs/)
 * ❤️ Sponsor this Project: [Sponsor](https://xiaokang2022.github.io/maliang/Sponsor/)
 * 🚀 Repository Mirrors:
-[GitCode](https://gitcode.com/Xiaokang2022/maliang),
-[Gitee](https://gitee.com/Xiaokang2022/maliang)
+[GitCode](https://gitcode.com/Xiaokang2022/tkintertools),
+[Gitee](https://gitee.com/Xiaokang2022/tkintertools)

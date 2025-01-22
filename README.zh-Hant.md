@@ -1,5 +1,5 @@
 > [!IMPORTANT]  
-> 根據社區[投票](https://github.com/Xiaokang2022/maliang/discussions/41)結果，本項目將在正式版的時候**重命名**！
+> 本項目原名為 `tkintertools`，經社區[投票](https://github.com/Xiaokang2022/maliang/discussions/41)，已重新命名為 `maliang`！🎉
 
 <h1 align="center">maliang</h1>
 
@@ -28,7 +28,7 @@
 </p>
 
 <p align="center">
-<a href="https://github.com/Xiaokang2022/maliang/pulse"><img src="https://repobeats.axiom.co/api/embed/ab8fae686a5a96f91fa71c40c53c189310924f5e.svg" /></a>
+<a href="https://github.com/Xiaokang2022/maliang/pulse"><img src="https://repobeats.axiom.co/api/embed/b4832e0ac90defe97c7e11e0c9e926793ec7135c.svg" /></a>
 </p>
 
 <p align="center">
@@ -46,7 +46,7 @@
 用以下命令進行安裝：
 
 ```shell
-pip install maliang==3.0.0rc6
+pip install maliang
 ```
 
 ### 🛠️ 依賴包
@@ -68,7 +68,7 @@ pip install maliang==3.0.0rc6
 **推薦**，這些包都應該安裝，用以下命令可以安裝全部的可選包：
 
 ```shell
-pip install maliang[opt]==3.0.0rc6
+pip install maliang[opt]
 ```
 
 ### 🧩 擴展包
@@ -82,7 +82,7 @@ pip install maliang[opt]==3.0.0rc6
 用以下命令可以安裝全部的官方擴展包：
 
 ```shell
-pip install maliang[ext]==3.0.0rc6
+pip install maliang[ext]
 ```
 
 ## 👀 更多
@@ -156,5 +156,5 @@ pip install maliang[ext]==3.0.0rc6
 * 📚 教程和文檔: [Tutorials & Documents](https://xiaokang2022.github.io/maliang-docs/)
 * ❤️ 贊助我們: [Sponsor](https://xiaokang2022.github.io/maliang/Sponsor/)
 * 🚀 存儲庫鏡像源:
-[GitCode](https://gitcode.com/Xiaokang2022/maliang),
-[Gitee](https://gitee.com/Xiaokang2022/maliang)
+[GitCode](https://gitcode.com/Xiaokang2022/tkintertools),
+[Gitee](https://gitee.com/Xiaokang2022/tkintertools)
