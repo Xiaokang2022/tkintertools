@@ -3,7 +3,7 @@
 import unittest
 import unittest.mock
 
-from tkintertools.core import configs
+from maliang.core import configs
 
 
 class TestEnv(unittest.TestCase):

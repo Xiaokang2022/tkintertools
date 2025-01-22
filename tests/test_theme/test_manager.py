@@ -7,8 +7,8 @@ import platform
 import unittest
 import unittest.mock
 
-from tkintertools.core import configs, containers
-from tkintertools.theme import manager
+from maliang.core import configs, containers
+from maliang.theme import manager
 
 
 class TestCase(unittest.TestCase):

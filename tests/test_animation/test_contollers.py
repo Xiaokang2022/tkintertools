@@ -3,7 +3,7 @@
 import math
 import unittest
 
-from tkintertools.animation import controllers
+from maliang.animation import controllers
 
 
 class TestCase(unittest.TestCase):

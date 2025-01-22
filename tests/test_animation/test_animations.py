@@ -3,9 +3,9 @@
 import tkinter
 import unittest
 
-from tkintertools.animation import animations
-from tkintertools.core import containers
-from tkintertools.standard import widgets
+from maliang.animation import animations
+from maliang.core import containers
+from maliang.standard import widgets
 
 
 class TestAnimation(unittest.TestCase):

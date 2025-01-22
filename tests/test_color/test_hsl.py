@@ -3,7 +3,7 @@
 import math
 import unittest
 
-from tkintertools.color import hsl
+from maliang.color import hsl
 
 
 class TestCase(unittest.TestCase):

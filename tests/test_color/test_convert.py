@@ -4,7 +4,7 @@ import colorsys
 import tkinter
 import unittest
 
-from tkintertools.color import convert
+from maliang.color import convert
 
 
 class TestCase(unittest.TestCase):

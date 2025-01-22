@@ -9,9 +9,9 @@ import tkinter
 import unittest
 import unittest.mock
 
-import tkintertools
-from tkintertools.core import configs, containers
-from tkintertools.toolbox import utility
+import maliang
+from maliang.core import configs, containers
+from maliang.toolbox import utility
 
 
 class TestTrigger(unittest.TestCase):
@@ -85,7 +85,7 @@ class TestCase(unittest.TestCase):
         self.assertEqual(utility.get_text_size("", 20, "Fira Code", padding=5), (12, 34))
         self.assertEqual(utility.get_text_size(":)"), utility.get_text_size(":)", configs.Font.size, configs.Font.family))
 
-        widget = tkintertools.Button(self.cv, (0, 0))
+        widget = maliang.Button(self.cv, (0, 0))
         self.assertEqual(utility.get_text_size("", 20, "Fira Code", master=widget), (2, 24))
 
     def test_fix_cursor(self) -> None:

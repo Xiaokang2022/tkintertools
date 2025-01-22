@@ -5,8 +5,8 @@ import pathlib
 import unittest
 import unittest.mock
 
-from tkintertools.core import containers
-from tkintertools.toolbox import enhanced
+from maliang.core import containers
+from maliang.toolbox import enhanced
 
 
 class TestPhotoImage(unittest.TestCase):

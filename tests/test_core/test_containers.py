@@ -7,9 +7,9 @@ import tkinter
 import unittest
 import unittest.mock
 
-from tkintertools.core import containers
-from tkintertools.standard import widgets
-from tkintertools.toolbox import enhanced
+from maliang.core import containers
+from maliang.standard import widgets
+from maliang.toolbox import enhanced
 
 
 class TestTk(unittest.TestCase):
@@ -122,7 +122,7 @@ class TestTk(unittest.TestCase):
                 tk.update()
                 tk._zoom()
 
-    @unittest.mock.patch("tkintertools.core.containers.Tk.theme")
+    @unittest.mock.patch("maliang.core.containers.Tk.theme")
     def test_wrap_method(self, mock_theme: unittest.mock.Mock) -> None:
         with containers.Tk() as tk:
             tk._wrap_method("wm_resizable")
@@ -208,7 +208,7 @@ class TestCanvas(unittest.TestCase):
     def test_zoom(self) -> None:
         with containers.Tk() as tk:
             with containers.Canvas(tk, free_anchor=True) as cv:
-                with unittest.mock.patch("tkintertools.core.containers.Canvas.winfo_viewable", return_value=True):
+                with unittest.mock.patch("maliang.core.containers.Canvas.winfo_viewable", return_value=True):
                     cv.place(width=100, height=100)
                     cv._initialization()
                     cv.zoom()

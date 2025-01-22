@@ -2,7 +2,7 @@
 
 import unittest
 
-from tkintertools.color import rgb
+from maliang.color import rgb
 
 
 class TestCase(unittest.TestCase):
