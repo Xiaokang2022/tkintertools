@@ -325,7 +325,7 @@ class Tk(tkinter.Tk, Misc):
 
             * `value`: indicate whether the window is transparent
 
-            This method only works on macOS and OS X!
+            This method only works on macOS!
             """
             result = self.wm_attributes("-transparent", value)
             return None if result == "" else result
