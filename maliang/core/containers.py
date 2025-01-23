@@ -289,7 +289,7 @@ class Tk(tkinter.Tk, Misc):
 
         @_fixed_theme
         def toolwindow(self, value: bool | None = True) -> bool | None:
-            """Set or get whether the window is tool-window
+            """Set or get whether the window is tool-window.
 
             * `value`: indicate whether the window is tool-window
 
@@ -299,7 +299,7 @@ class Tk(tkinter.Tk, Misc):
             return None if result == "" else bool(result)
 
         def transparentcolor(self, value: str | None = None) -> str | None:
-            """Set or get the penetration color of the window
+            """Set or get the penetration color of the window.
 
             * `value`: the penetration color of the window
 
@@ -311,7 +311,7 @@ class Tk(tkinter.Tk, Misc):
     elif platform.system() == "Darwin":
 
         def modified(self, value: bool | None = None) -> bool | None:
-            """Set or get whether the window is modified
+            """Set or get whether the window is modified.
 
             * `value`: indicate whether the window is modified
 
@@ -321,7 +321,7 @@ class Tk(tkinter.Tk, Misc):
             return None if result == "" else bool(result)
 
         def transparent(self, value: bool | None = None) -> bool | None:
-            """Set or get whether the window is transparent
+            """Set or get whether the window is transparent.
 
             * `value`: indicate whether the window is transparent
 
