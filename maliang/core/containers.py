@@ -307,10 +307,10 @@ class Tk(tkinter.Tk, Misc):
             """
             result = self.wm_attributes("-transparentcolor", value)
             return None if result == "" else result
-    
+
     elif platform.system() == "Darwin":
 
-        def modified(self, value: int | None = None) -> int | None:
+        def modified(self, value: bool | None = None) -> bool | None:
             """Set or get whether the window is modified
 
             * `value`: indicate whether the window is modified
@@ -318,9 +318,9 @@ class Tk(tkinter.Tk, Misc):
             This method only works on macOS!
             """
             result = self.wm_attributes("-modified", value)
-            return None if result == 0 else result
+            return None if result == "" else bool(result)
 
-        def transparent(self, value: int | None = None) -> int | None:
+        def transparent(self, value: bool | None = None) -> bool | None:
             """Set or get whether the window is transparent
 
             * `value`: indicate whether the window is transparent
@@ -328,7 +328,7 @@ class Tk(tkinter.Tk, Misc):
             This method only works on macOS!
             """
             result = self.wm_attributes("-transparent", value)
-            return None if result == 0 else result
+            return None if result == "" else bool(result)
 
     @typing_extensions.override
     def destroy(self) -> None:
