@@ -63,7 +63,7 @@ pip install maliang
 * [`pillow`](https://github.com/python-pillow/Pillow): 提供更多類型圖片的使用及優化圖片縮放速度
 * [`pywinstyles`](https://github.com/Akascape/py-window-styles): 提供一些 Windows 系統的窗口效果
 * [`hPyT`](https://github.com/Zingzy/hPyT): 提供更多 Windows 系統窗口的配置選項
-* [`win32material`](https://github.com/littlewhitecloud/win32style): 提供更多 Windows 系統窗口的配置選項
+* [`win32material`](https://github.com/littlewhitecloud/win32material): 提供更多 Windows 系統窗口的配置選項
 
 **推薦**，這些包都應該安裝，用以下命令可以安裝全部的可選包：
 
