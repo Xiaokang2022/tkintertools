@@ -15,7 +15,7 @@ body:
       description: |
         Link to any documentation or examples that you are referencing.  
         链接到您正在引用的任何文档或示例。
-      placeholder: ex. https://example.com
+      placeholder: e.g. https://example.com
     validations:
       required: false
   - type: textarea
@@ -42,7 +42,7 @@ body:
       description: |
         How can we get in touch with you if we need more info?  
         如果需要更多信息，我们如何与您取得联系？
-      placeholder: ex. email@example.com
+      placeholder: e.g. email@example.com
     validations:
       required: false
   - type: checkboxes

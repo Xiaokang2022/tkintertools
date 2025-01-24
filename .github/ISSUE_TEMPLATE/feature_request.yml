@@ -32,7 +32,7 @@ body:
       description: |
         How can we get in touch with you if we need more info?  
         如果需要更多信息，我们如何与您取得联系？
-      placeholder: ex. email@example.com
+      placeholder: e.g. email@example.com
     validations:
       required: false
   - type: checkboxes

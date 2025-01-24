@@ -39,9 +39,6 @@ checkboxes and mark it with "[ ]" as "[X]".
 - [ ] The PR doesn't duplicate another PR which is already open
 <!-- 这个 PR 没有重复已经打开的另一个 PR -->
 
-- [ ] `"closes #0000"` is in the body of the PR description to [link the related issue](https://docs.github.com/en/issues/tracking-your-work-with-issues/linking-a-pull-request-to-an-issue)
-<!-- `"closes #0000"` 在 PR 描述的正文中来[链接相关议题](https://docs.github.com/zh/issues/tracking-your-work-with-issues/linking-a-pull-request-to-an-issue) -->
-
 - [ ] New or changed code has been tested
 <!-- 新的或更改的代码已测试 -->
 
