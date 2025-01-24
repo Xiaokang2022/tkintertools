@@ -1357,6 +1357,18 @@ class OptionButton(virtual.Widget):
 
     def _open_options(self) -> None:
         """Open the options"""
+        self.master.widgets.remove(self._segmented_button)
+        self.master.widgets.append(self._segmented_button)
+        for element in self._segmented_button.elements:
+            for item in element.items:
+                self.master.lift(item)
+        for widget in self._segmented_button.widgets:
+            self.master.widgets.remove(widget)
+            self.master.widgets.append(widget)
+            for element in widget.elements:
+                for item in element.items:
+                    self.master.lift(item)
+
         self._segmented_button.forget(False)
 
     def _close_options(self, index: int | None = None) -> None:
@@ -1470,6 +1482,18 @@ class ComboBox(virtual.Widget):
 
     def _open_options(self) -> None:
         """Open the options"""
+        self.master.widgets.remove(self._segmented_button)
+        self.master.widgets.append(self._segmented_button)
+        for element in self._segmented_button.elements:
+            for item in element.items:
+                self.master.lift(item)
+        for widget in self._segmented_button.widgets:
+            self.master.widgets.remove(widget)
+            self.master.widgets.append(widget)
+            for element in widget.elements:
+                for item in element.items:
+                    self.master.lift(item)
+
         self._segmented_button.forget(False)
 
     def _close_options(self, index: int | None = None) -> None:
