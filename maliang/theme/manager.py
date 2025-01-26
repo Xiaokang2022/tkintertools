@@ -21,6 +21,7 @@ __all__ = [
 import collections.abc
 import ctypes.wintypes
 import platform
+import sys
 import threading
 import tkinter
 import traceback
@@ -46,7 +47,7 @@ except ImportError:
     win32material = None
 
 try:
-    if platform.system() == "Windows":
+    if sys.platform == "win32":
         major, _, micro = platform.version().split(".")
         # NOTE: On some Windows platforms, it is not possible to import
         # package `darkdetect` through the regular method

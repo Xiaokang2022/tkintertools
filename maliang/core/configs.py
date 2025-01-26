@@ -17,6 +17,7 @@ __all__ = [
 import ctypes
 import math
 import platform
+import sys
 import tkinter
 import typing
 
@@ -58,7 +59,7 @@ class Env:
     @staticmethod
     def get_default_system() -> str:
         """Get the system of environment."""
-        if platform.system() == "Windows":
+        if sys.platform == "win32":
             # If Python version is 3.10, the function below gets an error result
             # SYSTEM = f"Windows{platform.win32_ver()[0]}"
             if int(platform.win32_ver()[1].split(".")[-1]) >= 22000:
@@ -82,10 +83,11 @@ class Font:
     @staticmethod
     def get_default_family() -> str:
         """Get the default font family."""
-        match platform.system():
-            case "Windows": return "Microsoft YaHei"
-            case "Darwin": return "SF Pro"
-            case _: return "Noto Sans"
+        if sys.platform == "win32":
+            return "Microsoft YaHei"
+        if sys.platform == "darwin":
+            return "SF Pro"
+        return "Noto Sans"
 
 
 class Constant:

@@ -18,6 +18,7 @@ import ctypes
 import os
 import platform
 import shutil
+import sys
 import tkinter
 import tkinter.font
 import traceback
@@ -125,7 +126,7 @@ def load_font(
     This function is referenced from `customtkinter.FontManager.load_font`,
     CustomTkinter: https://github.com/TomSchimansky/CustomTkinter.
     """
-    if platform.system() == "Windows":
+    if sys.platform == "win32":
         if isinstance(font_path, str):
             path_buffer = ctypes.create_unicode_buffer(font_path)
             add_font_resource_ex = ctypes.windll.gdi32.AddFontResourceExW
@@ -139,7 +140,7 @@ def load_font(
 
         return bool(min(num_fonts_added, 1))
 
-    if platform.system() == "Linux":
+    if sys.platform == "linux":
         if isinstance(font_path, bytes):
             font_path = font_path.decode()
 

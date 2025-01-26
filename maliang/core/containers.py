@@ -18,7 +18,7 @@ __all__ = [
 import abc
 import collections.abc
 import functools
-import platform
+import sys
 import tkinter
 import tkinter.font
 import traceback
@@ -183,7 +183,7 @@ class Tk(tkinter.Tk, Misc):
         self.update()
         self.configure(bg=getattr(self, value)["bg"])
 
-        if platform.system() == "Windows":  # Now only support for Windows OS
+        if sys.platform == "win32":  # Now only support for Windows OS
             manager.apply_theme(
                 self, theme="dark" if value == "dark" else "normal")
 
@@ -250,7 +250,7 @@ class Tk(tkinter.Tk, Misc):
         elif isinstance(value, str):
             if value:
                 self.wm_iconbitmap(value)
-            elif platform.system() == "Windows" and isinstance(self, Tk):
+            elif sys.platform == "win32" and isinstance(self, Tk):
                 # now, the value is ""
                 self.call("wm", "iconbitmap", self, "-default", value)
 
@@ -279,13 +279,13 @@ class Tk(tkinter.Tk, Misc):
         The method should be called at the end of the code, or after some time
         after the program has started.
         """
-        if value is False and platform.system() == "Darwin":  # patch for Darwin
+        if value is False and sys.platform == "darwin":  # patch for Darwin
             value = not self.fullscreen(None)
 
         result = self.wm_attributes("-fullscreen", value)
         return None if result == "" else bool(result)
 
-    if platform.system() == "Windows":
+    if sys.platform == "win32":
 
         @_fixed_theme
         def toolwindow(self, value: bool | None = True) -> bool | None:
@@ -308,7 +308,7 @@ class Tk(tkinter.Tk, Misc):
             result = self.wm_attributes("-transparentcolor", value)
             return None if result == "" else result
 
-    elif platform.system() == "Darwin":
+    if sys.platform == "darwin":
 
         def modified(self, value: bool | None = None) -> bool | None:
             """Set or get whether the window is modified.

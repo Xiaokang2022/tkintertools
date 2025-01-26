@@ -22,16 +22,17 @@ class TestEnv(unittest.TestCase):
         self.assertTrue(configs.Env.auto_update)
 
     def test_get_default_system(self) -> None:
-        with unittest.mock.patch('platform.system', return_value='Windows'):
+        with unittest.mock.patch('sys.platform', 'win32'):
             with unittest.mock.patch('platform.win32_ver', return_value=('10', '10.1.22000', 'multiprocessor Free')):
                 self.assertEqual(configs.Env.get_default_system(), "Windows11")
 
-        with unittest.mock.patch('platform.system', return_value='Windows'):
+        with unittest.mock.patch('sys.platform', 'win32'):
             with unittest.mock.patch('platform.win32_ver', return_value=('10', '10.0.19041', 'multiprocessor Free')):
                 self.assertEqual(configs.Env.get_default_system(), "Windows10")
 
-        with unittest.mock.patch('platform.system', return_value='Linux'):
-            self.assertEqual(configs.Env.get_default_system(), "Linux")
+        with unittest.mock.patch('sys.platform', 'linux'):
+            with unittest.mock.patch('platform.system', return_value='Linux'):
+                self.assertEqual(configs.Env.get_default_system(), "Linux")
 
 
 class TestFont(unittest.TestCase):
@@ -46,13 +47,13 @@ class TestFont(unittest.TestCase):
         self.assertEqual(configs.Font.size, -20)
 
     def test_get_default_family(self) -> None:
-        with unittest.mock.patch('platform.system', return_value='Windows'):
+        with unittest.mock.patch('sys.platform', 'win32'):
             self.assertEqual(configs.Font.get_default_family(), "Microsoft YaHei")
 
-        with unittest.mock.patch('platform.system', return_value='Darwin'):
+        with unittest.mock.patch('sys.platform', 'darwin'):
             self.assertEqual(configs.Font.get_default_family(), "SF Pro")
 
-        with unittest.mock.patch('platform.system', return_value='Linux'):
+        with unittest.mock.patch('sys.platform', 'linux'):
             self.assertEqual(configs.Font.get_default_family(), "Noto Sans")
 
 

@@ -68,7 +68,7 @@ class TestCase(unittest.TestCase):
         self.assertTrue(utility.load_font(str(path)))
         self.assertTrue(utility.load_font(bytes(path)))
 
-        with unittest.mock.patch("platform.system", return_value="Darwin"):
+        with unittest.mock.patch("sys.platform", "darwin"):
             self.assertFalse(utility.load_font(str(path)))
 
     def test_screen_size(self) -> None:
