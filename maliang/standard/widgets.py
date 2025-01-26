@@ -1131,7 +1131,8 @@ class SegmentedButton(virtual.Widget):
                 self, position, size, text=text, family=family, fontsize=fontsize, weight=weight,
                 slant=slant, underline=underline, overstrike=overstrike, justify=justify,
                 gradient_animation=gradient_animation, image=image,
-                command=lambda _, i=i: (self.set(i), command(i) if command else None))
+                command=lambda _, i=i: (self.set(i), command(i) if command else None),
+                style=styles.ToggleButtonStyle4SB)
             total_side_length += size[layout == "vertical"] + 5
         self.command = command
         if default is not None:

@@ -22,6 +22,7 @@ __all__ = [
     "UnderlineButtonStyle",
 ]
 
+import copy
 import types
 import typing
 
@@ -858,6 +859,19 @@ class SegmentedButtonStyle(virtual.Style):
         self._set(theme, bg, fill=0)
         self._set(theme, ol, outline=0)
         self.widget.update()
+
+
+class ToggleButtonStyle4SB(ToggleButtonStyle):
+    """style of ToggelButton for SegmentedButton"""
+
+    light = copy.deepcopy(ToggleButtonStyle.light)
+    dark = copy.deepcopy(ToggleButtonStyle.dark)
+
+    for element in "Rectangle", "RoundedRectangle":
+        light_bg = SegmentedButtonStyle.light[element]["normal"]["fill"]
+        light[element]["normal-off"].update({"fill": light_bg, "outline": light_bg})
+        dark_bg = SegmentedButtonStyle.dark[element]["normal"]["fill"]
+        dark[element]["normal-off"].update({"fill": dark_bg, "outline": dark_bg})
 
 
 class OptionButtonStyle(virtual.Style):
