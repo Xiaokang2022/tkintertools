@@ -13,7 +13,7 @@ If you ❤️ this package, please leave your ⭐ to us, thank you very much!
 
 # MIT License
 
-# Copyright (c) 2022-2025 Xiaokang2022
+# Copyright (c) 2022 Xiaokang2022
 
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -33,7 +33,7 @@ If you ❤️ this package, please leave your ⭐ to us, thank you very much!
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-__version__ = "3.0.0rc6"
+__version__ = "3.0.0"
 __author__ = "Xiaokang2022 <2951256653@qq.com>"
 
 from .core import *

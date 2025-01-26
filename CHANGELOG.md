@@ -12,6 +12,42 @@
 > * 🟠 **Deprecated / 弃用**
 > * 🟤 **Refactored / 重构**
 
+## 🔖 `3.0.0`
+
+🕓 *Release Date / 发布日期 : 2025-01-26*
+
+🟢 **Added / 新增**
+
+* Add methods `get` and `set` to some widgets  
+给一些控件增加方法 `get` 和 `set`
+
+* A new parameter `auto_detect` has been added to the method `bind` of the widgets to determine whether to automatically check the location of the decision  
+新参数 `auto_detect` 已添加到控件的方法 `bind` 中，以确定是否自动检查决策的位置
+
+* Add methods `modified` and `transparent` to class `Tk`  
+给类 `Tk` 增加了方法 `modified` 和 `transparent`
+
+🟣 **Fixed / 修复**
+
+* Fix a bug where calling function `apply_theme` in non-Windows systems caused unnecessary warnings  
+修复了在非 Windows 系统中调用函数 `apply_theme` 导致不必要警告的错误
+
+* Fix a bug where the optional package `darkdetect` can not be imported on some Windows platforms  
+修复了在某些 Windows 平台无法导入包 `darkdetect` 的问题
+
+* Fix a bug where the widgets `ComboBox` and `OptionButton` can be obscured by other widgets  
+修复了控件 `ComboBox` 和 `OptionButton` 可能被其他控件遮挡的问题
+
+🟡 **Changed / 变更**
+
+* Improve the color style of the widget `SegmentedButton` and its related widgets  
+改进控件 `SegmentedButton` 及其相关控件的颜色样式
+
+🟤 **Refactored / 重构**
+
+* Change some code written with module `platform` to module `sys` to provide better type hints  
+将部分用模块 `platform` 写的代码改用模块 `sys` 重写来提供更好的类型提示
+
 ## 🔖 `3.0.0rc6`
 
 🕓 *Release Date / 发布日期 : 2025-01-13*

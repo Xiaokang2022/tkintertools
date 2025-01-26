@@ -156,5 +156,5 @@ Here are some links that may be helpful to you:
 * 📚 Tutorials and Documents: [Tutorials & Documents](https://xiaokang2022.github.io/maliang-docs/)
 * ❤️ Sponsor this Project: [Sponsor](https://xiaokang2022.github.io/maliang/Sponsor/)
 * 🚀 Repository Mirrors:
-[GitCode](https://gitcode.com/Xiaokang2022/tkintertools),
-[Gitee](https://gitee.com/Xiaokang2022/tkintertools)
+[GitCode](https://gitcode.com/Xiaokang2022/maliang),
+[Gitee](https://gitee.com/Xiaokang2022/maliang)

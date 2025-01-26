@@ -156,5 +156,5 @@ pip install maliang[ext]
 * 📚 教程和文檔: [Tutorials & Documents](https://xiaokang2022.github.io/maliang-docs/)
 * ❤️ 贊助我們: [Sponsor](https://xiaokang2022.github.io/maliang/Sponsor/)
 * 🚀 存儲庫鏡像源:
-[GitCode](https://gitcode.com/Xiaokang2022/tkintertools),
-[Gitee](https://gitee.com/Xiaokang2022/tkintertools)
+[GitCode](https://gitcode.com/Xiaokang2022/maliang),
+[Gitee](https://gitee.com/Xiaokang2022/maliang)
