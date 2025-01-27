@@ -47,6 +47,7 @@ ext = [
     "maliang-mpl>=1.2.3",
     "maliang-media>=1.1.3",
     "maliang-three>=1.0.3",
+    "maliang-extensionsmaliang-extensions>=0.1.0a1"
 ]
 
 [project.urls]
