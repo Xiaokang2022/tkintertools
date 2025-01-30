@@ -1,28 +1,28 @@
 INHERIT: ../../mkdocs.yml
 
-site_url: https://Xiaokang2022.github.io/maliang/en/ # 站点链接
-edit_uri: edit/main/docs/en/docs # 编辑地址
-site_description: Official website of maliang # 站点描述
-copyright: <a href="#__consent">Change Cookie Settings</a><br/>Copyright &copy; 2022 Xiaokang2022 # 版权信息和 Cookie 设置
-docs_dir: docs # 文档目录（默认值）
-site_dir: ../../site/en/ # 网站目录（默认值）
+site_url: https://Xiaokang2022.github.io/maliang/en/
+edit_uri: edit/main/docs/en/docs
+site_description: Official website of maliang
+copyright: <a href="#__consent">Change Cookie Settings</a><br/>Copyright &copy; 2022 Xiaokang2022
+docs_dir: docs
+site_dir: ../../site/en/
 
-theme: # 此项各个设定因主题而异
-  custom_dir: ../overrides # 覆盖目录
-  language: en # 主题语言
+theme:
+  custom_dir: ../overrides
+  language: en
   palette:
-    - media: "(prefers-color-scheme)" # 系统主题
+    - media: "(prefers-color-scheme)"
       toggle:
         icon: material/theme-light-dark
         name: System Mode
-    - media: "(prefers-color-scheme: light)" # 亮色主题
+    - media: "(prefers-color-scheme: light)"
       scheme: default
       primary: white
-      accent: orange
+      accent: green
       toggle:
         icon: material/weather-sunny
         name: Light Mode
-    - media: "(prefers-color-scheme: dark)" # 暗色主题
+    - media: "(prefers-color-scheme: dark)"
       scheme: slate
       primary: black
       accent: yellow
@@ -30,7 +30,7 @@ theme: # 此项各个设定因主题而异
         icon: material/weather-night
         name: Dark Mode
 
-extra: # 额外设定
+extra:
   alternate:
     - name: 简体中文
       link: ../
@@ -38,10 +38,10 @@ extra: # 额外设定
     - name: English
       link: .
       lang: en
-  status: # 元信息状态标识
+  status:
     new: Recently added
     deprecated: Deprecated
-  social: # 社交联系方式（页面右下角内容）
+  social:
     - icon: fontawesome/brands/github
       link: https://github.com/Xiaokang2022/maliang/
       name: GitHub
@@ -67,7 +67,7 @@ extra: # 额外设定
       make our documentation better.<br/>
       (You can still modify your cookies settings later in the bottom left
       corner of the page)
-  analytics: # 谷歌统计
+  analytics:
     provider: google
     property: G-9YC5SN4ZFD
     feedback:
@@ -100,6 +100,7 @@ nav:
 
   - Tutorials & Documents:
       - t&d/index.md
+      - Third-party Extensions: t&d/third-party.md
 
   - Projects:
       - projects/index.md
@@ -113,8 +114,9 @@ nav:
 
   - Videos:
       - videos/index.md
+      - 这……这还是 tkinter 吗？给我干哪儿来了这是？？？: videos/pages/6.md
       - tkt 再度更新：新增播放视频的扩展包！: videos/pages/5.md
-      - 干掉 tkinter！maliang 大更新啦！: videos/pages/4.md
-      - maliang 又更新啦！: videos/pages/3.md
-      - 碾压 tkinter 的 UI 框架：maliang 3.0.0 正式进入 beta 公测阶段: videos/pages/2.md
+      - 干掉 tkinter！tkintertools 大更新啦！: videos/pages/4.md
+      - tkintertools 又更新啦！: videos/pages/3.md
+      - 碾压 tkinter 的 UI 框架：tkintertools 3.0.0 正式进入 beta 公测阶段: videos/pages/2.md
       - 这还是你记忆中的 tkinter 的程序吗？？？: videos/pages/1.md

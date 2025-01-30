@@ -31,7 +31,7 @@ hide:
 </p>
 
 <p align="center">
-<a href="https://github.com/Xiaokang2022/maliang/pulse"><img alt="Insights" src="https://repobeats.axiom.co/api/embed/ab8fae686a5a96f91fa71c40c53c189310924f5e.svg" /></a>
+<a href="https://github.com/Xiaokang2022/maliang/pulse"><img alt="Insights" src="https://repobeats.axiom.co/api/embed/b4832e0ac90defe97c7e11e0c9e926793ec7135c.svg" /></a>
 </p>
 
 ![light](https://api.star-history.com/svg?repos=Xiaokang2022/maliang&type=Date&theme=light#only-light)
@@ -42,7 +42,7 @@ hide:
 用以下命令进行安装：
 
 ```shell linenums="0"
-pip install maliang==3.0.0rc6
+pip install maliang
 ```
 
 ### 🛠️ 依赖包
@@ -59,12 +59,12 @@ pip install maliang==3.0.0rc6
 * <https://github.com/python-pillow/Pillow>: 提供更多类型图片的使用及优化图片缩放速度
 * <https://github.com/Akascape/py-window-styles>: 提供一些 Windows 系统的窗口效果
 * <https://github.com/Zingzy/hPyT>: 提供更多 Windows 系统窗口的配置选项
-* <https://github.com/littlewhitecloud/win32style>: 提供更多 Windows 系统窗口的配置选项
+* <https://github.com/littlewhitecloud/win32material>: 提供更多 Windows 系统窗口的配置选项
 
 **推荐**，这些包都应该安装，用以下命令可以安装全部的可选包：
 
 ```shell linenums="0"
-pip install maliang[opt]==3.0.0rc6
+pip install maliang[opt]
 ```
 
 ### 🧩 扩展包
@@ -78,7 +78,7 @@ pip install maliang[opt]==3.0.0rc6
 用以下命令可以安装全部的官方扩展包：
 
 ```shell linenums="0"
-pip install maliang[ext]==3.0.0rc6
+pip install maliang[ext]
 ```
 
 ## 👀 更多
@@ -177,20 +177,20 @@ pip install maliang[ext]==3.0.0rc6
 
     贡献者应该了解的一些东西
 
-* [🚀 **Gitee 仓库镜像源**](https://gitee.com/Xiaokang2022/tkintertools){ target="_black" }
+* [🚀 **Gitee 仓库镜像源**](https://gitee.com/Xiaokang2022/maliang){ target="_black" }
 
     ***
 
-    ![Gitee Stars](https://gitee.com/Xiaokang2022/tkintertools/badge/star.svg?theme=dark#only-dark "Gitee Stars")
-    ![Gitee Stars](https://gitee.com/Xiaokang2022/tkintertools/badge/star.svg?theme=white#only-light "Gitee Stars")
-    ![Gitee Forks](https://gitee.com/Xiaokang2022/tkintertools/badge/fork.svg?theme=dark#only-dark "Gitee Forks")
-    ![Gitee Forks](https://gitee.com/Xiaokang2022/tkintertools/badge/fork.svg?theme=white#only-light "Gitee Forks")
+    ![Gitee Stars](https://gitee.com/Xiaokang2022/maliang/badge/star.svg?theme=dark#only-dark "Gitee Stars")
+    ![Gitee Stars](https://gitee.com/Xiaokang2022/maliang/badge/star.svg?theme=white#only-light "Gitee Stars")
+    ![Gitee Forks](https://gitee.com/Xiaokang2022/maliang/badge/fork.svg?theme=dark#only-dark "Gitee Forks")
+    ![Gitee Forks](https://gitee.com/Xiaokang2022/maliang/badge/fork.svg?theme=white#only-light "Gitee Forks")
 
-* [🚀 **GitCode 仓库镜像源**](https://gitcode.com/Xiaokang2022/tkintertools){ target="_black" }
+* [🚀 **GitCode 仓库镜像源**](https://gitcode.com/Xiaokang2022/maliang){ target="_black" }
 
     ***
 
-    ![GitCode Stars](https://gitcode.com/Xiaokang2022/tkintertools/star/badge.svg "GitCode Stars")
+    ![GitCode Stars](https://gitcode.com/Xiaokang2022/maliang/star/badge.svg "GitCode Stars")
 
 </div>
 
@@ -201,7 +201,7 @@ pip install maliang[ext]==3.0.0rc6
     </div>
 
 <div align="center" markdown>
-[✨最新内容](./CHANGELOG.md#-300rc6){ .md-button .md-button--primary title="点我了解最近更新的内容！" }
+[✨最新内容](./CHANGELOG.md){ .md-button .md-button--primary title="点我了解最近更新的内容！" }
 [<big>⭐支持本项目</big>](https://github.com/Xiaokang2022/maliang/){ .md-button .md-button--primary title="给项目点个 Star 吧，球球了！" }
 [❤️赞助一下](./Sponsor.md){ .md-button .md-button--primary title="赞助我一下下吧！独自开发不易呢！" }
 </div>

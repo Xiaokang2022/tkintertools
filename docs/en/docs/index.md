@@ -2,6 +2,8 @@
 statistics: true
 comments: true
 icon: material/home
+hide:
+    - statistics
 ---
 
 <br/>
@@ -29,7 +31,7 @@ A lightweight UI framework based on <code>tkinter</code> with all UI drawn in <c
 </p>
 
 <p align="center">
-<a href="https://github.com/Xiaokang2022/maliang/pulse"><img alt="Insights" src="https://repobeats.axiom.co/api/embed/ab8fae686a5a96f91fa71c40c53c189310924f5e.svg" /></a>
+<a href="https://github.com/Xiaokang2022/maliang/pulse"><img alt="Insights" src="https://repobeats.axiom.co/api/embed/b4832e0ac90defe97c7e11e0c9e926793ec7135c.svg" /></a>
 </p>
 
 ![light](https://api.star-history.com/svg?repos=Xiaokang2022/maliang&type=Date&theme=light#only-light)
@@ -40,7 +42,7 @@ A lightweight UI framework based on <code>tkinter</code> with all UI drawn in <c
 Install it with the following command:
 
 ```shell linenums="0"
-pip install maliang==3.0.0rc6
+pip install maliang
 ```
 
 ### 🛠️ Dependencies
@@ -57,12 +59,12 @@ The following packages are optional and will make the project work without insta
 * <https://github.com/python-pillow/Pillow>: provide more types of images and optimize image scaling speed
 * <https://github.com/Akascape/py-window-styles>: provide some window effects for Windows systems
 * <https://github.com/Zingzy/hPyT>: provide more configuration options for Windows system windows
-* <https://github.com/littlewhitecloud/win32style>: provide more configuration options for Windows system windows
+* <https://github.com/littlewhitecloud/win32material>: provide more configuration options for Windows system windows
 
 **Recommended**, these packages should be installed. You can install all the optional packages with the following command:
 
 ```shell linenums="0"
-pip install maliang[opt]==3.0.0rc6
+pip install maliang[opt]
 ```
 
 ### 🧩 Extensions
@@ -76,7 +78,7 @@ In addition to the basic functionality, we also offer a number of extension pack
 You can install all the official extensions with the following command:
 
 ```shell linenums="0"
-pip install maliang[ext]==3.0.0rc6
+pip install maliang[ext]
 ```
 
 ## 👀 More
@@ -184,7 +186,7 @@ Here are some links that may be helpful to you:
     </div>
 
 <div align="center" markdown>
-[✨What's new](./CHANGELOG.md#-300rc6){ .md-button .md-button--primary title="Click here to find out what's new!" }
+[✨What's new](./CHANGELOG.md){ .md-button .md-button--primary title="Click here to find out what's new!" }
 [<big>⭐Support this project</big>](https://github.com/Xiaokang2022/maliang/){ .md-button .md-button--primary title="Give the project a Star!" }
 [❤️Sponsor me](./Sponsor.md){ .md-button .md-button--primary title="It's not easy for me to develop it alone!" }
 </div>
