@@ -270,15 +270,17 @@ extra_css:
   - https://cdnjs.cloudflare.com/ajax/libs/lxgw-wenkai-screen-webfont/1.5.0/style.min.css # 设置字体（霞鹜文楷）【版本不能再更高了，会导致公式字体变小】
 
 plugins:
-  - search
-  - tags
-  - statistics
+  # 内置插件
+  - search:
+  - meta:
+  - tags:
   - blog:
       blog_toc: true
-      post_excerpt: required
       post_readtime: false
       pagination_keep_content: true
       pagination_format: "$link_first $link_previous ~2~ $link_next $link_last"
+  # 第三方插件
+  - statistics:
   - rss:
       match_path: blog/posts/.*
       date_from_meta:
@@ -333,6 +335,7 @@ nav:
 
   - 相关博客:
       - blog/index.md
+      - 标签索引: blog/tags.md
 
   - 官方视频:
       - videos/index.md
