@@ -158,3 +158,9 @@ pip install maliang[ext]
 * 🚀 存儲庫鏡像源:
 [GitCode](https://gitcode.com/Xiaokang2022/maliang),
 [Gitee](https://gitee.com/Xiaokang2022/maliang)
+
+### 😉 貢獻者
+
+非常感謝下面這些人的貢獻：
+
+[![貢獻者](https://contrib.rocks/image?repo=Xiaokang2022/maliang)](https://github.com/Xiaokang2022/maliang/graphs/contributors)
