@@ -85,6 +85,8 @@ pip install maliang[opt]
 pip install maliang[ext]
 ```
 
+此外，你還可以在[這裡](https://xiaokang2022.github.io/maliang/t%26d/third-party/)找到所有已被我們收集到的第三方擴展包。
+
 ## 👀 更多
 
 ### 🖼️ 畫廊

@@ -85,6 +85,8 @@ You can install all the official extensions with the following command:
 pip install maliang[ext]
 ```
 
+In addition, you can find all the third-party extensions that we've collected [here](https://xiaokang2022.github.io/maliang/t%26d/third-party/).
+
 ## 👀 More
 
 ### 🖼️ Gallery
