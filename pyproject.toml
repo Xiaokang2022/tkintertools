@@ -1,14 +1,14 @@
 [build-system]
-requires = ["setuptools"]
+requires = ["setuptools", "setuptools_scm"]
 build-backend = "setuptools.build_meta"
 
 [project]
 name = "maliang"
-authors = [{ name = "Xiaokang2022", email = "2951256653@qq.com" }]
-maintainers = [{ name = "Xiaokang2022", email = "2951256653@qq.com" }]
+authors = [{ name = "Xiaokang2022" }, { email = "2951256653@qq.com" }]
+maintainers = [{ name = "Xiaokang2022" }, { email = "2951256653@qq.com" }]
 description = "A lightweight UI framework based on tkinter with all UI drawn in Canvas."
 readme = "README.md"
-license = { text = "MIT License" }
+license = { text = "MIT" }
 requires-python = ">=3.10"
 keywords = [
     "tkinter",
@@ -43,11 +43,7 @@ opt = [
     "win32material==1.0.7;              platform_system == 'Windows'",
     "pillow>=10.0.0",
 ]
-ext = [
-    "maliang-mpl>=1.2.3",
-    "maliang-media>=1.1.3",
-    "maliang-three>=1.0.3",
-]
+ext = ["maliang-mpl>=1.2.3", "maliang-media>=1.1.3", "maliang-three>=1.0.3"]
 
 [project.urls]
 "Bug tracker" = "https://github.com/Xiaokang2022/maliang/issues"
