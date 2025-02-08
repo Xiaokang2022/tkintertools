@@ -33,9 +33,7 @@ classifiers = [
 ]
 dynamic = ["version"]
 dependencies = ["typing-extensions"]
-
-[project.optional-dependencies]
-opt = [
+optional-dependencies.opt = [
     "darkdetect==0.8.0",
     "darkdetect[macos-listener]==0.8.0; platform_system == 'Darwin'",
     "pywinstyles==1.8;                  platform_system == 'Windows'",
@@ -43,15 +41,17 @@ opt = [
     "win32material==1.0.7;              platform_system == 'Windows'",
     "pillow>=10.0.0",
 ]
-ext = ["maliang-mpl>=1.2.3", "maliang-media>=1.1.3", "maliang-three>=1.0.3"]
-
-[project.urls]
-"Bug tracker" = "https://github.com/Xiaokang2022/maliang/issues"
-"Changelog" = "https://xiaokang2022.github.io/maliang/CHANGELOG/"
-"Documentation" = "https://xiaokang2022.github.io/maliang-docs/"
-"Donate" = "https://xiaokang2022.github.io/maliang/Sponsor/"
-"Homepage" = "https://xiaokang2022.github.io/maliang/"
-"Source code" = "https://github.com/Xiaokang2022/maliang"
+optional-dependencies.ext = [
+    "maliang-mpl>=1.2.3",
+    "maliang-media>=1.1.3",
+    "maliang-three>=1.0.3",
+]
+urls."Bug tracker" = "https://github.com/Xiaokang2022/maliang/issues"
+urls."Changelog" = "https://xiaokang2022.github.io/maliang/CHANGELOG/"
+urls."Documentation" = "https://xiaokang2022.github.io/maliang-docs/"
+urls."Donate" = "https://xiaokang2022.github.io/maliang/Sponsor/"
+urls."Homepage" = "https://xiaokang2022.github.io/maliang/"
+urls."Source code" = "https://github.com/Xiaokang2022/maliang"
 
 [tool.setuptools.dynamic]
 version = { attr = "maliang.__version__" }
