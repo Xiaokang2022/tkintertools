@@ -41,7 +41,7 @@ markdown_extensions:
       marker: "" # 目录替换文本，空字符串则不替换，缺省为 [TOC]
       # title: "" # 目录标题，material 主题会自动根据语言计算
       anchorlink: false # 锚点链接（默认值），给标题自身锚定链接
-      permalink: "&para;" # 锚点符号
+      permalink: ¶ # 锚点符号
       permalink_title: "" # 锚点链接提示词，空字符表示没有
       permalink_leading: false # 前置锚点链接（默认值），将锚点放到标题前面
       baselevel: 1 # 最高级别（默认值），往下顺延
