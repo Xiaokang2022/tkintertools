@@ -25,7 +25,7 @@ Here are all the ways to sponsor:
 Please include some information when sponsoring, in the following format:
 
 ```linenums="0"
-tkt [your nickname or your GitHub Username]
+maliang [your nickname or your GitHub Username]
 ```
 
 I'll put `[your nickname or your GitHub Username]` and the time and amount of your sponsorship below! Of course, you can also be anonymous.
@@ -36,6 +36,7 @@ This page is not updated automatically, but manually by me, so please understand
 
 | 🕓 Date { data-sort-method=min } |            😀 Sponsors             |    💰 Amount { data-sort-method=number }    |        ❤️ Methods         |
 | :-----------------------------: | :-------------------------------: | :----------------------------------------: | :----------------------: |
+|       2025-02-08 14:47:30       |            龙骑士Chris            |                   ¥10.00                   | WeChat Appreciation Code |
 |       2025-01-21 09:34:57       |  <https://github.com/OnesoftQwQ>  |                   ¥5.00                    | WeChat Appreciation Code |
 |       2024-09-15 21:33:48       | <https://github.com/lingtian1462> |                   ¥11.11                   | WeChat Appreciation Code |
 |       2024-09-07 10:55:47       |   <https://github.com/Spra0125>   |                   ¥10.00                   | WeChat Appreciation Code |
