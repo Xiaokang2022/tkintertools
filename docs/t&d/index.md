@@ -10,7 +10,7 @@ icon: material/bookshelf
 !!! example inline "3.0.x"
 
     * 最新版本: `3.0.0`
-    * 版本类型: 开发版本
+    * 版本类型: 稳定版本
     * 当前状态: 🟢 <font color="limegreen">持续更新</font>
 
     [<small>:fontawesome-solid-paper-plane:</small> 打开链接](https://xiaokang2022.github.io/maliang-docs/3.0/){ .md-button target="_black" }
@@ -30,7 +30,7 @@ icon: material/bookshelf
 !!! success inline "2.6.x"
 
     * 最新版本: `2.6.21`
-    * 版本类型: 稳定版本
+    * 版本类型: 不支持版本
     * 当前状态: 🔴 <font color="red">停止更新</font>
 
     [<small>:fontawesome-solid-paper-plane:</small> 打开链接](https://xiaokang2022.github.io/maliang-docs/2.6/){ .md-button target="_black" }

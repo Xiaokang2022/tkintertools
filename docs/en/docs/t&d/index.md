@@ -10,7 +10,7 @@ icon: material/bookshelf
 !!! example inline "3.0.x"
 
     * Latest version: `3.0.0`
-    * Version type: Dev
+    * Version type: Stable
     * Updating status: 🟢 <font color="limegreen">OK</font>
 
     [<small>:fontawesome-solid-paper-plane:</small> Open Link](https://xiaokang2022.github.io/maliang-docs/3.0/){ .md-button target="_black" }
@@ -30,7 +30,7 @@ icon: material/bookshelf
 !!! success inline "2.6.x"
 
     * Latest version: `2.6.21`
-    * Version type: Stable
+    * Version type: Unsupported
     * Updating status: 🔴 <font color="red">Stopped</font>
 
     [<small>:fontawesome-solid-paper-plane:</small> Open Link](https://xiaokang2022.github.io/maliang-docs/2.6/){ .md-button target="_black" }
