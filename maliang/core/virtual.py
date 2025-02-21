@@ -599,9 +599,9 @@ class Style:
 
     @staticmethod
     def _wrap_arg(
-        arg: tuple[str | types.EllipsisType | None, ...] | str,
+        arg: tuple[str | types.EllipsisType, ...] | str,
         /,
-    ) -> tuple[str | types.EllipsisType | None, ...]:
+    ) -> tuple[str | types.EllipsisType, ...]:
         """Wrap the argument to a tuple.
 
         * `arg`: argument
@@ -627,7 +627,7 @@ class Style:
             return
 
         for i, color in enumerate(self._wrap_arg(data)):
-            if color is Ellipsis:
+            if isinstance(color, types.EllipsisType):
                 continue
 
             state = self.states[i]
