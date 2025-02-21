@@ -43,7 +43,7 @@
 
 ## 📦 安裝
 
-用以下命令進行安裝：
+要安裝該包，你的 Python 版本必須 **`>=3.10`**。用以下命令進行安裝：
 
 ```shell
 pip install maliang
@@ -87,7 +87,14 @@ pip install maliang[ext]
 
 此外，你還可以在[這裡](https://xiaokang2022.github.io/maliang/t%26d/third-party/)找到所有已被我們收集到的第三方擴展包。
 
+> [!WARNING]  
+> 上面提到的包並不包含在本專案的原始程式碼中，如果你使用了它們並想要再分發，請遵循它們的開源協定！
+
 ## 👀 更多
+
+### ℹ️ 關於
+
+本專案的徽標取自開源專案：[`fluentui-emoji`](https://github.com/microsoft/fluentui-emoji)，名稱取自中國童話故事：[*《神笔马良》*](https://baike.baidu.com/item/%E7%A5%9E%E7%AC%94%E9%A9%AC%E8%89%AF/14821387)
 
 ### 🖼️ 畫廊
 
@@ -158,8 +165,8 @@ pip install maliang[ext]
 * 📚 教程和文檔: [Tutorials & Documents](https://xiaokang2022.github.io/maliang-docs/)
 * ❤️ 贊助我們: [Sponsor](https://xiaokang2022.github.io/maliang/Sponsor/)
 * 🚀 存儲庫鏡像源:
-[GitCode](https://gitcode.com/Xiaokang2022/maliang),
-[Gitee](https://gitee.com/Xiaokang2022/maliang)
+[Gitee](https://gitee.com/Xiaokang2022/maliang),
+[GitCode](https://gitcode.com/Xiaokang2022/maliang)
 
 ### 😉 貢獻者
 

@@ -43,7 +43,7 @@ A lightweight UI framework based on <code>tkinter</code> with all UI drawn in <c
 
 ## 📦 Installation
 
-Install it with the following command:
+To install this package, your Python version must be **`>=3.10`**. Install it with the following command:
 
 ```shell
 pip install maliang
@@ -87,7 +87,14 @@ pip install maliang[ext]
 
 In addition, you can find all the third-party extensions that we've collected [here](https://xiaokang2022.github.io/maliang/t%26d/third-party/).
 
+> [!WARNING]  
+> These packages mentioned above are not included in the source code of this project, if you use them and want to redistribute them, please follow their open source license!
+
 ## 👀 More
+
+### ℹ️ About
+
+The logo of this project is taken from the open source project: [`fluentui-emoji`](https://github.com/microsoft/fluentui-emoji), and the name is taken from a Chinese fairy tale: [*《神笔马良》*](https://baike.baidu.com/item/%E7%A5%9E%E7%AC%94%E9%A9%AC%E8%89%AF/14821387)
 
 ### 🖼️ Gallery
 
@@ -158,8 +165,8 @@ Here are some links that may be helpful to you:
 * 📚 Tutorials and Documents: [Tutorials & Documents](https://xiaokang2022.github.io/maliang-docs/)
 * ❤️ Sponsor this Project: [Sponsor](https://xiaokang2022.github.io/maliang/Sponsor/)
 * 🚀 Repository Mirrors:
-[GitCode](https://gitcode.com/Xiaokang2022/maliang),
-[Gitee](https://gitee.com/Xiaokang2022/maliang)
+[Gitee](https://gitee.com/Xiaokang2022/maliang),
+[GitCode](https://gitcode.com/Xiaokang2022/maliang)
 
 ### 😉 Contributors
 
