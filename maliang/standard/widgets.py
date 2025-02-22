@@ -970,6 +970,57 @@ class IconButton(virtual.Widget):
         return self.texts[0].set(text)
 
 
+class IconOnlyButton(IconButton):
+    """A button with nothing but an icon"""
+
+    def __init__(
+        self,
+        master: containers.Canvas | virtual.Widget,
+        position: tuple[int, int],
+        size: tuple[int, int] | None = None,
+        *,
+        command: collections.abc.Callable | None = None,
+        image: enhanced.PhotoImage | None = None,
+        borderless=True,
+        anchor: typing.Literal["n", "e", "w", "s", "nw", "ne", "sw", "se", "center"] = "nw",
+        capture_events: bool | None = None,
+        gradient_animation: bool | None = None,
+        auto_update: bool | None = None,
+        style: type[virtual.Style] | None = None,
+    ) -> None:
+        """
+        * `master`: parent canvas
+        * `position`: position of the widget
+        * `size`: size of the widget
+        * `command`: a function that is triggered when the button is pressed
+        * `image`: image of the widget
+        * `anchor`: anchor of the widget
+        * `capture_events`: wether detect another widget under the widget
+        * `gradient_animation`: wether enable gradient_animation
+        * `auto_update`: whether the theme manager update it automatically
+        * `style`: style of the widget
+        """
+        if size is None:
+            size = image.width(), image.height()
+        virtual.Widget.__init__(
+            self, master, position, size, anchor=anchor,
+            capture_events=capture_events, gradient_animation=gradient_animation,
+            auto_update=auto_update, style=style)
+        if style is None:
+            self.style = styles.TextStyle(self) if borderless else styles.IconButtonStyle(self)
+        if image is not None:
+            images.StillImage(self, ((size[1]-size[0]) / 2, 0), image=image)
+        self.feature = features.IconOnlyFeature(self, command=command)
+
+    def get(self) -> Exception:
+        """This class has nothing to get"""
+        raise AttributeError()
+
+    def set(self, thing: None) -> Exception:
+        """This class has nothing to set"""
+        raise AttributeError()
+
+
 class Slider(virtual.Widget):
     """A slider for visually resizing values"""
 
